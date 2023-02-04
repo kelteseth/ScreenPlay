@@ -51,7 +51,6 @@ Rectangle {
                 height: 34
                 sourceSize: Qt.size(34, 34)
             }
-
         }
     ]
     transitions: [
@@ -66,7 +65,6 @@ Rectangle {
                 duration: 200
                 easing.type: Easing.InOutQuart
             }
-
         }
     ]
 }

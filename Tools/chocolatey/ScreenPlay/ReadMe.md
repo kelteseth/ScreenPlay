@@ -7,7 +7,7 @@ choco pack
 
 Install the generated nupkg:
 ```
-choco install screenplay.0.15.0-RC3.nupkg -dv -s .  
+choco install screenplay.0.15.0-RC5.nupkg -dv -s .  
 ```
 
 Set api key from [https://community.chocolatey.org/account](https://community.chocolatey.org/account):
@@ -17,5 +17,5 @@ choco apikey --key AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAA --source https://push.chocol
 
 Psuh:
 ```
-choco push screenplay.0.15.0-RC3.nupkg --source https://push.chocolatey.org/
+choco push screenplay.0.15.0-RC5.nupkg --source https://push.chocolatey.org/
 ```

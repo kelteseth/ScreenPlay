@@ -13,7 +13,6 @@ Popup {
     closePolicy: Popup.NoAutoClose
     anchors.centerIn: Overlay.overlay
 
-
     ColumnLayout {
         anchors {
             fill: parent
@@ -59,13 +58,10 @@ Popup {
                     root.close();
                 }
             }
-
         }
-
     }
 
     background: Rectangle {
         color: Material.theme === Material.Light ? "white" : Material.background
     }
-
 }

@@ -23,7 +23,5 @@ Item {
             leftMargin: customMargin
             verticalCenter: parent.verticalCenter
         }
-
     }
-
 }

@@ -58,7 +58,6 @@ Item {
                 name: "description"
                 elementName: "description"
             }
-
         }
 
         header: Item {
@@ -82,9 +81,7 @@ Item {
                     topMargin: 30
                     horizontalCenter: parent.horizontalCenter
                 }
-
             }
-
         }
 
         delegate: Item {
@@ -108,13 +105,11 @@ Item {
                     source: image
                     opacity: status === Image.Ready ? 1 : 0
 
-                    Behavior on opacity {
+                    Behavior on opacity  {
                         PropertyAnimation {
                             duration: 250
                         }
-
                     }
-
                 }
 
                 LinearGradient {
@@ -132,9 +127,7 @@ Item {
                             position: 0
                             color: "transparent"
                         }
-
                     }
-
                 }
 
                 Text {
@@ -153,7 +146,6 @@ Item {
                         left: parent.left
                         margins: 20
                     }
-
                 }
 
                 Text {
@@ -173,7 +165,6 @@ Item {
                         left: parent.left
                         leftMargin: 20
                     }
-
                 }
 
                 MouseArea {
@@ -184,7 +175,6 @@ Item {
                     onEntered: delegate.state = "hover"
                     onExited: delegate.state = ""
                 }
-
             }
 
             transitions: [
@@ -198,7 +188,6 @@ Item {
                         from: 1
                         to: 1.05
                     }
-
                 },
                 Transition {
                     from: "hover"
@@ -210,7 +199,6 @@ Item {
                         from: 1.05
                         to: 1
                     }
-
                 }
             ]
         }
@@ -219,7 +207,5 @@ Item {
             snapMode: ScrollBar.SnapOnRelease
             policy: ScrollBar.AlwaysOn
         }
-
     }
-
 }

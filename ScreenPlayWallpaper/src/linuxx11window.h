@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include <QApplication>
 #include <QDebug>
 #include <QObject>
 #include <QQmlContext>
@@ -15,25 +14,18 @@
 
 #include "basewindow.h"
 
-class LinuxWindow : public BaseWindow {
+class LinuxX11Window : public BaseWindow {
     Q_OBJECT
+
 public:
-    explicit LinuxWindow(
-        const QVector<int>& activeScreensList,
-        const QString& projectFilePath,
-        const QString& appID,
-        const QString& volume,
-        const QString& fillmode,
-        const QString& type,
-        const bool checkWallpaperVisible,
-        const bool debugMode,
-        QObject* parent = nullptr);
+    ScreenPlay::WallpaperExitCode start() override;
 
 signals:
 
 public slots:
     void setVisible(bool show) override;
     void destroyThis() override;
+    void terminate() override;
 
 private:
     QQuickView m_window;

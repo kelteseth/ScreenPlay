@@ -51,7 +51,7 @@ void Wizards::createQMLWidget(const QString& title,
         obj.insert("title", title);
         obj.insert("tags", ScreenPlayUtil::fillArray(tags));
         obj.insert("createdBy", createdBy);
-        obj.insert("type", "qmlWidget");
+        obj.insert("type", QVariant::fromValue(InstalledType::InstalledType::QMLWidget).toString());
         obj.insert("file", "main.qml");
 
         if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
@@ -117,7 +117,7 @@ void Wizards::createHTMLWidget(const QString& title,
         obj.insert("createdBy", createdBy);
         obj.insert("title", title);
         obj.insert("tags", ScreenPlayUtil::fillArray(tags));
-        obj.insert("type", "htmlWidget");
+        obj.insert("type", QVariant::fromValue(InstalledType::InstalledType::HTMLWidget).toString());
         obj.insert("file", "index.html");
 
         if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
@@ -185,7 +185,7 @@ void Wizards::createHTMLWallpaper(
         obj.insert("createdBy", createdBy);
         obj.insert("title", title);
         obj.insert("tags", ScreenPlayUtil::fillArray(tags));
-        obj.insert("type", "htmlWallpaper");
+        obj.insert("type", QVariant::fromValue(InstalledType::InstalledType::HTMLWallpaper).toString());
         obj.insert("file", "index.html");
 
         if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
@@ -252,7 +252,7 @@ void Wizards::createQMLWallpaper(
         obj.insert("title", title);
         obj.insert("createdBy", createdBy);
         obj.insert("tags", ScreenPlayUtil::fillArray(tags));
-        obj.insert("type", "qmlWallpaper");
+        obj.insert("type", QVariant::fromValue(InstalledType::InstalledType::QMLWallpaper).toString());
         obj.insert("file", "main.qml");
 
         if (!previewThumbnail.isEmpty()) {
@@ -320,7 +320,7 @@ void Wizards::createGifWallpaper(
         obj.insert("file", gifFileName);
         obj.insert("previewGIF", gifFileName);
         obj.insert("tags", ScreenPlayUtil::fillArray(tags));
-        obj.insert("type", "gifWallpaper");
+        obj.insert("type", QVariant::fromValue(InstalledType::InstalledType::GifWallpaper).toString());
 
         if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
             qWarning() << "Could not write " << licenseFile;
@@ -370,7 +370,7 @@ void Wizards::createWebsiteWallpaper(
         QJsonObject obj;
         obj.insert("title", title);
         obj.insert("tags", ScreenPlayUtil::fillArray(tags));
-        obj.insert("type", "websiteWallpaper");
+        obj.insert("type", QVariant::fromValue(InstalledType::InstalledType::WebsiteWallpaper).toString());
         obj.insert("url", url.toString());
 
         if (!previewThumbnail.isEmpty()) {
@@ -409,3 +409,5 @@ const std::optional<QString> Wizards::createTemporaryFolder() const
     return folderName;
 }
 }
+
+#include "moc_wizards.cpp"

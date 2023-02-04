@@ -42,3 +42,5 @@ void RAM::update()
     // set overall usage
     setUsage(memoryStatus.dwMemoryLoad);
 }
+
+#include "moc_ram.cpp"

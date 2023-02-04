@@ -51,7 +51,7 @@ public:
         Type,
         Preview,
         PreviewGIF,
-        FolderId,
+        FolderName,
         FileId,
         AbsoluteStoragePath,
         PublishedFileID,
@@ -71,7 +71,7 @@ public slots:
     QVariantMap get(const QString& folderName) const;
 
     void loadInstalledContent();
-    void append(const QJsonObject&, const QString&, const bool isNew, const QDateTime& lastModified);
+    void append(const QString& projectJsonFilePath);
     void reset();
     void init();
     void deinstallItemAt(const QString& absoluteStoragePath);

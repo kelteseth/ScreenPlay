@@ -15,7 +15,7 @@ Item {
     property alias text: textField.text
     property alias placeholderText: txtPlaceholder.text
 
-    signal editingFinished()
+    signal editingFinished
 
     height: 55
     width: 150
@@ -27,8 +27,7 @@ Item {
     }
     onEditingFinished: {
         if (!root.required)
-            return ;
-
+            return;
     }
 
     Text {
@@ -47,7 +46,6 @@ Item {
             left: parent.left
             leftMargin: 10
         }
-
     }
 
     Timer {
@@ -63,7 +61,6 @@ Item {
         function resetState() {
             if (textField.text.length === 0)
                 root.state = "";
-
             textField.focus = false;
         }
 
@@ -80,7 +77,6 @@ Item {
             resetState();
             if (textField.text.length > 0)
                 root.state = "containsTextEditingFinished";
-
         }
         onPressed: {
             root.state = "containsText";
@@ -91,7 +87,6 @@ Item {
             right: parent.right
             bottom: parent.bottom
         }
-
     }
 
     Text {
@@ -106,7 +101,6 @@ Item {
             top: textField.bottom
             right: textField.right
         }
-
     }
 
     states: [
@@ -120,7 +114,6 @@ Item {
                 anchors.topMargin: 15
                 anchors.leftMargin: 10
             }
-
         },
         State {
             name: "containsText"
@@ -133,7 +126,6 @@ Item {
                 anchors.topMargin: 0
                 anchors.leftMargin: 0
             }
-
         },
         State {
             name: "containsTextEditingFinished"
@@ -146,7 +138,6 @@ Item {
                 anchors.topMargin: 0
                 anchors.leftMargin: 0
             }
-
         }
     ]
     transitions: [
@@ -161,7 +152,6 @@ Item {
                 easing.type: Easing.InOutQuart
                 properties: "font.pointSize,anchors.topMargin,anchors.leftMargin,opacity,color"
             }
-
         },
         Transition {
             from: "containsText"
@@ -174,7 +164,6 @@ Item {
                 easing.type: Easing.OutSine
                 properties: "color,opacity"
             }
-
         }
     ]
 }

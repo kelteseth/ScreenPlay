@@ -65,9 +65,9 @@ def extract_zip_executables(extraction_path, path_and_filename):
     # We need the first folder name of a file:
     # ffmpeg-5.0.1-essentials_build/bin/ffmpeg.exe 
     empty_ffmpeg_folder = os.path.join(extraction_path,os.path.dirname(os.path.dirname(files[0])))
-    ffprobe = os.path.join(extraction_path,"ffprobe.exe")
-    print(f"Delete not needed {ffprobe}")
-    os.remove(ffprobe)
+    ffplay = os.path.join(extraction_path,"ffplay.exe")
+    print(f"Delete not needed {ffplay}")
+    os.remove(ffplay)
     print(f"Delete empty folder: {empty_ffmpeg_folder}")
     rmtree(empty_ffmpeg_folder)
 

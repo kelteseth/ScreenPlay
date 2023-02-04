@@ -3,7 +3,7 @@
 #pragma once
 
 #include <QAbstractListModel>
-#include <QApplication>
+
 #include <QDebug>
 #include <QRect>
 #include <QScreen>

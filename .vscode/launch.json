@@ -5,49 +5,148 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "MacOS (lldb) Debug",
-            "type": "cppdbg",
+            "name": "ScreenPlay Debug",
             "request": "launch",
-            "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.3.2_Clang/bin/ScreenPlay.app/Contents/MacOS/ScreenPlay",
-            "args": [],
+            "type": "cppvsdbg", // Must be set otherwise VSCode does not know we want to debug c++
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
-            "externalConsole": false,
-            "MIMode": "lldb"
+            "internalConsoleOptions": "openOnSessionStart",
+            "visualizerFile": "${workspaceFolder}/.vscode/qt.natvis.xml",
+            "showDisplayString": true,
+            "windows": {
+                "environment": [
+                    {
+                        "name": "Path",
+                        "value": "${env:Path};${workspaceFolder}\\..\\aqt\\6.5.0\\msvc2019_64\\bin\\;${workspaceFolder}\\..\\aqt\\6.5.0\\msvc2019_64\\modules\\;${workspaceFolder}\\..\\aqt\\6.5.0\\msvc2019_64\\qml\\;"
+                    }
+                ],
+                "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.5.0_MSVC_Debug/bin/ScreenPlay.exe"
+            },
+            "osx": {
+                "MIMode": "lldb",
+                "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.5.0_Clang_Debug/bin/ScreenPlay.app/Contents/MacOS/ScreenPlay",
+                "type": "lldb"
+            },
+            "linux": {
+                "MIMode": "lldb",
+                "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.4.2_GCC_Debug/bin/ScreenPlay",
+                "type": "lldb"
+            }
         },
         {
-            
-            "name": "Windows Debug ScreenPlay",
-            "type": "cppvsdbg",
+            "name": "ScreenPlay RelWithDebInfo",
             "request": "launch",
-            "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.4.2_MSVC_Debug/bin/ScreenPlay.exe",
-            "args": [],
-            "preLaunchTask": "CMake: build",
+            "type": "cppvsdbg", // Must be set otherwise VSCode does not know we want to debug c++
+            "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
-            "environment": [
-                {
-                    "name": "Path",
-                    "value": "${env:Path};${workspaceFolder}\\..\\aqt\\6.4.2\\msvc2019_64\\bin\\;${workspaceFolder}\\..\\aqt\\6.4.2\\msvc2019_64\\modules\\;${workspaceFolder}\\..\\aqt\\6.4.2\\msvc2019_64\\qml\\;"
-                }
-            ],
-            "visualizerFile": "${workspaceFolder}/.vscode/qt.natvis.xml"
+            "environment": [],
+            "internalConsoleOptions": "openOnSessionStart",
+            "visualizerFile": "${workspaceFolder}/.vscode/qt.natvis.xml",
+            "showDisplayString": true,
+            "windows": {
+                "environment": [
+                    {
+                        "name": "Path",
+                        "value": "${env:Path};${workspaceFolder}\\..\\aqt\\6.5.0\\msvc2019_64\\bin\\;${workspaceFolder}\\..\\aqt\\6.5.0\\msvc2019_64\\modules\\;${workspaceFolder}\\..\\aqt\\6.5.0\\msvc2019_64\\qml\\;"
+                    }
+                ],
+                "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.5.0_MSVC_RelWithDebInfo/bin/ScreenPlay.exe"
+            },
+            "osx": {
+                "MIMode": "lldb",
+                "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.5.0_Clang_RelWithDebInfo/bin/ScreenPlay.app/Contents/MacOS/ScreenPlay",
+                "type": "lldb"
+            },
+            "linux": {
+                "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.4.2_GCC_RelWithDebInfo/bin/ScreenPlay",
+                "type": "lldb"
+            }
         },
         {
-            "name": "Windows RelWithDebInfo ScreenPlay",
-            "type": "cppvsdbg",
+            "name": "ScreenPlayWallpaper Debug",
             "request": "launch",
-            "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.4.2_MSVC_RelWithDebInfo/bin/ScreenPlay.exe",
-            "args": [],
-            "preLaunchTask": "CMake: build",
+            "type": "cppvsdbg", // Must be set otherwise VSCode does not know we want to debug c++
+            "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
-            "environment": [
-                {
-                    "name": "Path",
-                    "value": "${env:Path};${workspaceFolder}\\..\\aqt\\6.4.2\\msvc2019_64\\bin\\;${workspaceFolder}\\..\\aqt\\6.4.2\\msvc2019_64\\modules\\;${workspaceFolder}\\..\\aqt\\6.4.2\\msvc2019_64\\qml\\;"
-                }
-            ],
-            "visualizerFile": "${workspaceFolder}/.vscode/qt.natvis.xml"
+            "environment": [],
+            "internalConsoleOptions": "openOnSessionStart",
+            "windows": {
+                "environment": [
+                    {
+                        "name": "Path",
+                        "value": "${env:Path};${workspaceFolder}\\..\\aqt\\6.5.0\\msvc2019_64\\bin\\;${workspaceFolder}\\..\\aqt\\6.5.0\\msvc2019_64\\modules\\;${workspaceFolder}\\..\\aqt\\6.5.0\\msvc2019_64\\qml\\;"
+                    }
+                ],
+                "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.5.0_MSVC_Debug/bin/ScreenPlayWallpaper.exe"
+            },
+            "osx": {
+                "MIMode": "lldb",
+                "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.5.0_Clang_Debug/bin/ScreenPlayWallpaper.app/Contents/MacOS/ScreenPlayWallpaper",
+                "type": "lldb"
+            },
+            "linux": {
+                "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.4.2_GCC_Debug/bin/ScreenPlayWallpaper",
+                "type": "lldb"
+            }
+        },
+        {
+            "name": "ScreenPlayWallpaper RelWithDebInfo",
+            "request": "launch",
+            "type": "cppvsdbg", // Must be set otherwise VSCode does not know we want to debug c++
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "internalConsoleOptions": "openOnSessionStart",
+            "visualizerFile": "${workspaceFolder}/.vscode/qt.natvis.xml",
+            "showDisplayString": true,
+            "windows": {
+                "environment": [
+                    {
+                        "name": "Path",
+                        "value": "${env:Path};${workspaceFolder}\\..\\aqt\\6.5.0\\msvc2019_64\\bin\\;${workspaceFolder}\\..\\aqt\\6.5.0\\msvc2019_64\\modules\\;${workspaceFolder}\\..\\aqt\\6.5.0\\msvc2019_64\\qml\\;"
+                    }
+                ],
+                "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.5.0_MSVC_RelWithDebInfo/bin/ScreenPlayWallpaper.exe"
+            },
+            "osx": {
+                "MIMode": "lldb",
+                "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.5.0_Clang_RelWithDebInfo/bin/ScreenPlayWallpaper.app/Contents/MacOS/ScreenPlayWallpaper",
+                "type": "lldb"
+            },
+            "linux": {
+                "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.4.2_GCC_RelWithDebInfo/bin/ScreenPlayWallpaper",
+                "type": "lldb"
+            }
+        },
+        {
+            "name": "ScreenPlayWidget Debug",
+            "request": "launch",
+            "type": "cppvsdbg", // Must be set otherwise VSCode does not know we want to debug c++
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "internalConsoleOptions": "openOnSessionStart",
+            "visualizerFile": "${workspaceFolder}/.vscode/qt.natvis.xml",
+            "showDisplayString": true,
+            "windows": {
+                "environment": [
+                    {
+                        "name": "Path",
+                        "value": "${env:Path};${workspaceFolder}\\..\\aqt\\6.5.0\\msvc2019_64\\bin\\;${workspaceFolder}\\..\\aqt\\6.5.0\\msvc2019_64\\modules\\;${workspaceFolder}\\..\\aqt\\6.5.0\\msvc2019_64\\qml\\;"
+                    }
+                ],
+                "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.5.0_MSVC_Debug/bin/ScreenPlayWidget.exe"
+            },
+            "osx": {
+                "MIMode": "lldb",
+                "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.5.0_Clang_Debug/bin/ScreenPlayWidget.app/Contents/MacOS/ScreenPlayWidget",
+                "type": "lldb"
+            },
+            "linux": {
+                "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.4.2_GCC_Debug/bin/ScreenPlayWidget",
+                "type": "lldb"
+            }
         }
     ]
 }

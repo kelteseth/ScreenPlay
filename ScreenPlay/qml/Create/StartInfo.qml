@@ -1,8 +1,7 @@
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Layouts 
+import QtQuick.Layouts
 import QtQuick.Controls.Material
-import QtQuick.Particles
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
 import ScreenPlayApp
@@ -24,7 +23,6 @@ Item {
             left: parent.left
             margins: 20
         }
-
     }
 
     Text {
@@ -41,7 +39,6 @@ Item {
             left: parent.left
             margins: 20
         }
-
     }
 
     GridView {
@@ -218,7 +215,6 @@ Item {
                 description: ""
                 category: "Resources"
             }
-
         }
 
         delegate: StartInfoLinkImage {
@@ -232,7 +228,5 @@ Item {
             width: gridView.cellWidth
             height: gridView.cellHeight
         }
-
     }
-
 }

@@ -76,3 +76,5 @@ void SteamWorkshopListModel::clear()
 }
 
 }
+
+#include "moc_steamworkshoplistmodel.cpp"

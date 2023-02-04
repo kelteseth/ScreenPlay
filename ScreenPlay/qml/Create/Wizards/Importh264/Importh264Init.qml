@@ -60,22 +60,19 @@ Item {
                     Layout.fillHeight: true
                     Layout.fillWidth: true
                     onExited: {
-                        bg.color = Qt.darker(Material.backgroundColor)
+                        bg.color = Qt.darker(Material.backgroundColor);
                     }
                     onEntered: {
-                        bg.color = Qt.darker(Qt.darker(
-                                                 Material.backgroundColor))
-                        drag.accept(Qt.LinkAction)
+                        bg.color = Qt.darker(Qt.darker(Material.backgroundColor));
+                        drag.accept(Qt.LinkAction);
                     }
                     onDropped: {
-                        let file = App.util.toLocal(drop.urls[0])
-                        bg.color = Qt.darker(Qt.darker(
-                                                 Material.backgroundColor))
+                        let file = App.util.toLocal(drop.urls[0]);
+                        bg.color = Qt.darker(Qt.darker(Material.backgroundColor));
                         if (file.endsWith(".mp4"))
-                            root.next(drop.urls[0])
+                            root.next(drop.urls[0]);
                         else
-                            txtFile.text = qsTr(
-                                        "Invalid file type. Must be valid h264 (*.mp4)!")
+                            txtFile.text = qsTr("Invalid file type. Must be valid h264 (*.mp4)!");
                     }
 
                     Rectangle {
@@ -127,8 +124,7 @@ Item {
         icon.width: 16
         icon.height: 16
         font.family: App.settings.font
-        onClicked: Qt.openUrlExternally(
-                       "https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/#performance")
+        onClicked: Qt.openUrlExternally("https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/#performance")
 
         anchors {
             bottom: parent.bottom
@@ -142,7 +138,7 @@ Item {
         highlighted: true
         font.family: App.settings.font
         onClicked: {
-            fileDialogImportVideo.open()
+            fileDialogImportVideo.open();
         }
 
         FileDialog {
@@ -150,7 +146,7 @@ Item {
 
             nameFilters: ["Video files (*.mp4)"]
             onAccepted: {
-                root.next(fileDialogImportVideo.currentFile)
+                root.next(fileDialogImportVideo.currentFile);
             }
         }
 

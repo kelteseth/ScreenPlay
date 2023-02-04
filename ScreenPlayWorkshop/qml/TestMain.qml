@@ -11,24 +11,22 @@ Window {
     visible: true
     title: qsTr("ScreenPlayWorkshop")
     Component.onCompleted: {
-        root.Material.theme = Material.Dark
+        root.Material.theme = Material.Dark;
     }
 
     ScreenPlayWorkshop {
         id: screenPlayWorkshop
         Component.onCompleted: {
             if (screenPlayWorkshop.init()) {
-                print("init")
-                stackView.push(
-                            "qrc:/qml/ScreenPlayWorkshop/qml/SteamWorkshopStartPage.qml",
-                            {
-                                "stackView": stackView,
-                                "screenPlayWorkshop": screenPlayWorkshop,
-                                "steamWorkshop": screenPlayWorkshop.steamWorkshop,
-                                "background": background
-                            })
+                print("init");
+                stackView.push("qrc:/qml/ScreenPlayWorkshop/qml/SteamWorkshopStartPage.qml", {
+                        "stackView": stackView,
+                        "screenPlayWorkshop": screenPlayWorkshop,
+                        "steamWorkshop": screenPlayWorkshop.steamWorkshop,
+                        "background": background
+                    });
             } else {
-                popupOffline.open()
+                popupOffline.open();
             }
         }
     }
@@ -91,9 +89,9 @@ Window {
         }
     }
     Rectangle {
+        id: nav
         height: 60
         color: Material.background
-        id: nav
         anchors {
             right: parent.right
             left: parent.left

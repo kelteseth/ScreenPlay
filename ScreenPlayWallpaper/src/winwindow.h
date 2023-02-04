@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include <QApplication>
 #include <QDebug>
 #include <QObject>
 #include <QQmlContext>
@@ -26,21 +25,14 @@ class WinWindow : public BaseWindow {
     Q_PROPERTY(WindowsDesktopProperties* windowsDesktopProperties READ windowsDesktopProperties WRITE setWindowsDesktopProperties NOTIFY windowsDesktopPropertiesChanged)
 
 public:
-    explicit WinWindow(
-        const QVector<int>& activeScreensList,
-        const QString& projectFilePath,
-        const QString& appID,
-        const QString& volume,
-        const QString& fillmode, const QString& type,
-        const bool checkWallpaperVisible,
-        const bool debugMode = false);
-
     WindowsDesktopProperties* windowsDesktopProperties() const { return m_windowsDesktopProperties.get(); }
+
+    ScreenPlay::WallpaperExitCode start() override;
 
 public slots:
     void setVisible(bool show) override;
     void destroyThis() override;
-    void terminate();
+    void terminate() override;
     void clearComponentCache() override;
 
     void setWindowsDesktopProperties(WindowsDesktopProperties* windowsDesktopProperties)

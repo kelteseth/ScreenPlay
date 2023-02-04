@@ -18,24 +18,23 @@ Item {
         target: Widget
         function onQmlExit() {
             if (Qt.platform.os === "windows")
-                Widget.setWindowBlur(0)
-            loader.source = ""
-            animFadeOut.start()
+                Widget.setWindowBlur(0);
+            loader.source = "";
+            animFadeOut.start();
         }
 
         function onQmlSceneValueReceived(key, value) {
-            var obj2 = 'import QtQuick; Item {Component.onCompleted: loader.item.'
-                    + key + ' = ' + value + '; }'
-            var newObject = Qt.createQmlObject(obj2.toString(), root, "err")
-            newObject.destroy(10000)
+            var obj2 = 'import QtQuick; Item {Component.onCompleted: loader.item.' + key + ' = ' + value + '; }';
+            var newObject = Qt.createQmlObject(obj2.toString(), root, "err");
+            newObject.destroy(10000);
         }
 
         // Replace wallpaper with QML Scene
         function onReloadQML(oldType) {
-            loader.sourceComponent = undefined
-            loader.source = ""
-            Widget.clearComponentCache()
-            loader.source = Qt.resolvedUrl(Widget.projectSourceFileAbsolute)
+            loader.sourceComponent = undefined;
+            loader.source = "";
+            Widget.clearComponentCache();
+            loader.source = Qt.resolvedUrl(Widget.projectSourceFileAbsolute);
         }
     }
 
@@ -65,11 +64,11 @@ Item {
         Component.onCompleted: {
             switch (Widget.type) {
             case InstalledType.QMLWidget:
-                loader.source = Qt.resolvedUrl(Widget.projectSourceFileAbsolute)
-                break
+                loader.source = Qt.resolvedUrl(Widget.projectSourceFileAbsolute);
+                break;
             case InstalledType.HTMLWidget:
-                loader.sourceComponent = webViewComponent
-                break
+                loader.sourceComponent = webViewComponent;
+                break;
             }
         }
         onStatusChanged: {
@@ -77,10 +76,10 @@ Item {
                 // Resize to loaded widget size
                 // Note: We must use implicit* here to not
                 // break the set values.
-                root.width = loader.item.implicitWidth
-                root.height = loader.item.implicitHeight
-                Widget.show()
-                root.state = "in"
+                root.width = loader.item.implicitWidth;
+                root.height = loader.item.implicitHeight;
+                Widget.show();
+                root.state = "in";
             }
         }
     }
@@ -95,7 +94,7 @@ Item {
             anchors.fill: parent
             onJavaScriptConsoleMessage: print(lineNumber, message)
             Component.onCompleted: {
-                webView.url = Qt.resolvedUrl(Widget.sourcePath)
+                webView.url = Qt.resolvedUrl(Widget.sourcePath);
             }
         }
     }
@@ -110,20 +109,19 @@ Item {
         onEntered: imgClose.state = "areaHover"
         onExited: {
             if (mouseAreaClose.containsMouse)
-                return
-            imgClose.state = ""
+                return;
+            imgClose.state = "";
         }
 
         onPressed: function (mouse) {
             clickPos = {
                 "x": mouse.x,
                 "y": mouse.y
-            }
+            };
         }
         onPositionChanged: {
             if (mouseArea.pressed)
-                Widget.setPos(Widget.cursorPos().x - clickPos.x,
-                              Widget.cursorPos().y - clickPos.y)
+                Widget.setPos(Widget.cursorPos().x - clickPos.x, Widget.cursorPos().y - clickPos.y);
         }
     }
 
@@ -137,8 +135,8 @@ Item {
         onExited: imgClose.state = ""
         onClicked: {
             if (Qt.platform.os === "windows")
-                Widget.setWindowBlur(0)
-            animFadeOut.start()
+                Widget.setWindowBlur(0);
+            animFadeOut.start();
         }
 
         anchors {

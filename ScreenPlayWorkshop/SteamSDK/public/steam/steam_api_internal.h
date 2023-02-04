@@ -31,7 +31,10 @@ S_API void* S_CALLTYPE SteamInternal_FindOrCreateGameServerInterface(HSteamUser 
 // struct { void (*pFn)(void* pCtx); uintptr_t counter; void *ptr; }
 // Do not change layout or add non-pointer aligned data!
 #define STEAM_DEFINE_INTERFACE_ACCESSOR(type, name, expr, kind, version)                           \
-    inline void S_CALLTYPE SteamInternal_Init_##name(type* p) { *p = (type)(expr); }               \
+    inline void S_CALLTYPE SteamInternal_Init_##name(type* p)                                      \
+    {                                                                                              \
+        *p = (type)(expr);                                                                         \
+    }                                                                                              \
     STEAM_CLANG_ATTR("interface_accessor_kind:" kind ";interface_accessor_version:" version ";")   \
     inline type name()                                                                             \
     {                                                                                              \
@@ -66,9 +69,18 @@ S_API void S_CALLTYPE SteamAPI_UnregisterCallResult(class CCallbackBase* pCallba
 #define _STEAM_CALLBACK_SELECT(X, Y) _STEAM_CALLBACK_HELPER X Y
 #define _STEAM_CALLBACK_3(extra_code, thisclass, func, param)                                                                              \
     struct CCallbackInternal_##func : private CCallbackImpl<sizeof(param)> {                                                               \
-        CCallbackInternal_##func() { extra_code SteamAPI_RegisterCallback(this, param::k_iCallback); }                                     \
-        CCallbackInternal_##func(const CCallbackInternal_##func&) { extra_code SteamAPI_RegisterCallback(this, param::k_iCallback); }      \
-        CCallbackInternal_##func& operator=(const CCallbackInternal_##func&) { return *this; }                                             \
+        CCallbackInternal_##func()                                                                                                         \
+        {                                                                                                                                  \
+            extra_code SteamAPI_RegisterCallback(this, param::k_iCallback);                                                                \
+        }                                                                                                                                  \
+        CCallbackInternal_##func(const CCallbackInternal_##func&)                                                                          \
+        {                                                                                                                                  \
+            extra_code SteamAPI_RegisterCallback(this, param::k_iCallback);                                                                \
+        }                                                                                                                                  \
+        CCallbackInternal_##func& operator=(const CCallbackInternal_##func&)                                                               \
+        {                                                                                                                                  \
+            return *this;                                                                                                                  \
+        }                                                                                                                                  \
                                                                                                                                            \
     private:                                                                                                                               \
         virtual void Run(void* pvParam)                                                                                                    \

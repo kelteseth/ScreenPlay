@@ -7,30 +7,30 @@ Rectangle {
     property string backgroundImage: ""
     property int imageOffsetTop: 0
     property int stackViewDepth: 0
-    onStackViewDepthChanged:  {
+    onStackViewDepthChanged: {
         if (stackViewDepth > 1) {
-            root.state = "backgroundBlur"
-            return true
+            root.state = "backgroundBlur";
+            return true;
         }
-        root.state = "backgroundImage"
-        return false
+        root.state = "backgroundImage";
+        return false;
     }
 
     color: "#161C1D"
     onImageOffsetTopChanged: {
         if ((imageOffsetTop * -1) >= 200) {
-            root.state = "backgroundColor"
+            root.state = "backgroundColor";
         } else {
             if (root.state !== "backgroundImage")
-                root.state = "backgroundImage"
+                root.state = "backgroundImage";
         }
     }
 
     onBackgroundImageChanged: {
         if (backgroundImage === "")
-            root.state = ""
+            root.state = "";
         else
-            root.state = "backgroundImage"
+            root.state = "backgroundImage";
     }
 
     Image {

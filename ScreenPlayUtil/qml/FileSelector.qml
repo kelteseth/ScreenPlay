@@ -73,7 +73,6 @@ Item {
                 bottom: parent.bottom
                 margins: 10
             }
-
         }
 
         Text {
@@ -94,7 +93,6 @@ Item {
                 bottom: parent.bottom
                 margins: 10
             }
-
         }
 
         Button {
@@ -114,7 +112,6 @@ Item {
                 bottom: parent.bottom
                 margins: 5
             }
-
         }
 
         Button {
@@ -133,7 +130,6 @@ Item {
                 bottom: parent.bottom
                 margins: 5
             }
-
         }
 
         FileDialog {
@@ -141,11 +137,10 @@ Item {
 
             title: qsTr("Please choose a file")
             onAccepted: {
-                root.file = fileDialog.currentFile ;
+                root.file = fileDialog.currentFile;
                 txtName.text = fileDialog.currentFile.toString();
             }
         }
-
     }
 
     states: [
@@ -162,7 +157,6 @@ Item {
                 target: txtPlaceholder
                 opacity: 0
             }
-
         },
         State {
             name: "nothingSelected"
@@ -172,7 +166,6 @@ Item {
                 opacity: 0
                 anchors.topMargin: -40
             }
-
         }
     ]
     transitions: [
@@ -194,7 +187,6 @@ Item {
                 duration: 300
                 easing.type: Easing.OutQuart
             }
-
         }
     ]
 }

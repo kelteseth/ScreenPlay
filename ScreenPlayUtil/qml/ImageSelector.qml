@@ -83,10 +83,8 @@ Item {
                 onClicked: {
                     if (imageSource !== "")
                         popup.open();
-
                 }
             }
-
         }
 
         Popup {
@@ -107,7 +105,6 @@ Item {
                 cursorShape: Qt.PointingHandCursor
                 onClicked: popup.close()
             }
-
         }
 
         Text {
@@ -130,7 +127,6 @@ Item {
                 bottom: parent.bottom
                 margins: 10
             }
-
         }
 
         Text {
@@ -151,7 +147,6 @@ Item {
                 bottom: parent.bottom
                 margins: 10
             }
-
         }
 
         Button {
@@ -168,7 +163,6 @@ Item {
                 bottom: parent.bottom
                 margins: 5
             }
-
         }
 
         Button {
@@ -187,7 +181,6 @@ Item {
                 bottom: parent.bottom
                 margins: 5
             }
-
         }
 
         FileDialog {
@@ -200,7 +193,6 @@ Item {
                 txtName.text = fileDialog.fileUrl.toString().replace(/^.*[\\\/]/, '');
             }
         }
-
     }
 
     states: [
@@ -217,7 +209,6 @@ Item {
                 target: txtPlaceholder
                 opacity: 0
             }
-
         },
         State {
             name: "nothingSelected"
@@ -227,7 +218,6 @@ Item {
                 opacity: 0
                 anchors.topMargin: -40
             }
-
         }
     ]
     transitions: [
@@ -249,7 +239,6 @@ Item {
                 duration: 300
                 easing.type: Easing.OutQuart
             }
-
         }
     ]
 }

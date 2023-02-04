@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
-import QtQuick.Particles
 
 Rectangle {
     id: element
@@ -36,7 +35,6 @@ Rectangle {
                 target: bgWorkshop
                 opacity: 0
             }
-
         },
         State {
             name: "create"
@@ -50,7 +48,6 @@ Rectangle {
                 target: bgWorkshop
                 opacity: 0
             }
-
         },
         State {
             name: "community"
@@ -64,7 +61,6 @@ Rectangle {
                 target: bgWorkshop
                 opacity: 0
             }
-
         },
         State {
             name: "workshop"
@@ -78,7 +74,6 @@ Rectangle {
                 target: bgWorkshop
                 opacity: 1
             }
-
         }
     ]
     transitions: [
@@ -92,7 +87,6 @@ Rectangle {
                 duration: 400
                 easing.type: Easing.InOutQuart
             }
-
         }
     ]
 }

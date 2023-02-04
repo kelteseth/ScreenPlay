@@ -75,13 +75,10 @@ Translate {
                 to: 0
                 duration: 50
             }
-
         }
 
         PauseAnimation {
             duration: root.loopOffset
         }
-
     }
-
 }

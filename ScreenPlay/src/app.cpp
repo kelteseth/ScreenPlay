@@ -5,15 +5,20 @@
 #include "ScreenPlayUtil/macutils.h"
 #endif
 
+#include "app.h"
 #include "steam/steam_qt_enums_generated.h"
+#include <QGuiApplication>
 #include <QProcessEnvironment>
 #include <QQuickStyle>
 #include <QVersionNumber>
 
 namespace ScreenPlay {
+
 /*!
     \module ScreenPlay
+
     \title ScreenPlay
+
     \brief Module for ScreenPlay.
 */
 /*!
@@ -128,7 +133,7 @@ App::App()
 /*!
     \brief Used for initialization after the constructor. The sole purpose is to check if
     another ScreenPlay instance is running and then quit early. This is also because we cannot
-    call QApplication::quit(); in the SDKConnector before the app.exec(); ( the Qt main event
+    call QGuiApplication::quit(); in the SDKConnector before the app.exec(); ( the Qt main event
     loop ) has started.
 */
 void App::init()
@@ -185,25 +190,25 @@ void App::init()
     // Init after we have the paths from settings
     m_installedListModel->init();
 
-    auto* guiApplication = QGuiApplication::instance();
+    auto* guiAppInst = dynamic_cast<QGuiApplication*>(QGuiApplication::instance());
 
     // Set visible if the -silent parameter was not set
-    if (guiApplication->arguments().contains("-silent")) {
+    if (guiAppInst->arguments().contains("-silent")) {
         qInfo() << "Starting in silent mode.";
         settings()->setSilentStart(true);
     }
 
     qmlRegisterSingletonInstance("ScreenPlay", 1, 0, "App", this);
-    m_mainWindowEngine->addImportPath(guiApplication->applicationDirPath() + "/qml");
+    m_mainWindowEngine->addImportPath(guiAppInst->applicationDirPath() + "/qml");
 #if defined(Q_OS_OSX)
-    QDir workingDir(guiApplication->applicationDirPath());
+    QDir workingDir(guiAppInst->applicationDirPath());
     workingDir.cdUp();
     workingDir.cdUp();
     workingDir.cdUp();
     // OSX Development workaround:
     m_mainWindowEngine->addImportPath(workingDir.path() + "/qml");
 #endif
-    guiApplication->addLibraryPath(guiApplication->applicationDirPath() + "/qml");
+    guiAppInst->addLibraryPath(guiAppInst->applicationDirPath() + "/qml");
 
     if (m_settings->desktopEnvironment() == Settings::DesktopEnvironment::KDE) {
         setupKDE();
@@ -223,12 +228,15 @@ QString App::version() const
 }
 
 /*!
-    \brief Calls QApplication quit() and can be used to do additional
+    \brief Calls QGuiApplication quit() and can be used to do additional
            tasks before exiting.
 */
 void App::exit()
 {
-    QApplication::instance()->quit();
+    m_screenPlayManager->removeAllWallpapers();
+    m_screenPlayManager->removeAllWidgets();
+    auto* guiAppInst = dynamic_cast<QGuiApplication*>(QGuiApplication::instance());
+    guiAppInst->quit();
 }
 
 bool App::isKDEInstalled()
@@ -344,4 +352,159 @@ void App::showDockIcon(const bool show)
 #endif
 }
 
+/*!
+    \property App::globalVariables
+    \brief .
+
+   .
+*/
+void App::setGlobalVariables(GlobalVariables* globalVariables)
+{
+    if (m_globalVariables.get() == globalVariables)
+        return;
+
+    m_globalVariables.reset(globalVariables);
+    emit globalVariablesChanged(m_globalVariables.get());
 }
+
+/*!
+    \property App::screenPlayManager
+    \brief Sets the screen play manager.
+*/
+void App::setScreenPlayManager(ScreenPlayManager* screenPlayManager)
+{
+    if (m_screenPlayManager.get() == screenPlayManager)
+        return;
+
+    m_screenPlayManager.reset(screenPlayManager);
+    emit screenPlayManagerChanged(m_screenPlayManager.get());
+}
+/*!
+    \property App::create
+    \brief .
+
+   .
+*/
+void App::setCreate(Create* create)
+{
+    if (m_create.get() == create)
+        return;
+
+    m_create.reset(create);
+    emit createChanged(m_create.get());
+}
+/*!
+    \property App::util
+    \brief .
+
+   .
+*/
+void App::setUtil(Util* util)
+{
+    if (m_util.get() == util)
+        return;
+
+    m_util.reset(util);
+    emit utilChanged(m_util.get());
+}
+/*!
+    \property App::settings
+    \brief .
+
+   .
+*/
+void App::setSettings(Settings* settings)
+{
+    if (m_settings.get() == settings)
+        return;
+
+    m_settings.reset(settings);
+    emit settingsChanged(m_settings.get());
+}
+/*!
+    \property App::installedListModel
+    \brief .
+
+   .
+*/
+void App::setInstalledListModel(InstalledListModel* installedListModel)
+{
+    if (m_installedListModel.get() == installedListModel)
+        return;
+
+    m_installedListModel.reset(installedListModel);
+    emit installedListModelChanged(m_installedListModel.get());
+}
+/*!
+    \property App::monitorListModel
+    \brief .
+
+   .
+*/
+void App::setMonitorListModel(MonitorListModel* monitorListModel)
+{
+    if (m_monitorListModel.get() == monitorListModel)
+        return;
+
+    m_monitorListModel.reset(monitorListModel);
+    emit monitorListModelChanged(m_monitorListModel.get());
+}
+/*!
+    \property App::profileListModel
+    \brief .
+
+   .
+*/
+void App::setProfileListModel(ProfileListModel* profileListModel)
+{
+    if (m_profileListModel.get() == profileListModel)
+        return;
+
+    m_profileListModel.reset(profileListModel);
+    emit profileListModelChanged(m_profileListModel.get());
+}
+/*!
+    \property App::installedListFilter
+    \brief .
+
+   .
+*/
+void App::setInstalledListFilter(InstalledListFilter* installedListFilter)
+{
+    if (m_installedListFilter.get() == installedListFilter)
+        return;
+
+    m_installedListFilter.reset(installedListFilter);
+    emit installedListFilterChanged(m_installedListFilter.get());
+}
+/*!
+    \property App::mainWindowEngine
+    \brief .
+
+   .
+*/
+void App::setMainWindowEngine(QQmlApplicationEngine* mainWindowEngine)
+{
+    if (m_mainWindowEngine.get() == mainWindowEngine)
+        return;
+
+    m_mainWindowEngine.reset(mainWindowEngine);
+    emit mainWindowEngineChanged(m_mainWindowEngine.get());
+}
+/*!
+    \property App::wizards
+    \brief .
+
+   .
+*/
+void App::setWizards(Wizards* wizards)
+{
+    if (m_wizards.get() == wizards)
+        return;
+
+    m_wizards.reset(wizards);
+    emit wizardsChanged(m_wizards.get());
+}
+}
+
+#include "moc_app.cpp"

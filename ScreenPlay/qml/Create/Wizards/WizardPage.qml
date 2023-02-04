@@ -15,11 +15,11 @@ FocusScope {
     property alias savePopup: savePopup
     property bool ready: false
 
-    signal wizardStarted()
-    signal wizardExited()
-    signal saveClicked()
-    signal saveFinished()
-    signal cancelClicked()
+    signal wizardStarted
+    signal wizardExited
+    signal saveClicked
+    signal saveFinished
+    signal cancelClicked
 
     ScrollView {
         contentWidth: width
@@ -45,9 +45,7 @@ FocusScope {
                 top: parent.top
                 horizontalCenter: parent.horizontalCenter
             }
-
         }
-
     }
 
     RowLayout {
@@ -80,7 +78,6 @@ FocusScope {
                 savePopup.open();
             }
         }
-
     }
 
     Popup {
@@ -108,7 +105,6 @@ FocusScope {
                 bottom: parent.bottom
                 bottomMargin: 30
             }
-
         }
 
         Timer {
@@ -120,7 +116,5 @@ FocusScope {
                 root.wizardExited();
             }
         }
-
     }
-
 }

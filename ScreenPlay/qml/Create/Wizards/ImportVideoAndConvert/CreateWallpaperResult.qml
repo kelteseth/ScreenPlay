@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
-
 import Qt5Compat.GraphicalEffects
 import ScreenPlayApp
 import ScreenPlay
@@ -28,7 +27,6 @@ Item {
             topMargin: 30
             horizontalCenter: parent.horizontalCenter
         }
-
     }
 
     Rectangle {
@@ -66,7 +64,6 @@ Item {
                     left: parent.left
                     margins: 20
                 }
-
             }
 
             MouseArea {
@@ -80,9 +77,7 @@ Item {
                 snapMode: ScrollBar.SnapOnRelease
                 policy: ScrollBar.AlwaysOn
             }
-
         }
-
     }
 
     Menu {
@@ -94,7 +89,6 @@ Item {
                 App.util.copyToClipboard(txtFFMPEGDebug.text);
             }
         }
-
     }
 
     Button {
@@ -114,7 +108,6 @@ Item {
             bottom: parent.bottom
             margins: 10
         }
-
     }
 
     states: [
@@ -125,7 +118,6 @@ Item {
                 target: txtFFMPEGDebug
                 text: "Error!"
             }
-
         },
         State {
             name: "success"
@@ -134,7 +126,6 @@ Item {
                 target: txtFFMPEGDebug
                 text: "Success!"
             }
-
         }
     ]
 }

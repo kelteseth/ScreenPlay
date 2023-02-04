@@ -17,25 +17,22 @@ Item {
         Component.onCompleted: {
             if (screenPlayWorkshop.init()) {
                 stackView.push("qrc:/qml/ScreenPlayWorkshop/qml/SteamWorkshopStartPage.qml", {
-                                   "stackView": stackView,
-                                   "screenPlayWorkshop": screenPlayWorkshop,
-                                   "steamWorkshop": screenPlayWorkshop.steamWorkshop,
-                                   "background": background,
-                                  // "modalSource": root.modalSource
-                               })
+                        "stackView": stackView,
+                        "screenPlayWorkshop": screenPlayWorkshop,
+                        "steamWorkshop": screenPlayWorkshop.steamWorkshop,
+                        "background": background
+                    });
             } else {
-                popupOffline.open()
+                popupOffline.open();
             }
         }
     }
-
 
     Background {
         id: background
         anchors.fill: parent
         stackViewDepth: stackView.depth
     }
-
 
     PopupOffline {
         id: popupOffline
@@ -52,7 +49,7 @@ Item {
             target: stackView.currentItem
             ignoreUnknownSignals: true
             function onRequestBack() {
-                stackView.pop()
+                stackView.pop();
             }
         }
 

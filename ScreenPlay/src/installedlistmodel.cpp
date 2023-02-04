@@ -55,7 +55,7 @@ void InstalledListModel::deinstallItemAt(const QString& absoluteStoragePath)
     QTimer::singleShot(1000, this, [this, absoluteStoragePath]() {
         int index = -1;
         for (int i = 0; i < m_screenPlayFiles.size(); ++i) {
-            if (m_screenPlayFiles.at(i).m_absoluteStoragePath.toString() == absoluteStoragePath) {
+            if (m_screenPlayFiles.at(i).projectJsonFilePath.absoluteFilePath() == absoluteStoragePath) {
                 index = i;
                 break;
             }
@@ -135,29 +135,29 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
     if (row < rowCount())
         switch (role) {
         case static_cast<int>(ScreenPlayItem::Title):
-            return m_screenPlayFiles.at(row).m_title;
+            return m_screenPlayFiles.at(row).title;
         case static_cast<int>(ScreenPlayItem::Preview):
-            return m_screenPlayFiles.at(row).m_preview;
+            return m_screenPlayFiles.at(row).preview;
         case static_cast<int>(ScreenPlayItem::PreviewGIF):
-            return m_screenPlayFiles.at(row).m_previewGIF;
+            return m_screenPlayFiles.at(row).previewGIF;
         case static_cast<int>(ScreenPlayItem::Type):
-            return QVariant::fromValue(m_screenPlayFiles.at(row).m_type);
-        case static_cast<int>(ScreenPlayItem::FolderId):
-            return m_screenPlayFiles.at(row).m_folderId;
+            return QVariant::fromValue(m_screenPlayFiles.at(row).type);
+        case static_cast<int>(ScreenPlayItem::FolderName):
+            return m_screenPlayFiles.at(row).folderName;
         case static_cast<int>(ScreenPlayItem::FileId):
-            return m_screenPlayFiles.at(row).m_file;
+            return m_screenPlayFiles.at(row).file;
         case static_cast<int>(ScreenPlayItem::AbsoluteStoragePath):
-            return m_screenPlayFiles.at(row).m_absoluteStoragePath;
+            return QUrl::fromLocalFile(m_screenPlayFiles.at(row).projectJsonFilePath.dir().path());
         case static_cast<int>(ScreenPlayItem::PublishedFileID):
-            return m_screenPlayFiles.at(row).m_publishedFileID;
+            return m_screenPlayFiles.at(row).publishedFileID;
         case static_cast<int>(ScreenPlayItem::Tags):
-            return m_screenPlayFiles.at(row).m_tags;
+            return m_screenPlayFiles.at(row).tags;
         case static_cast<int>(ScreenPlayItem::IsNew):
-            return m_screenPlayFiles.at(row).m_isNew;
+            return m_screenPlayFiles.at(row).isNew;
         case static_cast<int>(ScreenPlayItem::LastModified):
-            return m_screenPlayFiles.at(row).m_lastModified;
+            return m_screenPlayFiles.at(row).lastModified;
         case static_cast<int>(ScreenPlayItem::SearchType):
-            return QVariant::fromValue(m_screenPlayFiles.at(row).m_searchType);
+            return QVariant::fromValue(m_screenPlayFiles.at(row).searchType);
         }
 
     qWarning() << "Unable to fetch value for row type:" << role;
@@ -174,7 +174,7 @@ QHash<int, QByteArray> InstalledListModel::roleNames() const
         { static_cast<int>(ScreenPlayItem::Type), "m_type" },
         { static_cast<int>(ScreenPlayItem::Preview), "m_preview" },
         { static_cast<int>(ScreenPlayItem::PreviewGIF), "m_previewGIF" },
-        { static_cast<int>(ScreenPlayItem::FolderId), "m_folderId" },
+        { static_cast<int>(ScreenPlayItem::FolderName), "m_folderName" },
         { static_cast<int>(ScreenPlayItem::FileId), "m_file" },
         { static_cast<int>(ScreenPlayItem::AbsoluteStoragePath), "m_absoluteStoragePath" },
         { static_cast<int>(ScreenPlayItem::PublishedFileID), "m_publishedFileID" },
@@ -188,10 +188,16 @@ QHash<int, QByteArray> InstalledListModel::roleNames() const
 /*!
     \brief Append an ProjectFile to the list.
 */
-void InstalledListModel::append(const QJsonObject& obj, const QString& folderName, const bool isNew, const QDateTime& lastModified)
+void InstalledListModel::append(const QString& projectJsonFilePath)
 {
     beginInsertRows(QModelIndex(), m_screenPlayFiles.size(), m_screenPlayFiles.size());
-    m_screenPlayFiles.append(ProjectFile(obj, folderName, m_globalVariables->localStoragePath(), isNew, lastModified));
+    ProjectFile projectFile;
+    projectFile.projectJsonFilePath = QFileInfo(projectJsonFilePath);
+    if (!projectFile.init()) {
+        qWarning() << "Invalid project at " << projectJsonFilePath;
+        return;
+    }
+    m_screenPlayFiles.append(std::move(projectFile));
     endInsertRows();
 }
 
@@ -211,33 +217,14 @@ void InstalledListModel::loadInstalledContent()
         QFileInfoList list = QDir(m_globalVariables->localStoragePath().toLocalFile()).entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
         int counter = 0;
 
-        for (const auto& item : list) {
+        for (const QFileInfo& item : list) {
             const QString absoluteFilePath = m_globalVariables->localStoragePath().toLocalFile() + "/" + item.baseName() + "/project.json";
 
             if (!QFile::exists(absoluteFilePath))
                 continue;
 
-            bool isNew = false;
-
-            if (item.birthTime().date() == QDateTime::currentDateTime().date())
-                isNew = true;
-
-            if (auto obj = ScreenPlayUtil::openJsonFileToObject(absoluteFilePath)) {
-
-                if (obj->isEmpty())
-                    continue;
-
-                if (!obj->contains("type"))
-                    continue;
-
-                if (ScreenPlayUtil::getAvailableTypes().contains(obj->value("type").toString())) {
-                    if (ScreenPlayUtil::getAvailableTypes().contains(obj->value("type").toString(), Qt::CaseInsensitive)) {
-                        append(*obj, item.baseName(), isNew, item.lastModified());
-                    }
-
-                    counter += 1;
-                }
-            }
+            append(absoluteFilePath);
+            counter += 1;
         }
         setCount(counter);
         emit installedLoadingFinished();
@@ -262,17 +249,17 @@ QVariantMap InstalledListModel::get(const QString& folderName) const
     }
 
     for (const auto& item : m_screenPlayFiles) {
-        if (item.m_folderId == folderName) {
+        if (item.folderName == folderName) {
             QVariantMap map;
-            map.insert("m_title", item.m_title);
-            map.insert("m_preview", item.m_preview);
-            map.insert("m_previewGIF", item.m_previewGIF);
-            map.insert("m_file", item.m_file);
-            map.insert("m_type", QVariant::fromValue(item.m_type));
-            map.insert("m_absoluteStoragePath", item.m_absoluteStoragePath);
-            map.insert("m_publishedFileID", item.m_publishedFileID);
-            map.insert("m_isNew", item.m_isNew);
-            map.insert("m_lastModified", item.m_lastModified);
+            map.insert("m_title", item.title);
+            map.insert("m_preview", item.preview);
+            map.insert("m_previewGIF", item.previewGIF);
+            map.insert("m_file", item.file);
+            map.insert("m_type", QVariant::fromValue(item.type));
+            map.insert("m_absoluteStoragePath", QUrl::fromLocalFile(item.projectJsonFilePath.dir().path()));
+            map.insert("m_publishedFileID", item.publishedFileID);
+            map.insert("m_isNew", item.isNew);
+            map.insert("m_lastModified", item.lastModified);
             return map;
         }
     }
@@ -293,3 +280,5 @@ void InstalledListModel::reset()
 }
 
 }
+
+#include "moc_installedlistmodel.cpp"

@@ -21,6 +21,7 @@
 #include <QVector>
 #include <QtConcurrent/QtConcurrent>
 #include <QtQml>
+#include <vector>
 
 #include "ScreenPlayUtil/projectfile.h"
 
@@ -35,7 +36,7 @@ class InstalledListModel : public QAbstractListModel {
     Q_OBJECT
 
     QML_ELEMENT
-    Q_PROPERTY(QUrl absoluteStoragePath READ absoluteStoragePath WRITE setabsoluteStoragePath NOTIFY absoluteStoragePathChanged)
+    Q_PROPERTY(QUrl absoluteStoragePath READ absoluteStoragePath WRITE setAbsoluteStoragePath NOTIFY absoluteStoragePathChanged)
 
 public:
     explicit InstalledListModel(QObject* parent = nullptr);
@@ -49,7 +50,7 @@ public:
         Type,
         Preview,
         PreviewGIF,
-        FolderId,
+        FolderName,
         FileId,
         AbsoluteStoragePath,
         PublishedFileID,
@@ -66,9 +67,9 @@ public:
 
 public slots:
     void loadInstalledContent();
-    QVariantMap get(QString folderId);
-    void append(const QJsonObject&, const QString&, const QDateTime& lastModified);
-    void setabsoluteStoragePath(QUrl absoluteStoragePath)
+    QVariantMap get(QString folderName);
+    void append(const QString& projectJsonFilePath);
+    void setAbsoluteStoragePath(QUrl absoluteStoragePath)
     {
         if (m_absoluteStoragePath == absoluteStoragePath)
             return;

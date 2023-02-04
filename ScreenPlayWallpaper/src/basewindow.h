@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include <QApplication>
 #include <QDebug>
 #include <QFile>
 #include <QFileSystemWatcher>
@@ -14,9 +13,9 @@
 #include <QSysInfo>
 #include <QtQml>
 
-#include "ScreenPlayUtil/util.h"
-
 #include "ScreenPlaySDK/screenplaysdk.h"
+#include "ScreenPlayUtil/exitcodes.h"
+#include "ScreenPlayUtil/util.h"
 
 #include <memory>
 
@@ -24,14 +23,11 @@ class BaseWindow : public QObject {
     Q_OBJECT
 
 public:
-    BaseWindow(QObject* parent = nullptr);
-    BaseWindow(
-        const QVector<int> activeScreensList,
-        const QString& projectFilePath,
-        const QString& type,
-        const bool checkWallpaperVisible,
-        const QString& appID,
-        const bool debugMode);
+    BaseWindow();
+
+    virtual ScreenPlay::WallpaperExitCode setup() final;
+
+    virtual ScreenPlay::WallpaperExitCode start() = 0;
 
     Q_PROPERTY(int width READ width WRITE setWidth NOTIFY widthChanged)
     Q_PROPERTY(int height READ height WRITE setHeight NOTIFY heightChanged)
@@ -90,7 +86,9 @@ public:
     void setVideoCodec(ScreenPlay::VideoCodec::VideoCodec newVideoCodec);
 
 signals:
+    void qmlStart();
     void qmlExit();
+    void fadeIn();
     void reloadQML(const ScreenPlay::InstalledType::InstalledType oldType);
     void reloadVideo(const ScreenPlay::InstalledType::InstalledType oldType);
     void reloadGIF(const ScreenPlay::InstalledType::InstalledType oldType);
@@ -117,11 +115,12 @@ signals:
     void projectPathChanged(const QString& rojectPath);
     void projectSourceFileChanged(const QString& projectSourceFile);
     void projectSourceFileAbsoluteChanged(const QUrl& rojectSourceFileAbsolute);
-
-    void videoCodecChanged();
+    void videoCodecChanged(ScreenPlay::VideoCodec::VideoCodec codec);
 
 public slots:
+    void requestFadeIn();
     virtual void destroyThis() { }
+    virtual void terminate() { }
     virtual void setVisible(bool show) { Q_UNUSED(show) }
     virtual void messageReceived(QString key, QString value) final;
     virtual void clearComponentCache() { }
@@ -281,8 +280,6 @@ public slots:
         if (m_visualsPaused == visualsPaused)
             return;
 
-        qInfo() << "visualsPaused: " << visualsPaused;
-
         m_visualsPaused = visualsPaused;
         emit visualsPausedChanged(m_visualsPaused);
     }
@@ -329,7 +326,7 @@ public slots:
 private:
     void setupLiveReloading();
 
-private:
+protected:
     bool m_checkWallpaperVisible { false };
     bool m_visualsPaused { false };
     bool m_loops { true };
@@ -342,7 +339,6 @@ private:
     float m_playbackRate { 1.0f };
     float m_currentTime { 0.0f };
 
-    QString m_contentBasePath;
     QString m_projectPath;
     QString m_projectSourceFile;
     QString m_appID;

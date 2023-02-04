@@ -3,7 +3,6 @@
  * https://github.com/rschiang/material
  * (THE BSD 2-CLAUSE LICENSE)
  */
-
 import QtQuick
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material
@@ -18,10 +17,10 @@ Item {
 
     function trigger() {
         var wave = ripple.createObject(container, {
-            "startX": root.width * 0.5,
-            "startY": root.height * 0.5,
-            "maxRadius": furthestDistance(root.width * 0.5, root.height * 0.5)
-        });
+                "startX": root.width * 0.5,
+                "startY": root.height * 0.5,
+                "maxRadius": furthestDistance(root.width * 0.5, root.height * 0.5)
+            });
     }
 
     function distance(x1, y1, x2, y2) {
@@ -68,7 +67,6 @@ Item {
             function fadeIfApplicable() {
                 if (!fadeAnimation.running)
                     fadeAnimation.start();
-
             }
 
             radius: 0
@@ -82,7 +80,6 @@ Item {
                 growAnimation.start();
                 if (!fadeAnimation.running)
                     fadeAnimation.start();
-
             }
 
             NumberAnimation {
@@ -110,11 +107,7 @@ Item {
                 ScriptAction {
                     script: ink.destroy()
                 }
-
             }
-
         }
-
     }
-
 }

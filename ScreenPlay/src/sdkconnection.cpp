@@ -113,6 +113,10 @@ bool ScreenPlay::SDKConnection::close()
         qWarning() << "Cannot close invalid socket.";
         return false;
     }
+    QJsonObject obj;
+    obj.insert("command", "quit");
+    m_socket->write(QByteArray(QJsonDocument(obj).toJson(QJsonDocument::Compact)));
+    m_socket->flush();
 
     qInfo() << "Close " << m_type << m_appID << m_socket->state();
     m_socket->disconnectFromServer();
@@ -121,3 +125,5 @@ bool ScreenPlay::SDKConnection::close()
     return m_socket->state() == QLocalSocket::UnconnectedState;
 }
 }
+
+#include "moc_sdkconnection.cpp"

@@ -360,3 +360,5 @@ void Create::abortAndCleanup()
 }
 
 }
+
+#include "moc_create.cpp"

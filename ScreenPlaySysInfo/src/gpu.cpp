@@ -57,3 +57,5 @@ GPU::GPU(QObject* parent)
         setMaxFrequency(properties_of_device.max_frequency);
     }
 }
+
+#include "moc_gpu.cpp"

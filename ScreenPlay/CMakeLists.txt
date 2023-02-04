@@ -191,6 +191,7 @@ set(RESOURCES
     assets/images/scale_window_indicator.png
     assets/images/steam_offline.png
     assets/images/trayIcon_windows.png
+    assets/images/trayIcon_osx.png
     assets/images/Window.svg
     assets/licenses/Apache2.txt
     assets/licenses/OFL.txt
@@ -219,7 +220,6 @@ set(RESOURCES
     assets/startinfo/vscode.png
     assets/wizards/example_html.png
     assets/wizards/example_qml.png
-    assets/wizards/QmlProject.qmlproject
     assets/wizards/License_All_Rights_Reserved_1.0.txt
     assets/wizards/License_Apache_2.0.txt
     assets/wizards/License_CC0_1.0.txt
@@ -227,6 +227,7 @@ set(RESOURCES
     assets/wizards/License_CC_Attribution-ShareAlike_4.0.txt
     assets/wizards/License_CC_Attribution_4.0.txt
     assets/wizards/License_GPL_3.0.txt
+    assets/wizards/QmlProject.qmlproject
     assets/WorkshopPreview.html
     legal/DataProtection.txt
     legal/gpl-3.0.txt
@@ -260,6 +261,7 @@ find_package(
                Widgets
                WebSockets
                Svg
+               Xml
                LinguistTools
                Test)
 
@@ -283,6 +285,7 @@ qt_add_qml_module(
     ${HEADER}
     RESOURCES
     ${RESOURCES})
+
 target_link_libraries(
     ScreenPlayApp
     PUBLIC ScreenPlaySDK
@@ -294,6 +297,7 @@ target_link_libraries(
            Qt6::WebSockets
            Qt6::Svg
            Qt6::QuickControls2
+           Qt6::Xml
            ScreenPlayUtil
            ScreenPlayUtilplugin
            QArchive
@@ -322,14 +326,6 @@ if(APPLE)
 else()
     set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/translations")
 endif()
-
-# qt_add_lupdate does not work for some reason. Lets do it manually:
-find_program(LUPDATE_EXECUTABLE lupdate)
-foreach(_ts_file ${TS_FILES})
-    message(STATUS "Update Translation: ${_ts_file}")
-    execute_process(COMMAND ${LUPDATE_EXECUTABLE} -noobsolete -locations none -recursive ${CMAKE_CURRENT_SOURCE_DIR}/qml -ts
-                            ${CMAKE_CURRENT_SOURCE_DIR}/${_ts_file} OUTPUT_QUIET)
-endforeach()
 
 qt_add_lrelease(${PROJECT_NAME} TS_FILES ${TS_FILES})
 

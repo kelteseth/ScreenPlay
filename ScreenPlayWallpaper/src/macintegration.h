@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include <QApplication>
-
+#include <QObject>
+#include <QWindow>
 class MacIntegration : public QObject {
     Q_OBJECT
 public:

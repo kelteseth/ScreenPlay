@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
 #pragma once
-
-#include <QApplication>
+#include <QObject>
+#include <QWindow>
 
 class MacBridge : public QObject {
     Q_OBJECT

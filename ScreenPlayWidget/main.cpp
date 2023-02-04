@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
-#include <QApplication>
+
+#include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QStringList>
 #include <QtWebEngineQuick>
@@ -14,18 +15,23 @@ Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherPlugin)
 
 int main(int argc, char* argv[])
 {
-    QtWebEngineQuick::initialize();
-    QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
-    QApplication app(argc, argv);
+#if !defined(Q_OS_LINUX)
+    qputenv("QT_MEDIA_BACKEND", "ffmpeg");
+#endif
+
+    QtWebEngineQuick::initialize();
+    QGuiApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
+
+    QGuiApplication app(argc, argv);
 
     const QStringList argumentList = app.arguments();
 
     // If we start with only one argument (path, appID, type),
     // it means we want to test a single widget
     if (argumentList.length() == 1) {
-         WidgetWindow spwmw("test", "appid", "qmlWidget", { 100, 100 }, true);
-        //WidgetWindow spwmw("C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/2136442401", "appid", "qmlWidget", { 0, 0 }, true);
+        WidgetWindow spwmw("test", "appid", "qmlWidget", { 100, 100 }, true);
+        // WidgetWindow spwmw("C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/2136442401", "appid", "qmlWidget", { 0, 0 }, true);
         return app.exec();
     }
 

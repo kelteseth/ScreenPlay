@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
 #include "ScreenPlay/monitorlistmodel.h"
-
+#include <QGuiApplication>
 namespace ScreenPlay {
 
 /*!
@@ -27,9 +27,9 @@ MonitorListModel::MonitorListModel(QObject* parent)
 {
     loadMonitors();
 
-    auto* guiAppInst = dynamic_cast<QApplication*>(QApplication::instance());
-    connect(guiAppInst, &QApplication::screenAdded, this, &MonitorListModel::screenAdded);
-    connect(guiAppInst, &QApplication::screenRemoved, this, &MonitorListModel::screenRemoved);
+    auto* guiAppInst = dynamic_cast<QGuiApplication*>(QGuiApplication::instance());
+    connect(guiAppInst, &QGuiApplication::screenAdded, this, &MonitorListModel::screenAdded);
+    connect(guiAppInst, &QGuiApplication::screenRemoved, this, &MonitorListModel::screenRemoved);
 }
 
 /*!
@@ -148,8 +148,8 @@ void MonitorListModel::loadMonitors()
     int offsetX = 0;
     int offsetY = 0;
 
-    for (int i = 0; i < QApplication::screens().count(); i++) {
-        QScreen* screen = QApplication::screens().at(i);
+    for (int i = 0; i < QGuiApplication::screens().count(); i++) {
+        QScreen* screen = QGuiApplication::screens().at(i);
         if (screen->availableGeometry().x() < 0) {
             offsetX += (screen->availableGeometry().x() * -1);
         }
@@ -158,8 +158,8 @@ void MonitorListModel::loadMonitors()
         }
     }
 
-    for (int i = 0; i < QApplication::screens().count(); i++) {
-        QScreen* screen = QApplication::screens().at(i);
+    for (int i = 0; i < QGuiApplication::screens().count(); i++) {
+        QScreen* screen = QGuiApplication::screens().at(i);
 
         // Sometimes we get invalid monitors on Windows. I don't know why...
         if (screen->geometry().width() == 0 || screen->geometry().height() == 0)
@@ -222,8 +222,8 @@ void MonitorListModel::closeWallpaper(const QString& appID)
  */
 QRect MonitorListModel::absoluteDesktopSize() const
 {
-    auto* app = static_cast<QApplication*>(QGuiApplication::instance());
-    return app->screens().at(0)->availableVirtualGeometry();
+    auto* guiAppInst = dynamic_cast<QGuiApplication*>(QGuiApplication::instance());
+    return guiAppInst->screens().at(0)->availableVirtualGeometry();
 }
 
 /*!
@@ -272,3 +272,5 @@ void MonitorListModel::reset()
 }
 
 }
+
+#include "moc_monitorlistmodel.cpp"

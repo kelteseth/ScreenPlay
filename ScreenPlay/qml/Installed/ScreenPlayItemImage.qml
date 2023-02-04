@@ -11,7 +11,6 @@ Item {
     function enter() {
         if (root.sourceImageGIF != "")
             loader_imgGIFPreview.sourceComponent = component_imgGIFPreview;
-
     }
 
     function exit() {
@@ -33,7 +32,6 @@ Item {
         source: {
             if (root.sourceImage === "")
                 return "qrc:/qml/ScreenPlayApp/assets/images/missingPreview.png";
-
             return root.screenPreview === "" ? "qrc:/qml/ScreenPlayApp/assets/images/missingPreview.png" : Qt.resolvedUrl(absoluteStoragePath + "/" + root.sourceImage);
         }
         onStatusChanged: {
@@ -57,7 +55,6 @@ Item {
             source: root.sourceImageGIF === "" ? "qrc:/qml/ScreenPlayApp/assets/images/missingPreview.png" : Qt.resolvedUrl(absoluteStoragePath + "/" + root.sourceImageGIF)
             fillMode: Image.PreserveAspectCrop
         }
-
     }
 
     Loader {
@@ -79,7 +76,6 @@ Item {
                 to: 1
                 easing.type: Easing.OutQuart
             }
-
         },
         Transition {
             from: "hover"
@@ -92,7 +88,6 @@ Item {
                 to: 0
                 easing.type: Easing.OutQuart
             }
-
         },
         Transition {
             from: "loaded"
@@ -106,7 +101,6 @@ Item {
                 to: 1
                 easing.type: Easing.OutQuart
             }
-
         }
     ]
 }

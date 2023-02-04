@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include <QApplication>
 #include <QDebug>
 #include <QFile>
 #include <QFileSystemWatcher>

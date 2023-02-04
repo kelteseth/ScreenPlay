@@ -16,8 +16,8 @@ Item {
     property bool canSave: false
     property string filePath
 
-    signal exit()
-    signal save()
+    signal exit
+    signal save
 
     function basename(str) {
         let filenameWithExtentions = (str.slice(str.lastIndexOf("/") + 1));
@@ -91,10 +91,8 @@ Item {
             var percentage = Math.floor(progress * 100);
             if (percentage > 100 || progress > 0.95)
                 percentage = 100;
-
             if (percentage === NaN)
                 print(progress, percentage);
-
             txtConvertNumber.text = percentage + "%";
         }
 
@@ -112,7 +110,6 @@ Item {
             margins: 40
             bottomMargin: 0
         }
-
     }
 
     Item {
@@ -182,9 +179,7 @@ Item {
                         position: 1
                         color: "#00000000"
                     }
-
                 }
-
             }
 
             BusyIndicator {
@@ -206,7 +201,6 @@ Item {
                     bottom: parent.bottom
                     bottomMargin: 40
                 }
-
             }
 
             Text {
@@ -222,9 +216,7 @@ Item {
                     bottom: parent.bottom
                     bottomMargin: 20
                 }
-
             }
-
         }
 
         Util.ImageSelector {
@@ -238,9 +230,7 @@ Item {
                 left: parent.left
                 bottom: parent.bottom
             }
-
         }
-
     }
 
     Item {
@@ -306,7 +296,6 @@ Item {
                 width: parent.width
                 Layout.fillWidth: true
             }
-
         }
 
         Row {
@@ -352,9 +341,7 @@ Item {
                     }
                 }
             }
-
         }
-
     }
 
     Popup {
@@ -391,7 +378,5 @@ Item {
                 root.exit();
             }
         }
-
     }
-
 }

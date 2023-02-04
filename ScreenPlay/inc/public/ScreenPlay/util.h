@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include <QApplication>
 #include <QClipboard>
 #include <QCoreApplication>
 #include <QDateTime>
@@ -31,8 +30,8 @@
 #include <optional>
 
 namespace QArchive {
-    class DiskCompressor;
-    class DiskExtractor;
+class DiskCompressor;
+class DiskExtractor;
 }
 
 namespace ScreenPlay {
@@ -84,7 +83,7 @@ public slots:
     QString toLocal(const QString& url) const;
     bool exportProject(QString contentPath, QString exportFileName);
     bool importProject(QString archivePath, QString extractionPath);
-    void requestAllLicenses() ;
+    void requestAllLicenses();
     void requestDataProtection();
     bool fileExists(const QString& filePath) const;
 
@@ -120,7 +119,6 @@ public slots:
         m_debugMessages += debugMessages;
         emit debugMessagesChanged(m_debugMessages);
     }
-
 
 private:
     QString m_debugMessages {};

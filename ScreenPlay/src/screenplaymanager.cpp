@@ -1,10 +1,9 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
 #include "ScreenPlay/screenplaymanager.h"
+#include "ScreenPlay/util.h"
+
 #include <QScopeGuard>
-
-#include "util.h"
-
 namespace ScreenPlay {
 
 /*!
@@ -738,3 +737,5 @@ void ScreenPlayManager::setIsKDEConnected(bool isKDEConnected)
 }
 
 }
+
+#include "moc_screenplaymanager.cpp"

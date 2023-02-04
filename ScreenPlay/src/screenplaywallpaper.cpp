@@ -149,18 +149,19 @@ void ScreenPlayWallpaper::close()
         return;
     }
 
-    if (m_connection->close()) {
-        m_isExiting = true;
+    if (!m_connection->close()) {
+        qCritical() << "Cannot close wallpaper!";
+        return;
     }
+    m_isExiting = true;
 }
 /*!
     \brief Prints the exit code if != 0.
 */
 void ScreenPlayWallpaper::processExit(int exitCode, QProcess::ExitStatus exitStatus)
 {
-    Q_UNUSED(exitStatus)
     if (exitCode != 0)
-        qWarning() << "WARNING EXIT CODE: " << exitCode;
+        qWarning() << "WARNING EXIT CODE: " << exitCode << exitStatus;
 }
 
 /*!
@@ -281,3 +282,5 @@ bool ScreenPlayWallpaper::replace(
 }
 
 }
+
+#include "moc_screenplaywallpaper.cpp"

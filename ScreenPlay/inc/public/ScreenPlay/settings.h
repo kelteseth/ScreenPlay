@@ -2,11 +2,14 @@
 
 #pragma once
 
-#include <QApplication>
 #include <QDebug>
 #include <QDir>
+#include <QDomDocument>
+#include <QDomElement>
+#include <QDomNodeList>
 #include <QFile>
 #include <QFontDatabase>
+#include <QGuiApplication>
 #include <QIODevice>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -184,6 +187,76 @@ public slots:
             const QString homePath = QDir::homePath();
             QFile settingsPlist(homePath + "/Library/LaunchAgents/" + plistFileName);
             if (settingsPlist.exists()) {
+                QDomDocument doc;
+                if (!doc.setContent(&settingsPlist)) {
+                    settingsPlist.close();
+                    return;
+                }
+                settingsPlist.close();
+
+                QDomElement root = doc.firstChildElement();
+                QDomNodeList dictList = root.elementsByTagName("dict");
+                if (dictList.size() > 1 && dictList.size() < 1) {
+                    return;
+                }
+
+                // Check if autostart and corresponding path is set and abort if so. This is needed since osx 13.0 Ventura
+                // because it displays an annoying message every time we change the file.
+                bool isCorrectPath = false;
+                bool isAutostartEnabled = false;
+                QDomNode dictNode = dictList.at(0);
+                if (dictNode.isElement()) {
+                    QDomElement dictElement = dictNode.toElement();
+                    QDomNodeList keyList = dictElement.elementsByTagName("key");
+                    for (int j = 0; j < keyList.size(); j++) {
+                        QDomNode keyNode = keyList.at(j);
+                        if (keyNode.isElement()) {
+                            QDomElement keyElement = keyNode.toElement();
+                            if (keyElement.text() == "ProgramArguments") {
+                                QDomNode valueNode = keyNode.nextSibling();
+                                if (valueNode.isElement()) {
+                                    QDomElement valueElement = valueNode.toElement();
+                                    QDomNodeList stringList = valueElement.elementsByTagName("string");
+                                    if (!stringList.isEmpty()) {
+                                        QDomNode stringNode = stringList.at(0);
+                                        if (stringNode.isElement()) {
+                                            QDomElement stringElement = stringNode.toElement();
+                                            const QString path = stringElement.text();
+                                            if (path == screenPlayPath) {
+                                                isCorrectPath = true;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (dictNode.isElement()) {
+                    QDomElement dictElement = dictNode.toElement();
+                    QDomNodeList keyList = dictElement.elementsByTagName("key");
+                    for (int j = 0; j < keyList.size(); j++) {
+                        QDomNode keyNode = keyList.at(j);
+                        if (keyNode.isElement()) {
+                            QDomElement keyElement = keyNode.toElement();
+                            if (keyElement.text() == "RunAtLoad") {
+                                QDomNode valueNode = keyNode.nextSibling();
+                                if (valueNode.isElement()) {
+                                    QDomElement valueElement = valueNode.toElement();
+                                    if (valueElement.tagName() == "true") {
+                                        isAutostartEnabled = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Nothing to do. Autostart has the same value and the path is also correct.
+                if (isAutostartEnabled == autostart && isCorrectPath)
+                    return;
+
                 if (!settingsPlist.remove()) {
                     qCritical() << "Unable to remove: " << settingsPlist.fileName();
                 }

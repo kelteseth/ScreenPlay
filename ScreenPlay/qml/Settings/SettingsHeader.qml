@@ -28,7 +28,6 @@ Item {
             right: parent.right
             left: parent.left
         }
-
     }
 
     Rectangle {
@@ -63,7 +62,6 @@ Item {
                     left: parent.left
                     leftMargin: 0
                 }
-
             }
 
             ColorOverlay {
@@ -89,11 +87,8 @@ Item {
                     left: parent.left
                     leftMargin: 30
                 }
-
             }
-
         }
-
     }
 
     states: [
@@ -111,7 +106,6 @@ Item {
                 anchors.topMargin: 10
                 opacity: 0
             }
-
         },
         State {
             name: "in"
@@ -127,7 +121,6 @@ Item {
                 anchors.topMargin: 2
                 opacity: 1
             }
-
         }
     ]
     transitions: [
@@ -142,7 +135,6 @@ Item {
                 duration: 400
                 easing.type: Easing.InOutQuart
             }
-
         }
     ]
 }

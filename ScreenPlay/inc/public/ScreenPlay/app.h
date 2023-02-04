@@ -87,105 +87,19 @@ public slots:
     QString version() const;
     void showDockIcon(const bool show);
     void exit();
-
     QPointF cursorPos() { return QCursor::pos(); }
 
-    void setGlobalVariables(GlobalVariables* globalVariables)
-    {
-        if (m_globalVariables.get() == globalVariables)
-            return;
-
-        m_globalVariables.reset(globalVariables);
-        emit globalVariablesChanged(m_globalVariables.get());
-    }
-    void setScreenPlayManager(ScreenPlayManager* screenPlayManager)
-    {
-        if (m_screenPlayManager.get() == screenPlayManager)
-            return;
-
-        m_screenPlayManager.reset(screenPlayManager);
-        emit screenPlayManagerChanged(m_screenPlayManager.get());
-    }
-
-    void setCreate(Create* create)
-    {
-        if (m_create.get() == create)
-            return;
-
-        m_create.reset(create);
-        emit createChanged(m_create.get());
-    }
-
-    void setUtil(Util* util)
-    {
-        if (m_util.get() == util)
-            return;
-
-        m_util.reset(util);
-        emit utilChanged(m_util.get());
-    }
-
-    void setSettings(Settings* settings)
-    {
-        if (m_settings.get() == settings)
-            return;
-
-        m_settings.reset(settings);
-        emit settingsChanged(m_settings.get());
-    }
-
-    void setInstalledListModel(InstalledListModel* installedListModel)
-    {
-        if (m_installedListModel.get() == installedListModel)
-            return;
-
-        m_installedListModel.reset(installedListModel);
-        emit installedListModelChanged(m_installedListModel.get());
-    }
-    void setMonitorListModel(MonitorListModel* monitorListModel)
-    {
-        if (m_monitorListModel.get() == monitorListModel)
-            return;
-
-        m_monitorListModel.reset(monitorListModel);
-        emit monitorListModelChanged(m_monitorListModel.get());
-    }
-
-    void setProfileListModel(ProfileListModel* profileListModel)
-    {
-        if (m_profileListModel.get() == profileListModel)
-            return;
-
-        m_profileListModel.reset(profileListModel);
-        emit profileListModelChanged(m_profileListModel.get());
-    }
-
-    void setInstalledListFilter(InstalledListFilter* installedListFilter)
-    {
-        if (m_installedListFilter.get() == installedListFilter)
-            return;
-
-        m_installedListFilter.reset(installedListFilter);
-        emit installedListFilterChanged(m_installedListFilter.get());
-    }
-
-    void setMainWindowEngine(QQmlApplicationEngine* mainWindowEngine)
-    {
-        if (m_mainWindowEngine.get() == mainWindowEngine)
-            return;
-
-        m_mainWindowEngine.reset(mainWindowEngine);
-        emit mainWindowEngineChanged(m_mainWindowEngine.get());
-    }
-
-    void setWizards(Wizards* wizards)
-    {
-        if (m_wizards.get() == wizards)
-            return;
-
-        m_wizards.reset(wizards);
-        emit wizardsChanged(m_wizards.get());
-    }
+    void setGlobalVariables(GlobalVariables* globalVariables);
+    void setScreenPlayManager(ScreenPlayManager* screenPlayManager);
+    void setCreate(Create* create);
+    void setUtil(Util* util);
+    void setSettings(Settings* settings);
+    void setInstalledListModel(InstalledListModel* installedListModel);
+    void setMonitorListModel(MonitorListModel* monitorListModel);
+    void setProfileListModel(ProfileListModel* profileListModel);
+    void setInstalledListFilter(InstalledListFilter* installedListFilter);
+    void setMainWindowEngine(QQmlApplicationEngine* mainWindowEngine);
+    void setWizards(Wizards* wizards);
 
 private:
     bool setupKDE();

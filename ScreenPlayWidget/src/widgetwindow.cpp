@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "widgetwindow.h"
 
-#include <QCoreApplication>
+#include <QGuiApplication>
 #include <QSysInfo>
 
 #include "ScreenPlayUtil/contenttypes.h"
@@ -40,10 +40,10 @@ WidgetWindow::WidgetWindow(
         "Error: only enums");
 
     Qt::WindowFlags flags = m_window.flags();
-    if(QSysInfo::productType() == "macos") {
+    if (QSysInfo::productType() == "macos") {
         // Setting it as a SlashScreen causes the window to hide on focus lost
-        m_window.setFlags(flags | Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint );
-    } else if(QSysInfo::productType() == "windows") {
+        m_window.setFlags(flags | Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint);
+    } else if (QSysInfo::productType() == "windows") {
         // Must be splash screen to not show up in the taskbar
         m_window.setFlags(flags | Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint | Qt::BypassWindowManagerHint | Qt::SplashScreen);
     }
@@ -76,8 +76,8 @@ WidgetWindow::WidgetWindow(
             qWarning() << "Cannot parse Wallpaper type from value" << m_project.value("type");
         }
     }
-
-    m_window.engine()->addImportPath(qGuiApp->applicationDirPath() + "/qml");
+    auto* guiAppInst = dynamic_cast<QGuiApplication*>(QGuiApplication::instance());
+    m_window.engine()->addImportPath(guiAppInst->applicationDirPath() + "/qml");
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
     m_window.setResizeMode(QQuickView::ResizeMode::SizeViewToRootObject);
     m_window.setSource(QUrl("qrc:/qml/ScreenPlayWidget/qml/Widget.qml"));
@@ -221,3 +221,4 @@ void WidgetWindow::setupLiveReloading()
     m_fileSystemWatcher.addPaths({ projectPath() });
 }
 
+#include "moc_widgetwindow.cpp"

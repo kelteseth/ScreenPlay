@@ -2,7 +2,7 @@
 $ErrorActionPreference = 'Stop';
 $toolsDir   = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
 $url        = ''
-$url64      = 'https://kelteseth.com/releases/0.15.0-RC3/ScreenPlay-0.15.0-RC3-x64-windows-release.zip' 
+$url64      = 'https://kelteseth.com/releases/0.15.0-RC5/ScreenPlay-0.15.0-RC5-x64-windows-release.zip' 
 
 $packageArgs = @{
   packageName   = $env:ChocolateyPackageName

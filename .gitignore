@@ -258,3 +258,4 @@ cython_debug/
 /Tools/Steam/ContentBuilder/builder_osx/**
 /tmp_steam_config/**
 /Tools/Steam/ContentBuilder/output/**
+/.vscode/settings.json

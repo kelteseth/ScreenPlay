@@ -33,7 +33,8 @@ Item {
         }
     }
 
-    Util.MouseHoverBlocker {}
+    Util.MouseHoverBlocker {
+    }
 
     Item {
         height: nav.height
@@ -47,7 +48,8 @@ Item {
         TabBar {
             height: parent.height
 
-            background: Item {}
+            background: Item {
+            }
             anchors {
                 top: parent.top
                 topMargin: 5
@@ -56,21 +58,12 @@ Item {
                 bottom: parent.bottom
             }
 
-            component CustomTabButton: TabButton {
-                icon.height: 16
-                icon.width: 16
-                height: parent.height
-                width: implicitWidth
-                background: Item {}
-                font.capitalization: Font.MixedCase
-            }
-
             CustomTabButton {
                 text: qsTr("All")
                 icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_installed.svg"
                 onClicked: {
-                    setSidebarActive(false)
-                    App.installedListFilter.sortBySearchType(SearchType.All)
+                    setSidebarActive(false);
+                    App.installedListFilter.sortBySearchType(SearchType.All);
                 }
             }
 
@@ -78,8 +71,8 @@ Item {
                 text: qsTr("Scenes")
                 icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_code.svg"
                 onClicked: {
-                    setSidebarActive(false)
-                    App.installedListFilter.sortBySearchType(SearchType.Scene)
+                    setSidebarActive(false);
+                    App.installedListFilter.sortBySearchType(SearchType.Scene);
                 }
             }
 
@@ -87,9 +80,8 @@ Item {
                 text: qsTr("Videos")
                 icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_movie.svg"
                 onClicked: {
-                    setSidebarActive(false)
-                    App.installedListFilter.sortBySearchType(
-                                SearchType.Wallpaper)
+                    setSidebarActive(false);
+                    App.installedListFilter.sortBySearchType(SearchType.Wallpaper);
                 }
             }
 
@@ -97,8 +89,8 @@ Item {
                 text: qsTr("Widgets")
                 icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_widgets.svg"
                 onClicked: {
-                    setSidebarActive(false)
-                    App.installedListFilter.sortBySearchType(SearchType.Widget)
+                    setSidebarActive(false);
+                    App.installedListFilter.sortBySearchType(SearchType.Widget);
                 }
             }
         }
@@ -127,10 +119,8 @@ Item {
             ToolTip.visible: hovered
             ToolTip.text: (btnSortOrder.sortOrder === Qt.AscendingOrder) ? "Install Date Ascending" : "Install Date Descending"
             onClicked: {
-                btnSortOrder.sortOrder
-                        = (btnSortOrder.sortOrder
-                           === Qt.DescendingOrder) ? Qt.AscendingOrder : Qt.DescendingOrder
-                App.installedListFilter.setSortOrder(btnSortOrder.sortOrder)
+                btnSortOrder.sortOrder = (btnSortOrder.sortOrder === Qt.DescendingOrder) ? Qt.AscendingOrder : Qt.DescendingOrder;
+                App.installedListFilter.setSortOrder(btnSortOrder.sortOrder);
             }
 
             anchors {
@@ -140,6 +130,16 @@ Item {
                 verticalCenter: parent.verticalCenter
             }
         }
+    }
+
+    component CustomTabButton: TabButton {
+        icon.height: 16
+        icon.width: 16
+        height: parent.height
+        width: implicitWidth
+        background: Item {
+        }
+        font.capitalization: Font.MixedCase
     }
 
     states: [

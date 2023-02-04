@@ -1,8 +1,7 @@
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Layouts 
+import QtQuick.Layouts
 import QtQuick.Controls.Material
-import QtQuick.Particles
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
 import ScreenPlayApp
@@ -49,9 +48,7 @@ Item {
                     position: 1
                     color: "#00000000"
                 }
-
             }
-
         }
 
         Text {
@@ -68,7 +65,6 @@ Item {
                 margins: 15
                 bottomMargin: 5
             }
-
         }
 
         Text {
@@ -85,7 +81,6 @@ Item {
                 bottom: parent.bottom
                 margins: 15
             }
-
         }
 
         Rectangle {
@@ -109,9 +104,7 @@ Item {
                     fill: parent
                     margins: 5
                 }
-
             }
-
         }
 
         MouseArea {
@@ -126,7 +119,6 @@ Item {
         layer.effect: ElevationEffect {
             elevation: 4
         }
-
     }
 
     transitions: [
@@ -140,7 +132,6 @@ Item {
                 from: 1
                 to: 1.05
             }
-
         },
         Transition {
             from: "hover"
@@ -152,7 +143,6 @@ Item {
                 from: 1.05
                 to: 1
             }
-
         }
     ]
 }

@@ -204,3 +204,5 @@ QHash<int, QByteArray> ProjectSettingsListModel::roleNames() const
 }
 
 }
+
+#include "moc_projectsettingslistmodel.cpp"

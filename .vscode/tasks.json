@@ -1,17 +1,137 @@
 {
-	"version": "2.0.0",
-	"tasks": [
-		{
-			"type": "cmake",
-			"label": "CMake: build",
-			"command": "build",
-			"targets": [
-				"all"
-			],
-			"preset": "${command:cmake.activeBuildPresetName}",
-			"group": "build",
-			"problemMatcher": [],
-			"detail": "CMake template build task"
-		}
-	]
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "cmake",
+            "label": "CMake: build",
+            "command": "build",
+            "targets": [
+                "all"
+            ],
+            "preset": "${command:cmake.activeBuildPresetName}",
+            "group": "build",
+            "problemMatcher": [],
+            "detail": "CMake template build task"
+        },
+        {
+            "type": "process",
+            "label": "Format Cpp files",
+            "command": "python3",
+            "windows": {
+                "command": "python"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/Tools"
+            },
+            "args": [
+                "clang_format.py"
+            ]
+        },
+        {
+            "type": "process",
+            "label": "Format CMake files",
+            "command": "python3",
+            "windows": {
+                "command": "python"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/Tools"
+            },
+            "args": [
+                "cmake_format.py"
+            ]
+        },
+        {
+            "type": "process",
+            "label": "Format Qml files",
+            "command": "python3",
+            "windows": {
+                "command": "python"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/Tools"
+            },
+            "args": [
+                "qml_format.py"
+            ]
+        },
+        {
+            "type": "process",
+            "label": "Run setup.py",
+            "command": "python3",
+            "windows": {
+                "command": "python"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/Tools"
+            },
+            "args": [
+                "setup.py"
+            ]
+        },
+        {
+            "type": "process",
+            "label": "Export ScreenPlay release, with deploy and steam enabled",
+            "command": "python3",
+            "windows": {
+                "command": "python"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/Tools"
+            },
+            "osx": {
+                "args": [
+                    "build.py",
+                    "-type=release",
+                    "-deploy-version",
+                    "-steam",
+                    "-architecture=arm64"
+                ]
+            },
+            "args": [
+                "build.py",
+                "-type=release",
+                "-deploy-version",
+                "-steam"
+            ]
+        },
+        {
+            "type": "process",
+            "label": "Update Qt *.ts translations",
+            "command": "python3",
+            "windows": {
+                "command": "python"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/Tools"
+            },
+            "args": [
+                "update_translations.py"
+            ]
+        }
+    ]
 }

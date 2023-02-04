@@ -54,8 +54,7 @@ Popup {
             horizontalAlignment: Text.AlignHCenter
             Layout.alignment: Qt.AlignHCenter
             color: Material.secondaryTextColor
-            text: qsTr("Steam Error Restart: %1\nSteam Error API Init: %2").arg(
-                      steam.steamErrorRestart).arg(root.steam.steamErrorAPIInit)
+            text: qsTr("Steam Error Restart: %1\nSteam Error API Init: %2").arg(steam.steamErrorRestart).arg(root.steam.steamErrorAPIInit)
         }
 
         Button {
@@ -63,8 +62,8 @@ Popup {
             text: qsTr("Back")
             Layout.alignment: Qt.AlignHCenter
             onClicked: {
-                root.close()
-                App.util.setNavigation("Installed")
+                root.close();
+                App.util.setNavigation("Installed");
             }
         }
         Item {

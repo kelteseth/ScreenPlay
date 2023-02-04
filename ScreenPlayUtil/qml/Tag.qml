@@ -51,7 +51,6 @@ Item {
             font.pointSize: 14
             font.family: App.settings.font
         }
-
     }
 
     MouseArea {
@@ -76,7 +75,6 @@ Item {
             anchors.fill: parent
             source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_close.svg"
         }
-
     }
 
     states: [
@@ -93,7 +91,6 @@ Item {
                 opacity: 1
                 enabled: true
             }
-
         }
     ]
 }

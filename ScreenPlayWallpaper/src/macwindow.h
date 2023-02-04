@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include <QApplication>
 #include <QDebug>
 #include <QObject>
 #include <QQmlContext>
@@ -19,21 +18,14 @@
 class MacWindow : public BaseWindow {
     Q_OBJECT
 public:
-    explicit MacWindow(const QVector<int>& activeScreensList,
-        const QString& projectFilePath,
-        const QString& appID,
-        const QString& volume,
-        const QString& fillmode,
-        const QString& type,
-        const bool checkWallpaperVisible,
-        const bool debugMode);
+    ScreenPlay::WallpaperExitCode start() override;
 
 signals:
 
 public slots:
     void setVisible(bool show) override;
     void destroyThis() override;
-    void terminate();
+    void terminate() override;
     void clearComponentCache() override;
 
 private:

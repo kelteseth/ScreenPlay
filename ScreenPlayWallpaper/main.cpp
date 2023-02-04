@@ -1,17 +1,19 @@
-#include <QApplication>
+
+#include <QGuiApplication>
 #include <QObject>
 #include <QStringList>
 #include <QVector>
 #include <QtGlobal>
 #include <QtWebEngineQuick>
 
+#include "ScreenPlayUtil/exitcodes.h"
 #include "ScreenPlayUtil/util.h"
 
 #if defined(Q_OS_WIN)
 #include "src/winwindow.h"
 Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoPlugin)
 #elif defined(Q_OS_LINUX)
-#include "src/linuxwindow.h"
+#include "src/linuxx11window.h"
 #elif defined(Q_OS_OSX)
 #include "src/macwindow.h"
 #endif
@@ -20,13 +22,23 @@ Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherPlugin)
 
 int main(int argc, char* argv[])
 {
-    QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
+
+#if !defined(Q_OS_LINUX)
+    qputenv("QT_MEDIA_BACKEND", "windows");
+#endif
+
+    QGuiApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
     QtWebEngineQuick::initialize();
 
-    QApplication app(argc, argv);
+    QGuiApplication app(argc, argv);
 
-    // This gives us nice clickable output in QtCreator
-    qSetMessagePattern("%{if-category}%{category}: %{endif}%{message}\n   Loc: [%{file}:%{line}]");
+#if defined(Q_OS_WIN)
+    WinWindow window;
+#elif defined(Q_OS_LINUX)
+    LinuxX11Window window;
+#elif defined(Q_OS_OSX)
+    MacWindow window;
+#endif
 
     // If we start with only one argument (app path)
     // It means we want to test a single wallpaper
@@ -34,74 +46,73 @@ int main(int argc, char* argv[])
 
     // For testing purposes when starting the ScreenPlayWallpaper directly.
     if (argumentList.length() == 1) {
-#if defined(Q_OS_WIN)
-        // WinWindow window1({ 0 }, "test", "appID=test", "1", "fill", "videoWallpaper", true, true);
-        WinWindow window1({ 1 }, "C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/26092021185017", "appID=test", "1", "fill", "videoWallpaper", true, true);
-#elif defined(Q_OS_LINUX)
-        LinuxWindow window({ 0 }, "test", "appID=test", "1", "fill", "videoWallpaper", false, true);
-#elif defined(Q_OS_OSX)
-        MacWindow window({ 0 }, "test", "appID=test", "1", "fill", "videoWallpaper", true, true);
-#endif
-        return app.exec();
+        window.setActiveScreensList({ 0 });
+        window.setProjectPath("test");
+        window.setAppID("test");
+        window.setVolume(1);
+        window.setFillMode("fill");
+        window.setType(ScreenPlay::InstalledType::InstalledType::VideoWallpaper);
+        window.setCheckWallpaperVisible(true);
+        window.setDebugMode(true);
+    } else {
+        // 8 parameter + 1 OS working directory as the first default paramter
+        if (argumentList.length() != 9) {
+            return static_cast<int>(ScreenPlay::WallpaperExitCode::Invalid_ArgumentSize);
+        }
+
+        const auto activeScreensList = ScreenPlayUtil::parseStringToIntegerList(argumentList.at(1));
+
+        if (!activeScreensList.has_value()) {
+            qCritical("Could not activeScreensList");
+            return static_cast<int>(ScreenPlay::WallpaperExitCode::Invalid_ActiveScreensList);
+        }
+
+        auto installedType = ScreenPlay::InstalledType::InstalledType::Unknown;
+        if (auto typeOpt = ScreenPlayUtil::getInstalledTypeFromString(argumentList.at(6))) {
+            installedType = typeOpt.value();
+        } else {
+            qCritical() << "Cannot parse Wallpaper type from value" << argumentList.at(6);
+            return static_cast<int>(ScreenPlay::WallpaperExitCode::Invalid_InstalledType);
+        }
+
+        bool okParseCheckWallpaperVisible = false;
+        const bool checkWallpaperVisible = argumentList.at(7).toInt(&okParseCheckWallpaperVisible);
+        if (!okParseCheckWallpaperVisible) {
+            qCritical("Could not parse checkWallpaperVisible");
+            return static_cast<int>(ScreenPlay::WallpaperExitCode::Invalid_CheckWallpaperVisible);
+        }
+        bool okParseVolume = 0.0f;
+        const float volume = argumentList.at(4).toFloat(&okParseVolume);
+        if (!okParseVolume) {
+            qCritical("Could not parse Volume");
+            return static_cast<int>(ScreenPlay::WallpaperExitCode::Invalid_Volume);
+        }
+
+        QString appID = argumentList.at(3);
+        if (!appID.startsWith("appID=")) {
+            qCritical("Invalid appID");
+            return static_cast<int>(ScreenPlay::WallpaperExitCode::Invalid_AppID);
+        }
+        appID = appID.remove("appID=");
+
+        window.setActiveScreensList(activeScreensList.value());
+        window.setProjectPath(argumentList.at(2));
+        window.setAppID(appID);
+        window.setVolume(volume);
+        window.setFillMode(argumentList.at(5));
+        window.setType(installedType);
+        window.setCheckWallpaperVisible(checkWallpaperVisible);
+        window.setDebugMode(false);
     }
 
-    // 8 parameter + 1 OS working directory as the first default paramter
-    if (argumentList.length() != 9) {
-        return -3;
+    const auto setupStatus = window.setup();
+    if (setupStatus != ScreenPlay::WallpaperExitCode::Ok) {
+        return static_cast<int>(setupStatus);
     }
-
-    const bool debugMode = false;
-
-    const auto activeScreensList = ScreenPlayUtil::parseStringToIntegerList(argumentList.at(1));
-
-    if (!activeScreensList.has_value())
-        return -4;
-
-    // See ScreenPlayWallpaper m_appArgumentsList constructor how the args get created
-    const QString projectFilePath = argumentList.at(2);
-    const QString appID = argumentList.at(3);
-    const QString volume = argumentList.at(4);
-    const QString fillmode = argumentList.at(5);
-    const QString type = argumentList.at(6);
-
-    bool okParseCheckWallpaperVisible = false;
-    bool checkWallpaperVisible = argumentList.at(7).toInt(&okParseCheckWallpaperVisible);
-    if (!okParseCheckWallpaperVisible) {
-        qFatal("Could not parse checkWallpaperVisible");
-        return -5;
+    const auto startStatus = window.start();
+    if (startStatus != ScreenPlay::WallpaperExitCode::Ok) {
+        return static_cast<int>(startStatus);
     }
-
-#if defined(Q_OS_WIN)
-    WinWindow window(
-        activeScreensList.value(),
-        projectFilePath,
-        appID,
-        volume,
-        fillmode,
-        type,
-        checkWallpaperVisible,
-        debugMode);
-#elif defined(Q_OS_LINUX)
-    LinuxWindow window(
-        activeScreensList.value(),
-        projectFilePath,
-        appID,
-        volume,
-        fillmode,
-        type,
-        checkWallpaperVisible,
-        debugMode);
-#elif defined(Q_OS_OSX)
-    MacWindow window(
-        activeScreensList.value(),
-        projectFilePath,
-        appID,
-        volume,
-        fillmode,
-        type,
-        checkWallpaperVisible,
-        debugMode);
-#endif
-
+    emit window.qmlStart();
     return app.exec();
 }

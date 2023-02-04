@@ -1,5 +1,6 @@
 import QtQuick
-import Qt.labs.settings 1.0 as Labs
+import QtQml
+import QtCore as QCore
 import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Controls.Material
@@ -9,7 +10,6 @@ import ScreenPlay
 import ScreenPlayUtil as Util
 import Qt5Compat.GraphicalEffects
 
-
 /*!
    \qmltype exitDialog
    \brief exitDialog
@@ -18,12 +18,11 @@ import Qt5Compat.GraphicalEffects
 Util.Popup {
     id: root
     property ApplicationWindow applicationWindow
-    contentHeight: 400
-    contentWidth: 600
-    contentItem: Item {
+    contentItem: Pane  {
+        background: Item{}
+        padding:20
+        bottomPadding: 10
         ColumnLayout {
-            anchors.margins: 20
-            anchors.fill: parent
             spacing: 20
 
             Text {
@@ -39,17 +38,25 @@ Util.Popup {
 
             Image {
                 Layout.alignment: Qt.AlignHCenter
-                source: "qrc:/qml/ScreenPlayApp/assets/images/trayIcon_windows.png"
+                source: {
+                    if (Qt.platform.os === "windows") {
+                        return "qrc:/qml/ScreenPlayApp/assets/images/trayIcon_windows.png"
+                    }
+                    if (Qt.platform.os === "osx") {
+                        return "qrc:/qml/ScreenPlayApp/assets/images/trayIcon_osx.png"
+                    }
+                }
+                
                 fillMode: Image.PreserveAspectFit
             }
 
             Text {
                 text: {
                     if (Qt.platform.os === "windows") {
-                        return qsTr("You can <b>quit</b> ScreenPlay via the bottom right Tray-Icon.")
+                        return qsTr("You can <b>quit</b> ScreenPlay via the bottom right Tray-Icon.");
                     }
                     if (Qt.platform.os === "osx") {
-                        return qsTr("You can <b>quit</b> ScreenPlay via the top right Tray-Icon.")
+                        return qsTr("You can <b>quit</b> ScreenPlay via the top right Tray-Icon.");
                     }
                 }
 
@@ -62,33 +69,35 @@ Util.Popup {
                 color: Material.primaryTextColor
             }
 
-            Labs.Settings {
+            QCore.Settings {
                 id: settings
             }
+
             RowLayout {
                 Layout.alignment: Qt.AlignHCenter
                 Layout.fillWidth: true
                 Button {
                     text: qsTr("Quit ScreenPlay now")
-                    onClicked: Qt.quit()
+                    onClicked:  App.exit();
                 }
                 Button {
                     text: qsTr("Minimize ScreenPlay")
                     onClicked: {
-                        applicationWindow.hide()
-                        App.showDockIcon(false)
-                        root.close()
+                        applicationWindow.hide();
+                        App.showDockIcon(false);
+                        root.close();
                     }
                 }
                 Button {
                     highlighted: true
                     text: qsTr("Always minimize ScreenPlay")
                     onClicked: {
-                        settings.setValue("alwaysMinimize", true)
-                        settings.sync()
-                        App.showDockIcon(false)
-                        applicationWindow.hide()
-                        root.close()
+                        settings.setValue("alwaysMinimize", true);
+                        settings.sync();
+                        print(settings.value("alwaysMinimize"))
+                        App.showDockIcon(false);
+                        applicationWindow.hide();
+                        root.close();
                     }
                 }
             }

@@ -6,7 +6,6 @@ import Qt5Compat.GraphicalEffects
 import ScreenPlayApp
 import ScreenPlay
 
-
 Item {
     id: root
 
@@ -23,7 +22,7 @@ Item {
         }
 
         RowLayout {
-            anchors{
+            anchors {
                 fill: parent
                 rightMargin: 20
                 leftMargin: 20
@@ -49,5 +48,4 @@ Item {
             }
         }
     }
-
 }

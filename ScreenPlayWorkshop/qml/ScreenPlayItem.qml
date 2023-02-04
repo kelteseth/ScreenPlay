@@ -8,15 +8,14 @@ Item {
     property alias checkBox: checkBox
     property string preview: screenPreview
     property bool isSelected: false
-    property string customTitle: "name here"
     property string absoluteStoragePath
     property string type
     property bool hasMenuOpen: false
     property var publishedFileID: 0
     property int itemIndex
-    property string screenId: ""
+    property string folderName
 
-    signal itemClicked(var screenId, var type, var isActive)
+    signal itemClicked(var folderName, var type, var isActive)
 
     width: 320
     height: 180
@@ -44,7 +43,6 @@ Item {
                 y: 0
                 z: 0
             }
-
         },
         Translate {
             id: tr
@@ -106,7 +104,6 @@ Item {
             easing.type: Easing.OutQuint
             properties: "xScale,yScale"
         }
-
     }
 
     RectangularGlow {
@@ -125,7 +122,6 @@ Item {
             top: parent.top
             topMargin: 3
         }
-
     }
 
     Item {
@@ -171,7 +167,6 @@ Item {
                     left: parent.left
                     margins: 10
                 }
-
             }
 
             Rectangle {
@@ -184,9 +179,7 @@ Item {
                     left: parent.left
                     bottom: parent.bottom
                 }
-
             }
-
         }
 
         OpacityMask {
@@ -202,21 +195,17 @@ Item {
                 onEntered: {
                     if (!hasMenuOpen)
                         screenPlayItem.state = "hover";
-
                 }
                 onExited: {
                     if (!hasMenuOpen)
                         screenPlayItem.state = "visible";
-
                 }
                 onClicked: {
                     checkBox.toggle();
                     if (mouse.button === Qt.LeftButton)
                         itemClicked(screenId, type, checkBox.checkState === Qt.Checked);
-
                 }
             }
-
         }
 
         CheckBox {
@@ -234,9 +223,7 @@ Item {
                 right: parent.right
                 margins: 10
             }
-
         }
-
     }
 
     states: [
@@ -253,7 +240,6 @@ Item {
                 target: effect
                 opacity: 0
             }
-
         },
         State {
             name: "visible"
@@ -279,7 +265,6 @@ Item {
                 target: icnType
                 opacity: 0
             }
-
         },
         State {
             name: "selected"
@@ -294,7 +279,6 @@ Item {
                 target: icnType
                 opacity: 0.5
             }
-
         }
     ]
     transitions: [
@@ -312,7 +296,6 @@ Item {
                 property: "opacity"
                 duration: 80
             }
-
         }
     ]
 }

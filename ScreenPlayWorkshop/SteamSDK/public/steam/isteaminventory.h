@@ -364,9 +364,9 @@ STEAM_DEFINE_GAMESERVER_INTERFACE_ACCESSOR(ISteamInventory*, SteamGameServerInve
 // results transition from "Pending" to "OK" or an error state. There will
 // always be exactly one callback per handle.
 struct SteamInventoryResultReady_t {
-    enum { k_iCallback = k_iSteamInventoryCallbacks + 0 };
-    SteamInventoryResult_t m_handle;
-    EResult m_result;
+        enum { k_iCallback = k_iSteamInventoryCallbacks + 0 };
+        SteamInventoryResult_t m_handle;
+        EResult m_result;
 };
 
 // SteamInventoryFullUpdate_t callbacks are triggered when GetAllItems
@@ -377,8 +377,8 @@ struct SteamInventoryResultReady_t {
 // The normal ResultReady callback will still be triggered immediately
 // afterwards; this is an additional notification for your convenience.
 struct SteamInventoryFullUpdate_t {
-    enum { k_iCallback = k_iSteamInventoryCallbacks + 1 };
-    SteamInventoryResult_t m_handle;
+        enum { k_iCallback = k_iSteamInventoryCallbacks + 1 };
+        SteamInventoryResult_t m_handle;
 };
 
 // A SteamInventoryDefinitionUpdate_t callback is triggered whenever
@@ -386,31 +386,31 @@ struct SteamInventoryFullUpdate_t {
 // LoadItemDefinitions() or any other async request which required
 // a definition update in order to process results from the server.
 struct SteamInventoryDefinitionUpdate_t {
-    enum { k_iCallback = k_iSteamInventoryCallbacks + 2 };
+        enum { k_iCallback = k_iSteamInventoryCallbacks + 2 };
 };
 
 // Returned
 struct SteamInventoryEligiblePromoItemDefIDs_t {
-    enum { k_iCallback = k_iSteamInventoryCallbacks + 3 };
-    EResult m_result;
-    CSteamID m_steamID;
-    int m_numEligiblePromoItemDefs;
-    bool m_bCachedData; // indicates that the data was retrieved from the cache and not the server
+        enum { k_iCallback = k_iSteamInventoryCallbacks + 3 };
+        EResult m_result;
+        CSteamID m_steamID;
+        int m_numEligiblePromoItemDefs;
+        bool m_bCachedData; // indicates that the data was retrieved from the cache and not the server
 };
 
 // Triggered from StartPurchase call
 struct SteamInventoryStartPurchaseResult_t {
-    enum { k_iCallback = k_iSteamInventoryCallbacks + 4 };
-    EResult m_result;
-    uint64 m_ulOrderID;
-    uint64 m_ulTransID;
+        enum { k_iCallback = k_iSteamInventoryCallbacks + 4 };
+        EResult m_result;
+        uint64 m_ulOrderID;
+        uint64 m_ulTransID;
 };
 
 // Triggered from RequestPrices
 struct SteamInventoryRequestPricesResult_t {
-    enum { k_iCallback = k_iSteamInventoryCallbacks + 5 };
-    EResult m_result;
-    char m_rgchCurrency[4];
+        enum { k_iCallback = k_iSteamInventoryCallbacks + 5 };
+        EResult m_result;
+        char m_rgchCurrency[4];
 };
 
 #pragma pack(pop)

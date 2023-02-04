@@ -133,3 +133,5 @@ QJsonObject ScreenPlayWidget::getActiveSettingsJson()
     return obj;
 }
 }
+
+#include "moc_screenplaywidget.cpp"

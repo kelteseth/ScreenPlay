@@ -64,7 +64,6 @@ MouseArea {
                 target: iconColorOverlay
                 color: Material.color(Material.Orange)
             }
-
         }
     ]
     transitions: [
@@ -78,7 +77,6 @@ MouseArea {
                 duration: 200
                 easing.type: Easing.InOutQuad
             }
-
         }
     ]
 }

@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "basewindow.h"
 
+#include "ScreenPlayUtil/projectfile.h"
 #include "ScreenPlayUtil/util.h"
+
+#include <QGuiApplication>
 
 /*!
     \module ScreenPlayWallpaper
@@ -15,25 +18,9 @@
     \brief  .
 */
 
-BaseWindow::BaseWindow(QObject* parent)
-    : QObject(parent)
+BaseWindow::BaseWindow()
 {
-}
-
-BaseWindow::BaseWindow(
-    const QVector<int> activeScreensList,
-    const QString& projectFilePath,
-    const QString& type,
-    const bool checkWallpaperVisible,
-    const QString& appID,
-    const bool debugMode)
-    : QObject(nullptr)
-    , m_checkWallpaperVisible(checkWallpaperVisible)
-    , m_activeScreensList(activeScreensList)
-    , m_debugMode(debugMode)
-    , m_sdk(std::make_unique<ScreenPlaySDK>(appID, type))
-{
-    QApplication::instance()->installEventFilter(this);
+    QGuiApplication::instance()->installEventFilter(this);
 
     qRegisterMetaType<ScreenPlay::InstalledType::InstalledType>();
     qmlRegisterUncreatableMetaObject(ScreenPlay::InstalledType::staticMetaObject,
@@ -50,74 +37,45 @@ BaseWindow::BaseWindow(
 
     qmlRegisterType<BaseWindow>("ScreenPlay.Wallpaper", 1, 0, "Wallpaper");
 
-    if (!appID.contains("appID=")) {
-        qInfo() << "Invalid appID: " << appID;
-        qFatal("AppID does not contain appID=");
-    }
-
-    setAppID(appID);
-    setProjectPath(projectFilePath);
     setOSVersion(QSysInfo::productVersion());
+}
 
-    if (projectFilePath == "test") {
+ScreenPlay::WallpaperExitCode BaseWindow::setup()
+{
+
+    if (projectPath() == "test") {
         setType(ScreenPlay::InstalledType::InstalledType::QMLWallpaper);
         setProjectSourceFileAbsolute({ "qrc:/qml/ScreenPlayWallpaper/qml/Test.qml" });
         setupLiveReloading();
-        return;
+        return ScreenPlay::WallpaperExitCode::Ok;
     }
-
-    auto projectOpt = ScreenPlayUtil::openJsonFileToObject(projectFilePath + "/project.json");
-
-    if (!projectOpt.has_value()) {
-        QApplication::exit(-5);
+    ScreenPlay::ProjectFile projectFile;
+    projectFile.projectJsonFilePath = QFileInfo(projectPath() + "/project.json");
+    if (!projectFile.init()) {
+        qWarning() << "Invalid project at " << projectPath();
+        return ScreenPlay::WallpaperExitCode::Invalid_Setup_ProjectParsingError;
     }
-    const QJsonObject project = projectOpt.value();
-
-    if (!project.contains("type")) {
-        qFatal("No type was specified inside the json object!");
-        QApplication::exit(-3);
-    }
-
-    if (!project.contains("file") && !project.contains("url")) {
-        qFatal("No file was specified inside the json object!");
-        QApplication::exit(-4);
-    }
-
-    if (auto typeOpt = ScreenPlayUtil::getInstalledTypeFromString(project.value("type").toString())) {
-        setType(typeOpt.value());
-
-        if (this->type() == ScreenPlay::InstalledType::InstalledType::VideoWallpaper) {
-            if (auto videoCodecOpt = ScreenPlayUtil::getVideoCodecFromString(project.value("videoCodec").toString())) {
-                setVideoCodec(videoCodecOpt.value());
-            } else {
-                qCritical() << "Cannot parse Wallpaper video codec from value" << project.value("type");
-            }
-        } else if (!project.contains("videoCodec") && this->type() == ScreenPlay::InstalledType::InstalledType::VideoWallpaper) {
-            qWarning("No videoCodec was specified inside the json object!");
-            const QString filename = project.value("file").toString();
-            if (filename.endsWith(".mp4")) {
-                setVideoCodec(ScreenPlay::VideoCodec::VideoCodec::H264);
-            } else if (filename.endsWith(".webm")) {
-                setVideoCodec(ScreenPlay::VideoCodec::VideoCodec::VP8);
-            }
-        }
-
-    } else {
-        qCritical() << "Cannot parse Wallpaper type from value" << project.value("type");
-    }
+    setType(projectFile.type);
+    setProjectSourceFile(projectFile.file);
 
     if (m_type == ScreenPlay::InstalledType::InstalledType::WebsiteWallpaper) {
-        if (!project.contains("url")) {
-            qFatal("No url was specified for a websiteWallpaper!");
-            QApplication::exit(-5);
-        }
-        setProjectSourceFileAbsolute(project.value("url").toString());
+        setProjectSourceFileAbsolute(projectFile.url);
     } else {
-        setProjectSourceFile(project.value("file").toString());
-        setProjectSourceFileAbsolute(QUrl::fromLocalFile(projectFilePath + "/" + projectSourceFile()));
+        setProjectSourceFileAbsolute(QUrl::fromLocalFile(projectPath() + "/" + projectSourceFile()));
     }
 
     setupLiveReloading();
+
+    // Debug mode means we start the ScreenPlayWallpaper
+    // directly without an running ScreenPlay
+    if (!debugMode()) {
+        m_sdk = std::make_unique<ScreenPlaySDK>(appID(), QVariant::fromValue(type()).toString());
+        connect(m_sdk.get(), &ScreenPlaySDK::incommingMessage, this, &BaseWindow::messageReceived);
+        connect(m_sdk.get(), &ScreenPlaySDK::replaceWallpaper, this, &BaseWindow::replaceWallpaper);
+        sdk()->start();
+    }
+
+    return ScreenPlay::WallpaperExitCode::Ok;
 }
 
 /*!
@@ -220,6 +178,14 @@ void BaseWindow::replaceWallpaper(
 }
 
 /*!
+ \brief QML Convenience function for global fade in
+ */
+void BaseWindow::requestFadeIn()
+{
+    emit fadeIn();
+}
+
+/*!
  \brief Used for loading shader. Loading shader relative to the qml file will be available in Qt 6
  */
 QString BaseWindow::loadFromFile(const QString& filename)
@@ -240,7 +206,7 @@ QString BaseWindow::loadFromFile(const QString& filename)
  */
 QString BaseWindow::getApplicationPath()
 {
-    return QApplication::applicationDirPath();
+    return QGuiApplication::applicationDirPath();
 }
 
 /*!
@@ -274,5 +240,7 @@ void BaseWindow::setVideoCodec(ScreenPlay::VideoCodec::VideoCodec newVideoCodec)
     if (m_videoCodec == newVideoCodec)
         return;
     m_videoCodec = newVideoCodec;
-    emit videoCodecChanged();
+    emit videoCodecChanged(newVideoCodec);
 }
+
+#include "moc_basewindow.cpp"

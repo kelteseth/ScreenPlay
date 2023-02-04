@@ -221,3 +221,5 @@ void SteamWorkshopItem::saveWorkshopID()
 }
 
 }
+
+#include "moc_steamworkshopitem.cpp"

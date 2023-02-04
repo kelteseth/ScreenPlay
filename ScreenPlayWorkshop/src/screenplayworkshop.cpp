@@ -12,3 +12,5 @@ ScreenPlayWorkshop::ScreenPlayWorkshop()
 }
 
 }
+
+#include "moc_screenplayworkshop.cpp"

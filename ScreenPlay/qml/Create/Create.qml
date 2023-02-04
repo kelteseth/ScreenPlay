@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material
-import QtQuick.Particles
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
 import ScreenPlayApp
@@ -30,7 +29,6 @@ Item {
             left: parent.left
             bottom: parent.bottom
         }
-
     }
 
     Item {
@@ -81,7 +79,6 @@ Item {
                         duration: 400
                         easing.type: Easing.InOutQuart
                     }
-
                 }
 
                 pushExit: Transition {
@@ -100,15 +97,12 @@ Item {
                         duration: 400
                         easing.type: Easing.InOutQuart
                     }
-
                 }
-
             }
 
             layer.effect: ElevationEffect {
                 elevation: 6
             }
-
         }
 
         states: [
@@ -120,7 +114,6 @@ Item {
                     anchors.topMargin: wizardContentWrapper.anchors.margins
                     opacity: 1
                 }
-
             }
         ]
         transitions: [
@@ -142,11 +135,8 @@ Item {
                             wizardContentWrapper.anchors.left = sidebar.right;
                         }
                     }
-
                 }
-
             }
         ]
     }
-
 }

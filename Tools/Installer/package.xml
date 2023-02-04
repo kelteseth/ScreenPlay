@@ -2,7 +2,7 @@
 <Package>
     <DisplayName>ScreenPlay</DisplayName>
     <Description>ScreenPlay is an Open Source cross-platform app for displaying Video Wallpaper & Widgets.</Description>
-    <Version>0.15.0-RC3</Version>
+    <Version>0.15.0-RC5</Version>
     <ReleaseDate>2022-11-02</ReleaseDate>
     <Default>true</Default>
     <Script>installscript.qs</Script>
