@@ -47,8 +47,7 @@ int main(int argc, char* argv[])
     // For testing purposes when starting the ScreenPlayWallpaper directly.
     if (argumentList.length() == 1) {
         window.setActiveScreensList({ 0 });
-        // window.setProjectPath("test");
-        window.setProjectPath("C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/2023_01_05_141855");
+        window.setProjectPath("test");
         window.setAppID("test");
         window.setVolume(1);
         window.setFillMode("fill");

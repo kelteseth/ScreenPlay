@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
-#include "ScreenPlayUtil/projectfile.h"
 #include "winwindow.h"
-#include <QtQml>
+#include "ScreenPlayUtil/projectfile.h"
 #include <QGuiApplication>
+#include <QtQml>
 #include <algorithm>
 #include <iostream>
 #include <vector>

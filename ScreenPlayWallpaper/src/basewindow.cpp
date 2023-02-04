@@ -177,7 +177,6 @@ void BaseWindow::replaceWallpaper(
         emit reloadGIF(oldType);
 }
 
-
 /*!
  \brief QML Convenience function for global fade in
  */
