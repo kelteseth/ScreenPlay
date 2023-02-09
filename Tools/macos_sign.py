@@ -16,8 +16,6 @@ def sign(build_config: BuildConfig):
     run("codesign --verify --verbose=4  'ScreenPlay.app/'", 
         cwd=build_config.bin_dir)
 
-    # TODO: Replace with https://github.com/akeru-inc/xcnotary/issues/22#issuecomment-1179170957
-    # ditto -c -k --keepParent "ScreenPlay.app" "ScreenPlay.app.zip"
     # Note the profile is the one name of the first step of (App Store Connect API) in the macOSSigning.md
     # xcrun notarytool submit "ScreenPlay.app.zip" --keychain-profile "ScreenPlay" --wait
     # xcrun stapler staple "ScreenPlay.app"
