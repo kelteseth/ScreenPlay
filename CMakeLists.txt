@@ -35,6 +35,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
 
+option(OSX_BUNDLE "Enable distribution macOS bundle" OFF)
+
 # This is needed for OSX: Because we bundle ScreenPlay and ScreenPlayWallpaper into .app they both need other QML dependencies like
 # ScreenPlayUtil. The fastest way is to use a shared QML module path for development and add this path to the qml engines import pah. For
 # the SCREENPLAY_DEPLOY we copy them into the matching dirs via the build.py
@@ -113,6 +115,7 @@ if(UNIX AND NOT APPLE)
 endif()
 include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/FetchContentThirdParty.cmake)
 
+
 add_subdirectory(CMake)
 add_subdirectory(ScreenPlay)
 add_subdirectory(ScreenPlaySDK)
@@ -138,7 +141,7 @@ if(WIN32)
     add_subdirectory(ScreenPlaySysInfo)
 endif()
 
-if(${SCREENPLAY_INSTALLER})
+if(${SCREENPLAY_INSTALLER} AND NOT APPLE)
     include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/CreateIFWInstaller.cmake)
 endif()
 

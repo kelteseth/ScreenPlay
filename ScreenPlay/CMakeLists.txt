@@ -320,7 +320,7 @@ if(${SCREENPLAY_TESTS})
     endif()
 endif()
 
-if(APPLE)
+if(APPLE AND NOT OSX_BUNDLE)
     set_source_files_properties(
         ${TS_FILES} PROPERTIES OUTPUT_LOCATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}.app/Contents/Resources/translations")
 else()
@@ -371,7 +371,31 @@ if(WIN32)
 
 endif()
 
-if(APPLE)
+if(APPLE AND OSX_BUNDLE)
+    # Set the installation destination
+    install(TARGETS "ScreenPlay" DESTINATION /Applications)
+
+    include(InstallRequiredSystemLibraries)
+    set(CPACK_GENERATOR "Bundle")
+    set(CPACK_BINARY_DRAGNDROP ON)
+    set(CPACK_BUNDLE_NAME "ScreenPlay")
+    set(CPACK_BUNDLE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/assets/icons/app.ico")
+    set(CPACK_PACKAGE_ICON  "${CMAKE_CURRENT_SOURCE_DIR}/assets/icons/app.ico")
+    set(CPACK_BUNDLE_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/Info.plist")
+    set(CPACK_BUNDLE_APPLE_ENTITLEMENTS "${CMAKE_CURRENT_SOURCE_DIR}/entitlements.plist")
+    set(CPACK_PACKAGE_FILE_NAME "ScreenPlay-0.15")
+    include(CPack)
+
+# Install all files from /bin
+install(
+    DIRECTORY "${CMAKE_BINARY_DIR}/bin/"
+    COMPONENT ScreenPlay
+    DESTINATION "./")
+
+endif()
+
+
+if(APPLE AND NOT OSX_BUNDLE)
     # Creates a ScreenPlay.app
     set_target_properties(
         ${PROJECT_NAME}
