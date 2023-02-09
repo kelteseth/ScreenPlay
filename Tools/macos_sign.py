@@ -3,16 +3,17 @@
 from build import BuildConfig
 from util import  run
 from sys import stdout
+import time
 
 stdout.reconfigure(encoding='utf-8')
 
 def sign(build_config: BuildConfig):
     print("Run codedesign")
-    run("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --timestamp --options \"runtime\" -f --entitlements \"../../ScreenPlay/entitlements.plist\"  --deep \"ScreenPlay.app/\"", 
+    run("codesign --deep -f -s 'Developer ID Application: Elias Steurer (V887LHYKRH)' --timestamp --options 'runtime' -f --entitlements '../../ScreenPlay/entitlements.plist'  --deep 'ScreenPlay.app/' ", 
         cwd=build_config.bin_dir)
 
     print("Run codedesign verify")
-    run("codesign --verify --verbose=4  \"ScreenPlay.app/\"", 
+    run("codesign --verify --verbose=4  'ScreenPlay.app/'", 
         cwd=build_config.bin_dir)
 
     # TODO: Replace with https://github.com/akeru-inc/xcnotary/issues/22#issuecomment-1179170957
@@ -22,15 +23,19 @@ def sign(build_config: BuildConfig):
     # xcrun stapler staple "ScreenPlay.app"
     print("Packing .apps for upload")
     run("ditto -c -k --keepParent 'ScreenPlay.app' 'ScreenPlay.app.zip'", cwd=build_config.bin_dir)
-    
+
+    # run this  if you get an error:
+    # `xcrun notarytool log --apple-id "xxxxx@xxxx.com"  --password "xxxx-xxxx-xxxx-xxxx" --team-id "xxxxxxxxxxx"  <ID>`
+    # Processing complete
+    # id: xxxxxx-xxxxxx-xxxx-xxxxx-xxxxx
+    # status: Invalid
     print("Run xcnotary submit")
-    run("xcrun notarytool submit ScreenPlay.app.zip --keychain-profile 'ScreenPlay' --wait", cwd=build_config.bin_dir)
+    run("xcrun notarytool submit --keychain-profile 'ScreenPlay' ScreenPlay.app.zip  --wait", cwd=build_config.bin_dir)
 
     print("Run stapler staple")
     run("xcrun stapler staple ScreenPlay.app", cwd=build_config.bin_dir)
-
     print("Run spctl assess")
-    run("spctl --assess --verbose  \"ScreenPlay.app/\"", cwd=build_config.bin_dir)
+    run("spctl --assess --verbose  'ScreenPlay.app/'", cwd=build_config.bin_dir)
 
     print("Remove *.app.zip files.")
     run("rm ScreenPlay.app.zip",  cwd=build_config.bin_dir)
