@@ -82,6 +82,7 @@ def publish(
     tmp_steam_config_dir = os.path.abspath(os.path.join(tools_path,tmp_steam_config_foldername))
 
     if os.path.isdir(tmp_steam_config_dir):
+        print(f"Deleting tmp config {tmp_steam_config_dir}")
         shutil.rmtree(tmp_steam_config_dir)
 
     os.mkdir(tmp_steam_config_dir)

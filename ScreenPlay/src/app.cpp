@@ -200,14 +200,6 @@ void App::init()
 
     qmlRegisterSingletonInstance("ScreenPlay", 1, 0, "App", this);
     m_mainWindowEngine->addImportPath(guiAppInst->applicationDirPath() + "/qml");
-#if defined(Q_OS_OSX)
-    QDir workingDir(guiAppInst->applicationDirPath());
-    workingDir.cdUp();
-    workingDir.cdUp();
-    workingDir.cdUp();
-    // OSX Development workaround:
-    m_mainWindowEngine->addImportPath(workingDir.path() + "/qml");
-#endif
     guiAppInst->addLibraryPath(guiAppInst->applicationDirPath() + "/qml");
 
     if (m_settings->desktopEnvironment() == Settings::DesktopEnvironment::KDE) {

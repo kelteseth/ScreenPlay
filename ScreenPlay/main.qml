@@ -14,6 +14,7 @@ import "qml/Monitors" as Monitors
 import "qml/Installed" as Installed
 import "qml/Navigation" as Navigation
 import "qml/Community" as Community
+import "qml"
 
 ApplicationWindow {
     id: root
@@ -123,7 +124,7 @@ ApplicationWindow {
             id: monitors
             modalSource: content
         }
-        Util.TrayIcon {
+        TrayIcon {
             window: root
         }
     }

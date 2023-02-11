@@ -17,14 +17,10 @@ ScreenPlay::WallpaperExitCode MacWindow::start()
         connect(m_sdk.get(), &ScreenPlaySDK::sdkDisconnected, this, &MacWindow::destroyThis);
     }
 
-    QDir workingDir(QGuiApplication::instance()->applicationDirPath());
-    workingDir.cdUp();
-    workingDir.cdUp();
-    workingDir.cdUp();
     // OSX Development workaround:
     // This folder needs then to be copied into the .app/Contents/MacOS/
     // for the deploy version.
-    m_window.engine()->addImportPath(workingDir.path() + "/qml");
+    m_window.engine()->addImportPath(QGuiApplication::instance()->applicationDirPath()+ "/qml");
 
     // WARNING: Setting Window flags must be called *here*!
     Qt::WindowFlags flags = m_window.flags();

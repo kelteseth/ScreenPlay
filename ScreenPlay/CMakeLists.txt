@@ -97,7 +97,8 @@ set(QML
     qml/Settings/SettingsHeader.qml
     qml/Settings/SettingsHorizontalSeperator.qml
     qml/Settings/SettingsPage.qml
-    qml/Workshop/Workshop.qml)
+    qml/Workshop/Workshop.qml
+    qml/TrayIcon.qml)
 
 set(TS_FILES
     # cmake-format: sort

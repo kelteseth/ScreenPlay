@@ -44,6 +44,11 @@ option(OSX_BUNDLE "Enable distribution macOS bundle" OFF)
 # This subdirectoy is needed for OSX and Linux to fix linker errors because we would have ScreenPlayApp executable and folder for the qml
 # files in the same directory.
 set(SCREENPLAY_QML_MODULES_PATH "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/qml")
+
+if(APPLE)
+    set(SCREENPLAY_QML_MODULES_PATH "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ScreenPlay.app/Contents/MacOS/qml")
+endif()
+
 # Adds the qml import path so QtCreator can find them
 list(APPEND QML_DIRS "${SCREENPLAY_QML_MODULES_PATH}")
 set(QML_IMPORT_PATH

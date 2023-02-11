@@ -9,7 +9,13 @@ stdout.reconfigure(encoding='utf-8')
 
 def sign(build_config: BuildConfig):
     print("Run codedesign")
-    run("codesign --deep -f -s 'Developer ID Application: Elias Steurer (V887LHYKRH)' --timestamp --options 'runtime' -f --entitlements '../../ScreenPlay/entitlements.plist'  --deep 'ScreenPlay.app/' ", 
+    #run("codesign -f -s 'Developer ID Application: Elias Steurer (V887LHYKRH)' --verbose --force  --timestamp --options 'runtime' -f --entitlements '../../ScreenPlay/entitlements.plist' 'ScreenPlay.app/' ", 
+    #    cwd=build_config.bin_dir)
+    # Do not use --deep https://developer.apple.com/forums/thread/129980
+    # base_sign_command = "codesign  -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --verbose --force --timestamp --options \"runtime\" \"ScreenPlay.app/Contents/MacOS/{app}\""
+    # run(base_sign_command.format(app="ffmpeg"),  cwd=build_config.bin_dir)
+    # run(base_sign_command.format(app="ffprobe"), cwd=build_config.bin_dir)
+    run("codesign --deep -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --verbose --force --timestamp --options \"runtime\" --entitlements \"../../ScreenPlay/entitlements.plist\"  \"ScreenPlay.app/\"", 
         cwd=build_config.bin_dir)
 
     print("Run codedesign verify")

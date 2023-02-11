@@ -36,8 +36,7 @@ set(QML
     qml/Slider.qml
     qml/Tag.qml
     qml/TagSelector.qml
-    qml/TextField.qml
-    qml/TrayIcon.qml)
+    qml/TextField.qml)
 
 set(SOURCES
     # cmake-format: sort
