@@ -108,8 +108,12 @@ def execute(
         # Swap the architecture for the second build
         if build_config.build_architecture == "arm64":
             build_config.build_architecture = "x64"
+            build_config.cmake_target_triplet = "x64-osx"
+            build_config.cmake_osx_architectures = "-DCMAKE_OSX_ARCHITECTURES=x86_64"
         else:
             build_config.build_architecture = "arm64"
+            build_config.cmake_target_triplet = "arm64-osx"
+            build_config.cmake_osx_architectures = "-DCMAKE_OSX_ARCHITECTURES=arm64"
 
         # Make sure the script is always started from the same folder
         build_config.root_path = cd_repo_root_path()
