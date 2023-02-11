@@ -375,10 +375,6 @@ def package(build_config: BuildConfig):
         qt6Widgets_path = Path(qt_bin_path).joinpath("Qt6Widgets.dll").resolve()
         print(f"⚠️WORKAROUND: Copy Qt6Widgets.dll from: {qt6Widgets_path}")
         shutil.copy2(qt6Widgets_path, build_config.bin_dir)
-        qt_qml_Qt_plugin_path =  Path(qt_bin_path).joinpath("./../qml/Qt").resolve()
-        qt_qml_Qt_plugin_target_path =  Path(build_config.bin_dir).joinpath("Qt").resolve()
-        print(f"⚠️WORKAROUND: Copy qml folder from: {qt_qml_Qt_plugin_path}, to {qt_qml_Qt_plugin_target_path}")
-        shutil.copytree(str(qt_qml_Qt_plugin_path), str(qt_qml_Qt_plugin_target_path))
 
 
     if not platform.system() == "Darwin":
