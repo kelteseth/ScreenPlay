@@ -12,7 +12,7 @@ from macos_lipo import run_lipo, check_fat_binary
 import platform
 import paramiko
 import defines
-from util import sftp_exists
+from util import sftp_exists, run, repo_root_path
 from sys import stdout
 
 stdout.reconfigure(encoding='utf-8')
@@ -47,36 +47,14 @@ if __name__ == "__main__":
     if platform.system() == "Darwin" and not args.skip_build:
         # We do not yet support a standalone osx installer
         build_config.create_installer = "OFF"
-        # OSX builds needs to build for x86 and arm
-        # and also be signed!
 
         # We need to manually package here at the end after
-        # we run 
         build_config.package = True
+        build_config.sign_osx = True
 
-        # Remove old build-universal-osx-release dir that does not automatically
-        # deleted because it is not build directly but generated from x64 and arm64
-        universal_build_dir = Path(os.path.join(root_path, "build-universal-osx-release"))
-        if universal_build_dir.exists():
-            print(f"Remove previous build folder: {universal_build_dir}")
-            # ignore_errors removes also not empty folders...
-            shutil.rmtree(universal_build_dir, ignore_errors=True)
-        
-        build_config.build_architecture = "arm64"
+        # This will build both arm64 and x64 and sign the unversal binary
         build_result = build.execute(build_config)
 
-        build_config.build_architecture = "x64"
-        build_result = build.execute(build_config)
-
-        # Make sure to reset to tools path
-        os.chdir(root_path)
-        # Create universal (fat) binary
-        run_lipo()
-        check_fat_binary()
-
-        build_config.bin_dir = os.path.join(build_config.root_path,'build-universal-osx-release/bin/')
-        print(f"Change binary dir to: {build_config.bin_dir}")
-        macos_sign.sign(build_config=build_config)
 
     if platform.system() == "Windows" and not args.skip_build:
         build_config.build_architecture = "x64"
@@ -117,6 +95,10 @@ if __name__ == "__main__":
         print("Skip publishing.")
         sys.exit(0)
 
+    if args.steam_password is None:
+        print("Steam password is required.")
+        sys.exit(1)
+ 
     # Make sure to reset to tools path
     os.chdir(tools_path)
     steam_publish.publish(

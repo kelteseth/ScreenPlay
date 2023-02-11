@@ -11,15 +11,15 @@ import defines
 from typing import Tuple
 from shutil import copytree
 from pathlib import Path
-from util import sha256, cd_repo_root_path, zipdir, run, get_vs_env_dict
+from macos_lipo import run_lipo, check_fat_binary
+import macos_sign
+from util import sha256, cd_repo_root_path,repo_root_path, zipdir, run, get_vs_env_dict
 from sys import stdout
 
 stdout.reconfigure(encoding='utf-8')
 
 
 def clean_build_dir(build_dir):
-    if isinstance(build_dir, str):
-        build_dir = Path(build_dir)
     if build_dir.exists():
         print(f"Remove previous build folder: {build_dir}")
         # ignore_errors removes also not empty folders...
@@ -49,6 +49,7 @@ class BuildConfig:
     cmake_osx_architectures: str
     cmake_target_triplet: str
     package: bool
+    osx_bundle: str
     package_command: str
     executable_file_ending: str
     # qt_* use either aqt or from the maintenance tool
@@ -71,6 +72,7 @@ class BuildConfig:
     build_type: str
     build_architecture: str
     create_installer: str
+    sign_osx: bool
 
 
 def execute(
@@ -80,12 +82,13 @@ def execute(
     # Make sure the script is always started from the same folder
     build_config.root_path = cd_repo_root_path()
 
-    build_result = BuildResult()
+    if platform.system() == "Darwin":
+        build_config.build_architecture = "x64"
+        build_config.cmake_target_triplet = "x64-osx"
+        build_config.cmake_osx_architectures = "-DCMAKE_OSX_ARCHITECTURES=x86_64"
 
     # Sets all platform spesific paths, arguments etc.
-    setup_tuple = setup(build_config, build_result)
-    build_config = setup_tuple[0]
-    build_result = setup_tuple[1]
+    [build_config, build_result] = setup(build_config)
 
     build_result.build = Path(build_config.build_folder)
     build_result.bin = Path(build_config.bin_dir)
@@ -94,19 +97,47 @@ def execute(
     # 3rd party tools like the crashreporter create local
     # temporary files in the build directory.
     clean_build_dir(build_config.build_folder)
-
-
+        
     # Runs cmake configure and cmake build
     step_time = time.time()
     build_result = build(build_config, build_result)
     build_duration = time.time() - step_time
-    print(f"⏱️ build_duration: {build_duration}s")
+    print(f"⏱️ build_duration (for {build_config.build_architecture}): {build_duration}s")
+
+    if platform.system() == "Darwin":
+        # Make sure the script is always started from the same folder
+        build_config.root_path = cd_repo_root_path()
+
+        # Swap the architecture for the second build
+        build_config.build_architecture = "arm64"
+        build_config.cmake_target_triplet = "arm64-osx"
+        build_config.cmake_osx_architectures = "-DCMAKE_OSX_ARCHITECTURES=arm64"
+
+        # Sets all platform spesific paths, arguments etc.
+        [build_config, build_result] = setup(build_config)
+
+        build_result.build = Path(build_config.build_folder)
+        build_result.bin = Path(build_config.bin_dir)
+
+
+        # Make sure to always delete everything first.
+        # 3rd party tools like the crashreporter create local
+        # temporary files in the build directory.
+        clean_build_dir(build_config.build_folder)
+
+        step_time = time.time()
+        build_result = build(build_config, build_result)
+        build_duration = time.time() - step_time
+        print(f"⏱️ Second build_duration (for {build_config.build_architecture}): {build_duration}s")
+
+
 
     # Copies all needed libraries and assets into the bin folder
     step_time = time.time()
     package(build_config)
     package_duration = time.time() - step_time
     print(f"⏱️ package_duration: {package_duration}s")
+
 
     # Creates a Qt InstallerFrameWork (IFW) installer
     if build_config.create_installer == "ON":
@@ -134,8 +165,8 @@ def execute(
     return build_result
 
 
-def setup(build_config: BuildConfig, build_result: BuildResult) -> Tuple[BuildConfig, BuildResult]:
-
+def setup(build_config: BuildConfig) -> Tuple[BuildConfig, BuildResult]:
+    build_result = BuildResult()
     build_config.qt_path = defines.QT_PATH
 
     if not build_config.qt_path.exists():
@@ -143,11 +174,9 @@ def setup(build_config: BuildConfig, build_result: BuildResult) -> Tuple[BuildCo
         exit(2)
     build_config.qt_bin_path = Path(build_config.qt_path).joinpath(f"{build_config.qt_version}/{defines.QT_PLATFORM}").resolve()
     build_config.ifw_root_path = Path(f"{build_config.qt_path}/Tools/QtInstallerFramework/{build_config.qt_ifw_version}").resolve()    
-    
-    # Set default to empty for linux and windows, because it is only used on mac
-    build_config.cmake_osx_architectures = ""
 
     if platform.system() == "Windows":
+        build_config.cmake_osx_architectures = ""
         build_config.cmake_target_triplet = "x64-windows"
         build_config.executable_file_ending = ".exe"
         env_dict = get_vs_env_dict()
@@ -162,22 +191,14 @@ def setup(build_config: BuildConfig, build_result: BuildResult) -> Tuple[BuildCo
         build_config.aqt_install_tool_packages = "windows desktop tools_ifw"
 
     elif platform.system() == "Darwin":
-        if(build_config.build_architecture == "arm64"):
-            build_config.cmake_target_triplet = "arm64-osx"
-            build_config.cmake_osx_architectures = "-DCMAKE_OSX_ARCHITECTURES=arm64"
-        elif(build_config.build_architecture == "x64"):
-            build_config.cmake_target_triplet = "x64-osx"
-            build_config.cmake_osx_architectures = "-DCMAKE_OSX_ARCHITECTURES=x86_64"
-        else:
-            print("MISSING BUILD ARCH: SET arm64 or x64")
-            exit(1)
         build_config.executable_file_ending = ".app"
         # NO f string we fill it later!
-        build_config.package_command = "{prefix_path}/bin/macdeployqt {app}.app  -qmldir=../../{app}/qml -executable={app}.app/Contents/MacOS/{app} -appstore-compliant"
+        #build_config.package_command = "{prefix_path}/bin/macdeployqt ScreenPlay.app  -qmldir=../../{app}/qml -executable=ScreenPlay.app/Contents/MacOS/{app} -appstore-compliant -timestamp -hardened-runtime"
         build_config.aqt_install_qt_packages = f"mac desktop {build_config.qt_version} clang_64 -m all"
         build_config.aqt_install_tool_packages = "mac desktop tools_ifw"
         
     elif platform.system() == "Linux":
+        build_config.cmake_osx_architectures = ""
         build_config.cmake_target_triplet = "x64-linux"
         build_config.executable_file_ending = ""
         build_config.aqt_install_qt_packages = f"linux desktop {build_config.qt_version} gcc_64 -m all"
@@ -192,21 +213,16 @@ def setup(build_config: BuildConfig, build_result: BuildResult) -> Tuple[BuildCo
     print(f"Starting build with type {build_config.build_type}.")
     print(f"Qt Version: {build_config.qt_version}. Root path: {build_config.root_path}")
 
-    # Remove old build folder to before configuring to get rid of
-    # all cmake chaches
-    build_config.build_folder = build_config.root_path.joinpath(
-        f"build-{build_config.cmake_target_triplet}-{build_config.build_type}")
+    # Remove old build folder to before configuring to get rid of  all cmake chaches
+    build_config.build_folder = build_config.root_path.joinpath(f"build-{build_config.cmake_target_triplet}-{build_config.build_type}")
     build_config.bin_dir = build_config.build_folder.joinpath("bin")
 
     if platform.system() == "Windows":
-        build_result.installer = Path(build_config.build_folder).joinpath(
-            "ScreenPlay-Installer.exe")
+        build_result.installer = Path(build_config.build_folder).joinpath("ScreenPlay-Installer.exe")
     elif platform.system() == "Darwin":
-        build_result.installer = Path(build_config.build_folder).joinpath(
-            "ScreenPlay-Installer.dmg")
+        build_result.installer = Path(build_config.build_folder).joinpath("ScreenPlay.dmg")
     elif platform.system() == "Linux":
-        build_result.installer = Path(build_config.build_folder).joinpath(
-            "ScreenPlay-Installer.run")
+        build_result.installer = Path(build_config.build_folder).joinpath("ScreenPlay-Installer.run")
 
     return build_config, build_result
 
@@ -239,7 +255,36 @@ def build(build_config: BuildConfig, build_result: BuildResult) -> BuildResult:
 
 def package(build_config: BuildConfig):
 
-    if platform.system() == "Windows" or platform.system() == "Darwin":
+    if platform.system() == "Darwin":
+        universal_build_dir = Path(os.path.join(repo_root_path(), "build-universal-osx-release"))
+        if universal_build_dir.exists():
+            print(f"Remove previous build folder: {universal_build_dir}")
+            # ignore_errors removes also not empty folders...
+            shutil.rmtree(universal_build_dir, ignore_errors=True)
+
+        # Make sure to reset to tools path
+        os.chdir(repo_root_path())
+        # Create universal (fat) binary
+        run_lipo()
+        check_fat_binary()
+
+        cmd_raw = "{qt_bin_path}/macdeployqt {build_bin_dir}/ScreenPlay.app  -qmldir={repo_root_path}/{app}/qml -executable={build_bin_dir}/ScreenPlay.app/Contents/MacOS/{app} -verbose=1 -appstore-compliant -timestamp -hardened-runtime " # -sign-for-notarization=\"Developer ID Application: Elias Steurer (V887LHYKRH)\"
+        build_bin_dir = Path(repo_root_path()).joinpath("build-universal-osx-release/bin/")
+        cwd = Path(repo_root_path()).joinpath("build-universal-osx-release/bin/ScreenPlay.app/Contents/MacOS/")
+        qt_bin_path = Path(defines.QT_BIN_PATH).resolve()
+        source_path = Path(repo_root_path()).resolve()
+
+        run(cmd=cmd_raw.format(qt_bin_path=qt_bin_path,repo_root_path=source_path, build_bin_dir=build_bin_dir, app="ScreenPlay"), cwd=cwd)
+        run(cmd=cmd_raw.format(qt_bin_path=qt_bin_path,repo_root_path=source_path, build_bin_dir=build_bin_dir, app="ScreenPlayWallpaper"), cwd=cwd)
+        run(cmd=cmd_raw.format(qt_bin_path=qt_bin_path,repo_root_path=source_path, build_bin_dir=build_bin_dir, app="ScreenPlayWidget"), cwd=cwd)
+
+        if(build_config.sign_osx):
+            build_config.bin_dir = os.path.join(repo_root_path(),'build-universal-osx-release/bin/')
+            print(f"Sign binary at: {build_config.bin_dir}")
+            macos_sign.sign(build_config=build_config)
+
+
+    if platform.system() == "Windows":
         print("Executing deploy commands...")
         run(build_config.package_command.format(
             type=build_config.build_type,
@@ -258,7 +303,8 @@ def package(build_config: BuildConfig):
             prefix_path=build_config.qt_bin_path,
             app="ScreenPlayWallpaper",
             executable_file_ending=build_config.executable_file_ending), cwd=build_config.bin_dir)
-    else:
+
+    if platform.system() == "Linux":
         # Copy  all .so files from the qt_bin_path lib folder into bin_dir
         qt_lib_path = build_config.qt_bin_path
         for file in qt_lib_path.joinpath("lib").glob("*.so"):
@@ -294,18 +340,7 @@ def package(build_config: BuildConfig):
             shutil.copy(str(file), str(build_config.bin_dir))
             print("Copied %s" % file)
 
-    # Copy qml dir into all .app/Contents/MacOS/
-    if platform.system() == "Darwin":
-        qml_plugins_path = Path.joinpath(build_config.bin_dir, "qml")
-        copytree(qml_plugins_path, Path.joinpath(
-            build_config.bin_dir, "ScreenPlay.app/Contents/MacOS/qml"))
-        copytree(qml_plugins_path, Path.joinpath(
-            build_config.bin_dir, "ScreenPlayWallpaper.app/Contents/MacOS/qml"))
-        copytree(qml_plugins_path, Path.joinpath(
-            build_config.bin_dir, "ScreenPlayWidget.app/Contents/MacOS/qml"))
 
-        print(f"Deleting qml plugins path: {qml_plugins_path}")
-        shutil.rmtree(qml_plugins_path)
 
     # Some dlls like openssl do no longer get copied automatically.
     # Lets just copy all of them into bin.
@@ -324,19 +359,7 @@ def package(build_config: BuildConfig):
         qt6Widgets_path = Path(qt_bin_path).joinpath("Qt6Widgets.dll").resolve()
         print(f"⚠️WORKAROUND: Copy Qt6Widgets.dll from: {qt6Widgets_path}")
         shutil.copy2(qt6Widgets_path, build_config.bin_dir)
-        qt_qml_Qt_plugin_path =  Path(qt_bin_path).joinpath("./../qml/Qt").resolve()
-        qt_qml_Qt_plugin_target_path =  Path(build_config.bin_dir).joinpath("Qt").resolve()
-        print(f"⚠️WORKAROUND: Copy qml folder from: {qt_qml_Qt_plugin_path}, to {qt_qml_Qt_plugin_target_path}")
-        shutil.copytree(str(qt_qml_Qt_plugin_path), str(qt_qml_Qt_plugin_target_path))
 
-    if platform.system() == "Darwin":
-        # ⚠️WORKAROUND. REMOVE ME WHEN FIXED: 
-        # https://bugreports.qt.io/browse/QTBUG-110937
-        qt_bin_path = defines.QT_BIN_PATH
-        qt_qml_Qt_plugin_path =  Path(qt_bin_path).joinpath("./../qml/Qt").resolve()
-        qt_qml_Qt_plugin_target_path =  Path(build_config.bin_dir).joinpath("ScreenPlay.app/Contents/Resources/qml/Qt").resolve()
-        print(f"⚠️WORKAROUND: Copy qml folder from: {qt_qml_Qt_plugin_path}, to {qt_qml_Qt_plugin_target_path}")
-        shutil.copytree(str(qt_qml_Qt_plugin_path), str(qt_qml_Qt_plugin_target_path))
 
     if not platform.system() == "Darwin":
         file_endings = [".ninja_deps", ".ninja", ".ninja_log", ".lib", ".a", ".exp",
@@ -389,7 +412,7 @@ if __name__ == "__main__":
                         help="Overwrites the default Qt version")
     parser.add_argument('-qt-installer-version', action="store", dest="qt_installer_version_overwrite",
                         help="Overwrites the default Qt installer framework version")
-    parser.add_argument('-type', action="store", dest="build_type",
+    parser.add_argument('-type', action="store", dest="build_type", default="release",
                         help="Build type. This is either debug or release.")
     parser.add_argument('-use-aqt', action="store_true", dest="use_aqt",
                         help="Absolute qt path. If not set the default path is used\Windows: C:\Qt\nLinux & macOS:~/Qt/.")
@@ -399,9 +422,11 @@ if __name__ == "__main__":
                         help="Build tests.")
     parser.add_argument('-installer', action="store_true", dest="create_installer",
                         help="Create a installer.")
+    parser.add_argument('-sign_osx', action="store_true", dest="sign_osx", default=False,
+                        help="Signs the executable on macOS. This requires a valid Apple Developer ID set up.")
     parser.add_argument('-deploy-version', action="store_true", dest="build_deploy",
                         help="Create a deploy version of ScreenPlay for sharing with the world. A not deploy version is for local development only!")
-    parser.add_argument('-architecture', action="store", dest="build_architecture",
+    parser.add_argument('-architecture', action="store", dest="build_architecture", default="",
                         help="Sets the build architecture. Used to build x86 and ARM osx versions. Currently only works with x86_64 and arm64")
     args = parser.parse_args()
 
@@ -418,11 +443,6 @@ if __name__ == "__main__":
     if args.qt_installer_version_overwrite:
         qt_ifw_version = args.qt_installer_version_overwrite
         print("Using Qt installer framework version {qt_ifw_version}")
-
-    if not args.build_type:
-        parser.print_help()
-        print("\n\nBuild type argument is missing (release, debug). E.g: python build.py -type release -steam\n\n")
-        exit(1)
 
     build_type = args.build_type
 
@@ -455,5 +475,6 @@ if __name__ == "__main__":
     build_config.build_type = build_type
     build_config.screenplay_version = screenplay_version
     build_config.build_architecture = args.build_architecture
+    build_config.sign_osx = args.sign_osx
 
     execute(build_config)

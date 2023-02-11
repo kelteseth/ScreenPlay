@@ -10,6 +10,9 @@
 #if defined(Q_OS_WIN)
 Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoPlugin)
 #endif
+#if defined(Q_OS_OSX)
+#include "ScreenPlayUtil/macutils.h"
+#endif
 
 Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherPlugin)
 
@@ -57,6 +60,8 @@ int main(int argc, char* argv[])
         argumentList.at(2), // AppID
         argumentList.at(3), // Type
         QPoint { positionX, positionY });
-
+#if defined(Q_OS_OSX)
+    MacUtils::showDockIcon(false);
+#endif
     return app.exec();
 }

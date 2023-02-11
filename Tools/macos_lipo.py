@@ -36,9 +36,9 @@ def run_lipo() :
 
     apps = ["ScreenPlay","ScreenPlayWallpaper", "ScreenPlayWidget"]
     for app in apps:
-        arm64_dir = str(Path.joinpath(root_path, f"build-arm64-osx-release/bin/{app}.app/Contents/MacOS/{app}")) 
-        x64_dir = str(Path.joinpath(root_path,   f"build-x64-osx-release/bin/{app}.app/Contents/MacOS/{app}")) 
-        universal_dir = str(Path.joinpath(root_path,   f"build-universal-osx-release/bin/{app}.app/Contents/MacOS/{app}")) 
+        arm64_dir = str(Path.joinpath(root_path, f"build-arm64-osx-release/bin/ScreenPlay.app/Contents/MacOS/{app}")) 
+        x64_dir = str(Path.joinpath(root_path,   f"build-x64-osx-release/bin/ScreenPlay.app/Contents/MacOS/{app}")) 
+        universal_dir = str(Path.joinpath(root_path,   f"build-universal-osx-release/bin/ScreenPlay.app/Contents/MacOS/{app}")) 
         run(f"lipo -create {arm64_dir} {x64_dir} -output {universal_dir}")
         run(f"lipo -info {universal_dir}")
        

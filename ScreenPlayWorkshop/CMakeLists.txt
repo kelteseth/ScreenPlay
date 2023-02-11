@@ -122,7 +122,7 @@ qt_add_qml_module(
     ${RESOURCES})
 
 if(${SCREENPLAY_STEAM})
-    if(APPLE)
+    if(APPLE AND NOT OSX_BUNDLE)
         set(MACOS_FRAMEWORKS_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ScreenPlay.app/Contents/MacOS/)
         file(MAKE_DIRECTORY ${MACOS_FRAMEWORKS_DIR})
         configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${MACOS_FRAMEWORKS_DIR} COPYONLY)
