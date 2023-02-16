@@ -24,6 +24,6 @@ QT_VERSION = "6.5.0"
 QT_BIN_PATH = QT_PATH.joinpath(f"{QT_VERSION}/{QT_PLATFORM}/bin")
 QT_TOOLS_PATH = QT_PATH.joinpath("Tools/")
 QT_IFW_VERSION = "4.5"
-VCPKG_VERSION = "2871ddd"  # Master 11.11.2022
+VCPKG_VERSION = "1cc9525"  # Master 15.02.2023
 PYTHON_EXECUTABLE = "python" if sys.platform == "win32" else "python3"
 FFMPEG_VERSION = "5.0.1"

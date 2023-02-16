@@ -353,14 +353,6 @@ def package(build_config: BuildConfig):
                 print(file, build_config.bin_dir)
                 shutil.copy2(file, build_config.bin_dir)
 
-        # ⚠️WORKAROUND. REMOVE ME WHEN FIXED: 
-        # https://bugreports.qt.io/browse/QTBUG-110937
-        qt_bin_path = defines.QT_BIN_PATH
-        qt6Widgets_path = Path(qt_bin_path).joinpath("Qt6Widgets.dll").resolve()
-        print(f"⚠️WORKAROUND: Copy Qt6Widgets.dll from: {qt6Widgets_path}")
-        shutil.copy2(qt6Widgets_path, build_config.bin_dir)
-
-
     if not platform.system() == "Darwin":
         file_endings = [".ninja_deps", ".ninja", ".ninja_log", ".lib", ".a", ".exp",
                         ".manifest", ".cmake", ".cbp", "CMakeCache.txt"]

@@ -346,7 +346,7 @@ if(WIN32
 endif()
 
 if(WIN32)
-    target_link_libraries(ScreenPlayApp PUBLIC sentry::sentry)
+    target_link_libraries(ScreenPlayApp PUBLIC CURL::libcurl sentry::sentry)
 
     # Icon
     target_sources(${PROJECT_NAME} PRIVATE ScreenPlay.rc)

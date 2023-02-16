@@ -7,7 +7,7 @@ set(THIRD_PARTY_PATH "${CMAKE_SOURCE_DIR}/ThirdParty/")
 FetchContent_Populate(
   QArchive
   GIT_REPOSITORY https://github.com/antony-jr/QArchive.git
-  GIT_TAG        2d05e652ad9a2bff8c87962d5525e2b3c4d7351b
+  GIT_TAG        e587f30507c0e6d92f79a2dc1a6aa7ebb1f8e679
   # Workaround because:
   # 1. QtCreator cannot handle QML_ELEMENT stuff when it is in bin folder
   # https://bugreports.qt.io/browse/QTCREATORBUG-27083
@@ -18,7 +18,7 @@ FetchContent_Populate(
 FetchContent_Populate(
   qml-plausible
   GIT_REPOSITORY https://gitlab.com/kelteseth/qml-plausible.git
-  GIT_TAG        00398446c7a2882a11d34c007a1ed8205c72e123
+  GIT_TAG        5069ba3bf25663ea06be8b94c398d6c61058d4d5
   # Workaround because:
   # 1. QtCreator cannot handle QML_ELEMENT stuff when it is in bin folder
   # https://bugreports.qt.io/browse/QTCREATORBUG-27083
