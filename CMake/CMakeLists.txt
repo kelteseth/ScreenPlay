@@ -2,8 +2,7 @@ project(CMake)
 
 set(FILES
     CopyRecursive.cmake
-    CreateIFWInstaller.cmake
-    FetchContentThirdParty.cmake)
+    CreateIFWInstaller.cmake)
 
 add_custom_target(
     ${PROJECT_NAME}

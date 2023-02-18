@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16.0)
+cmake_minimum_required(VERSION 3.18.0)
 
 project(
     ScreenPlay
@@ -34,6 +34,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
+set(THIRD_PARTY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/")
 
 option(OSX_BUNDLE "Enable distribution macOS bundle" OFF)
 
@@ -118,10 +119,11 @@ if(UNIX AND NOT APPLE)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=gold")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fuse-ld=gold")
 endif()
-include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/FetchContentThirdParty.cmake)
-
 
 add_subdirectory(CMake)
+add_subdirectory(ThirdParty)
+add_subdirectory(Tools)
+
 add_subdirectory(ScreenPlay)
 add_subdirectory(ScreenPlaySDK)
 add_subdirectory(ScreenPlayShader)
@@ -129,8 +131,6 @@ add_subdirectory(ScreenPlayWallpaper)
 add_subdirectory(ScreenPlayWidget)
 add_subdirectory(ScreenPlayUtil)
 add_subdirectory(ScreenPlayWeather)
-add_subdirectory(ThirdParty/QArchive)
-add_subdirectory(Tools)
 
 if(${SCREENPLAY_TESTS})
     enable_testing()

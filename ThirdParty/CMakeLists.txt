@@ -1,8 +1,4 @@
-cmake_minimum_required(VERSION 3.16.0)
-
 include(FetchContent)
-
-set(THIRD_PARTY_PATH "${CMAKE_SOURCE_DIR}/ThirdParty/")
 
 FetchContent_Populate(
   QArchive
@@ -13,8 +9,7 @@ FetchContent_Populate(
   # https://bugreports.qt.io/browse/QTCREATORBUG-27083
   SOURCE_DIR ${THIRD_PARTY_PATH}/QArchive
 )
-
-
+#lol
 FetchContent_Populate(
   qml-plausible
   GIT_REPOSITORY https://gitlab.com/kelteseth/qml-plausible.git
@@ -24,3 +19,6 @@ FetchContent_Populate(
   # https://bugreports.qt.io/browse/QTCREATORBUG-27083
   SOURCE_DIR ${THIRD_PARTY_PATH}/qml-plausible
 )
+
+add_subdirectory(qml-plausible)
+add_subdirectory(QArchive)

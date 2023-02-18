@@ -102,7 +102,7 @@ def download_prebuild_ffmpeg_windows(extraction_path: str):
 def execute():
     # Make sure the script is always started from the same folder
     root_path = cd_repo_root_path()
-    extraction_path = os.path.join(root_path, "Common/ffmpeg")
+    extraction_path = os.path.join(root_path, "ThirdParty/ffmpeg")
 
     if os.path.exists(extraction_path):
         rmtree(extraction_path)

@@ -245,6 +245,7 @@ set(RESOURCES
 # Needed on macos
 find_package(Threads REQUIRED)
 find_package(OpenSSL REQUIRED)
+find_package(LibArchive REQUIRED)
 
 # Make sentry win only for now because it is constantly buggy on osx
 if(WIN32)
@@ -299,6 +300,7 @@ target_link_libraries(
            Qt6::Svg
            Qt6::QuickControls2
            Qt6::Xml
+           LibArchive::LibArchive
            ScreenPlayUtil
            ScreenPlayUtilplugin
            QArchive
@@ -359,7 +361,7 @@ if(WIN32)
     set_property(TARGET ${PROJECT_NAME} PROPERTY WIN32_EXECUTABLE true)
 
     # Copy ffmpeg. If the ffmpeg files are missing, start the install_dependencies_XXX for your system!
-    file(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/*")
+    file(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/*")
     foreach(filename ${files})
         configure_file(${filename} ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
     endforeach()
