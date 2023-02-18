@@ -55,7 +55,7 @@ Rectangle {
             left: parent.left
         }
 
-        LinearGradient {
+        Rectangle {
             id: gradient
 
             anchors.fill: parent

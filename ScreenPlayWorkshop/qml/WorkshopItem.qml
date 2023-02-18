@@ -149,14 +149,11 @@ Item {
                 sourceImageGIF: root.additionalPreviewUrl
             }
 
-            LinearGradient {
+            Rectangle {
                 id: shadow
 
                 height: 80
                 opacity: 0
-                cached: true
-                start: Qt.point(0, 80)
-                end: Qt.point(0, 0)
 
                 anchors {
                     bottom: parent.bottom
@@ -166,12 +163,12 @@ Item {
 
                 gradient: Gradient {
                     GradientStop {
-                        position: 0
+                        position: 1
                         color: "#CC000000"
                     }
 
                     GradientStop {
-                        position: 1
+                        position: 0
                         color: "#00000000"
                     }
                 }

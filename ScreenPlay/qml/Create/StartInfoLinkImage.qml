@@ -33,20 +33,17 @@ Item {
             fillMode: Image.PreserveAspectCrop
         }
 
-        LinearGradient {
+        Rectangle {
             anchors.fill: parent
-            end: Qt.point(0, 0)
-            start: Qt.point(0, parent.height * 0.66)
-
             gradient: Gradient {
                 GradientStop {
-                    position: 0
+                    position: 0.66
                     color: "#DD000000"
                 }
 
                 GradientStop {
-                    position: 1
-                    color: "#00000000"
+                    position:  0
+                    color: "transparent"
                 }
             }
         }

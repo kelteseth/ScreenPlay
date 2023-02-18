@@ -403,15 +403,12 @@ Page {
                 bottom: parent.bottom
             }
 
-            LinearGradient {
+            Rectangle {
                 id: gradient
 
                 height: parent.height
-                cached: true
                 opacity: 0
                 anchors.fill: parent
-                start: Qt.point(0, height)
-                end: Qt.point(0, 0)
 
                 gradient: Gradient {
                     GradientStop {

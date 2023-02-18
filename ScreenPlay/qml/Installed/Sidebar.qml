@@ -112,17 +112,14 @@ Item {
                 left: parent.left
             }
 
-            LinearGradient {
+            Rectangle {
                 anchors.fill: parent
-                start: Qt.point(0, 0)
-                end: Qt.point(400, 0)
 
                 gradient: Gradient {
                     GradientStop {
                         position: 0
                         color: "transparent"
                     }
-
                     GradientStop {
                         position: 0.1
                         color: "#AAffffff"
@@ -179,13 +176,9 @@ Item {
                     visible: enabled
                 }
 
-                LinearGradient {
+                Rectangle {
                     id: tabShadow
-
-                    height: 50
-                    cached: true
-                    start: Qt.point(0, 50)
-                    end: Qt.point(0, 0)
+                    height: 70
 
                     anchors {
                         bottom: parent.bottom
@@ -195,12 +188,12 @@ Item {
 
                     gradient: Gradient {
                         GradientStop {
-                            position: 0
+                            position: 1
                             color: "#EE000000"
                         }
 
                         GradientStop {
-                            position: 1
+                            position: 0
                             color: "#00000000"
                         }
                     }

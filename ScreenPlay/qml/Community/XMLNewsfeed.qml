@@ -112,11 +112,8 @@ Item {
                     }
                 }
 
-                LinearGradient {
+                Rectangle {
                     anchors.fill: parent
-                    start: Qt.point(0, 0)
-                    end: Qt.point(0, parent.height)
-
                     gradient: Gradient {
                         GradientStop {
                             position: 1

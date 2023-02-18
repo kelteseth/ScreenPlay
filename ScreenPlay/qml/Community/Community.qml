@@ -112,11 +112,9 @@ Item {
         }
     }
 
-    LinearGradient {
+    Rectangle {
         height: 6
         z: 99
-        start: Qt.point(0, 0)
-        end: Qt.point(0, 6)
 
         anchors {
             top: navWrapper.bottom
