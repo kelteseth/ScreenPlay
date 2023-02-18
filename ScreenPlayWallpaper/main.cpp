@@ -9,6 +9,8 @@
 #include "ScreenPlayUtil/exitcodes.h"
 #include "ScreenPlayUtil/util.h"
 
+#include "ScreenPlayWallpaper/CMakeVariables.h"
+
 #if defined(Q_OS_WIN)
 #include "src/winwindow.h"
 Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoPlugin)
@@ -46,8 +48,15 @@ int main(int argc, char* argv[])
 
     // For testing purposes when starting the ScreenPlayWallpaper directly.
     if (argumentList.length() == 1) {
+        QString exampleContentPath = QString(SCREENPLAY_SOURCE_DIR) + "/Content";
+        QStringList contentFolder = {
+            "/wallpaper_particles",
+            "/wallpaper_particles"
+        };
+        QString projectPath = exampleContentPath + contentFolder.at(0);
+
         window.setActiveScreensList({ 0 });
-        window.setProjectPath("test");
+        window.setProjectPath(projectPath);
         window.setAppID("test");
         window.setVolume(1);
         window.setFillMode("fill");

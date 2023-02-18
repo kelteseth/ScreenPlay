@@ -56,6 +56,20 @@ Item {
         opacity: 0
     }
 
+    Connections {
+        ignoreUnknownSignals: true
+        target: loader.item
+        // Some width do not know their implicit size,
+        // see the xkcd example.
+        function onImplicitWidthChanged() {
+            print()
+            root.width = loader.item.implicitWidth
+        }
+        function onImplicitHeightChanged() {
+            root.height = loader.item.implicitHeight
+        }
+    }
+
     Loader {
         id: loader
         opacity: 0

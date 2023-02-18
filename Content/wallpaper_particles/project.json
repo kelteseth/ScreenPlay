@@ -1,0 +1,74 @@
+{
+    "description": "Quiet particles",
+    "file": "main.qml",
+    "preview": "preview.png",
+    "properties": {
+        "Attractor": {
+            "attStrength": {
+                "from": 0,
+                "stepSize": 100,
+                "to": 100000,
+                "type": "slider",
+                "value": 8000000
+            }
+        },
+        "Emitter": {
+            "emitRate": {
+                "from": 0,
+                "stepSize": 1,
+                "to": 2500,
+                "type": "slider",
+                "value": 25
+            },
+            "endSize": {
+                "from": 0,
+                "stepSize": 1,
+                "to": 100,
+                "type": "slider",
+                "value": 18
+            },
+            "isEnabled": {
+                "type": "bool",
+                "value": true
+            },
+            "lifeSpan": {
+                "from": 0,
+                "stepSize": 100,
+                "to": 10000,
+                "type": "slider",
+                "value": 5000
+            },
+            "sizeVariation": {
+                "from": 0,
+                "stepSize": 1,
+                "to": 10,
+                "type": "slider",
+                "value": 4
+            }
+        },
+        "ImageParticle": {
+            "color": {
+                "type": "color",
+                "value": "#ffffff"
+            },
+            "imgOpacity": {
+                "from": 0,
+                "stepSize": 1,
+                "to": 1,
+                "type": "slider",
+                "value": 1
+            },
+            "source": {
+                "formats": "*.png,*.jpg",
+                "type": "file",
+                "value": "backgroundGlow.png"
+            }
+        }
+    },
+    "tags": [
+        "particles"
+    ],
+    "title": "QML particles",
+    "type": "qmlWallpaper",
+    "visibility": "public"
+}

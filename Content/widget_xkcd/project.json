@@ -1,0 +1,10 @@
+{
+    "description": "Widget that shows the latest xkcd",
+    "file": "main.qml",
+    "preview": "preview.png",
+    "tags": [
+        "XKCD"
+    ],
+    "title": "XKCD",
+    "type": "qmlWidget"
+}

@@ -1,0 +1,11 @@
+{
+    "title": "Empty Example",
+    "description": "",
+    "file": "main.qml",
+    "preview": "preview.png",
+    "type": "qmlScene",
+    "tags": [
+        "example",
+        "empty"
+    ]
+}

@@ -2,8 +2,11 @@
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QString>
 #include <QStringList>
 #include <QtWebEngineQuick>
+
+#include "ScreenPlayWidget/CMakeVariables.h"
 
 #include "src/widgetwindow.h"
 
@@ -23,8 +26,8 @@ int main(int argc, char* argv[])
     qputenv("QT_MEDIA_BACKEND", "ffmpeg");
 #endif
 
-    QtWebEngineQuick::initialize();
     QGuiApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
+    QtWebEngineQuick::initialize();
 
     QGuiApplication app(argc, argv);
 
@@ -33,8 +36,22 @@ int main(int argc, char* argv[])
     // If we start with only one argument (path, appID, type),
     // it means we want to test a single widget
     if (argumentList.length() == 1) {
-        WidgetWindow spwmw("test", "appid", "qmlWidget", { 100, 100 }, true);
-        // WidgetWindow spwmw("C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/2136442401", "appid", "qmlWidget", { 0, 0 }, true);
+        //WidgetWindow spwmw("test", "appid", "qmlWidget", { 100, 100 }, true);
+
+        QString exampleContentPath = QString(SCREENPLAY_SOURCE_DIR) + "/Content";
+        QStringList contentFolder = {
+            "/widget_analogClock",
+            "/widget_digitalClock",
+            "/widget_xkcd"
+        };
+        QString projectPath = exampleContentPath + contentFolder.at(0);
+
+        WidgetWindow spwmw(projectPath,
+            "appid",
+            "qmlWidget",
+            { 0, 0 },
+            true);
+
         return app.exec();
     }
 
@@ -60,8 +77,10 @@ int main(int argc, char* argv[])
         argumentList.at(2), // AppID
         argumentList.at(3), // Type
         QPoint { positionX, positionY });
+
 #if defined(Q_OS_OSX)
     MacUtils::showDockIcon(false);
 #endif
+
     return app.exec();
 }

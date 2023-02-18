@@ -111,3 +111,7 @@ if(WIN32)
     set_property(TARGET ${PROJECT_NAME} PROPERTY WIN32_EXECUTABLE true)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/index.html ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/index.html COPYONLY)
 endif()
+
+# ##### USE CMAKE VARIABLES IN CODE #####
+include(GenerateCmakeVariableHeader)
+generate_cmake_variable_header(${PROJECT_NAME})

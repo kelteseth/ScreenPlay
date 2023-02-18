@@ -445,3 +445,7 @@ if(APPLE AND NOT OSX_BUNDLE)
     copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.otf")
 
 endif()
+
+# ##### USE CMAKE VARIABLES IN CODE #####
+include(GenerateCMakeVariableHeader)
+generate_cmake_variable_header(${PROJECT_NAME})

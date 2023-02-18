@@ -1,0 +1,3 @@
+#pragma once
+
+#define SCREENPLAY_SOURCE_DIR "@SOURCE_DIR@"

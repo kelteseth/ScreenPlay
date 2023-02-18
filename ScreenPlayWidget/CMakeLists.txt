@@ -82,3 +82,8 @@ if(APPLE AND NOT OSX_BUNDLE)
         RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/"
     )
 endif()
+
+
+# ##### USE CMAKE VARIABLES IN CODE #####
+include(GenerateCmakeVariableHeader)
+generate_cmake_variable_header(${PROJECT_NAME})
