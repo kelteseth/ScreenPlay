@@ -73,6 +73,12 @@ Item {
         }
         onStatusChanged: {
             if (loader.status == Loader.Ready && loader.source !== "") {
+                if( loader.item.implicitWidth === 0 || loader.item.implicitHeight === 0){   
+                    print("Implicit size is 0, using root size")
+                    loader.item.implicitWidth = root.width
+                    loader.item.implicitHeight = root.height
+                }
+                    
                 // Resize to loaded widget size
                 // Note: We must use implicit* here to not
                 // break the set values.
