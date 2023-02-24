@@ -189,8 +189,8 @@ Item {
             title: "Please choose a file"
             nameFilters: ["Images (*.png *.jpg)"]
             onAccepted: {
-                imageSource = fileDialog.fileUrl;
-                txtName.text = fileDialog.fileUrl.toString().replace(/^.*[\\\/]/, '');
+                imageSource = fileDialog.selectedFile;
+                txtName.text = fileDialog.selectedFile.toString().replace(/^.*[\\\/]/, '');
             }
         }
     }
