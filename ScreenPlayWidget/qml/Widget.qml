@@ -126,6 +126,7 @@ Item {
 
         anchors.fill: parent
         hoverEnabled: true
+        propagateComposedEvents:true
         onEntered: imgClose.state = "areaHover"
         onExited: {
             if (mouseAreaClose.containsMouse)
