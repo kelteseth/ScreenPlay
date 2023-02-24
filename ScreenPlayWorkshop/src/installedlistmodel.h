@@ -34,8 +34,8 @@ namespace ScreenPlayWorkshop {
 
 class InstalledListModel : public QAbstractListModel {
     Q_OBJECT
+    QML_UNCREATABLE("")
 
-    QML_ELEMENT
     Q_PROPERTY(QUrl absoluteStoragePath READ absoluteStoragePath WRITE setAbsoluteStoragePath NOTIFY absoluteStoragePathChanged)
 
 public:

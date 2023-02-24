@@ -227,7 +227,12 @@ void BaseWindow::setupLiveReloading()
     QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, timeoutLambda);
     QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, timeoutLambda);
     QObject::connect(&m_liveReloadLimiter, &QTimer::timeout, this, reloadQMLLambda);
-    m_fileSystemWatcher.addPaths({ QUrl::fromUserInput(projectPath()).toLocalFile() });
+    m_fileSystemWatcher.addPath(projectPath());
+    QDirIterator projectFilesIter(projectPath(), { "*.qml", "*.html", "*.css", "*.js" }, QDir::Files | QDir::NoSymLinks, QDirIterator::Subdirectories);
+    m_fileSystemWatcher.addPath({ projectPath() });
+    while (projectFilesIter.hasNext()) {
+        m_fileSystemWatcher.addPath(projectFilesIter.next());
+    }
 }
 
 ScreenPlay::VideoCodec::VideoCodec BaseWindow::videoCodec() const

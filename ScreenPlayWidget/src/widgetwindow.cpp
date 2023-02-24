@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "widgetwindow.h"
 
+#include <QDirIterator>
 #include <QGuiApplication>
 #include <QSysInfo>
 
@@ -111,8 +112,7 @@ WidgetWindow::WidgetWindow(
         });
     }
 
-    if (projectPath != "test")
-        setupLiveReloading();
+    setupLiveReloading();
 }
 
 void WidgetWindow::setSize(QSize size)
@@ -217,7 +217,12 @@ void WidgetWindow::setupLiveReloading()
     QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, timeoutLambda);
     QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, timeoutLambda);
     QObject::connect(&m_liveReloadLimiter, &QTimer::timeout, this, reloadQMLLambda);
-    m_fileSystemWatcher.addPaths({ projectPath() });
+
+    QDirIterator projectFilesIter(projectPath(), { "*.qml", "*.html", "*.css", "*.js" }, QDir::Files | QDir::NoSymLinks, QDirIterator::Subdirectories);
+    m_fileSystemWatcher.addPath({ projectPath() });
+    while (projectFilesIter.hasNext()) {
+        m_fileSystemWatcher.addPath(projectFilesIter.next());
+    }
 }
 
 #include "moc_widgetwindow.cpp"
