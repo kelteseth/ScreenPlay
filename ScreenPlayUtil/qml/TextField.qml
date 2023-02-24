@@ -17,7 +17,6 @@ ColumnLayout {
 
     TextField {
         id: textField
-        font.weight: Font.Medium
         Layout.fillWidth: true
     }
     

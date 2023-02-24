@@ -78,7 +78,6 @@ WidgetWindow::WidgetWindow(
     }
     auto* guiAppInst = dynamic_cast<QGuiApplication*>(QGuiApplication::instance());
     m_window.engine()->addImportPath(guiAppInst->applicationDirPath() + "/qml");
-    m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
     m_window.setResizeMode(QQuickView::ResizeMode::SizeViewToRootObject);
     m_window.setSource(QUrl("qrc:/qml/ScreenPlayWidget/qml/Widget.qml"));
     m_window.setColor(Qt::transparent);

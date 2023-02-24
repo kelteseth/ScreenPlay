@@ -26,7 +26,6 @@ ScreenPlay::WallpaperExitCode MacWindow::start()
     Qt::WindowFlags flags = m_window.flags();
     m_window.setFlags(flags | Qt::FramelessWindowHint | Qt::Desktop);
     m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
-    m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
     m_window.setSource(QUrl("qrc:/qml/ScreenPlayWallpaper/qml/Wallpaper.qml"));
 
     MacIntegration* macIntegration = new MacIntegration(this);

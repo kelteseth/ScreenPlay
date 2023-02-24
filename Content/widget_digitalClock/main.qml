@@ -58,7 +58,6 @@ Item {
         font.pixelSize: 42
         color: "white"
         font.weight: Font.Light
-        renderType: Text.NativeRendering
         font.family: "Segoe UI"
     }
     Text {
@@ -73,7 +72,6 @@ Item {
         font.pixelSize: 12
         color: "#59C1FE"
         font.weight: Font.Light
-        renderType: Text.NativeRendering
         font.family:"Segoe UI"
     }
 

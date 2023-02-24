@@ -7,7 +7,8 @@ import ScreenPlay
 Item {
     id: root
 
-    width: 300
+    implicitWidth: 300
+    implicitHeight: 50
 
     ToolButton {
         id: icnSearch
@@ -28,8 +29,9 @@ Item {
     TextField {
         id: txtSearch
         placeholderTextColor: Material.secondaryTextColor
-        width: 250
-        height: 40
+        anchors.fill:parent
+        anchors.margins: 10
+        
         color: Material.secondaryTextColor
         placeholderText: qsTr("Search for Wallpaper & Widgets")
         onTextChanged: {
@@ -39,11 +41,5 @@ Item {
                 App.installedListFilter.sortByName(txtSearch.text);
         }
 
-        anchors {
-            right: icnSearch.left
-            rightMargin: 10
-            top: parent.top
-            topMargin: 10
-        }
     }
 }

@@ -109,7 +109,6 @@ ScreenPlay::WallpaperExitCode LinuxX11Window::start()
     QDir workingDir(QGuiApplication::instance()->applicationDirPath());
     m_window.engine()->addImportPath(workingDir.path() + "/qml");
     m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
-    m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
     m_window.setSource(QUrl("qrc:/qml/ScreenPlayWallpaper/qml/Wallpaper.qml"));
     m_window.show();
     return ScreenPlay::WallpaperExitCode::Ok;

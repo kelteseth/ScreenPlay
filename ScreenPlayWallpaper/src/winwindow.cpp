@@ -404,8 +404,6 @@ void WinWindow::configureWindowGeometry()
         setupWallpaperForMultipleScreens(activeScreensList());
     }
 
-    // Instead of setting "renderType: Text.NativeRendering" every time  we can set it here once
-    m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
     m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
     m_window.setWidth(width());
     m_window.setHeight(height());

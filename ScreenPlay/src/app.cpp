@@ -90,8 +90,6 @@ App::App()
         qWarning() << "Unable to load font from: " << fontsPath;
     }
 
-    QQuickWindow::setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
-
     // TODO: This is a workaround because I don't know how to
     //       init this in the ScreenPlayWorkshop plugin.
     //       Move to workshop plugin.
