@@ -33,7 +33,7 @@ namespace ScreenPlay {
 
 class InstalledListModel : public QAbstractListModel {
     Q_OBJECT
-    QML_ELEMENT
+    QML_UNCREATABLE("")
 
     Q_PROPERTY(int count READ count WRITE setCount NOTIFY countChanged)
 

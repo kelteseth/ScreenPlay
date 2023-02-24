@@ -22,7 +22,7 @@ struct Profile;
 
 class ProfileListModel : public QAbstractListModel {
     Q_OBJECT
-    QML_ELEMENT
+    QML_UNCREATABLE("")
 
 public:
     explicit ProfileListModel(

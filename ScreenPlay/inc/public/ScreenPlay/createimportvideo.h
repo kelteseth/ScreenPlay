@@ -24,7 +24,7 @@ namespace ScreenPlay {
 
 class CreateImportVideo : public QObject {
     Q_OBJECT
-    QML_ELEMENT
+    QML_UNCREATABLE("")
 
     Q_PROPERTY(float progress READ progress WRITE setProgress NOTIFY progressChanged)
 

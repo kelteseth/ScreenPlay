@@ -43,7 +43,7 @@ class ActiveProfile;
 
 class Settings : public QObject {
     Q_OBJECT
-    QML_ELEMENT
+    QML_UNCREATABLE("")
 
     Q_PROPERTY(bool anonymousTelemetry READ anonymousTelemetry WRITE setAnonymousTelemetry NOTIFY anonymousTelemetryChanged)
     Q_PROPERTY(bool silentStart READ silentStart WRITE setSilentStart NOTIFY silentStartChanged)
