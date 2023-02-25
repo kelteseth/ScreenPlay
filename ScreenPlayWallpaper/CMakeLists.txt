@@ -113,5 +113,5 @@ if(WIN32)
 endif()
 
 # ##### USE CMAKE VARIABLES IN CODE #####
-include(GenerateCmakeVariableHeader)
+include(GenerateCMakeVariableHeader)
 generate_cmake_variable_header(${PROJECT_NAME})
