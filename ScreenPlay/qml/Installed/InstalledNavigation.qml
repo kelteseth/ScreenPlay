@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
 import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
@@ -48,8 +49,7 @@ Item {
         TabBar {
             height: parent.height
 
-            background: Item {
-            }
+            background: Item {}
             anchors {
                 top: parent.top
                 topMargin: 5
@@ -95,14 +95,52 @@ Item {
             }
         }
 
-        Util.Search {
-            height: parent.height
-
+        RowLayout {
             anchors {
                 right: btnSortOrder.left
                 rightMargin: 10
                 top: parent.top
+                bottom: parent.bottom
             }
+
+            Text {
+                text: qsTr("Search:")
+                color: Material.secondaryTextColor
+                font.pointSize: 12
+                font.family: App.settings.font
+                Layout.alignment: Qt.AlignVCenter
+                Layout.rightMargin: 10
+            }
+
+            TextField {
+                id: txtSearch
+                // Workaround with manual Text until
+                // https://bugreports.qt.io/browse/QTBUG-111515 is fixed
+                // placeholderTextColor: Material.secondaryTextColor
+                // placeholderText: qsTr("Search for Wallpaper & Widgets")
+                Layout.preferredHeight: 30
+                Layout.preferredWidth : 250
+                Layout.alignment: Qt.AlignVCenter
+                color: Material.secondaryTextColor
+                onTextChanged: {
+                    if (txtSearch.text.length === 0)
+                        App.installedListFilter.resetFilter();
+                    else
+                        App.installedListFilter.sortByName(txtSearch.text);
+                }
+
+            }
+            ToolButton {
+                id: icnSearch
+
+                icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_search.svg"
+                implicitHeight: 30
+                implicitWidth: height
+                icon.width: height
+                icon.height: height
+                icon.color: Material.iconColor
+            }
+ 
         }
 
         ToolButton {

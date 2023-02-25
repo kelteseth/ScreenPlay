@@ -31,7 +31,6 @@ set(QML
     qml/MouseHoverBlocker.qml
     qml/Popup.qml
     qml/RippleEffect.qml
-    qml/Search.qml
     qml/Shake.qml
     qml/Slider.qml
     qml/Tag.qml
