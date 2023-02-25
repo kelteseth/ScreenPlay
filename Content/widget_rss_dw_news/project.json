@@ -1,0 +1,10 @@
+{
+    "description": "Widget that shows the latest Detusche Welle feed",
+    "file": "main.qml",
+    "preview": "preview.png",
+    "tags": [
+        "dw"
+    ],
+    "title": "dw",
+    "type": "qmlWidget"
+}

@@ -42,6 +42,8 @@ int main(int argc, char* argv[])
         QStringList contentFolder = {
             "/widget_analogClock",
             "/widget_digitalClock",
+            "/widget_rss_reddit",
+            "/widget_rss_dw_news",
             "/widget_xkcd"
         };
         QString projectPath = exampleContentPath + contentFolder.at(0);

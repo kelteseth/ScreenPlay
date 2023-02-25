@@ -1,0 +1,1 @@
+Widget that shows the latest reddit feed
