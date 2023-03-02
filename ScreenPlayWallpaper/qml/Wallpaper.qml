@@ -282,19 +282,38 @@ Rectangle {
         ]
     }
 
+
+    FrameAnimation {
+        id: frameAnimation
+        property real fps: smoothFrameTime > 0 ? (1.0 / smoothFrameTime) : 0
+        readonly property string ft: (1000 * smoothFrameTime).toFixed(1)
+        readonly property real maxFPS: 24.0
+        readonly property real maxPeriod: 1.0 / maxFPS
+        readonly property int skipFrames: fps / maxFPS
+        running:  Wallpaper.debugMode
+    }
+
     Pane {
         id: debug
 
         visible: Wallpaper.debugMode
         enabled: Wallpaper.debugMode
-        width: parent.width * 0.3
-        height: parent.height * 0.3
+        width: parent.width * 0.6
+        height: parent.height * 0.5
         anchors.centerIn: parent
 
         Column {
             anchors.fill: parent
             anchors.margins: 20
             spacing: 10
+
+            Text {
+                visible: Wallpaper.debugMode
+                enabled: Wallpaper.debugMode
+                font.pointSize: 14
+                text: "fps: " + frameAnimation.fps.toFixed(0) + " - Frame time:"+ frameAnimation.ft + " ms" 
+            }
+
 
             Text {
                 text: "appID " + Wallpaper.appID
