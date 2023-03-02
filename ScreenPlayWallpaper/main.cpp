@@ -25,7 +25,11 @@ Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherPlugin)
 int main(int argc, char* argv[])
 {
 
-#if !defined(Q_OS_LINUX)
+#if defined(Q_OS_WIN)
+    qputenv("QT_MEDIA_BACKEND", "windows"); // Workaround for Qt 6.5 looping lag bug https://bugreports.qt.io/browse/QTBUG-111209
+#endif
+
+#if defined(Q_OS_OSX)
     qputenv("QT_MEDIA_BACKEND", "ffmpeg");
 #endif
 
