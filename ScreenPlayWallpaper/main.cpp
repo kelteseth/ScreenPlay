@@ -50,16 +50,17 @@ int main(int argc, char* argv[])
     if (argumentList.length() == 1) {
         QString exampleContentPath = QString(SCREENPLAY_SOURCE_DIR) + "/Content";
         QStringList contentFolder = {
+            "/wallpaper_video_nebula",
             "/wallpaper_particles",
-            "/wallpaper_particles"
+            "/wallpaper_landscape"
         };
         QString projectPath = exampleContentPath + contentFolder.at(0);
 
-        window.setActiveScreensList({ 0 });
+        window.setActiveScreensList({ 1 });
         window.setProjectPath(projectPath);
         window.setAppID("test");
         window.setVolume(1);
-        window.setFillMode("fill");
+        window.setFillMode("cover");
         window.setType(ScreenPlay::InstalledType::InstalledType::VideoWallpaper);
         window.setCheckWallpaperVisible(true);
         window.setDebugMode(true);
