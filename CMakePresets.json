@@ -70,6 +70,18 @@
       }
     },
     {
+      "name": "windows-release-qt-6.5.0",
+      "inherits": "default-windows",
+      "displayName": "MSVC SP Qt 6.5.0 Release",
+      "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6.5.0_MSVC_Release",
+      "environment": {
+        "qt_version": "6.5.0"
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
       "name": "linux-debug",
       "displayName": "ScreenPlay 64bit Debug Linux",
       "description": "Linux only!",
