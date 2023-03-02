@@ -8,6 +8,7 @@ Item {
     property bool loops: Wallpaper.loops
     property bool isPlaying: Wallpaper.isPlaying
     property string fillMode: Wallpaper.fillMode
+    property bool fadeInDone: false
     onFillModeChanged: {
         // Convert Web based video modes to the limited Qt fillModes
         if (fillMode === "cover" || fillMode === "stretch" || fillMode === "contain") {
@@ -35,7 +36,8 @@ Item {
     MediaPlayer {
         id: mediaPlayer
         onPlaybackStateChanged: {
-            if (mediaPlayer.playbackState == MediaPlayer.PlayingState) {
+            if (mediaPlayer.playbackState == MediaPlayer.PlayingState && !fadeInDone) {
+                fadeInDone = true
                 Wallpaper.requestFadeIn();
             }
             // Qt 6.5 workaround
