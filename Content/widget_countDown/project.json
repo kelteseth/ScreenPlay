@@ -1,0 +1,12 @@
+{
+    "description": "Widget that counts down",
+    "file": "main.qml",
+    "preview": "preview.png",
+    "tags": [
+        "countdown",
+        "year",
+        "day"
+    ],
+    "title": "Countdown",
+    "type": "qmlWidget"
+}

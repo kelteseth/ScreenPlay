@@ -3,7 +3,7 @@
     "description": "",
     "file": "main.qml",
     "preview": "preview.png",
-    "type": "qmlScene",
+    "type": "qmlWallpaper",
     "tags": [
         "example",
         "empty"

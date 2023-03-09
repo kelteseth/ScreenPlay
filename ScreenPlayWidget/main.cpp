@@ -40,6 +40,9 @@ int main(int argc, char* argv[])
 
         QString exampleContentPath = QString(SCREENPLAY_SOURCE_DIR) + "/Content";
         QStringList contentFolder = {
+            "/widget_system_stats", // Note: Windows only
+            "/widget_countDown",
+            "/widget_weather",
             "/widget_analogClock",
             "/widget_digitalClock",
             "/widget_rss_reddit",

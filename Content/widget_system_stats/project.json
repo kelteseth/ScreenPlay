@@ -1,0 +1,10 @@
+{
+    "description": "system_stats",
+    "file": "main.qml",
+    "preview": "preview.png",
+    "tags": [
+        "system_stats"
+    ],
+    "title": "system_stats",
+    "type": "qmlWidget"
+}

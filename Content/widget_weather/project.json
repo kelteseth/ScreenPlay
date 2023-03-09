@@ -1,0 +1,10 @@
+{
+    "description": "weather",
+    "file": "main.qml",
+    "preview": "preview.png",
+    "tags": [
+        "weather"
+    ],
+    "title": "weather",
+    "type": "qmlWidget"
+}
