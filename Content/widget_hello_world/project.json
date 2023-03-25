@@ -1,0 +1,10 @@
+{
+    "description": "Hello World Widget",
+    "file": "main.qml",
+    "preview": "preview.png",
+    "tags": [
+        "widget_hello_world"
+    ],
+    "title": "widget_hello_world",
+    "type": "qmlWidget"
+}
