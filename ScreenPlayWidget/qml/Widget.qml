@@ -62,11 +62,11 @@ Item {
         // Some width do not know their implicit size,
         // see the xkcd example.
         function onImplicitWidthChanged() {
-            print()
-            root.width = loader.item.implicitWidth
+            print();
+            root.width = loader.item.implicitWidth;
         }
         function onImplicitHeightChanged() {
-            root.height = loader.item.implicitHeight
+            root.height = loader.item.implicitHeight;
         }
     }
 
@@ -87,12 +87,12 @@ Item {
         }
         onStatusChanged: {
             if (loader.status == Loader.Ready && loader.source !== "") {
-                if( loader.item.implicitWidth === 0 || loader.item.implicitHeight === 0){   
-                    print("Implicit size is 0, using root size")
-                    loader.item.implicitWidth = root.width
-                    loader.item.implicitHeight = root.height
+                if (loader.item.implicitWidth === 0 || loader.item.implicitHeight === 0) {
+                    print("Implicit size is 0, using root size");
+                    loader.item.implicitWidth = root.width;
+                    loader.item.implicitHeight = root.height;
                 }
-                    
+
                 // Resize to loaded widget size
                 // Note: We must use implicit* here to not
                 // break the set values.
@@ -118,89 +118,108 @@ Item {
             }
         }
     }
-
-    MouseArea {
-        id: mouseArea
-
-        property var clickPos
-
-        anchors.fill: parent
-        hoverEnabled: true
-        propagateComposedEvents:true
-        onEntered: imgClose.state = "areaHover"
-        onExited: {
-            if (mouseAreaClose.containsMouse)
-                return;
-            imgClose.state = "";
-        }
-
-        onPressed: function (mouse) {
-            clickPos = {
-                "x": mouse.x,
-                "y": mouse.y
-            };
-        }
-        onPositionChanged: {
-            if (mouseArea.pressed)
-                Widget.setPos(Widget.cursorPos().x - clickPos.x, Widget.cursorPos().y - clickPos.y);
-        }
-    }
-
-    MouseArea {
-        id: mouseAreaClose
-        width: 16
-        height: width
-        cursorShape: Qt.PointingHandCursor
-        hoverEnabled: true
-        onEntered: imgClose.state = "iconHover"
-        onExited: imgClose.state = ""
-        onClicked: {
-            if (Qt.platform.os === "windows")
-                Widget.setWindowBlur(0);
-            animFadeOut.start();
-        }
-
+    Item {
+        id: nav
+        height: 20
         anchors {
-            margins: 5
             top: parent.top
             right: parent.right
+            left: parent.left
+        }
+        Rectangle {
+            id: bg
+            anchors.fill: parent
+            color: "black"
+            opacity: 0
+        }
+        MouseArea {
+            id: mouseArea
+            height: 20
+            property var clickPos
+
+            anchors.fill: parent
+            hoverEnabled: true
+            propagateComposedEvents: true
+            onEntered: imgClose.state = "areaHover"
+            onExited: {
+                if (mouseAreaClose.containsMouse)
+                    return;
+                imgClose.state = "";
+            }
+
+            onPressed: function (mouse) {
+                clickPos = {
+                    "x": mouse.x,
+                    "y": mouse.y
+                };
+            }
+            onPositionChanged: {
+                if (mouseArea.pressed)
+                    Widget.setPos(Widget.cursorPos().x - clickPos.x, Widget.cursorPos().y - clickPos.y);
+            }
         }
 
-        ColorImage {
-            id: imgClose
-            source: "qrc:/qml/ScreenPlayWidget/assets/icons/baseline-close-24px.svg"
-            anchors.centerIn: parent
-            width: parent.width
-            height: parent.height
-            sourceSize: Qt.size(width, height)
-            opacity: 0
-            color: "white"
+        MouseArea {
+            id: mouseAreaClose
+            width: 16
+            height: width
+            cursorShape: Qt.PointingHandCursor
+            hoverEnabled: true
+            onEntered: imgClose.state = "iconHover"
+            onExited: imgClose.state = ""
+            onClicked: {
+                if (Qt.platform.os === "windows")
+                    Widget.setWindowBlur(0);
+                animFadeOut.start();
+            }
 
-            states: [
-                State {
-                    name: "areaHover"
-                    PropertyChanges {
-                        target: imgClose
-                        opacity: .5
+            anchors {
+                margins: 1
+                top: parent.top
+                right: parent.right
+            }
+
+            ColorImage {
+                id: imgClose
+                source: "qrc:/qml/ScreenPlayWidget/assets/icons/baseline-close-24px.svg"
+                anchors.centerIn: parent
+                width: parent.width
+                height: parent.height
+                sourceSize: Qt.size(width, height)
+                opacity: 0
+                color: "white"
+
+                states: [
+                    State {
+                        name: "areaHover"
+                        PropertyChanges {
+                            target: imgClose
+                            opacity: .5
+                        }
+                        
+                        PropertyChanges {
+                            target: bg
+                            opacity: .3
+                        }
+                    },
+                    State {
+                        name: "iconHover"
+                        PropertyChanges {
+                            target: imgClose
+                            opacity: 1
+                        }
                     }
-                },
-                State {
-                    name: "iconHover"
-                    PropertyChanges {
-                        target: imgClose
-                        opacity: 1
+                ]
+                transitions: [
+                    Transition {
+                        PropertyAnimation {
+                            duration: 250
+                            target: imgClose
+                            property: "opacity"
+                        }
                     }
-                }
-            ]
-            transitions: [
-                Transition {
-                    PropertyAnimation {
-                        duration: 250
-                        target: imgClose
-                        property: "opacity"
-                    }
-                }
-            ]
+                ]
+            }
         }
     }
 
@@ -227,7 +246,7 @@ Item {
             to: "in"
 
             PropertyAnimation {
-                targets: [root, bgNoise, loader]
+                targets: [root, bgNoise, loader, bg]
                 duration: 250
                 property: "opacity"
             }
