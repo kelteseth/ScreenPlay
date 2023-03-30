@@ -15,13 +15,11 @@ ScreenPlay: [![pipeline status](https://gitlab.com/kelteseth/ScreenPlay/badges/m
 
 [中文总览](README_zh_CN.md)
 
-ScreenPlay is an Open Source cross-platform app for displaying Video Wallpaper & Widgets. It is written in modern C++20/Qt5/QML. <br>  <a href="https://screen-play.app/">Homepage</a> - <a href="https://forum.screen-play.app/">Forum</a>- <a href="https://discord.com/invite/4sY9d4f2DM">Discord</a> 
+ScreenPlay is an Open Source cross-platform app for displaying Video Wallpaper & Widgets. It is written in modern C++20/Qt6/QML. <br>  <a href="https://screen-play.app/">Homepage</a> - <a href="https://forum.screen-play.app/">Forums</a>- <a href="https://discord.com/invite/4sY9d4f2DM">Discord</a> 
 
-<h4><a href="https://www.patreon.com/ScreenPlayApp">🚀Support ScreenPlay On Patreon🚀</a> </h4>
+<h3><a href="https://kelteseth.gitlab.io/ScreenPlayDocs/Building%20ScreenPlay/">Developer setup guide on how to download and compile ScreenPlay yourself.</a> </h3>
+
 </div>
-
-# Important Issues
-* [Implement KDE Support](https://gitlab.com/kelteseth/ScreenPlay/-/issues/111)
 
 # Content Creation
 [Learn the basics of QML for Wallpapers and Widgets in 5 minutes](https://screen-play.app/blog/guide_learn_the_basics_of_qml/)
@@ -61,7 +59,7 @@ Here are some ways you can contribute:
 * by [verifying issues](https://gitlab.com/kelteseth/ScreenPlay/-/issues?label_name%5B%5D=Unverified)
 
 # Development
-* [**Developer setup guide on how to download and compile ScreenPlay yourself.**](Docs/DeveloperSetup.md)
+* [**Developer setup guide on how to download and compile ScreenPlay yourself.**](https://kelteseth.gitlab.io/ScreenPlayDocs/Building%20ScreenPlay/)
  * If you want to contribute but don't know how to start, take a look at our open issues and WIP merge request.
  * If you need help don't hesitate to ask me (Kelteseth) via:
      * [Create a forum topic with a detailed description](https://forum.screen-play.app/category/2/general-discussion)
