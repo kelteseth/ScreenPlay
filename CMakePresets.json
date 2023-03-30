@@ -1,8 +1,8 @@
 {
-  "version": 4,
+  "version": 5,
   "cmakeMinimumRequired": {
     "major": 3,
-    "minor": 18,
+    "minor": 26,
     "patch": 0
   },
   "configurePresets": [
@@ -19,19 +19,11 @@
       },
       "environment" : {
         "qt_path": "${sourceDir}/../aqt",
-        "qt_version": "6.5.0",
-        "VCToolsVersion": "14.34.31933",
-        "WindowsSDKVersion" : "10.0.22621.0",
-        "VCArch": "x64",
-        "VCHostArch": "Hostx64",
-        "VCToolsInstallDir": "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/$env{VCToolsVersion}",
-        "WindowsSdkDir" : "C:/Program Files (x86)/Windows Kits/10",
-        "WindowsSdkIncVerDir": "$env{WindowsSdkDir}/Include/$env{WindowsSDKVersion}",
-        "WindowsSdkLibVerDir": "$env{WindowsSdkDir}/Lib/$env{WindowsSDKVersion}",
-
-        "INCLUDE": "$env{VCToolsInstallDir}/ATLMFC/include;$env{VCToolsInstallDir}/include;$env{WindowsSdkIncVerDir}/ucrt;$env{WindowsSdkIncVerDir}/shared;$env{WindowsSdkIncVerDir}/um;$env{WindowsSdkIncVerDir}/winrt;$env{WindowsSdkIncVerDir}/cppwinrt",
-        "LIB": "$env{VCToolsInstallDir}/ATLMFC/lib/$env{VCArch};$env{VCToolsInstallDir}/lib/$env{VCArch};$env{WindowsSdkLibVerDir}/ucrt/$env{VCArch};$env{WindowsSdkLibVerDir}/um/$env{VCArch}",
-        "PATH": "$env{qt_path}/Tools/Ninja/;$env{VCToolsInstallDir}/bin/$env{VCHostArch}/$env{VCArch};$env{WindowsSdkDir}/bin/$env{WindowsSDKVersion}/$env{VCArch};$penv{PATH}"
+        "qt_version": "6.5.0"
+      },
+      "toolset": {
+        "value": "host=x64",
+        "strategy": "external"
       },
       "architecture": {
         "value": "x64",
@@ -41,8 +33,8 @@
         "CMAKE_PREFIX_PATH": "$env{qt_path}/$env{qt_version}/msvc2019_64",
         "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/../vcpkg/scripts/buildsystems/vcpkg.cmake",
         "VCPKG_TARGET_TRIPLET": "x64-windows",
-        "CMAKE_C_COMPILER": "$env{VCToolsInstallDir}/bin/$env{VCHostArch}/x64/cl.exe",
-        "CMAKE_CXX_COMPILER": "$env{VCToolsInstallDir}/bin/$env{VCHostArch}/x64/cl.exe"
+        "CMAKE_C_COMPILER": "cl.exe",
+        "CMAKE_CXX_COMPILER": "cl.exe"
       }
     },
     {
