@@ -103,23 +103,12 @@ Item {
                 bottom: parent.bottom
             }
 
-            Text {
-                text: qsTr("Search:")
-                color: Material.secondaryTextColor
-                font.pointSize: 12
-                font.family: App.settings.font
-                Layout.alignment: Qt.AlignVCenter
-                Layout.rightMargin: 10
-            }
-
             TextField {
                 id: txtSearch
-                // Workaround with manual Text until
-                // https://bugreports.qt.io/browse/QTBUG-111515 is fixed
-                // placeholderTextColor: Material.secondaryTextColor
-                // placeholderText: qsTr("Search for Wallpaper & Widgets")
+                placeholderTextColor: Material.secondaryTextColor
+                placeholderText: qsTr("Search for Wallpaper & Widgets")
                 Layout.preferredHeight: 30
-                Layout.preferredWidth : 250
+                Layout.preferredWidth : 350
                 Layout.alignment: Qt.AlignVCenter
                 color: Material.secondaryTextColor
                 onTextChanged: {
