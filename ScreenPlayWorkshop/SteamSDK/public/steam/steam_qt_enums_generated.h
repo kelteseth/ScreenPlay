@@ -211,6 +211,7 @@ enum class EAuthSessionResponse {
     K_EAuthSessionResponseAuthTicketInvalidAlreadyUsed = 7,
     K_EAuthSessionResponseAuthTicketInvalid = 8,
     K_EAuthSessionResponsePublisherIssuedBan = 9,
+    K_EAuthSessionResponseAuthTicketNetworkIdentityFailure = 10,
 };
 Q_ENUM_NS(EAuthSessionResponse)
 
@@ -278,6 +279,7 @@ enum class EChatSteamIDInstanceFlags {
 Q_ENUM_NS(EChatSteamIDInstanceFlags)
 
 enum class ENotificationPosition {
+    K_EPositionInvalid = -1,
     K_EPositionTopLeft = 0,
     K_EPositionTopRight = 1,
     K_EPositionBottomLeft = 2,
@@ -741,15 +743,6 @@ enum class ELeaderboardUploadScoreMethod {
 };
 Q_ENUM_NS(ELeaderboardUploadScoreMethod)
 
-enum class ERegisterActivationCodeResult {
-    K_ERegisterActivationCodeResultOK = 0,
-    K_ERegisterActivationCodeResultFail = 1,
-    K_ERegisterActivationCodeResultAlreadyRegistered = 2,
-    K_ERegisterActivationCodeResultTimeout = 3,
-    K_ERegisterActivationCodeAlreadyOwned = 4,
-};
-Q_ENUM_NS(ERegisterActivationCodeResult)
-
 enum class EP2PSessionError {
     K_EP2PSessionErrorNone = 0,
     K_EP2PSessionErrorNoRightsToApp = 2,
@@ -838,6 +831,7 @@ enum class EHTTPStatusCode {
     K_EHTTPStatusCode304NotModified = 304,
     K_EHTTPStatusCode305UseProxy = 305,
     K_EHTTPStatusCode307TemporaryRedirect = 307,
+    K_EHTTPStatusCode308PermanentRedirect = 308,
     K_EHTTPStatusCode400BadRequest = 400,
     K_EHTTPStatusCode401Unauthorized = 401,
     K_EHTTPStatusCode402PaymentRequired = 402,
@@ -1139,10 +1133,10 @@ enum class EInputActionOrigin {
     K_EInputActionOrigin_Switch_LeftGrip_Upper = 245,
     K_EInputActionOrigin_Switch_RightGrip_Lower = 246,
     K_EInputActionOrigin_Switch_RightGrip_Upper = 247,
-    K_EInputActionOrigin_Switch_Reserved11 = 248,
-    K_EInputActionOrigin_Switch_Reserved12 = 249,
-    K_EInputActionOrigin_Switch_Reserved13 = 250,
-    K_EInputActionOrigin_Switch_Reserved14 = 251,
+    K_EInputActionOrigin_Switch_JoyConButton_N = 248,
+    K_EInputActionOrigin_Switch_JoyConButton_E = 249,
+    K_EInputActionOrigin_Switch_JoyConButton_S = 250,
+    K_EInputActionOrigin_Switch_JoyConButton_W = 251,
     K_EInputActionOrigin_Switch_Reserved15 = 252,
     K_EInputActionOrigin_Switch_Reserved16 = 253,
     K_EInputActionOrigin_Switch_Reserved17 = 254,
@@ -1204,10 +1198,10 @@ enum class EInputActionOrigin {
     K_EInputActionOrigin_PS5_Gyro_Yaw = 310,
     K_EInputActionOrigin_PS5_Gyro_Roll = 311,
     K_EInputActionOrigin_PS5_DPad_Move = 312,
-    K_EInputActionOrigin_PS5_Reserved1 = 313,
-    K_EInputActionOrigin_PS5_Reserved2 = 314,
-    K_EInputActionOrigin_PS5_Reserved3 = 315,
-    K_EInputActionOrigin_PS5_Reserved4 = 316,
+    K_EInputActionOrigin_PS5_LeftGrip = 313,
+    K_EInputActionOrigin_PS5_RightGrip = 314,
+    K_EInputActionOrigin_PS5_LeftFn = 315,
+    K_EInputActionOrigin_PS5_RightFn = 316,
     K_EInputActionOrigin_PS5_Reserved5 = 317,
     K_EInputActionOrigin_PS5_Reserved6 = 318,
     K_EInputActionOrigin_PS5_Reserved7 = 319,
@@ -1793,7 +1787,15 @@ enum class EControllerActionOrigin {
     K_EControllerActionOrigin_SteamDeck_Reserved18 = 375,
     K_EControllerActionOrigin_SteamDeck_Reserved19 = 376,
     K_EControllerActionOrigin_SteamDeck_Reserved20 = 377,
-    K_EControllerActionOrigin_Count = 378,
+    K_EControllerActionOrigin_Switch_JoyConButton_N = 378,
+    K_EControllerActionOrigin_Switch_JoyConButton_E = 379,
+    K_EControllerActionOrigin_Switch_JoyConButton_S = 380,
+    K_EControllerActionOrigin_Switch_JoyConButton_W = 381,
+    K_EControllerActionOrigin_PS5_LeftGrip = 382,
+    K_EControllerActionOrigin_PS5_RightGrip = 383,
+    K_EControllerActionOrigin_PS5_LeftFn = 384,
+    K_EControllerActionOrigin_PS5_RightFn = 385,
+    K_EControllerActionOrigin_Count = 386,
     K_EControllerActionOrigin_MaximumPossibleValue = 32767,
 };
 Q_ENUM_NS(EControllerActionOrigin)
@@ -1918,6 +1920,15 @@ enum class EItemPreviewType {
 };
 Q_ENUM_NS(EItemPreviewType)
 
+enum class EUGCContentDescriptorID {
+    K_EUGCContentDescriptor_NudityOrSexualContent = 1,
+    K_EUGCContentDescriptor_FrequentViolenceOrGore = 2,
+    K_EUGCContentDescriptor_AdultOnlySexualContent = 3,
+    K_EUGCContentDescriptor_GratuitousSexualContent = 4,
+    K_EUGCContentDescriptor_AnyMatureContent = 5,
+};
+Q_ENUM_NS(EUGCContentDescriptorID)
+
 enum class ESteamItemFlags {
     K_ESteamItemNoTrade = 1,
     K_ESteamItemRemoved = 256,
@@ -1940,7 +1951,8 @@ enum class EParentalFeature {
     K_EFeatureLibrary = 11,
     K_EFeatureTest = 12,
     K_EFeatureSiteLicense = 13,
-    K_EFeatureMax = 14,
+    K_EFeatureKioskMode = 14,
+    K_EFeatureMax = 15,
 };
 Q_ENUM_NS(EParentalFeature)
 
