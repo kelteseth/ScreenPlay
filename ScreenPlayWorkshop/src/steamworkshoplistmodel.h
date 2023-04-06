@@ -66,7 +66,7 @@ public slots:
     {
         return m_workshopItemList.empty() ? QVariant {} : m_workshopItemList.at(0).m_publishedFileID;
     }
-    unsigned int getBannerAmountSubscriber()
+    quint64 getBannerAmountSubscriber()
     {
         return m_workshopItemList.empty() ? int {} : m_workshopItemList.at(0).m_subscriptionCount;
     }
@@ -95,7 +95,7 @@ private:
     UGCQueryHandle_t m_UGCSearchHandle = 0;
     QVector<WorkshopItem> m_workshopItemList;
 
-    const unsigned int m_appID = 0;
+    const quint64 m_appID = 0;
     int m_pages = 1;
     int m_currentPage = 1;
 };

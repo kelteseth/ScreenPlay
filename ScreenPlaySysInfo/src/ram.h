@@ -11,18 +11,18 @@
 #include <qt_windows.h>
 #endif
 
-#define DWORDLONG unsigned long long
+#define DWORDLONG quint64
 
 class RAM : public QObject {
     Q_OBJECT
 
     Q_PROPERTY(float usage READ usage NOTIFY usageChanged)
-    Q_PROPERTY(unsigned long long usedPhysicalMemory READ usedPhysicalMemory NOTIFY usedPhysicalMemoryChanged)
-    Q_PROPERTY(unsigned long long totalPhysicalMemory READ totalPhysicalMemory NOTIFY totalPhysicalMemoryChanged)
-    Q_PROPERTY(unsigned long long usedVirtualMemory READ usedVirtualMemory NOTIFY usedVirtualMemoryChanged)
-    Q_PROPERTY(unsigned long long totalVirtualMemory READ totalVirtualMemory NOTIFY totalVirtualMemoryChanged)
-    Q_PROPERTY(unsigned long long usedPagingMemory READ usedPagingMemory NOTIFY usedPagingMemoryChanged)
-    Q_PROPERTY(unsigned long long totalPagingMemory READ totalPagingMemory NOTIFY totalPagingMemoryChanged)
+    Q_PROPERTY(quint64 usedPhysicalMemory READ usedPhysicalMemory NOTIFY usedPhysicalMemoryChanged)
+    Q_PROPERTY(quint64 totalPhysicalMemory READ totalPhysicalMemory NOTIFY totalPhysicalMemoryChanged)
+    Q_PROPERTY(quint64 usedVirtualMemory READ usedVirtualMemory NOTIFY usedVirtualMemoryChanged)
+    Q_PROPERTY(quint64 totalVirtualMemory READ totalVirtualMemory NOTIFY totalVirtualMemoryChanged)
+    Q_PROPERTY(quint64 usedPagingMemory READ usedPagingMemory NOTIFY usedPagingMemoryChanged)
+    Q_PROPERTY(quint64 totalPagingMemory READ totalPagingMemory NOTIFY totalPagingMemoryChanged)
     QML_ELEMENT
 
 public:

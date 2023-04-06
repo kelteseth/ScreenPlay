@@ -4,7 +4,7 @@
 #include <QStringList>
 namespace ScreenPlayWorkshop {
 
-SteamWorkshopItem::SteamWorkshopItem(const QString& name, const QUrl& absolutePath, const unsigned int appID)
+SteamWorkshopItem::SteamWorkshopItem(const QString& name, const QUrl& absolutePath, const quint64 appID)
     : QObject()
     , m_name { name }
     , m_absolutePath { absolutePath }
@@ -22,8 +22,8 @@ void SteamWorkshopItem::createWorkshopItem()
 
 void SteamWorkshopItem::checkUploadProgress()
 {
-    unsigned long long _itemProcessed = 0;
-    unsigned long long _bytesTotoal = 0;
+    quint64 _itemProcessed = 0;
+    quint64 _bytesTotoal = 0;
     EItemUpdateStatus status = SteamUGC()->GetItemUpdateProgress(m_UGCUpdateHandle, &_itemProcessed, &_bytesTotoal);
 
     qInfo() << absolutePath() << absolutePreviewImagePath() << name() << uploadProgress() << "% - " << _itemProcessed << _bytesTotoal << status;

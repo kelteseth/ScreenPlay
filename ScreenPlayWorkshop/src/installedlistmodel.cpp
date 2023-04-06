@@ -141,11 +141,6 @@ QVariantMap InstalledListModel::get(QString folderName)
     return map;
 }
 
-int InstalledListModel::getAmountItemLoaded()
-{
-    return m_screenPlayFiles.count();
-}
-
 void InstalledListModel::reset()
 {
     beginResetModel();

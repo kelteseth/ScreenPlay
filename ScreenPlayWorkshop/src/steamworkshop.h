@@ -33,8 +33,8 @@ struct SteamItemUpdate {
     }
     QString absoluteStoragePath;
     UGCUpdateHandle_t steamUGCUpdateHandle = 0;
-    unsigned long long itemProcessed = 0;
-    unsigned long long bytesTotal = 0;
+    quint64 itemProcessed = 0;
+    quint64 bytesTotal = 0;
 };
 
 class SteamWorkshop : public QObject {
@@ -43,9 +43,9 @@ class SteamWorkshop : public QObject {
 
     Q_PROPERTY(bool online READ online WRITE setOnline NOTIFY onlineChanged)
     Q_PROPERTY(bool queryActive READ queryActive WRITE setQueryActive NOTIFY queryActiveChanged)
-    Q_PROPERTY(unsigned long long itemProcessed READ itemProcessed WRITE setItemProcessed NOTIFY itemProcessedChanged)
-    Q_PROPERTY(unsigned long long bytesTotal READ bytesTotal WRITE setBytesTotal NOTIFY bytesTotalChanged)
-    Q_PROPERTY(unsigned int appID READ appID)
+    Q_PROPERTY(quint64 itemProcessed READ itemProcessed WRITE setItemProcessed NOTIFY itemProcessedChanged)
+    Q_PROPERTY(quint64 bytesTotal READ bytesTotal WRITE setBytesTotal NOTIFY bytesTotalChanged)
+    Q_PROPERTY(quint64 appID READ appID)
     Q_PROPERTY(SteamWorkshopListModel* workshopListModel READ workshopListModel WRITE setWorkshopListModel NOTIFY workshopListModelChanged)
     Q_PROPERTY(SteamWorkshopListModel* workshopProfileListModel READ workshopProfileListModel WRITE setWorkshopProfileListModel NOTIFY workshopProfileListModelChanged)
     Q_PROPERTY(UploadListModel* uploadListModel READ uploadListModel NOTIFY uploadListModelChanged)
@@ -64,9 +64,9 @@ public:
 
     bool online() const { return m_online; }
     bool queryActive() const { return m_queryActive; }
-    unsigned long long itemProcessed() const { return m_itemProcessed; }
-    unsigned int appID() const { return m_appID; }
-    unsigned long long bytesTotal() const { return m_bytesTotal; }
+    quint64 itemProcessed() const { return m_itemProcessed; }
+    quint64 appID() const { return m_appID; }
+    quint64 bytesTotal() const { return m_bytesTotal; }
     UploadListModel* uploadListModel() const { return m_uploadListModel.get(); }
     SteamAccount* steamAccount() const { return m_steamAccount.get(); }
     SteamWorkshopListModel* workshopListModel() const { return m_workshopListModel.get(); }
@@ -103,7 +103,7 @@ public slots:
         return m_queryActive;
     }
 
-    void setItemProcessed(unsigned long long itemProcessed)
+    void setItemProcessed(quint64 itemProcessed)
     {
         if (m_itemProcessed == itemProcessed)
             return;
@@ -112,7 +112,7 @@ public slots:
         emit itemProcessedChanged(m_itemProcessed);
     }
 
-    void setBytesTotal(unsigned long long bytesTotal)
+    void setBytesTotal(quint64 bytesTotal)
     {
         if (m_bytesTotal == bytesTotal)
             return;
@@ -237,9 +237,9 @@ private:
 
     bool m_steamErrorRestart = false;
     bool m_steamErrorAPIInit = false;
-    unsigned long long m_itemProcessed = 0;
-    unsigned long long m_bytesTotal = 0;
-    const unsigned int m_appID = 672870;
+    quint64 m_itemProcessed = 0;
+    quint64 m_bytesTotal = 0;
+    const quint64 m_appID = 672870;
     bool m_online = false;
     bool m_queryActive = false;
 

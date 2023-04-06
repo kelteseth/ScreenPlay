@@ -95,7 +95,7 @@ public slots:
         endResetModel();
     }
 
-    void append(const QString& name, const QString& path, const unsigned int appID)
+    void append(const QString& name, const QString& path, const quint64 appID)
     {
         auto item = std::make_unique<SteamWorkshopItem>(name, path, appID);
         QObject::connect(item.get(), &SteamWorkshopItem::userNeedsToAcceptWorkshopLegalAgreement, this, &UploadListModel::userNeedsToAcceptWorkshopLegalAgreement);

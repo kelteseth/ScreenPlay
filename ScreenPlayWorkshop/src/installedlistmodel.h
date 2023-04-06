@@ -77,7 +77,6 @@ public slots:
         m_absoluteStoragePath = absoluteStoragePath;
         emit absoluteStoragePathChanged(m_absoluteStoragePath);
     }
-    int getAmountItemLoaded();
     void reset();
 
 signals:

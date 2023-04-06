@@ -91,7 +91,7 @@ public slots:
     QPointF cursorPos() { return QCursor::pos(); }
 
 #ifdef Q_OS_WIN
-    void setWindowBlur(unsigned int style = 3);
+    void setWindowBlur(quint64 style = 3);
 #endif
 
     void setPosition(QPoint position)

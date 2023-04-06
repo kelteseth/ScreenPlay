@@ -39,7 +39,7 @@ public:
     SteamWorkshopItem(
         const QString& name,
         const QUrl& absolutePath,
-        const unsigned int appID);
+        const quint64 appID);
 
     QString name() const { return m_name; }
     QUrl absolutePath() const { return m_absolutePath; }
@@ -133,7 +133,7 @@ private:
     QString m_name;
     QUrl m_absolutePath;
     QUrl m_absolutePreviewImagePath;
-    unsigned int m_appID { 0 };
+    quint64 m_appID { 0 };
     const int m_updateTimerInterval { 500 };
     int m_uploadProgress { 0 }; // 0 - 100
     ScreenPlayWorkshopSteamEnums::EResult m_status { ScreenPlayWorkshopSteamEnums::EResult::K_EResultNone };

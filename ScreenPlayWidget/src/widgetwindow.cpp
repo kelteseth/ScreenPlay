@@ -148,7 +148,7 @@ void WidgetWindow::setWidgetSize(const int with, const int height)
 }
 
 #ifdef Q_OS_WIN
-void WidgetWindow::setWindowBlur(unsigned int style)
+void WidgetWindow::setWindowBlur(quint64 style)
 {
 
     const HINSTANCE hModule = LoadLibrary(TEXT("user32.dll"));
