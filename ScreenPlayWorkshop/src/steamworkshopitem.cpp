@@ -37,9 +37,14 @@ void SteamWorkshopItem::checkUploadProgress()
     if (progress > 0.0f && progress < 1.0f)
         setUploadProgress((progress * 100));
 }
-
 void SteamWorkshopItem::uploadItemToWorkshop(CreateItemResult_t* pCallback, bool bIOFailure)
 {
+    if (!pCallback) {
+        qWarning() << "Invalid CreateItemResult_t pointer";
+        emit removeThis(this);
+        return;
+    }
+
     if (pCallback->m_bUserNeedsToAcceptWorkshopLegalAgreement) {
         emit userNeedsToAcceptWorkshopLegalAgreement();
     }
@@ -87,7 +92,7 @@ void SteamWorkshopItem::uploadItemToWorkshop(CreateItemResult_t* pCallback, bool
 
     QString youtube;
     if (jsonObject.contains("youtube")) {
-        language = jsonObject.value("youtube").toString();
+        youtube = jsonObject.value("youtube").toString();
     }
 
     if (!youtube.isEmpty()) {
@@ -159,6 +164,11 @@ void SteamWorkshopItem::uploadItemToWorkshop(CreateItemResult_t* pCallback, bool
     saveWorkshopID();
 
     SteamAPICall_t apicall = SteamUGC()->SubmitItemUpdate(m_UGCUpdateHandle, nullptr);
+    if (apicall == k_uAPICallInvalid) {
+        qWarning() << "Failed to submit item update";
+        return;
+    }
+
     m_submitItemUpdateResultResult.Set(apicall, this, &SteamWorkshopItem::submitItemUpdateStatus);
     m_updateTimer.start(m_updateTimerInterval);
 }
