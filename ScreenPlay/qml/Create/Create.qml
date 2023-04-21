@@ -14,7 +14,7 @@ Item {
 
     property Item modalSource
 
-    Component.onCompleted: {
+    StackView.onActivated: {
         wizardContentWrapper.state = "in";
         stackView.push("qrc:/qml/ScreenPlayApp/qml/Create/StartInfo.qml");
     }

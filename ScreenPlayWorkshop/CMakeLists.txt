@@ -10,11 +10,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(
     Qt6
-    COMPONENTS Core Quick QuickControls2
+    COMPONENTS Core Quick QuickControls2 QuickTest
     REQUIRED)
 
 set(QML
     # cmake-format: sort
+    qml/tests/tst_profile.qml
     qml/Background.qml
     qml/Forum.qml
     qml/Navigation.qml
@@ -41,6 +42,7 @@ set(SOURCES
     src/steamaccount.cpp
     src/steamapiwrapper.cpp
     src/steamqmlimageprovider.cpp
+    src/steamprofilepicture.cpp
     src/steamworkshop.cpp
     src/steamworkshopitem.cpp
     src/steamworkshoplistmodel.cpp)
@@ -52,6 +54,7 @@ set(HEADER
     src/steamaccount.h
     src/steamapiwrapper.h
     src/steamqmlimageprovider.h
+    src/steamprofilepicture.h
     src/steamworkshop.h
     src/steamworkshopitem.h
     src/steamworkshoplistmodel.h
@@ -142,5 +145,16 @@ if(${SCREENPLAY_STEAM})
                     ScreenPlayUtilplugin
                     SteamSDK
                     SteamSDKQtEnums)
-    endif()
+                    
+        qt_add_executable(tst_ScreenPlayWorkshop_QTest src/QuickTestMain.cpp)
+        target_link_libraries(
+            tst_ScreenPlayWorkshop_QTest
+            PRIVATE Qt6::Quick
+                    Qt6::QuickControls2
+                    Qt6::QuickTest
+                    ${PROJECT_NAME}plugin
+                    ScreenPlayUtilplugin
+                    SteamSDK
+                    SteamSDKQtEnums)
+endif()
 endif()

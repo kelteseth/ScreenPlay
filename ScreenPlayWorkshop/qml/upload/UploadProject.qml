@@ -9,8 +9,7 @@ Item {
 
     property ScreenPlayWorkshop screenPlayWorkshop
     property SteamWorkshop steamWorkshop
-
-    signal requestBack
+    property StackView stackView
 
     Item {
         id: headerWrapper
@@ -109,7 +108,7 @@ Item {
 
                 text: qsTr("Abort")
                 onClicked: {
-                    root.requestBack();
+                        stackView.pop();
                 }
 
                 anchors {

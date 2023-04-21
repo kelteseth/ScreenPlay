@@ -16,6 +16,10 @@ Window {
     property string fontFamily: "Arial"
     property int fontPointSize: 14
 
+    AudioLevel {
+        id: audioLevel
+    }
+
     SysInfo {
         id: sysInfo
     }

@@ -39,7 +39,7 @@ Item {
         }
     }
 
-    Component.onCompleted: {
+    StackView.onActivated: {
         navWrapper.state = "in";
         App.installedListFilter.sortBySearchType(SearchType.All);
         checkIsContentInstalled();

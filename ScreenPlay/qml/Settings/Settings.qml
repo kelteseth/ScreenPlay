@@ -77,19 +77,6 @@ Item {
                     }
 
                     SettingBool {
-                        headline: qsTr("High priority Autostart")
-                        available: false
-                        description: qsTr("This options grants ScreenPlay a higher autostart priority than other apps.")
-                        isChecked: App.settings.highPriorityStart
-                        onCheckboxChanged: {
-                            App.settings.setHighPriorityStart(checked);
-                        }
-                    }
-
-                    SettingsHorizontalSeperator {
-                    }
-
-                    SettingBool {
                         height: 70
                         headline: qsTr("Send anonymous crash reports and statistics")
                         description: qsTr("Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use <a href=\"https://sentry.io\">sentry.io</a> to collect and analyze this data. A <b>big thanks to them</b> for providing us with free premium support for open source projects!")
@@ -240,7 +227,7 @@ Item {
                 header: SettingsHeader {
                     id: headerPerformance
 
-                    text: qsTr("Performance")
+                    text: qsTr("Wallpaper and Widgets")
                     image: "qrc:/qml/ScreenPlayApp/assets/icons/icon_build.svg"
                 }
 
@@ -249,22 +236,10 @@ Item {
                     anchors.margins: 20
                     spacing: 20
 
-                    SettingBool {
-                        headline: qsTr("Pause wallpaper video rendering while another app is in the foreground")
-                        description: qsTr("We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!")
-                        isChecked: App.settings.checkWallpaperVisible
-                        onCheckboxChanged: function (checked) {
-                            App.settings.setCheckWallpaperVisible(checked);
-                        }
-                    }
-
-                    SettingsHorizontalSeperator {
-                    }
-
                     SettingsComboBox {
                         id: cbVideoFillMode
 
-                        headline: qsTr("Default Fill Mode")
+                        headline: qsTr("Default Wallpaper Fill Mode")
                         description: qsTr("Set this property to define how the video is scaled to fit the target area.")
                         Component.onCompleted: {
                             cbVideoFillMode.comboBox.currentIndex = root.indexOfValue(cbVideoFillMode.comboBox.model, App.settings.videoFillMode);

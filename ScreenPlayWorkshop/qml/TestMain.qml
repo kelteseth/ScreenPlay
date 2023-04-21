@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import ScreenPlayWorkshop
+import QtTest
 
 Window {
     id: root
@@ -13,6 +14,7 @@ Window {
     Component.onCompleted: {
         root.Material.theme = Material.Dark;
     }
+
 
     ScreenPlayWorkshop {
         id: screenPlayWorkshop

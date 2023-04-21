@@ -24,6 +24,7 @@ set(QML_PLUGIN_SOURCES
     src/ipaddress.cpp
     src/ram.cpp
     src/storage.cpp
+    src/audiolevel.cpp
     src/sysinfo.cpp
     src/uptime.cpp)
 
@@ -35,6 +36,7 @@ set(QML_PLUGIN_HEADER
     src/mathhelper.h
     src/ram.h
     src/storage.h
+    src/audiolevel.h
     src/sysinfo.h
     src/uptime.h)
 
@@ -43,7 +45,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Quick infoware)
 target_include_directories(${PROJECT_NAME} PUBLIC src/)
 
 if(WIN32)
-    target_link_libraries(${PROJECT_NAME} PRIVATE ole32.lib winmm.lib)
+    find_package(wil CONFIG REQUIRED) 
+    target_link_libraries(${PROJECT_NAME} PRIVATE ole32.lib winmm.lib WIL::WIL)
 endif()
 
 qt_add_qml_module(

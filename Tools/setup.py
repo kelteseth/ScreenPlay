@@ -117,6 +117,7 @@ def main():
         vcpkg_command = "vcpkg.exe"
         vcpkg_packages_list.append("infoware[d3d]")
         vcpkg_packages_list.append("sentry-native[transport]")
+        vcpkg_packages_list.append("wil")
         platform_command = commands_list()
         platform_command.add("bootstrap-vcpkg.bat", vcpkg_path, False)
         vcpkg_triplet = ["x64-windows"]

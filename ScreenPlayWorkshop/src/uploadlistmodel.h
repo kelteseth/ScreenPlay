@@ -94,37 +94,39 @@ public slots:
         m_uploadListModelItems.clear();
         endResetModel();
     }
-
     void append(const QString& name, const QString& path, const quint64 appID)
     {
         auto item = std::make_unique<SteamWorkshopItem>(name, path, appID);
+
+        const auto roles = QVector<int> {
+            static_cast<int>(UploadListModelRole::UploadProgressRole),
+            static_cast<int>(UploadListModelRole::NameRole),
+            static_cast<int>(UploadListModelRole::AbsolutePreviewImagePath),
+            static_cast<int>(UploadListModelRole::Status)
+        };
+
+        const auto onDataChanged = [&]() {
+            emit this->dataChanged(index(0, 0), index(rowCount() - 1, 0), roles);
+        };
+
         QObject::connect(item.get(), &SteamWorkshopItem::userNeedsToAcceptWorkshopLegalAgreement, this, &UploadListModel::userNeedsToAcceptWorkshopLegalAgreement);
+        QObject::connect(item.get(), &SteamWorkshopItem::uploadProgressChanged, this, onDataChanged);
+        QObject::connect(item.get(), &SteamWorkshopItem::nameChanged, this, onDataChanged);
+        QObject::connect(item.get(), &SteamWorkshopItem::absolutePreviewImagePathChanged, this, onDataChanged);
+        QObject::connect(item.get(), &SteamWorkshopItem::uploadComplete, this, [=](bool successful) {
+            onDataChanged();
+        });
+        QObject::connect(item.get(), &SteamWorkshopItem::statusChanged, this, [=](ScreenPlayWorkshopSteamEnums::EResult status) {
+            onDataChanged();
 
-        QObject::connect(item.get(), &SteamWorkshopItem::uploadProgressChanged, this, [this]() {
-            emit this->dataChanged(index(0, 0), index(rowCount() - 1, 0), QVector<int> { static_cast<int>(UploadListModelRole::UploadProgressRole) });
-        });
-        QObject::connect(item.get(), &SteamWorkshopItem::nameChanged, this, [this]() {
-            emit this->dataChanged(index(0, 0), index(rowCount() - 1, 0), QVector<int> { static_cast<int>(UploadListModelRole::NameRole) });
-        });
-        QObject::connect(item.get(), &SteamWorkshopItem::absolutePreviewImagePathChanged, this, [this]() {
-            emit this->dataChanged(index(0, 0), index(rowCount() - 1, 0), QVector<int> { static_cast<int>(UploadListModelRole::AbsolutePreviewImagePath) });
-        });
-        QObject::connect(item.get(), &SteamWorkshopItem::uploadComplete, this, [this](bool successful) {
-            emit this->dataChanged(index(0, 0), index(rowCount() - 1, 0), QVector<int> { static_cast<int>(UploadListModelRole::AbsolutePreviewImagePath) });
-        });
-        QObject::connect(item.get(), &SteamWorkshopItem::statusChanged, this, [this](ScreenPlayWorkshopSteamEnums::EResult status) {
-            emit this->dataChanged(index(0, 0), index(rowCount() - 1, 0), QVector<int> { static_cast<int>(UploadListModelRole::Status) });
+            bool allItemsUploaded = std::all_of(m_uploadListModelItems.cbegin(), m_uploadListModelItems.cend(), [](const auto& item) {
+                const auto status = item->status();
+                return status == ScreenPlayWorkshopSteamEnums::EResult::K_EResultOK || status == ScreenPlayWorkshopSteamEnums::EResult::K_EResultFail;
+            });
 
-            // Check if all items are
-
-            for (const auto& item : m_uploadListModelItems) {
-                qDebug() << "item->status() " << item->status();
-                if (!(item->status() != ScreenPlayWorkshopSteamEnums::EResult::K_EResultOK
-                        || item->status() != ScreenPlayWorkshopSteamEnums::EResult::K_EResultFail)) {
-                    return;
-                }
+            if (allItemsUploaded) {
+                emit this->uploadCompleted();
             }
-            emit this->uploadCompleted();
         });
 
         beginInsertRows(QModelIndex(), rowCount(), rowCount());
