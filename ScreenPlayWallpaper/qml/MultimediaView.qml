@@ -40,12 +40,6 @@ Item {
                 fadeInDone = true
                 Wallpaper.requestFadeIn();
             }
-            // Qt 6.5 workaround
-            // https://bugreports.qt.io/browse/QTBUG-111209
-            if (mediaPlayer.playbackState == MediaPlayer.StoppedState) {
-                if(root.loops)
-                    mediaPlayer.play();
-            }
         }
         loops: root.loops ? MediaPlayer.Infinite : 1
         videoOutput: vo

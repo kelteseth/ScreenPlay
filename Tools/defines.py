@@ -20,7 +20,7 @@ elif sys.platform == "linux":
 
 SCREENPLAY_VERSION = "0.15.0-RC6"
 QT_PATH =  path = Path(os.path.join(os.path.realpath(__file__), "../../../aqt")).resolve()
-QT_VERSION = "6.5.0"
+QT_VERSION = "6.5.1"
 QT_BIN_PATH = QT_PATH.joinpath(f"{QT_VERSION}/{QT_PLATFORM}/bin")
 QT_TOOLS_PATH = QT_PATH.joinpath("Tools/")
 QT_IFW_VERSION = "4.5"

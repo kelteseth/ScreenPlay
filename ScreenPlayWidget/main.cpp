@@ -4,8 +4,7 @@
 #include <QQmlApplicationEngine>
 #include <QString>
 #include <QStringList>
-#include <QtWebEngineQuick>
-
+#include <QQmlExtensionPlugin>
 #include "ScreenPlayWidget/CMakeVariables.h"
 
 #include "src/widgetwindow.h"
@@ -26,8 +25,6 @@ int main(int argc, char* argv[])
     qputenv("QT_MEDIA_BACKEND", "ffmpeg");
 #endif
 
-    QGuiApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
-    QtWebEngineQuick::initialize();
 
     QGuiApplication app(argc, argv);
 

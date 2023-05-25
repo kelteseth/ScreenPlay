@@ -4,7 +4,6 @@
 #include <QStringList>
 #include <QVector>
 #include <QtGlobal>
-#include <QtWebEngineQuick>
 
 #include "ScreenPlayUtil/exitcodes.h"
 #include "ScreenPlayUtil/util.h"
@@ -26,15 +25,8 @@ int main(int argc, char* argv[])
 {
 
 #if defined(Q_OS_WIN)
-    qputenv("QT_MEDIA_BACKEND", "windows"); // Workaround for Qt 6.5 looping lag bug https://bugreports.qt.io/browse/QTBUG-111209
+    qputenv("QT_MEDIA_BACKEND", "windows"); // Workaround for Qt 6.5.1 crash https://bugreports.qt.io/browse/QTBUG-113832
 #endif
-
-#if defined(Q_OS_OSX)
-    qputenv("QT_MEDIA_BACKEND", "ffmpeg");
-#endif
-
-    QGuiApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
-    QtWebEngineQuick::initialize();
 
     QGuiApplication app(argc, argv);
 
@@ -54,13 +46,13 @@ int main(int argc, char* argv[])
     if (argumentList.length() == 1) {
         QString exampleContentPath = QString(SCREENPLAY_SOURCE_DIR) + "/Content";
         QStringList contentFolder = {
-            "/wallpaper_landscape",
             "/wallpaper_video_nebula",
+            "/wallpaper_landscape",
             "/wallpaper_particles"
         };
         QString projectPath = exampleContentPath + contentFolder.at(0);
 
-        window.setActiveScreensList({ 1 });
+        window.setActiveScreensList({ 0 });
         window.setProjectPath(projectPath);
         window.setAppID("test");
         window.setVolume(1);
