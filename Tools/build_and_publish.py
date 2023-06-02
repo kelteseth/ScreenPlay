@@ -8,7 +8,6 @@ import argparse
 import os
 import build
 from pathlib import Path
-from macos_lipo import run_lipo, check_fat_binary
 import platform
 import paramiko
 import defines
