@@ -25,6 +25,6 @@ QT_BIN_PATH = QT_PATH.joinpath(f"{QT_VERSION}/{QT_PLATFORM}/bin")
 QT_TOOLS_PATH = QT_PATH.joinpath("Tools/")
 QT_IFW_VERSION = "4.5"
 # 02.06.2023 https://gitlab.com/kelteseth/screenplay-vcpkg :
-VCPKG_VERSION = "e9e5a6fa2e23bc4928fd6281f0cbd66f58d89209"
+VCPKG_VERSION = "f06975f46d8c7a1dad916e1e997584f77ae0c34a"
 PYTHON_EXECUTABLE = "python" if sys.platform == "win32" else "python3"
 FFMPEG_VERSION = "5.0.1"
