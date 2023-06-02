@@ -59,7 +59,7 @@ def download(aqt_path: Path, qt_platform: Path):
     # see:  python -m aqt list-tool windows desktop
     tools = ["tools_ifw", "tools_qtcreator", "tools_ninja" ,"tools_cmake"]
     if system() == "Windows":
-        tools += "tools_opensslv3_x64"
+        tools += ["tools_opensslv3_x64"]
     for tool in tools:
         execute(f"{defines.PYTHON_EXECUTABLE} -m aqt install-tool -O {aqt_path} {os} desktop {tool}")
 
