@@ -58,6 +58,8 @@ def download(aqt_path: Path, qt_platform: Path):
     # Tools can only be installed one at the time:
     # see:  python -m aqt list-tool windows desktop
     tools = ["tools_ifw", "tools_qtcreator", "tools_ninja" ,"tools_cmake"]
+    if system() == "Windows":
+        tools += "tools_opensslv3_x64"
     for tool in tools:
         execute(f"{defines.PYTHON_EXECUTABLE} -m aqt install-tool -O {aqt_path} {os} desktop {tool}")
 
@@ -103,7 +105,6 @@ def main():
     project_source_parent_path = root_path.joinpath("../").resolve()
     vcpkg_path = project_source_parent_path.joinpath("vcpkg").resolve()
     vcpkg_packages_list = [
-    "openssl",
     "curl",
     "cpp-httplib",
     "libarchive"
@@ -128,7 +129,7 @@ def main():
         platform_command.add("chmod +x bootstrap-vcpkg.sh", vcpkg_path)
         platform_command.add("./bootstrap-vcpkg.sh", vcpkg_path, False)
         platform_command.add("chmod +x vcpkg", vcpkg_path)
-        vcpkg_triplet = ["x64-osx", "arm64-osx"]
+        vcpkg_triplet = ["64-osx-universal"]
     elif system() == "Linux":
         vcpkg_command = "./vcpkg"
         #vcpkg_packages_list.append("infoware[opengl]")
@@ -141,7 +142,7 @@ def main():
         raise NotImplementedError("Unknown system: {}".format(system()))
 
     print(f"Clone into {vcpkg_path}")
-    execute("git clone https://github.com/microsoft/vcpkg.git vcpkg", project_source_parent_path, True)
+    execute("git clone https://gitlab.com/kelteseth/screenplay-vcpkg vcpkg", project_source_parent_path, True)
     execute("git fetch", vcpkg_path)
     execute(f"git checkout {defines.VCPKG_VERSION}", vcpkg_path)
     

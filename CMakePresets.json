@@ -2,7 +2,7 @@
   "version": 5,
   "cmakeMinimumRequired": {
     "major": 3,
-    "minor": 26,
+    "minor": 23,
     "patch": 0
   },
   "configurePresets": [
@@ -78,7 +78,7 @@
       "displayName": "ScreenPlay 64bit Debug Linux",
       "description": "Linux only!",
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6.4.2_GCC_Debug",
+      "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6.5.1_GCC_Debug",
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
@@ -95,7 +95,7 @@
         "CMAKE_CXX_COMPILER": "g++",
         "CMAKE_C_COMPILER": "gcc",
         "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_PREFIX_PATH": "$env{qt_path}/6.4.2/gcc_64",
+        "CMAKE_PREFIX_PATH": "$env{qt_path}/6.5.1/gcc_64",
         "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/../vcpkg/scripts/buildsystems/vcpkg.cmake",
         "VCPKG_TARGET_TRIPLET": "x64-linux"
       }
@@ -104,7 +104,7 @@
       "name": "linux-relwithdebinfo",
       "displayName": "ScreenPlay 64bit RelWithDebInfo Linux",
       "inherits":"linux-debug",
-      "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6.4.2_GCC_RelWithDebInfo",
+      "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6.5.1_GCC_RelWithDebInfo",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "RelWithDebInfo"
       }
@@ -123,11 +123,9 @@
       "environment" : {
         "qt_path": "${sourceDir}/../aqt"
       },
-      "architecture": {
-        "value": "x64",
-        "strategy": "external"
-      },
       "cacheVariables": {
+        "VCPKG_OSX_ARCHITECTURES":"arm64;x86_64",
+        "VCPKG_TARGET_TRIPLET": "64-osx-universal",
         "CMAKE_CXX_COMPILER": "clang++",
         "CMAKE_C_COMPILER": "clang",
         "CMAKE_BUILD_TYPE": "Debug",

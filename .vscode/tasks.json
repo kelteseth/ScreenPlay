@@ -104,8 +104,7 @@
                     "build.py",
                     "-type=release",
                     "-deploy-version",
-                    "-steam",
-                    "-architecture=arm64"
+                    "-steam"
                 ]
             },
             "args": [

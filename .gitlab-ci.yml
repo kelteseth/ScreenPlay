@@ -94,7 +94,7 @@ steam_osx:
     artifacts:
         expire_in: "2 weeks"
         paths:
-            - build-universal-osx-release/bin/
+            - build-64-osx-universal-release/bin/
 
 formatting:
     stage: check
