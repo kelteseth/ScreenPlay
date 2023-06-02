@@ -5,7 +5,7 @@
   // include all files recursively
   "FileMapping"
   {
-    "LocalPath" "build-universal-osx-release/bin/*"
+    "LocalPath" "build-64-osx-universal-release/bin/*"
     "DepotPath" "."
     "recursive" "1"
   }
