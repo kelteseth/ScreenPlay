@@ -298,10 +298,17 @@ def package(build_config: BuildConfig):
     if platform.system() == "Windows":
         vcpkg_bin_path = Path(
             f"{build_config.root_path}/../vcpkg/installed/x64-windows/bin").resolve()
-        print(f"Copy dlls from vcpkg bin path: {vcpkg_bin_path}")
         for file in vcpkg_bin_path.iterdir():
             if file.suffix == ".dll" and file.is_file():
-                print(file, build_config.bin_dir)
+                print("Copy: ", file, build_config.bin_dir)
+                shutil.copy2(file, build_config.bin_dir)
+
+        # Use Qt OpenSSLv3
+        openSLL_path = Path(
+            f"{defines.QT_PATH}/Tools/OpenSSLv3/Win_x64/bin").resolve()
+        for file in openSLL_path.iterdir():
+            if file.suffix == ".dll" and file.is_file():
+                print("Copy: ", file, build_config.bin_dir)
                 shutil.copy2(file, build_config.bin_dir)
 
     if not platform.system() == "Darwin":

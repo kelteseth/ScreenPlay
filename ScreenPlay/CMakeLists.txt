@@ -251,7 +251,6 @@ if(WIN32)
     # CURL must be included before sentry because sentry needs the module and does not include it itself on macos...
     find_package(CURL CONFIG REQUIRED)
     find_package(sentry CONFIG REQUIRED)
-    find_package(OpenSSL CONFIG REQUIRED)
 endif()
 
 find_package(
