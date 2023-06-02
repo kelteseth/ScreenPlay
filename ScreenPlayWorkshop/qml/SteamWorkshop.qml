@@ -44,15 +44,6 @@ Item {
     StackView {
         id: stackView
         property int duration: 300
-
-        Connections {
-            target: stackView.currentItem
-            ignoreUnknownSignals: true
-            function onRequestBack() {
-                stackView.pop();
-            }
-        }
-
         anchors.fill: parent
         replaceEnter: Transition {
             OpacityAnimator {

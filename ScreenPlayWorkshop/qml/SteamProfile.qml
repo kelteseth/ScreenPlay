@@ -8,12 +8,12 @@ import "upload/"
 
 Item {
     id: root
+    objectName: "WorkshopProfilePage"
 
     property ScreenPlayWorkshop screenPlayWorkshop
     property SteamWorkshop steamWorkshop
-
-    signal requestBack
-    Component.onCompleted: steamWorkshop.requestUserItems()
+    property StackView stackView
+    StackView.onActivated: steamWorkshop.requestUserItems()
 
     Flickable {
         id: scrollView
@@ -39,28 +39,11 @@ Item {
                     verticalCenter: parent.verticalCenter
                 }
                 spacing: 20
-                SteamImage {
+                SteamProfilePicture {
                     id: avatar
 
                     width: 70
                     height: 70
-                    Component.onCompleted: {
-                        root.steamWorkshop.steamAccount.loadAvatar();
-                    }
-
-                    Connections {
-                        function onAvatarChanged(_avatar) {
-                            avatar.setImage(_avatar);
-                            avatarPlaceholder.opacity = 0;
-                        }
-
-                        target: root.steamWorkshop.steamAccount
-                    }
-                    Image {
-                        id: avatarPlaceholder
-                        anchors.fill: parent
-                        source: "qrc:/qml/ScreenPlayWorkshop/assets/images/steam_default_avatar.png"
-                    }
                 }
 
                 Text {
@@ -71,7 +54,9 @@ Item {
 
                 Button {
                     text: qsTr("Back")
-                    onClicked: root.requestBack()
+                    onClicked: {
+                        stackView.pop();
+                    }
                 }
             }
         }

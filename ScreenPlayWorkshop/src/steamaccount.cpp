@@ -14,6 +14,9 @@ SteamAccount::SteamAccount(QObject* parent)
 
 void SteamAccount::loadAvatar()
 {
+    if (!m_avatar.isNull()) {
+        return;
+    }
     int largeFriendAvatarHandle = SteamFriends()->GetLargeFriendAvatar(m_steamID);
 
     // Returns 0 if no avatar is set for the user.
@@ -43,40 +46,33 @@ void SteamAccount::loadAmountSubscribedItems()
 
 void SteamAccount::onAvatarImageLoaded(AvatarImageLoaded_t* avatarImage)
 {
-    // If called from another steam app
     if (m_avatarLoaded)
         return;
 
     const int largeFriendAvatarHandle = SteamFriends()->GetLargeFriendAvatar(m_steamID);
 
     if (largeFriendAvatarHandle <= 0) {
-        qWarning() << "onAvatarImageLoaded: getLargeFriendAvatarResult retunred: " << largeFriendAvatarHandle;
+        qWarning() << "onAvatarImageLoaded: GetLargeFriendAvatar returned: " << largeFriendAvatarHandle;
         return;
     }
 
     uint32 width = 0;
     uint32 height = 0;
-    if (!SteamUtils()->GetImageSize(avatarImage->m_iImage, &width, &height)) {
-        qWarning() << "Failed GetImageSize";
+    const bool sizeRetrieved = SteamUtils()->GetImageSize(avatarImage->m_iImage, &width, &height);
+    if (!sizeRetrieved) {
+        qWarning() << "onAvatarImageLoaded: Failed to get image size";
         return;
     }
 
-    const int size = width * height * 4;
-    QVector<uint8> imageData;
-    imageData.resize(size);
-
-    if (!SteamUtils()->GetImageRGBA(avatarImage->m_iImage, imageData.data(), size)) {
-        qWarning() << "Failed to load image buffer from callback";
+    const int imageSize = width * height * 4;
+    QVector<uint8> imageData(imageSize);
+    const bool imageRetrieved = SteamUtils()->GetImageRGBA(avatarImage->m_iImage, imageData.data(), imageSize);
+    if (!imageRetrieved) {
+        qWarning() << "onAvatarImageLoaded: Failed to load image buffer from callback";
         return;
     }
 
-    QImage avatar {
-        imageData.data(),
-        static_cast<int>(width),
-        static_cast<int>(height),
-        QImage::Format_RGBA8888
-    };
-
+    const QImage avatar { imageData.data(), static_cast<int>(width), static_cast<int>(height), QImage::Format_RGBA8888 };
     setAvatar(avatar);
     m_avatarLoaded = true;
 }

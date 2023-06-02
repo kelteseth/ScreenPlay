@@ -37,9 +37,14 @@ void SteamWorkshopItem::checkUploadProgress()
     if (progress > 0.0f && progress < 1.0f)
         setUploadProgress((progress * 100));
 }
-
 void SteamWorkshopItem::uploadItemToWorkshop(CreateItemResult_t* pCallback, bool bIOFailure)
 {
+    if (!pCallback) {
+        qWarning() << "Invalid CreateItemResult_t pointer";
+        emit removeThis(this);
+        return;
+    }
+
     if (pCallback->m_bUserNeedsToAcceptWorkshopLegalAgreement) {
         emit userNeedsToAcceptWorkshopLegalAgreement();
     }
@@ -87,7 +92,7 @@ void SteamWorkshopItem::uploadItemToWorkshop(CreateItemResult_t* pCallback, bool
 
     QString youtube;
     if (jsonObject.contains("youtube")) {
-        language = jsonObject.value("youtube").toString();
+        youtube = jsonObject.value("youtube").toString();
     }
 
     if (!youtube.isEmpty()) {
@@ -132,21 +137,21 @@ void SteamWorkshopItem::uploadItemToWorkshop(CreateItemResult_t* pCallback, bool
 
     m_UGCUpdateHandle = SteamUGC()->StartItemUpdate(m_appID, pCallback->m_nPublishedFileId);
 
-    QVector<QByteArray> tagByteArray;
+    QVector<const char*> tagCharArray;
     for (const auto& tag : tags) {
         if (tag.length() > 255) {
-            qInfo() << "Skip to long tag (max 255) " << tag << " with length:" << tag.length();
+            qInfo() << "Skip too long tag (max 255):" << tag;
             continue;
         }
-        tagByteArray.append(tag.toUtf8());
-        pTags->m_ppStrings[i] = tagByteArray.at(i).data();
-        qInfo() << tag.toStdString().c_str() << pTags->m_ppStrings[i];
-        i++;
+        tagCharArray.append(tag.toUtf8());
     }
-    pTags->m_nNumStrings = count;
-    bool success = SteamUGC()->SetItemTags(m_UGCUpdateHandle, pTags);
-    qInfo() << "SetItemTags" << success;
+    pTags->m_nNumStrings = tagCharArray.count();
+    pTags->m_ppStrings = tagCharArray.data();
 
+    bool success = SteamUGC()->SetItemTags(m_UGCUpdateHandle, pTags);
+    if (!success) {
+        qWarning() << "Failed to set item tags";
+    }
     SteamUGC()->AddItemPreviewFile(m_UGCUpdateHandle, QByteArray(preview.toUtf8()).data(), EItemPreviewType::k_EItemPreviewType_Image);
     SteamUGC()->SetItemTitle(m_UGCUpdateHandle, QByteArray(title.toUtf8().data()));
     SteamUGC()->SetItemDescription(m_UGCUpdateHandle, QByteArray(description.toUtf8()).data());
@@ -159,6 +164,11 @@ void SteamWorkshopItem::uploadItemToWorkshop(CreateItemResult_t* pCallback, bool
     saveWorkshopID();
 
     SteamAPICall_t apicall = SteamUGC()->SubmitItemUpdate(m_UGCUpdateHandle, nullptr);
+    if (apicall == k_uAPICallInvalid) {
+        qWarning() << "Failed to submit item update";
+        return;
+    }
+
     m_submitItemUpdateResultResult.Set(apicall, this, &SteamWorkshopItem::submitItemUpdateStatus);
     m_updateTimer.start(m_updateTimerInterval);
 }

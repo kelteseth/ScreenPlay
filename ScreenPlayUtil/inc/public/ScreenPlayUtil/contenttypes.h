@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
 #pragma once
-#include <qobjectdefs.h>
-
+#include <QtCore/qmetatype.h>
+#include <QObject>
 namespace ScreenPlay {
 /*!
     \namespace ScreenPlay::SearchType

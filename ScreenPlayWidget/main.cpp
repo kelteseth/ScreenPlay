@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
     // If we start with only one argument (path, appID, type),
     // it means we want to test a single widget
     if (argumentList.length() == 1) {
-        //WidgetWindow spwmw("test", "appid", "qmlWidget", { 100, 100 }, true);
+        // WidgetWindow spwmw("test", "appid", "qmlWidget", { 100, 100 }, true);
 
         QString exampleContentPath = QString(SCREENPLAY_SOURCE_DIR) + "/Content";
         QStringList contentFolder = {

@@ -15,7 +15,7 @@ Item {
     property SteamWorkshop steamWorkshop
     property Background background
 
-    Component.onCompleted: {
+    StackView.onActivated: {
         root.state = "searching";
         root.steamWorkshop.searchWorkshopByText("");
     }
@@ -239,6 +239,7 @@ Item {
 
                     Button {
                         id: btnSteamProfile
+                        objectName: "btnSteamProfile"
 
                         anchors {
                             verticalCenter: parent.verticalCenter
@@ -251,7 +252,8 @@ Item {
                         onClicked: {
                             stackView.push("qrc:/qml/ScreenPlayWorkshop/qml/SteamProfile.qml", {
                                     "screenPlayWorkshop": root.screenPlayWorkshop,
-                                    "steamWorkshop": root.steamWorkshop
+                                    "steamWorkshop": root.steamWorkshop,
+                                    "stackView": root.stackView
                                 });
                         }
                     }
@@ -270,7 +272,8 @@ Item {
                         onClicked: {
                             stackView.push("qrc:/qml/ScreenPlayWorkshop/qml/upload/UploadProject.qml", {
                                     "screenPlayWorkshop": root.screenPlayWorkshop,
-                                    "steamWorkshop": root.steamWorkshop
+                                    "steamWorkshop": root.steamWorkshop,
+                                    "stackView": root.stackView
                                 });
                         }
                     }
@@ -287,43 +290,44 @@ Item {
                             leftMargin: 20
                             verticalCenter: parent.verticalCenter
                         }
-                        ToolButton {
-                            icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_search.svg"
-                            onClicked: {
-                                root.state = "searching";
-                                root.steamWorkshop.searchWorkshopByText(tiSearch.text);
-                            }
-                            icon.width: 20
-                            icon.height: 20
-                            anchors {
-                                left: parent.left
-                                leftMargin: -3
-                                bottom: parent.bottom
-                                bottomMargin: 3
-                            }
-                        }
 
                         TextField {
                             id: tiSearch
                             placeholderTextColor: Material.secondaryTextColor
                             placeholderText: qsTr("Search for Wallpaper and Widgets...")
-                            // WORKAROUND:
-                            // onEditingFinished causes internal qml layout crash in Qt 6.4
                             Keys.onReturnPressed: event => {
                                 event.accepted = true;
+                                tiSearch.searchWorkshop();
+                            }
+
+                            // WORKAROUND:
+                            // onEditingFinished causes internal qml layout crash in Qt 6.4
+                            Timer {
+                                id: timer
+                                interval: 300
+                                repeat: false
+                                onTriggered: tiSearch.searchWorkshop()
+                            }
+
+                            onTextEdited: timer.restart()
+                            function searchWorkshop() {
                                 if (root.state === "searching") {
                                     print("SEARCHING");
                                     return;
                                 }
                                 root.state = "searching";
                                 print("EDITING FINISHED", root.state);
-                                if (tiSearch.text === "")
-                                    return root.steamWorkshop.searchWorkshop(SteamEnums.K_EUGCQuery_RankedByTrend);
-                                root.steamWorkshop.searchWorkshopByText(tiSearch.text);
+                                if (tiSearch.text === "") {
+                                    Qt.callLater(function () {
+                                            root.steamWorkshop.searchWorkshop(SteamEnums.K_EUGCQuery_RankedByTrend);
+                                        });
+                                    return;
+                                }
+                                Qt.callLater(function () {
+                                        root.steamWorkshop.searchWorkshopByText(tiSearch.text);
+                                    });
                             }
 
-                            leftInset: -20
-                            leftPadding: 20
                             anchors {
                                 top: parent.top
                                 right: parent.right
@@ -333,20 +337,29 @@ Item {
                             }
                         }
                         ToolButton {
-                            icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_close.svg"
+                            property bool hasContent: tiSearch.text.length > 0
+                            icon.source: hasContent ? "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_close.svg" : "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_search.svg"
                             onClicked: {
+                                if (hasContent) {
+                                    root.state = "searching";
+                                    tiSearch.clear();
+                                    Qt.callLater(function () {
+                                            root.steamWorkshop.searchWorkshop(SteamEnums.K_EUGCQuery_RankedByTrend);
+                                        });
+                                    return;
+                                }
                                 root.state = "searching";
-                                tiSearch.text = "";
-                                root.steamWorkshop.searchWorkshop(SteamEnums.K_EUGCQuery_RankedByTrend);
+                                Qt.callLater(function () {
+                                        root.steamWorkshop.searchWorkshopByText(tiSearch.text);
+                                    });
                             }
-                            enabled: tiSearch.text !== ""
                             icon.width: 20
                             icon.height: 20
                             anchors {
                                 right: parent.right
-                                rightMargin: -3
+                                rightMargin: 0
                                 bottom: parent.bottom
-                                bottomMargin: 3
+                                bottomMargin: 0
                             }
                         }
                     }

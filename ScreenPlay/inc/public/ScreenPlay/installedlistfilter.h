@@ -14,7 +14,7 @@ namespace ScreenPlay {
 class InstalledListFilter : public QSortFilterProxyModel {
     Q_OBJECT
     QML_UNCREATABLE("")
-    
+
 public:
     InstalledListFilter(const std::shared_ptr<InstalledListModel>& ilm);
 

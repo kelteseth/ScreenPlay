@@ -11,17 +11,16 @@
 #include "steamapiwrapper.h"
 
 namespace SteamApiWrapper {
-bool setItemTags(const QVariant& updateHandle, const QStringList tags)
+bool setItemTags(const QVariant& updateHandle, const QStringList& tags)
 {
-    SteamParamStringArray_t* pTags = new SteamParamStringArray_t();
-    const uint32 strCount = tags.size();
-    pTags->m_ppStrings = new const char*[strCount];
-    pTags->m_nNumStrings = strCount;
-    for (uint32 i = 0; i < strCount; i++) {
-        pTags->m_ppStrings[i] = tags.at(i).toUtf8().data();
+    auto pTags = std::make_unique<SteamParamStringArray_t>();
+    const uint32_t numTags = tags.size();
+    pTags->m_nNumStrings = numTags;
+    auto tagStrings = std::make_unique<const char*[]>(numTags);
+    for (uint32_t i = 0; i < numTags; ++i) {
+        tagStrings[i] = tags.at(i).toUtf8().constData();
     }
-
-    return SteamUGC()->SetItemTags(updateHandle.toULongLong(), pTags);
+    pTags->m_ppStrings = tagStrings.get();
+    return SteamUGC()->SetItemTags(updateHandle.toULongLong(), pTags.get());
 }
-
 }
