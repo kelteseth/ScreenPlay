@@ -50,7 +50,7 @@ def check_fat_binary():
     print(f"Change root directory to: {root_path}")
     os.chdir(root_path)
 
-    dir = 'build-universal-osx-release/bin/'
+    dir = 'build-osx-release/bin/'
     files = listfiles(str(Path.joinpath(root_path, dir)))
 
     for file in files:

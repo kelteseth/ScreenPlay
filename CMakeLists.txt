@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.26.0)
+cmake_minimum_required(VERSION 3.23.0)
 
 project(
     ScreenPlay
@@ -13,20 +13,8 @@ if(WIN32)
 elseif(UNIX AND NOT APPLE)
     set(VCPKG_ARCH "x64-linux")
 elseif(APPLE)
-    # CMAKE_HOST_SYSTEM_PROCESSOR returns the value of `uname -p` on host. Universal builds are not available with vcpkg, but the prebuild
-    # Qt binaries are. CMake also handles https://github.com/microsoft/vcpkg/discussions/19454 This means we must compile twice and then
-    # merge the binaries with lipo
-    if(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL x86_64 OR CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL amd64)
-        set(VCPKG_ARCH "x64-osx")
-        set(CMAKE_OSX_ARCHITECTURES "x86_64")
-        set(VCPKG_TARGET_ARCHITECTURE x86_64)
-    elseif(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL arm)
-        set(VCPKG_ARCH "arm64-osx")
-        set(CMAKE_OSX_ARCHITECTURES "arm64")
-        set(VCPKG_TARGET_ARCHITECTURE arm64)
-    endif()
-
-    message(STATUS "[PROJECT] CMAKE_OSX_ARCHITECTURES      = ${CMAKE_OSX_ARCHITECTURES}")
+    set(VCPKG_ARCH "64-osx-universal") # Our own triplet for universal binaries
+    set(VCPKG_TARGET_ARCHITECTURE "arm64;x86_64")
 endif()
 
 # This sets cmake to compile all dlls into the main directory
@@ -37,6 +25,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
 set(THIRD_PARTY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/")
 
 option(OSX_BUNDLE "Enable distribution macOS bundle" OFF)
+set(CMAKE_OSX_DEPLOYMENT_TARGET "13.0")
 
 # This is needed for OSX: Because we bundle ScreenPlay and ScreenPlayWallpaper into .app they both need other QML dependencies like
 # ScreenPlayUtil. The fastest way is to use a shared QML module path for development and add this path to the qml engines import pah. For

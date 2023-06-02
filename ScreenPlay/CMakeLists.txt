@@ -244,7 +244,6 @@ set(RESOURCES
 
 # Needed on macos
 find_package(Threads REQUIRED)
-find_package(OpenSSL REQUIRED)
 find_package(LibArchive REQUIRED)
 
 # Make sentry win only for now because it is constantly buggy on osx
@@ -252,6 +251,7 @@ if(WIN32)
     # CURL must be included before sentry because sentry needs the module and does not include it itself on macos...
     find_package(CURL CONFIG REQUIRED)
     find_package(sentry CONFIG REQUIRED)
+    find_package(OpenSSL CONFIG REQUIRED)
 endif()
 
 find_package(
