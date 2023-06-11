@@ -290,6 +290,12 @@ qt_add_qml_module(
 target_link_libraries(
     ScreenPlayApp
     PUBLIC ScreenPlaySDK
+           LibArchive::LibArchive
+           ScreenPlayUtil
+           ScreenPlayUtilplugin
+           QArchive
+           Plausibleplugin
+           SteamSDKQtEnums
            Threads::Threads
            Qt6::Quick
            Qt6::Gui
@@ -298,12 +304,7 @@ target_link_libraries(
            Qt6::WebSockets
            Qt6::Svg
            Qt6::QuickControls2
-           Qt6::Xml
-           LibArchive::LibArchive
-           ScreenPlayUtil
-           ScreenPlayUtilplugin
-           QArchive
-           SteamSDKQtEnums)
+           Qt6::Xml)
 
 if(${SCREENPLAY_STEAM})
     target_compile_definitions(ScreenPlayApp PRIVATE SCREENPLAY_STEAM)

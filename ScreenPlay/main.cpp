@@ -10,11 +10,14 @@
 #include <sentry.h>
 #endif
 
-Q_IMPORT_QML_PLUGIN(ScreenPlayAppPlugin)
-Q_IMPORT_QML_PLUGIN(ScreenPlayUtilPlugin)
 #ifdef SCREENPLAY_STEAM
 Q_IMPORT_QML_PLUGIN(ScreenPlayWorkshopPlugin)
 #endif
+
+Q_IMPORT_QML_PLUGIN(ScreenPlayAppPlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlayUtilPlugin)
+Q_IMPORT_QML_PLUGIN(PlausiblePlugin)
+
 
 int main(int argc, char* argv[])
 {

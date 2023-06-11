@@ -10,6 +10,8 @@ import ScreenPlay
 import Settings
 import ScreenPlayUtil as Util
 import Qt5Compat.GraphicalEffects
+import Plausible 1.0
+
 import "qml/Monitors" as Monitors
 import "qml/Installed" as Installed
 import "qml/Navigation" as Navigation
@@ -58,6 +60,15 @@ ApplicationWindow {
     title: "ScreenPlay Alpha - V" + App.version()
     minimumHeight: 450
     minimumWidth: 1050
+
+    Plausible {
+        id: plausible
+        screenSize: Qt.size(root.width, root.height)
+        domain: "app.screen-play.app"
+        debug: false
+    }
+
+
 
     // Partial workaround for
     // https://bugreports.qt.io/browse/QTBUG-86047
@@ -149,6 +160,14 @@ ApplicationWindow {
         function onRequestRaise() {
             App.showDockIcon(true);
             root.show();
+        }
+
+        function onActiveWidgetsCounterChanged() {
+            plausible.pageView("widget/count/" + App.screenPlayManager.activeWidgetsCounter)
+        }
+
+        function onActiveWallpaperCounterChanged() {
+            plausible.pageView("wallpaper/count/" + App.screenPlayManager.activeWallpaperCounter)
         }
 
         target: App.screenPlayManager
