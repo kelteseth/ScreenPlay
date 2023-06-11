@@ -12,5 +12,4 @@ Item {
         anchors.fill: parent
         color: "gray"
     }
-    
 }

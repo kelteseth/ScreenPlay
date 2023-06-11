@@ -1,7 +1,6 @@
 import QtQuick
 import ScreenPlayWallpaper
 
-
 AnimatedImage {
-    Component.onCompleted: Wallpaper.requestFadeIn();
+    Component.onCompleted: Wallpaper.requestFadeIn()
 }

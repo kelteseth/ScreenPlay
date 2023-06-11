@@ -13,7 +13,6 @@ Item {
     implicitWidth: 900
     implicitHeight: 650
 
-    
     Material.theme: Material.Dark
     Material.accent: Material.DeepOrange
 

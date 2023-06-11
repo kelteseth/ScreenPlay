@@ -37,7 +37,7 @@ Item {
         id: mediaPlayer
         onPlaybackStateChanged: {
             if (mediaPlayer.playbackState == MediaPlayer.PlayingState && !fadeInDone) {
-                fadeInDone = true
+                fadeInDone = true;
                 Wallpaper.requestFadeIn();
             }
         }

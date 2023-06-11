@@ -7,8 +7,8 @@ import ScreenPlayApp
 import ScreenPlay
 
 ColumnLayout {
-    id:root
-    
+    id: root
+
     implicitHeight: 70
     implicitWidth: 150
     property alias text: textField.text
@@ -19,12 +19,12 @@ ColumnLayout {
         id: textField
         Layout.fillWidth: true
     }
-    
+
     Text {
         id: requiredText
         text: root.required ? qsTr("*Required") : ""
         font.family: App.settings.font
-        color: Material.secondaryTextColor       
+        color: Material.secondaryTextColor
         Layout.alignment: Qt.AlignRight
     }
 }

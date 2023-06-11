@@ -8,37 +8,31 @@ Item {
     implicitHeight: 100
 
     function timeChanged() {
-        var date = new Date
-        var hours = ""
-        var minutes = ""
-        var seconds = ""
-
+        var date = new Date;
+        var hours = "";
+        var minutes = "";
+        var seconds = "";
         if (date.getHours() < 10) {
-            hours = "0" + date.getHours().toString()
+            hours = "0" + date.getHours().toString();
         } else {
-            hours = date.getHours().toString()
+            hours = date.getHours().toString();
         }
-
         if (date.getMinutes() < 10) {
-            minutes = "0" + date.getMinutes().toString()
+            minutes = "0" + date.getMinutes().toString();
         } else {
-            minutes = date.getMinutes().toString()
+            minutes = date.getMinutes().toString();
         }
-
         if (date.getSeconds() < 10) {
-            seconds = "0" + date.getSeconds().toString()
+            seconds = "0" + date.getSeconds().toString();
         } else {
-            seconds = date.getSeconds().toString()
+            seconds = date.getSeconds().toString();
         }
-
-        var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-        var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-
-        var day = days[ date.getDay() ];
-        var month = months[ date.getMonth() ];
-
-        txtClock.text = hours + ":" + minutes + ":" + seconds
-        txtDate.text = day + ", " +date.getDay() + " " + month + ", " + date.getFullYear()
+        var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        var day = days[date.getDay()];
+        var month = months[date.getMonth()];
+        txtClock.text = hours + ":" + minutes + ":" + seconds;
+        txtDate.text = day + ", " + date.getDay() + " " + month + ", " + date.getFullYear();
     }
 
     Timer {
@@ -73,7 +67,7 @@ Item {
         font.pixelSize: 12
         color: "#59C1FE"
         font.weight: Font.Light
-        font.family:"Segoe UI"
+        font.family: "Segoe UI"
     }
 
     MouseArea {

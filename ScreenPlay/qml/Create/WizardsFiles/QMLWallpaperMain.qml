@@ -5,7 +5,6 @@ import QtQuick.Effects
 import QtQuick.Layouts
 import QtQuick.Particles
 
-
 Rectangle {
     id: root
     color: "#333333"

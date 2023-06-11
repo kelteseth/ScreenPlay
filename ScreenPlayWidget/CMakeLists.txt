@@ -77,12 +77,8 @@ if(WIN32)
 endif()
 
 if(APPLE AND NOT OSX_BUNDLE)
-    set_target_properties(${PROJECT_NAME}
-        PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/"
-    )
+    set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
 endif()
-
 
 # ##### USE CMAKE VARIABLES IN CODE #####
 include(GenerateCMakeVariableHeader)

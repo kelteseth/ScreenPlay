@@ -196,7 +196,7 @@ Item {
                             target: imgClose
                             opacity: .5
                         }
-                        
+
                         PropertyChanges {
                             target: bg
                             opacity: .3

@@ -17,8 +17,7 @@ Item {
     XmlListModel {
         id: feedModel
         onStatusChanged: {
-            print("status ",status)
-
+            print("status ", status);
             if (status === XmlListModel.Error) {
                 console.log("Error: " + errorString);
             }
@@ -27,12 +26,27 @@ Item {
         source: "https://www.reddit.com/r/" + root.subreddit + "/.rss"
         query: "/feed/entry"
 
-        XmlListModelRole { name: "updated"; elementName: "updated" }
-        XmlListModelRole { name: "subtitle"; elementName: "subtitle"}
-        XmlListModelRole { name: "content"; elementName: "content"}
-        XmlListModelRole { name: "link"; elementName: "link"; attributeName: "href" }
-        XmlListModelRole { name: "title"; elementName: "title"}
-
+        XmlListModelRole {
+            name: "updated"
+            elementName: "updated"
+        }
+        XmlListModelRole {
+            name: "subtitle"
+            elementName: "subtitle"
+        }
+        XmlListModelRole {
+            name: "content"
+            elementName: "content"
+        }
+        XmlListModelRole {
+            name: "link"
+            elementName: "link"
+            attributeName: "href"
+        }
+        XmlListModelRole {
+            name: "title"
+            elementName: "title"
+        }
     }
 
     ListView {

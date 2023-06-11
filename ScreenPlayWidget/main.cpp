@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
+#include "ScreenPlayWidget/CMakeVariables.h"
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQmlExtensionPlugin>
 #include <QString>
 #include <QStringList>
-#include <QQmlExtensionPlugin>
-#include "ScreenPlayWidget/CMakeVariables.h"
 
 #include "src/widgetwindow.h"
 
@@ -24,7 +24,6 @@ int main(int argc, char* argv[])
 #if !defined(Q_OS_LINUX)
     qputenv("QT_MEDIA_BACKEND", "ffmpeg");
 #endif
-
 
     QGuiApplication app(argc, argv);
 

@@ -23,7 +23,7 @@ Rectangle {
     color: Material.color(Material.Grey, Material.Shade800)
     border.width: 10
     border.color: "orange"
-    Component.onCompleted:  Wallpaper.requestFadeIn();
+    Component.onCompleted: Wallpaper.requestFadeIn()
 
     MouseArea {
 

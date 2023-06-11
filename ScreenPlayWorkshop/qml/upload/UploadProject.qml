@@ -108,7 +108,7 @@ Item {
 
                 text: qsTr("Abort")
                 onClicked: {
-                        stackView.pop();
+                    stackView.pop();
                 }
 
                 anchors {

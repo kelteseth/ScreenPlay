@@ -49,7 +49,8 @@ Item {
         TabBar {
             height: parent.height
 
-            background: Item {}
+            background: Item {
+            }
             anchors {
                 top: parent.top
                 topMargin: 5
@@ -108,7 +109,7 @@ Item {
                 placeholderTextColor: Material.secondaryTextColor
                 placeholderText: qsTr("Search for Wallpaper & Widgets")
                 Layout.preferredHeight: 30
-                Layout.preferredWidth : 350
+                Layout.preferredWidth: 350
                 Layout.alignment: Qt.AlignVCenter
                 color: Material.secondaryTextColor
                 onTextChanged: {
@@ -117,7 +118,6 @@ Item {
                     else
                         App.installedListFilter.sortByName(txtSearch.text);
                 }
-
             }
             ToolButton {
                 id: icnSearch
@@ -129,7 +129,6 @@ Item {
                 icon.height: height
                 icon.color: Material.iconColor
             }
- 
         }
 
         ToolButton {

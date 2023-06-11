@@ -18,9 +18,10 @@ import Qt5Compat.GraphicalEffects
 Util.Popup {
     id: root
     property ApplicationWindow applicationWindow
-    contentItem: Pane  {
-        background: Item{}
-        padding:20
+    contentItem: Pane {
+        background: Item {
+        }
+        padding: 20
         bottomPadding: 10
         ColumnLayout {
             spacing: 20
@@ -40,13 +41,13 @@ Util.Popup {
                 Layout.alignment: Qt.AlignHCenter
                 source: {
                     if (Qt.platform.os === "windows") {
-                        return "qrc:/qml/ScreenPlayApp/assets/images/trayIcon_windows.png"
+                        return "qrc:/qml/ScreenPlayApp/assets/images/trayIcon_windows.png";
                     }
                     if (Qt.platform.os === "osx") {
-                        return "qrc:/qml/ScreenPlayApp/assets/images/trayIcon_osx.png"
+                        return "qrc:/qml/ScreenPlayApp/assets/images/trayIcon_osx.png";
                     }
                 }
-                
+
                 fillMode: Image.PreserveAspectFit
             }
 
@@ -78,7 +79,7 @@ Util.Popup {
                 Layout.fillWidth: true
                 Button {
                     text: qsTr("Quit ScreenPlay now")
-                    onClicked:  App.exit();
+                    onClicked: App.exit()
                 }
                 Button {
                     text: qsTr("Minimize ScreenPlay")
@@ -94,7 +95,7 @@ Util.Popup {
                     onClicked: {
                         settings.setValue("alwaysMinimize", true);
                         settings.sync();
-                        print(settings.value("alwaysMinimize"))
+                        print(settings.value("alwaysMinimize"));
                         App.showDockIcon(false);
                         applicationWindow.hide();
                         root.close();

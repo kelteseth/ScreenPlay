@@ -40,8 +40,8 @@ Item {
     MouseArea {
         anchors.fill: parent
         onClicked: {
-            print(model.link)
-            Qt.openUrlExternally(model.link)
+            print(model.link);
+            Qt.openUrlExternally(model.link);
         }
     }
 }

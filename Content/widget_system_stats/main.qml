@@ -11,8 +11,7 @@ Item {
     id: root
     implicitWidth: 1200
     implicitHeight: 600
-    
-    
+
     Material.theme: Material.Dark
     Material.accent: Material.DeepOrange
 
@@ -35,7 +34,6 @@ Item {
         }
         return out;
     }
-
 
     RowLayout {
         id: wrapper

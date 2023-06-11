@@ -106,7 +106,7 @@ Item {
 
                         FolderDialog {
                             id: folderDialogSaveLocation
-                            currentFolder : App.globalVariables.localStoragePath
+                            currentFolder: App.globalVariables.localStoragePath
                             onAccepted: {
                                 App.settings.setLocalStoragePath(folderDialogSaveLocation.currentFolder);
                             }

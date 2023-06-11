@@ -20,7 +20,6 @@ Item {
     //Image
     property real imgOpacity: .75
 
-
     Rectangle {
         id: gradient
         anchors.fill: parent
@@ -44,31 +43,31 @@ Item {
             anchors.fill: parent
             hoverEnabled: true
             Component.onCompleted: {
-                attractor.pointX = parent.width * .5
-                attractor.pointY = 0
+                attractor.pointX = parent.width * .5;
+                attractor.pointY = 0;
             }
 
-            onPressed: {
-                //attractor.enabled = true
+            onPressed:
+            //attractor.enabled = true
+            {
             }
             onPositionChanged: {
-                    attractor.pointX = mouseX
-                    attractor.pointY = mouseY
-                    rct.x = mouseX
-                    rct.y = mouseY
-
+                attractor.pointX = mouseX;
+                attractor.pointY = mouseY;
+                rct.x = mouseX;
+                rct.y = mouseY;
             }
-            onReleased: {
-                //attractor.enabled = false
+            onReleased:
+            //attractor.enabled = false
+            {
             }
         }
 
         Rectangle {
-            id:rct
-            color:"orange"
-            width:40
-            height:40
-
+            id: rct
+            color: "orange"
+            width: 40
+            height: 40
         }
 
         Attractor {
@@ -77,11 +76,10 @@ Item {
             affectedParameter: Attractor.Acceleration
             strength: root.attStrength
             proportionalToDistance: Attractor.InverseQuadratic
-            anchors{
-                top:parent.top
+            anchors {
+                top: parent.top
                 topMargin: 100
                 horizontalCenter: parent.horizontalCenter
-
             }
         }
 
@@ -133,7 +131,7 @@ Item {
                 bottom: parent.bottom
                 bottomMargin: -width * .65
             }
-            SequentialAnimation on opacity {
+            SequentialAnimation on opacity  {
                 loops: Animation.Infinite
 
                 OpacityAnimator {

@@ -118,7 +118,7 @@ Rectangle {
             root.canFadeByWallpaperFillMode = false;
             break;
         }
-        // NOTE: If we do not set it visible here 
+        // NOTE: If we do not set it visible here
         // AND in the fadeIn function we get a white frame
         Wallpaper.setVisible(true);
     }
@@ -131,14 +131,13 @@ Rectangle {
             imgCover.opacity = 0;
     }
 
-
     Connections {
         target: Wallpaper
-        function onQmlStart(){
-            root.start()
+        function onQmlStart() {
+            root.start();
         }
-        function onFadeIn(){
-            root.fadeIn()
+        function onFadeIn() {
+            root.fadeIn();
         }
         function onQmlExit() {
             if (canFadeByWallpaperFillMode && Wallpaper.canFade)
@@ -176,7 +175,6 @@ Rectangle {
                 return;
             loader.source = "qrc:/qml/ScreenPlayWallpaper/qml/MultimediaView.qml";
         }
-
     }
     Loader {
         id: loader
@@ -186,22 +184,20 @@ Rectangle {
         //asynchronous: true
         onStatusChanged: {
             if (loader.status === Loader.Ready) {
-                if(Wallpaper.type === InstalledType.QMLWallpaper) {
+                if (Wallpaper.type === InstalledType.QMLWallpaper) {
                     root.fadeIn();
                 }
             }
             if (loader.status === Loader.Error) {
-                print("ScreenPlayWallpaper encountered an error and will be terminated.")
+                print("ScreenPlayWallpaper encountered an error and will be terminated.");
                 // Must be callLater so we do not kill on startup
                 // See  emit window.qmlStart();
-                 Qt.callLater(function(){
-                    loader.source = ""
-                    Qt.callLater(function(){
-                        Wallpaper.terminate()
-                    })
-                 })
-                
-               
+                Qt.callLater(function () {
+                        loader.source = "";
+                        Qt.callLater(function () {
+                                Wallpaper.terminate();
+                            });
+                    });
             }
         }
     }
@@ -282,7 +278,6 @@ Rectangle {
         ]
     }
 
-
     FrameAnimation {
         id: frameAnimation
         property real fps: smoothFrameTime > 0 ? (1.0 / smoothFrameTime) : 0
@@ -290,7 +285,7 @@ Rectangle {
         readonly property real maxFPS: 24.0
         readonly property real maxPeriod: 1.0 / maxFPS
         readonly property int skipFrames: fps / maxFPS
-        running:  Wallpaper.debugMode
+        running: Wallpaper.debugMode
     }
 
     Pane {
@@ -311,9 +306,8 @@ Rectangle {
                 visible: Wallpaper.debugMode
                 enabled: Wallpaper.debugMode
                 font.pointSize: 14
-                text: "fps: " + frameAnimation.fps.toFixed(0) + " - Frame time:"+ frameAnimation.ft + " ms" 
+                text: "fps: " + frameAnimation.fps.toFixed(0) + " - Frame time:" + frameAnimation.ft + " ms"
             }
-
 
             Text {
                 text: "appID " + Wallpaper.appID

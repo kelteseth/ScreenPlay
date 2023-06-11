@@ -97,8 +97,8 @@ set(QML
     qml/Settings/SettingsHeader.qml
     qml/Settings/SettingsHorizontalSeperator.qml
     qml/Settings/SettingsPage.qml
-    qml/Workshop/Workshop.qml
-    qml/TrayIcon.qml)
+    qml/TrayIcon.qml
+    qml/Workshop/Workshop.qml)
 
 set(TS_FILES
     # cmake-format: sort
@@ -191,8 +191,8 @@ set(RESOURCES
     assets/images/noisy-texture.png
     assets/images/scale_window_indicator.png
     assets/images/steam_offline.png
-    assets/images/trayIcon_windows.png
     assets/images/trayIcon_osx.png
+    assets/images/trayIcon_windows.png
     assets/images/Window.svg
     assets/licenses/Apache2.txt
     assets/licenses/OFL.txt
@@ -383,20 +383,19 @@ if(APPLE AND OSX_BUNDLE)
     set(CPACK_BINARY_DRAGNDROP ON)
     set(CPACK_BUNDLE_NAME "ScreenPlay")
     set(CPACK_BUNDLE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/assets/icons/app.ico")
-    set(CPACK_PACKAGE_ICON  "${CMAKE_CURRENT_SOURCE_DIR}/assets/icons/app.ico")
+    set(CPACK_PACKAGE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/assets/icons/app.ico")
     set(CPACK_BUNDLE_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/Info.plist")
     set(CPACK_BUNDLE_APPLE_ENTITLEMENTS "${CMAKE_CURRENT_SOURCE_DIR}/entitlements.plist")
     set(CPACK_PACKAGE_FILE_NAME "ScreenPlay-0.15")
     include(CPack)
 
-# Install all files from /bin
-install(
-    DIRECTORY "${CMAKE_BINARY_DIR}/bin/"
-    COMPONENT ScreenPlay
-    DESTINATION "./")
+    # Install all files from /bin
+    install(
+        DIRECTORY "${CMAKE_BINARY_DIR}/bin/"
+        COMPONENT ScreenPlay
+        DESTINATION "./")
 
 endif()
-
 
 if(APPLE AND NOT OSX_BUNDLE)
     # Creates a ScreenPlay.app

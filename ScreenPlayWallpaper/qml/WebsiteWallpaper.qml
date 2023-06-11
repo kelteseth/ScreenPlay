@@ -26,7 +26,7 @@ Item {
         onJavaScriptConsoleMessage: print(lineNumber, message)
         onLoadProgressChanged: {
             if (loadProgress === 100)
-               Wallpaper.requestFadeIn();
+                Wallpaper.requestFadeIn();
         }
     }
 }

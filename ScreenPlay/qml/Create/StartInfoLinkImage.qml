@@ -42,7 +42,7 @@ Item {
                 }
 
                 GradientStop {
-                    position:  0
+                    position: 0
                     color: "transparent"
                 }
             }
