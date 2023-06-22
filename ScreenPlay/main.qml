@@ -65,6 +65,7 @@ ApplicationWindow {
         screenSize: Qt.size(root.width, root.height)
         domain: "app.screen-play.app"
         debug: false
+        enabled: App.settings.anonymousTelemetry
     }
 
     // Partial workaround for
