@@ -52,6 +52,7 @@ struct ProjectFile {
     InstalledType::InstalledType type = InstalledType::InstalledType::Unknown;
     SearchType::SearchType searchType = SearchType::SearchType::All;
     bool isNew = false;
+    bool containsAudio = false;
     QDateTime lastModified;
 };
 }

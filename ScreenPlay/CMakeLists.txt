@@ -152,6 +152,7 @@ set(RESOURCES
     assets/icons/icon_installed.svg
     assets/icons/icon_launch.svg
     assets/icons/icon_minimize.svg
+    assets/icons/icon_contains_audio.svg
     assets/icons/icon_movie.svg
     assets/icons/icon_new_releases.svg
     assets/icons/icon_open_in_new.svg

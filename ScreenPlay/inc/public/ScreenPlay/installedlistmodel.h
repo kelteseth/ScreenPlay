@@ -59,6 +59,7 @@ public:
         SearchType,
         LastModified,
         IsNew,
+        ContainsAudio,
     };
     Q_ENUM(ScreenPlayItem)
 

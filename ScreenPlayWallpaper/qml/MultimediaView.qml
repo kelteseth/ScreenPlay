@@ -75,6 +75,15 @@ Item {
             mediaPlayer.position = currentTime * mediaPlayer.duration;
         }
 
+        function onVisualsPausedChanged(visualsPaused) {
+            if(!Wallpaper.isPlaying)
+                return
+            if(visualsPaused)
+                mediaPlayer.pause()
+            else
+                mediaPlayer.play()
+        }
+
         target: Wallpaper
     }
 }

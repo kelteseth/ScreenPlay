@@ -236,6 +236,18 @@ Item {
                     anchors.margins: 20
                     spacing: 20
 
+                    SettingBool {
+                        headline: qsTr("Pause wallpaper video rendering while another app is in the foreground.")
+                        description: qsTr("Limitations: This setting is Windows only, currently only works if you have exactly one monitor connected, and is limited to wallpapers with no audio. Wallpaper restart is required, when changing this setting!")
+                        isChecked: App.settings.checkWallpaperVisible
+                        onCheckboxChanged: function (checked) {
+                            App.settings.setCheckWallpaperVisible(checked);
+                        }
+                    }
+
+                    SettingsHorizontalSeperator {
+                    }
+
                     SettingsComboBox {
                         id: cbVideoFillMode
 

@@ -148,8 +148,9 @@ ScreenPlay::WallpaperExitCode WinWindow::start()
 
     configureWindowGeometry();
 
-    // We do not support autopause for multi monitor wallpaper
-    if (this->activeScreensList().length() == 1) {
+    // We do not support autopause for multi monitor wallpaper and 
+    // wallpaper than contain audio, see BaseWindow::setup().
+    if (activeScreensList().length() == 1) {
         if (checkWallpaperVisible()) {
             m_checkForFullScreenWindowTimer.start(10);
         }

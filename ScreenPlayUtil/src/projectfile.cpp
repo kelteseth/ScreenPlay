@@ -101,6 +101,11 @@ bool ProjectFile::init()
         }
     }
 
+    if (type == ScreenPlay::InstalledType::InstalledType::VideoWallpaper){
+        QFileInfo audioFile(folder.absolutePath() + "/audio.mp3");
+        containsAudio = audioFile.exists();
+    }
+
     return true;
 }
 bool ProjectFile::isValid()

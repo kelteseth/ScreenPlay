@@ -154,6 +154,8 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
             return m_screenPlayFiles.at(row).tags;
         case static_cast<int>(ScreenPlayItem::IsNew):
             return m_screenPlayFiles.at(row).isNew;
+        case static_cast<int>(ScreenPlayItem::ContainsAudio):
+            return m_screenPlayFiles.at(row).containsAudio;
         case static_cast<int>(ScreenPlayItem::LastModified):
             return m_screenPlayFiles.at(row).lastModified;
         case static_cast<int>(ScreenPlayItem::SearchType):
@@ -181,6 +183,7 @@ QHash<int, QByteArray> InstalledListModel::roleNames() const
         { static_cast<int>(ScreenPlayItem::Tags), "m_tags" },
         { static_cast<int>(ScreenPlayItem::SearchType), "m_searchType" },
         { static_cast<int>(ScreenPlayItem::IsNew), "m_isNew" },
+        { static_cast<int>(ScreenPlayItem::ContainsAudio), "m_containsAudio" },
         { static_cast<int>(ScreenPlayItem::LastModified), "m_lastModified" }
     };
 }
@@ -259,6 +262,7 @@ QVariantMap InstalledListModel::get(const QString& folderName) const
             map.insert("m_absoluteStoragePath", QUrl::fromLocalFile(item.projectJsonFilePath.dir().path()));
             map.insert("m_publishedFileID", item.publishedFileID);
             map.insert("m_isNew", item.isNew);
+            map.insert("m_containsAudio", item.containsAudio);
             map.insert("m_lastModified", item.lastModified);
             return map;
         }
