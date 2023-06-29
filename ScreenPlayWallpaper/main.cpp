@@ -47,6 +47,7 @@ int main(int argc, char* argv[])
         QString exampleContentPath = QString(SCREENPLAY_SOURCE_DIR) + "/Content";
         QStringList contentFolder = {
             "/wallpaper_video_nebula",
+            "/wallpaper_interactive",
             "/wallpaper_landscape",
             "/wallpaper_particles"
         };

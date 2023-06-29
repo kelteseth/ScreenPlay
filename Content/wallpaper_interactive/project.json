@@ -1,0 +1,11 @@
+{
+    "description": "interactive",
+    "file": "main.qml",
+    "preview": "preview.png",
+    "tags": [
+        "interactive"
+    ],
+    "title": "QML interactive",
+    "type": "qmlWallpaper",
+    "visibility": "public"
+}
