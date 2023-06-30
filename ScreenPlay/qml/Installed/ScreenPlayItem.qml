@@ -18,6 +18,7 @@ Item {
     property int itemIndex
     property bool isScrolling: false
     property bool isNew: false
+    property bool containsAudio: false
 
     signal openContextMenu(point position)
 
@@ -158,6 +159,24 @@ Item {
             }
 
             Image {
+                id: icnAudio
+
+                width: 20
+                height: 20
+                opacity: 0.25
+                visible: root.containsAudio
+                source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_contains_audio.svg"
+                sourceSize: Qt.size(20, 20)
+
+                anchors {
+                    top: parent.top
+                    left: icnType.right
+                    margins: 10
+                }
+            }
+
+
+            Image {
                 id: icnType
 
                 width: 20
@@ -260,6 +279,13 @@ Item {
             }
 
             OpacityAnimator {
+                target: icnAudio
+                duration: 80
+                from: 0.25
+                to: 0.8
+            }
+
+            OpacityAnimator {
                 target: effect
                 duration: 80
                 from: 0.6
@@ -286,6 +312,13 @@ Item {
 
             OpacityAnimator {
                 target: icnType
+                duration: 80
+                from: 0.8
+                to: 0.25
+            }
+
+            OpacityAnimator {
+                target: icnAudio
                 duration: 80
                 from: 0.8
                 to: 0.25

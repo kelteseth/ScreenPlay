@@ -229,6 +229,7 @@ Item {
             customTitle: m_title
             type: m_type
             isNew: m_isNew
+            containsAudio: m_containsAudio
             screenId: m_folderName
             absoluteStoragePath: m_absoluteStoragePath
             publishedFileID: m_publishedFileID

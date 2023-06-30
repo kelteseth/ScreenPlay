@@ -1,10 +1,14 @@
 ## Tools
 
-This folder contains serveral python tools to help with development. Depending on your os you have to change the python command to ```python```, ```python3``` or ```python3.9```
+This folder contains serveral python tools to help with development. Depending on your os you have to change the python command to ```python```, ```python3``. Download python dependencies first:
 
+``` bash
+cd Tools
+python -m  pip install -r requirements.txt
+```
 #### setup.py
 - Installs third party c++ dependencies for all platforms
-    - ```python3 setup.py -u=xxx -p=xxx```
+    - ```python3 setup.py```
 #### build.py
 - Build ScreenPlay locally
     - ```python3 build.py -t=release```

@@ -58,6 +58,15 @@ ScreenPlay::WallpaperExitCode BaseWindow::setup()
     setType(projectFile.type);
     setProjectSourceFile(projectFile.file);
 
+    // We do not yet have implemented continue playing the audio.mp3 yet
+    // so disable the checkWallpaperVisible for now
+    if(checkWallpaperVisible()){
+        if(projectFile.containsAudio){
+            qInfo() << "Disable wallpaper visible check, because it contains audio.";
+            setCheckWallpaperVisible(false);
+        }
+    }
+
     if (m_type == ScreenPlay::InstalledType::InstalledType::WebsiteWallpaper) {
         setProjectSourceFileAbsolute(projectFile.url);
     } else {
