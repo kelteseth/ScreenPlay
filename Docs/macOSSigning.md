@@ -105,7 +105,7 @@ https://stackoverflow.com/questions/56890749/macos-notarize-in-script
 security add-generic-password -a "kelteseth@gmail.com" -w "xxxx-xxx-xxx-xxx" -s "Developer ID Application: Elias Steurer (V887LHYKRH)"
 ```
 
-## Troubleshooting
+## FAQ Troubleshooting
 ```
 Processing complete
 id: xxxxxx-xxxxxx-xxxx-xxxxx-xxxxx
@@ -113,3 +113,10 @@ status: Invalid
 ```
 Run the follwoing if you get an signing error:
 `xcrun notarytool log --apple-id "xxxxx@xxxx.com" --password "xxxx-xxxx-xxxx-xxxx" --team-id "xxxxxxxxxxx"  <ID>`
+
+
+```
+Error: HTTP status code: 403. A required agreement is missing or has expired. This request requires an in-effect agreement that has not been signed or has expired. Ensure your team has signed the necessary legal agreements and that they are not expired.
+```
+
+Go to [appstoreconnect.apple.com](https://appstoreconnect.apple.com) and accept the updated  'Apple Developer Program License Agreement'.
