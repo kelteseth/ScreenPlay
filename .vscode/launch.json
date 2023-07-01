@@ -14,6 +14,7 @@
             "cwd": "${command:cmake.buildDirectory}/bin",
             "preLaunchTask": "CMake: build",
             "internalConsoleOptions": "openOnSessionStart",
+            "console": "none",
             "environment": [
                 {
                     "name": "Path",
