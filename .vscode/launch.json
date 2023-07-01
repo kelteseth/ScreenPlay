@@ -6,7 +6,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch Qt 6.5.1",
+            "name": "Windows Launch",
             "type": "cppvsdbg",
             "request": "launch",
             "program": "${command:cmake.launchTargetPath}",
@@ -20,15 +20,15 @@
                     "value": "${env:Path};${workspaceFolder}\\..\\aqt\\6.5.1\\msvc2019_64\\bin\\;${workspaceFolder}\\..\\aqt\\6.5.1\\msvc2019_64\\modules\\;${workspaceFolder}\\..\\aqt\\6.5.1\\msvc2019_64\\qml\\;${workspaceFolder}\\..\\vcpkg\\installed\\x64-windows\\debug\\bin;"
                 }
             ],
-            "visualizerFile": "${workspaceFolder}/.vscode/qt.natvis.xml",
-            "osx": {
-                "MIMode": "lldb",
-                "type": "lldb"
-            },
-            "linux": {
-                "MIMode": "lldb",
-                "type": "lldb"
-            }
+            "visualizerFile": "${workspaceFolder}/.vscode/qt.natvis.xml"
+        },
+        {
+            "name": "macOS Launch",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${command:cmake.launchTargetPath}",
+            "args": [],
+            "cwd": "${command:cmake.buildDirectory}/bin",
         }
     ]
 }
