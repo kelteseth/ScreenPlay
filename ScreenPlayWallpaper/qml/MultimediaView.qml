@@ -55,7 +55,16 @@ Item {
         volume: Wallpaper.volume
         muted: Wallpaper.muted
     }
+    // Wait until Windows window animation is complete
+    // before pausing the wallpaper
+    Timer {
+        id: pauseTimer
+        interval: 100
+        onTriggered: {
+            mediaPlayer.pause()
 
+        }
+    }
     Connections {
         function onFillModeChanged(fillMode) {
             if (fillMode === "stretch") {
@@ -76,10 +85,11 @@ Item {
         }
 
         function onVisualsPausedChanged(visualsPaused) {
+            print(visualsPaused)
             if(!Wallpaper.isPlaying)
                 return
             if(visualsPaused)
-                mediaPlayer.pause()
+                pauseTimer.start()
             else
                 mediaPlayer.play()
         }
