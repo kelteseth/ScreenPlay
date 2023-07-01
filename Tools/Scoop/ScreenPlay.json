@@ -1,5 +1,5 @@
 {
-    "version": "0.15.0-RC6",
+    "version": "0.15.0",
     "description": "ScreenPlay is an Open Source Live-Wallpaper app for Windows and OSX. ",
     "homepage": "https://screen-play.app/",
     "url": "https://kelteseth.com/releases/$version/ScreenPlay-$version-x64-windows-release.zip",
