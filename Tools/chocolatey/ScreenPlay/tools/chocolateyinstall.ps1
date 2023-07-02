@@ -2,7 +2,7 @@
 $ErrorActionPreference = 'Stop';
 $toolsDir   = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
 $url        = ''
-$url64      = 'https://kelteseth.com/releases/0.15.0-RC6/ScreenPlay-0.15.0-RC6-x64-windows-release.zip' 
+$url64      = 'https://kelteseth.com/releases/0.15.0/ScreenPlay-0.15.0-x64-windows-release.zip' 
 
 $packageArgs = @{
   packageName   = $env:ChocolateyPackageName
@@ -14,7 +14,7 @@ $packageArgs = @{
   softwareName  = 'ScreenPlay*'
   checksum      = ''
   checksumType  = 'sha256'
-  checksum64    = '278f86a888810bab63af17309dd153a59eae35831232cd813c93e3ddb4e32b99'
+  checksum64    = 'f870de3a43fb5572021a2be0134dfa23585e8e56dd8067176ed8afe624c8cb4f'
   checksumType64= 'sha256'
 }
 
