@@ -33,12 +33,23 @@ Item {
         mediaPlayer.play();
     }
 
+    // Add slight delay to give the multimedia
+    // engine some time to put out some frames. This
+    // fixes some white frame flickering
+    Timer {
+        id: startTimer
+        interval: 50
+        onTriggered: {
+            Wallpaper.requestFadeIn();
+        }
+    }
+
     MediaPlayer {
         id: mediaPlayer
         onPlaybackStateChanged: {
             if (mediaPlayer.playbackState == MediaPlayer.PlayingState && !fadeInDone) {
                 fadeInDone = true;
-                Wallpaper.requestFadeIn();
+                startTimer.start()
             }
         }
         loops: root.loops ? MediaPlayer.Infinite : 1
@@ -85,7 +96,6 @@ Item {
         }
 
         function onVisualsPausedChanged(visualsPaused) {
-            print(visualsPaused)
             if(!Wallpaper.isPlaying)
                 return
             if(visualsPaused)
