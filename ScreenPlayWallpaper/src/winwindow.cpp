@@ -6,6 +6,47 @@
 #include <algorithm>
 #include <iostream>
 #include <vector>
+#include <windows.h>
+#include <shellscalingapi.h>
+
+float getMonitorScaleFactor(int monitorIndex) {
+    // Get all monitors
+    int monitorCount = GetSystemMetrics(SM_CMONITORS);
+
+    if(monitorIndex < 0 || monitorIndex >= monitorCount) {
+        // Invalid monitor index
+        return 1.0f;
+    }
+
+    DISPLAY_DEVICE displayDevice;
+    ZeroMemory(&displayDevice, sizeof(displayDevice));
+    displayDevice.cb = sizeof(displayDevice);
+
+    // Enumerate through monitors until we find the one we're looking for
+    for(int i = 0; EnumDisplayDevices(NULL, i, &displayDevice, 0); i++) {
+        if(i == monitorIndex) {
+            DEVMODE devMode;
+            ZeroMemory(&devMode, sizeof(devMode));
+            devMode.dmSize = sizeof(devMode);
+
+            // Get settings for selected monitor
+            if(!EnumDisplaySettings(displayDevice.DeviceName, ENUM_CURRENT_SETTINGS, &devMode)) {
+                // Unable to get monitor settings
+                return 1.0f;
+            }
+
+            // Get DPI for selected monitor
+            HMONITOR hMonitor = MonitorFromPoint({devMode.dmPosition.x, devMode.dmPosition.y}, MONITOR_DEFAULTTONEAREST);
+            UINT dpiX = 0, dpiY = 0;
+            if(SUCCEEDED(GetDpiForMonitor(hMonitor, MDT_EFFECTIVE_DPI, &dpiX, &dpiY))) {
+                return (float)dpiX / 96.0f; // Standard DPI is 96
+            }
+        }
+    }
+
+    // If we reach here, it means we couldn't find the monitor with the given index or couldn't get the DPI.
+    return 1.0f;
+}
 
 /*!
     \class WinWindow
@@ -217,8 +258,9 @@ void WinWindow::setupWallpaperForOneScreen(int activeScreen)
     const int borderOffset = -1;
 
     ScreenPlayUtil::WinMonitorStats monitors;
-    const int width = std::abs(monitors.rcMonitors[activeScreen].right - monitors.rcMonitors[activeScreen].left) + boderWidth;
-    const int height = std::abs(monitors.rcMonitors[activeScreen].top - monitors.rcMonitors[activeScreen].bottom) + boderWidth;
+    const int width = (std::abs(monitors.rcMonitors[activeScreen].right - monitors.rcMonitors[activeScreen].left) / scaling) + boderWidth;
+    const int height = (std::abs(monitors.rcMonitors[activeScreen].top - monitors.rcMonitors[activeScreen].bottom)/ scaling) + boderWidth;
+
     const int x = monitors.rcMonitors[activeScreen].left + m_zeroPoint.x() + borderOffset;
     const int y = monitors.rcMonitors[activeScreen].top + m_zeroPoint.y() + borderOffset;
     qInfo() << QString("Setup window activeScreen: %1 scaling: %2 x: %3 y: %4 width: %5 height: %6").arg(activeScreen).arg(scaling).arg(x).arg(y).arg(width).arg(height);
@@ -340,8 +382,13 @@ bool WinWindow::searchWorkerWindowToParentTo()
 */
 float WinWindow::getScaling(const int monitorIndex)
 {
+    auto a = getMonitorScaleFactor(monitorIndex);
+    return a;
     QScreen* screen = QGuiApplication::screens().at(monitorIndex);
     const int factor = screen->physicalDotsPerInch();
+    const int logicalDotsPerInch = screen->logicalDotsPerInch();
+    const int test = screen->physicalDotsPerInch() * screen->devicePixelRatio() ;
+    const int devicePixelRatio =  screen->devicePixelRatio() ;
     switch (factor) {
     case 72:
         return 1;
