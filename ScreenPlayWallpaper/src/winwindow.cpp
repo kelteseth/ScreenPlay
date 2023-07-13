@@ -5,7 +5,9 @@
 #include <QtQml>
 #include <algorithm>
 #include <iostream>
+#include <shellscalingapi.h>
 #include <vector>
+#include <windows.h>
 
 /*!
     \class WinWindow
@@ -148,7 +150,7 @@ ScreenPlay::WallpaperExitCode WinWindow::start()
 
     configureWindowGeometry();
 
-    // We do not support autopause for multi monitor wallpaper and 
+    // We do not support autopause for multi monitor wallpaper and
     // wallpaper than contain audio, see BaseWindow::setup().
     if (activeScreensList().length() == 1) {
         if (checkWallpaperVisible()) {
@@ -217,8 +219,9 @@ void WinWindow::setupWallpaperForOneScreen(int activeScreen)
     const int borderOffset = -1;
 
     ScreenPlayUtil::WinMonitorStats monitors;
-    const int width = std::abs(monitors.rcMonitors[activeScreen].right - monitors.rcMonitors[activeScreen].left) + boderWidth;
-    const int height = std::abs(monitors.rcMonitors[activeScreen].top - monitors.rcMonitors[activeScreen].bottom) + boderWidth;
+    const int width = (std::abs(monitors.rcMonitors[activeScreen].right - monitors.rcMonitors[activeScreen].left) / scaling) + boderWidth;
+    const int height = (std::abs(monitors.rcMonitors[activeScreen].top - monitors.rcMonitors[activeScreen].bottom) / scaling) + boderWidth;
+
     const int x = monitors.rcMonitors[activeScreen].left + m_zeroPoint.x() + borderOffset;
     const int y = monitors.rcMonitors[activeScreen].top + m_zeroPoint.y() + borderOffset;
     qInfo() << QString("Setup window activeScreen: %1 scaling: %2 x: %3 y: %4 width: %5 height: %6").arg(activeScreen).arg(scaling).arg(x).arg(y).arg(width).arg(height);
@@ -328,38 +331,52 @@ bool WinWindow::searchWorkerWindowToParentTo()
 }
 
 /*!
-  \brief Reads the physicalDotsPerInch and mapps them to scaling factors.
-         This is needed to detect if the user has different monitors with
-         different scaling factors.
-
-         screen->physicalDotsPerInch()
-         100% -> 109  -> 1
-         125% -> 120 -> 1.25
-         150% -> 161 -> 1.5
-         ...
+   \brief Returns scaling factor as reported by Windows.
 */
-float WinWindow::getScaling(const int monitorIndex)
+float WinWindow::getScaling(const int monitorIndex) const
 {
-    QScreen* screen = QGuiApplication::screens().at(monitorIndex);
-    const int factor = screen->physicalDotsPerInch();
-    switch (factor) {
-    case 72:
-        return 1;
-    case 107:
-        return 1.5;
-    case 109:
-        return 1;
-    case 161:
-        return 1;
-    default:
-        qWarning() << "Monitor with factor: " << factor << " detected! This is not supported!";
-        return 1;
+    // Get all monitors
+    int monitorCount = GetSystemMetrics(SM_CMONITORS);
+
+    if (monitorIndex < 0 || monitorIndex >= monitorCount) {
+        // Invalid monitor index
+        return 1.0f;
     }
+
+    DISPLAY_DEVICE displayDevice;
+    ZeroMemory(&displayDevice, sizeof(displayDevice));
+    displayDevice.cb = sizeof(displayDevice);
+
+    // Enumerate through monitors until we find the one we're looking for
+    for (int i = 0; EnumDisplayDevices(NULL, i, &displayDevice, 0); i++) {
+        if (i == monitorIndex) {
+            DEVMODE devMode;
+            ZeroMemory(&devMode, sizeof(devMode));
+            devMode.dmSize = sizeof(devMode);
+
+            // Get settings for selected monitor
+            if (!EnumDisplaySettings(displayDevice.DeviceName, ENUM_CURRENT_SETTINGS, &devMode)) {
+                // Unable to get monitor settings
+                return 1.0f;
+            }
+
+            // Get DPI for selected monitor
+            HMONITOR hMonitor = MonitorFromPoint({ devMode.dmPosition.x, devMode.dmPosition.y }, MONITOR_DEFAULTTONEAREST);
+            UINT dpiX = 0, dpiY = 0;
+            if (SUCCEEDED(GetDpiForMonitor(hMonitor, MDT_EFFECTIVE_DPI, &dpiX, &dpiY))) {
+                return (float)dpiX / 96.0f; // Standard DPI is 96
+            }
+        }
+    }
+
+    // If we reach here, it means we couldn't find the monitor with the given index or couldn't get the DPI.
+    return 1.0f;
 }
+
 /*!
    \brief Returns true of at least one monitor has active scaling enabled.
 */
-bool WinWindow::hasWindowScaling()
+bool WinWindow::hasWindowScaling() const
 {
     const auto screens = QGuiApplication::screens();
     for (int i = 0; i < screens.count(); i++) {
