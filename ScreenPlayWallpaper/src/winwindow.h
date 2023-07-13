@@ -55,8 +55,8 @@ private:
     void setupWindowMouseHook();
     bool searchWorkerWindowToParentTo();
     void configureWindowGeometry();
-    float getScaling(const int monitorIndex);
-    bool hasWindowScaling();
+    bool hasWindowScaling() const;
+    float getScaling(const int monitorIndex) const;
 
 private slots:
     void checkForFullScreenWindow();
