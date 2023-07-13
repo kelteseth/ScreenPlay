@@ -27,6 +27,12 @@ bool ProjectFile::init()
         return false;
     file = obj.value("file").toString();
 
+    QFileInfo fileInfo(folder.path() + "/"+ file);
+    if(!fileInfo.exists()){
+        qCritical() << "Requested file:" <<  fileInfo.absoluteFilePath() << "does not exist!";
+        return false;
+    }
+
     if (!obj.contains("title"))
         return false;
     title = obj.value("title").toString();
