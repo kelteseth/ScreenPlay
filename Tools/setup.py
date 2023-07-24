@@ -36,10 +36,12 @@ class commands_list():
         for command in self.commands:
             # Check if the command if a string.
             if isinstance(command["command"], str):
-                execute(command["command"], command["cwd"], command["ignore_error"], command["use_shell"], command["print_command"])
+                execute(command["command"], command["cwd"], command["ignore_error"],
+                        command["use_shell"], command["print_command"])
             else:
                 # Function call
                 command["command"]()
+
 
 def download(aqt_path: Path, qt_platform: Path):
 
@@ -49,19 +51,21 @@ def download(aqt_path: Path, qt_platform: Path):
         os = "mac"
     elif system() == "Linux":
         os = "linux"
-    
-    #  python -m aqt list-qt windows desktop --modules 6.5.1 win64_msvc2019_64
+
+    #  python -m aqt list-qt windows desktop --modules 6.5.2 win64_msvc2019_64
     qt_packages = "qt3d qtquick3d qtconnectivity qt5compat qtimageformats qtmultimedia qtshadertools qtwebchannel qtwebengine qtwebsockets qtwebview qtpositioning"
     print(f"Downloading: {qt_packages} to {aqt_path}")
     execute(f"{defines.PYTHON_EXECUTABLE} -m aqt install-qt -O  {aqt_path} {os} desktop {defines.QT_VERSION} {qt_platform} -m {qt_packages}")
 
     # Tools can only be installed one at the time:
     # see:  python -m aqt list-tool windows desktop
-    tools = ["tools_ifw", "tools_qtcreator", "tools_ninja" ,"tools_cmake"]
+    tools = ["tools_ifw", "tools_qtcreator", "tools_ninja", "tools_cmake"]
     if system() == "Windows":
         tools += ["tools_opensslv3_x64"]
     for tool in tools:
-        execute(f"{defines.PYTHON_EXECUTABLE} -m aqt install-tool -O {aqt_path} {os} desktop {tool}")
+        execute(
+            f"{defines.PYTHON_EXECUTABLE} -m aqt install-tool -O {aqt_path} {os} desktop {tool}")
+
 
 def setup_qt():
 
@@ -76,23 +80,25 @@ def setup_qt():
     elif system() == "Linux":
         qt_platform = "gcc_64"
 
-
     qt_base_path = aqt_path.joinpath(defines.QT_VERSION).resolve()
     qt_path = qt_base_path.joinpath(qt_platform).resolve()
 
     if not qt_path.exists():
         download(aqt_path, qt_platform)
-    else: 
-        # Betas & RCs are technically the same version. So limit download to x days 
+    else:
+        # Betas & RCs are technically the same version. So limit download to x days
         days = 30
-        folder_creation_date: datetime = datetime.datetime.fromtimestamp(qt_base_path.stat().st_mtime, tz=datetime.timezone.utc)
-        now: datetime = datetime.datetime.now(tz=datetime.timezone.utc) 
+        folder_creation_date: datetime = datetime.datetime.fromtimestamp(
+            qt_base_path.stat().st_mtime, tz=datetime.timezone.utc)
+        now: datetime = datetime.datetime.now(tz=datetime.timezone.utc)
         two_weeks_ago: datetime = now - datetime.timedelta(days=days)
-        if(folder_creation_date < two_weeks_ago):
-            print(f"qt version at `{qt_base_path}` older than {days} days ({folder_creation_date}), redownload!")
+        if (folder_creation_date < two_weeks_ago):
+            print(
+                f"qt version at `{qt_base_path}` older than {days} days ({folder_creation_date}), redownload!")
             download(aqt_path, qt_platform)
         else:
             print(f"Qt {defines.QT_VERSION} is up to date and ready ")
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -105,10 +111,10 @@ def main():
     project_source_parent_path = root_path.joinpath("../").resolve()
     vcpkg_path = project_source_parent_path.joinpath("vcpkg").resolve()
     vcpkg_packages_list = [
-    "curl",
-    "cpp-httplib",
-    "libarchive"
-]
+        "curl",
+        "cpp-httplib",
+        "libarchive"
+    ]
     if not args.skip_aqt:
         setup_qt()
 
@@ -123,8 +129,8 @@ def main():
         vcpkg_triplet = ["x64-windows"]
     elif system() == "Darwin":
         vcpkg_command = "./vcpkg"
-        #vcpkg_packages_list.append("infoware[opencl]") does not work with arm
-        vcpkg_packages_list.append("curl") # Hidden dependency from sentry
+        # vcpkg_packages_list.append("infoware[opencl]") does not work with arm
+        vcpkg_packages_list.append("curl")  # Hidden dependency from sentry
         platform_command = commands_list()
         platform_command.add("chmod +x bootstrap-vcpkg.sh", vcpkg_path)
         platform_command.add("./bootstrap-vcpkg.sh", vcpkg_path, False)
@@ -132,7 +138,7 @@ def main():
         vcpkg_triplet = ["64-osx-universal"]
     elif system() == "Linux":
         vcpkg_command = "./vcpkg"
-        #vcpkg_packages_list.append("infoware[opengl]")
+        # vcpkg_packages_list.append("infoware[opengl]")
         platform_command = commands_list()
         platform_command.add("chmod +x bootstrap-vcpkg.sh", vcpkg_path)
         platform_command.add("./bootstrap-vcpkg.sh", vcpkg_path, False)
@@ -142,18 +148,21 @@ def main():
         raise NotImplementedError("Unknown system: {}".format(system()))
 
     print(f"Clone into {vcpkg_path}")
-    execute("git clone https://gitlab.com/kelteseth/screenplay-vcpkg vcpkg", project_source_parent_path, True)
+    execute("git clone https://gitlab.com/kelteseth/screenplay-vcpkg vcpkg",
+            project_source_parent_path, True)
     execute("git fetch", vcpkg_path)
     execute(f"git checkout {defines.VCPKG_VERSION}", vcpkg_path)
-    
+
     # Setup vcpkg via boostrap script first
-    platform_command.execute_commands() # Execute platform specific commands.
+    platform_command.execute_commands()  # Execute platform specific commands.
 
     execute(f"{vcpkg_command} remove --outdated --recurse", vcpkg_path, False)
 
     for triplet in vcpkg_triplet:
         vcpkg_packages = " ".join(vcpkg_packages_list)
-        execute(f"{vcpkg_command} install {vcpkg_packages} --triplet {triplet} --recurse", vcpkg_path, False)
+        execute(
+            f"{vcpkg_command} install {vcpkg_packages} --triplet {triplet} --recurse", vcpkg_path, False)
+
 
 if __name__ == "__main__":
     main()
