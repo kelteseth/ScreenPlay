@@ -4,11 +4,12 @@
 #include <QStringList>
 #include <QVector>
 #include <QtGlobal>
+#include <QtWebEngineQuick>
+
+#include "ScreenPlayWallpaper/CMakeVariables.h"
 
 #include "ScreenPlayUtil/exitcodes.h"
 #include "ScreenPlayUtil/util.h"
-
-#include "ScreenPlayWallpaper/CMakeVariables.h"
 
 #if defined(Q_OS_WIN)
 #include "src/winwindow.h"
@@ -23,6 +24,9 @@ Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherPlugin)
 
 int main(int argc, char* argv[])
 {
+
+    // Lets keep using it until: https://bugreports.qt.io/browse/QTBUG-109401
+    QtWebEngineQuick::initialize();
 
 #if defined(Q_OS_WIN)
     // Workaround for Qt 6.5.1 crash https://bugreports.qt.io/browse/QTBUG-113832

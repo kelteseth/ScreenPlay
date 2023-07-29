@@ -6,6 +6,7 @@
 #include <QQmlExtensionPlugin>
 #include <QString>
 #include <QStringList>
+#include <QtWebEngineQuick>
 
 #include "src/widgetwindow.h"
 
@@ -21,7 +22,10 @@ Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherPlugin)
 int main(int argc, char* argv[])
 {
 
-#if !defined(Q_OS_LINUX)
+    // Lets keep using it until: https://bugreports.qt.io/browse/QTBUG-109401
+    QtWebEngineQuick::initialize();
+
+#if defined(Q_OS_WIN)
     qputenv("QT_MEDIA_BACKEND", "ffmpeg");
 #endif
 
