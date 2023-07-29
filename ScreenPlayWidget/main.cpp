@@ -26,6 +26,8 @@ int main(int argc, char* argv[])
     QtWebEngineQuick::initialize();
 
 #if defined(Q_OS_WIN)
+  // Workaround for Qt 6.5.1 crash https://bugreports.qt.io/browse/QTBUG-113832
+    qputenv("QT_DISABLE_HW_TEXTURES_CONVERSION", "1");
     qputenv("QT_MEDIA_BACKEND", "ffmpeg");
 #endif
 
