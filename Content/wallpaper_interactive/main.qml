@@ -1,6 +1,7 @@
-// SPDX-License-Identifier: BSD-3-Clause
 
+// SPDX-License-Identifier: BSD-3-Clause
 import QtQuick
+import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Controls.Material
 
@@ -8,9 +9,20 @@ Rectangle {
     id: root
     color: "#333333"
     anchors.fill: parent
-
-    Button {
+    property int counter: 0
+    ColumnLayout {
         anchors.centerIn: parent
-        text: "Click me!"
+        Text {
+            Layout.fillWidth: true
+            color: "white"
+            font.pointSize: 14
+            text: "🎉 Qml Button clicked: " + root.counter
+            horizontalAlignment: Text.AlignHCenter
+        }
+        Button {
+            text: "Click me!"
+            Layout.fillWidth: true
+            onClicked: root.counter++
+        }
     }
 }

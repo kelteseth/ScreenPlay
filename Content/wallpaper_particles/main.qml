@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: BSD-3-Clause
-
 import QtQuick
 import QtQuick.Effects
 import QtQuick.Particles
@@ -43,31 +42,20 @@ Item {
             anchors.fill: parent
             hoverEnabled: true
             Component.onCompleted: {
-                attractor.pointX = parent.width * .5;
-                attractor.pointY = 0;
+                attractor.pointX = parent.width * .5
+                attractor.pointY = 0
             }
 
-            onPressed:
-            //attractor.enabled = true
-            {
+            onPressed: {
+                attractor.enabled = true
             }
             onPositionChanged: {
-                attractor.pointX = mouseX;
-                attractor.pointY = mouseY;
-                rct.x = mouseX;
-                rct.y = mouseY;
+                attractor.pointX = mouseX
+                attractor.pointY = mouseY
             }
-            onReleased:
-            //attractor.enabled = false
-            {
+            onReleased: {
+                attractor.enabled = false
             }
-        }
-
-        Rectangle {
-            id: rct
-            color: "orange"
-            width: 40
-            height: 40
         }
 
         Attractor {
@@ -131,7 +119,7 @@ Item {
                 bottom: parent.bottom
                 bottomMargin: -width * .65
             }
-            SequentialAnimation on opacity  {
+            SequentialAnimation on opacity {
                 loops: Animation.Infinite
 
                 OpacityAnimator {

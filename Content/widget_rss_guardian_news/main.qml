@@ -1,5 +1,5 @@
-// SPDX-License-Identifier: BSD-3-Clause
 
+// SPDX-License-Identifier: BSD-3-Clause
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
@@ -14,36 +14,14 @@ Item {
 
     XmlListModel {
         id: feedModel
-        source: "https://rss.dw.com/atom/rss-en-all"
-        query: "/feed/entry"
-        onCountChanged: {
-            console.log("count ", count);
-        }
+        source: "https://www.theguardian.com/world/rss"
+        query: "/rss/channel/item"
         onStatusChanged: {
-            print("status ", status);
-            console.log("count ", count);
             if (status === XmlListModel.Error) {
-                console.log("Error: " + errorString);
+                console.log("Error: " + errorString)
             }
         }
 
-        XmlListModelRole {
-            name: "published"
-            elementName: "published"
-        }
-        XmlListModelRole {
-            name: "rights"
-            elementName: "rights"
-        }
-        XmlListModelRole {
-            name: "updated"
-            elementName: "updated"
-        }
-        XmlListModelRole {
-            name: "category"
-            elementName: "category"
-            attributeName: "term"
-        }
         XmlListModelRole {
             name: "title"
             elementName: "title"
@@ -51,11 +29,36 @@ Item {
         XmlListModelRole {
             name: "link"
             elementName: "link"
-            attributeName: "href"
         }
         XmlListModelRole {
-            name: "summary"
-            elementName: "summary"
+            name: "description"
+            elementName: "description"
+        }
+        XmlListModelRole {
+            name: "category"
+            elementName: "category"
+            attributeName: "domain"
+        }
+        XmlListModelRole {
+            name: "pubDate"
+            elementName: "pubDate"
+        }
+        XmlListModelRole {
+            name: "guid"
+            elementName: "guid"
+        }
+        XmlListModelRole {
+            name: "creator"
+            elementName: "dc:creator"
+        }
+        XmlListModelRole {
+            name: "date"
+            elementName: "dc:date"
+        }
+        XmlListModelRole {
+            name: "mediaContent"
+            elementName: "media:content"
+            attributeName: "url"
         }
     }
 
@@ -67,7 +70,7 @@ Item {
         spacing: 10
         model: feedModel
         delegate: PostDelegate {
-            width: parent.width
+            width: root.width
         }
     }
 }

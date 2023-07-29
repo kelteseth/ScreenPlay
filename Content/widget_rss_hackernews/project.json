@@ -1,0 +1,12 @@
+{
+    "description": "Widget that shows the latest hackernews feed",
+    "file": "main.qml",
+    "preview": "preview.png",
+    "tags": [
+        "hackernews",
+        "rss",
+        "feed"
+    ],
+    "title": "hackernews",
+    "type": "qmlWidget"
+}
