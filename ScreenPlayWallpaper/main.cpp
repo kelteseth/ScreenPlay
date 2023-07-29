@@ -48,13 +48,15 @@ int main(int argc, char* argv[])
     if (argumentList.length() == 1) {
         QString exampleContentPath = QString(SCREENPLAY_SOURCE_DIR) + "/Content";
         QStringList contentFolder = {
-            "/wallpaper_video_astronaut_vp9",
-            "/wallpaper_video_nebula_h264",
-            "/wallpaper_interactive",
-            "/wallpaper_landscape",
-            "/wallpaper_particles"
+            "/wallpaper_html", // 0
+            "/wallpaper_qml", // 1
+            "/wallpaper_qml_landscape", // 2
+            "/wallpaper_qml_particles", // 3
+            "/wallpaper_video_astronaut_vp9", // 4
+            "/wallpaper_video_nebula_h264" // 5
         };
-        QString projectPath = exampleContentPath + contentFolder.at(0);
+        const int index = 5;
+        QString projectPath = exampleContentPath + contentFolder.at(index);
 
         window.setActiveScreensList({ 0 });
         window.setProjectPath(projectPath);

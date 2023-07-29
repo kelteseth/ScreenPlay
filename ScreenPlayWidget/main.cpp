@@ -32,26 +32,30 @@ int main(int argc, char* argv[])
     // If we start with only one argument (path, appID, type),
     // it means we want to test a single widget
     if (argumentList.length() == 1) {
-        // WidgetWindow spwmw("test", "appid", "qmlWidget", { 100, 100 }, true);
-
         QString exampleContentPath = QString(SCREENPLAY_SOURCE_DIR) + "/Content";
         QStringList contentFolder = {
-            "/widget_weather",
-            "/widget_system_stats", // Note: Windows only
-            "/widget_hello_world",
-            "/widget_countDown",
-            "/widget_analogClock",
-            "/widget_digitalClock",
-            "/widget_rss_reddit",
-            "/widget_rss_dw_news",
-            "/widget_xkcd"
+            "/widget_weather", // 0
+            "/widget_system_stats", // 1 (Note: Windows only)
+            "/widget_hello_world", // 2
+            "/widget_year_count_down", // 3
+            "/widget_analog_clock", // 4
+            "/widget_digital_clock", // 5
+            "/widget_rss_hackernews", // 6
+            "/widget_rss_guardian_news", // 7
+            "/widget_xkcd" // 8
         };
-        QString projectPath = exampleContentPath + contentFolder.at(0);
+        const int index = 5;
+        QString projectPath = exampleContentPath + contentFolder.at(index);
+
+        // Lets center the widget
+        const auto* screen = QGuiApplication::screens().at(0);
+        const int offset  = - 200;
+        QPoint center((screen->size().width() / 2) + offset, (screen->size().height() / 2)+offset);
 
         WidgetWindow spwmw(projectPath,
             "appid",
             "qmlWidget",
-            { 0, 0 },
+            center,
             true);
 
         return app.exec();
