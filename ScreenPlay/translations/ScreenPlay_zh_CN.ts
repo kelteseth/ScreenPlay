@@ -43,43 +43,43 @@
     <name>CreateSidebar</name>
     <message>
       <source>Tools Overview</source>
-      <translation type="unfinished">Tools Overview</translation>
+      <translation>工具概览</translation>
     </message>
     <message>
       <source>Video Import h264 (.mp4)</source>
-      <translation type="unfinished">Video Import h264 (.mp4)</translation>
+      <translation>视频导入 h264 (.mp4)</translation>
     </message>
     <message>
       <source>Video Import VP8 &amp; VP9 (.webm)</source>
-      <translation type="unfinished">Video Import VP8 &amp; VP9 (.webm)</translation>
+      <translation>视频导入 VP8 &amp; VP9 (.webm)</translation>
     </message>
     <message>
       <source>Video import (all types)</source>
-      <translation type="unfinished">Video import (all types)</translation>
+      <translation>导入视频(所有类型)</translation>
     </message>
     <message>
       <source>GIF Wallpaper</source>
-      <translation type="unfinished">GIF Wallpaper</translation>
+      <translation>GIF 壁纸</translation>
     </message>
     <message>
       <source>QML Wallpaper</source>
-      <translation type="unfinished">QML Wallpaper</translation>
+      <translation>QML 壁纸</translation>
     </message>
     <message>
       <source>HTML5 Wallpaper</source>
-      <translation type="unfinished">HTML5 Wallpaper</translation>
+      <translation>HTML5 壁纸</translation>
     </message>
     <message>
       <source>Website Wallpaper</source>
-      <translation type="unfinished">Website Wallpaper</translation>
+      <translation>网页壁纸</translation>
     </message>
     <message>
       <source>QML Widget</source>
-      <translation type="unfinished">QML Widget</translation>
+      <translation>QML 部件</translation>
     </message>
     <message>
       <source>HTML Widget</source>
-      <translation type="unfinished">HTML Widget</translation>
+      <translation>HTML 部件</translation>
     </message>
   </context>
   <context>
@@ -238,17 +238,17 @@
     <name>ExitPopup</name>
     <message>
       <source>Minimize ScreenPlay</source>
-      <translation type="unfinished">Minimize ScreenPlay</translation>
+      <translation>最小化屏幕播放</translation>
     </message>
     <message>
       <source>Always minimize ScreenPlay</source>
-      <translation type="unfinished">Always minimize ScreenPlay</translation>
+      <translation>总是最小化ScreenPlay</translation>
     </message>
     <message>
       <source>You have active Wallpaper.
 ScreenPlay will only quit if no Wallpaper are running.</source>
-      <translation type="unfinished">You have active Wallpaper.
-ScreenPlay will only quit if no Wallpaper are running.</translation>
+      <translation>您有正在使用的壁纸。
+ScreenPlay只能在没有壁纸运行时退出。</translation>
     </message>
     <message>
       <source>You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the bottom right Tray-Icon.</source>
@@ -260,7 +260,7 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
     <message>
       <source>Quit ScreenPlay now</source>
-      <translation type="unfinished">Quit ScreenPlay now</translation>
+      <translation>退出ScreenPlay</translation>
     </message>
   </context>
   <context>
@@ -588,42 +588,42 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
     <message>
       <source>Export</source>
-      <translation type="unfinished">Export</translation>
+      <translation>导出</translation>
     </message>
     <message>
       <source>We only support adding one item at once.</source>
-      <translation type="unfinished">We only support adding one item at once.</translation>
+      <translation>我们只支持一次添加一个物品。</translation>
     </message>
     <message>
       <source>File type not supported. We only support &apos;.screenplay&apos; files.</source>
-      <translation type="unfinished">File type not supported. We only support &apos;.screenplay&apos; files.</translation>
+      <translation>不支持的文件类型。我们只支持 &apos;.screenslay&apos; 文件。</translation>
     </message>
     <message>
       <source>Import Content...</source>
-      <translation type="unfinished">Import Content...</translation>
+      <translation>导入内容</translation>
     </message>
     <message>
       <source>Export Content...</source>
-      <translation type="unfinished">Export Content...</translation>
+      <translation>导出内容</translation>
     </message>
   </context>
   <context>
     <name>InstalledNavigation</name>
     <message>
       <source>All</source>
-      <translation type="unfinished">All</translation>
+      <translation>全部</translation>
     </message>
     <message>
       <source>Scenes</source>
-      <translation type="unfinished">Scenes</translation>
+      <translation>场景</translation>
     </message>
     <message>
       <source>Videos</source>
-      <translation type="unfinished">Videos</translation>
+      <translation>视频</translation>
     </message>
     <message>
       <source>Widgets</source>
-      <translation type="unfinished">Widgets</translation>
+      <translation>小部件</translation>
     </message>
   </context>
   <context>
@@ -642,7 +642,7 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
     <message>
       <source>Open the ScreenPlay forum</source>
-      <translation type="unfinished">Open the ScreenPlay forum</translation>
+      <translation>打开ScreenPlay论坛</translation>
     </message>
   </context>
   <context>
@@ -756,8 +756,8 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
   <context>
     <name>QMLWallpaperMain</name>
     <message>
-      <source>My Wallpaper 🚀</source>
-      <translation type="unfinished">My Wallpaper 🚀</translation>
+      <source>My ScreenPlay Wallpaper 🚀</source>
+      <translation type="unfinished">My ScreenPlay Wallpaper 🚀</translation>
     </message>
   </context>
   <context>
@@ -787,7 +787,7 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     <name>QMLWidgetMain</name>
     <message>
       <source>My Widget 🚀</source>
-      <translation type="unfinished">My Widget 🚀</translation>
+      <translation>我的部件 🚀</translation>
     </message>
   </context>
   <context>
