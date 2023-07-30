@@ -238,11 +238,11 @@
     <name>ExitPopup</name>
     <message>
       <source>Minimize ScreenPlay</source>
-      <translation type="unfinished">Minimize ScreenPlay</translation>
+      <translation>Minimiser ScreenPlay</translation>
     </message>
     <message>
       <source>Always minimize ScreenPlay</source>
-      <translation type="unfinished">Always minimize ScreenPlay</translation>
+      <translation>Toujours minimiser ScreenPlay</translation>
     </message>
     <message>
       <source>You have active Wallpaper.
@@ -260,7 +260,7 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
     <message>
       <source>Quit ScreenPlay now</source>
-      <translation type="unfinished">Quit ScreenPlay now</translation>
+      <translation>Quitter ScreenPlay maintenant</translation>
     </message>
   </context>
   <context>
@@ -600,11 +600,11 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
     <message>
       <source>Import Content...</source>
-      <translation type="unfinished">Import Content...</translation>
+      <translation>Importer du contenu...</translation>
     </message>
     <message>
       <source>Export Content...</source>
-      <translation type="unfinished">Export Content...</translation>
+      <translation>Exporter du contenu...</translation>
     </message>
   </context>
   <context>
@@ -642,7 +642,7 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
     <message>
       <source>Open the ScreenPlay forum</source>
-      <translation type="unfinished">Open the ScreenPlay forum</translation>
+      <translation>Ouvrir le forum ScreenPlay</translation>
     </message>
   </context>
   <context>
@@ -719,7 +719,7 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
     <message>
       <source>Close All Content</source>
-      <translation type="unfinished">Close All Content</translation>
+      <translation>Fermer tout le contenu</translation>
     </message>
   </context>
   <context>
@@ -756,8 +756,8 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
   <context>
     <name>QMLWallpaperMain</name>
     <message>
-      <source>My Wallpaper 🚀</source>
-      <translation type="unfinished">My Wallpaper 🚀</translation>
+      <source>My ScreenPlay Wallpaper 🚀</source>
+      <translation type="unfinished">My ScreenPlay Wallpaper 🚀</translation>
     </message>
   </context>
   <context>
@@ -787,7 +787,7 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     <name>QMLWidgetMain</name>
     <message>
       <source>My Widget 🚀</source>
-      <translation type="unfinished">My Widget 🚀</translation>
+      <translation>Mon Widget 🚀</translation>
     </message>
   </context>
   <context>
@@ -844,7 +844,7 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
     <message>
       <source>Your storage path is empty!</source>
-      <translation type="unfinished">Your storage path is empty!</translation>
+      <translation>Votre chemin de stockage est vide !</translation>
     </message>
     <message>
       <source>Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</source>
@@ -994,7 +994,7 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
     <message>
       <source>Headline</source>
-      <translation type="unfinished">Headline</translation>
+      <translation>Titre</translation>
     </message>
     <message>
       <source>Select a Monitor to display the content</source>
