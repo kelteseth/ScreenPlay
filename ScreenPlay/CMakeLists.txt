@@ -448,4 +448,5 @@ endif()
 
 # ##### USE CMAKE VARIABLES IN CODE #####
 include(GenerateCMakeVariableHeader)
-generate_cmake_variable_header(${PROJECT_NAME})
+# Note: Must not be ${PROJECT_NAME}, but ScreenPlayApp to work!
+generate_cmake_variable_header(ScreenPlayApp)

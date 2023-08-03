@@ -24,6 +24,7 @@
 
 #include "ScreenPlay/globalvariables.h"
 #include "ScreenPlay/profilelistmodel.h"
+#include "ScreenPlay/settings.h"
 #include "ScreenPlay/util.h"
 #include "ScreenPlayUtil/projectfile.h"
 
@@ -40,6 +41,7 @@ class InstalledListModel : public QAbstractListModel {
 public:
     explicit InstalledListModel(
         const std::shared_ptr<GlobalVariables>& globalVariables,
+        std::shared_ptr<Settings> settings,
         QObject* parent = nullptr);
 
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
@@ -97,5 +99,6 @@ private:
     std::atomic_bool m_isLoading { false };
 
     const std::shared_ptr<GlobalVariables>& m_globalVariables;
+    std::shared_ptr<Settings> m_settings;
 };
 }

@@ -142,11 +142,11 @@ void App::init()
     // Util should be created as first so we redirect qDebugs etc. into the log
     m_util = make_unique<Util>();
     m_globalVariables = make_shared<GlobalVariables>();
-    m_installedListModel = make_shared<InstalledListModel>(m_globalVariables);
-    m_installedListFilter = make_shared<InstalledListFilter>(m_installedListModel);
     m_monitorListModel = make_shared<MonitorListModel>();
     m_profileListModel = make_shared<ProfileListModel>(m_globalVariables);
     m_settings = make_shared<Settings>(m_globalVariables);
+    m_installedListModel = make_shared<InstalledListModel>(m_globalVariables, m_settings);
+    m_installedListFilter = make_shared<InstalledListFilter>(m_installedListModel);
     m_mainWindowEngine = make_unique<QQmlApplicationEngine>();
 
     // Only create anonymousTelemetry if user did not disallow!

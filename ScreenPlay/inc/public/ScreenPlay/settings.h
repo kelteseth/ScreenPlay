@@ -45,6 +45,7 @@ class Settings : public QObject {
     Q_OBJECT
     QML_UNCREATABLE("")
 
+    Q_PROPERTY(bool showDefaultContent READ showDefaultContent WRITE setShowDefaultContent NOTIFY showDefaultContentChanged)
     Q_PROPERTY(bool anonymousTelemetry READ anonymousTelemetry WRITE setAnonymousTelemetry NOTIFY anonymousTelemetryChanged)
     Q_PROPERTY(bool silentStart READ silentStart WRITE setSilentStart NOTIFY silentStartChanged)
     Q_PROPERTY(bool autostart READ autostart WRITE setAutostart NOTIFY autostartChanged)
@@ -121,6 +122,7 @@ public:
     bool steamVersion() const { return m_steamVersion; }
     DesktopEnvironment desktopEnvironment() const { return m_desktopEnvironment; }
     const QString& buildInfos() const { return m_buildInfos; }
+    bool showDefaultContent() const { return m_showDefaultContent; }
 
 signals:
     void requestRetranslation();
@@ -141,12 +143,21 @@ signals:
     void steamVersionChanged(bool steamVersion);
     void desktopEnvironmentChanged(DesktopEnvironment desktopEnvironment);
     void buildInfosChanged(const QString& buildInfos);
+    void showDefaultContentChanged(bool showDefaultContent);
 
 public slots:
     void setupLanguage();
     void writeJsonFileFromResource(const QString& filename);
     void setupWidgetAndWindowPaths();
     bool retranslateUI();
+
+    void setShowDefaultContent(bool showDefaultContent)
+    {
+        if (m_showDefaultContent == showDefaultContent)
+            return;
+        m_showDefaultContent = showDefaultContent;
+        emit showDefaultContentChanged(showDefaultContent);
+    }
 
     void setqSetting(const QString& key, const QVariant& value)
     {
@@ -459,6 +470,7 @@ private:
     bool m_checkWallpaperVisible { false };
     bool m_silentStart { false };
     bool m_anonymousTelemetry { true };
+    bool m_showDefaultContent { true };
 
     QString m_decoder;
     ScreenPlay::FillMode::FillMode m_videoFillMode { ScreenPlay::FillMode::FillMode::Cover };

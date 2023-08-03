@@ -77,6 +77,19 @@ Item {
                     }
 
                     SettingBool {
+                        headline: qsTr("Show default installed content")
+                        description: qsTr("ScreenPlay will show build in content.")
+                        isChecked: App.settings.showDefaultContent
+                        onCheckboxChanged: function (checked) {
+                            App.settings.setShowDefaultContent(checked);
+                            App.installedListModel.reset()
+                        }
+                    }
+
+                    SettingsHorizontalSeperator {
+                    }
+
+                    SettingBool {
                         height: 70
                         headline: qsTr("Send anonymous crash reports and statistics")
                         description: qsTr("Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use <a href=\"https://sentry.io\">sentry.io</a> to collect and analyze this data. A <b>big thanks to them</b> for providing us with free premium support for open source projects!")

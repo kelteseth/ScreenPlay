@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
 #include "ScreenPlay/installedlistmodel.h"
+#include "ScreenPlay/CMakeVariables.h"
 #include <QDebug>
+#include <QGuiApplication>
 
 namespace ScreenPlay {
 
@@ -20,9 +22,11 @@ namespace ScreenPlay {
 */
 InstalledListModel::InstalledListModel(
     const std::shared_ptr<GlobalVariables>& globalVariables,
+    std::shared_ptr<Settings> settings,
     QObject* parent)
     : QAbstractListModel(parent)
     , m_globalVariables { globalVariables }
+    , m_settings { settings }
 {
 }
 
@@ -205,7 +209,7 @@ void InstalledListModel::append(const QString& projectJsonFilePath)
 }
 
 /*!
-    \brief Loads all installed content.
+    \brief Loads all installed and default content.
            - Skips if the loadContentFuture is already running.
            - Skips projects.json without a "type" field.
 */
@@ -217,18 +221,31 @@ void InstalledListModel::loadInstalledContent()
     }
     m_isLoading = true;
     auto unused = QtConcurrent::run([this]() {
-        QFileInfoList list = QDir(m_globalVariables->localStoragePath().toLocalFile()).entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
         int counter = 0;
+        auto loadFiles = [this, &counter](const QString path) { // capture counter by reference
+            const QFileInfoList list = QDir(path).entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
 
-        for (const QFileInfo& item : list) {
-            const QString absoluteFilePath = m_globalVariables->localStoragePath().toLocalFile() + "/" + item.baseName() + "/project.json";
+            for (const QFileInfo& item : list) {
+                const QString absoluteFilePath = path + "/" + item.baseName() + "/project.json";
 
-            if (!QFile::exists(absoluteFilePath))
-                continue;
+                if (!QFile::exists(absoluteFilePath))
+                    continue;
 
-            append(absoluteFilePath);
-            counter += 1;
+                append(absoluteFilePath);
+                counter += 1;
+            }
+        };
+#ifdef DEPLOY_VERSION
+        const QString defaultContentPath = QGuiApplication::instance()->applicationDirPath() + "/Content";
+#else
+        const QString defaultContentPath = QString(SCREENPLAY_SOURCE_DIR) + "/Content";
+#endif
+        if (m_settings->showDefaultContent()) {
+            loadFiles(defaultContentPath);
         }
+        const QString installedPath = m_globalVariables->localStoragePath().toLocalFile();
+        loadFiles(installedPath);
+
         setCount(counter);
         emit installedLoadingFinished();
         m_isLoading = false;
