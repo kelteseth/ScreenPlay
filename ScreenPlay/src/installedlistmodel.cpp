@@ -262,12 +262,6 @@ QVariantMap InstalledListModel::get(const QString& folderName) const
     if (m_screenPlayFiles.count() == 0)
         return {};
 
-    const QString localInstalledPath = ScreenPlayUtil::toLocal(m_globalVariables->localStoragePath().toString());
-
-    if (!QDir(localInstalledPath + "/" + folderName).exists()) {
-        return {};
-    }
-
     for (const auto& item : m_screenPlayFiles) {
         if (item.folderName == folderName) {
             QVariantMap map;
@@ -276,7 +270,7 @@ QVariantMap InstalledListModel::get(const QString& folderName) const
             map.insert("m_previewGIF", item.previewGIF);
             map.insert("m_file", item.file);
             map.insert("m_type", QVariant::fromValue(item.type));
-            map.insert("m_absoluteStoragePath", QUrl::fromLocalFile(item.projectJsonFilePath.dir().path()));
+            map.insert("m_absoluteStoragePath", QUrl::fromLocalFile(item.projectJsonFilePath.dir().path()).toString());
             map.insert("m_publishedFileID", item.publishedFileID);
             map.insert("m_isNew", item.isNew);
             map.insert("m_containsAudio", item.containsAudio);

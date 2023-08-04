@@ -40,9 +40,10 @@ Item {
     state: "inactive"
     property bool hasPreviewGif: false
     onContentFolderNameChanged: {
-        txtHeadline.text = App.installedListModel.get(root.contentFolderName).m_title;
-        const previewGiFilePath = Qt.resolvedUrl(App.globalVariables.localStoragePath + "/" + root.contentFolderName + "/" + App.installedListModel.get(root.contentFolderName).m_previewGIF);
-        const previewImageFilePath = Qt.resolvedUrl(App.globalVariables.localStoragePath + "/" + root.contentFolderName + "/" + App.installedListModel.get(root.contentFolderName).m_preview);
+        const item = App.installedListModel.get(root.contentFolderName);
+        txtHeadline.text = item.m_title;
+        const previewGiFilePath = Qt.resolvedUrl(item.m_absoluteStoragePath + "/" + item.m_previewGIF);
+        const previewImageFilePath = Qt.resolvedUrl(  item.m_absoluteStoragePath + "/" + item.m_preview);
         root.hasPreviewGif = App.util.fileExists(previewGiFilePath);
         if (hasPreviewGif) {
             animatedImagePreview.source = previewGiFilePath;
