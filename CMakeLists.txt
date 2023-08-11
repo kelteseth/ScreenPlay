@@ -1,8 +1,13 @@
 cmake_minimum_required(VERSION 3.23.0)
 
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
+include(GetProjectVersion)
+get_project_version(PROJECT_VERSION)
+message(STATUS "Version: ${PROJECT_VERSION}")
+
 project(
     ScreenPlay
-    VERSION 0.15.0
+    VERSION ${PROJECT_VERSION}
     DESCRIPTION "Modern, Cross Plattform, Live Wallpaper, Widgets and AppDrawer!"
     HOMEPAGE_URL "https://screen-play.app/"
     LANGUAGES CXX)
@@ -21,7 +26,6 @@ endif()
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
 set(THIRD_PARTY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/")
 
 option(OSX_BUNDLE "Enable distribution macOS bundle" OFF)

@@ -1,0 +1,26 @@
+steam_linux:
+  stage: build
+  extends:
+    - .base_linux_build
+  script:
+    - python3 Tools/build.py -type release  -steam -deploy-version -use-aqt -installer --tag $CI_COMMIT_TAG
+  rules:
+    - if: "$CI_COMMIT_TAG"
+
+steam_windows:
+  stage: build
+  extends:
+    - .base_windows_build
+  script:
+    - python Tools/build.py -type release -steam -use-aqt -deploy-version --tag $CI_COMMIT_TAG
+  rules:
+    - if: "$CI_COMMIT_TAG"
+
+steam_osx:
+  stage: build
+  extends:
+    - .base_osx_build
+  script:
+    - python3 Tools/build.py -type release -steam -use-aqt -deploy-version -sign_osx --tag $CI_COMMIT_TAG
+  rules:
+    - if: "$CI_COMMIT_TAG"

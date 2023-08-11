@@ -2,6 +2,7 @@ project(CMake)
 
 set(FILES
     CMakeVariables.h.in
+    GetProjectVersion.cmake
     GenerateCMakeVariableHeader.cmake
     CopyRecursive.cmake
     CreateIFWInstaller.cmake)
