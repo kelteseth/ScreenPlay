@@ -1,7 +1,7 @@
 include:
     - ".gitlab/ci/base_jobs.yml"
     - ".gitlab/ci/build_jobs.yml"
-    - ".gitlab/ci/build__release_jobs.yml"
+    - ".gitlab/ci/build_release_jobs.yml"
     - ".gitlab/ci/check_jobs.yml"
 
 stages:
