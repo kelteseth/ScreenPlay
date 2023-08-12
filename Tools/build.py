@@ -376,25 +376,25 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description='Build and Package ScreenPlay')
     parser.add_argument('--tag', type=str, help="GitLab CI tag", default="")
-    parser.add_argument('-qt-version', action="store", dest="qt_version_overwrite",
+    parser.add_argument('--qt-version', action="store", dest="qt_version_overwrite",
                         help="Overwrites the default Qt version")
-    parser.add_argument('-qt-installer-version', action="store", dest="qt_installer_version_overwrite",
+    parser.add_argument('--qt-installer-version', action="store", dest="qt_installer_version_overwrite",
                         help="Overwrites the default Qt installer framework version")
-    parser.add_argument('-type', action="store", dest="build_type", default="release",
+    parser.add_argument('--type', action="store", dest="build_type", default="release",
                         help="Build type. This is either debug or release.")
-    parser.add_argument('-use-aqt', action="store_true", dest="use_aqt",
+    parser.add_argument('--use-aqt', action="store_true", dest="use_aqt",
                         help="Absolute qt path. If not set the default path is used\Windows: C:\Qt\nLinux & macOS:~/Qt/.")
-    parser.add_argument('-steam', action="store_true", dest="build_steam",
+    parser.add_argument('--steam', action="store_true", dest="build_steam",
                         help="Enable if you want to build the Steam workshop plugin.")
-    parser.add_argument('-tests', action="store_true", dest="build_tests",
+    parser.add_argument('--tests', action="store_true", dest="build_tests",
                         help="Build tests.")
-    parser.add_argument('-installer', action="store_true", dest="create_installer",
+    parser.add_argument('--installer', action="store_true", dest="create_installer",
                         help="Create a installer.")
-    parser.add_argument('-sign_osx', action="store_true", dest="sign_osx", default=False,
+    parser.add_argument('--sign_osx', action="store_true", dest="sign_osx", default=False,
                         help="Signs the executable on macOS. This requires a valid Apple Developer ID set up.")
-    parser.add_argument('-deploy-version', action="store_true", dest="build_deploy",
+    parser.add_argument('--deploy-version', action="store_true", dest="build_deploy",
                         help="Create a deploy version of ScreenPlay for sharing with the world. A not deploy version is for local development only!")
-    parser.add_argument('-architecture', action="store", dest="build_architecture", default="",
+    parser.add_argument('--architecture', action="store", dest="build_architecture", default="",
                         help="Sets the build architecture. Used to build x86 and ARM osx versions. Currently only works with x86_64 and arm64")
     args = parser.parse_args()
 

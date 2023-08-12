@@ -2,7 +2,7 @@ formatting:
   stage: check
   allow_failure: true
   image:
-    name: ubuntu:20.04
+    name: ubuntu:23.10
   tags:
     - gitlab-org-docker
   before_script:
