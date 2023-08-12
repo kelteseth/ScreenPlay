@@ -3,7 +3,7 @@ steam_linux:
   extends:
     - .base_linux_build
   script:
-    - python3 Tools/build.py --type=release --steam --deploy-version --use-aqt -installer --tag $CI_COMMIT_TAG
+    - python3 Tools/build.py --type=release --steam --deploy-version --use-aqt --installer --tag $CI_COMMIT_TAG
   rules:
     - if: "$CI_COMMIT_TAG"
 

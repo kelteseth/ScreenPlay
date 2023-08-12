@@ -3,7 +3,7 @@ standalone_windows:
   extends:
     - .base_windows_build
   script:
-    - python Tools/build.py --type=release --use-aqt -installer --deploy-version
+    - python Tools/build.py --type=release --use-aqt --installer --deploy-version
 
 standalone_osx:
   stage: build
@@ -17,7 +17,7 @@ standalone_linux:
   extends:
     - .base_linux_build
   script:
-    - python3 Tools/build.py --type=release --use-aqt -installer --deploy-version
+    - python3 Tools/build.py --type=release --use-aqt --installer --deploy-version
 
 steam_windows:
   stage: build_steam
@@ -38,4 +38,4 @@ steam_linux:
   extends:
     - .base_linux_build
   script:
-    - python3 Tools/build.py --type=release -steam --deploy-version --use-aqt -installer
+    - python3 Tools/build.py --type=release -steam --deploy-version --use-aqt  --installer
