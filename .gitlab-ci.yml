@@ -5,8 +5,10 @@ include:
     - ".gitlab/ci/check_jobs.yml"
 
 stages:
-    # Regular build for every commit
+    # None Steam build for every commit
     - build
+    # Steam build for every commit
+    - build_steam
     # Git release tag builds
     - release_build
     # Checks for source code formattings
