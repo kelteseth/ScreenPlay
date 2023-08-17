@@ -1,0 +1,16 @@
+formatting:
+  stage: check
+  allow_failure: true
+  image:
+    name: ubuntu:23.10
+  tags:
+    - gitlab-org-docker
+  before_script:
+    - apt-get update -y
+    - apt-get install python3-pip python-is-python3 clang clang-format -y
+  script:
+    - python -m pip install -U pip wheel --break-system-packages
+    - python -m pip install -U cmakelang --break-system-packages
+    - cd Tools
+    - python clang_format.py
+    - python cmake_format.py

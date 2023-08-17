@@ -6,10 +6,12 @@ from pathlib import Path
 from os import chdir
 from concurrent.futures import ThreadPoolExecutor
 import os
+import re
 import subprocess
 from sys import stdout
 
 stdout.reconfigure(encoding='utf-8')
+
 
 def sftp_exists(sftp, path) -> bool:
     try:
@@ -24,6 +26,7 @@ def run(cmd, cwd=Path.cwd()):
     if result.returncode != 0:
         raise RuntimeError(f"Failed to execute {cmd}")
 
+
 def run_and_capture_output(cmd, cwd=Path.cwd()) -> str:
     result = subprocess.run(cmd, shell=True, cwd=cwd, stdout=subprocess.PIPE)
     if result.returncode != 0:
@@ -31,14 +34,16 @@ def run_and_capture_output(cmd, cwd=Path.cwd()) -> str:
     if result.stdout is not None:
         return str(result.stdout.decode('utf-8'))
     return ""
-    
+
+
 def repo_root_path() -> str:
     # Root dir of the repository
     path = os.path.join(os.path.realpath(__file__), "../../")
     return os.path.realpath(path)
 
+
 def cd_repo_root_path() -> str:
-    # Make sure the script is always started from the same 
+    # Make sure the script is always started from the same
     # ScreenPlay root folder
     root_path = Path.cwd()
     if root_path.name == "Tools":
@@ -47,13 +52,13 @@ def cd_repo_root_path() -> str:
         chdir(root_path)
     return root_path
 
+
 def sha256(fname) -> str:
     hash_sha256 = hashlib.sha256()
     with open(fname, "rb") as f:
         for chunk in iter(lambda: f.read(4096), b""):
             hash_sha256.update(chunk)
     return hash_sha256.hexdigest()
-
 
 
 def zipdir(path, ziph):
@@ -102,3 +107,40 @@ def get_vs_env_dict():
         raise ValueError(stderr.decode("mbcs"))
     output = stdout.decode("mbcs").split("\r\n")
     return dict((e[0].upper(), e[1]) for e in [p.rstrip().split("=", 1) for p in output] if len(e) == 2)
+
+
+def get_latest_git_tag():
+    try:
+        tag = subprocess.check_output(
+            ["git", "describe", "--tags"]).decode("utf-8").strip()
+        return tag
+    except subprocess.CalledProcessError:
+        print("Error fetching the Git tag.")
+        return None
+
+
+def parse_semver(tag):
+    # Regular expression to match semver
+    # Like V0.15.0-RC1-305-g18b8c402
+    # Do NOT add a - between RC and the version number (1 in this example)
+    pattern = r'(?i)^v?(\d+)\.(\d+)\.(\d+)(?:-([a-z0-9.-]+))?(?:-(\d+)-g([a-f0-9]+))?$'
+    match = re.match(pattern, tag)
+    if match:
+        major, minor, patch, pre_release, commits_since, commit_hash = match.groups()
+        return {
+            'major': major,
+            'minor': minor,
+            'patch': patch,
+            'pre_release': pre_release,
+            'commits_since': commits_since,
+            'commit_hash': commit_hash
+        }
+    else:
+        return None
+
+
+def semver_to_string(semver_dict):
+    version_str = f"V{semver_dict['major']}.{semver_dict['minor']}.{semver_dict['patch']}"
+    if semver_dict['pre_release']:
+        version_str += f"-{semver_dict['pre_release']}"
+    return version_str

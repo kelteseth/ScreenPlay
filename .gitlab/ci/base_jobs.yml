@@ -1,0 +1,46 @@
+.base_windows_build:
+  before_script:
+    - python -m pip install -U pip wheel
+    - python -m pip install -r Tools/requirements.txt
+    - python Tools/setup.py
+  tags:
+    - windows10
+  artifacts:
+    expire_in: "2 weeks"
+    paths:
+      - build-x64-windows-release/bin/
+      - build-x64-windows-release/ScreenPlay-Installer.exe
+
+.base_linux_build:
+  before_script:
+    # Otherwise libglib2 needs interaction
+    - export DEBIAN_FRONTEND=noninteractive
+    - apt update -y
+    - apt install curl wget zip unzip tar git pkg-config libxcb-* libfontconfig-dev apt-transport-https ca-certificates gnupg  software-properties-common python3 python3-pip build-essential libgl1-mesa-dev mesa-common-dev lld ninja-build libxkbcommon-* libx11-dev xserver-xorg-dev xorg-dev -y
+    - wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
+    - echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ focal-rc main' | tee -a /etc/apt/sources.list.d/kitware.list >/dev/null
+    - apt update -y
+    - apt install cmake -y
+    - python3 -m pip install -U pip
+    - python3 -m pip install -r Tools/requirements.txt
+    - python3 Tools/setup.py
+  image:
+    name: ubuntu:20.04
+  tags:
+    - gitlab-org-docker
+  artifacts:
+    expire_in: "4 weeks"
+    paths:
+      - build-x64-linux-release/bin/
+
+.base_osx_build:
+  before_script:
+    - pip3 install -U pip
+    - pip3 install -r Tools/requirements.txt
+    - python3 Tools/setup.py
+  tags:
+    - osx
+  artifacts:
+    expire_in: "2 weeks"
+    paths:
+      - build-64-osx-universal-release/bin/

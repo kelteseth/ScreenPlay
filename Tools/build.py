@@ -11,7 +11,7 @@ import defines
 from typing import Tuple
 from pathlib import Path
 import macos_sign
-from util import sha256, cd_repo_root_path,repo_root_path, zipdir, run, get_vs_env_dict
+from util import sha256, cd_repo_root_path, repo_root_path, zipdir, run, get_vs_env_dict, get_latest_git_tag, parse_semver, semver_to_string
 from sys import stdout
 
 stdout.reconfigure(encoding='utf-8')
@@ -25,7 +25,7 @@ def clean_build_dir(build_dir):
     build_dir.mkdir(parents=True, exist_ok=True)
 
 
-class BuildResult:       
+class BuildResult:
     # Windows example with absolute paths:
     # [...]/build-x64-windows-release/
     build: Path
@@ -42,6 +42,7 @@ class BuildResult:
     # x64, arm64, universal
     build_arch: str
 
+
 class BuildConfig:
     root_path: str
     cmake_osx_architectures: str
@@ -51,8 +52,8 @@ class BuildConfig:
     package_command: str
     executable_file_ending: str
     # qt_* use either aqt or from the maintenance tool
-    qt_path: str #  C:\Qt
-    qt_bin_path: str #  C:\Qt\6.3.2\msvc2019_64
+    qt_path: str  # C:\Qt
+    qt_bin_path: str  # C:\Qt\6.3.2\msvc2019_64
     qt_version: str
     qt_ifw_version: str
     ifw_root_path: str
@@ -90,12 +91,12 @@ def execute(
     # 3rd party tools like the crashreporter create local
     # temporary files in the build directory.
     clean_build_dir(build_config.build_folder)
-        
+
     # Runs cmake configure and cmake build
     step_time = time.time()
     build_result = build(build_config, build_result)
     build_duration = time.time() - step_time
-    #print(f"⏱️ build_duration (for {build_config.build_architecture}): {build_duration}s")
+    # print(f"⏱️ build_duration (for {build_config.build_architecture}): {build_duration}s")
 
     # Copies all needed libraries and assets into the bin folder
     step_time = time.time()
@@ -122,9 +123,11 @@ def execute(
 
     # Print BuildConfig & BuildResult member for easier debugging
     print("\n🆗 BuildResult:")
-    print(' '.join("\n- %s: \t\t%s" % item for item in vars(build_result).items()))
+    print(' '.join("\n- %s: \t\t%s" %
+          item for item in vars(build_result).items()))
     print("\n⚙️ BuildConfig:")
-    print(' '.join("\n- %s: \t\t%s" % item for item in vars(build_config).items()))
+    print(' '.join("\n- %s: \t\t%s" %
+          item for item in vars(build_config).items()))
 
     return build_result
 
@@ -134,10 +137,13 @@ def setup(build_config: BuildConfig) -> Tuple[BuildConfig, BuildResult]:
     build_config.qt_path = defines.QT_PATH
 
     if not build_config.qt_path.exists():
-        print(f"Qt path does not exist at {build_config.qt_path}. Please make sure to run setup.py!")
+        print(
+            f"Qt path does not exist at {build_config.qt_path}. Please make sure to run setup.py!")
         exit(2)
-    build_config.qt_bin_path = Path(build_config.qt_path).joinpath(f"{build_config.qt_version}/{defines.QT_PLATFORM}").resolve()
-    build_config.ifw_root_path = Path(f"{build_config.qt_path}/Tools/QtInstallerFramework/{build_config.qt_ifw_version}").resolve()    
+    build_config.qt_bin_path = Path(build_config.qt_path).joinpath(
+        f"{build_config.qt_version}/{defines.QT_PLATFORM}").resolve()
+    build_config.ifw_root_path = Path(
+        f"{build_config.qt_path}/Tools/QtInstallerFramework/{build_config.qt_ifw_version}").resolve()
 
     if platform.system() == "Windows":
         build_config.cmake_target_triplet = "x64-windows"
@@ -157,10 +163,10 @@ def setup(build_config: BuildConfig) -> Tuple[BuildConfig, BuildResult]:
         build_config.cmake_target_triplet = "64-osx-universal"
         build_config.executable_file_ending = ".app"
         # NO f string we fill it later!
-        #build_config.package_command = "{prefix_path}/bin/macdeployqt ScreenPlay.app  -qmldir=../../{app}/qml -executable=ScreenPlay.app/Contents/MacOS/{app} -appstore-compliant -timestamp -hardened-runtime"
+        # build_config.package_command = "{prefix_path}/bin/macdeployqt ScreenPlay.app  -qmldir=../../{app}/qml -executable=ScreenPlay.app/Contents/MacOS/{app} -appstore-compliant -timestamp -hardened-runtime"
         build_config.aqt_install_qt_packages = f"mac desktop {build_config.qt_version} clang_64 -m all"
         build_config.aqt_install_tool_packages = "mac desktop tools_ifw"
-        
+
     elif platform.system() == "Linux":
         build_config.cmake_target_triplet = "x64-linux"
         build_config.executable_file_ending = ""
@@ -171,21 +177,27 @@ def setup(build_config: BuildConfig) -> Tuple[BuildConfig, BuildResult]:
             "Unsupported platform, ScreenPlay only supports Windows, macOS and Linux.")
 
     # Prepare
-    build_config.cmake_toolchain_file = Path(f"{build_config.root_path}/../vcpkg/scripts/buildsystems/vcpkg.cmake").resolve()
+    build_config.cmake_toolchain_file = Path(
+        f"{build_config.root_path}/../vcpkg/scripts/buildsystems/vcpkg.cmake").resolve()
     print(f"cmake_toolchain_file: {build_config.cmake_toolchain_file}")
     print(f"Starting build with type {build_config.build_type}.")
-    print(f"Qt Version: {build_config.qt_version}. Root path: {build_config.root_path}")
+    print(
+        f"Qt Version: {build_config.qt_version}. Root path: {build_config.root_path}")
 
     # Remove old build folder to before configuring to get rid of  all cmake chaches
-    build_config.build_folder = build_config.root_path.joinpath(f"build-{build_config.cmake_target_triplet}-{build_config.build_type}")
+    build_config.build_folder = build_config.root_path.joinpath(
+        f"build-{build_config.cmake_target_triplet}-{build_config.build_type}")
     build_config.bin_dir = build_config.build_folder.joinpath("bin")
 
     if platform.system() == "Windows":
-        build_result.installer = Path(build_config.build_folder).joinpath("ScreenPlay-Installer.exe")
+        build_result.installer = Path(build_config.build_folder).joinpath(
+            "ScreenPlay-Installer.exe")
     elif platform.system() == "Darwin":
-        build_result.installer = Path(build_config.build_folder).joinpath("ScreenPlay.dmg")
+        build_result.installer = Path(
+            build_config.build_folder).joinpath("ScreenPlay.dmg")
     elif platform.system() == "Linux":
-        build_result.installer = Path(build_config.build_folder).joinpath("ScreenPlay-Installer.run")
+        build_result.installer = Path(build_config.build_folder).joinpath(
+            "ScreenPlay-Installer.run")
 
     return build_config, build_result
 
@@ -201,7 +213,7 @@ def build(build_config: BuildConfig, build_result: BuildResult) -> BuildResult:
 	-DSCREENPLAY_DEPLOY={build_config.build_deploy} \
 	-DSCREENPLAY_INSTALLER={build_config.create_installer} \
 	-DSCREENPLAY_IFW_ROOT:STRING={build_config.ifw_root_path} \
-    -G "CodeBlocks - Ninja" \
+    -G "Ninja" \
 	-B.'
 
     print(f"\n⚙️ CMake configure:\n", cmake_configure_command.replace(
@@ -220,20 +232,25 @@ def package(build_config: BuildConfig):
     if platform.system() == "Darwin":
         # Make sure to reset to tools path
         os.chdir(repo_root_path())
-        cmd_raw = "{qt_bin_path}/macdeployqt {build_bin_dir}/ScreenPlay.app  -qmldir={repo_root_path}/{app}/qml -executable={build_bin_dir}/ScreenPlay.app/Contents/MacOS/{app} -verbose=1 -appstore-compliant -timestamp -hardened-runtime " # -sign-for-notarization=\"Developer ID Application: Elias Steurer (V887LHYKRH)\"
-        build_bin_dir = Path(repo_root_path()).joinpath(f"{build_config.build_folder}/bin/")
-        cwd = Path(repo_root_path()).joinpath(f"{build_bin_dir}/ScreenPlay.app/Contents/MacOS/")
+        # -sign-for-notarization=\"Developer ID Application: Elias Steurer (V887LHYKRH)\"
+        cmd_raw = "{qt_bin_path}/macdeployqt {build_bin_dir}/ScreenPlay.app  -qmldir={repo_root_path}/{app}/qml -executable={build_bin_dir}/ScreenPlay.app/Contents/MacOS/{app} -verbose=1 -appstore-compliant -timestamp -hardened-runtime "
+        build_bin_dir = Path(repo_root_path()).joinpath(
+            f"{build_config.build_folder}/bin/")
+        cwd = Path(repo_root_path()).joinpath(
+            f"{build_bin_dir}/ScreenPlay.app/Contents/MacOS/")
         qt_bin_path = Path(defines.QT_BIN_PATH).resolve()
         source_path = Path(repo_root_path()).resolve()
 
-        run(cmd=cmd_raw.format(qt_bin_path=qt_bin_path,repo_root_path=source_path, build_bin_dir=build_bin_dir, app="ScreenPlay"), cwd=cwd)
-        run(cmd=cmd_raw.format(qt_bin_path=qt_bin_path,repo_root_path=source_path, build_bin_dir=build_bin_dir, app="ScreenPlayWallpaper"), cwd=cwd)
-        run(cmd=cmd_raw.format(qt_bin_path=qt_bin_path,repo_root_path=source_path, build_bin_dir=build_bin_dir, app="ScreenPlayWidget"), cwd=cwd)
+        run(cmd=cmd_raw.format(qt_bin_path=qt_bin_path, repo_root_path=source_path,
+            build_bin_dir=build_bin_dir, app="ScreenPlay"), cwd=cwd)
+        run(cmd=cmd_raw.format(qt_bin_path=qt_bin_path, repo_root_path=source_path,
+            build_bin_dir=build_bin_dir, app="ScreenPlayWallpaper"), cwd=cwd)
+        run(cmd=cmd_raw.format(qt_bin_path=qt_bin_path, repo_root_path=source_path,
+            build_bin_dir=build_bin_dir, app="ScreenPlayWidget"), cwd=cwd)
 
-        if(build_config.sign_osx):
+        if (build_config.sign_osx):
             print(f"Sign binary at: {build_config.bin_dir}")
             macos_sign.sign(build_config=build_config)
-
 
     if platform.system() == "Windows":
         print("Executing deploy commands...")
@@ -291,8 +308,6 @@ def package(build_config: BuildConfig):
             shutil.copy(str(file), str(build_config.bin_dir))
             print("Copied %s" % file)
 
-
-
     # Some dlls like openssl do no longer get copied automatically.
     # Lets just copy all of them into bin.
     if platform.system() == "Windows":
@@ -326,6 +341,7 @@ def build_installer(build_config: BuildConfig, build_result: BuildResult):
     print("Running cpack at: ", os.getcwd())
     run("cpack", cwd=build_config.build_folder)
 
+
 def zip(build_config: BuildConfig, build_result: BuildResult) -> BuildResult:
     zipName = f"ScreenPlay-{build_config.screenplay_version}-{build_config.cmake_target_triplet}-{build_config.build_type}.zip"
     build_result.build_zip = Path(build_result.build).joinpath(zipName)
@@ -346,9 +362,11 @@ def zip(build_config: BuildConfig, build_result: BuildResult) -> BuildResult:
     # Some weird company firewalls do not allow direct .exe downloads
     # lets just zip the installer lol
     if build_config.create_installer == "ON":
-        build_result.installer_zip = Path(build_result.build).joinpath(build_result.installer.stem + ".zip")
+        build_result.installer_zip = Path(build_result.build).joinpath(
+            build_result.installer.stem + ".zip")
         print(f"Create zip from installer: {build_result.installer_zip}")
-        zipfile.ZipFile(build_result.installer_zip, 'w').write(build_result.installer, build_result.installer.name)
+        zipfile.ZipFile(build_result.installer_zip, 'w').write(
+            build_result.installer, build_result.installer.name)
 
     return build_result
 
@@ -357,34 +375,46 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(
         description='Build and Package ScreenPlay')
-
-    parser.add_argument('-qt-version', action="store", dest="qt_version_overwrite",
+    parser.add_argument('--qt-version', action="store", dest="qt_version_overwrite",
                         help="Overwrites the default Qt version")
-    parser.add_argument('-qt-installer-version', action="store", dest="qt_installer_version_overwrite",
+    parser.add_argument('--qt-installer-version', action="store", dest="qt_installer_version_overwrite",
                         help="Overwrites the default Qt installer framework version")
-    parser.add_argument('-type', action="store", dest="build_type", default="release",
+    parser.add_argument('--type', action="store", dest="build_type", default="release",
                         help="Build type. This is either debug or release.")
-    parser.add_argument('-use-aqt', action="store_true", dest="use_aqt",
+    parser.add_argument('--use-aqt', action="store_true", dest="use_aqt",
                         help="Absolute qt path. If not set the default path is used\Windows: C:\Qt\nLinux & macOS:~/Qt/.")
-    parser.add_argument('-steam', action="store_true", dest="build_steam",
+    parser.add_argument('--steam', action="store_true", dest="build_steam",
                         help="Enable if you want to build the Steam workshop plugin.")
-    parser.add_argument('-tests', action="store_true", dest="build_tests",
+    parser.add_argument('--tests', action="store_true", dest="build_tests",
                         help="Build tests.")
-    parser.add_argument('-installer', action="store_true", dest="create_installer",
+    parser.add_argument('--installer', action="store_true", dest="create_installer",
                         help="Create a installer.")
-    parser.add_argument('-sign_osx', action="store_true", dest="sign_osx", default=False,
+    parser.add_argument('--sign_osx', action="store_true", dest="sign_osx", default=False,
                         help="Signs the executable on macOS. This requires a valid Apple Developer ID set up.")
-    parser.add_argument('-deploy-version', action="store_true", dest="build_deploy",
+    parser.add_argument('--deploy-version', action="store_true", dest="build_deploy",
                         help="Create a deploy version of ScreenPlay for sharing with the world. A not deploy version is for local development only!")
-    parser.add_argument('-architecture', action="store", dest="build_architecture", default="",
+    parser.add_argument('--architecture', action="store", dest="build_architecture", default="",
                         help="Sets the build architecture. Used to build x86 and ARM osx versions. Currently only works with x86_64 and arm64")
     args = parser.parse_args()
 
     qt_version = defines.QT_VERSION
-    screenplay_version = defines.SCREENPLAY_VERSION
     qt_ifw_version = defines.QT_IFW_VERSION  # Not yet used.
     qt_version_overwrite: str
     use_aqt = False
+
+    tag = get_latest_git_tag()
+    if tag:
+        print(f"Latest Git tag: {tag}")
+        semver = parse_semver(tag)
+        if semver:
+            print(f"Parsed SemVer: {semver}")
+            screenplay_version = semver_to_string(semver)
+        else:
+            print("Failed to parse SemVer.")
+            exit(-1)
+    else:
+        print("No git tags found.")
+        exit(-1)
 
     if args.qt_version_overwrite:
         qt_version = args.qt_version_overwrite

@@ -1,0 +1,41 @@
+standalone_windows:
+  stage: build
+  extends:
+    - .base_windows_build
+  script:
+    - python Tools/build.py --type=release --use-aqt --installer --deploy-version
+
+standalone_osx:
+  stage: build
+  extends:
+    - .base_osx_build
+  script:
+    - python3 Tools/build.py --type=release --use-aqt --deploy-version --sign_osx
+
+standalone_linux:
+  stage: build
+  extends:
+    - .base_linux_build
+  script:
+    - python3 Tools/build.py --type=release --use-aqt --installer --deploy-version
+
+steam_windows:
+  stage: build_steam
+  extends:
+    - .base_windows_build
+  script:
+    - python Tools/build.py --type=release -steam --use-aqt --deploy-version
+
+steam_osx:
+  stage: build_steam
+  extends:
+    - .base_osx_build
+  script:
+    - python3 Tools/build.py --type=release -steam --use-aqt --deploy-version --sign_osx
+
+steam_linux:
+  stage: build_steam
+  extends:
+    - .base_linux_build
+  script:
+    - python3 Tools/build.py --type=release -steam --deploy-version --use-aqt  --installer

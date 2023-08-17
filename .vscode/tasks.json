@@ -102,16 +102,16 @@
             "osx": {
                 "args": [
                     "build.py",
-                    "-type=release",
-                    "-deploy-version",
-                    "-steam"
+                    "--type=release",
+                    "--deploy-version",
+                    "--steam"
                 ]
             },
             "args": [
                 "build.py",
-                "-type=release",
-                "-deploy-version",
-                "-steam"
+                "--type=release",
+                "--deploy-version",
+                "--steam"
             ]
         },
         {
