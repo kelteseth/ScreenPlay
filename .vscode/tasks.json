@@ -104,14 +104,14 @@
                     "build.py",
                     "--type=release",
                     "--deploy-version",
-                    "-steam"
+                    "--steam"
                 ]
             },
             "args": [
                 "build.py",
                 "--type=release",
                 "--deploy-version",
-                "-steam"
+                "--steam"
             ]
         },
         {

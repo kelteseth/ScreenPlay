@@ -21,6 +21,7 @@ function(get_project_version VERSION_VAR)
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
         )
 
+        message(STATUS "Parsing git tag: ${GIT_VERSION}")
         string(REPLACE "V" "" STRIPPED_VERSION "${GIT_VERSION}") # Remove the 'V' prefix
         string(REPLACE "-" ";" VERSION_LIST ${STRIPPED_VERSION})
         list(GET VERSION_LIST 0 VERSION_STRING)

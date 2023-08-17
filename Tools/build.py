@@ -11,7 +11,7 @@ import defines
 from typing import Tuple
 from pathlib import Path
 import macos_sign
-from util import sha256, cd_repo_root_path, repo_root_path, zipdir, run, get_vs_env_dict
+from util import sha256, cd_repo_root_path, repo_root_path, zipdir, run, get_vs_env_dict, get_latest_git_tag, parse_semver, semver_to_string
 from sys import stdout
 
 stdout.reconfigure(encoding='utf-8')
@@ -213,7 +213,7 @@ def build(build_config: BuildConfig, build_result: BuildResult) -> BuildResult:
 	-DSCREENPLAY_DEPLOY={build_config.build_deploy} \
 	-DSCREENPLAY_INSTALLER={build_config.create_installer} \
 	-DSCREENPLAY_IFW_ROOT:STRING={build_config.ifw_root_path} \
-    -G "CodeBlocks - Ninja" \
+    -G "Ninja" \
 	-B.'
 
     print(f"\n⚙️ CMake configure:\n", cmake_configure_command.replace(
@@ -375,7 +375,6 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(
         description='Build and Package ScreenPlay')
-    parser.add_argument('--tag', type=str, help="GitLab CI tag", default="")
     parser.add_argument('--qt-version', action="store", dest="qt_version_overwrite",
                         help="Overwrites the default Qt version")
     parser.add_argument('--qt-installer-version', action="store", dest="qt_installer_version_overwrite",
@@ -399,13 +398,23 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     qt_version = defines.QT_VERSION
-    if args.tag:
-        screenplay_version = args.tag
-    else:
-        screenplay_version = defines.SCREENPLAY_VERSION
     qt_ifw_version = defines.QT_IFW_VERSION  # Not yet used.
     qt_version_overwrite: str
     use_aqt = False
+
+    tag = get_latest_git_tag()
+    if tag:
+        print(f"Latest Git tag: {tag}")
+        semver = parse_semver(tag)
+        if semver:
+            print(f"Parsed SemVer: {semver}")
+            screenplay_version = semver_to_string(semver)
+        else:
+            print("Failed to parse SemVer.")
+            exit(-1)
+    else:
+        print("No git tags found.")
+        exit(-1)
 
     if args.qt_version_overwrite:
         qt_version = args.qt_version_overwrite
