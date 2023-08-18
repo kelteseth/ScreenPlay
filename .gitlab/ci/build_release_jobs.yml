@@ -39,26 +39,26 @@ steam_osx:
 release_job:
   stage: release
   image: registry.gitlab.com/gitlab-org/release-cli:latest
-  rules:
-    - if: "$CI_COMMIT_TAG" # Run this job when a tag is created
-      when: on_success # Only when all previous jobs succeed
   script:
-    - echo "Creating a GitLab release using release-cli."
-  artifacts:
-    paths:
-      - build-x64-linux-release/bin
-      - build-x64-windows-release/ScreenPlay-$CI_COMMIT_TAG-x64-windows-release.zip
-      - build-64-osx-universal-release/bin/ScreenPlay.app
-  release:
-    tag_name: $CI_COMMIT_TAG
-    name: "ScreenPlay $CI_COMMIT_TAG Released!"
-    description: "🎉 A Wild ScreenPlay Release Appeared!"
-    expire_in: never
-    assets:
-      links:
-        - name: 🐧 Linux x64 build
-          url: "$CI_PIPELINE_URL/artifacts/file/build-x64-linux-release/bin"
-        - name: 🪟 Windows x64 build
-          url: "$CI_PIPELINE_URL/artifacts/file/build-x64-windows-release/ScreenPlay-$CI_COMMIT_TAG-x64-windows-release.zip"
-        - name: 🍏 OSX universal build
-          url: "$CI_PIPELINE_URL/artifacts/file/build-64-osx-universal-release/bin/ScreenPlay.app"
+    - |
+      is_pre_release=false
+      if [[ "$CI_COMMIT_TAG" =~ -dev[0-9]+$ || "$CI_COMMIT_TAG" =~ -beta[0-9]+$ || "$CI_COMMIT_TAG" =~ -rc[0-9]+$ ]]; then
+        is_pre_release=true
+      fi
+      if $is_pre_release; then
+        release_name="ScreenPlay Pre-release $CI_COMMIT_TAG"
+        description="🎉 A Wild ScreenPlay Pre-release Appeared!"
+        pre_release_flag="--pre-release"
+      else
+        release_name="ScreenPlay Release $CI_COMMIT_TAG"
+        description="🎉 A Wild ScreenPlay Release Appeared!"
+        pre_release_flag=""
+      fi
+      release-cli create --name "$release_name" \
+                         --description "$description" \
+                         --tag-name $CI_COMMIT_TAG \
+                         --ref $CI_COMMIT_REF_NAME \
+                         $pre_release_flag \
+                         --assets-link '[{"name":"🐧 Linux x64 build","url":"$CI_PIPELINE_URL/artifacts/file/build-x64-linux-release/bin"},{"name":"🪟 Windows x64 build","url":"$CI_PIPELINE_URL/artifacts/file/build-x64-windows-release/ScreenPlay-$CI_COMMIT_TAG-x64-windows-release.zip"},{"name":"🍏 OSX universal build","url":"$CI_PIPELINE_URL/artifacts/file/build-64-osx-universal-release/bin/ScreenPlay.app"}]'
+  rules:
+    - if: "$CI_COMMIT_TAG"
