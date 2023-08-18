@@ -20,7 +20,7 @@ steam_windows:
     - if: "$CI_COMMIT_TAG"
   artifacts:
     paths:
-      - build-x64-windows-release/ScreenPlay-Installer.exe
+      - build-x64-windows-release/
       - build-x64-windows-release/ScreenPlay-$CI_COMMIT_TAG-x64-windows-release.zip
 
 steam_osx:
@@ -33,7 +33,8 @@ steam_osx:
     - if: "$CI_COMMIT_TAG"
   artifacts:
     paths:
-      - build-64-osx-universal-release/ScreenPlay.app
+      - build-64-osx-universal-release/
+      - build-64-osx-universal-release/bin/ScreenPlay.app
 
 release_job:
   stage: release
@@ -43,15 +44,21 @@ release_job:
       when: on_success # Only when all previous jobs succeed
   script:
     - echo "Creating a GitLab release using release-cli."
+  artifacts:
+    paths:
+      - build-x64-linux-release/bin
+      - build-x64-windows-release/ScreenPlay-$CI_COMMIT_TAG-x64-windows-release.zip
+      - build-64-osx-universal-release/bin/ScreenPlay.app
   release:
     tag_name: $CI_COMMIT_TAG
     name: "ScreenPlay $CI_COMMIT_TAG Released!"
-    description: "🎉 A Wild ScreenPlay Release Appeard!"
+    description: "🎉 A Wild ScreenPlay Release Appeared!"
+    expire_in: never
     assets:
       links:
-        - name: Linux x64 build
-          url: "$CI_PIPELINE_URL/artifacts/download?job=steam_linux"
-        - name: Windows x64 build
-          url: "$CI_PIPELINE_URL/artifacts/download?job=steam_windows"
-        - name: OSX universal build
-          url: "$CI_PIPELINE_URL/artifacts/download?job=steam_osx"
+        - name: 🐧 Linux x64 build
+          url: "$CI_PIPELINE_URL/artifacts/file/build-x64-linux-release/bin"
+        - name: 🪟 Windows x64 build
+          url: "$CI_PIPELINE_URL/artifacts/file/build-x64-windows-release/ScreenPlay-$CI_COMMIT_TAG-x64-windows-release.zip"
+        - name: 🍏 OSX universal build
+          url: "$CI_PIPELINE_URL/artifacts/file/build-64-osx-universal-release/bin/ScreenPlay.app"
