@@ -470,7 +470,7 @@ private:
     bool m_checkWallpaperVisible { false };
     bool m_silentStart { false };
     bool m_anonymousTelemetry { true };
-    bool m_showDefaultContent { true };
+    bool m_showDefaultContent { false };
 
     QString m_decoder;
     ScreenPlay::FillMode::FillMode m_videoFillMode { ScreenPlay::FillMode::FillMode::Cover };
