@@ -22,6 +22,7 @@ steam_windows:
     paths:
       - build-x64-windows-release/ScreenPlay-Installer.exe
       - build-x64-windows-release/ScreenPlay-$CI_COMMIT_TAG-x64-windows-release.zip
+
 steam_osx:
   stage: release_build
   extends:
@@ -33,3 +34,24 @@ steam_osx:
   artifacts:
     paths:
       - build-64-osx-universal-release/ScreenPlay.app
+
+release_job:
+  stage: release
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  rules:
+    - if: "$CI_COMMIT_TAG" # Run this job when a tag is created
+      when: on_success # Only when all previous jobs succeed
+  script:
+    - echo "Creating a GitLab release using release-cli."
+  release:
+    tag_name: $CI_COMMIT_TAG
+    name: "ScreenPlay $CI_COMMIT_TAG Released!"
+    description: "🎉 A Wild ScreenPlay Release Appeard!"
+    assets:
+      links:
+        - name: Linux x64 build
+          url: "$CI_PIPELINE_URL/artifacts/download?job=steam_linux"
+        - name: Windows x64 build
+          url: "$CI_PIPELINE_URL/artifacts/download?job=steam_windows"
+        - name: OSX universal build
+          url: "$CI_PIPELINE_URL/artifacts/download?job=steam_osx"

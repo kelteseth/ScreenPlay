@@ -11,6 +11,9 @@ stages:
     - build_steam
     # Git release tag builds
     - release_build
+    # Gitlab releases at:
+    # https://gitlab.com/kelteseth/ScreenPlay/-/releases
+    - release
     # Checks for source code formattings
     - check
 
