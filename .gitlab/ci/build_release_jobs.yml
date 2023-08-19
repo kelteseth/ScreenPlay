@@ -39,7 +39,7 @@ steam_osx:
 
 release_job:
   stage: release
-  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  image: python:3.11
   rules:
     - if: "$CI_COMMIT_TAG" # Run this job when a tag is created
       when: on_success # Only when all previous jobs succeed
@@ -57,7 +57,6 @@ release_job:
     - sshpass -p $GETSP_PASSWORD scp build-x64-windows-release/ScreenPlay-$CI_COMMIT_TAG-x64-windows-release.zip $GETSP_USERNAME@kelteseth.com:/getsp.de/$CI_COMMIT_TAG/
     - sshpass -p $GETSP_PASSWORD scp build-64-osx-universal-release/ScreenPlay-$CI_COMMIT_TAG-x64-osx-universal-release.zip $GETSP_USERNAME@kelteseth.com:/getsp.de/$CI_COMMIT_TAG/
     - sshpass -p $GETSP_PASSWORD scp SHA512-SUMS.txt $GETSP_USERNAME@kelteseth.com:/getsp.de/$CI_COMMIT_TAG/
-
   release:
     tag_name: $CI_COMMIT_TAG
     name: "ScreenPlay $CI_COMMIT_TAG Released!"
