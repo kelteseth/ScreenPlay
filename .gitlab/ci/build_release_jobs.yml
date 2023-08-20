@@ -40,6 +40,10 @@ steam_osx:
 release_job:
   stage: release
   image: python:3.11
+  dependencies:
+    - steam_linux
+    - steam_windows
+    - steam_osx
   rules:
     - if: "$CI_COMMIT_TAG" # Run this job when a tag is created
       when: on_success # Only when all previous jobs succeed
