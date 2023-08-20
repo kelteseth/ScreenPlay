@@ -51,9 +51,9 @@ release_job:
     # 1. Combining sha256 files into a SHA512-SUMS.txt
     - echo "Combining sha256 files into a SHA512-SUMS.txt"
     - python3 Tools/create_sha512.py
-      # 2. Connect to kelteseth.com and handle the folder
+      # 2. Connect and handle the folder
     - echo "Managing remote folder"
-    - apt-get update && apt-get install -y sshpass
+    - apt-get update && apt-get install -y sshpass ssh
     - sshpass -p $GETSP_PASSWORD ssh $GETSP_USERNAME@91.204.46.10 "rm -rf /getsp.de/$CI_COMMIT_TAG; mkdir /getsp.de/$CI_COMMIT_TAG;"
     # 3. Upload files to the remote folder
     - echo "Uploading files"
