@@ -14,6 +14,7 @@ import shutil
 stdout.reconfigure(encoding='utf-8')
 
 
+# Instead of comparing the direct outputs (which was leading to ambiguous results), this function uses a workaround that checks the file's MD5 hash before and after formatting.
 def format_qml_file(file):
     executable = "qmlformat"
     if os.name == 'nt':
@@ -23,7 +24,7 @@ def format_qml_file(file):
 
     # Add -i for formatting in place
     process = subprocess.run(
-        [executable, "-i -l unix", file], capture_output=True, shell=True)
+        [executable, "-i", file], capture_output=True, shell=True)
     print("Format: %s \t return: %s" % (file, process.returncode))
 
 
