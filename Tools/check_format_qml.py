@@ -14,7 +14,6 @@ import shutil
 stdout.reconfigure(encoding='utf-8')
 
 
-# Instead of comparing the direct outputs (which was leading to ambiguous results), this function uses a workaround that checks the file's MD5 hash before and after formatting.
 def format_qml_file(file):
     executable = "qmlformat"
     if os.name == 'nt':
@@ -34,6 +33,8 @@ def compute_md5(file_path):
         return hashlib.md5(f.read()).hexdigest()
 
 
+# Instead of comparing the direct outputs (which was leading to ambiguous results),
+# this function uses a workaround that checks the file's MD5 hash before and after formatting.
 def check_format_qml_file(file):
     executable = "qmlformat"
     if os.name == 'nt':
