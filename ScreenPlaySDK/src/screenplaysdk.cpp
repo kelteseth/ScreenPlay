@@ -186,20 +186,19 @@ void ScreenPlaySDK::ScreenPlaySDK::redirectMessageOutputToMainWindow(QtMsgType t
 
     // Also redirect to regular output if we debug
     // wallpaper or widgets directly
-    switch (type)
-    {
+    switch (type) {
     case QtDebugMsg:
-        qDebug() <<  msg;
+        qDebug() << msg;
         break;
     case QtWarningMsg:
-        qWarning() <<  msg;
+        qWarning() << msg;
         break;
     case QtCriticalMsg:
     case QtFatalMsg:
-        qCritical() <<  msg;
+        qCritical() << msg;
         break;
     case QtInfoMsg:
-        qInfo() <<  msg;
+        qInfo() << msg;
         break;
     default:
         break;

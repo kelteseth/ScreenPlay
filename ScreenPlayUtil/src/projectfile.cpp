@@ -27,9 +27,9 @@ bool ProjectFile::init()
         return false;
     file = obj.value("file").toString();
 
-    QFileInfo fileInfo(folder.path() + "/"+ file);
-    if(!fileInfo.exists()){
-        qCritical() << "Requested file:" <<  fileInfo.absoluteFilePath() << "does not exist!";
+    QFileInfo fileInfo(folder.path() + "/" + file);
+    if (!fileInfo.exists()) {
+        qCritical() << "Requested file:" << fileInfo.absoluteFilePath() << "does not exist!";
         return false;
     }
 
@@ -107,7 +107,7 @@ bool ProjectFile::init()
         }
     }
 
-    if (type == ScreenPlay::InstalledType::InstalledType::VideoWallpaper){
+    if (type == ScreenPlay::InstalledType::InstalledType::VideoWallpaper) {
         QFileInfo audioFile(folder.absolutePath() + "/audio.mp3");
         containsAudio = audioFile.exists();
     }

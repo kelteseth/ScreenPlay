@@ -175,7 +175,6 @@ Item {
                 }
             }
 
-
             Image {
                 id: icnType
 

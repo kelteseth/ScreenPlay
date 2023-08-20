@@ -82,7 +82,7 @@ Item {
                         isChecked: App.settings.showDefaultContent
                         onCheckboxChanged: function (checked) {
                             App.settings.setShowDefaultContent(checked);
-                            App.installedListModel.reset()
+                            App.installedListModel.reset();
                         }
                     }
 

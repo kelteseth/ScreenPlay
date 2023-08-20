@@ -28,7 +28,7 @@
                 "cwd": "${workspaceFolder}/Tools"
             },
             "args": [
-                "clang_format.py"
+                "check_format_cpp.py"
             ]
         },
         {
@@ -46,7 +46,7 @@
                 "cwd": "${workspaceFolder}/Tools"
             },
             "args": [
-                "cmake_format.py"
+                "check_format_cmake.py"
             ]
         },
         {
@@ -64,7 +64,7 @@
                 "cwd": "${workspaceFolder}/Tools"
             },
             "args": [
-                "qml_format.py"
+                "check_format_qml.py"
             ]
         },
         {
@@ -87,7 +87,7 @@
         },
         {
             "type": "process",
-            "label": "Export ScreenPlay release, with deploy and steam enabled",
+            "label": "Build ScreenPlay release, with deploy and steam enabled",
             "command": "python3",
             "windows": {
                 "command": "python"

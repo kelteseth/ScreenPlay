@@ -1,4 +1,3 @@
-
 // SPDX-License-Identifier: BSD-3-Clause
 import QtQuick
 import QtQuick.Controls
@@ -18,7 +17,7 @@ Item {
         query: "/rss/channel/item"
         onStatusChanged: {
             if (status === XmlListModel.Error) {
-                console.log("Error: " + errorString)
+                console.log("Error: " + errorString);
             }
         }
 

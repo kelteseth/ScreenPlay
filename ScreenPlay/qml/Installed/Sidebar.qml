@@ -43,7 +43,7 @@ Item {
         const item = App.installedListModel.get(root.contentFolderName);
         txtHeadline.text = item.m_title;
         const previewGiFilePath = Qt.resolvedUrl(item.m_absoluteStoragePath + "/" + item.m_previewGIF);
-        const previewImageFilePath = Qt.resolvedUrl(  item.m_absoluteStoragePath + "/" + item.m_preview);
+        const previewImageFilePath = Qt.resolvedUrl(item.m_absoluteStoragePath + "/" + item.m_preview);
         root.hasPreviewGif = App.util.fileExists(previewGiFilePath);
         if (hasPreviewGif) {
             animatedImagePreview.source = previewGiFilePath;

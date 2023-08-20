@@ -1,4 +1,3 @@
-
 // SPDX-License-Identifier: BSD-3-Clause
 import QtQuick
 import QtQuick.Layouts
@@ -44,7 +43,7 @@ Item {
                     }
                 }
                 onActivated: {
-                    rssModel.source = combo.currentValue
+                    rssModel.source = combo.currentValue;
                 }
             }
             ToolButton {
@@ -79,10 +78,10 @@ Item {
         source: combo.currentValue
         query: "/rss/channel/item"
         function load() {
-            print(":load")
-            var tempSource = rssModel.source
-            rssModel.source = ""
-            rssModel.source = tempSource
+            print(":load");
+            var tempSource = rssModel.source;
+            rssModel.source = "";
+            rssModel.source = tempSource;
         }
 
         XmlListModelRole {

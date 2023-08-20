@@ -60,8 +60,8 @@ ScreenPlay::WallpaperExitCode BaseWindow::setup()
 
     // We do not yet have implemented continue playing the audio.mp3 yet
     // so disable the checkWallpaperVisible for now
-    if(checkWallpaperVisible()){
-        if(projectFile.containsAudio){
+    if (checkWallpaperVisible()) {
+        if (projectFile.containsAudio) {
             qInfo() << "Disable wallpaper visible check, because it contains audio.";
             setCheckWallpaperVisible(false);
         }

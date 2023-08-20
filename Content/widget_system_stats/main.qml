@@ -1,4 +1,3 @@
-
 // SPDX-License-Identifier: BSD-3-Clause
 import QtQuick
 import QtQuick.Layouts
@@ -28,11 +27,11 @@ Item {
     }
 
     function stringListToString(list) {
-        let out = ""
+        let out = "";
         for (var i = 0; i < list.length; i++) {
-            out += "\n" + list[i]
+            out += "\n" + list[i];
         }
-        return out
+        return out;
     }
 
     RowLayout {
@@ -57,8 +56,7 @@ Item {
                     }
                 }
                 Text {
-                    text: root.stringListToString(
-                              ipAddress.privateIpV4AddressList)
+                    text: root.stringListToString(ipAddress.privateIpV4AddressList)
                     color: root.accentColor
                     font {
                         pointSize: 16
@@ -66,8 +64,7 @@ Item {
                     }
                 }
                 Text {
-                    text: root.stringListToString(
-                              ipAddress.privateIpV6AddressList)
+                    text: root.stringListToString(ipAddress.privateIpV6AddressList)
                     color: root.accentColor
                     font {
                         pointSize: 16

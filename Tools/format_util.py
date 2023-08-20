@@ -3,6 +3,7 @@
 import subprocess
 import sys
 import os
+import util
 from multiprocessing import cpu_count
 from multiprocessing import Pool
 from multiprocessing import dummy
@@ -28,33 +29,38 @@ def find_all_git_staged_files():
     return out
 
 
-def find_files(file_endings_tuple, path="", git_staged_only=False):
+def find_files(file_endings_tuple, path="", git_staged_only=False, exclude_folders=()):
     file_list = []
-    # Get the root folder by moving one up
-    root = Path(__file__).parent.absolute()
-    root = os.path.abspath(os.path.join(root, "../"))
-
-    root = os.path.join(root, path)
-    print(root)
 
     if git_staged_only:
-        file_list = find_all_git_staged_files()
+        file_list = find_all_git_staged_files()  # Assuming you've defined this
     else:
-        file_list = find_all_files(root)
+        for dirpath, dirnames, filenames in os.walk(path):
+            # Normalize the current directory path
+            norm_dirpath = os.path.normpath(dirpath)
 
-    filtered_file_list = []
-    for filename in file_list:
-        if filename.endswith(file_endings_tuple):
-            filtered_file_list.append(os.path.join(root, filename))
+            # Check if the current directory is to be excluded
+            if exclude_folders and any(os.path.normpath(excl_folder) in norm_dirpath for excl_folder in exclude_folders):
+                continue
 
-    return filtered_file_list
+            for filename in filenames:
+                if filename.endswith(file_endings_tuple):
+                    file_list.append(os.path.join(dirpath, filename))
+
+    return file_list
 
 
 def execute_threaded(file_list, format_file_function):
-    p = Pool(cpu_count())
-    p.map(format_file_function, file_list)
-    p.close()
-    p.join()
+    if not file_list:
+        return True  # or False, depending on how you want to handle an empty list
+
+    with Pool(cpu_count()) as p:
+        results = p.map(format_file_function, file_list)
+
+    # Check if any result is False and return accordingly
+    if any(result is False for result in results):
+        return False
+    return True
 
 
 def check_git_exit(caller_name):
@@ -70,4 +76,3 @@ def check_git_exit(caller_name):
         out.replace("\\n", "\n")
         # print(out)
         sys.exit(1)
-

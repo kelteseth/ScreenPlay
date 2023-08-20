@@ -138,6 +138,7 @@ set(RESOURCES
     assets/icons/icon_close.svg
     assets/icons/icon_code.svg
     assets/icons/icon_community.svg
+    assets/icons/icon_contains_audio.svg
     assets/icons/icon_delete.svg
     assets/icons/icon_document.svg
     assets/icons/icon_done.svg
@@ -152,7 +153,6 @@ set(RESOURCES
     assets/icons/icon_installed.svg
     assets/icons/icon_launch.svg
     assets/icons/icon_minimize.svg
-    assets/icons/icon_contains_audio.svg
     assets/icons/icon_movie.svg
     assets/icons/icon_new_releases.svg
     assets/icons/icon_open_in_new.svg

@@ -11,17 +11,9 @@ Item {
     implicitWidth: 240
     implicitHeight: 120
     property int totalHours: 24
-    property int remainingHours: Math.max(0, Math.floor(
-                                              (new Date().setHours(
-                                                   24, 0, 0,
-                                                   0) - new Date()) / 3600000))
-    property int totalDays: new Date(new Date().getFullYear() + 1, 0,
-                                     1) - new Date() / (24 * 60 * 60 * 1000)
-    property int remainingDays: Math.max(
-                                    0, Math.floor(
-                                        (new Date(new Date().getFullYear() + 1,
-                                                  0,
-                                                  1) - new Date()) / (24 * 60 * 60 * 1000)))
+    property int remainingHours: Math.max(0, Math.floor((new Date().setHours(24, 0, 0, 0) - new Date()) / 3600000))
+    property int totalDays: new Date(new Date().getFullYear() + 1, 0, 1) - new Date() / (24 * 60 * 60 * 1000)
+    property int remainingDays: Math.max(0, Math.floor((new Date(new Date().getFullYear() + 1, 0, 1) - new Date()) / (24 * 60 * 60 * 1000)))
 
     Material.theme: Material.Dark
     Material.accent: Material.DeepOrange
@@ -50,11 +42,7 @@ Item {
                     running: true
                     repeat: true
                     onTriggered: {
-                        remainingHours = Math.max(
-                                    0,
-                                    Math.floor((new Date().setHours(
-                                                    24, 0, 0,
-                                                    0) - new Date()) / 3600000))
+                        remainingHours = Math.max(0, Math.floor((new Date().setHours(24, 0, 0, 0) - new Date()) / 3600000));
                     }
                 }
             }
@@ -81,11 +69,7 @@ Item {
                     running: true
                     repeat: true
                     onTriggered: {
-                        remainingDays = Math.max(0,
-                                                 Math.floor((new Date(new Date().getFullYear(
-                                                                          ) + 1,
-                                                                      0, 1)
-                                                             - new Date()) / (24 * 60 * 60 * 1000)))
+                        remainingDays = Math.max(0, Math.floor((new Date(new Date().getFullYear() + 1, 0, 1) - new Date()) / (24 * 60 * 60 * 1000)));
                     }
                 }
             }

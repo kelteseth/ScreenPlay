@@ -1,4 +1,3 @@
-
 // SPDX-License-Identifier: BSD-3-Clause
 import QtQuick
 import QtQuick.Layouts
@@ -17,16 +16,16 @@ Item {
     property string link
     property string mediaContent
     onMediaContentChanged: {
-        print("src")
-        const src = parseItem(model.mediaContent, 'url="', '"')
-        print("src", src)
+        print("src");
+        const src = parseItem(model.mediaContent, 'url="', '"');
+        print("src", src);
         //img.source = src;
     }
 
     function parseItem(raw, startTag, endTag) {
-        var startIdx = raw.indexOf(startTag) + startTag.length
-        var endIdx = raw.indexOf(endTag, startIdx)
-        return raw.substring(startIdx, endIdx)
+        var startIdx = raw.indexOf(startTag) + startTag.length;
+        var endIdx = raw.indexOf(endTag, startIdx);
+        return raw.substring(startIdx, endIdx);
     }
 
     RowLayout {
@@ -49,8 +48,8 @@ Item {
     MouseArea {
         anchors.fill: parent
         onClicked: {
-            print(model.category)
-            print(model.mediaContent)
+            print(model.category);
+            print(model.mediaContent);
             //Qt.openUrlExternally(model.link);
         }
     }

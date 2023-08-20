@@ -49,7 +49,7 @@ Item {
         onPlaybackStateChanged: {
             if (mediaPlayer.playbackState == MediaPlayer.PlayingState && !fadeInDone) {
                 fadeInDone = true;
-                startTimer.start()
+                startTimer.start();
             }
         }
         loops: root.loops ? MediaPlayer.Infinite : 1
@@ -72,8 +72,7 @@ Item {
         id: pauseTimer
         interval: 100
         onTriggered: {
-            mediaPlayer.pause()
-
+            mediaPlayer.pause();
         }
     }
     Connections {
@@ -96,12 +95,12 @@ Item {
         }
 
         function onVisualsPausedChanged(visualsPaused) {
-            if(!Wallpaper.isPlaying)
-                return
-            if(visualsPaused)
-                pauseTimer.start()
+            if (!Wallpaper.isPlaying)
+                return;
+            if (visualsPaused)
+                pauseTimer.start();
             else
-                mediaPlayer.play()
+                mediaPlayer.play();
         }
 
         target: Wallpaper

@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
     QtWebEngineQuick::initialize();
 
 #if defined(Q_OS_WIN)
-  // Workaround for Qt 6.5.1 crash https://bugreports.qt.io/browse/QTBUG-113832
+    // Workaround for Qt 6.5.1 crash https://bugreports.qt.io/browse/QTBUG-113832
     qputenv("QT_DISABLE_HW_TEXTURES_CONVERSION", "1");
     qputenv("QT_MEDIA_BACKEND", "ffmpeg");
 #endif
@@ -55,8 +55,8 @@ int main(int argc, char* argv[])
 
         // Lets center the widget
         const auto* screen = QGuiApplication::screens().at(0);
-        const int offset  = - 200;
-        QPoint center((screen->size().width() / 2) + offset, (screen->size().height() / 2)+offset);
+        const int offset = -200;
+        QPoint center((screen->size().width() / 2) + offset, (screen->size().height() / 2) + offset);
 
         WidgetWindow spwmw(projectPath,
             "appid",
