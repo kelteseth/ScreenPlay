@@ -140,7 +140,7 @@ def parse_semver(tag):
 
 
 def semver_to_string(semver_dict):
-    version_str = f"V{semver_dict['major']}.{semver_dict['minor']}.{semver_dict['patch']}"
+    version_str = f"v{semver_dict['major']}.{semver_dict['minor']}.{semver_dict['patch']}"
     if semver_dict['pre_release']:
         version_str += f"-{semver_dict['pre_release']}"
     return version_str
