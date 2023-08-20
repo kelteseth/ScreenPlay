@@ -121,9 +121,9 @@ def get_latest_git_tag():
 
 def parse_semver(tag):
     # Regular expression to match semver
-    # Like V0.15.0-RC1-305-g18b8c402
+    # Like v0.15.1-RC1-305-g18b8c402
     # Do NOT add a - between RC and the version number (1 in this example)
-    pattern = r'(?i)^v?(\d+)\.(\d+)\.(\d+)(?:-([a-z0-9.-]+))?(?:-(\d+)-g([a-f0-9]+))?$'
+    pattern = r'(?i)^v?(\d+)\.(\d+)\.(\d+)(?:-([a-zA-Z0-9]+))?(?:-(\d+)-g([a-f0-9]+))?$'
     match = re.match(pattern, tag)
     if match:
         major, minor, patch, pre_release, commits_since, commit_hash = match.groups()
