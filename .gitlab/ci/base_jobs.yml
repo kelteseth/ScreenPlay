@@ -1,4 +1,5 @@
 .base_windows_build:
+  dependencies: []
   before_script:
     - python -m pip install -U pip wheel
     - python -m pip install -r Tools/requirements.txt
@@ -12,6 +13,7 @@
       - build-x64-windows-release/ScreenPlay-Installer.exe
 
 .base_linux_build:
+  dependencies: []
   before_script:
     # Otherwise libglib2 needs interaction
     - export DEBIAN_FRONTEND=noninteractive
@@ -34,6 +36,7 @@
       - build-x64-linux-release/bin/
 
 .base_osx_build:
+  dependencies: []
   before_script:
     - pip3 install -U pip
     - pip3 install -r Tools/requirements.txt
