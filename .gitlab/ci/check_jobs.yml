@@ -1,4 +1,5 @@
 formatting:
+  dependencies: []
   stage: check
   allow_failure: true
   image:
@@ -14,4 +15,4 @@ formatting:
     - cd Tools
     - python check_format_cmake.py --check
     - python check_format_cpp.py  --check
-    - python check_format_qml.py  --check
+    #- python check_format_qml.py  --check

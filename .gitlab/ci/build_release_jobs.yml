@@ -49,12 +49,13 @@ release_job:
       when: on_success # Only when all previous jobs succeed
   script:
     # 1. Combining sha256 files into a SHA512-SUMS.txt
-    - echo "Combining sha256 files into a SHA512-SUMS.txt"
     - python3 Tools/create_sha512.py
-      # 2. Connect and handle the folder
-    - echo "Managing remote folder"
+      # 2. Install dependencies and handle the folder
     - apt update
-    - apt install -y sshpass ssh
+    - apt install -y sshpass ssh curl
+    - curl --location --output /usr/local/bin/release-cli "https://gitlab.com/api/v4/projects/gitlab-org%2Frelease-cli/packages/generic/release-cli/latest/release-cli-linux-amd64"
+    - chmod +x /usr/local/bin/release-cli
+    - release-cli -v
     - ssh-keyscan 91.204.46.10 >> ~/.ssh/known_hosts
     - sshpass -p $GETSP_PASSWORD ssh $GETSP_USERNAME@91.204.46.10 "rm -rf /getsp.de/$CI_COMMIT_TAG; mkdir /getsp.de/$CI_COMMIT_TAG;"
     # 3. Upload files to the remote folder
