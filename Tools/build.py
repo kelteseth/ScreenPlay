@@ -49,7 +49,7 @@ def execute(
     step_time = time.time()
     build_result = build(build_config, build_result)
     build_duration = time.time() - step_time
-    # print(f"⏱️ build_duration (for {build_config.build_architecture}): {build_duration}s")
+    print(f"⏱️ build_duration: {build_duration}s")
 
     # Copies all needed libraries and assets into the bin folder
     step_time = time.time()
