@@ -104,18 +104,29 @@ def execute(
     package_duration = time.time() - step_time
     print(f"⏱️ package_duration: {package_duration}s")
 
+    if platform.system() == "Darwin":
+        if (build_config.sign_osx):
+            print(f"Sign binary at: {build_config.bin_dir}")
+            macos_sign.sign(build_config=build_config)
+
     # Creates a Qt InstallerFrameWork (IFW) installer
     if build_config.create_installer == "ON":
         step_time = time.time()
         build_installer(build_config, build_result)
         build_installer_duration = time.time() - step_time
-        print(f"⏱️ build_installer_duration: {build_installer_duration}s")
+        print(f"⏱️ build_installer_duration: {build_installer_duration}s")    
+        
+        if platform.system() == "Darwin":
+            if (build_config.sign_osx):
+                print(f"Sign ScreenPlay-installer.dmg at: {build_config.bin_dir}")
+                macos_sign.sign_dmg(build_config=build_config)
 
     # Create a zip file of the build
-    step_time = time.time()
-    build_result = zip(build_config, build_result)
-    zip_duration = time.time() - step_time
-    print(f"⏱️ zip_duration: {zip_duration}s")
+    if platform.system() != "Darwin":
+        step_time = time.time()
+        build_result = zip(build_config, build_result)
+        zip_duration = time.time() - step_time
+        print(f"⏱️ zip_duration: {zip_duration}s")
 
     duration = time.time() - start_time
     print(f"⏱️ Build completed in: {duration}s")
@@ -246,10 +257,6 @@ def package(build_config: BuildConfig):
             build_bin_dir=build_bin_dir, app="ScreenPlayWallpaper"), cwd=cwd)
         run(cmd=cmd_raw.format(qt_bin_path=qt_bin_path, repo_root_path=source_path,
             build_bin_dir=build_bin_dir, app="ScreenPlayWidget"), cwd=cwd)
-
-        if (build_config.sign_osx):
-            print(f"Sign binary at: {build_config.bin_dir}")
-            macos_sign.sign(build_config=build_config)
 
     if platform.system() == "Windows":
         print("Executing deploy commands...")

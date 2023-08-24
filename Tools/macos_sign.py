@@ -7,6 +7,7 @@ import time
 
 stdout.reconfigure(encoding='utf-8')
 
+
 def sign(build_config: BuildConfig):
     print("Run codedesign")
     #run("codesign -f -s 'Developer ID Application: Elias Steurer (V887LHYKRH)' --verbose --force  --timestamp --options 'runtime' -f --entitlements '../../ScreenPlay/entitlements.plist' 'ScreenPlay.app/' ", 
@@ -17,6 +18,7 @@ def sign(build_config: BuildConfig):
     # run(base_sign_command.format(app="ffprobe"), cwd=build_config.bin_dir)
     run("codesign --deep -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --verbose --force --timestamp --options \"runtime\" --entitlements \"../../ScreenPlay/entitlements.plist\"  \"ScreenPlay.app/\"", 
         cwd=build_config.bin_dir)
+    
 
     print("Run codedesign verify")
     run("codesign --verify --verbose=4  'ScreenPlay.app/'", 
@@ -41,25 +43,27 @@ def sign(build_config: BuildConfig):
     print("Run spctl assess")
     run("spctl --assess --verbose  'ScreenPlay.app/'", cwd=build_config.bin_dir)
 
-    print("Remove *.app.zip files.")
+    print("Remove ScreenPlay.app.zip.")
     run("rm ScreenPlay.app.zip",  cwd=build_config.bin_dir)
+
+def sign_dmg(build_config: BuildConfig):
+    # Sign the DMG
+    run("codesign -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --timestamp --options \"runtime\" -f --deep \"ScreenPlay-Installer.dmg\"", cwd=build_config.build_folder)
     
-
-    # We also need to sign the installer in osx:
-    if build_config.create_installer == "ON":
-        run("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --timestamp --options \"runtime\" -f --deep \"ScreenPlay-Installer.dmg/ScreenPlay-Installer.app/Contents/MacOS/ScreenPlay-Installer\"", cwd=build_config.build_folder)
-        run("codesign --verify --verbose=4  \"ScreenPlay-Installer.dmg/ScreenPlay-Installer.app/Contents/MacOS/ScreenPlay-Installer\"",
-            cwd=build_config.build_folder)
-        run("xcnotary notarize ScreenPlay-Installer.dmg/ScreenPlay-Installer.app -d kelteseth@gmail.com -k ScreenPlay",
-            cwd=build_config.build_folder)
-        run("spctl --assess --verbose  \"ScreenPlay-Installer.dmg/ScreenPlay-Installer.app/\"",
-            cwd=build_config.build_folder)
-
-        run("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --timestamp --options \"runtime\" -f --deep \"ScreenPlay-Installer.dmg/\"", cwd=build_config.build_folder)
-        run("codesign --verify --verbose=4  \"ScreenPlay-Installer.dmg/\"",
-            cwd=build_config.build_folder)
-        run("xcnotary notarize ScreenPlay-Installer.dmg -d kelteseth@gmail.com -k ScreenPlay",
-            cwd=build_config.build_folder)
-        run("spctl --assess --verbose  \"ScreenPlay-Installer.dmg/\"",
-            cwd=build_config.build_folder)
-
+    # Verify the DMG's signature
+    run("codesign --verify --verbose=4  \"ScreenPlay-Installer.dmg\"", cwd=build_config.build_folder)
+    
+    # Pack the DMG for notarization
+    run("ditto -c -k --keepParent ScreenPlay-Installer.dmg ScreenPlay-Installer.dmg.zip", cwd=build_config.build_folder)
+    
+    # Notarize the DMG using notarytool
+    run("xcrun notarytool submit ScreenPlay-Installer.dmg.zip --keychain-profile 'ScreenPlay' --wait", cwd=build_config.build_folder)
+    
+    # Staple the notarization ticket to the DMG
+    run("xcrun stapler staple ScreenPlay-Installer.dmg", cwd=build_config.build_folder)
+    
+    # Check the notarization status for the DMG
+    run("spctl --assess --verbose  \"ScreenPlay-Installer.dmg\"", cwd=build_config.build_folder)
+    
+    # Clean up the zip file
+    run("rm ScreenPlay-Installer.dmg.zip", cwd=build_config.build_folder)
