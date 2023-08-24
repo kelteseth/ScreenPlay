@@ -23,7 +23,7 @@ def combine_sha256():
             with open(file.with_name(f"{file.name}.sha256.txt"), 'r') as f_in:
                 sha256_hash = f_in.read().strip()
                 sha512_hash = hashlib.sha512(sha256_hash.encode()).hexdigest()
-                f_out.write(f"{sha512_hash}  {file}\n")
+                f_out.write(f"{sha512_hash}  {file.name}\n")
 
 
 if __name__ == "__main__":
