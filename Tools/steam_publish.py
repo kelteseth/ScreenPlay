@@ -5,6 +5,7 @@ import sys
 import subprocess
 import shutil
 import argparse
+from pathlib import Path
 from sys import platform
 from execute_util import execute
 from datetime import datetime
@@ -15,6 +16,67 @@ import platform
 from sys import stdout
 
 stdout.reconfigure(encoding='utf-8')
+
+
+class PublishConfig:
+    vdf_config_name: str
+    depot_config_name: str
+    steamcmd_path: Path
+
+
+def init_publish_config():
+    config = PublishConfig()
+
+    root_path = cd_repo_root_path()
+    tools_path = os.path.join(root_path, "Tools")
+    contentBuiler_path = os.path.join(tools_path, "Steam/ContentBuilder/")
+
+    if platform.system() == "Windows":
+        config.vdf_config_name = "app_build_windows.vdf"
+        config.depot_config_name = "depot_build_windows.vdf"
+        config.steamcmd_path = os.path.join(
+            contentBuiler_path, "builder/steamcmd.exe")
+    elif platform.system() == "Darwin":
+        config.vdf_config_name = "app_build_mac.vdf"
+        config.depot_config_name = "depot_build_mac.vdf"
+        config.steamcmd_path = os.path.join(
+            contentBuiler_path, "builder_osx/steamcmd")
+        execute(f"chmod +x {config.steamcmd_path}")
+    elif platform.system() == "Linux":
+        config.vdf_config_name = "app_build_linux.vdf"
+        config.depot_config_name = "depot_build_linux.vdf"
+        config.steamcmd_path = os.path.join(
+            contentBuiler_path, "builder_linux/steamcmd.sh")
+        execute(f"chmod +x {config.steamcmd_path}")
+
+    return config
+
+
+def check_steam_login(username: str, password: str):
+    config = init_publish_config()
+    cmd = [config.steamcmd_path, "+login", username, password, "+quit"]
+
+    try:
+        with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True) as process:
+            try:
+                stdout, stderr = process.communicate(
+                    timeout=60)  # 1 minute timeout
+                for line in stdout.splitlines():
+                    print(line)  # Print the line for debugging purposes
+
+                    if "Logging in user" in line:
+                        return True
+                    elif "Steam Guard code" in line:
+                        process.terminate()
+                        return False
+            except subprocess.TimeoutExpired:
+                process.kill()
+                print("Steam login check timed out after 1 minute.")
+                return False
+    except Exception as e:
+        print(f"Error during Steam login check: {e}")
+        return False
+
 
 # Executes steamcmd with username and password. Changes the content of the config
 # for better readability in the steam builds tab
@@ -27,6 +89,7 @@ def get_git_revision_short_hash():
 def get_git_commit_text():
     return subprocess.check_output(['git', 'log', '-1', '--pretty=%B'])
 
+
 def publish(
     steam_username,
     steam_password,
@@ -36,30 +99,13 @@ def publish(
     # Make sure the script is always started from the same folder
     root_path = cd_repo_root_path()
     tools_path = os.path.join(root_path, "Tools")
-    contentBuiler_path = os.path.join(tools_path, "Steam/ContentBuilder/")
 
-    vdf_config_name = ""
-    depot_config_name = ""
-    steamcmd_path = ""
-    if platform.system() == "Windows":
-        vdf_config_name = "app_build_windows.vdf"
-        depot_config_name = "depot_build_windows.vdf"
-        steamcmd_path = os.path.join(contentBuiler_path, "builder/steamcmd.exe")
-        steamcmd_path = steamcmd_path.replace("/","\\")
-    elif platform.system() == "Darwin":
-        vdf_config_name = "app_build_mac.vdf"
-        depot_config_name = "depot_build_mac.vdf"
-        steamcmd_path = os.path.join(contentBuiler_path, "builder_osx/steamcmd")
-        execute(f"chmod +x {steamcmd_path}")
-    elif platform.system() == "Linux":
-        vdf_config_name = "app_build_linux.vdf"
-        depot_config_name = "depot_build_linux.vdf"
-        steamcmd_path = os.path.join(contentBuiler_path, "builder_linux/steamcmd.sh")
-        execute(f"chmod +x {steamcmd_path}")
+    config = init_publish_config()
 
-    print(f"Set steamCmd path: {steamcmd_path}")
+    print(f"Set steamCmd path: {config.steamcmd_path}")
 
-    abs_vdf_path = os.path.join(tools_path,"Steam/steamcmd/" + vdf_config_name)
+    abs_vdf_path = os.path.join(
+        tools_path, "Steam/steamcmd/" + config.vdf_config_name)
 
     if not os.path.isfile(abs_vdf_path):
         print("Incorrect vdf name")
@@ -71,15 +117,19 @@ def publish(
     git_hash = get_git_revision_short_hash().decode("utf-8").replace("\n", "")
     git_commit_text = get_git_commit_text().decode("utf-8").replace("\n", "")
     # Remove ' and " that can occour it is a merge commit
-    git_commit_text = git_commit_text.replace('\"','')
-    git_commit_text = git_commit_text.replace('\'','')
+    git_commit_text = git_commit_text.replace('\"', '')
+    git_commit_text = git_commit_text.replace('\'', '')
     current_date_time = datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
 
-    build_description = "- git hash: " + git_hash + ", commit: " +  git_commit_text + " - upload datetime: " + current_date_time
-    config_content = config_content.replace("{{BUILD_DESCRIPTION}}", build_description)
-    config_content = config_content.replace("{{SET_LIVE_ON_BRANCH}}", set_live_branch_name)
+    build_description = "- git hash: " + git_hash + ", commit: " + \
+        git_commit_text + " - upload datetime: " + current_date_time
+    config_content = config_content.replace(
+        "{{BUILD_DESCRIPTION}}", build_description)
+    config_content = config_content.replace(
+        "{{SET_LIVE_ON_BRANCH}}", set_live_branch_name)
     tmp_steam_config_foldername = "tmp_steam_config/"
-    tmp_steam_config_dir = os.path.abspath(os.path.join(tools_path,tmp_steam_config_foldername))
+    tmp_steam_config_dir = os.path.abspath(
+        os.path.join(tools_path, tmp_steam_config_foldername))
 
     if os.path.isdir(tmp_steam_config_dir):
         print(f"Deleting tmp config {tmp_steam_config_dir}")
@@ -87,23 +137,29 @@ def publish(
 
     os.mkdir(tmp_steam_config_dir)
 
-    f = open(os.path.abspath(tmp_steam_config_dir + "/" + vdf_config_name), "w")
+    f = open(os.path.abspath(tmp_steam_config_dir +
+             "/" + config.vdf_config_name), "w")
     f.write(config_content)
     f.close()
 
     print(f"Using config:\n {config_content}\n")
 
     # We also must copy the depot file
-    abs_depot_path = os.path.join(tools_path, "Steam/steamcmd/" + depot_config_name)
-    copyfile(abs_depot_path, tmp_steam_config_dir + "/" + depot_config_name)
+    abs_depot_path = os.path.join(
+        tools_path, "Steam/steamcmd/" + config.depot_config_name)
+    copyfile(abs_depot_path, tmp_steam_config_dir +
+             "/" + config.depot_config_name)
 
-    tmp_steam_config_path = "\"" + os.path.abspath(os.path.join(tmp_steam_config_dir,vdf_config_name) ) +  "\"" 
+    tmp_steam_config_path = "\"" + \
+        os.path.abspath(os.path.join(
+            tmp_steam_config_dir, config.vdf_config_name)) + "\""
 
     print("Execute steamcmd on: " + tmp_steam_config_path)
-    execute(f"{steamcmd_path} +login {steam_username} {steam_password} +run_app_build {tmp_steam_config_path} +quit")
+    execute(f"{config.steamcmd_path} +login {steam_username} {steam_password} +run_app_build {tmp_steam_config_path} +quit")
 
     print("Deleting tmp config")
     shutil.rmtree(tmp_steam_config_dir)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Publish ScreenPlay to Steam')

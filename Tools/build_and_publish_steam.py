@@ -7,11 +7,10 @@ import os
 import build
 from pathlib import Path
 import platform
-import paramiko
 import defines
 from build_result import BuildResult
 from build_config import BuildConfig
-from util import sftp_exists, get_latest_git_tag, parse_semver, semver_to_string
+from util import get_latest_git_tag, parse_semver, semver_to_string
 from sys import stdout
 
 stdout.reconfigure(encoding='utf-8')
@@ -34,6 +33,10 @@ if __name__ == "__main__":
     if not args.skip_steam_publish and args.steam_password is None:
         print("Steam password is required.")
         sys.exit(1)
+
+    if not steam_publish.check_steam_login("tachiom", args.steam_password):
+        print("Failed to login to Steam!")
+        exit(1)
 
     # Script needs to run in the tools folder
     tools_path = Path.cwd()
