@@ -9,6 +9,8 @@ from pathlib import Path
 import platform
 import paramiko
 import defines
+from build_result import BuildResult
+from build_config import BuildConfig
 from util import sftp_exists, get_latest_git_tag, parse_semver, semver_to_string
 from sys import stdout
 
@@ -51,9 +53,9 @@ if __name__ == "__main__":
         print("No git tags found.")
         exit(-1)
 
-    build_result = build.BuildResult()
+    build_result = BuildResult()
 
-    build_config = build.BuildConfig()
+    build_config = BuildConfig()
     build_config.qt_version = defines.QT_VERSION
     build_config.qt_ifw_version = defines.QT_IFW_VERSION
     build_config.build_steam = "ON"

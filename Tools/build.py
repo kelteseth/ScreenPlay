@@ -8,6 +8,8 @@ import argparse
 import time
 import zipfile
 import defines
+from build_result import BuildResult
+from build_config import BuildConfig
 from typing import Tuple
 from pathlib import Path
 import macos_sign
@@ -23,55 +25,6 @@ def clean_build_dir(build_dir):
         # ignore_errors removes also not empty folders...
         shutil.rmtree(build_dir, ignore_errors=True)
     build_dir.mkdir(parents=True, exist_ok=True)
-
-
-class BuildResult:
-    # Windows example with absolute paths:
-    # [...]/build-x64-windows-release/
-    build: Path
-    # [...]/build-x64-windows-release/bin
-    bin: Path
-    # [...]/build-x64-windows-release/ScreenPlay-Installer.exe
-    installer: Path
-    # [...]/build-x64-windows-release/ScreenPlay-Installer.zip
-    installer_zip: Path
-    # [...]/build-x64-windows-release/ScreenPlay-0.X.0-RCX-x64-windows-release.zip
-    build_zip: Path
-    # [...]/build-x64-windows-release/ScreenPlay-0.X.0-RCX-x64-windows-release.txt :sha256, needed for scoop
-    build_hash: Path
-    # x64, arm64, universal
-    build_arch: str
-
-
-class BuildConfig:
-    root_path: str
-    cmake_osx_architectures: str
-    cmake_target_triplet: str
-    package: bool
-    osx_bundle: str
-    package_command: str
-    executable_file_ending: str
-    # qt_* use either aqt or from the maintenance tool
-    qt_path: str  # C:\Qt
-    qt_bin_path: str  # C:\Qt\6.3.2\msvc2019_64
-    qt_version: str
-    qt_ifw_version: str
-    ifw_root_path: str
-    cmake_toolchain_file: str
-    aqt_install_qt_packages: str
-    aqt_install_tool_packages: str
-    executable_file_ending: str
-    build_folder: str
-    bin_dir: str
-    screenplay_version: str
-    # CMake variables need str: "ON" or "OFF"
-    build_steam: str
-    build_tests: str
-    build_deploy: str
-    build_type: str
-    build_architecture: str
-    create_installer: str
-    sign_osx: bool
 
 
 def execute(
@@ -114,11 +67,12 @@ def execute(
         step_time = time.time()
         build_installer(build_config, build_result)
         build_installer_duration = time.time() - step_time
-        print(f"⏱️ build_installer_duration: {build_installer_duration}s")    
-        
+        print(f"⏱️ build_installer_duration: {build_installer_duration}s")
+
         if platform.system() == "Darwin":
             if (build_config.sign_osx):
-                print(f"Sign ScreenPlay-installer.dmg at: {build_config.bin_dir}")
+                print(
+                    f"Sign ScreenPlay-installer.dmg at: {build_config.bin_dir}")
                 macos_sign.sign_dmg(build_config=build_config)
 
     # Create a zip file of the build
