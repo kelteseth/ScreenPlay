@@ -23,6 +23,20 @@
             "visualizerFile": "${workspaceFolder}/.vscode/qt.natvis.xml"
         },
         {
+            "name": "Godot Editor",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}\\Tools\\Apps\\Godot\\Godot_v4.1.1-stable_win64.exe",
+            "args": [
+                "--path",
+                "${workspaceFolder}\\ScreenPlayWallpaper\\Godot\\ScreenPlayGodot",
+                "--editor"
+            ],
+            "stopAtEntry": false,
+            "preLaunchTask": "CMake: build",
+            "externalConsole": false
+        },
+        {
             "name": "macOS Launch",
             "type": "lldb",
             "request": "launch",

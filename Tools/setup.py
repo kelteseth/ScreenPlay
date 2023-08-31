@@ -8,6 +8,7 @@ import defines
 import argparse
 import util
 import datetime
+import setup_godot
 from sys import stdout
 
 stdout.reconfigure(encoding='utf-8')
@@ -119,6 +120,7 @@ def main():
         setup_qt()
 
     download_ffmpeg.execute()
+    setup_godot.execute()
 
     if system() == "Windows":
         vcpkg_command = "vcpkg.exe"

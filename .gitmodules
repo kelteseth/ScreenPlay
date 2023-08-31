@@ -1,0 +1,4 @@
+[submodule "ScreenPlayWallpaper/Godot/GDExtention/extern/godot-cpp"]
+	path = ScreenPlayWallpaper/Godot/GDExtention/extern/godot-cpp
+	url = https://github.com/godotengine/godot-cpp.git
+	branch = 4.1

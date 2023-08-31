@@ -27,6 +27,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_CXX_STANDARD 20)
 set(THIRD_PARTY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/")
 
+option(GODOT_WALLPAPER "Godot Wallpaper support" ON)
 option(OSX_BUNDLE "Enable distribution macOS bundle" OFF)
 set(CMAKE_OSX_DEPLOYMENT_TARGET "13.0")
 
@@ -121,6 +122,10 @@ add_subdirectory(ScreenPlayWallpaper)
 add_subdirectory(ScreenPlayWidget)
 add_subdirectory(ScreenPlayUtil)
 add_subdirectory(ScreenPlayWeather)
+
+if(GODOT_WALLPAPER)
+    add_subdirectory(ScreenPlayWallpaper/Godot/GDExtention)
+endif()
 
 if(${SCREENPLAY_TESTS})
     enable_testing()
