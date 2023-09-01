@@ -5,6 +5,7 @@
 #include "godot_cpp/classes/global_constants.hpp"
 #include "godot_cpp/classes/viewport.hpp"
 #include "godot_cpp/core/binder_common.hpp"
+#include "godot_cpp/variant/string.hpp"
 
 #include <memory>
 
@@ -19,6 +20,9 @@ public:
     ~ScreenPlayGodotWallpaper() override;
 
     bool init(int activeScreen);
+    bool create_named_pipe(godot::String pipeName);
+    godot::String read_from_pipe();
+    void _process(double delta);
 
 protected:
     static void _bind_methods();
@@ -32,4 +36,7 @@ private:
 
     int mID;
     std::unique_ptr<WindowsHook> m_hook;
+    HANDLE hPipe;
+    double time_since_last_read = 0.0;
+    bool isPipeActive = false;
 };

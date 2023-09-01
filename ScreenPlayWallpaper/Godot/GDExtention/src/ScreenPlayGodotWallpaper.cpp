@@ -13,6 +13,12 @@
 int ScreenPlayGodotWallpaper::sInstanceCount = 0;
 int ScreenPlayGodotWallpaper::sLastID = 0;
 
+void ScreenPlayGodotWallpaper::_bind_methods()
+{
+    godot::ClassDB::bind_method(godot::D_METHOD("init"), &ScreenPlayGodotWallpaper::init);
+    godot::ClassDB::bind_method(godot::D_METHOD("create_named_pipe"), &ScreenPlayGodotWallpaper::create_named_pipe);
+}
+
 ScreenPlayGodotWallpaper::ScreenPlayGodotWallpaper()
 {
     mID = ++sLastID;
@@ -32,15 +38,36 @@ ScreenPlayGodotWallpaper::~ScreenPlayGodotWallpaper()
 
     // Somehow this gets called at editor startup
     // so just return if not initialized
-    if (!m_hook)
+    if (m_hook) {
+
+        ShowWindow(m_hook->windowHandle, SW_HIDE);
+
+        // Force refresh so that we display the regular
+        // desktop wallpaper again
+        ShowWindow(m_hook->windowHandleWorker, SW_HIDE);
+        ShowWindow(m_hook->windowHandleWorker, SW_SHOW);
+    }
+    // Destructor
+    if (hPipe != INVALID_HANDLE_VALUE) {
+        CloseHandle(hPipe);
+    }
+}
+
+void ScreenPlayGodotWallpaper::_process(double delta)
+{
+
+    if (!isPipeActive) {
         return;
-
-    ShowWindow(m_hook->windowHandle, SW_HIDE);
-
-    // Force refresh so that we display the regular
-    // desktop wallpaper again
-    ShowWindow(m_hook->windowHandleWorker, SW_HIDE);
-    ShowWindow(m_hook->windowHandleWorker, SW_SHOW);
+    }
+    timesinceLastRead += delta;
+    // 0.05 seconds = 50ms
+    if (timesinceLastRead >= 0.05) {
+        godot::String data = read_from_pipe();
+        if (!data.is_empty()) {
+            godot::UtilityFunctions::print("Received data: " + data);
+        }
+        timesinceLastRead = 0.0;
+    }
 }
 
 bool ScreenPlayGodotWallpaper::configureWindowGeometry()
@@ -111,7 +138,49 @@ bool ScreenPlayGodotWallpaper::init(int activeScreen)
     return true;
 }
 
-void ScreenPlayGodotWallpaper::_bind_methods()
+bool ScreenPlayGodotWallpaper::create_named_pipe(godot::String pipeName)
 {
-    godot::ClassDB::bind_method(godot::D_METHOD("init"), &ScreenPlayGodotWallpaper::init);
+    godot::String fullPipeName = "\\\\.\\pipe\\" + pipeName;
+    std::wstring wPipeName = std::wstring(fullPipeName.wide_string());
+
+    hPipe = CreateNamedPipeW(
+        wPipeName.c_str(),
+        PIPE_ACCESS_DUPLEX,
+        PIPE_TYPE_BYTE | PIPE_READMODE_BYTE | PIPE_WAIT,
+        1,
+        1024 * 16,
+        1024 * 16,
+        NMPWAIT_USE_DEFAULT_WAIT,
+        NULL);
+
+    if (hPipe == INVALID_HANDLE_VALUE) {
+        isPipeActive = false;
+        godot::UtilityFunctions::print("CreateNamedPipe failed, error code: " + godot::String::num_int64(GetLastError()));
+        return false;
+    }
+
+    if (ConnectNamedPipe(hPipe, NULL) == FALSE) {
+        CloseHandle(hPipe);
+        godot::UtilityFunctions::print("ConnectNamedPipe failed, error code: " + godot::String::num_int64(GetLastError()));
+        isPipeActive = false;
+        return false;
+    }
+    isPipeActive = true;
+    return true;
+}
+
+godot::String ScreenPlayGodotWallpaper::read_from_pipe()
+{
+    char buffer[128];
+    DWORD bytesRead;
+    godot::String result;
+
+    if (ReadFile(hPipe, buffer, sizeof(buffer) - 1, &bytesRead, NULL)) {
+        buffer[bytesRead] = '\0';
+        result = godot::String(buffer);
+    } else {
+        godot::UtilityFunctions::print("ReadFile from pipe failed, error code: " + godot::String::num_int64(GetLastError()));
+    }
+
+    return result;
 }
