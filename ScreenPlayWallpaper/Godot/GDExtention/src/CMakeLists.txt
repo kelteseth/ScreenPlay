@@ -1,15 +1,13 @@
 # SPDX-License-Identifier: Unlicense
 
-target_sources( ${PROJECT_NAME}
+target_sources(${PROJECT_NAME}
     PRIVATE
-        ScreenPlayWallpaper.h
-        ScreenPlayWallpaper.cpp
-        GDExtensionTemplate.h
-        GDExtensionTemplate.cpp
-        RegisterExtension.cpp
+    ScreenPlayGodotWallpaper.h
+    ScreenPlayGodotWallpaper.cpp
+    RegisterExtension.cpp
 )
 
-target_include_directories( ${PROJECT_NAME}
+target_include_directories(${PROJECT_NAME}
     PRIVATE
-        "src"
+    "src"
 )

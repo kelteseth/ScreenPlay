@@ -4,3 +4,5 @@
 
 [node name="Wallpaper" type="Node3D"]
 script = ExtResource("1_ceeuk")
+
+[node name="ScreenPlayGodotWallpaper" type="ScreenPlayGodotWallpaper" parent="."]

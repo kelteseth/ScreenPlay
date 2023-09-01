@@ -4,6 +4,7 @@
         "delgan.qml-format",
         "ms-vscode.cpptools-extension-pack",
         "ms-vscode.cmake-tools",
-        "seanwu.vscode-qt-for-python"
+        "seanwu.vscode-qt-for-python",
+        "josetr.cmake-language-support-vscode"
     ]
 }

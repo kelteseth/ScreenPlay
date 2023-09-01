@@ -10,21 +10,10 @@ config_version=5
 
 [application]
 
-config/name="ScreenPlay"
-run/main_scene="res://main.tscn"
+config/name="Fjord"
+run/main_scene="res://wallpaper.tscn"
 config/features=PackedStringArray("4.1", "Mobile")
-boot_splash/show_image=false
-boot_splash/fullsize=false
 config/icon="res://icon.svg"
-
-[display]
-
-window/size/viewport_width=1
-window/size/viewport_height=1
-window/size/mode=1
-window/size/initial_position_type=0
-window/size/initial_position=Vector2i(9999999, 9999999)
-window/size/borderless=true
 
 [rendering]
 

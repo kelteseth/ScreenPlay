@@ -8,16 +8,16 @@ set(CMAKE_AUTOMOC ON)
 find_package(
     Qt6
     COMPONENTS Core
-               Quick
-               Gui
-               Widgets
-               WebSockets
-               Svg
-               Multimedia
-               WebEngineCore
-               WebEngineQuick
-               WebChannel
-               Positioning)
+    Quick
+    Gui
+    Widgets
+    WebSockets
+    Svg
+    Multimedia
+    WebEngineCore
+    WebEngineQuick
+    WebChannel
+    Positioning)
 
 if(WIN32)
     set(SOURCES src/windowsdesktopproperties.cpp src/winwindow.cpp)
@@ -38,6 +38,7 @@ set(SOURCES ${SOURCES} main.cpp src/basewindow.cpp)
 set(HEADER ${HEADER} src/basewindow.h)
 
 set(QML
+
     # cmake-format: sort
     qml/GifWallpaper.qml
     qml/MultimediaView.qml
@@ -47,6 +48,17 @@ set(QML
     qml/WebsiteWallpaper.qml)
 
 set(RESOURCES dot.png qtquickcontrols2.conf index.html)
+
+set(LIB_SOURCES ${SOURCES} src/basewindow.cpp)
+set(LIB_HEADER ${HEADER} src/basewindow.h)
+
+add_library(ScreenPlayWallpaperLib STATIC src/windowshook.cpp src/windowshook.h)
+target_include_directories(ScreenPlayWallpaperLib PUBLIC src)
+
+if(WIN32)
+    # Used for query windows monitor data
+    target_link_libraries(ScreenPlayWallpaperLib PUBLIC shcore.lib)
+endif()
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADER})
 
@@ -68,17 +80,19 @@ qt_add_qml_module(
 target_link_libraries(
     ${PROJECT_NAME}
     PRIVATE ScreenPlaySDK
-            ScreenPlayUtil
-            ScreenPlayWeatherplugin
-            Qt6::Quick
-            Qt6::Gui
-            Qt6::Widgets
-            Qt6::Core
-            Qt6::WebSockets
-            Qt6::Svg
-            Qt6::Multimedia
-            Qt6::WebEngineCore
-            Qt6::WebEngineQuick)
+    ScreenPlayWallpaperLib
+    ScreenPlayUtil
+    ScreenPlayWeatherplugin
+    Qt6::Quick
+    Qt6::Gui
+    Qt6::Widgets
+    Qt6::Core
+    Qt6::WebSockets
+    Qt6::Svg
+    Qt6::Multimedia
+    Qt6::WebEngineCore
+    Qt6::WebEngineQuick)
+
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlaySysInfoplugin)
 elseif(UNIX AND NOT APPLE)
@@ -92,12 +106,13 @@ endif()
 
 if(APPLE)
     target_link_libraries(${PROJECT_NAME} PRIVATE "-framework Cocoa")
+
     if(NOT OSX_BUNDLE)
         add_custom_command(
             TARGET ${PROJECT_NAME}
             POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/index.html
-                    ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/)
+            ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/)
         set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
     endif()
 endif()

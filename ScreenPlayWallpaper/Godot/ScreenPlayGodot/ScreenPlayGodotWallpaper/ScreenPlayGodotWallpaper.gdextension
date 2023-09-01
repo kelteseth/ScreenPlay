@@ -1,0 +1,10 @@
+[configuration]
+
+entry_symbol = "GDExtensionInit"
+compatibility_minimum = 4.1
+
+[libraries]
+
+linux.debug.x86_64 = "res://ScreenPlayGodotWallpaper/lib/Linux-x86_64/libScreenPlayGodotWallpaper-d.so"
+macos.debug = "res://ScreenPlayGodotWallpaper/lib/Darwin-Universal/libScreenPlayGodotWallpaper-d.dylib"
+windows.debug.x86_64 = "res://ScreenPlayGodotWallpaper/lib/Windows-AMD64/ScreenPlayGodotWallpaper-d.dll"
