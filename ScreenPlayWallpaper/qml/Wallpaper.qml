@@ -103,7 +103,7 @@ Rectangle {
         case 2:
             break;
         case 0:
-            if (desktopProperties.isTiled) {
+            if (Wallpaper.windowsDesktopProperties.isTiled) {
                 // Tiled
                 imgCover.fillMode = Image.Tile;
             } else {
