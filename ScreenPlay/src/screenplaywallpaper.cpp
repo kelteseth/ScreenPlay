@@ -52,7 +52,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
             if (auto obj = ScreenPlayUtil::openJsonFileToObject(absolutePath + "/project.json")) {
                 if (obj->contains("properties"))
                     projectSettingsListModelProperties = obj->value("properties").toObject();
-            }
+            } 
         } else {
             projectSettingsListModelProperties = properties;
         }
@@ -86,20 +86,28 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
         QVariant::fromValue(fillMode).toString(),
         QVariant::fromValue(type).toString(),
         QString::number(m_settings->checkWallpaperVisible()),
-        // Fixes issue 84 media key overlay
-        " --disable-features=HardwareMediaKeyHandling"
     };
+
+    // Fixes issue 84 media key overlay in Qt apps
+    if (m_type != InstalledType::InstalledType::GodotWallpaper) {
+        m_appArgumentsList.append(" --disable-features=HardwareMediaKeyHandling");
+    }
 }
 
 bool ScreenPlayWallpaper::start()
 {
     m_process.setArguments(m_appArgumentsList);
-    m_process.setProgram(m_globalVariables->wallpaperExecutablePath().toString());
+    if (m_type == InstalledType::InstalledType::GodotWallpaper) {
+        m_process.setProgram(m_globalVariables->godotWallpaperExecutablePath().toString());
+    } else {
+        m_process.setProgram(m_globalVariables->wallpaperExecutablePath().toString());
+    }
+
     // We must start detatched otherwise we would instantly close the process
     // and would loose the animted fade-out and the background refresh needed
     // to display the original wallpaper.
     const bool success = m_process.startDetached();
-    qInfo() << "Starting ScreenPlayWallpaper detached: " << (success ? "success" : "failed!");
+    qInfo() << "Starting ScreenPlayWallpaper detached: " << (success ? "success" : "failed!") << m_process.program();
     if (!success) {
         qInfo() << m_process.program() << m_appArgumentsList;
         emit error(QString("Could not start Wallpaper: " + m_process.errorString()));

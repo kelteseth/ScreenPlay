@@ -28,4 +28,21 @@ QT_IFW_VERSION = "4.6"
 VCPKG_VERSION = "f06975f46d8c7a1dad916e1e997584f77ae0c34a"
 PYTHON_EXECUTABLE = "python" if sys.platform == "win32" else "python3"
 FFMPEG_VERSION = "5.0.1"
+
 GODOT_VERSION = "4.1.1"
+GODOT_RELEASE_TYPE = "stable"
+if sys.platform == "win32":
+    SCREENPLAYWALLPAPER_GODOT_EXECUTABLE = "ScreenPlayWallpaperGodot.exe"
+    GODOT_EDITOR_EXECUTABLE = f"Godot_v{GODOT_VERSION}-{GODOT_RELEASE_TYPE}_win64.exe"
+    GODOT_TEMPLATES_PATH = os.path.join(os.getenv(
+        'APPDATA'), f"Godot/templates/{GODOT_VERSION}.{GODOT_RELEASE_TYPE}")
+elif sys.platform == "darwin":
+    SCREENPLAYWALLPAPER_GODOT_EXECUTABLE = "ScreenPlayWallpaperGodot.app"
+    GODOT_EDITOR_EXECUTABLE = f"Godot_v{GODOT_VERSION}-{GODOT_RELEASE_TYPE}_osx.universal"
+    GODOT_TEMPLATES_PATH = "TODO"
+elif sys.platform == "linux":
+    SCREENPLAYWALLPAPER_GODOT_EXECUTABLE = "ScreenPlayWallpaperGodot"
+    GODOT_EDITOR_EXECUTABLE = f"Godot_v{GODOT_VERSION}-{GODOT_RELEASE_TYPE}_x11.64"
+    # /home/eli/.local/share/godot/templates/
+    GODOT_TEMPLATES_PATH = os.path.join(
+        Path.home(), f".local/share/godot/templates/{GODOT_VERSION}.{GODOT_RELEASE_TYPE}")

@@ -18,20 +18,21 @@ class GlobalVariables : public QObject {
     QML_ELEMENT
 
     Q_PROPERTY(QVersionNumber version READ version CONSTANT)
-    Q_PROPERTY(QUrl localStoragePath READ localStoragePath WRITE setLocalStoragePath NOTIFY localStoragePathChanged)
-    Q_PROPERTY(QUrl localSettingsPath READ localSettingsPath WRITE setLocalSettingsPath NOTIFY localSettingsPathChanged)
-    Q_PROPERTY(QUrl wallpaperExecutablePath READ wallpaperExecutablePath WRITE setWallpaperExecutablePath NOTIFY wallpaperExecutablePathChanged)
-    Q_PROPERTY(QUrl widgetExecutablePath READ widgetExecutablePath WRITE setWidgetExecutablePath NOTIFY widgetExecutablePathChanged)
+    Q_PROPERTY(QUrl localStoragePath READ localStoragePath WRITE setLocalStoragePath NOTIFY localStoragePathChanged FINAL)
+    Q_PROPERTY(QUrl localSettingsPath READ localSettingsPath WRITE setLocalSettingsPath NOTIFY localSettingsPathChanged FINAL)
+    Q_PROPERTY(QUrl wallpaperExecutablePath READ wallpaperExecutablePath WRITE setWallpaperExecutablePath NOTIFY wallpaperExecutablePathChanged FINAL)
+    Q_PROPERTY(QUrl widgetExecutablePath READ widgetExecutablePath WRITE setWidgetExecutablePath NOTIFY widgetExecutablePathChanged FINAL)
+    Q_PROPERTY(QUrl godotWallpaperExecutablePath READ godotWallpaperExecutablePath WRITE setGodotWallpaperExecutablePath NOTIFY godotWallpaperExecutablePathChanged FINAL)
+    Q_PROPERTY(QUrl godotEditorExecutablePath READ godotEditorExecutablePath WRITE setGodotEditorExecutablePath NOTIFY godotEditorExecutablePathChanged FINAL)
 
 public:
     explicit GlobalVariables(QObject* parent = nullptr);
 
     /*!
-      \brief We need to check if there was an error in the Wallpaper/Widgets.
-             For this we ping it every 3s.
-     */
-    static const int contentPingAliveIntervalMS = 3000;
-
+        \property GlobalVariables::m_version
+        \brief Returns the current app version. Not yet used.
+    */
+    QVersionNumber version() const { return m_version; }
     /*!
         \property GlobalVariables::localStoragePath
         \brief Returns the localStoragePath.
@@ -56,51 +57,35 @@ public:
         \property GlobalVariables::m_version
         \brief Returns the current app version. Not yet used.
     */
-    QVersionNumber version() const { return m_version; }
+    QUrl godotWallpaperExecutablePath() const { return m_godotWallpaperExecutablePath; }
+    /*!
+        \property GlobalVariables::m_version
+        \brief Returns the current app version. Not yet used.
+    */
+    QUrl godotEditorExecutablePath() const { return m_godotEditorExecutablePath; }
 
 signals:
     void localStoragePathChanged(QUrl localStoragePath);
     void localSettingsPathChanged(QUrl localSettingsPath);
     void wallpaperExecutablePathChanged(QUrl wallpaperExecutablePath);
     void widgetExecutablePathChanged(QUrl widgetExecutablePath);
+    void godotWallpaperExecutablePathChanged(QUrl godotWallpaperExecutablePath);
+    void godotEditorExecutablePathChanged(QUrl godotEditorExecutablePath);
 
 public slots:
+    void setLocalStoragePath(QUrl localStoragePath);
+    void setLocalSettingsPath(QUrl localSettingsPath);
+    void setWallpaperExecutablePath(QUrl wallpaperExecutablePath);
+    void setWidgetExecutablePath(QUrl widgetExecutablePath);
+    void setGodotWallpaperExecutablePath(QUrl godotWallpaperExecutablePath);
+    void setGodotEditorExecutablePath(QUrl godotEditorExecutablePath);
 
-    void setLocalStoragePath(QUrl localStoragePath)
-    {
-        if (m_localStoragePath == localStoragePath)
-            return;
-
-        m_localStoragePath = localStoragePath;
-        emit localStoragePathChanged(m_localStoragePath);
-    }
-
-    void setLocalSettingsPath(QUrl localSettingsPath)
-    {
-        if (m_localSettingsPath == localSettingsPath)
-            return;
-
-        m_localSettingsPath = localSettingsPath;
-        emit localSettingsPathChanged(m_localSettingsPath);
-    }
-
-    void setWallpaperExecutablePath(QUrl wallpaperExecutablePath)
-    {
-        if (m_wallpaperExecutablePath == wallpaperExecutablePath)
-            return;
-
-        m_wallpaperExecutablePath = wallpaperExecutablePath;
-        emit wallpaperExecutablePathChanged(m_wallpaperExecutablePath);
-    }
-
-    void setWidgetExecutablePath(QUrl widgetExecutablePath)
-    {
-        if (m_widgetExecutablePath == widgetExecutablePath)
-            return;
-
-        m_widgetExecutablePath = widgetExecutablePath;
-        emit widgetExecutablePathChanged(m_widgetExecutablePath);
-    }
+public:
+    /*!
+      \brief We need to check if there was an error in the Wallpaper/Widgets.
+             For this we ping it every 3s.
+     */
+    static const int contentPingAliveIntervalMS = 3000;
 
 private:
     QUrl m_localStoragePath;
@@ -108,5 +93,7 @@ private:
     QUrl m_wallpaperExecutablePath;
     QUrl m_widgetExecutablePath;
     QVersionNumber m_version { 1, 0, 0 };
+    QUrl m_godotWallpaperExecutablePath;
+    QUrl m_godotEditorExecutablePath;
 };
 }

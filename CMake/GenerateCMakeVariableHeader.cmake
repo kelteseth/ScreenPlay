@@ -7,6 +7,7 @@
 #
 function(generate_cmake_variable_header TARGET)
     set(SOURCE_DIR ${CMAKE_SOURCE_DIR})
+    set(SCREENPLAY_GODOT_VERSION ${GODOT_VERSION})
 
     # Specify the configuration file from which the header file will be generated
     configure_file(${CMAKE_SOURCE_DIR}/CMake/CMakeVariables.h.in ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}/CMakeVariables.h @ONLY)

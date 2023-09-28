@@ -2,6 +2,9 @@
 #include "ScreenPlay/settings.h"
 #include "ScreenPlayUtil/util.h"
 #include <QFileInfo>
+#include <QSysInfo>
+
+#include "ScreenPlay/CMakeVariables.h"
 
 #ifdef Q_OS_WIN
 #include <qt_windows.h>
@@ -52,6 +55,7 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
 #ifdef SCREENPLAY_STEAM
     setSteamVersion(true);
 #endif
+
 #ifdef Q_OS_WIN
     setDesktopEnvironment(DesktopEnvironment::Windows);
 #endif
@@ -150,31 +154,36 @@ void Settings::writeJsonFileFromResource(const QString& filename)
 void Settings::setupWidgetAndWindowPaths()
 {
     QDir workingDir(QGuiApplication::applicationDirPath());
+    const QString osType = QSysInfo::productType();
 
-#ifdef Q_OS_WIN
-    m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget" + ScreenPlayUtil::executableBinEnding()));
-    m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper" + ScreenPlayUtil::executableBinEnding()));
-#endif
+    QString godotVersion = QString(SCREENPLAY_GODOT_VERSION);
+    if (osType == "windows") {
+        m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget" + ScreenPlayUtil::executableBinEnding()));
+        m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper" + ScreenPlayUtil::executableBinEnding()));
+        m_globalVariables->setGodotWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaperGodot" + ScreenPlayUtil::executableBinEnding()));
+        m_globalVariables->setGodotEditorExecutablePath(QUrl(workingDir.path() + "/Godot" + ScreenPlayUtil::executableBinEnding()));
 
-#ifdef Q_OS_LINUX
-    m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget"));
-    m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper"));
-#endif
-
-#ifdef Q_OS_OSX
-
-    // ScreenPlayTest is not bundled in an .app so the working directory
-    // the the same as the executable.
-    if (QFileInfo(QCoreApplication::applicationFilePath()).fileName() != "tst_ScreenPlay") {
-        workingDir.cdUp();
-        workingDir.cdUp();
-        workingDir.cdUp();
+    } else if (osType == "osx") {
+        // ScreenPlayTest is not bundled in an .app so the working directory
+        // the the same as the executable.
+        if (QFileInfo(QCoreApplication::applicationFilePath()).fileName() != "tst_ScreenPlay") {
+            workingDir.cdUp();
+            workingDir.cdUp();
+            workingDir.cdUp();
+        }
+        const QString basePath = "/ScreenPlay.app/Contents/MacOS/";
+        m_globalVariables->setWidgetExecutablePath(QUrl::fromUserInput(workingDir.path() + basePath + "ScreenPlayWidget").toLocalFile());
+        m_globalVariables->setWallpaperExecutablePath(QUrl::fromUserInput(workingDir.path() + basePath + "ScreenPlayWallpaper").toLocalFile());
+        m_globalVariables->setGodotWallpaperExecutablePath(QUrl(workingDir.path() + basePath + "ScreenPlayWallpaperGodot").toLocalFile());
+        m_globalVariables->setGodotEditorExecutablePath(QUrl(workingDir.path() + basePath + "Godot").toLocalFile());
+    } else if (osType == "linux") {
+        m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget"));
+        m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper"));
+        m_globalVariables->setGodotWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaperGodot"));
+        m_globalVariables->setGodotEditorExecutablePath(QUrl(workingDir.path() + "/Godot"));
+    } else {
+        qFatal("OS not supported.");
     }
-
-    m_globalVariables->setWidgetExecutablePath(QUrl::fromUserInput(workingDir.path() + "/ScreenPlay.app/Contents/MacOS/ScreenPlayWidget").toLocalFile());
-    m_globalVariables->setWallpaperExecutablePath(QUrl::fromUserInput(workingDir.path() + "/ScreenPlay.app/Contents/MacOS/ScreenPlayWallpaper").toLocalFile());
-
-#endif
 
     if (!QFileInfo::exists(m_globalVariables->widgetExecutablePath().toString())) {
         qInfo() << "widgetExecutablePath:" << m_globalVariables->widgetExecutablePath().toString();

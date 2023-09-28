@@ -11,7 +11,12 @@ var checkWallpaperVisible = false
 
 func _ready():
 	# "C:\\Code\\cpp\\ScreenPlay\\ScreenPlay\\Content\\wallpaper_godot_fjord\\fjord.zip"
-	var path = "C:\\Code\\cpp\\ScreenPlay\\ScreenPlay\\Content\\wallpaper_godot_fjord\\fjord.zip"
+	var path 
+	var args = OS.get_cmdline_args()
+	if( args.size() > 1):
+		parse_args()
+	
+	path = "C:\\Code\\cpp\\ScreenPlay\\ScreenPlay\\Content\\wallpaper_godot_fjord\\fjord.zip"
 	var success = ProjectSettings.load_resource_pack (path)
 	if success:
 		var scene_resource = load("res://wallpaper.tscn")
@@ -25,30 +30,26 @@ func _ready():
 	else:
 		print("Failed to load the PCK file.")
 	Engine.set_max_fps(24)
-
+	
 func parse_args():
 	var args = OS.get_cmdline_args()
-	var i = 0	
-	while i < args.size():
-		match args[i]:
-			"--ActiveScreensList":
-				i += 1
-				activeScreensList = args[i].split(",")
-				for idx in range(activeScreensList.size()):
-					activeScreensList[idx] = int(activeScreensList[idx])
-			"--ProjectPath":
-				i += 1
-				projectPath = args[i]
-			"--appID":
-				i += 1
-				appID = args[i]
-			"--volume":
-				i += 1
-				volume = float(args[i])
-			"--fillmode":
-				i += 1
-				fillmode = int(args[i])
-			"--CheckWallpaperVisible":
-				i += 1
-				checkWallpaperVisible = args[i].to_lower() == "true"
-		i += 1
+
+	if args.size() < 7:  # Adjust this number based on the expected number of arguments
+		print("Not enough arguments provided!")
+		return
+
+	# Parse the arguments based on their expected positions
+	activeScreensList = args[0].split(",")
+	for idx in range(activeScreensList.size()):
+		activeScreensList[idx] = int(activeScreensList[idx])
+
+	projectPath = args[1]
+	appID = args[2]
+	volume = float(args[3])
+	fillmode = int(args[4])
+	# Assuming 'type' is not a global variable since it's not listed above
+	var type = args[5]  # This might need further parsing depending on its expected format
+	checkWallpaperVisible = args[6].to_lower() == "true"
+
+	# Print or use the parsed values as needed
+	print(activeScreensList, projectPath, appID, volume, fillmode, type, checkWallpaperVisible)

@@ -8,3 +8,6 @@ compatibility_minimum = 4.1
 linux.debug.x86_64 = "lib/Linux-x86_64/libScreenPlayGodotWallpaper-d.so"
 macos.debug = "lib/Darwin-Universal/libScreenPlayGodotWallpaper-d.dylib"
 windows.debug.x86_64 = "lib/Windows-AMD64/ScreenPlayGodotWallpaper-d.dll"
+linux.release.x86_64 = "lib/Linux-x86_64/libScreenPlayGodotWallpaper.so"
+macos.release = "lib/Darwin-universal/libScreenPlayGodotWallpaper.dylib"
+windows.release.x86_64 = "lib/Windows-AMD64/ScreenPlayGodotWallpaper.dll"

@@ -29,6 +29,7 @@ protected:
 
 private:
     bool configureWindowGeometry();
+    void hideFromTaskbar(HWND hwnd);
 
 private:
     static int sInstanceCount;
@@ -37,6 +38,6 @@ private:
     int mID;
     std::unique_ptr<WindowsHook> m_hook;
     HANDLE hPipe;
-    double time_since_last_read = 0.0;
+    double timesinceLastRead = 0.0;
     bool isPipeActive = false;
 };

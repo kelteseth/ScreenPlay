@@ -87,6 +87,23 @@
         },
         {
             "type": "process",
+            "label": "Build Godot",
+            "command": "python",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/Tools"
+            },
+            "args": [
+                "build_godot.py",
+                "--build_path",
+                "${command:cmake.buildDirectory}/bin"
+            ]
+        },
+        {
+            "type": "process",
             "label": "Build ScreenPlay release, with deploy and steam enabled",
             "command": "python3",
             "windows": {

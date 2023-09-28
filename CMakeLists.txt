@@ -21,6 +21,19 @@ elseif(APPLE)
     set(VCPKG_TARGET_ARCHITECTURE "arm64;x86_64")
 endif()
 
+# Godot Editor
+set(GODOT_VERSION "v4.1.1")
+
+if(WIN32)
+    set(GODOT_EDITOR_NAME "Godot_${GODOT_VERSION}-stable_win64.exe")
+elseif(APPLE)
+    set(GODOT_EDITOR_NAME "Godot.app")
+elseif(UNIX)
+    set(GODOT_EDITOR_NAME "Godot_${GODOT_VERSION}-stable_linux.x86_64")
+else()
+    message(FATAL_ERROR "Unsupported OS")
+endif()
+
 # This sets cmake to compile all dlls into the main directory
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -56,7 +69,7 @@ set(VCPKG_BIN_PATH "${VCPKG_INSTALLED_PATH}/bin")
 
 option(SCREENPLAY_STEAM "For FOSS distribution so we do not bundle proprietary code." ON)
 option(SCREENPLAY_DEPLOY "Marks this version as an official deploy version. This version uses different import paths and other settings."
-       OFF)
+    OFF)
 option(SCREENPLAY_TESTS "Enables UI tests." ON)
 option(SCREENPLAY_INSTALLER "Indicates whether an installer via the Qt Installer Framework is created." OFF)
 
@@ -69,11 +82,13 @@ file(MAKE_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
 add_compile_definitions(COMPILE_INFO="Build Date: ${BUILD_DATE}. Git Hash: ${GIT_COMMIT_HASH}. ")
 add_compile_definitions(SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
+
 if(${SCREENPLAY_DEPLOY})
     add_compile_definitions(DEPLOY_VERSION)
 endif()
 
 find_package(Git REQUIRED)
+
 if(WIN32)
     set(DATE_COMMAND "CMD")
     set(DATE_ARG "/c date /t")
@@ -124,7 +139,7 @@ add_subdirectory(ScreenPlayUtil)
 add_subdirectory(ScreenPlayWeather)
 
 if(GODOT_WALLPAPER)
-    add_subdirectory(ScreenPlayWallpaper/Godot/GDExtention)
+    add_subdirectory(ScreenPlayWallpaper/Godot)
 endif()
 
 if(${SCREENPLAY_TESTS})
@@ -133,6 +148,7 @@ endif()
 
 # Only add target SteamSDKQtEnums
 add_subdirectory(ScreenPlayWorkshop/SteamSDK)
+
 if(${SCREENPLAY_STEAM})
     add_subdirectory(ScreenPlayWorkshop)
 endif()

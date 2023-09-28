@@ -52,10 +52,10 @@ Item {
             imagePreview.source = previewImageFilePath;
         }
         if (JSUtil.isWidget(root.type) || (monitorSelection.activeMonitors.length > 0)) {
-            btnSetWallpaper.enabled = true;
+            btnLaunchContent.enabled = true;
             return;
         }
-        btnSetWallpaper.enabled = false;
+        btnLaunchContent.enabled = false;
     }
 
     Connections {
@@ -73,10 +73,10 @@ Item {
                     root.state = "activeWallpaper";
                 else
                     root.state = "activeScene";
-                btnSetWallpaper.text = qsTr("Set Wallpaper");
+                btnLaunchContent.text = qsTr("Set Wallpaper");
             } else {
                 root.state = "activeWidget";
-                btnSetWallpaper.text = qsTr("Set Widget");
+                btnLaunchContent.text = qsTr("Set Widget");
             }
         }
 
@@ -338,8 +338,8 @@ Item {
             }
 
             Button {
-                id: btnSetWallpaper
-                objectName: "btnSetWallpaper"
+                id: btnLaunchContent
+                objectName: "btnLaunchContent"
                 enabled: JSUtil.isWidget(root.type) ? true : monitorSelection.isSelected
                 Material.background: Material.accent
                 Material.foreground: "white"
@@ -347,8 +347,9 @@ Item {
                 icon.color: "white"
                 font.pointSize: 12
                 onClicked: {
-                    const absoluteStoragePath = App.globalVariables.localStoragePath + "/" + root.contentFolderName;
-                    const previewImage = App.installedListModel.get(root.contentFolderName).m_preview;
+                    const item = App.installedListModel.get(root.contentFolderName);
+                    const absoluteStoragePath = item.m_absoluteStoragePath;
+                    const previewImage =item.m_preview;
                     if (JSUtil.isWallpaper(root.type)) {
                         let activeMonitors = monitorSelection.getActiveMonitors();
                         // TODO Alert user to choose a monitor
@@ -359,7 +360,7 @@ Item {
                         let volume = 0;
                         if (type === InstalledType.VideoWallpaper)
                             volume = Math.round(sliderVolume.slider.value * 100) / 100;
-                        const screenFile = App.installedListModel.get(root.contentFolderName).m_file;
+                        const screenFile = item.m_file;
                         let success = App.screenPlayManager.createWallpaper(root.type, cbVideoFillMode.currentValue, absoluteStoragePath, previewImage, screenFile, activeMonitors, volume, 1, {}, true);
                     }
                     if (JSUtil.isWidget(root.type))

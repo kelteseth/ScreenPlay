@@ -22,17 +22,6 @@ bool ProjectFile::init()
     if (obj.isEmpty())
         return false;
 
-    // Required:
-    if (!obj.contains("file"))
-        return false;
-    file = obj.value("file").toString();
-
-    QFileInfo fileInfo(folder.path() + "/" + file);
-    if (!fileInfo.exists()) {
-        qCritical() << "Requested file:" << fileInfo.absoluteFilePath() << "does not exist!";
-        return false;
-    }
-
     if (!obj.contains("title"))
         return false;
     title = obj.value("title").toString();
@@ -46,6 +35,25 @@ bool ProjectFile::init()
         return false;
     }
     type = typeParsed.value();
+
+    // Required:
+    if (!obj.contains("file"))
+        return false;
+    file = obj.value("file").toString();
+
+    if (type == ScreenPlay::InstalledType::InstalledType::GodotWallpaper) {
+        QFileInfo fileInfo(folder.path() + "/wallpaper.tscn");
+        if (!fileInfo.exists()) {
+            qCritical() << "Requested file:" << fileInfo.absoluteFilePath() << "does not exist!";
+            return false;
+        }
+    } else {
+        QFileInfo fileInfo(folder.path() + "/" + file);
+        if (!fileInfo.exists()) {
+            qCritical() << "Requested file:" << fileInfo.absoluteFilePath() << "does not exist!";
+            return false;
+        }
+    }
 
     // Optional:
     if (!obj.contains("description"))

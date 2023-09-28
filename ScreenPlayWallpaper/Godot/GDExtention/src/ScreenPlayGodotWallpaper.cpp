@@ -19,6 +19,14 @@ void ScreenPlayGodotWallpaper::_bind_methods()
     godot::ClassDB::bind_method(godot::D_METHOD("create_named_pipe"), &ScreenPlayGodotWallpaper::create_named_pipe);
 }
 
+void ScreenPlayGodotWallpaper::hideFromTaskbar(HWND hwnd)
+{
+    LONG lExStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
+    lExStyle |= WS_EX_TOOLWINDOW; // Add WS_EX_TOOLWINDOW
+    lExStyle &= ~WS_EX_APPWINDOW; // Remove WS_EX_APPWINDOW
+    SetWindowLong(hwnd, GWL_EXSTYLE, lExStyle);
+}
+
 ScreenPlayGodotWallpaper::ScreenPlayGodotWallpaper()
 {
     mID = ++sLastID;
@@ -93,6 +101,7 @@ bool ScreenPlayGodotWallpaper::configureWindowGeometry()
     SetWindowLongPtr(m_hook->windowHandle, GWL_STYLE, WS_POPUPWINDOW);
     return true;
 }
+
 bool ScreenPlayGodotWallpaper::init(int activeScreen)
 {
     auto* displayServer = godot::DisplayServer::get_singleton();
@@ -100,6 +109,7 @@ bool ScreenPlayGodotWallpaper::init(int activeScreen)
     HWND hwnd = reinterpret_cast<HWND>(static_cast<intptr_t>(handle_int));
     m_hook = std::make_unique<WindowsHook>();
     m_hook->windowHandle = hwnd;
+    hideFromTaskbar(hwnd);
     if (!configureWindowGeometry()) {
         return false;
     }
