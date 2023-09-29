@@ -161,8 +161,8 @@ void Settings::setupWidgetAndWindowPaths()
         m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget" + ScreenPlayUtil::executableBinEnding()));
         m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper" + ScreenPlayUtil::executableBinEnding()));
         m_globalVariables->setGodotWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaperGodot" + ScreenPlayUtil::executableBinEnding()));
-        m_globalVariables->setGodotEditorExecutablePath(QUrl(workingDir.path() + "/Godot" + ScreenPlayUtil::executableBinEnding()));
-
+        const auto godotEditorName = "Godot_" + godotVersion + "-stable_win64.exe";
+        m_globalVariables->setGodotEditorExecutablePath(QUrl(workingDir.path() + "/" + godotEditorName));
     } else if (osType == "osx") {
         // ScreenPlayTest is not bundled in an .app so the working directory
         // the the same as the executable.
@@ -175,22 +175,32 @@ void Settings::setupWidgetAndWindowPaths()
         m_globalVariables->setWidgetExecutablePath(QUrl::fromUserInput(workingDir.path() + basePath + "ScreenPlayWidget").toLocalFile());
         m_globalVariables->setWallpaperExecutablePath(QUrl::fromUserInput(workingDir.path() + basePath + "ScreenPlayWallpaper").toLocalFile());
         m_globalVariables->setGodotWallpaperExecutablePath(QUrl(workingDir.path() + basePath + "ScreenPlayWallpaperGodot").toLocalFile());
-        m_globalVariables->setGodotEditorExecutablePath(QUrl(workingDir.path() + basePath + "Godot").toLocalFile());
+        const auto godotEditorName = "Godot_" + godotVersion + "-stable_osx.universal";
+        m_globalVariables->setGodotEditorExecutablePath(QUrl(workingDir.path() + "/" + godotEditorName));
     } else if (osType == "linux") {
         m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget"));
         m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper"));
         m_globalVariables->setGodotWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaperGodot"));
-        m_globalVariables->setGodotEditorExecutablePath(QUrl(workingDir.path() + "/Godot"));
+        const auto godotEditorName = "Godot_" + godotVersion + "-stable_x11.64";
+        m_globalVariables->setGodotEditorExecutablePath(QUrl(workingDir.path() + "/" + godotEditorName));
     } else {
         qFatal("OS not supported.");
     }
 
+    if (!QFileInfo::exists(m_globalVariables->godotWallpaperExecutablePath().toString())) {
+        qInfo() << "godotWallpaperExecutablePath:" << m_globalVariables->godotWallpaperExecutablePath();
+        qCritical("Godot Wallpaper not found");
+    }
+    if (!QFileInfo::exists(m_globalVariables->godotEditorExecutablePath().toString())) {
+        qInfo() << "godotEditorExecutablePath :" << m_globalVariables->godotEditorExecutablePath();
+        qCritical("Godot Editor not found");
+    }
     if (!QFileInfo::exists(m_globalVariables->widgetExecutablePath().toString())) {
-        qInfo() << "widgetExecutablePath:" << m_globalVariables->widgetExecutablePath().toString();
+        qInfo() << "widgetExecutablePath:" << m_globalVariables->widgetExecutablePath();
         qCritical("widget executable not found!");
     }
     if (!QFileInfo::exists(m_globalVariables->wallpaperExecutablePath().toString())) {
-        qInfo() << "wallpaperExecutablePath:" << m_globalVariables->wallpaperExecutablePath().toString();
+        qInfo() << "wallpaperExecutablePath:" << m_globalVariables->wallpaperExecutablePath();
         qCritical("wallpaper executable not found!");
     }
 }

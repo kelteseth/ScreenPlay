@@ -211,6 +211,9 @@ public slots:
     }
 
 private:
+    bool exportGodotProject(const QString& absolutePath, int timeoutMilliseconds = 30000);
+
+private:
     const std::shared_ptr<GlobalVariables> m_globalVariables;
     std::unique_ptr<SDKConnection> m_connection;
     const std::shared_ptr<Settings> m_settings;
