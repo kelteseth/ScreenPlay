@@ -188,7 +188,8 @@ bool ScreenPlayGodotWallpaper::connect_to_named_pipe()
     }
 
     m_isPipeActive = true;
-    return true;
+
+    return connected_to_screenplay();
 }
 
 godot::String ScreenPlayGodotWallpaper::read_from_pipe()
@@ -207,17 +208,17 @@ godot::String ScreenPlayGodotWallpaper::read_from_pipe()
     return result;
 }
 
-void ScreenPlayGodotWallpaper::connected()
+bool ScreenPlayGodotWallpaper::connected_to_screenplay()
 {
 
     // Ensure you have valid appID and type
     if (m_appID.is_empty()) {
         UtilityFunctions::print("Unable to connect with empty: appid");
-        emit_signal("disconnected");
-        return;
+        return false;
     }
 
     // Construct welcome message and write to the named pipe
+    // See void ScreenPlay::SDKConnection::readyRead()
     godot::String welcomeMessage = godot::String("appID=") + m_appID + ",godotWallpaper";
 
     std::string stdMessage = welcomeMessage.utf8().get_data();
@@ -225,9 +226,11 @@ void ScreenPlayGodotWallpaper::connected()
     WriteFile(m_hPipe, stdMessage.c_str(), static_cast<DWORD>(stdMessage.size()), &bytesWritten, NULL);
 
     if (bytesWritten != stdMessage.size()) {
-        emit_signal("disconnected");
-        return;
+        UtilityFunctions::print("Unable to send welcome message:", welcomeMessage);
+        return false;
     }
+
+    return true;
 }
 
 void ScreenPlayGodotWallpaper::messageReceived(const std::string& key, const std::string& value)

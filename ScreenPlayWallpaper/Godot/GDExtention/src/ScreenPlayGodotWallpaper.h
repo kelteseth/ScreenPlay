@@ -24,11 +24,11 @@ public:
 
     bool init(int activeScreen);
     bool connect_to_named_pipe();
+    bool connected_to_screenplay();
     godot::String read_from_pipe();
     void _process(double delta);
     void messageReceived(const std::string& key, const std::string& value);
 
-    void connected();
     godot::PackedInt64Array get_activeScreensList() const;
     void set_activeScreensList(const godot::PackedInt64Array& screens);
     godot::String get_projectPath() const;

@@ -24,6 +24,8 @@ func _ready():
 		var ok = screen_play_wallpaper.init(screen_play_wallpaper.get_activeScreensList()[0])
 		print("init ", ok)
 		Engine.set_max_fps(24)
+		var ok_connect_to_named_pipe = screen_play_wallpaper.connect_to_named_pipe()
+		print("connect to ScreenPlay", ok_connect_to_named_pipe)
 
 func load_scene(path):
 	var success = ProjectSettings.load_resource_pack(path)
