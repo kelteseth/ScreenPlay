@@ -306,10 +306,8 @@ bool ScreenPlayWallpaper::exportGodotProject(const QString& absolutePath, int ti
     process.setProgram(m_globalVariables->godotEditorExecutablePath().toString());
     // Start the Godot export process
     process.setArguments(godotCmd);
-    if (!process.startDetached()) {
-        qCritical() << "Godot failed to start.";
-        return false;
-    }
+    process.start();
+
     // Wait for the process to finish or timeout
     if (!process.waitForFinished(timeoutMilliseconds)) {
         qCritical() << "Godot export process timed out or failed to start.";
