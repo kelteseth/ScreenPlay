@@ -307,7 +307,7 @@ bool ScreenPlayManager::removeAllWallpapers()
 bool ScreenPlayManager::removeAllWidgets()
 {
     if (m_screenPlayWidgets.empty()) {
-        qWarning() << "Trying to remove all Widgets while m_screenPlayWidgets is not empty. Count: " << m_screenPlayWidgets.size();
+        qWarning() << "Trying to remove all Widgets while m_screenPlayWidgets is empty. Count: " << m_screenPlayWidgets.size();
         return false;
     }
 

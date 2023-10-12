@@ -41,6 +41,7 @@ public:
     bool get_screenPlayConnected() const;
     bool get_pipeConnected() const;
     bool ping_alive_screenplay();
+    bool exit();
 
 protected:
     static void _bind_methods();

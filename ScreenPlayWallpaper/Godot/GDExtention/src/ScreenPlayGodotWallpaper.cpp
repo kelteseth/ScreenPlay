@@ -21,7 +21,9 @@ void ScreenPlayGodotWallpaper::_bind_methods()
     ClassDB::bind_method(godot::D_METHOD("send_welcome"), &ScreenPlayGodotWallpaper::send_welcome);
     ClassDB::bind_method(godot::D_METHOD("get_screenPlayConnected"), &ScreenPlayGodotWallpaper::get_screenPlayConnected);
     ClassDB::bind_method(godot::D_METHOD("get_pipeConnected"), &ScreenPlayGodotWallpaper::get_pipeConnected);
+    ClassDB::bind_method(godot::D_METHOD("read_from_pipe"), &ScreenPlayGodotWallpaper::read_from_pipe);
     ClassDB::bind_method(godot::D_METHOD("ping_alive_screenplay"), &ScreenPlayGodotWallpaper::ping_alive_screenplay);
+    ClassDB::bind_method(godot::D_METHOD("exit"), &ScreenPlayGodotWallpaper::exit);
 
     ClassDB::bind_method(godot::D_METHOD("get_activeScreensList"), &ScreenPlayGodotWallpaper::get_activeScreensList);
     ClassDB::bind_method(godot::D_METHOD("set_activeScreensList", "screens"), &ScreenPlayGodotWallpaper::set_activeScreensList);
@@ -63,22 +65,6 @@ ScreenPlayGodotWallpaper::~ScreenPlayGodotWallpaper()
     UtilityFunctions::print(
         "ScreenPlayWallpaper ", itos(mID),
         " destroyed, current instance count: ", itos(sInstanceCount));
-
-    // Somehow this gets called at editor startup
-    // so just return if not initialized
-    if (m_hook) {
-
-        ShowWindow(m_hook->windowHandle, SW_HIDE);
-
-        // Force refresh so that we display the regular
-        // desktop wallpaper again
-        ShowWindow(m_hook->windowHandleWorker, SW_HIDE);
-        ShowWindow(m_hook->windowHandleWorker, SW_SHOW);
-    }
-    // Destructor
-    if (m_hPipe != INVALID_HANDLE_VALUE) {
-        CloseHandle(m_hPipe);
-    }
 }
 
 bool ScreenPlayGodotWallpaper::configureWindowGeometry()
@@ -284,6 +270,26 @@ bool ScreenPlayGodotWallpaper::get_screenPlayConnected() const
 bool ScreenPlayGodotWallpaper::get_pipeConnected() const
 {
     return m_pipeConnected;
+}
+bool ScreenPlayGodotWallpaper::exit()
+{
+
+    // Somehow this gets called at editor startup
+    // so just return if not initialized
+    if (m_hook) {
+
+        ShowWindow(m_hook->windowHandle, SW_HIDE);
+
+        // Force refresh so that we display the regular
+        // desktop wallpaper again
+        ShowWindow(m_hook->windowHandleWorker, SW_HIDE);
+        ShowWindow(m_hook->windowHandleWorker, SW_SHOW);
+    }
+    // Destructor
+    if (m_hPipe != INVALID_HANDLE_VALUE) {
+        CloseHandle(m_hPipe);
+    }
+    return true;
 }
 bool ScreenPlayGodotWallpaper::get_checkWallpaperVisible() const
 {

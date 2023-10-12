@@ -10,6 +10,8 @@ func ping_alive_screenplay():
 	if not msg.isEmpty():
 		print("message", msg)
 		if "quit" in msg:
+			var exit = screen_play_wallpaper.exit()
+			print("exit ", exit)
 			get_tree().quit()
 			return
 			
