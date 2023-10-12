@@ -6,3 +6,6 @@
 script = ExtResource("1_ceeuk")
 
 [node name="ScreenPlayGodotWallpaper" type="ScreenPlayGodotWallpaper" parent="."]
+
+[node name="AliveTimer" type="Timer" parent="."]
+wait_time = 0.5

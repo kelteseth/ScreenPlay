@@ -18,6 +18,10 @@ void ScreenPlayGodotWallpaper::_bind_methods()
     UtilityFunctions::print("ScreenPlayGodotWallpaper _bind_methods");
     ClassDB::bind_method(godot::D_METHOD("init"), &ScreenPlayGodotWallpaper::init);
     ClassDB::bind_method(godot::D_METHOD("connect_to_named_pipe"), &ScreenPlayGodotWallpaper::connect_to_named_pipe);
+    ClassDB::bind_method(godot::D_METHOD("send_welcome"), &ScreenPlayGodotWallpaper::send_welcome);
+    ClassDB::bind_method(godot::D_METHOD("get_screenPlayConnected"), &ScreenPlayGodotWallpaper::get_screenPlayConnected);
+    ClassDB::bind_method(godot::D_METHOD("get_pipeConnected"), &ScreenPlayGodotWallpaper::get_pipeConnected);
+    ClassDB::bind_method(godot::D_METHOD("ping_alive_screenplay"), &ScreenPlayGodotWallpaper::ping_alive_screenplay);
 
     ClassDB::bind_method(godot::D_METHOD("get_activeScreensList"), &ScreenPlayGodotWallpaper::get_activeScreensList);
     ClassDB::bind_method(godot::D_METHOD("set_activeScreensList", "screens"), &ScreenPlayGodotWallpaper::set_activeScreensList);
@@ -75,23 +79,6 @@ ScreenPlayGodotWallpaper::~ScreenPlayGodotWallpaper()
     if (m_hPipe != INVALID_HANDLE_VALUE) {
         CloseHandle(m_hPipe);
     }
-}
-
-void ScreenPlayGodotWallpaper::_process(double delta)
-{
-
-    // if (!isPipeActive) {
-    //     return;
-    // }
-    // timesinceLastRead += delta;
-    // // 0.05 seconds = 50ms
-    // if (timesinceLastRead >= 0.05) {
-    //     String data = read_from_pipe();
-    //     if (!data.is_empty()) {
-    //         UtilityFunctions::print("Received data: " + data);
-    //     }
-    //     timesinceLastRead = 0.0;
-    // }
 }
 
 bool ScreenPlayGodotWallpaper::configureWindowGeometry()
@@ -168,6 +155,7 @@ bool ScreenPlayGodotWallpaper::init(int activeScreen)
 
 bool ScreenPlayGodotWallpaper::connect_to_named_pipe()
 {
+    m_pipeConnected = false;
     String pipeName = "ScreenPlay";
     String fullPipeName = "\\\\.\\pipe\\" + pipeName;
     std::wstring wPipeName = std::wstring(fullPipeName.wide_string());
@@ -182,14 +170,13 @@ bool ScreenPlayGodotWallpaper::connect_to_named_pipe()
         NULL);
 
     if (m_hPipe == INVALID_HANDLE_VALUE) {
-        m_isPipeActive = false;
+        m_pipeConnected = false;
         UtilityFunctions::print("CreateFile failed, error code: " + String::num_int64(GetLastError()));
         return false;
     }
 
-    m_isPipeActive = true;
-
-    return connected_to_screenplay();
+    m_pipeConnected = true;
+    return true;
 }
 
 godot::String ScreenPlayGodotWallpaper::read_from_pipe()
@@ -208,9 +195,31 @@ godot::String ScreenPlayGodotWallpaper::read_from_pipe()
     return result;
 }
 
-bool ScreenPlayGodotWallpaper::connected_to_screenplay()
+bool ScreenPlayGodotWallpaper::ping_alive_screenplay()
 {
+    if (m_hPipe == INVALID_HANDLE_VALUE) {
+        UtilityFunctions::print("INVALID_HANDLE_VALUE");
+        return false;
+    }
 
+    if (!m_screenPlayConnected || !m_pipeConnected) {
+        UtilityFunctions::print("ScreenPlay hasn't connected to us yet!");
+        return false;
+    }
+
+    const std::string message = "ping";
+    DWORD bytesWritten;
+    WriteFile(m_hPipe, message.c_str(), static_cast<DWORD>(message.size()), &bytesWritten, NULL);
+
+    if (bytesWritten != message.size()) {
+        UtilityFunctions::print("Unable to send alive ping");
+        return false;
+    }
+    return true;
+}
+
+bool ScreenPlayGodotWallpaper::send_welcome()
+{
     // Ensure you have valid appID and type
     if (m_appID.is_empty()) {
         UtilityFunctions::print("Unable to connect with empty: appid");
@@ -230,6 +239,8 @@ bool ScreenPlayGodotWallpaper::connected_to_screenplay()
         return false;
     }
 
+    m_screenPlayConnected = true;
+    // m_pingAliveTimer->start();
     return true;
 }
 
@@ -265,6 +276,14 @@ void ScreenPlayGodotWallpaper::messageReceived(const std::string& key, const std
 void ScreenPlayGodotWallpaper::set_checkWallpaperVisible(bool visible)
 {
     m_checkWallpaperVisible = visible;
+}
+bool ScreenPlayGodotWallpaper::get_screenPlayConnected() const
+{
+    return m_screenPlayConnected;
+}
+bool ScreenPlayGodotWallpaper::get_pipeConnected() const
+{
+    return m_pipeConnected;
 }
 bool ScreenPlayGodotWallpaper::get_checkWallpaperVisible() const
 {

@@ -2,8 +2,22 @@ extends Node3D
 
 @onready var screen_play_wallpaper = $ScreenPlayGodotWallpaper
 
+@onready var alive_timer = $AliveTimer
+
+func ping_alive_screenplay():
+	var ping_alive_screenplay = screen_play_wallpaper.ping_alive_screenplay()
+	var msg = screen_play_wallpaper.read_from_pipe()
+	if not msg.isEmpty():
+		print("message", msg)
+		if "quit" in msg:
+			get_tree().quit()
+			return
+			
+	#print("ping_alive_screenplay: ", ping_alive_screenplay)
 	
 func _ready():
+	alive_timer.timeout.connect(ping_alive_screenplay)
+	
 	if not screen_play_wallpaper:
 		printerr("ERROR INVALID SCREENPLAY OBJECT")
 		return
@@ -20,12 +34,24 @@ func _ready():
 		get_tree().quit()
 		return
 	print(path)
-	if load_scene(path):
-		var ok = screen_play_wallpaper.init(screen_play_wallpaper.get_activeScreensList()[0])
-		print("init ", ok)
-		Engine.set_max_fps(24)
+	if not load_scene(path):
+		print("Failed to load the PCK file.")
+		get_tree().quit()
+		return
+	Engine.set_max_fps(24)
+	var ok = screen_play_wallpaper.init(screen_play_wallpaper.get_activeScreensList()[0])
+	print("init ", ok)
+	if not screen_play_wallpaper.get_pipeConnected():
+		print("connect to ScreenPlay")
 		var ok_connect_to_named_pipe = screen_play_wallpaper.connect_to_named_pipe()
-		print("connect to ScreenPlay", ok_connect_to_named_pipe)
+		print("connection: ", ok_connect_to_named_pipe)
+	if not screen_play_wallpaper.get_screenPlayConnected():
+		print("send_welcome")
+		var send_welcome = screen_play_wallpaper.send_welcome()
+		print("send_welcome: ", send_welcome)
+		if send_welcome:
+			alive_timer.start()
+
 
 func load_scene(path):
 	var success = ProjectSettings.load_resource_pack(path)

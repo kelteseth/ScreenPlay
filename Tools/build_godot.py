@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import os
 import util
+import shutil
 import defines
 from pathlib import Path
 from execute_util import execute
@@ -39,10 +40,31 @@ def build_godot(abs_build_path: str):
     apps_path = os.path.join(util.repo_root_path(),"Tools/Apps/Godot")
     godot_executable = os.path.join(apps_path, defines.GODOT_EDITOR_EXECUTABLE)
     screenPlayWallpaperGodot_executable = Path(abs_build_path).joinpath(defines.SCREENPLAYWALLPAPER_GODOT_EXECUTABLE).resolve()
-    export_command = f'"{godot_executable}" -v --headless --export-release "Windows Desktop" "{screenPlayWallpaperGodot_executable}"'
+    
+    if 'Debug' in abs_build_path:
+        export_type = " --export-debug"
+    else:
+        export_type = " --export-release"
+    export_command = f'"{godot_executable}" -v --headless {export_type} "Windows Desktop" "{screenPlayWallpaperGodot_executable}"'
 
     # We get random error on successful export, so lets ignore it
     execute(command=export_command,workingDir=project_path,ignore_error=True)
+
+    if 'Debug' in abs_build_path:
+        lib_name = "ScreenPlayGodotWallpaper-d.dll"
+    else:
+        lib_name = "ScreenPlayGodotWallpaper.dll"
+
+    # Construct the source path for the DLL
+    dll_source_path = project_path.joinpath(f"ScreenPlayGodotWallpaper/lib/Windows-AMD64/{lib_name}")
+
+    # Print a warning message
+    print(f"⚠️ Copying {dll_source_path} to {abs_build_path}")
+
+    # Copy the DLL
+    shutil.copy(dll_source_path, abs_build_path)
+
+
 
 if __name__ == "__main__":
      main()

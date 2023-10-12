@@ -24,9 +24,8 @@ public:
 
     bool init(int activeScreen);
     bool connect_to_named_pipe();
-    bool connected_to_screenplay();
+    bool send_welcome();
     godot::String read_from_pipe();
-    void _process(double delta);
     void messageReceived(const std::string& key, const std::string& value);
 
     godot::PackedInt64Array get_activeScreensList() const;
@@ -39,6 +38,9 @@ public:
     void set_volume(float vol);
     bool get_checkWallpaperVisible() const;
     void set_checkWallpaperVisible(bool visible);
+    bool get_screenPlayConnected() const;
+    bool get_pipeConnected() const;
+    bool ping_alive_screenplay();
 
 protected:
     static void _bind_methods();
@@ -57,10 +59,10 @@ private:
     std::unique_ptr<WindowsHook> m_hook;
     HANDLE m_hPipe;
     double m_timesinceLastRead = 0.0;
-    bool m_isPipeActive = false;
+    bool m_pipeConnected = false;
+    bool m_screenPlayConnected = false;
 
     godot::PackedInt64Array m_activeScreensList;
     float m_volume = 0.0;
     bool m_checkWallpaperVisible = false;
-    godot::Timer* m_pingAliveTimer = nullptr;
 };

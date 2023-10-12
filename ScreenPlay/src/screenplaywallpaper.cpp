@@ -232,7 +232,7 @@ void ScreenPlayWallpaper::setSDKConnection(std::unique_ptr<SDKConnection> connec
 
     QObject::connect(m_connection.get(), &SDKConnection::disconnected, this, [this]() {
         setIsConnected(false);
-        qInfo() << "disconnecetd;";
+        qInfo() << "Wallpaper:" << m_connection->appID() << "disconnected";
     });
     QTimer::singleShot(1000, this, [this]() {
         if (playbackRate() != 1.0) {
