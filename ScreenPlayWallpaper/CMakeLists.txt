@@ -7,7 +7,8 @@ set(CMAKE_AUTOMOC ON)
 
 find_package(
     Qt6
-    COMPONENTS Core
+    COMPONENTS
+    Core
     Quick
     Gui
     Widgets
@@ -20,8 +21,8 @@ find_package(
     Positioning)
 
 if(WIN32)
-    set(SOURCES src/windowsdesktopproperties.cpp src/winwindow.cpp src/windowshook.cpp)
-    set(HEADER src/windowsdesktopproperties.h src/winwindow.h src/windowshook.h)
+    set(SOURCES src/windowsdesktopproperties.cpp src/winwindow.cpp)
+    set(HEADER src/windowsdesktopproperties.h src/winwindow.h)
 elseif(APPLE)
     set(SOURCES src/macintegration.cpp src/macwindow.cpp)
     set(HEADER
@@ -49,10 +50,15 @@ set(QML
 
 set(RESOURCES dot.png qtquickcontrols2.conf index.html)
 
-set(LIB_SOURCES ${SOURCES} src/basewindow.cpp)
-set(LIB_HEADER ${HEADER} src/basewindow.h)
+set(LIB_SOURCES)
+set(LIB_HEADER)
 
-add_library(ScreenPlayWallpaperLib STATIC)
+if(WIN32)
+    set(LIB_SOURCES src/windowshook.cpp)
+    set(LIB_HEADER src/windowshook.h)
+endif()
+
+add_library(ScreenPlayWallpaperLib STATIC ${LIB_SOURCES} ${LIB_HEADER})
 target_include_directories(ScreenPlayWallpaperLib PUBLIC src)
 
 if(WIN32)
@@ -79,7 +85,8 @@ qt_add_qml_module(
 
 target_link_libraries(
     ${PROJECT_NAME}
-    PRIVATE ScreenPlaySDK
+    PRIVATE
+    ScreenPlaySDK
     ScreenPlayWallpaperLib
     ScreenPlayUtil
     ScreenPlayWeatherplugin
