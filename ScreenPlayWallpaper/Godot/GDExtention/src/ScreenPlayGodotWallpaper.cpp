@@ -1,4 +1,4 @@
-// Copied from godot-cpp/test/src and modified.
+// SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
 #include "ScreenPlayGodotWallpaper.h"
 #include "godot_cpp/classes/display_server.hpp"

@@ -1,5 +1,6 @@
+// SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
+
 #pragma once
-// Copied from godot-cpp/test/src and modified.
 
 #include "godot_cpp/classes/control.hpp"
 #include "godot_cpp/classes/global_constants.hpp"

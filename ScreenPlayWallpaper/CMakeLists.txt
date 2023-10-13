@@ -20,8 +20,8 @@ find_package(
     Positioning)
 
 if(WIN32)
-    set(SOURCES src/windowsdesktopproperties.cpp src/winwindow.cpp)
-    set(HEADER src/windowsdesktopproperties.h src/winwindow.h)
+    set(SOURCES src/windowsdesktopproperties.cpp src/winwindow.cpp src/windowshook.cpp)
+    set(HEADER src/windowsdesktopproperties.h src/winwindow.h src/windowshook.h)
 elseif(APPLE)
     set(SOURCES src/macintegration.cpp src/macwindow.cpp)
     set(HEADER
@@ -52,7 +52,7 @@ set(RESOURCES dot.png qtquickcontrols2.conf index.html)
 set(LIB_SOURCES ${SOURCES} src/basewindow.cpp)
 set(LIB_HEADER ${HEADER} src/basewindow.h)
 
-add_library(ScreenPlayWallpaperLib STATIC src/windowshook.cpp src/windowshook.h)
+add_library(ScreenPlayWallpaperLib STATIC)
 target_include_directories(ScreenPlayWallpaperLib PUBLIC src)
 
 if(WIN32)
