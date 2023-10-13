@@ -4,6 +4,8 @@
     - python -m pip install -U pip wheel
     - python -m pip install -r Tools/requirements.txt
     - python Tools/setup.py
+    - git submodule sync --recursive
+    - git submodule update --init --recursive
   tags:
     - windows10
   artifacts:
@@ -26,6 +28,8 @@
     - python3 -m pip install -U pip
     - python3 -m pip install -r Tools/requirements.txt
     - python3 Tools/setup.py
+    - git submodule sync --recursive
+    - git submodule update --init --recursive
   image:
     name: ubuntu:20.04
   tags:
@@ -41,6 +45,8 @@
     - pip3 install -U pip
     - pip3 install -r Tools/requirements.txt
     - python3 Tools/setup.py
+    - git submodule sync --recursive
+    - git submodule update --init --recursive
   tags:
     - osx
   artifacts:
