@@ -86,15 +86,6 @@ add_subdirectory(src)
 # Install library and extension file in ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}
 set(INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}/")
 
-message(STATUS "Install directory: ${INSTALL_DIR}")
-
-install(TARGETS ${PROJECT_NAME}
-    LIBRARY
-    DESTINATION ${INSTALL_DIR}/${LIB_DIR}
-    RUNTIME
-    DESTINATION ${INSTALL_DIR}/${LIB_DIR}
-)
-
 add_subdirectory(templates)
 
 # ccache
