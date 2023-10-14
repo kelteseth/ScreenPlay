@@ -29,7 +29,7 @@
     - git submodule sync --recursive
     - git submodule update --init --recursive
   image:
-    name: ubuntu:20.04
+    name: ubuntu:22.04
   tags:
     - gitlab-org-docker
   artifacts:
