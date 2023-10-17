@@ -47,15 +47,15 @@
     </message>
     <message>
       <source>Video Import h264 (.mp4)</source>
-      <translation type="unfinished">Video Import h264 (.mp4)</translation>
+      <translation>Import vidéo h264 (.mp4)</translation>
     </message>
     <message>
       <source>Video Import VP8 &amp; VP9 (.webm)</source>
-      <translation type="unfinished">Video Import VP8 &amp; VP9 (.webm)</translation>
+      <translation>Import vidéo VP8 et VP9 (.webm)</translation>
     </message>
     <message>
       <source>Video import (all types)</source>
-      <translation type="unfinished">Video import (all types)</translation>
+      <translation>Import vidéo (tous types)</translation>
     </message>
     <message>
       <source>GIF Wallpaper</source>
@@ -611,7 +611,7 @@ ScreenPlay se fermera seulement si aucun fond d&apos;écran n'est actif.</transl
     <name>InstalledNavigation</name>
     <message>
       <source>All</source>
-      <translation type="unfinished">All</translation>
+      <translation>Tous</translation>
     </message>
     <message>
       <source>Scenes</source>
@@ -665,7 +665,7 @@ ScreenPlay se fermera seulement si aucun fond d&apos;écran n'est actif.</transl
     </message>
     <message>
       <source>Remove all </source>
-      <translation type="unfinished">Remove all </translation>
+      <translation>Tout supprimer </translation>
     </message>
   </context>
   <context>
