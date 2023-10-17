@@ -247,8 +247,8 @@
     <message>
       <source>You have active Wallpaper.
 ScreenPlay will only quit if no Wallpaper are running.</source>
-      <translation type="unfinished">You have active Wallpaper.
-ScreenPlay will only quit if no Wallpaper are running.</translation>
+      <translation>Un fond d&apos;écran est actif.
+ScreenPlay se fermera seulement si aucun fond d&apos;écran n'est actif.</translation>
     </message>
     <message>
       <source>You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the bottom right Tray-Icon.</source>
