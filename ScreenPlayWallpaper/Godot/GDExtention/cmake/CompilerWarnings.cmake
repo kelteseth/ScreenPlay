@@ -7,7 +7,7 @@ if ( NOT MSVC )
     option( ${PROJECT_NAME_UPPERCASE}_WARN_EVERYTHING "Turn on all warnings (not recommended - used for lib development)" OFF )
 endif()
 
-option( ${PROJECT_NAME_UPPERCASE}_WARNING_AS_ERROR "Treat warnings as errors" ON )
+option( ${PROJECT_NAME_UPPERCASE}_WARNING_AS_ERROR "Treat warnings as errors" OFF )
 
 # Add warnings based on compiler
 # Set some helper variables for readability

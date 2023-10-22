@@ -40,7 +40,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_CXX_STANDARD 20)
 set(THIRD_PARTY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/")
 
-option(GODOT_WALLPAPER "Godot Wallpaper support" ON)
 option(OSX_BUNDLE "Enable distribution macOS bundle" OFF)
 set(CMAKE_OSX_DEPLOYMENT_TARGET "13.0")
 
@@ -72,6 +71,7 @@ option(SCREENPLAY_DEPLOY "Marks this version as an official deploy version. This
     OFF)
 option(SCREENPLAY_TESTS "Enables UI tests." ON)
 option(SCREENPLAY_INSTALLER "Indicates whether an installer via the Qt Installer Framework is created." OFF)
+option(SCREENPLAY_GODOT_SUPPORT "Compiles ScreenPlayGodotWallpaper." ON)
 
 # Gitlab CI has many ENV variables. We use this one to check if the current build happens inside the CI
 if(DEFINED ENV{CI_COMMIT_MESSAGE})
@@ -138,7 +138,7 @@ add_subdirectory(ScreenPlayWidget)
 add_subdirectory(ScreenPlayUtil)
 add_subdirectory(ScreenPlayWeather)
 
-if(GODOT_WALLPAPER)
+if(${SCREENPLAY_GODOT_SUPPORT})
     add_subdirectory(ScreenPlayWallpaper/Godot)
 endif()
 
@@ -176,6 +176,7 @@ message(STATUS "[OPTION] SCREENPLAY_DEPLOY             = ${SCREENPLAY_DEPLOY}")
 message(STATUS "[OPTION] SCREENPLAY_INSTALLER          = ${SCREENPLAY_INSTALLER}")
 message(STATUS "[OPTION] SCREENPLAY_STEAM              = ${SCREENPLAY_STEAM}")
 message(STATUS "[OPTION] SCREENPLAY_TESTS              = ${SCREENPLAY_TESTS}")
+message(STATUS "[OPTION] SCREENPLAY_GODOT_SUPPORT      = ${SCREENPLAY_GODOT_SUPPORT}")
 message(STATUS "[DEFINE] BUILD_TYPE                    = ${CMAKE_BUILD_TYPE}")
 message(STATUS "[DEFINE] GIT_COMMIT_HASH               = ${GIT_COMMIT_HASH}")
 message(STATUS "[CPP DEFINE] DEPLOY_VERSION            = ${DEPLOY_VERSION}")

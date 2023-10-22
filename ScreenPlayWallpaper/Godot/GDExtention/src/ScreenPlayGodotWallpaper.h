@@ -15,6 +15,7 @@
 
 #include "ScreenPlayGodotWallpaper.h"
 #include "windowshook.h"
+#include "WindowsPipe.h"
 
 class ScreenPlayGodotWallpaper : public godot::Node {
     GDCLASS(ScreenPlayGodotWallpaper, Node)
@@ -26,6 +27,7 @@ public:
     bool init(int activeScreen);
     bool connect_to_named_pipe();
     bool send_welcome();
+    bool writeToPipe(const godot::String& message);
     godot::String read_from_pipe();
     void messageReceived(const std::string& key, const std::string& value);
 
@@ -41,7 +43,7 @@ public:
     void set_checkWallpaperVisible(bool visible);
     bool get_screenPlayConnected() const;
     bool get_pipeConnected() const;
-    bool ping_alive_screenplay();
+    bool send_ping();
     bool exit();
 
 protected:
@@ -52,17 +54,17 @@ private:
     void hideFromTaskbar(HWND hwnd);
 
 private:
-    static int sInstanceCount;
-    static int sLastID;
 
-    int mID;
+    OVERLAPPED overlappedRead = {};
+    OVERLAPPED overlappedWrite = {};
+
     godot::String m_appID = "";
     godot::String m_projectPath = "";
     std::unique_ptr<WindowsHook> m_hook;
-    HANDLE m_hPipe;
     double m_timesinceLastRead = 0.0;
     bool m_pipeConnected = false;
     bool m_screenPlayConnected = false;
+    WindowsPipe m_windowsPipe;
 
     godot::PackedInt64Array m_activeScreensList;
     float m_volume = 0.0;

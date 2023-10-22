@@ -114,7 +114,8 @@ def main():
     vcpkg_packages_list = [
         "curl",
         "cpp-httplib",
-        "libarchive"
+        "libarchive",
+        "catch2"
     ]
     if not args.skip_aqt:
         setup_qt()

@@ -62,7 +62,7 @@ Item {
         source: "arrow.png"
         rotation: -90
         opacity: clockview.atXBeginning ? 0 : 0.5
-        Behavior on opacity  {
+        Behavior on opacity {
             NumberAnimation {
                 duration: 500
             }
@@ -76,7 +76,7 @@ Item {
         source: "arrow.png"
         rotation: 90
         opacity: clockview.atXEnd ? 0 : 0.5
-        Behavior on opacity  {
+        Behavior on opacity {
             NumberAnimation {
                 duration: 500
             }

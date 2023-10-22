@@ -63,7 +63,7 @@ void ScreenPlaySDK::connected()
         return;
     }
 
-    QByteArray welcomeMessage = QString("appID=" + m_appID + "," + m_type).toUtf8();
+    QByteArray welcomeMessage = QString("appID=" + m_appID + "," + m_type + ";").toUtf8();
     m_socket.write(welcomeMessage);
     if (!m_socket.waitForBytesWritten()) {
         disconnected();
@@ -164,7 +164,7 @@ void ScreenPlaySDK::redirectMessage(QByteArray& msg)
 
 void ScreenPlaySDK::pingAlive()
 {
-    m_socket.write("ping");
+    m_socket.write("ping;");
     if (!m_socket.waitForBytesWritten(500)) {
         qInfo() << "Cannot ping to main application. Closing!";
         emit sdkDisconnected();

@@ -28,7 +28,7 @@ endif()
 # Generate our project's .gdextension file from the template
 set(OUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../../ScreenPlayGodot/${PROJECT_NAME}/)
 set(GD_EXTENSION_FILE ${PROJECT_NAME}.gdextension)
-configure_file(${GD_EXTENSION_FILE_INPUT} ${OUT_PATH}/${GD_EXTENSION_FILE})
+#configure_file(${GD_EXTENSION_FILE_INPUT} ${OUT_PATH}/${GD_EXTENSION_FILE})
 
 unset(ALLOWED_BUILDS)
 unset(BUILD_TYPE)

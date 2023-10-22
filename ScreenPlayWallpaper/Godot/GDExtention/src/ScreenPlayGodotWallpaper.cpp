@@ -10,8 +10,14 @@
 
 //// ScreenPlayWallpaper
 using namespace godot;
-int ScreenPlayGodotWallpaper::sInstanceCount = 0;
-int ScreenPlayGodotWallpaper::sLastID = 0;
+
+ScreenPlayGodotWallpaper::ScreenPlayGodotWallpaper()
+{
+}
+
+ScreenPlayGodotWallpaper::~ScreenPlayGodotWallpaper()
+{
+}
 
 void ScreenPlayGodotWallpaper::_bind_methods()
 {
@@ -22,7 +28,7 @@ void ScreenPlayGodotWallpaper::_bind_methods()
     ClassDB::bind_method(godot::D_METHOD("get_screenPlayConnected"), &ScreenPlayGodotWallpaper::get_screenPlayConnected);
     ClassDB::bind_method(godot::D_METHOD("get_pipeConnected"), &ScreenPlayGodotWallpaper::get_pipeConnected);
     ClassDB::bind_method(godot::D_METHOD("read_from_pipe"), &ScreenPlayGodotWallpaper::read_from_pipe);
-    ClassDB::bind_method(godot::D_METHOD("ping_alive_screenplay"), &ScreenPlayGodotWallpaper::ping_alive_screenplay);
+    ClassDB::bind_method(godot::D_METHOD("send_ping"), &ScreenPlayGodotWallpaper::send_ping);
     ClassDB::bind_method(godot::D_METHOD("exit"), &ScreenPlayGodotWallpaper::exit);
 
     ClassDB::bind_method(godot::D_METHOD("get_activeScreensList"), &ScreenPlayGodotWallpaper::get_activeScreensList);
@@ -47,24 +53,6 @@ void ScreenPlayGodotWallpaper::hideFromTaskbar(HWND hwnd)
     lExStyle |= WS_EX_TOOLWINDOW; // Add WS_EX_TOOLWINDOW
     lExStyle &= ~WS_EX_APPWINDOW; // Remove WS_EX_APPWINDOW
     SetWindowLong(hwnd, GWL_EXSTYLE, lExStyle);
-}
-
-ScreenPlayGodotWallpaper::ScreenPlayGodotWallpaper()
-{
-    mID = ++sLastID;
-    sInstanceCount++;
-
-    UtilityFunctions::print(
-        "ScreenPlayWallpaper ", itos(mID),
-        " created, current instance count: ", itos(sInstanceCount));
-}
-
-ScreenPlayGodotWallpaper::~ScreenPlayGodotWallpaper()
-{
-    sInstanceCount--;
-    UtilityFunctions::print(
-        "ScreenPlayWallpaper ", itos(mID),
-        " destroyed, current instance count: ", itos(sInstanceCount));
 }
 
 bool ScreenPlayGodotWallpaper::configureWindowGeometry()
@@ -141,66 +129,39 @@ bool ScreenPlayGodotWallpaper::init(int activeScreen)
 
 bool ScreenPlayGodotWallpaper::connect_to_named_pipe()
 {
-    m_pipeConnected = false;
-    String pipeName = "ScreenPlay";
-    String fullPipeName = "\\\\.\\pipe\\" + pipeName;
-    std::wstring wPipeName = std::wstring(fullPipeName.wide_string());
-
-    m_hPipe = CreateFileW(
-        wPipeName.c_str(),
-        GENERIC_READ | GENERIC_WRITE,
-        0,
-        NULL,
-        OPEN_EXISTING,
-        0,
-        NULL);
-
-    if (m_hPipe == INVALID_HANDLE_VALUE) {
-        m_pipeConnected = false;
-        UtilityFunctions::print("CreateFile failed, error code: " + String::num_int64(GetLastError()));
-        return false;
-    }
-
-    m_pipeConnected = true;
-    return true;
+    m_windowsPipe.setPipeName(L"ScreenPlay");
+    m_pipeConnected = m_windowsPipe.start();
+    return m_pipeConnected;
 }
 
 godot::String ScreenPlayGodotWallpaper::read_from_pipe()
 {
-    char buffer[128];
-    DWORD bytesRead;
-    String result;
-
-    if (ReadFile(m_hPipe, buffer, sizeof(buffer) - 1, &bytesRead, NULL)) {
-        buffer[bytesRead] = '\0';
-        result = String(buffer);
-    } else {
-        UtilityFunctions::print("ReadFile from pipe failed, error code: " + String::num_int64(GetLastError()));
+    std::string outMsg;
+    if (!m_windowsPipe.readFromPipe(outMsg)) {
+        UtilityFunctions::print("Unable to read from pipe");
+        return "";
     }
-
-    return result;
+    return godot::String(outMsg.c_str());
 }
 
-bool ScreenPlayGodotWallpaper::ping_alive_screenplay()
+bool ScreenPlayGodotWallpaper::writeToPipe(const godot::String& message)
 {
-    if (m_hPipe == INVALID_HANDLE_VALUE) {
-        UtilityFunctions::print("INVALID_HANDLE_VALUE");
-        return false;
-    }
+    std::string stdMessage = message.utf8().get_data();
 
+    return m_windowsPipe.writeToPipe(stdMessage);
+}
+
+bool ScreenPlayGodotWallpaper::send_ping()
+{
     if (!m_screenPlayConnected || !m_pipeConnected) {
         UtilityFunctions::print("ScreenPlay hasn't connected to us yet!");
         return false;
     }
-
-    const std::string message = "ping";
-    DWORD bytesWritten;
-    WriteFile(m_hPipe, message.c_str(), static_cast<DWORD>(message.size()), &bytesWritten, NULL);
-
-    if (bytesWritten != message.size()) {
-        UtilityFunctions::print("Unable to send alive ping");
+    const godot::String msg = "ping;";
+    if (!writeToPipe(msg)) {
         return false;
     }
+
     return true;
 }
 
@@ -214,19 +175,12 @@ bool ScreenPlayGodotWallpaper::send_welcome()
 
     // Construct welcome message and write to the named pipe
     // See void ScreenPlay::SDKConnection::readyRead()
-    godot::String welcomeMessage = godot::String("appID=") + m_appID + ",godotWallpaper";
-
-    std::string stdMessage = welcomeMessage.utf8().get_data();
-    DWORD bytesWritten;
-    WriteFile(m_hPipe, stdMessage.c_str(), static_cast<DWORD>(stdMessage.size()), &bytesWritten, NULL);
-
-    if (bytesWritten != stdMessage.size()) {
-        UtilityFunctions::print("Unable to send welcome message:", welcomeMessage);
+    godot::String msg = godot::String("appID=") + m_appID + ",godotWallpaper;";
+    if (!writeToPipe(msg)) {
         return false;
     }
 
     m_screenPlayConnected = true;
-    // m_pingAliveTimer->start();
     return true;
 }
 
@@ -273,7 +227,6 @@ bool ScreenPlayGodotWallpaper::get_pipeConnected() const
 }
 bool ScreenPlayGodotWallpaper::exit()
 {
-
     // Somehow this gets called at editor startup
     // so just return if not initialized
     if (m_hook) {
@@ -282,12 +235,8 @@ bool ScreenPlayGodotWallpaper::exit()
 
         // Force refresh so that we display the regular
         // desktop wallpaper again
-        ShowWindow(m_hook->windowHandleWorker, SW_HIDE);
         ShowWindow(m_hook->windowHandleWorker, SW_SHOW);
-    }
-    // Destructor
-    if (m_hPipe != INVALID_HANDLE_VALUE) {
-        CloseHandle(m_hPipe);
+        ShowWindow(m_hook->windowHandleWorker, SW_HIDE);
     }
     return true;
 }

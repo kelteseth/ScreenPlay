@@ -8,6 +8,7 @@ var screenplaywallpaper
 var appID = ""
 # Speed of the movement along the path
 var speed = 0.8
+var path = "/root/Wallpaper/ScreenPlayGodotWallpaper"
 
 
 func _process(delta):
@@ -17,10 +18,10 @@ func _process(delta):
 	# Loop back to the start if we've reached the end of the path
 	if path_follow.progress >= 18.81:
 		path_follow.progress = 0.0
-		
-	screenplaywallpaper = get_node("/root/Wallpaper/ScreenPlayGodotWallpaper")
-	if screenplaywallpaper:
-		appID = screenplaywallpaper.get_appID()
-	else:
-		appID = "404"
-	label.text = "Godot Wallpaper\n" + Time.get_time_string_from_system() + "\nAppID: " + appID
+	return	
+	if has_node(path):
+		if get_node(path):
+			appID = screenplaywallpaper.get_appID()
+		else:
+			appID = "404"
+		label.text = "Godot Wallpaper\n" + Time.get_time_string_from_system() + "\nAppID: " + appID

@@ -1,24 +1,41 @@
 extends Node3D
 
-@onready var screen_play_wallpaper = $ScreenPlayGodotWallpaper
+@onready var screen_play_wallpaper: ScreenPlayGodotWallpaper = $ScreenPlayGodotWallpaper
+@onready var ping_alive_timer: Timer = $PingAliveTimer
+@onready var check_messages_timer: Timer = $CheckMessagesTimer
+var send_welcome: bool = false
 
-@onready var alive_timer = $AliveTimer
+# Pings main ScreenPlay application that
+# this wallpaper is still active
+func ping_alive():
+	print("GD: ping_alive")
+	var success = screen_play_wallpaper.send_ping()
+	print("1 ping_alive_screenplay: ", success)
+	if not success:
+		terminate()
 
-func ping_alive_screenplay():
-	var ping_alive_screenplay = screen_play_wallpaper.ping_alive_screenplay()
-	var msg = screen_play_wallpaper.read_from_pipe()
-	if not msg.isEmpty():
-		print("message", msg)
-		if "quit" in msg:
-			var exit = screen_play_wallpaper.exit()
-			print("exit ", exit)
-			get_tree().quit()
-			return
-			
-	#print("ping_alive_screenplay: ", ping_alive_screenplay)
+func terminate():
+	var exit = screen_play_wallpaper.exit()
+	print("exit ", exit)
+	get_tree().quit()
 	
+# Checks for messages from the main ScreenPlay instance 
+# for example for propery changes or commands like quit
+func check_messages():
+	print("GD: check_messages")
+	var msg = screen_play_wallpaper.read_from_pipe()
+	if not msg.is_empty():
+		print("message: ", msg)
+		if "quit" in msg:
+			return terminate()
+			
+
 func _ready():
-	alive_timer.timeout.connect(ping_alive_screenplay)
+	ping_alive_timer.wait_time = 0.5
+	ping_alive_timer.timeout.connect(ping_alive)
+	
+	check_messages_timer.wait_time = 0.5
+	check_messages_timer.timeout.connect(check_messages)
 	
 	if not screen_play_wallpaper:
 		printerr("ERROR INVALID SCREENPLAY OBJECT")
@@ -41,18 +58,25 @@ func _ready():
 		get_tree().quit()
 		return
 	Engine.set_max_fps(24)
+	
 	var ok = screen_play_wallpaper.init(screen_play_wallpaper.get_activeScreensList()[0])
+	
 	print("init ", ok)
 	if not screen_play_wallpaper.get_pipeConnected():
 		print("connect to ScreenPlay")
-		var ok_connect_to_named_pipe = screen_play_wallpaper.connect_to_named_pipe()
+		var ok_connect_to_named_pipe = screen_play_wallpaper.connect_to_named_pipe()	
 		print("connection: ", ok_connect_to_named_pipe)
-	if not screen_play_wallpaper.get_screenPlayConnected():
-		print("send_welcome")
-		var send_welcome = screen_play_wallpaper.send_welcome()
-		print("send_welcome: ", send_welcome)
-		if send_welcome:
-			alive_timer.start()
+		
+func _process(delta):
+	
+	if not send_welcome:
+		if not screen_play_wallpaper.get_screenPlayConnected():
+			print("send_welcome")
+			send_welcome = screen_play_wallpaper.send_welcome()
+			print("send_welcome: ", send_welcome)
+			if send_welcome:
+				check_messages_timer.start()
+				ping_alive_timer.start()
 
 
 func load_scene(path):

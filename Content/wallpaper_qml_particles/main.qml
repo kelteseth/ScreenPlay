@@ -119,7 +119,7 @@ Item {
                 bottom: parent.bottom
                 bottomMargin: -width * .65
             }
-            SequentialAnimation on opacity  {
+            SequentialAnimation on opacity {
                 loops: Animation.Infinite
 
                 OpacityAnimator {

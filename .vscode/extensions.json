@@ -5,6 +5,8 @@
         "ms-vscode.cpptools-extension-pack",
         "ms-vscode.cmake-tools",
         "seanwu.vscode-qt-for-python",
-        "josetr.cmake-language-support-vscode"
+        "josetr.cmake-language-support-vscode",
+        "geequlim.godot-tools",
+        "stevebushresearch.buildoutputcolorizer"
     ]
 }

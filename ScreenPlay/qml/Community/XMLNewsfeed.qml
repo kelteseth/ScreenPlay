@@ -105,7 +105,7 @@ Item {
                     source: image
                     opacity: status === Image.Ready ? 1 : 0
 
-                    Behavior on opacity  {
+                    Behavior on opacity {
                         PropertyAnimation {
                             duration: 250
                         }

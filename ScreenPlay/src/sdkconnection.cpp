@@ -37,56 +37,60 @@ ScreenPlay::SDKConnection::SDKConnection(QLocalSocket* socket, QObject* parent)
 */
 void ScreenPlay::SDKConnection::readyRead()
 {
-
-    auto msg = QString(m_socket->readAll());
-
-    if (msg == "ping") {
-        emit pingAliveReceived();
-        return;
-    }
-
-    // The first message allways contains the appID
-    if (msg.startsWith("appID=")) {
-        QStringList args = msg.split(",");
-        // Only use the first 32 chars for the appID
-        QString appID = args.at(0);
-        m_appID = appID.remove("appID=");
-
-        bool typeFound = false;
-        for (const QString& type : ScreenPlayUtil::getAvailableTypes()) {
-            if (msg.contains(type, Qt::CaseInsensitive)) {
-                m_type = type;
-                typeFound = true;
-                break;
-            }
-        }
-
-        if (!typeFound) {
-            qCritical() << "Wallpaper type not found. Expected: " << ScreenPlayUtil::getAvailableTypes() << " got: " << msg;
-        }
-
-        qInfo() << "[2/4] SDKConnection parsed with type: " << m_type << " connected with AppID:" << m_appID;
-
-        emit appConnected(this);
-
-    } else if (msg.startsWith("command=")) {
-        msg.remove("command=");
-        if (msg == "requestRaise") {
-            qInfo() << "Another ScreenPlay instance reuqested this one to raise!";
-            emit requestRaise();
-        }
-    } else if (msg.startsWith("{") && msg.endsWith("}")) {
-        QJsonObject obj;
-        QJsonParseError err {};
-        QJsonDocument doc = QJsonDocument::fromJson(QByteArray { msg.toUtf8() }, &err);
-
-        if (err.error != QJsonParseError::NoError)
+    // Split all messages by semicolon. This fixes double messages like pingping
+    // when we get messages to fast
+    const QString read = QString(m_socket->readAll()); 
+    const QStringList messages = read.split(";");
+    for (const QString& msg : messages) {
+        if (msg == "ping") {
+            emit pingAliveReceived();
             return;
+        }
 
-        emit jsonMessageReceived(doc.object());
+        // The first message allways contains the appID
+        if (msg.startsWith("appID=")) {
+            QStringList args = msg.split(",");
+            // Only use the first 32 chars for the appID
+            QString appID = args.at(0);
+            m_appID = appID.remove("appID=");
 
-    } else {
-        qInfo() << "### Message from: " << m_appID << ": " << msg;
+            bool typeFound = false;
+            for (const QString& type : ScreenPlayUtil::getAvailableTypes()) {
+                if (msg.contains(type, Qt::CaseInsensitive)) {
+                    m_type = type;
+                    typeFound = true;
+                    break;
+                }
+            }
+
+            if (!typeFound) {
+                qCritical() << "Wallpaper type not found. Expected: " << ScreenPlayUtil::getAvailableTypes() << " got: " << msg;
+            }
+
+            qInfo() << "[2/4] SDKConnection parsed with type: " << m_type << " connected with AppID:" << m_appID;
+
+            emit appConnected(this);
+
+        } else if (msg.startsWith("command=")) {
+            QString command = msg;
+            command.remove("command=");
+            if (msg == "requestRaise") {
+                qInfo() << "Another ScreenPlay instance reuqested this one to raise!";
+                emit requestRaise();
+            }
+        } else if (msg.startsWith("{") && msg.endsWith("}")) {
+            QJsonObject obj;
+            QJsonParseError err {};
+            QJsonDocument doc = QJsonDocument::fromJson(QByteArray { msg.toUtf8() }, &err);
+
+            if (err.error != QJsonParseError::NoError)
+                return;
+
+            emit jsonMessageReceived(doc.object());
+
+        } else {
+            qInfo() << "### Message from: " << m_appID << ": " << msg;
+        }
     }
 }
 

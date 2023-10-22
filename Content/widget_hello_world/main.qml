@@ -23,7 +23,7 @@ Item {
             // to the opacity of the rectangle
             opacity: sizeSlider.value
             // Animate the opacity change to make it smooth
-            Behavior on opacity  {
+            Behavior on opacity {
                 NumberAnimation {
                     duration: 100
                 }

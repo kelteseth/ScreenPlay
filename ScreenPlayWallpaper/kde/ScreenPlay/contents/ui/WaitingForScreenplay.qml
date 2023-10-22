@@ -20,7 +20,7 @@ Rectangle {
             font.pixelSize: 50
         }
 
-        OpacityAnimator on opacity  {
+        OpacityAnimator on opacity {
             id: createAnimation
             from: 0
             to: 1
@@ -54,7 +54,7 @@ Rectangle {
             font.pixelSize: 50
         }
 
-        OpacityAnimator on opacity  {
+        OpacityAnimator on opacity {
             id: destroyAnimation
             from: 1
             to: 0

@@ -512,7 +512,7 @@ Item {
             }
         }
 
-        Behavior on contentHeight  {
+        Behavior on contentHeight {
             PropertyAnimation {
                 duration: 400
                 property: "contentHeight"

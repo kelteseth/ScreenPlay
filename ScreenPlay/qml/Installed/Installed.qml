@@ -177,7 +177,7 @@ Item {
                 font.pointSize: 18
             }
 
-            PropertyAnimation on opacity  {
+            PropertyAnimation on opacity {
                 id: animFadeIn
 
                 from: 0
@@ -211,7 +211,7 @@ Item {
                     }
                 }
 
-                PropertyAnimation on opacity  {
+                PropertyAnimation on opacity {
                     id: animFadeInTxtFooter
 
                     from: 0
