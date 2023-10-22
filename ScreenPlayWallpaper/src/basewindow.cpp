@@ -35,7 +35,6 @@ BaseWindow::BaseWindow()
         "VideoCodec",
         "Error: only enums");
 
-    qmlRegisterType<BaseWindow>("ScreenPlay.Wallpaper", 1, 0, "Wallpaper");
 
     setOSVersion(QSysInfo::productVersion());
 }

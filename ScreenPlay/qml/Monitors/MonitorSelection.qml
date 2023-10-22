@@ -17,7 +17,7 @@ Rectangle {
     // We preselect the main monitor
     property var activeMonitors: []
     property alias background: root.color
-    property alias radius: root.radius
+    property alias bgRadius: root.radius
 
     Component.onCompleted: {
         resize();

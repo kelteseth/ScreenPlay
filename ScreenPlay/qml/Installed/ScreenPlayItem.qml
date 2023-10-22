@@ -5,7 +5,7 @@ import QtQuick.Controls.Material
 import ScreenPlayApp
 import ScreenPlay
 import ScreenPlay.Enums.InstalledType
-import ScreenPlayUtil
+import ScreenPlayUtil as Util
 
 Item {
     id: root
@@ -25,15 +25,15 @@ Item {
     width: 320
     height: 180
     onTypeChanged: {
-        if (JSUtil.isWidget(type)) {
+        if (Util.JSUtil.isWidget(type)) {
             icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_widgets.svg";
             return;
         }
-        if (JSUtil.isScene(type)) {
+        if (Util.JSUtil.isScene(type)) {
             icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_code.svg";
             return;
         }
-        if (JSUtil.isVideo(type)) {
+        if (Util.JSUtil.isVideo(type)) {
             icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_movie.svg";
             return;
         }

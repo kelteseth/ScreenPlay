@@ -51,7 +51,7 @@ Item {
         } else {
             imagePreview.source = previewImageFilePath;
         }
-        if (JSUtil.isWidget(root.type) || (monitorSelection.activeMonitors.length > 0)) {
+        if (Util.JSUtil.isWidget(root.type) || (monitorSelection.activeMonitors.length > 0)) {
             btnLaunchContent.enabled = true;
             return;
         }
@@ -68,7 +68,7 @@ Item {
             }
             root.contentFolderName = folderName;
             root.type = type;
-            if (JSUtil.isWallpaper(root.type)) {
+            if (Util.JSUtil.isWallpaper(root.type)) {
                 if (type === InstalledType.VideoWallpaper)
                     root.state = "activeWallpaper";
                 else
@@ -340,7 +340,7 @@ Item {
             Button {
                 id: btnLaunchContent
                 objectName: "btnLaunchContent"
-                enabled: JSUtil.isWidget(root.type) ? true : monitorSelection.isSelected
+                enabled: Util.JSUtil.isWidget(root.type) ? true : monitorSelection.isSelected
                 Material.background: Material.accent
                 Material.foreground: "white"
                 icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_plus.svg"
@@ -349,8 +349,8 @@ Item {
                 onClicked: {
                     const item = App.installedListModel.get(root.contentFolderName);
                     const absoluteStoragePath = item.m_absoluteStoragePath;
-                    const previewImage =item.m_preview;
-                    if (JSUtil.isWallpaper(root.type)) {
+                    const previewImage = item.m_preview;
+                    if (Util.JSUtil.isWallpaper(root.type)) {
                         let activeMonitors = monitorSelection.getActiveMonitors();
                         // TODO Alert user to choose a monitor
                         if (activeMonitors.length === 0)
@@ -363,7 +363,7 @@ Item {
                         const screenFile = item.m_file;
                         let success = App.screenPlayManager.createWallpaper(root.type, cbVideoFillMode.currentValue, absoluteStoragePath, previewImage, screenFile, activeMonitors, volume, 1, {}, true);
                     }
-                    if (JSUtil.isWidget(root.type))
+                    if (Util.JSUtil.isWidget(root.type))
                         App.screenPlayManager.createWidget(type, Qt.point(0, 0), absoluteStoragePath, previewImage, {}, true);
                     root.state = "inactive";
                     monitorSelection.reset();

@@ -72,7 +72,7 @@ Util.Popup {
             MonitorSelection {
                 id: monitorSelection
 
-                radius: 3
+                bgRadius: 3
                 height: 200
                 width: parent.width * 0.9
                 multipleMonitorsSelectable: false
