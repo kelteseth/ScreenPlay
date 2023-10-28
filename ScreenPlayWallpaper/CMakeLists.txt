@@ -39,7 +39,6 @@ set(SOURCES ${SOURCES} main.cpp src/basewindow.cpp)
 set(HEADER ${HEADER} src/basewindow.h)
 
 set(QML
-
     # cmake-format: sort
     qml/GifWallpaper.qml
     qml/MultimediaView.qml
@@ -57,11 +56,11 @@ if(WIN32)
     set(LIB_SOURCES src/windowsintegration.cpp)
     set(LIB_HEADER src/windowsintegration.h)
 elseif(APPLE)
-    set(LIB_SOURCES src/macosintegration.cpp)
-    set(LIB_HEADER src/macosintegration.h)
+    set(LIB_SOURCES src/macintegration.cpp)
+    set(LIB_HEADER src/macintegration.h)
 elseif(UNIX)
-    set(LIB_SOURCES src/waylandintegration.cpp)
-    set(LIB_HEADER src/waylandintegration.h)
+    #set(LIB_SOURCES src/waylandintegration.cpp)
+    #set(LIB_HEADER src/waylandintegration.h)
 endif()
 
 add_library(ScreenPlayWallpaperLib STATIC ${LIB_SOURCES} ${LIB_HEADER})
