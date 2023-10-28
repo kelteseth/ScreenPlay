@@ -1,10 +1,7 @@
 #include "windowsintegration.h"
 
-WindowsIntegration::WindowsIntegration()
-{
-}
 
-bool WindowsHook::searchWorkerWindowToParentTo()
+bool WindowsIntegration::searchWorkerWindowToParentTo()
 {
 
     HWND progman_hwnd = FindWindowW(L"Progman", L"Program Manager");
@@ -18,7 +15,7 @@ bool WindowsHook::searchWorkerWindowToParentTo()
 /*!
    \brief Returns scaling factor as reported by Windows.
 */
-float WindowsHook::getScaling(const int monitorIndex) const
+float WindowsIntegration::getScaling(const int monitorIndex) const
 {
     // Get all monitors
     int monitorCount = GetSystemMetrics(SM_CMONITORS);
@@ -54,14 +51,14 @@ float WindowsHook::getScaling(const int monitorIndex) const
         }
     }
 
-           // If we reach here, it means we couldn't find the monitor with the given index or couldn't get the DPI.
+    // If we reach here, it means we couldn't find the monitor with the given index or couldn't get the DPI.
     return 1.0f;
 }
 
 /*!
    \brief Returns true of at least one monitor has active scaling enabled.
 */
-bool WindowsHook::hasWindowScaling() const
+bool WindowsIntegration::hasWindowScaling() const
 {
     auto enumMonitorCallback = [](HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData) -> BOOL {
         int scaling = GetDeviceCaps(hdcMonitor, LOGPIXELSX) / 96;
@@ -94,29 +91,54 @@ BOOL SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
     return TRUE;
 }
 
-ResizeResult ResizeWindowToMonitor(HWND hwnd, int monitorIndex)
-{
-    WinMonitorStats stats;
-    if (monitorIndex >= stats.rcMonitors.size()) {
-        return { 0, 0, 0, 0, false }; // Invalid monitor index
-    }
-    RECT monitorRect = stats.rcMonitors[monitorIndex];
-    int x = monitorRect.left;
-    int y = monitorRect.top;
-    int width = monitorRect.right - monitorRect.left;
-    int height = monitorRect.bottom - monitorRect.top;
-
-    BOOL result = SetWindowPos(hwnd, NULL, x, y, width, height, SWP_NOZORDER | SWP_NOACTIVATE);
-
-    return { x, y, width, height, result != 0 };
-}
-
-
-std::vector<Monitor> GetAllMonitors() {
+std::vector<Monitor> WindowsIntegration::GetAllMonitors() {
     std::vector<Monitor> monitors;
 
            // Use the static MonitorEnumProc callback for EnumDisplayMonitors
     EnumDisplayMonitors(NULL, NULL, MonitorEnumProc, reinterpret_cast<LPARAM>(&monitors));
 
     return monitors;
+}
+
+BOOL GetMonitorByHandle(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData)
+{
+
+    auto info = (sEnumInfo*)dwData;
+    if (info->hMonitor == hMonitor)
+        return FALSE;
+    ++info->iIndex;
+    return TRUE;
+}
+
+BOOL FindTheDesiredWnd(HWND hWnd, LPARAM lParam)
+{
+    DWORD dwStyle = (DWORD)GetWindowLong(hWnd, GWL_STYLE);
+    if ((dwStyle & WS_MAXIMIZE) != 0) {
+        *(reinterpret_cast<HWND*>(lParam)) = hWnd;
+        return false; // stop enumerating
+    }
+    return true; // keep enumerating
+}
+
+BOOL MonitorEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData) {
+    std::vector<Monitor>* pMonitors = reinterpret_cast<std::vector<Monitor>*>(dwData);
+
+    MONITORINFOEX  info;
+    info.cbSize = sizeof(info);
+    GetMonitorInfo(hMonitor, &info);
+
+    UINT dpiX, dpiY;
+    GetDpiForMonitor(hMonitor, MDT_EFFECTIVE_DPI, &dpiX, &dpiY);
+
+    Monitor monitor;
+    monitor.monitorID = hMonitor;
+    monitor.index = pMonitors->size(); // Set index based on the current size of the vector
+    monitor.position = info.rcMonitor;
+    monitor.size.cx = info.rcMonitor.right - info.rcMonitor.left;
+    monitor.size.cy = info.rcMonitor.bottom - info.rcMonitor.top;
+    monitor.scaleFactor = static_cast<float>(dpiX) / 96.0f;
+
+    pMonitors->push_back(monitor);
+
+    return true;
 }

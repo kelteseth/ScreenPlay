@@ -61,21 +61,10 @@ bool ScreenPlayGodotWallpaper::configureWindowGeometry()
         UtilityFunctions::print("No worker window found");
         return false;
     }
-
-    RECT rect {};
-    if (!GetWindowRect(m_hook->windowHandleWorker, &rect)) {
-        UtilityFunctions::print("Unable to get WindoeRect from worker");
-        return false;
-    }
-
-    // Windows coordante system begins at 0x0 at the
-    // main monitors upper left and not at the most left top monitor.
-    // This can be easily read from the worker window.
-    m_hook->zeroPoint = { std::abs(rect.left), std::abs(rect.top) };
-
     // WARNING: Setting Window flags must be called *here*!
     SetWindowLongPtr(m_hook->windowHandle, GWL_EXSTYLE, WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW | WS_EX_TRANSPARENT);
     SetWindowLongPtr(m_hook->windowHandle, GWL_STYLE, WS_POPUPWINDOW);
+
     return true;
 }
 
@@ -84,7 +73,7 @@ bool ScreenPlayGodotWallpaper::init(int activeScreen)
     auto* displayServer = DisplayServer::get_singleton();
     int64_t handle_int = displayServer->window_get_native_handle(godot::DisplayServer::HandleType::WINDOW_HANDLE, activeScreen);
     HWND hwnd = reinterpret_cast<HWND>(static_cast<intptr_t>(handle_int));
-    m_hook = std::make_unique<WindowsHook>();
+    m_hook = std::make_unique<WindowsIntegration>();
     m_hook->windowHandle = hwnd;
     hideFromTaskbar(hwnd);
     if (!configureWindowGeometry()) {
@@ -92,38 +81,13 @@ bool ScreenPlayGodotWallpaper::init(int activeScreen)
     }
     ShowWindow(m_hook->windowHandle, SW_HIDE);
 
-    const int borderWidth = 2;
-    const float scaling = m_hook->getScaling(activeScreen); // Assuming getScaling is your own function
-    const int borderOffset = -1;
+    WindowsIntegration windowsIntegration;
+    std::optional<Monitor> monitor = windowsIntegration.setupWallpaperForOneScreen(activeScreen,m_hook->windowHandle,m_hook->windowHandleWorker);
+    displayServer->window_set_size(godot::Vector2((real_t)monitor->size.cx, (real_t)monitor->size.cy));
 
-    WinMonitorStats monitors; // Assuming this is your own function
-    const int width = static_cast<int>(std::abs(monitors.rcMonitors[activeScreen].right - monitors.rcMonitors[activeScreen].left) / scaling) + borderWidth;
-    const int height = static_cast<int>(std::abs(monitors.rcMonitors[activeScreen].top - monitors.rcMonitors[activeScreen].bottom) / scaling) + borderWidth;
-
-    const int x = monitors.rcMonitors[activeScreen].left + m_hook->zeroPoint.x + borderOffset; // Assuming m_zeroPoint is a POINT struct
-    const int y = monitors.rcMonitors[activeScreen].top + m_hook->zeroPoint.y + borderOffset;
-
-    String output = "Setup window activeScreen: " + itos(activeScreen) + " scaling: " + rtos(scaling) + " x: " + itos(x) + " y: " + itos(y) + " width: " + itos(width) + " height: " + itos(height);
-    UtilityFunctions::print(output);
-    displayServer->window_set_size(godot::Vector2((real_t)width, (real_t)height));
-
-    // Must be called twice for some reason when window has scaling...
-    if (!SetWindowPos(m_hook->windowHandle, nullptr, x, y, width, height, SWP_HIDEWINDOW)) {
-        UtilityFunctions::print("Could not set window pos");
-        return false;
-    }
-    if (!SetWindowPos(m_hook->windowHandle, nullptr, x, y, width, height, SWP_HIDEWINDOW)) {
-        UtilityFunctions::print("Could not set window pos 2");
-        return false;
-    }
-
-    if (SetParent(m_hook->windowHandle, m_hook->windowHandleWorker) == nullptr) {
-        UtilityFunctions::print("Could not attach to parent window");
-        return false;
-    }
-    ShowWindow(m_hook->windowHandle, SW_SHOW);
     const std::string windowTitle = "ScreenPlayWallpaperGodot";
     SetWindowText(hwnd, windowTitle.c_str());
+    ShowWindow(m_hook->windowHandle, SW_SHOW);
     return true;
 }
 
