@@ -105,6 +105,7 @@ bool ScreenPlayGodotWallpaper::init(int activeScreen)
 
     String output = "Setup window activeScreen: " + itos(activeScreen) + " scaling: " + rtos(scaling) + " x: " + itos(x) + " y: " + itos(y) + " width: " + itos(width) + " height: " + itos(height);
     UtilityFunctions::print(output);
+    displayServer->window_set_size(godot::Vector2((real_t)width, (real_t)height));
 
     // Must be called twice for some reason when window has scaling...
     if (!SetWindowPos(m_hook->windowHandle, nullptr, x, y, width, height, SWP_HIDEWINDOW)) {
@@ -120,7 +121,6 @@ bool ScreenPlayGodotWallpaper::init(int activeScreen)
         UtilityFunctions::print("Could not attach to parent window");
         return false;
     }
-    displayServer->window_set_size(godot::Vector2((real_t)width, (real_t)height));
     ShowWindow(m_hook->windowHandle, SW_SHOW);
     const std::string windowTitle = "ScreenPlayWallpaperGodot";
     SetWindowText(hwnd, windowTitle.c_str());
@@ -138,7 +138,7 @@ godot::String ScreenPlayGodotWallpaper::read_from_pipe()
 {
     std::string outMsg;
     if (!m_windowsPipe.readFromPipe(outMsg)) {
-        UtilityFunctions::print("Unable to read from pipe");
+        // No new message
         return "";
     }
     return godot::String(outMsg.c_str());

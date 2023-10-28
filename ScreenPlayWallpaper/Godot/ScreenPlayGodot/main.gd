@@ -8,9 +8,7 @@ var send_welcome: bool = false
 # Pings main ScreenPlay application that
 # this wallpaper is still active
 func ping_alive():
-	print("GD: ping_alive")
 	var success = screen_play_wallpaper.send_ping()
-	print("1 ping_alive_screenplay: ", success)
 	if not success:
 		terminate()
 
@@ -22,10 +20,8 @@ func terminate():
 # Checks for messages from the main ScreenPlay instance 
 # for example for propery changes or commands like quit
 func check_messages():
-	print("GD: check_messages")
 	var msg = screen_play_wallpaper.read_from_pipe()
 	if not msg.is_empty():
-		print("message: ", msg)
 		if "quit" in msg:
 			return terminate()
 			
@@ -55,25 +51,23 @@ func _ready():
 	print(path)
 	if not load_scene(path):
 		print("Failed to load the PCK file.")
+		# No not call terminate here because we did not
+		# yet setup via screenplay_manager.init()
 		get_tree().quit()
 		return
 	Engine.set_max_fps(24)
 	
 	var ok = screen_play_wallpaper.init(screen_play_wallpaper.get_activeScreensList()[0])
-	
-	print("init ", ok)
+	if not ok:
+		printerr("Unable to setup screen")
 	if not screen_play_wallpaper.get_pipeConnected():
-		print("connect to ScreenPlay")
-		var ok_connect_to_named_pipe = screen_play_wallpaper.connect_to_named_pipe()	
-		print("connection: ", ok_connect_to_named_pipe)
+		var ok_connect_to_named_pipe = screen_play_wallpaper.connect_to_named_pipe()
 		
 func _process(delta):
 	
 	if not send_welcome:
 		if not screen_play_wallpaper.get_screenPlayConnected():
-			print("send_welcome")
 			send_welcome = screen_play_wallpaper.send_welcome()
-			print("send_welcome: ", send_welcome)
 			if send_welcome:
 				check_messages_timer.start()
 				ping_alive_timer.start()

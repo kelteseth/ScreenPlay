@@ -14,7 +14,7 @@
 #include <vector>
 
 #include "ScreenPlayGodotWallpaper.h"
-#include "windowshook.h"
+#include "windowsintegration.h"
 #include "WindowsPipe.h"
 
 class ScreenPlayGodotWallpaper : public godot::Node {

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "winwindow.h"
+#include "windowsintegration.h"
 #include "ScreenPlayUtil/projectfile.h"
 #include <QGuiApplication>
 #include <QtQml>
@@ -15,21 +16,6 @@
     \brief  ScreenPlayWindow used for the Windows implementation.
 */
 
-/*!
-  \brief Searches for the worker window for our window to parent to.
-*/
-BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
-{
-    // 0xXXXXXXX "" WorkerW
-    //   ...
-    //   0xXXXXXXX "" SHELLDLL_DefView
-    //     0xXXXXXXXX "FolderView" SysListView32
-    // 0xXXXXXXXX "" WorkerW                           <---- We want this one
-    // 0xXXXXXXXX "Program Manager" Progman
-    if (FindWindowExW(hwnd, nullptr, L"SHELLDLL_DefView", nullptr))
-        *reinterpret_cast<HWND*>(lparam) = FindWindowExW(nullptr, hwnd, L"WorkerW", nullptr);
-    return TRUE;
-}
 
 HHOOK g_mouseHook;
 QPoint g_LastMousePosition { 0, 0 };
@@ -148,6 +134,7 @@ ScreenPlay::WallpaperExitCode WinWindow::start()
     qRegisterMetaType<WinWindow*>();
     qmlRegisterSingletonInstance<WinWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", this);
 
+    m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
     configureWindowGeometry();
 
     // We do not support autopause for multi monitor wallpaper and
@@ -161,6 +148,12 @@ ScreenPlay::WallpaperExitCode WinWindow::start()
     QTimer::singleShot(1000, this, [&]() {
         setupWindowMouseHook();
     });
+
+
+
+
+    qInfo() << "Setup " << width() << height();
+    m_window.setSource(QUrl("qrc:/qml/ScreenPlayWallpaper/qml/Wallpaper.qml"));
 
     return ScreenPlay::WallpaperExitCode::Ok;
 }
@@ -207,40 +200,81 @@ BOOL CALLBACK GetMonitorByIndex(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMo
     return TRUE;
 }
 
-/*!
-  \brief This method is called if the user want to have one wallpaper on one window.
-*/
+/*
+ * Adjusting a Window's Position and Size for Different Monitor DPI Scale Factors:
+ *
+ * Windows allows users to set different DPI (dots per inch) scale factors for each monitor. This DPI scaling can lead to
+ * discrepancies in the positioning and size of windows, especially if we want to place a window on a monitor with a different
+ * scale factor than the one it was originally on.
+ *
+ * In our scenario, we want to move and resize a window (`m_windowHandle`) to fit perfectly within a target monitor. However,
+ * both the window and the target monitor can have different DPI scale factors, so we need to account for these when calculating
+ * the window's new position and size.
+ *
+ * Steps:
+ *
+ * 1. Retrieve the DPI scale factor for the window:
+ *    - This gives us the current scale factor of the window based on its original monitor.
+ *
+ * 2. Retrieve the DPI scale factor for the target monitor:
+ *    - This gives us the scale factor of the monitor where we want to place the window.
+ *
+ * 3. Calculate the window's new position:
+ *    - The new position should be relative to the `WorkerW` window's coordinates.
+ *    - Adjust the position based on the ratio of the window's DPI scale factor to the target monitor's DPI scale factor.
+ *      This ensures that the window is positioned correctly on the monitor regardless of any differences in scale factors.
+ *
+ * 4. Calculate the window's new size:
+ *    - Adjust the size of the window based on the ratio of the window's DPI scale factor to the target monitor's DPI scale factor.
+ *      This ensures that the window fits perfectly within the monitor, taking into account any differences in scale factors.
+ *
+ * By following this approach, we can accurately position and resize the window on any monitor, regardless of differences in DPI
+ * scale factors.
+ */
+
 void WinWindow::setupWallpaperForOneScreen(int activeScreen)
 {
+    std::vector<Monitor> monitors = GetAllMonitors();
+    for (const auto& monitor : monitors) {
+        monitor.print();
+        if (monitor.index != activeScreen)
+            continue;
 
-    const QRect screenRect = QGuiApplication::screens().at(activeScreen)->geometry();
-    const int boderWidth = 2;
-    const float scaling = getScaling(activeScreen);
-    const int borderOffset = -1;
+        SetWindowPos(m_windowHandle, HWND_TOP,
+            monitor.position.left, monitor.position.top,
+            monitor.size.cx, monitor.size.cy,
+            SWP_NOZORDER | SWP_NOACTIVATE);
+        setWidth(monitor.size.cx);
+        setHeight(monitor.size.cy);
+        m_window.setWidth(width());
+        m_window.setHeight(height());
 
-    ScreenPlayUtil::WinMonitorStats monitors;
-    const int width = (std::abs(monitors.rcMonitors[activeScreen].right - monitors.rcMonitors[activeScreen].left) / scaling) + boderWidth;
-    const int height = (std::abs(monitors.rcMonitors[activeScreen].top - monitors.rcMonitors[activeScreen].bottom) / scaling) + boderWidth;
+        RECT oldRect;
+        GetWindowRect(m_windowHandle, &oldRect);
+        std::cout << "Old Window Position: (" << oldRect.left << ", " << oldRect.top << ")" << std::endl;
 
-    const int x = monitors.rcMonitors[activeScreen].left + m_zeroPoint.x() + borderOffset;
-    const int y = monitors.rcMonitors[activeScreen].top + m_zeroPoint.y() + borderOffset;
-    qInfo() << QString("Setup window activeScreen: %1 scaling: %2 x: %3 y: %4 width: %5 height: %6").arg(activeScreen).arg(scaling).arg(x).arg(y).arg(width).arg(height);
-    // Also set it in BaseWindow. This is needed for Windows fade in.
-    setWidth(width - boderWidth);
-    setHeight(height - boderWidth);
-    {
-        // Must be called twice for some reason when window has scaling...
-        if (!SetWindowPos(m_windowHandle, nullptr, x, y, width, height, SWP_HIDEWINDOW)) {
-            qFatal("Could not set window pos");
-        }
-        if (!SetWindowPos(m_windowHandle, nullptr, x, y, width, height, SWP_HIDEWINDOW)) {
-            qFatal("Could not set window pos");
-        }
+        float windowDpiScaleFactor = static_cast<float>(GetDpiForWindow(m_windowHandle)) / 96.0f;
+        float targetMonitorDpiScaleFactor = monitor.scaleFactor;
+        std::cout << "Window DPI Scale Factor: " << windowDpiScaleFactor << std::endl;
+        std::cout << "Target Monitor DPI Scale Factor: " << targetMonitorDpiScaleFactor << std::endl;
+
+        SetParent(m_windowHandle, m_windowHandleWorker);
+        RECT parentRect;
+        GetWindowRect(m_windowHandleWorker, &parentRect);
+        std::cout << "WorkerW Window Position: (" << parentRect.left << ", " << parentRect.top << ")" << std::endl;
+
+        int newX = static_cast<int>((oldRect.left - parentRect.left) * (windowDpiScaleFactor / targetMonitorDpiScaleFactor));
+        int newY = static_cast<int>((oldRect.top - parentRect.top) * (windowDpiScaleFactor / targetMonitorDpiScaleFactor));
+        std::cout << "Calculated New Position: (" << newX << ", " << newY << ")" << std::endl;
+
+        int newWidth = static_cast<int>(monitor.size.cx * (windowDpiScaleFactor / targetMonitorDpiScaleFactor));
+        int newHeight = static_cast<int>(monitor.size.cy * (windowDpiScaleFactor / targetMonitorDpiScaleFactor));
+        std::cout << "Calculated New Size: (" << newWidth << "x" << newHeight << ")" << std::endl;
+
+        SetWindowPos(m_windowHandle, NULL, newX, newY, newWidth, newHeight, SWP_NOZORDER | SWP_NOACTIVATE);
+
     }
-
-    if (SetParent(m_windowHandle, m_windowHandleWorker) == nullptr) {
-        qFatal("Could not attach to parent window");
-    }
+    return;
 }
 
 /*!
@@ -248,7 +282,7 @@ void WinWindow::setupWallpaperForOneScreen(int activeScreen)
 */
 void WinWindow::setupWallpaperForAllScreens()
 {
-    ScreenPlayUtil::WinMonitorStats monitors;
+    WinMonitorStats monitors;
     QRect rect;
     for (int i = 0; i < monitors.iMonitors.size(); i++) {
         const int width = std::abs(monitors.rcMonitors[i].right - monitors.rcMonitors[i].left);
@@ -405,12 +439,12 @@ void WinWindow::configureWindowGeometry()
     // Windows coordante system begins at 0x0 at the
     // main monitors upper left and not at the most left top monitor.
     // This can be easily read from the worker window.
-    m_zeroPoint = { std::abs(rect.left), std::abs(rect.top) };
-    g_globalOffset = m_zeroPoint;
+    // m_zeroPoint = { std::abs(rect.left), std::abs(rect.top) };
+    // g_globalOffset = m_zeroPoint;
 
     // WARNING: Setting Window flags must be called *here*!
     SetWindowLongPtr(m_windowHandle, GWL_EXSTYLE, WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW | WS_EX_TRANSPARENT);
-    SetWindowLongPtr(m_windowHandle, GWL_STYLE, WS_POPUPWINDOW);
+    SetWindowLongPtr(m_windowHandle, GWL_STYLE, WS_POPUP);
 
     // Ether for one Screen or for all
     if ((QGuiApplication::screens().length() == activeScreensList().length()) && (activeScreensList().length() != 1)) {
@@ -422,12 +456,8 @@ void WinWindow::configureWindowGeometry()
         setupWallpaperForMultipleScreens(activeScreensList());
     }
 
-    m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
-    m_window.setWidth(width());
-    m_window.setHeight(height());
-    qInfo() << "Setup " << width() << height();
-    m_window.setSource(QUrl("qrc:/qml/ScreenPlayWallpaper/qml/Wallpaper.qml"));
-    m_window.hide();
+
+    m_window.show();
 }
 
 BOOL CALLBACK FindTheDesiredWnd(HWND hWnd, LPARAM lParam)

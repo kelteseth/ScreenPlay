@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
 #include "ScreenPlay/monitorlistmodel.h"
+#include "windowsintegration.h"
 #include <QGuiApplication>
 namespace ScreenPlay {
 
@@ -111,7 +112,7 @@ void MonitorListModel::loadMonitors()
 
 #ifdef Q_OS_WIN
     QModelIndex index;
-    ScreenPlayUtil::WinMonitorStats monitors;
+    WinMonitorStats monitors;
 
     // This offset lets us center the monitor selection view in the center
     int offsetX = 0;

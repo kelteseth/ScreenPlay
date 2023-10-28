@@ -2,67 +2,18 @@
 
 #pragma once
 
-#include <QtGlobal>
-
-#if defined(Q_OS_WIN)
-
-// Must be first!
-#include <qt_windows.h>
-// Do not sort !
-#include "WinUser.h"
-#include <ShellScalingApi.h>
-#endif
-
 #include "ScreenPlayUtil/contenttypes.h"
+#include <QtGlobal>
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QMetaEnum>
 #include <QMetaType>
 #include <QString>
 #include <QVersionNumber>
-#include <cmath>
 #include <optional>
 
 namespace ScreenPlayUtil {
-#if defined(Q_OS_WIN)
-struct WinMonitorStats {
 
-    WinMonitorStats()
-    {
-        EnumDisplayMonitors(NULL, NULL, MonitorEnum, (LPARAM)this);
-    }
-
-    static BOOL CALLBACK MonitorEnum(HMONITOR hMon, HDC hdc, LPRECT lprcMonitor,
-        LPARAM pData)
-    {
-        WinMonitorStats* pThis = reinterpret_cast<WinMonitorStats*>(pData);
-        auto scaleFactor = DEVICE_SCALE_FACTOR::DEVICE_SCALE_FACTOR_INVALID;
-        GetScaleFactorForMonitor(hMon, &scaleFactor);
-
-        UINT x = 0;
-        UINT y = 0;
-        GetDpiForMonitor(hMon, MONITOR_DPI_TYPE::MDT_RAW_DPI, &x, &y);
-        pThis->sizes.push_back({ x, y });
-        pThis->scaleFactor.push_back(scaleFactor);
-        pThis->hMonitors.push_back(hMon);
-        pThis->hdcMonitors.push_back(hdc);
-        pThis->rcMonitors.push_back(*lprcMonitor);
-        pThis->iMonitors.push_back(pThis->hdcMonitors.size());
-
-        // qInfo() << std::abs(lprcMonitor->right - lprcMonitor->left) << std::abs(lprcMonitor->top - lprcMonitor->bottom);
-
-        return TRUE;
-    }
-
-    std::vector<int> iMonitors;
-    std::vector<HMONITOR> hMonitors;
-    std::vector<HDC> hdcMonitors;
-    std::vector<RECT> rcMonitors;
-    std::vector<DEVICE_SCALE_FACTOR> scaleFactor;
-    std::vector<std::pair<UINT, UINT>> sizes;
-    int index = 0;
-};
-#endif
 QJsonArray fillArray(const QVector<QString>& items);
 ScreenPlay::SearchType::SearchType getSearchTypeFromInstalledType(const ScreenPlay::InstalledType::InstalledType type);
 std::optional<ScreenPlay::InstalledType::InstalledType> getInstalledTypeFromString(const QString& type);

@@ -292,6 +292,7 @@ target_link_libraries(
     ScreenPlayApp
     PUBLIC ScreenPlaySDK
            LibArchive::LibArchive
+           ScreenPlayWallpaperLib
            ScreenPlayUtil
            ScreenPlayUtilplugin
            QArchive

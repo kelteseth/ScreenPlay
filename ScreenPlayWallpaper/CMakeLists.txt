@@ -54,8 +54,14 @@ set(LIB_SOURCES)
 set(LIB_HEADER)
 
 if(WIN32)
-    set(LIB_SOURCES src/windowshook.cpp)
-    set(LIB_HEADER src/windowshook.h)
+    set(LIB_SOURCES src/windowsintegration.cpp)
+    set(LIB_HEADER src/windowsintegration.h)
+elseif(APPLE)
+    set(LIB_SOURCES src/macosintegration.cpp)
+    set(LIB_HEADER src/macosintegration.h)
+elseif(UNIX)
+    set(LIB_SOURCES src/waylandintegration.cpp)
+    set(LIB_HEADER src/waylandintegration.h)
 endif()
 
 add_library(ScreenPlayWallpaperLib STATIC ${LIB_SOURCES} ${LIB_HEADER})
@@ -66,7 +72,9 @@ if(WIN32)
     target_link_libraries(ScreenPlayWallpaperLib PUBLIC shcore.lib)
 endif()
 
-add_executable(${PROJECT_NAME} ${SOURCES} ${HEADER})
+
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADER}
+    src/windowsintegration.h src/windowsintegration.cpp)
 
 qt_add_qml_module(
     ${PROJECT_NAME}
