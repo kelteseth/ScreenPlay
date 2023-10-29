@@ -82,8 +82,10 @@ bool ScreenPlayGodotWallpaper::init(int activeScreen)
     ShowWindow(m_hook->windowHandle, SW_HIDE);
 
     WindowsIntegration windowsIntegration;
-    std::optional<Monitor> monitor = windowsIntegration.setupWallpaperForOneScreen(activeScreen,m_hook->windowHandle,m_hook->windowHandleWorker);
-    displayServer->window_set_size(godot::Vector2((real_t)monitor->size.cx, (real_t)monitor->size.cy));
+    auto updateWindowSize = [this, &displayServer](const int width, const int height){
+        displayServer->window_set_size(godot::Vector2((real_t)width, (real_t)height));
+    };
+    std::optional<Monitor> monitor = windowsIntegration.setupWallpaperForOneScreen(activeScreen,m_hook->windowHandle,m_hook->windowHandleWorker,updateWindowSize);
 
     const std::string windowTitle = "ScreenPlayWallpaperGodot";
     SetWindowText(hwnd, windowTitle.c_str());

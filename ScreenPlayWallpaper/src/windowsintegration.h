@@ -9,6 +9,7 @@
 #include <shellscalingapi.h>
 #include <vector>
 #include <optional>
+#include <functional>
 
 // Do not sort !
 #include "WinUser.h"
@@ -166,7 +167,7 @@ public:
      * scale factors.
      */
 
-    std::optional<Monitor> setupWallpaperForOneScreen(const int activeScreen, HWND windowHwnd, HWND parentWindowHwnd)
+    std::optional<Monitor> setupWallpaperForOneScreen(const int activeScreen, HWND windowHwnd, HWND parentWindowHwnd, std::function<void(int,int)>updateWindowSize)
     {
         std::vector<Monitor> monitors = GetAllMonitors();
         for (const auto& monitor : monitors) {
@@ -178,6 +179,9 @@ public:
                 monitor.position.left, monitor.position.top,
                 monitor.size.cx, monitor.size.cy,
                 SWP_NOZORDER | SWP_NOACTIVATE);
+
+            // Must be called here to fix window positions!
+            updateWindowSize(monitor.size.cx, monitor.size.cy);
 
             RECT oldRect;
             GetWindowRect(windowHwnd, &oldRect);

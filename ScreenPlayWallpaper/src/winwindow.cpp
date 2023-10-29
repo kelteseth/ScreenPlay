@@ -186,11 +186,14 @@ void WinWindow::destroyThis()
 void WinWindow::setupWallpaperForOneScreen(int activeScreen)
 {
     WindowsIntegration windowsIntegration;
-    std::optional<Monitor> monitor = windowsIntegration.setupWallpaperForOneScreen(activeScreen,m_windowHandle,m_windowHandleWorker);
-    setWidth(monitor->size.cx);
-    setHeight(monitor->size.cy);
-    m_window.setWidth(width());
-    m_window.setHeight(height());
+    auto updateWindowSize = [this](const int width, const int height){
+        setWidth(width);
+        setHeight(height);
+        m_window.setWidth(width);
+        m_window.setHeight(height);
+    };
+    std::optional<Monitor> monitor = windowsIntegration.setupWallpaperForOneScreen(activeScreen,m_windowHandle,m_windowHandleWorker,updateWindowSize);
+
 }
 
 /*!
