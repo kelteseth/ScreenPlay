@@ -3,6 +3,7 @@ import QtQuick.Dialogs
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
+import QtCore
 import Qt5Compat.GraphicalEffects
 import ScreenPlayApp
 import ScreenPlay
@@ -482,14 +483,9 @@ Item {
                         description: qsTr("If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.")
                         buttonText: qsTr("Show Logs")
                         onButtonPressed: {
-                            expanderDebug.toggle();
+                            const logsPath =  StandardPaths.writableLocation(StandardPaths.GenericDataLocation) + "/ScreenPlay/Logs"
+                            App.util.openFolderInExplorer(logsPath)
                         }
-                    }
-
-                    SettingsExpander {
-                        id: expanderDebug
-
-                        text: App.util.debugMessages
                     }
 
                     SettingsHorizontalSeperator {
