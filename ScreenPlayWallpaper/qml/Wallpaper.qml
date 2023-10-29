@@ -27,7 +27,7 @@ Rectangle {
                     loader.source = "qrc:/qml/ScreenPlayWallpaper/qml/MultimediaView.qml";
                 }
             }
-            if (Qt.platform.os === "windows") {
+            if (Qt.platform.os === "windows" || Qt.platform.os === "linux") {
                 loader.source = "qrc:/qml/ScreenPlayWallpaper/qml/MultimediaView.qml";
             }
             break;

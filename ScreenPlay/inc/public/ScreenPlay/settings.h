@@ -72,6 +72,7 @@ public:
         Unknown,
         OSX,
         Windows,
+        Wayland,
         Cinnamon,
         Enlightenment,
         Gnome,

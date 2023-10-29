@@ -23,7 +23,7 @@
             "visualizerFile": "${workspaceFolder}/.vscode/qt.natvis.xml"
         },
         {
-            "name": "macOS Launch",
+            "name": "macOS/linux Launch",
             "type": "lldb",
             "request": "launch",
             "program": "${command:cmake.launchTargetPath}",

@@ -101,13 +101,6 @@ public slots:
     void setMainWindowEngine(QQmlApplicationEngine* mainWindowEngine);
     void setWizards(Wizards* wizards);
 
-private:
-    bool setupKDE();
-    bool isKDEInstalled();
-    void installKDEWallpaper();
-    void upgradeKDEWallpaper();
-    void restartKDE();
-    std::optional<bool> isNewestKDEWallpaperInstalled();
 
 private:
     QNetworkAccessManager m_networkAccessManager;
@@ -126,8 +119,5 @@ private:
     std::shared_ptr<MonitorListModel> m_monitorListModel;
     std::shared_ptr<ProfileListModel> m_profileListModel;
     std::shared_ptr<InstalledListFilter> m_installedListFilter;
-
-    QString m_kdeWallpaperPath;
-    QString m_appKdeWallapperPath;
 };
 }

@@ -16,6 +16,7 @@
 Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoPlugin)
 #elif defined(Q_OS_LINUX)
 #include "src/linuxx11window.h"
+#include "src/linuxwaylandwindow.h"
 #elif defined(Q_OS_OSX)
 #include "src/macwindow.h"
 #endif
@@ -35,13 +36,19 @@ int main(int argc, char* argv[])
 #endif
 
     QGuiApplication app(argc, argv);
+    std::unique_ptr<BaseWindow> window;
+    const auto platformName = QGuiApplication::platformName();
 
 #if defined(Q_OS_WIN)
-    WinWindow window;
+    window = std::make_unique<WinWindow>();
 #elif defined(Q_OS_LINUX)
-    LinuxX11Window window;
+    if(platformName == "xcb"){
+        window = std::make_unique<LinuxX11Window>();  
+    } else if(platformName == "wayland"){
+        window = std::make_unique<LinuxWaylandWindow>();
+    }
 #elif defined(Q_OS_OSX)
-    MacWindow window;
+    window = std::make_unique<MacWindow>();
 #endif
 
     // If we start with only one argument (app path)
@@ -59,17 +66,17 @@ int main(int argc, char* argv[])
             "/wallpaper_video_astronaut_vp9", // 4
             "/wallpaper_video_nebula_h264" // 5
         };
-        const int index = 5;
+        const int index = 1;
         QString projectPath = exampleContentPath + contentFolder.at(index);
 
-        window.setActiveScreensList({ 0 });
-        window.setProjectPath(projectPath);
-        window.setAppID("test");
-        window.setVolume(1);
-        window.setFillMode("cover");
-        window.setType(ScreenPlay::InstalledType::InstalledType::VideoWallpaper);
-        window.setCheckWallpaperVisible(true);
-        window.setDebugMode(false);
+        window->setActiveScreensList({ 0 });
+        window->setProjectPath(projectPath);
+        window->setAppID("test");
+        window->setVolume(1);
+        window->setFillMode("cover");
+        window->setType(ScreenPlay::InstalledType::InstalledType::VideoWallpaper);
+        window->setCheckWallpaperVisible(true);
+        window->setDebugMode(false);
     } else {
         // 8 parameter + 1 OS working directory as the first default paramter
         if (argumentList.length() != 9) {
@@ -111,24 +118,24 @@ int main(int argc, char* argv[])
         }
         appID = appID.remove("appID=");
 
-        window.setActiveScreensList(activeScreensList.value());
-        window.setProjectPath(argumentList.at(2));
-        window.setAppID(appID);
-        window.setVolume(volume);
-        window.setFillMode(argumentList.at(5));
-        window.setType(installedType);
-        window.setCheckWallpaperVisible(checkWallpaperVisible);
-        window.setDebugMode(false);
+        window->setActiveScreensList(activeScreensList.value());
+        window->setProjectPath(argumentList.at(2));
+        window->setAppID(appID);
+        window->setVolume(volume);
+        window->setFillMode(argumentList.at(5));
+        window->setType(installedType);
+        window->setCheckWallpaperVisible(checkWallpaperVisible);
+        window->setDebugMode(false);
     }
 
-    const auto setupStatus = window.setup();
+    const auto setupStatus = window->setup();
     if (setupStatus != ScreenPlay::WallpaperExitCode::Ok) {
         return static_cast<int>(setupStatus);
     }
-    const auto startStatus = window.start();
+    const auto startStatus = window->start();
     if (startStatus != ScreenPlay::WallpaperExitCode::Ok) {
         return static_cast<int>(startStatus);
     }
-    emit window.qmlStart();
+    emit window->qmlStart();
     return app.exec();
 }

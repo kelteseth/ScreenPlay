@@ -261,3 +261,4 @@ cython_debug/
 /ThirdParty/qml-archive/**
 /ThirdParty/qml-plausible/
 /ThirdParty/ffmpeg/**
+/ThirdParty/qt-layer-shell/**
