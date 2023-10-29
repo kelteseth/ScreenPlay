@@ -67,8 +67,6 @@ App::App()
     : QObject(nullptr)
 {
 
-    m_continuousIntegrationMetricsTimer.start();
-
     QGuiApplication::setWindowIcon(QIcon(":/qml/ScreenPlayApp/assets/icons/app.ico"));
     QGuiApplication::setOrganizationName("ScreenPlay");
     QGuiApplication::setOrganizationDomain("screen-play.app");
@@ -221,8 +219,17 @@ void App::exit()
 {
     m_screenPlayManager->removeAllWallpapers();
     m_screenPlayManager->removeAllWidgets();
-    auto* guiAppInst = dynamic_cast<QGuiApplication*>(QGuiApplication::instance());
-    guiAppInst->quit();
+    // Must be called inside a separate event loop otherwise we
+    // would kill the qml engine while it is calling this function.
+    // A single shot timer is a handy woraround for this.
+    QTimer::singleShot(0, this, [this]() {
+        auto* appInst = QGuiApplication::instance();
+        // We must ensure that we kill the qml engine first
+        // before we destory the rest of the app
+        m_mainWindowEngine->clearSingletons();
+        m_mainWindowEngine.reset();
+        appInst->quit();
+    });
 }
 
 void App::showDockIcon(const bool show)

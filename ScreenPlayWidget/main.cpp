@@ -96,7 +96,6 @@ int main(int argc, char* argv[])
     MacUtils::showDockIcon(false);
 #endif
     logging = std::make_unique<const ScreenPlayUtil::LoggingHandler>("ScreenPlayWidget_"+ appID);
-
     const int status = app.exec();
     logging.reset();
     return status;
