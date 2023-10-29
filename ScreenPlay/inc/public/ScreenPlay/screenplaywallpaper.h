@@ -95,7 +95,6 @@ signals:
     void volumeChanged(float volume);
     void isLoopingChanged(bool isLooping);
     void playbackRateChanged(float playbackRate);
-    void messageKDECloseWallpaper();
 
     void requestSave();
     void requestClose(const QString& appID);

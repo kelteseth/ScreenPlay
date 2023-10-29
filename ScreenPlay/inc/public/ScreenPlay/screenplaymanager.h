@@ -27,7 +27,6 @@ class ScreenPlayManager : public QObject {
 
     Q_PROPERTY(int activeWallpaperCounter READ activeWallpaperCounter WRITE setActiveWallpaperCounter NOTIFY activeWallpaperCounterChanged)
     Q_PROPERTY(int activeWidgetsCounter READ activeWidgetsCounter WRITE setActiveWidgetsCounter NOTIFY activeWidgetsCounterChanged)
-    Q_PROPERTY(bool isKDEConnected READ isKDEConnected WRITE setIsKDEConnected NOTIFY isKDEConnectedChanged)
 
 public:
     explicit ScreenPlayManager(QObject* parent = nullptr);
@@ -41,8 +40,6 @@ public:
     int activeWidgetsCounter() const { return m_activeWidgetsCounter; }
     bool isAnotherScreenPlayInstanceRunning() { return m_isAnotherScreenPlayInstanceRunning; }
 
-    bool isKDEConnected() const;
-    void setIsKDEConnected(bool isKDEConnected);
 
 signals:
     void activeWallpaperCounterChanged(int activeWallpaperCounter);
@@ -54,8 +51,6 @@ signals:
     void requestRaise();
     void profilesSaved();
     void displayErrorPopup(const QString& msg);
-
-    void isKDEConnectedChanged(bool isKDEConnected);
 
 private slots:
     bool saveProfiles();
@@ -168,7 +163,6 @@ private:
     QTimer m_saveLimiter;
 
     const quint16 m_webSocketPort = 16395;
-    bool m_isKDEConnected = false;
 };
 
 }

@@ -63,8 +63,8 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
     setDesktopEnvironment(DesktopEnvironment::OSX);
 #endif
 #ifdef Q_OS_LINUX
-    // We only support KDE for now
-    setDesktopEnvironment(DesktopEnvironment::KDE);
+    // We only support Wayland wl_roots for now
+    setDesktopEnvironment(DesktopEnvironment::Wayland);
 #endif
 
     qRegisterMetaType<Settings::Language>("Settings::Language");

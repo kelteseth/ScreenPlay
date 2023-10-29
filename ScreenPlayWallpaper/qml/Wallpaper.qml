@@ -27,7 +27,7 @@ Rectangle {
                     loader.source = "qrc:/qml/ScreenPlayWallpaper/qml/MultimediaView.qml";
                 }
             }
-            if (Qt.platform.os === "windows") {
+            if (Qt.platform.os === "windows" || Qt.platform.os === "linux") {
                 loader.source = "qrc:/qml/ScreenPlayWallpaper/qml/MultimediaView.qml";
             }
             break;
@@ -103,7 +103,7 @@ Rectangle {
         case 2:
             break;
         case 0:
-            if (desktopProperties.isTiled) {
+            if (Wallpaper.windowsDesktopProperties.isTiled) {
                 // Tiled
                 imgCover.fillMode = Image.Tile;
             } else {

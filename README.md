@@ -74,11 +74,11 @@ Here are some ways you can contribute:
 
 <div align="center">
 
-| Feature                	    | Windows 	    | Linux 	        | MacOS 	|
+| Feature                	    | Windows 	    | Linux X11 and Wayland (layer shell)  	        | MacOS 	|
 |------------------------	    |---------	    |-------	        |-------	|
 | __ScreenPlay Main App__       | ✔       	    | ✔     	        | ✔     	|
 | __Steam Binaries__            | ✔       	    | ❌     	        | ✔    	|
-| __Wallpaper__                 | ✔       	    | ❓ Help Needed for Gnome/KDE/etc!               | ✔    |
+| __Wallpaper__                 | ✔       	    | ✔   | ✔    |
 | __Widgets__                   | ✔       	    | ✔   	| ✔    	|
 | __Multilanguage (EN,DE,RU,FR,ES,KO,VI,CH_ZN,PT_BR🆕)__              | ✔            	| ✔     	        |  ✔     	|
 
