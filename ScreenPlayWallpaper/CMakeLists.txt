@@ -30,8 +30,8 @@ elseif(APPLE)
         src/macintegration.h
         src/macwindow.h)
 elseif(UNIX)
-    set(SOURCES src/linuxx11window.cpp)
-    set(HEADER src/linuxx11window.h)
+    set(SOURCES src/linuxx11window.cpp src/linuxwaylandwindow.cpp)
+    set(HEADER src/linuxx11window.h src/linuxwaylandwindow.h)
 endif()
 
 set(SOURCES ${SOURCES} main.cpp src/basewindow.cpp)
@@ -86,8 +86,12 @@ elseif(UNIX AND NOT APPLE)
 endif()
 
 if(UNIX AND NOT APPLE)
-    include(CopyRecursive)
-    copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/kde/ScreenPlay ${CMAKE_BINARY_DIR}/bin/kde/ScreenPlay "*")
+    find_package(ECM CONFIG REQUIRED NO_MODULE)
+    set(LayerShellQt "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/layer-shell-qt/")
+    find_package(LayerShellQt REQUIRED)
+    target_link_libraries(
+        ${PROJECT_NAME}
+        PRIVATE LayerShellQtInterface)
 endif()
 
 if(APPLE)

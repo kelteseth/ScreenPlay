@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.23.0)
+cmake_minimum_required(VERSION 3.22.0)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
 include(GetProjectVersion)
@@ -25,7 +25,13 @@ endif()
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_CXX_STANDARD 20)
-set(THIRD_PARTY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/")
+set(THIRD_PARTY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty")
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
+list(APPEND CMAKE_MODULE_PATH "${THIRD_PARTY_PATH}/ecm/modules")
+list(APPEND CMAKE_MODULE_PATH "${THIRD_PARTY_PATH}/ecm/find-modules")
+list(APPEND CMAKE_MODULE_PATH "${THIRD_PARTY_PATH}/ecm/kde-modules")
+message(STATUS "[PROJECT] CMAKE_MODULE_PATH            = ${CMAKE_MODULE_PATH}")
+
 
 option(OSX_BUNDLE "Enable distribution macOS bundle" OFF)
 set(CMAKE_OSX_DEPLOYMENT_TARGET "13.0")
@@ -81,6 +87,14 @@ else()
     set(DATE_ARG "")
 endif()
 
+
+if(UNIX AND NOT APPLE)
+    # Fixes QWebEngine linker errors on Ubuntu 22.04
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=gold")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fuse-ld=gold")
+endif()
+
+
 execute_process(
     COMMAND ${DATE_COMMAND} ${DATE_ARG}
     WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
@@ -104,14 +118,17 @@ add_compile_definitions(BUILD_DATE="${BUILD_DATE}")
 add_compile_definitions(GIT_BRANCH_NAME="${GIT_BRANCH_NAME}")
 add_compile_definitions(GIT_COMMIT_HASH="${GIT_COMMIT_HASH}")
 
-if(UNIX AND NOT APPLE)
-    # Fixes QWebEngine linker errors on Ubuntu 20.04
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=gold")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fuse-ld=gold")
-endif()
-
-add_subdirectory(CMake)
 add_subdirectory(ThirdParty)
+set(ECM_DIR "${THIRD_PARTY_PATH}/ecm")
+add_subdirectory(CMake)
+if(UNIX AND NOT APPLE)
+     # Needs to be append, because we include ecm as third party on linux
+     list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake") 
+     list(APPEND CMAKE_MODULE_PATH "${ECM_DIR}") 
+     list(APPEND CMAKE_MODULE_PATH "${ECM_DIR}/cmake") 
+else()
+
+endif()
 add_subdirectory(Tools)
 
 add_subdirectory(ScreenPlay)
@@ -149,6 +166,7 @@ message(STATUS "[PROJECT] CMAKE_VERSION                = ${CMAKE_VERSION}")
 message(STATUS "[PROJECT] SCREENPLAY_QML_MODULES_PATH  = ${SCREENPLAY_QML_MODULES_PATH}")
 message(STATUS "[PROJECT] CMAKE_TOOLCHAIN_FILE         = ${CMAKE_TOOLCHAIN_FILE}")
 message(STATUS "[PROJECT] VCPKG_PATH                   = ${VCPKG_PATH}")
+message(STATUS "[PROJECT] CMAKE_MODULE_PATH            = ${CMAKE_MODULE_PATH}")
 message(STATUS "[PROJECT] VCPKG_TARGET_TRIPLET         = ${VCPKG_TARGET_TRIPLET}")
 message(STATUS "[PROJECT] CMAKE_PREFIX_PATH            = ${CMAKE_PREFIX_PATH}")
 message(STATUS "[OPTION] SCREENPLAY_DEPLOY             = ${SCREENPLAY_DEPLOY}")

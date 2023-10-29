@@ -74,8 +74,42 @@
       }
     },
     {
-      "name": "linux-debug",
+      "name": "linux-generic-debug",
       "displayName": "ScreenPlay 64bit Debug Linux",
+      "description": "Linux only!",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6.5.2_GCC_Debug",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "g++",
+        "CMAKE_C_COMPILER": "gcc",
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/../vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "VCPKG_TARGET_TRIPLET": "x64-linux",
+        "SCREENPLAY_STEAM": "OFF",
+        "SCREENPLAY_TESTS": "OFF"
+      }
+    },
+    {
+      "name": "linux-relwithdebinfo",
+      "displayName": "ScreenPlay 64bit RelWithDebInfo Linux",
+      "inherits": "linux-generic-debug",
+      "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6.5.2_GCC_RelWithDebInfo",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+      }
+    },
+    {
+      "name": "linux-aqt-debug",
+      "displayName": "ScreenPlay 64bit Debug Linux using aqt",
       "description": "Linux only!",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6.5.2_GCC_Debug",
@@ -101,9 +135,9 @@
       }
     },
     {
-      "name": "linux-relwithdebinfo",
-      "displayName": "ScreenPlay 64bit RelWithDebInfo Linux",
-      "inherits": "linux-debug",
+      "name": "linux-aqt-relwithdebinfo",
+      "displayName": "ScreenPlay 64bit RelWithDebInfo Linux using aqt",
+      "inherits": "linux-ubuntu-debug",
       "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6.5.2_GCC_RelWithDebInfo",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "RelWithDebInfo"
