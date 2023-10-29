@@ -92,13 +92,13 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
     if (m_type != InstalledType::InstalledType::GodotWallpaper) {
         m_appArgumentsList.append(" --disable-features=HardwareMediaKeyHandling");
     }
-    if (m_type == InstalledType::InstalledType::GodotWallpaper) {
-        exportGodotProject(m_absolutePath);
-    }
 }
 
 bool ScreenPlayWallpaper::start()
 {
+    if (m_type == InstalledType::InstalledType::GodotWallpaper) {
+        exportGodotProject(m_absolutePath);
+    }
     m_process.setArguments(m_appArgumentsList);
     if (m_type == InstalledType::InstalledType::GodotWallpaper) {
         m_process.setProgram(m_globalVariables->godotWallpaperExecutablePath().toString());

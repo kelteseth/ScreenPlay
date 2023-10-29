@@ -113,12 +113,7 @@ def main():
     root_path = Path(util.cd_repo_root_path())
     project_source_parent_path = root_path.joinpath("../").resolve()
     vcpkg_path = project_source_parent_path.joinpath("vcpkg").resolve()
-    vcpkg_packages_list = [
-        "curl",
-        "cpp-httplib",
-        "libarchive",
-        "catch2"
-    ]
+    vcpkg_packages_list = defines.VCPKG_BASE_PACKAGES
     if not args.skip_aqt:
         setup_qt()
 

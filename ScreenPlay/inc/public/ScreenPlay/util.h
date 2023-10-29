@@ -87,7 +87,6 @@ public slots:
     void requestDataProtection();
     bool fileExists(const QString& filePath) const;
 
-    static void logToGui(QtMsgType type, const QMessageLogContext& context, const QString& msg);
     static bool writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObject& object, bool truncate = true);
     static bool writeSettings(const QJsonObject& obj, const QString& absolutePath);
     static bool writeFile(const QString& text, const QString& absolutePath);
@@ -127,6 +126,4 @@ private:
     std::unique_ptr<QArchive::DiskExtractor> m_extractor;
 };
 
-// Used for redirect content from static logToGui to setDebugMessages
-static Util* utilPointer { nullptr };
 }

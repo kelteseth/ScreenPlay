@@ -10,6 +10,7 @@
 
 #include "ScreenPlayUtil/exitcodes.h"
 #include "ScreenPlayUtil/util.h"
+#include "ScreenPlayUtil/logginghandler.h"
 
 #if defined(Q_OS_WIN)
 #include "src/winwindow.h"
@@ -36,6 +37,7 @@ int main(int argc, char* argv[])
 #endif
 
     QGuiApplication app(argc, argv);
+    std::unique_ptr<const ScreenPlayUtil::LoggingHandler> logging;
     std::unique_ptr<BaseWindow> window;
     const auto platformName = QGuiApplication::platformName();
 
@@ -54,6 +56,7 @@ int main(int argc, char* argv[])
     // If we start with only one argument (app path)
     // It means we want to test a single wallpaper
     const QStringList argumentList = app.arguments();
+    QString appID;
 
     // For testing purposes when starting the ScreenPlayWallpaper directly.
     if (argumentList.length() == 1) {
@@ -66,7 +69,7 @@ int main(int argc, char* argv[])
             "/wallpaper_video_astronaut_vp9", // 4
             "/wallpaper_video_nebula_h264" // 5
         };
-        const int index = 1;
+        const int index = 5;
         QString projectPath = exampleContentPath + contentFolder.at(index);
 
         window->setActiveScreensList({ 0 });
@@ -111,7 +114,7 @@ int main(int argc, char* argv[])
             return static_cast<int>(ScreenPlay::WallpaperExitCode::Invalid_Volume);
         }
 
-        QString appID = argumentList.at(3);
+        appID = argumentList.at(3);
         if (!appID.startsWith("appID=")) {
             qCritical("Invalid appID");
             return static_cast<int>(ScreenPlay::WallpaperExitCode::Invalid_AppID);
@@ -137,5 +140,8 @@ int main(int argc, char* argv[])
         return static_cast<int>(startStatus);
     }
     emit window->qmlStart();
-    return app.exec();
+    logging = std::make_unique<const ScreenPlayUtil::LoggingHandler>("ScreenPlayWallpaper_" + appID);
+    const int status = app.exec();
+    logging.reset();
+    return status;
 }

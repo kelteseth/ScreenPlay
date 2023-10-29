@@ -26,11 +26,6 @@ namespace ScreenPlay {
 Util::Util()
     : QObject(nullptr)
 {
-    // Fix log access vilation on quit
-    utilPointer = this;
-    auto* guiAppInst = dynamic_cast<QGuiApplication*>(QGuiApplication::instance());
-    QObject::connect(guiAppInst, &QGuiApplication::aboutToQuit, this, []() { utilPointer = nullptr; });
-
     m_extractor = std::make_unique<QArchive::DiskExtractor>();
     m_compressor = std::make_unique<QArchive::DiskCompressor>();
 
@@ -39,15 +34,6 @@ Util::Util()
 
     QObject::connect(m_compressor.get(), &QArchive::DiskCompressor::progress, this, &Util::compressionProgressChanged);
     QObject::connect(m_compressor.get(), &QArchive::DiskCompressor::finished, this, &Util::compressionFinished);
-
-    // In release mode redirect messages to logging otherwhise we break the nice clickable output :(
-#ifdef QT_NO_DEBUG
-    qInstallMessageHandler(Util::logToGui);
-    qInfo() << "Starting ScreenPlay LOG!";
-#endif
-
-    // This gives us nice clickable output in QtCreator
-    qSetMessagePattern("%{if-category}%{category}: %{endif}%{message}\n   Loc: [%{file}:%{line}]");
 }
 
 /*!
@@ -269,81 +255,6 @@ bool Util::fileExists(const QString& filePath) const
     return file.isFile();
 }
 
-static const char*
-logLevelForMessageType(QtMsgType msgType)
-{
-    switch (msgType) {
-    case QtDebugMsg:
-        return "debug";
-    case QtWarningMsg:
-        return "warning";
-    case QtCriticalMsg:
-        return "error";
-    case QtFatalMsg:
-        return "fatal";
-    case QtInfoMsg:
-        Q_FALLTHROUGH();
-    default:
-        return "info";
-    }
-}
-
-/*!
-  \brief Basic logging to the GUI. No logging is done to a log file for now. This string can be copied
-  in the settings tab in the UI.
-*/
-void Util::logToGui(QtMsgType type, const QMessageLogContext& context, const QString& msg)
-{
-    qDebug() << msg;
-    QByteArray localMsg = msg.toLocal8Bit();
-    QByteArray file = "File: " + QByteArray(context.file) + ", ";
-    QByteArray line = "in line " + QByteArray::number(context.line) + ", ";
-    QByteArray function = "function " + QByteArray(context.function) + ", Message: ";
-
-    QString log = "&emsp; <font color=\"#03A9F4\"> " + QDateTime::currentDateTime().toString() + "</font> &emsp; " + localMsg + "<br>";
-
-    switch (type) {
-    case QtDebugMsg:
-        log.prepend("<b><font color=\"##78909C\"> Debug</font>:</b>");
-        break;
-    case QtInfoMsg:
-        log.prepend("<b><font color=\"#8BC34A\"> Info</font>:</b>");
-        break;
-    case QtWarningMsg:
-        log.prepend("<b><font color=\"#FFC107\"> Warning</font>:</b>");
-        break;
-    case QtCriticalMsg:
-        log.prepend("<b><font color=\"#FF5722\"> Critical</font>:</b>");
-        break;
-    case QtFatalMsg:
-        log.prepend("<b><font color=\"#F44336\"> Fatal</font>:</b>");
-        break;
-    }
-    log.append("\n");
-
-    if (utilPointer != nullptr)
-        utilPointer->appendDebugMessages(log);
-
-#if defined(Q_OS_WIN)
-    sentry_value_t crumb
-        = sentry_value_new_breadcrumb("default", qUtf8Printable(msg));
-
-    sentry_value_set_by_key(
-        crumb, "category", sentry_value_new_string(context.category));
-
-    sentry_value_set_by_key(
-        crumb, "level", sentry_value_new_string(logLevelForMessageType(type)));
-
-    sentry_value_t location = sentry_value_new_object();
-    sentry_value_set_by_key(
-        location, "file", sentry_value_new_string(context.file));
-    sentry_value_set_by_key(
-        location, "line", sentry_value_new_int32(context.line));
-    sentry_value_set_by_key(crumb, "data", location);
-
-    sentry_add_breadcrumb(crumb);
-#endif
-}
 
 /*!
   \brief Takes ownership of \a obj and \a name. Tries to save into a text file

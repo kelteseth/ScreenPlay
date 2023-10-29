@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 
+find_package(fmt CONFIG REQUIRED)
 find_package(
     Qt6
     COMPONENTS Core Quick
@@ -41,6 +42,7 @@ set(SOURCES
     # cmake-format: sort
     inc/public/ScreenPlayUtil/httpfileserver.cpp
     src/contenttypes.cpp
+    src/logginghandler.cpp
     src/projectfile.cpp
     src/util.cpp)
 
@@ -57,6 +59,7 @@ set(HEADER
     inc/public/ScreenPlayUtil/PropertyHelpers.h
     inc/public/ScreenPlayUtil/PtrPropertyHelpers.h
     inc/public/ScreenPlayUtil/SingletonHelper.h
+    inc/public/ScreenPlayUtil/logginghandler.h
     inc/public/ScreenPlayUtil/util.h)
 
 if(APPLE)
@@ -95,8 +98,7 @@ target_include_directories(
     ${PROJECT_NAME}
     PUBLIC inc/public/
     PRIVATE src/)
-
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Quick)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Quick PUBLIC fmt::fmt-header-only ScreenPlaySysInfo)
 
 if(WIN32)
     # Used for query windows monitor data
