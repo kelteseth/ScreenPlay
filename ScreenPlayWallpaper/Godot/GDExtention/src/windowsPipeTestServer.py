@@ -1,4 +1,4 @@
-
+# SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 # python -m pip install pywin32
 import win32pipe
 import win32file

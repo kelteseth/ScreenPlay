@@ -1,8 +1,9 @@
+#!/usr/bin/python3
+# SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 import requests
 import zipfile
 import platform
 from pathlib import Path
-# Assuming defines.py exists and has GODOT_VERSION
 from defines import GODOT_VERSION
 from util import repo_root_path  # Assuming util.py exists and has repo_root_path()
 
