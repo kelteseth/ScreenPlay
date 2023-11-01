@@ -1,5 +1,4 @@
 #include "ScreenPlayUtil/logginghandler.h"
-#include "sysinfo.h"
 #include <QDateTime>
 #include <QDebug>
 #include <QDir>
@@ -9,10 +8,15 @@
 #include <QUrl>
 #include <fmt/color.h>
 
+#ifdef Q_OS_WINDOWS
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <Windows.h>
+#endif
 
 /*!
     \class ScreenPlayUtil::LoggingHandler
-    \inmodule core
     \brief The LoggingHandler class writes logs to the console and a log file.
 */
 
@@ -48,7 +52,6 @@ void LoggingHandler::start()
 {
     Q_ASSERT(!m_logFileName.isEmpty());
 
-    // Use hardcoded path for now because QStandardpaths gives us: 'C:/ProgramData/K3000'
     QDir directory;
     QString cacheDir = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
     directory = QDir(cacheDir + "/ScreenPlay/Logs");
@@ -77,29 +80,6 @@ void LoggingHandler::start()
         qCritical() << "Unable to open log file" << logFile().fileName();
         return;
     }
-
-    
-    SysInfo sysInfo;
-    QTextStream stream(&logFile());
-    stream << "Start ScreenPlay logging " << QDateTime::currentDateTime().toString("dd.MM.yyyy-hh:mm:ss.zzz") << "\n";
-    stream << "version: 1.0\n";
-    stream << "buildAbi: " << QSysInfo::buildAbi() << "\n";
-    stream << "buildCpuArchitecture: " << QSysInfo::buildCpuArchitecture() << "\n";
-    stream << "currentCpuArchitecture: " << QSysInfo::currentCpuArchitecture() << "\n";
-    stream << "kernelType: " << QSysInfo::kernelType() << "\n";
-    stream << "kernelVersion: " << QSysInfo::kernelVersion() << "\n";
-    stream << "machineHostName: " << QSysInfo::machineHostName() << "\n";
-    stream << "machineUniqueId: " << QSysInfo::machineUniqueId() << "\n";
-    stream << "prettyProductName: " << QSysInfo::prettyProductName() << "\n";
-    stream << "productType: " << QSysInfo::productType() << "\n";
-    stream << "productVersion: " << QSysInfo::productVersion() << "\n";
-    stream << "GPU Name: " << sysInfo.gpu()->name() << "\n";
-    stream << "GPU Vendor: " << sysInfo.gpu()->vendor() << "\n";
-    stream << "GPU ramSize: " << QString::number(sysInfo.gpu()->ramSize()) << "\n";
-    stream << "GPU cacheSize: " << QString::number(sysInfo.gpu()->cacheSize()) << "\n";
-    stream << "GPU maxFrequency: " << QString::number(sysInfo.gpu()->maxFrequency()) << "\n";
-    stream << QString("Uptime: %1 days %2 hours %3 minutes %4 seconds").arg(sysInfo.uptime()->days()).arg(sysInfo.uptime()->hours()).arg(sysInfo.uptime()->minutes()).arg(sysInfo.uptime()->seconds()) << "\n";
-    
 
     const auto now = QLocale().toString(QDateTime::currentDateTime(), QLocale::FormatType::ShortFormat);
     const auto message = QString { "[%1] Start logging\n" }.arg(now);

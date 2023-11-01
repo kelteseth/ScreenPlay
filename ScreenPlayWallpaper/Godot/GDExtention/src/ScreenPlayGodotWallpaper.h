@@ -2,6 +2,10 @@
 
 #pragma once
 
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+
 #include "godot_cpp/classes/control.hpp"
 #include "godot_cpp/classes/global_constants.hpp"
 #include "godot_cpp/classes/timer.hpp"
@@ -14,8 +18,8 @@
 #include <vector>
 
 #include "ScreenPlayGodotWallpaper.h"
-#include "windowsintegration.h"
 #include "WindowsPipe.h"
+#include "windowsintegration.h"
 
 class ScreenPlayGodotWallpaper : public godot::Node {
     GDCLASS(ScreenPlayGodotWallpaper, Node)
@@ -54,7 +58,6 @@ private:
     void hideFromTaskbar(HWND hwnd);
 
 private:
-
     OVERLAPPED overlappedRead = {};
     OVERLAPPED overlappedWrite = {};
 

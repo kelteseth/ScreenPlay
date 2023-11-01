@@ -21,7 +21,7 @@ TEST_CASE("Test WindowsPipe with Python echo server", "[WindowsPipe]")
             std::string response;
             REQUIRE(client.readFromPipe(response));
             REQUIRE(response == "pong;");
-            std::cout << response <<"ok\n";
+            std::cout << response << "ok\n";
         }
     }
 }

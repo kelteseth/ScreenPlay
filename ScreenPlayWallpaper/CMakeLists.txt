@@ -7,18 +7,17 @@ set(CMAKE_AUTOMOC ON)
 
 find_package(
     Qt6
-    COMPONENTS
-    Core
-    Quick
-    Gui
-    Widgets
-    WebSockets
-    Svg
-    Multimedia
-    WebEngineCore
-    WebEngineQuick
-    WebChannel
-    Positioning)
+    COMPONENTS Core
+               Quick
+               Gui
+               Widgets
+               WebSockets
+               Svg
+               Multimedia
+               WebEngineCore
+               WebEngineQuick
+               WebChannel
+               Positioning)
 
 if(WIN32)
     set(SOURCES src/windowsdesktopproperties.cpp src/winwindow.cpp)
@@ -55,25 +54,18 @@ set(LIB_HEADER)
 if(WIN32)
     set(LIB_SOURCES src/windowsintegration.cpp)
     set(LIB_HEADER src/windowsintegration.h)
-elseif(APPLE)
-    set(LIB_SOURCES src/macintegration.cpp)
-    set(LIB_HEADER src/macintegration.h)
-elseif(UNIX)
-    #set(LIB_SOURCES src/waylandintegration.cpp)
-    #set(LIB_HEADER src/waylandintegration.h)
-endif()
-
-add_library(ScreenPlayWallpaperLib STATIC ${LIB_SOURCES} ${LIB_HEADER})
-target_include_directories(ScreenPlayWallpaperLib PUBLIC src)
-
-if(WIN32)
+    add_library(ScreenPlayWallpaperLib STATIC ${LIB_SOURCES} ${LIB_HEADER})
+    target_include_directories(ScreenPlayWallpaperLib PUBLIC src)
     # Used for query windows monitor data
     target_link_libraries(ScreenPlayWallpaperLib PUBLIC shcore.lib)
 endif()
 
-
-add_executable(${PROJECT_NAME} ${SOURCES} ${HEADER}
-    src/windowsintegration.h src/windowsintegration.cpp)
+add_executable(
+    ${PROJECT_NAME}
+    ${SOURCES}
+    ${HEADER}
+    src/windowsintegration.h
+    src/windowsintegration.cpp)
 
 qt_add_qml_module(
     ${PROJECT_NAME}
@@ -92,34 +84,34 @@ qt_add_qml_module(
 
 target_link_libraries(
     ${PROJECT_NAME}
-    PRIVATE
-    ScreenPlaySDK
-    ScreenPlayWallpaperLib
-    ScreenPlayUtil
-    ScreenPlayWeatherplugin
-    Qt6::Quick
-    Qt6::Gui
-    Qt6::Widgets
-    Qt6::Core
-    Qt6::WebSockets
-    Qt6::Svg
-    Qt6::Multimedia
-    Qt6::WebEngineCore
-    Qt6::WebEngineQuick)
+    PRIVATE ScreenPlaySDK
+            ScreenPlayUtil
+            ScreenPlayWeatherplugin
+            Qt6::Quick
+            Qt6::Gui
+            Qt6::Widgets
+            Qt6::Core
+            Qt6::WebSockets
+            Qt6::Svg
+            Qt6::Multimedia
+            Qt6::WebEngineCore
+            Qt6::WebEngineQuick)
 
 if(WIN32)
-    target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlaySysInfoplugin)
+    target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlaySysInfoplugin ScreenPlayWallpaperLib)
 elseif(UNIX AND NOT APPLE)
     target_link_libraries(${PROJECT_NAME} PRIVATE X11)
 endif()
 
 if(UNIX AND NOT APPLE)
-    find_package(ECM CONFIG REQUIRED NO_MODULE)
+    find_package(
+        ECM
+        CONFIG
+        REQUIRED
+        NO_MODULE)
     set(LayerShellQt "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/layer-shell-qt/")
     find_package(LayerShellQt REQUIRED)
-    target_link_libraries(
-        ${PROJECT_NAME}
-        PRIVATE LayerShellQtInterface)
+    target_link_libraries(${PROJECT_NAME} PRIVATE LayerShellQtInterface)
 endif()
 
 if(APPLE)
@@ -130,7 +122,7 @@ if(APPLE)
             TARGET ${PROJECT_NAME}
             POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/index.html
-            ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/)
+                    ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/)
         set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
     endif()
 endif()

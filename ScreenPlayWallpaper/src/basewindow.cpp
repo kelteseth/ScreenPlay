@@ -35,7 +35,6 @@ BaseWindow::BaseWindow()
         "VideoCodec",
         "Error: only enums");
 
-
     setOSVersion(QSysInfo::productVersion());
 }
 

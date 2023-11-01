@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "winwindow.h"
-#include "windowsintegration.h"
 #include "ScreenPlayUtil/projectfile.h"
+#include "windowsintegration.h"
 #include <QGuiApplication>
 #include <QtQml>
 #include <algorithm>
@@ -15,7 +15,6 @@
     \inmodule ScreenPlayWallpaper
     \brief  ScreenPlayWindow used for the Windows implementation.
 */
-
 
 HHOOK g_mouseHook;
 QPoint g_LastMousePosition { 0, 0 };
@@ -182,18 +181,16 @@ void WinWindow::destroyThis()
     emit qmlExit();
 }
 
-
 void WinWindow::setupWallpaperForOneScreen(int activeScreen)
 {
     WindowsIntegration windowsIntegration;
-    auto updateWindowSize = [this](const int width, const int height){
+    auto updateWindowSize = [this](const int width, const int height) {
         setWidth(width);
         setHeight(height);
         m_window.setWidth(width);
         m_window.setHeight(height);
     };
-    std::optional<Monitor> monitor = windowsIntegration.setupWallpaperForOneScreen(activeScreen,m_windowHandle,m_windowHandleWorker,updateWindowSize);
-
+    std::optional<Monitor> monitor = windowsIntegration.setupWallpaperForOneScreen(activeScreen, m_windowHandle, m_windowHandleWorker, updateWindowSize);
 }
 
 /*!
@@ -202,7 +199,7 @@ void WinWindow::setupWallpaperForOneScreen(int activeScreen)
 void WinWindow::setupWallpaperForAllScreens()
 {
     WindowsIntegration windowsIntegration;
-    WindowsIntegration::SpanResult span = windowsIntegration.setupWallpaperForAllScreens(m_windowHandle,m_windowHandleWorker);
+    WindowsIntegration::SpanResult span = windowsIntegration.setupWallpaperForAllScreens(m_windowHandle, m_windowHandleWorker);
     setWidth(span.width);
     setHeight(span.height);
     m_window.setWidth(width());
@@ -216,7 +213,7 @@ void WinWindow::setupWallpaperForMultipleScreens(const QVector<int>& activeScree
 {
     std::vector<int> activeScreens(activeScreensList.begin(), activeScreensList.end());
     WindowsIntegration windowsIntegration;
-    WindowsIntegration::SpanResult span = windowsIntegration.setupWallpaperForMultipleScreens(activeScreens,m_windowHandle,m_windowHandleWorker);
+    WindowsIntegration::SpanResult span = windowsIntegration.setupWallpaperForMultipleScreens(activeScreens, m_windowHandle, m_windowHandleWorker);
     setWidth(span.width);
     setHeight(span.height);
     m_window.setWidth(width());
@@ -290,7 +287,8 @@ void WinWindow::clearComponentCache()
     m_window.engine()->clearComponentCache();
 }
 
-void WinWindow::checkForFullScreenWindow(){
+void WinWindow::checkForFullScreenWindow()
+{
     bool hasFullscreenWindow = WindowsIntegration().checkForFullScreenWindow(m_windowHandle);
 
     setVisualsPaused(hasFullscreenWindow);

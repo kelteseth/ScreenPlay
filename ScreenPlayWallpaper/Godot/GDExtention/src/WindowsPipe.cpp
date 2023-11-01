@@ -1,6 +1,7 @@
 #include "WindowsPipe.h"
 
-bool WindowsPipe::connectToPipe() {
+bool WindowsPipe::connectToPipe()
+{
     if (m_pipeName.empty()) {
         std::cerr << "Pipe name not set." << std::endl;
         return false;
@@ -25,7 +26,8 @@ bool WindowsPipe::connectToPipe() {
     return true;
 }
 
-bool WindowsPipe::readFromPipe(std::string& outMessage) {
+bool WindowsPipe::readFromPipe(std::string& outMessage)
+{
     char buffer[128];
     DWORD bytesRead;
 
@@ -52,8 +54,8 @@ bool WindowsPipe::readFromPipe(std::string& outMessage) {
     return true;
 }
 
-
-bool WindowsPipe::writeToPipe(const std::string& message) {
+bool WindowsPipe::writeToPipe(const std::string& message)
+{
     DWORD bytesWritten;
 
     if (!WriteFile(m_hPipe, message.c_str(), static_cast<DWORD>(message.size()), &bytesWritten, &m_overlapped)) {

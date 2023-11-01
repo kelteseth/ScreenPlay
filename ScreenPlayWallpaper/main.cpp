@@ -9,15 +9,15 @@
 #include "ScreenPlayWallpaper/CMakeVariables.h"
 
 #include "ScreenPlayUtil/exitcodes.h"
-#include "ScreenPlayUtil/util.h"
 #include "ScreenPlayUtil/logginghandler.h"
+#include "ScreenPlayUtil/util.h"
 
 #if defined(Q_OS_WIN)
 #include "src/winwindow.h"
 Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoPlugin)
 #elif defined(Q_OS_LINUX)
-#include "src/linuxx11window.h"
 #include "src/linuxwaylandwindow.h"
+#include "src/linuxx11window.h"
 #elif defined(Q_OS_OSX)
 #include "src/macwindow.h"
 #endif
@@ -44,9 +44,9 @@ int main(int argc, char* argv[])
 #if defined(Q_OS_WIN)
     window = std::make_unique<WinWindow>();
 #elif defined(Q_OS_LINUX)
-    if(platformName == "xcb"){
-        window = std::make_unique<LinuxX11Window>();  
-    } else if(platformName == "wayland"){
+    if (platformName == "xcb") {
+        window = std::make_unique<LinuxX11Window>();
+    } else if (platformName == "wayland") {
         window = std::make_unique<LinuxWaylandWindow>();
     }
 #elif defined(Q_OS_OSX)

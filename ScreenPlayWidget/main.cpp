@@ -8,8 +8,8 @@
 #include <QStringList>
 #include <QtWebEngineQuick>
 
-#include "src/widgetwindow.h"
 #include "ScreenPlayUtil/logginghandler.h"
+#include "src/widgetwindow.h"
 
 #if defined(Q_OS_WIN)
 Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoPlugin)
@@ -95,7 +95,7 @@ int main(int argc, char* argv[])
 #if defined(Q_OS_OSX)
     MacUtils::showDockIcon(false);
 #endif
-    logging = std::make_unique<const ScreenPlayUtil::LoggingHandler>("ScreenPlayWidget_"+ appID);
+    logging = std::make_unique<const ScreenPlayUtil::LoggingHandler>("ScreenPlayWidget_" + appID);
     const int status = app.exec();
     logging.reset();
     return status;

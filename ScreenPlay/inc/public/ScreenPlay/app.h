@@ -101,7 +101,6 @@ public slots:
     void setMainWindowEngine(QQmlApplicationEngine* mainWindowEngine);
     void setWizards(Wizards* wizards);
 
-
 private:
     QNetworkAccessManager m_networkAccessManager;
     std::unique_ptr<QQmlApplicationEngine> m_mainWindowEngine;

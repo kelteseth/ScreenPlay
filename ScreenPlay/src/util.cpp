@@ -255,7 +255,6 @@ bool Util::fileExists(const QString& filePath) const
     return file.isFile();
 }
 
-
 /*!
   \brief Takes ownership of \a obj and \a name. Tries to save into a text file
     with of name.

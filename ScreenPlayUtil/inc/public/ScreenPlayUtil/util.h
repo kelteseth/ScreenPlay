@@ -3,13 +3,13 @@
 #pragma once
 
 #include "ScreenPlayUtil/contenttypes.h"
-#include <QtGlobal>
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QMetaEnum>
 #include <QMetaType>
 #include <QString>
 #include <QVersionNumber>
+#include <QtGlobal>
 #include <optional>
 
 namespace ScreenPlayUtil {

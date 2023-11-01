@@ -45,7 +45,6 @@ list(APPEND CMAKE_MODULE_PATH "${THIRD_PARTY_PATH}/ecm/find-modules")
 list(APPEND CMAKE_MODULE_PATH "${THIRD_PARTY_PATH}/ecm/kde-modules")
 message(STATUS "[PROJECT] CMAKE_MODULE_PATH            = ${CMAKE_MODULE_PATH}")
 
-
 option(OSX_BUNDLE "Enable distribution macOS bundle" OFF)
 set(CMAKE_OSX_DEPLOYMENT_TARGET "13.0")
 
@@ -74,7 +73,7 @@ set(VCPKG_BIN_PATH "${VCPKG_INSTALLED_PATH}/bin")
 
 option(SCREENPLAY_STEAM "For FOSS distribution so we do not bundle proprietary code." ON)
 option(SCREENPLAY_DEPLOY "Marks this version as an official deploy version. This version uses different import paths and other settings."
-    OFF)
+       OFF)
 option(SCREENPLAY_TESTS "Enables UI tests." ON)
 option(SCREENPLAY_INSTALLER "Indicates whether an installer via the Qt Installer Framework is created." OFF)
 option(SCREENPLAY_GODOT_SUPPORT "Compiles ScreenPlayGodotWallpaper." ON)
@@ -103,13 +102,11 @@ else()
     set(DATE_ARG "")
 endif()
 
-
 if(UNIX AND NOT APPLE)
     # Fixes QWebEngine linker errors on Ubuntu 22.04
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=gold")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fuse-ld=gold")
 endif()
-
 
 execute_process(
     COMMAND ${DATE_COMMAND} ${DATE_ARG}
@@ -138,10 +135,10 @@ add_subdirectory(ThirdParty)
 set(ECM_DIR "${THIRD_PARTY_PATH}/ecm")
 add_subdirectory(CMake)
 if(UNIX AND NOT APPLE)
-     # Needs to be append, because we include ecm as third party on linux
-     list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake") 
-     list(APPEND CMAKE_MODULE_PATH "${ECM_DIR}") 
-     list(APPEND CMAKE_MODULE_PATH "${ECM_DIR}/cmake") 
+    # Needs to be append, because we include ecm as third party on linux
+    list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
+    list(APPEND CMAKE_MODULE_PATH "${ECM_DIR}")
+    list(APPEND CMAKE_MODULE_PATH "${ECM_DIR}/cmake")
 else()
 
 endif()

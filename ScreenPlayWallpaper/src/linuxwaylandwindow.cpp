@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "linuxwaylandwindow.h"
-#include <QScreen>
 #include <QGuiApplication>
+#include <QScreen>
 
-#include <LayerShellQt/Window>
 #include <LayerShellQt/Shell>
+#include <LayerShellQt/Window>
 
 ScreenPlay::WallpaperExitCode LinuxWaylandWindow::start()
 {
@@ -22,20 +22,12 @@ ScreenPlay::WallpaperExitCode LinuxWaylandWindow::start()
 
     // Get the Wayland display
     if (QGuiApplication::platformName() == "wayland") {
-        QPlatformNativeInterface *native = QGuiApplication::platformNativeInterface();
-        
+        QPlatformNativeInterface* native = QGuiApplication::platformNativeInterface();
 
-    auto *layerShell = LayerShellQt::Window::get(&m_window);
-    layerShell->setLayer(LayerShellQt::Window::LayerBackground);
-    layerShell->setAnchors(static_cast<QFlags<LayerShellQt::Window::Anchor>>(
-        LayerShellQt::Window::Anchor::AnchorTop |
-        LayerShellQt::Window::Anchor::AnchorBottom |
-        LayerShellQt::Window::Anchor::AnchorLeft |
-        LayerShellQt::Window::Anchor::AnchorRight
-    ));
-
-
-   
+        auto* layerShell = LayerShellQt::Window::get(&m_window);
+        layerShell->setLayer(LayerShellQt::Window::LayerBackground);
+        layerShell->setAnchors(static_cast<QFlags<LayerShellQt::Window::Anchor>>(
+            LayerShellQt::Window::Anchor::AnchorTop | LayerShellQt::Window::Anchor::AnchorBottom | LayerShellQt::Window::Anchor::AnchorLeft | LayerShellQt::Window::Anchor::AnchorRight));
     }
 
     m_window.show();

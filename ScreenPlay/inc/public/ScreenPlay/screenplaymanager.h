@@ -40,7 +40,6 @@ public:
     int activeWidgetsCounter() const { return m_activeWidgetsCounter; }
     bool isAnotherScreenPlayInstanceRunning() { return m_isAnotherScreenPlayInstanceRunning; }
 
-
 signals:
     void activeWallpaperCounterChanged(int activeWallpaperCounter);
     void activeWidgetsCounterChanged(int activeWidgetsCounter);

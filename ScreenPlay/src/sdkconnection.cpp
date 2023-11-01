@@ -39,7 +39,7 @@ void ScreenPlay::SDKConnection::readyRead()
 {
     // Split all messages by semicolon. This fixes double messages like pingping
     // when we get messages to fast
-    const QString read = QString(m_socket->readAll()); 
+    const QString read = QString(m_socket->readAll());
     const QStringList messages = read.split(";");
     for (const QString& msg : messages) {
         if (msg == "ping") {

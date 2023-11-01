@@ -55,11 +55,11 @@ set(HEADER
     inc/public/ScreenPlayUtil/HelpersCommon.h
     inc/public/ScreenPlayUtil/httpfileserver.h
     inc/public/ScreenPlayUtil/ListPropertyHelper.h
+    inc/public/ScreenPlayUtil/logginghandler.h
     inc/public/ScreenPlayUtil/projectfile.h
     inc/public/ScreenPlayUtil/PropertyHelpers.h
     inc/public/ScreenPlayUtil/PtrPropertyHelpers.h
     inc/public/ScreenPlayUtil/SingletonHelper.h
-    inc/public/ScreenPlayUtil/logginghandler.h
     inc/public/ScreenPlayUtil/util.h)
 
 if(APPLE)
@@ -98,7 +98,10 @@ target_include_directories(
     ${PROJECT_NAME}
     PUBLIC inc/public/
     PRIVATE src/)
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Quick PUBLIC fmt::fmt-header-only ScreenPlaySysInfo)
+target_link_libraries(
+    ${PROJECT_NAME}
+    PRIVATE Qt6::Core Qt6::Quick
+    PUBLIC fmt::fmt-header-only)
 
 if(WIN32)
     # Used for query windows monitor data
