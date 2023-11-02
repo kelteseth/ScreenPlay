@@ -22,7 +22,7 @@ private:
     static QString toString(QtMsgType type);
     static QString extractFileName(const QMessageLogContext& context);
     static QString extractFunction(const QMessageLogContext& context);
-    static void writeToConsole(const QString& line, QtMsgType type);
+    static void writeToConsole(QtMsgType type, const QMessageLogContext& context, const QString& message);
     static void writeToFile(const QString& line);
     static void checkLogRotation();
     static void loggingMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& message);

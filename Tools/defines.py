@@ -18,8 +18,9 @@ elif sys.platform == "linux":
     OS = "linux"
     QT_PLATFORM = "gcc_64"
 
-QT_PATH = path = Path(os.path.join(
-    os.path.realpath(__file__), "../../../aqt")).resolve()
+REPO_PATH =  Path(__file__, "../../").resolve()
+THIRDPATH_PATH =  Path(REPO_PATH, "ThirdParty").resolve()
+QT_PATH = path = Path(REPO_PATH, "../aqt").resolve()
 QT_VERSION = "6.6.0"
 QT_BIN_PATH = QT_PATH.joinpath(f"{QT_VERSION}/{QT_PLATFORM}/bin")
 QT_TOOLS_PATH = QT_PATH.joinpath("Tools/")
@@ -34,10 +35,10 @@ VCPKG_BASE_PACKAGES =  [
         "catch2"
     ]
 PYTHON_EXECUTABLE = "python" if sys.platform == "win32" else "python3"
-FFMPEG_VERSION = "5.0.1"
-
-GODOT_VERSION = "4.1.1"
-GODOT_RELEASE_TYPE = "stable"
+FFMPEG_VERSION = "6.0"
+GODOT_VERSION = "4.2"
+GODOT_RELEASE_TYPE = "beta4"
+GODOT_DOWNLOAD_SERVER = "https://downloads.tuxfamily.org/godotengine"
 if sys.platform == "win32":
     SCREENPLAYWALLPAPER_GODOT_EXECUTABLE = "ScreenPlayWallpaperGodot.exe"
     GODOT_EDITOR_EXECUTABLE = f"Godot_v{GODOT_VERSION}-{GODOT_RELEASE_TYPE}_win64.exe"
@@ -53,3 +54,4 @@ elif sys.platform == "linux":
     # /home/eli/.local/share/godot/templates/
     GODOT_TEMPLATES_PATH = os.path.join(
         Path.home(), f".local/share/godot/templates/{GODOT_VERSION}.{GODOT_RELEASE_TYPE}")
+

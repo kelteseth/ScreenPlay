@@ -15,7 +15,7 @@ Util.Dialog {
     property string message
     standardButtons: Dialog.Ok | Dialog.Help
     onHelpRequested: {
-        Qt.openUrlExternally("https://forum.screen-play.app/category/7/troubleshooting");
+        Qt.openUrlExternally("https://forum.screen-play.app/");
     }
 
     Connections {
@@ -29,8 +29,8 @@ Util.Dialog {
     }
 
     contentItem: Item {
-        width: 600
-        height: 400
+        implicitWidth: 600
+        implicitHeight: 400
 
         ColumnLayout {
             anchors.margins: 20

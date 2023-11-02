@@ -13,6 +13,7 @@ from build_config import BuildConfig
 from typing import Tuple
 from pathlib import Path
 import macos_sign
+import build_godot
 from util import sha256, cd_repo_root_path, repo_root_path, zipdir, run, get_vs_env_dict, get_latest_git_tag, parse_semver, semver_to_string
 from sys import stdout
 
@@ -50,6 +51,10 @@ def execute(
     build_result = build(build_config, build_result)
     build_duration = time.time() - step_time
     print(f"⏱️ build_duration: {build_duration}s")
+
+    # Build Godot Wallpaper
+    if platform.system() == "Windows":
+        build_godot.build_godot(str(build_config.bin_dir), build_config.build_type)
 
     # Copies all needed libraries and assets into the bin folder
     step_time = time.time()
@@ -384,7 +389,7 @@ if __name__ == "__main__":
         qt_ifw_version = args.qt_installer_version_overwrite
         print("Using Qt installer framework version {qt_ifw_version}")
 
-    build_type = args.build_type
+    build_type = args.build_type.lower()
 
     build_steam = "OFF"
     if args.build_steam:

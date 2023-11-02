@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Windows Launch",
+            "name": "🪟 Windows Launch",
             "type": "cppvsdbg",
             "request": "launch",
             "program": "${command:cmake.launchTargetPath}",
@@ -23,26 +23,20 @@
             "visualizerFile": "${workspaceFolder}/.vscode/qt.natvis.xml"
         },
         {
-            "name": "Godot Editor",
-            "type": "cppvsdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}\\Tools\\Apps\\Godot\\Godot_v4.1.1-stable_win64.exe",
-            "args": [
-                "--path",
-                "${workspaceFolder}\\ScreenPlayWallpaper\\Godot\\ScreenPlayGodot",
-                "--editor"
-            ],
-            "stopAtEntry": false,
-            "preLaunchTask": "CMake: build",
-            "externalConsole": false
-        },
-        {
-            "name": "macOS/linux Launch",
+            "name": "🍏macOS & 🐧linux Launch",
             "type": "lldb",
             "request": "launch",
             "program": "${command:cmake.launchTargetPath}",
             "args": [],
             "cwd": "${command:cmake.buildDirectory}/bin",
+        },
+        {
+            "name": "🐍 Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true
         }
     ]
 }

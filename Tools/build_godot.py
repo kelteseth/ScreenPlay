@@ -33,16 +33,21 @@ def main():
     abs_build_path = args.build_path
     if not os.path.isabs(args.build_path):
         abs_build_path = os.path.abspath(os.path.join(os.getcwd(), args.build_path))
+
+    if 'Debug' in abs_build_path:
+        build_type = "debug"
+    else:
+        build_type = "release"
     
-    build_godot(abs_build_path)
+    build_godot(abs_build_path, build_type)
     
-def build_godot(abs_build_path: str):
+def build_godot(abs_build_path: str,  build_type: str):
     project_path = Path(util.repo_root_path()).joinpath("ScreenPlayWallpaper/Godot/ScreenPlayGodot").resolve()
-    apps_path = os.path.join(util.repo_root_path(),"Tools/Apps/Godot")
+    apps_path = os.path.join(defines.THIRDPATH_PATH,"Godot")
     godot_executable = os.path.join(apps_path, defines.GODOT_EDITOR_EXECUTABLE)
     screenPlayWallpaperGodot_executable = Path(abs_build_path).joinpath(defines.SCREENPLAYWALLPAPER_GODOT_EXECUTABLE).resolve()
     
-    if 'Debug' in abs_build_path:
+    if 'debug' in build_type:
         export_type = " --export-debug"
     else:
         export_type = " --export-release"

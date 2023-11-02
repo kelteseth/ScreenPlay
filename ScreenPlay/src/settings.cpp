@@ -157,11 +157,12 @@ void Settings::setupWidgetAndWindowPaths()
     const QString osType = QSysInfo::productType();
 
     QString godotVersion = QString(SCREENPLAY_GODOT_VERSION);
+    QString godotReleaseType = QString(SCREENPLAY_GODOT_RELEASE_TYPE);
     if (osType == "windows") {
         m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget" + ScreenPlayUtil::executableBinEnding()));
         m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper" + ScreenPlayUtil::executableBinEnding()));
         m_globalVariables->setGodotWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaperGodot" + ScreenPlayUtil::executableBinEnding()));
-        const auto godotEditorName = "Godot_" + godotVersion + "-stable_win64.exe";
+        const auto godotEditorName = "Godot_" + godotVersion + "-" + godotReleaseType + "_win64.exe";
         m_globalVariables->setGodotEditorExecutablePath(QUrl(workingDir.path() + "/" + godotEditorName));
     } else if (osType == "osx") {
         // ScreenPlayTest is not bundled in an .app so the working directory

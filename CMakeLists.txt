@@ -22,14 +22,15 @@ elseif(APPLE)
 endif()
 
 # Godot Editor
-set(GODOT_VERSION "v4.1.1")
+set(GODOT_VERSION "v4.2")
+set(GODOT_RELEASE_TYPE "beta4")
 
 if(WIN32)
-    set(GODOT_EDITOR_NAME "Godot_${GODOT_VERSION}-stable_win64.exe")
+    set(GODOT_EDITOR_NAME "Godot_${GODOT_VERSION}-${GODOT_RELEASE_TYPE}_win64.exe")
 elseif(APPLE)
     set(GODOT_EDITOR_NAME "Godot.app")
 elseif(UNIX)
-    set(GODOT_EDITOR_NAME "Godot_${GODOT_VERSION}-stable_linux.x86_64")
+    set(GODOT_EDITOR_NAME "Godot_${GODOT_VERSION}-${GODOT_RELEASE_TYPE}_linux.x86_64")
 else()
     message(FATAL_ERROR "Unsupported OS")
 endif()
@@ -73,10 +74,10 @@ set(VCPKG_BIN_PATH "${VCPKG_INSTALLED_PATH}/bin")
 
 option(SCREENPLAY_STEAM "For FOSS distribution so we do not bundle proprietary code." ON)
 option(SCREENPLAY_DEPLOY "Marks this version as an official deploy version. This version uses different import paths and other settings."
-       OFF)
+    OFF)
 option(SCREENPLAY_TESTS "Enables UI tests." ON)
 option(SCREENPLAY_INSTALLER "Indicates whether an installer via the Qt Installer Framework is created." OFF)
-option(SCREENPLAY_GODOT_SUPPORT "Compiles ScreenPlayGodotWallpaper." ON)
+option(SCREENPLAY_GODOT_SUPPORT "Compiles ScreenPlayGodotWallpaper." OFF)
 
 # Gitlab CI has many ENV variables. We use this one to check if the current build happens inside the CI
 if(DEFINED ENV{CI_COMMIT_MESSAGE})
@@ -134,14 +135,15 @@ add_compile_definitions(GIT_COMMIT_HASH="${GIT_COMMIT_HASH}")
 add_subdirectory(ThirdParty)
 set(ECM_DIR "${THIRD_PARTY_PATH}/ecm")
 add_subdirectory(CMake)
+
 if(UNIX AND NOT APPLE)
     # Needs to be append, because we include ecm as third party on linux
     list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
     list(APPEND CMAKE_MODULE_PATH "${ECM_DIR}")
     list(APPEND CMAKE_MODULE_PATH "${ECM_DIR}/cmake")
 else()
-
 endif()
+
 add_subdirectory(Tools)
 
 add_subdirectory(ScreenPlay)
@@ -187,6 +189,8 @@ message(STATUS "[PROJECT] VCPKG_PATH                   = ${VCPKG_PATH}")
 message(STATUS "[PROJECT] CMAKE_MODULE_PATH            = ${CMAKE_MODULE_PATH}")
 message(STATUS "[PROJECT] VCPKG_TARGET_TRIPLET         = ${VCPKG_TARGET_TRIPLET}")
 message(STATUS "[PROJECT] CMAKE_PREFIX_PATH            = ${CMAKE_PREFIX_PATH}")
+message(STATUS "[PROJECT] GODOT_VERSION                = ${GODOT_VERSION}")
+message(STATUS "[PROJECT] GODOT_EDITOR_NAME            = ${GODOT_EDITOR_NAME}")
 message(STATUS "[OPTION] SCREENPLAY_DEPLOY             = ${SCREENPLAY_DEPLOY}")
 message(STATUS "[OPTION] SCREENPLAY_INSTALLER          = ${SCREENPLAY_INSTALLER}")
 message(STATUS "[OPTION] SCREENPLAY_STEAM              = ${SCREENPLAY_STEAM}")

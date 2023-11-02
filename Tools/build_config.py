@@ -27,5 +27,6 @@ class BuildConfig:
     build_deploy: str
     build_type: str
     build_architecture: str
+    build_godot: str
     create_installer: str
     sign_osx: bool

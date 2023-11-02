@@ -36,6 +36,7 @@ LoggingHandler::LoggingHandler(const QString& logFileName)
 
 #endif
 
+    qSetMessagePattern("[%{time dd.MM.yyyy h:mm:ss.zzz} %{if-debug}Debug%{endif}%{if-info}Info%{endif}%{if-warning}Warning%{endif}%{if-critical}Critical%{endif}%{if-fatal}Fatal%{endif}] %{file}:%{line} - %{message}");
     qInstallMessageHandler(LoggingHandler::loggingMessageHandler);
     const auto lock = std::lock_guard(logFileMutex());
     m_logFileName = logFileName;
@@ -193,29 +194,47 @@ QString LoggingHandler::extractFunction(const QMessageLogContext& context)
  * \brief LoggingHandler::writeToConsole
  * std::flush is used to fix QtCreator not printing output.
  */
-void LoggingHandler::writeToConsole(const QString& line, QtMsgType type)
+void LoggingHandler::writeToConsole(QtMsgType type, const QMessageLogContext& context, const QString& message)
 {
     constexpr auto darkMode = true;
     auto color = fmt::color::black;
+    QString typeIndicator;
 
     switch (type) {
     case QtDebugMsg:
         color = fmt::color::green;
+        typeIndicator = "Debug";
         break;
     case QtWarningMsg:
         color = fmt::color::orange;
+        typeIndicator = "Warning";
         break;
     case QtCriticalMsg:
         color = fmt::color::magenta;
+        typeIndicator = "Critical";
         break;
     case QtFatalMsg:
         color = fmt::color::red;
+        typeIndicator = "Fatal";
         break;
     default:
         color = darkMode ? fmt::color::gray : fmt::color::black;
+        typeIndicator = "Info"; // Assuming default is info
         break;
     }
-    fmt::print("{}", fmt::styled(line.toStdString(), fg(color)));
+
+    const auto now = QDateTime::currentDateTime().toString("dd.MM.yyyy h:mm:ss.zzz");
+    const auto filename = extractFileName(context);
+    const auto function = extractFunction(context);
+    const auto line = context.line;
+
+    fmt::print(
+        "[{}] {} {}:{} - {}\n",
+        fmt::styled(now.toStdString(), fmt::emphasis::bold),
+        fmt::styled(typeIndicator.toStdString(), fg(color)),
+        function.toStdString(), // Replace with context.file when QTCREATORBUG-24353 is fixed
+        line,
+        message.toStdString());
 }
 
 void LoggingHandler::writeToFile(const QString& line)
@@ -244,7 +263,7 @@ void LoggingHandler::checkLogRotation()
 void LoggingHandler::loggingMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& message)
 {
     const QString line = LoggingHandler::logLine(type, context, message);
-    LoggingHandler::writeToConsole(line, type);
+    LoggingHandler::writeToConsole(type, context, message);
     LoggingHandler::writeToFile(line);
 }
 }

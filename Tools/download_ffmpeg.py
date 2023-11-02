@@ -1,14 +1,17 @@
 #!/usr/bin/python3
 # SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 from fileinput import filename
+import sys
 from zipfile import ZipFile
 import platform
 from urllib.request import urlopen
+import subprocess
 import os
 import defines
 from shutil import move, rmtree
 from util import cd_repo_root_path
 from sys import stdout
+from defines import FFMPEG_VERSION
 
 stdout.reconfigure(encoding='utf-8')
 
@@ -99,13 +102,44 @@ def download_prebuild_ffmpeg_windows(extraction_path: str):
 
     extract_zip_executables(extraction_path, ffmpeg_path_and_filename)
 
-def execute():
+def execute() ->bool:
     # Make sure the script is always started from the same folder
     root_path = cd_repo_root_path()
     extraction_path = os.path.join(root_path, "ThirdParty/ffmpeg")
+    ffmpeg_binary_path = os.path.join(extraction_path, "ffmpeg")  # Adjust this if FFmpeg binary is inside another subdirectory
+    
+    if sys.platform == "win32":
+        ffmpeg_binary_path += ".exe"
 
-    if os.path.exists(extraction_path):
-        rmtree(extraction_path)
+    # Check if ffmpeg is already installed and matches the required version
+    if os.path.isfile(ffmpeg_binary_path):
+        result = subprocess.run([ffmpeg_binary_path, "-version"], capture_output=True, text=True)
+        output = result.stdout
+        version_line = next((line for line in output.split('\n') if 'ffmpeg version' in line), None)
+        if version_line:
+            installed_version = version_line.split(' ')[2].split('-')[0]
+            if installed_version == FFMPEG_VERSION:
+                print(f"FFmpeg version {installed_version} is already installed.")
+                return True
+            else:
+                print(f"FFmpeg version {installed_version} found, but version {FFMPEG_VERSION} is required.")
+
+    try:
+        if os.path.exists(extraction_path):
+            rmtree(extraction_path)
+            print("Directory removed successfully.")
+    except Exception as e:
+        print(f"An error occurred while trying to remove the directory: {str(e)}")
+        return False
+
+    try:
+        if os.path.exists(extraction_path):
+            rmtree(extraction_path)
+            print("Directory removed successfully.")
+    except Exception as e:
+        print(f"An error occurred while trying to remove the directory: {str(e)}")
+        return False
+
         
     os.makedirs(extraction_path)
     
@@ -113,6 +147,8 @@ def execute():
         download_prebuild_ffmpeg_windows(extraction_path)
     elif platform.system() == "Darwin":
         download_prebuild_ffmpeg_mac(extraction_path)
+    
+    return True
 
 
 if __name__ == "__main__":
