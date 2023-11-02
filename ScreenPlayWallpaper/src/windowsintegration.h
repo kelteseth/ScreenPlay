@@ -83,11 +83,8 @@ struct sEnumInfo {
     HMONITOR hMonitor;
 };
 
-struct WindowsIntegration {
-
-    HWND windowHandle {};
-    HWND windowHandleWorker {};
-
+class WindowsIntegration {
+public:
     struct SpanResult {
         int width = 0;
         int height = 0;
@@ -100,7 +97,15 @@ struct WindowsIntegration {
     std::vector<Monitor> GetAllMonitors();
     int GetMonitorIndex(HMONITOR hMonitor);
     bool checkForFullScreenWindow(HWND windowHandle);
-    std::optional<Monitor> setupWallpaperForOneScreen(const int activeScreen, HWND windowHwnd, HWND parentWindowHwnd, std::function<void(int, int)> updateWindowSize);
-    SpanResult setupWallpaperForMultipleScreens(const std::vector<int>& activeScreens, HWND windowHwnd, HWND parentWindowHwnd);
-    SpanResult setupWallpaperForAllScreens(HWND windowHwnd, HWND parentWindowHwnd);
+    std::optional<Monitor> setupWallpaperForOneScreen(const int activeScreen, std::function<void(int, int)> updateWindowSize);
+    SpanResult setupWallpaperForMultipleScreens(const std::vector<int>& activeScreens);
+    SpanResult setupWallpaperForAllScreens();
+    HWND windowHandle() const;
+    HWND windowHandleWorker() const;
+    void setWindowHandle(HWND windowHandle);
+    void setWindowHandleWorker(HWND windowHandleWorker);
+
+private:
+    HWND m_windowHandle {};
+    HWND m_windowHandleWorker {};
 };

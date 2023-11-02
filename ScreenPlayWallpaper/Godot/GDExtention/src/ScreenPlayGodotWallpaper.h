@@ -62,7 +62,7 @@ private:
 
     godot::String m_appID = "";
     godot::String m_projectPath = "";
-    std::unique_ptr<WindowsIntegration> m_hook;
+    std::unique_ptr<WindowsIntegration> m_windowsIntegration;
     double m_timesinceLastRead = 0.0;
     bool m_pipeConnected = false;
     bool m_screenPlayConnected = false;

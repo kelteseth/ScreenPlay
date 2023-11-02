@@ -18,6 +18,7 @@
 
 #include "basewindow.h"
 #include "windowsdesktopproperties.h"
+#include "windowsintegration.h"
 
 class WinWindow : public BaseWindow {
     Q_OBJECT
@@ -53,7 +54,6 @@ private:
     void setupWallpaperForAllScreens();
     void setupWallpaperForMultipleScreens(const QVector<int>& activeScreensList);
     void setupWindowMouseHook();
-    bool searchWorkerWindowToParentTo();
     void configureWindowGeometry();
 
 private slots:
@@ -62,8 +62,7 @@ private slots:
 private:
     QPoint m_zeroPoint {};
     QQuickView m_window;
-    HWND m_windowHandle {};
-    HWND m_windowHandleWorker {};
+    WindowsIntegration m_windowsIntegration;
     QTimer m_checkForFullScreenWindowTimer;
     QTimer m_reconfigureTimer;
     std::unique_ptr<WindowsDesktopProperties> m_windowsDesktopProperties;

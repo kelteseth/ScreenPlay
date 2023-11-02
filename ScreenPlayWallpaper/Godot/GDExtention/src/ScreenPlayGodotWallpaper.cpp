@@ -56,13 +56,13 @@ void ScreenPlayGodotWallpaper::hideFromTaskbar(HWND hwnd)
 
 bool ScreenPlayGodotWallpaper::configureWindowGeometry()
 {
-    if (!m_hook->searchWorkerWindowToParentTo()) {
+    if (!m_windowsIntegration->searchWorkerWindowToParentTo()) {
         UtilityFunctions::print("No worker window found");
         return false;
     }
     // WARNING: Setting Window flags must be called *here*!
-    SetWindowLongPtr(m_hook->windowHandle, GWL_EXSTYLE, WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW | WS_EX_TRANSPARENT);
-    SetWindowLongPtr(m_hook->windowHandle, GWL_STYLE, WS_POPUPWINDOW);
+    SetWindowLongPtr(m_windowsIntegration->windowHandle(), GWL_EXSTYLE, WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW | WS_EX_TRANSPARENT);
+    SetWindowLongPtr(m_windowsIntegration->windowHandle(), GWL_STYLE, WS_POPUPWINDOW);
 
     return true;
 }
@@ -72,23 +72,26 @@ bool ScreenPlayGodotWallpaper::init(int activeScreen)
     auto* displayServer = DisplayServer::get_singleton();
     int64_t handle_int = displayServer->window_get_native_handle(godot::DisplayServer::HandleType::WINDOW_HANDLE, activeScreen);
     HWND hwnd = reinterpret_cast<HWND>(static_cast<intptr_t>(handle_int));
-    m_hook = std::make_unique<WindowsIntegration>();
-    m_hook->windowHandle = hwnd;
+    m_windowsIntegration = std::make_unique<WindowsIntegration>();
+    m_windowsIntegration->setWindowHandle(hwnd);
     hideFromTaskbar(hwnd);
     if (!configureWindowGeometry()) {
         return false;
     }
-    ShowWindow(m_hook->windowHandle, SW_HIDE);
+    ShowWindow(m_windowsIntegration->windowHandle(), SW_HIDE);
 
     WindowsIntegration windowsIntegration;
-    auto updateWindowSize = [this, &displayServer](const int width, const int height) {
+    auto updateWindowSize = [&displayServer](const int width, const int height) {
         displayServer->window_set_size(godot::Vector2((real_t)width, (real_t)height));
     };
-    std::optional<Monitor> monitor = windowsIntegration.setupWallpaperForOneScreen(activeScreen, m_hook->windowHandle, m_hook->windowHandleWorker, updateWindowSize);
+
+    const std::optional<Monitor> monitor = windowsIntegration.setupWallpaperForOneScreen(activeScreen, updateWindowSize);
+    if (!monitor.has_value())
+        return false;
 
     const std::string windowTitle = "ScreenPlayWallpaperGodot";
     SetWindowText(hwnd, windowTitle.c_str());
-    ShowWindow(m_hook->windowHandle, SW_SHOW);
+    ShowWindow(m_windowsIntegration->windowHandle(), SW_SHOW);
     return true;
 }
 
@@ -194,14 +197,14 @@ bool ScreenPlayGodotWallpaper::exit()
 {
     // Somehow this gets called at editor startup
     // so just return if not initialized
-    if (m_hook) {
+    if (m_windowsIntegration) {
 
-        ShowWindow(m_hook->windowHandle, SW_HIDE);
+        ShowWindow(m_windowsIntegration->windowHandle(), SW_HIDE);
 
         // Force refresh so that we display the regular
         // desktop wallpaper again
-        ShowWindow(m_hook->windowHandleWorker, SW_SHOW);
-        ShowWindow(m_hook->windowHandleWorker, SW_HIDE);
+        ShowWindow(m_windowsIntegration->windowHandleWorker(), SW_SHOW);
+        ShowWindow(m_windowsIntegration->windowHandleWorker(), SW_HIDE);
     }
     return true;
 }

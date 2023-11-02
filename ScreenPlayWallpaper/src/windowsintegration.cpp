@@ -1,14 +1,4 @@
 #include "windowsintegration.h"
-bool WindowsIntegration::searchWorkerWindowToParentTo()
-{
-
-    HWND progman_hwnd = FindWindowW(L"Progman", L"Program Manager");
-    const DWORD WM_SPAWN_WORKER = 0x052C;
-    SendMessageTimeoutW(progman_hwnd, WM_SPAWN_WORKER, 0xD, 0x1, SMTO_NORMAL,
-        10000, nullptr);
-
-    return EnumWindows(SearchForWorkerWindow, reinterpret_cast<LPARAM>(&windowHandleWorker));
-}
 
 /*!
    \brief Returns scaling factor as reported by Windows.
@@ -73,6 +63,15 @@ bool WindowsIntegration::hasWindowScaling() const
     return hasScaling;
 }
 
+bool WindowsIntegration::searchWorkerWindowToParentTo()
+{
+    HWND progman_hwnd = FindWindowW(L"Progman", L"Program Manager");
+    const DWORD WM_SPAWN_WORKER = 0x052C;
+    SendMessageTimeoutW(progman_hwnd, WM_SPAWN_WORKER, 0xD, 0x1, SMTO_NORMAL,
+        10000, nullptr);
+
+    return EnumWindows(SearchForWorkerWindow, reinterpret_cast<LPARAM>(&m_windowHandleWorker));
+}
 /*!
   \brief Searches for the worker window for our window to parent to.
 */
@@ -140,7 +139,7 @@ bool WindowsIntegration::checkForFullScreenWindow(HWND windowHandle)
  *      * Windows allows users to set different DPI (dots per inch) scale factors for each monitor. This DPI scaling can lead to
  * discrepancies in the positioning and size of windows, especially if we want to place a window on a monitor with a different
  * scale factor than the one it was originally on.
- *      * In our scenario, we want to move and resize a window (`windowHwnd`) to fit perfectly within a target monitor. However,
+ *      * In our scenario, we want to move and resize a window (`m_windowHandle`) to fit perfectly within a target monitor. However,
  * both the window and the target monitor can have different DPI scale factors, so we need to account for these when calculating
  * the window's new position and size.
  *      * Steps:
@@ -159,7 +158,7 @@ bool WindowsIntegration::checkForFullScreenWindow(HWND windowHandle)
  * scale factors.
  */
 
-std::optional<Monitor> WindowsIntegration::setupWallpaperForOneScreen(const int activeScreen, HWND windowHwnd, HWND parentWindowHwnd, std::function<void(int, int)> updateWindowSize)
+std::optional<Monitor> WindowsIntegration::setupWallpaperForOneScreen(const int activeScreen, std::function<void(int, int)> updateWindowSize)
 {
     std::vector<Monitor> monitors = GetAllMonitors();
     for (const auto& monitor : monitors) {
@@ -167,7 +166,7 @@ std::optional<Monitor> WindowsIntegration::setupWallpaperForOneScreen(const int 
         if (monitor.index != activeScreen)
             continue;
 
-        SetWindowPos(windowHwnd, HWND_TOP,
+        SetWindowPos(m_windowHandle, HWND_TOP,
             monitor.position.left, monitor.position.top,
             monitor.size.cx, monitor.size.cy,
             SWP_NOZORDER | SWP_NOACTIVATE);
@@ -176,17 +175,17 @@ std::optional<Monitor> WindowsIntegration::setupWallpaperForOneScreen(const int 
         updateWindowSize(monitor.size.cx, monitor.size.cy);
 
         RECT oldRect;
-        GetWindowRect(windowHwnd, &oldRect);
+        GetWindowRect(m_windowHandle, &oldRect);
         std::cout << "Old Window Position: (" << oldRect.left << ", " << oldRect.top << ")" << std::endl;
 
-        float windowDpiScaleFactor = static_cast<float>(GetDpiForWindow(windowHwnd)) / 96.0f;
+        float windowDpiScaleFactor = static_cast<float>(GetDpiForWindow(m_windowHandle)) / 96.0f;
         float targetMonitorDpiScaleFactor = monitor.scaleFactor;
         std::cout << "Window DPI Scale Factor: " << windowDpiScaleFactor << std::endl;
         std::cout << "Target Monitor DPI Scale Factor: " << targetMonitorDpiScaleFactor << std::endl;
 
-        SetParent(windowHwnd, parentWindowHwnd);
+        SetParent(m_windowHandle, m_windowHandleWorker);
         RECT parentRect;
-        GetWindowRect(parentWindowHwnd, &parentRect);
+        GetWindowRect(m_windowHandleWorker, &parentRect);
         std::cout << "WorkerW Window Position: (" << parentRect.left << ", " << parentRect.top << ")" << std::endl;
 
         int newX = static_cast<int>((oldRect.left - parentRect.left) * (windowDpiScaleFactor / targetMonitorDpiScaleFactor));
@@ -197,7 +196,7 @@ std::optional<Monitor> WindowsIntegration::setupWallpaperForOneScreen(const int 
         int newHeight = static_cast<int>(monitor.size.cy * (windowDpiScaleFactor / targetMonitorDpiScaleFactor));
         std::cout << "Calculated New Size: (" << newWidth << "x" << newHeight << ")" << std::endl;
 
-        SetWindowPos(windowHwnd, NULL, newX, newY, newWidth, newHeight, SWP_NOZORDER | SWP_NOACTIVATE);
+        SetWindowPos(m_windowHandle, NULL, newX, newY, newWidth, newHeight, SWP_NOZORDER | SWP_NOACTIVATE);
         return { monitor };
     }
     return std::nullopt;
@@ -221,7 +220,7 @@ std::optional<Monitor> WindowsIntegration::setupWallpaperForOneScreen(const int 
  *    height as `bottommost - topmost`.
  * 3. Adjust the window's position and size to fit this bounding rectangle.
  */
-WindowsIntegration::SpanResult WindowsIntegration::setupWallpaperForMultipleScreens(const std::vector<int>& activeScreens, HWND windowHwnd, HWND parentWindowHwnd)
+WindowsIntegration::SpanResult WindowsIntegration::setupWallpaperForMultipleScreens(const std::vector<int>& activeScreens)
 {
     std::vector<Monitor> monitors = GetAllMonitors();
 
@@ -244,18 +243,18 @@ WindowsIntegration::SpanResult WindowsIntegration::setupWallpaperForMultipleScre
     int newHeight = bottommost - topmost;
 
     RECT oldRect;
-    GetWindowRect(windowHwnd, &oldRect);
+    GetWindowRect(m_windowHandle, &oldRect);
 
-    float windowDpiScaleFactor = static_cast<float>(GetDpiForWindow(windowHwnd)) / 96.0f;
+    float windowDpiScaleFactor = static_cast<float>(GetDpiForWindow(m_windowHandle)) / 96.0f;
 
-    SetParent(windowHwnd, parentWindowHwnd);
+    SetParent(m_windowHandle, m_windowHandleWorker);
     RECT parentRect;
-    GetWindowRect(parentWindowHwnd, &parentRect);
+    GetWindowRect(m_windowHandleWorker, &parentRect);
 
     int newX = static_cast<int>((leftmost - parentRect.left) * windowDpiScaleFactor);
     int newY = static_cast<int>((topmost - parentRect.top) * windowDpiScaleFactor);
 
-    SetWindowPos(windowHwnd, NULL, newX, newY, newWidth, newHeight, SWP_NOZORDER | SWP_NOACTIVATE);
+    SetWindowPos(m_windowHandle, NULL, newX, newY, newWidth, newHeight, SWP_NOZORDER | SWP_NOACTIVATE);
     SpanResult result;
     result.width = rightmost - leftmost;
     result.height = bottommost - topmost;
@@ -281,7 +280,7 @@ WindowsIntegration::SpanResult WindowsIntegration::setupWallpaperForMultipleScre
  * @retval SpanResult::success A boolean flag indicating the success of the operation. Currently, it always returns `true`
  *                             assuming all operations are successful. This can be adjusted based on error checks as needed.
  */
-WindowsIntegration::SpanResult WindowsIntegration::setupWallpaperForAllScreens(HWND windowHwnd, HWND parentWindowHwnd)
+WindowsIntegration::SpanResult WindowsIntegration::setupWallpaperForAllScreens()
 {
     std::vector<Monitor> monitors = GetAllMonitors();
 
@@ -304,19 +303,19 @@ WindowsIntegration::SpanResult WindowsIntegration::setupWallpaperForAllScreens(H
     int scaledHeight = static_cast<int>((bottommost - topmost) * overallScaleFactor);
 
     // Set the position and size of the window to span all monitors
-    SetWindowPos(windowHwnd, HWND_TOP, leftmost, topmost, scaledWidth, scaledHeight, SWP_NOZORDER | SWP_NOACTIVATE);
+    SetWindowPos(m_windowHandle, HWND_TOP, leftmost, topmost, scaledWidth, scaledHeight, SWP_NOZORDER | SWP_NOACTIVATE);
 
     // Reparenting and scaling logic
     RECT oldRect;
-    GetWindowRect(windowHwnd, &oldRect);
-    float windowDpiScaleFactor = static_cast<float>(GetDpiForWindow(windowHwnd)) / 96.0f;
-    SetParent(windowHwnd, parentWindowHwnd);
+    GetWindowRect(m_windowHandle, &oldRect);
+    float windowDpiScaleFactor = static_cast<float>(GetDpiForWindow(m_windowHandle)) / 96.0f;
+    SetParent(m_windowHandle, m_windowHandleWorker);
     RECT parentRect;
-    GetWindowRect(parentWindowHwnd, &parentRect);
+    GetWindowRect(m_windowHandleWorker, &parentRect);
     int newX = static_cast<int>((oldRect.left - parentRect.left) * (windowDpiScaleFactor / overallScaleFactor));
     int newY = static_cast<int>((oldRect.top - parentRect.top) * (windowDpiScaleFactor / overallScaleFactor));
 
-    SetWindowPos(windowHwnd, NULL, newX, newY, scaledWidth, scaledHeight, SWP_NOZORDER | SWP_NOACTIVATE);
+    SetWindowPos(m_windowHandle, NULL, newX, newY, scaledWidth, scaledHeight, SWP_NOZORDER | SWP_NOACTIVATE);
 
     // Return the combined span of all monitors
     SpanResult result;
@@ -325,6 +324,26 @@ WindowsIntegration::SpanResult WindowsIntegration::setupWallpaperForAllScreens(H
     result.success = true; // Assuming the operations are successful; adjust as needed
 
     return result;
+}
+
+HWND WindowsIntegration::windowHandle() const
+{
+    return m_windowHandle;
+}
+
+HWND WindowsIntegration::windowHandleWorker() const
+{
+    return m_windowHandleWorker;
+}
+
+void WindowsIntegration::setWindowHandle(HWND windowHandle)
+{
+    m_windowHandle = windowHandle;
+}
+
+void WindowsIntegration::setWindowHandleWorker(HWND windowHandleWorker)
+{
+    m_windowHandleWorker = windowHandleWorker;
 }
 
 BOOL GetMonitorByHandle(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData)

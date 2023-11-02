@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "winwindow.h"
-#include "ScreenPlayUtil/projectfile.h"
 #include "windowsintegration.h"
 #include <QGuiApplication>
 #include <QtQml>
@@ -124,8 +123,8 @@ ScreenPlay::WallpaperExitCode WinWindow::start()
     }
 
     m_windowsDesktopProperties = std::make_unique<WindowsDesktopProperties>();
-    m_windowHandle = reinterpret_cast<HWND>(m_window.winId());
-    if (!IsWindow(m_windowHandle)) {
+    m_windowsIntegration.setWindowHandle(reinterpret_cast<HWND>(m_window.winId()));
+    if (!IsWindow(m_windowsIntegration.windowHandle())) {
         qCritical("Could not get a valid window handle!");
         return ScreenPlay::WallpaperExitCode::Invalid_Start_Windows_HandleError;
     }
@@ -160,12 +159,12 @@ ScreenPlay::WallpaperExitCode WinWindow::start()
 void WinWindow::setVisible(bool show)
 {
     if (show) {
-        if (!ShowWindow(m_windowHandle, SW_SHOW)) {
+        if (!ShowWindow(m_windowsIntegration.windowHandle(), SW_SHOW)) {
             qDebug() << "Cannot set window handle SW_SHOW";
         }
 
     } else {
-        if (!ShowWindow(m_windowHandle, SW_HIDE)) {
+        if (!ShowWindow(m_windowsIntegration.windowHandle(), SW_HIDE)) {
             qDebug() << "Cannot set window handle SW_HIDE";
         }
     }
@@ -183,14 +182,13 @@ void WinWindow::destroyThis()
 
 void WinWindow::setupWallpaperForOneScreen(int activeScreen)
 {
-    WindowsIntegration windowsIntegration;
     auto updateWindowSize = [this](const int width, const int height) {
         setWidth(width);
         setHeight(height);
         m_window.setWidth(width);
         m_window.setHeight(height);
     };
-    std::optional<Monitor> monitor = windowsIntegration.setupWallpaperForOneScreen(activeScreen, m_windowHandle, m_windowHandleWorker, updateWindowSize);
+    std::optional<Monitor> monitor = m_windowsIntegration.setupWallpaperForOneScreen(activeScreen, updateWindowSize);
 }
 
 /*!
@@ -198,8 +196,7 @@ void WinWindow::setupWallpaperForOneScreen(int activeScreen)
 */
 void WinWindow::setupWallpaperForAllScreens()
 {
-    WindowsIntegration windowsIntegration;
-    WindowsIntegration::SpanResult span = windowsIntegration.setupWallpaperForAllScreens(m_windowHandle, m_windowHandleWorker);
+    WindowsIntegration::SpanResult span = m_windowsIntegration.setupWallpaperForAllScreens();
     setWidth(span.width);
     setHeight(span.height);
     m_window.setWidth(width());
@@ -212,23 +209,11 @@ void WinWindow::setupWallpaperForAllScreens()
 void WinWindow::setupWallpaperForMultipleScreens(const QVector<int>& activeScreensList)
 {
     std::vector<int> activeScreens(activeScreensList.begin(), activeScreensList.end());
-    WindowsIntegration windowsIntegration;
-    WindowsIntegration::SpanResult span = windowsIntegration.setupWallpaperForMultipleScreens(activeScreens, m_windowHandle, m_windowHandleWorker);
+    WindowsIntegration::SpanResult span = m_windowsIntegration.setupWallpaperForMultipleScreens(activeScreens);
     setWidth(span.width);
     setHeight(span.height);
     m_window.setWidth(width());
     m_window.setHeight(height());
-}
-
-bool WinWindow::searchWorkerWindowToParentTo()
-{
-
-    HWND progman_hwnd = FindWindowW(L"Progman", L"Program Manager");
-    const DWORD WM_SPAWN_WORKER = 0x052C;
-    SendMessageTimeoutW(progman_hwnd, WM_SPAWN_WORKER, 0xD, 0x1, SMTO_NORMAL,
-        10000, nullptr);
-
-    return EnumWindows(SearchForWorkerWindow, reinterpret_cast<LPARAM>(&m_windowHandleWorker));
 }
 
 /*!
@@ -237,13 +222,17 @@ bool WinWindow::searchWorkerWindowToParentTo()
 */
 void WinWindow::configureWindowGeometry()
 {
-    if (!searchWorkerWindowToParentTo()) {
+    if (!m_windowsIntegration.searchWorkerWindowToParentTo()) {
         qFatal("No worker window found");
+    }
+    if (!IsWindow(m_windowsIntegration.windowHandleWorker())) {
+        qCritical("Could not get a valid window handle wroker!");
+        return;
     }
 
     // WARNING: Setting Window flags must be called *here*!
-    SetWindowLongPtr(m_windowHandle, GWL_EXSTYLE, WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW | WS_EX_TRANSPARENT);
-    SetWindowLongPtr(m_windowHandle, GWL_STYLE, WS_POPUP);
+    SetWindowLongPtr(m_windowsIntegration.windowHandle(), GWL_EXSTYLE, WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW | WS_EX_TRANSPARENT);
+    SetWindowLongPtr(m_windowsIntegration.windowHandle(), GWL_STYLE, WS_POPUP);
 
     // Ether for one Screen or for all
     if ((QGuiApplication::screens().length() == activeScreensList().length()) && (activeScreensList().length() != 1)) {
@@ -267,12 +256,12 @@ void WinWindow::terminate()
     if (type() != InstalledType::VideoWallpaper && type() != InstalledType::GifWallpaper) {
         UnhookWindowsHookEx(g_mouseHook);
     }
-    ShowWindow(m_windowHandle, SW_HIDE);
+    ShowWindow(m_windowsIntegration.windowHandle(), SW_HIDE);
 
     // Force refresh so that we display the regular
     // desktop wallpaper again
-    ShowWindow(m_windowHandleWorker, SW_HIDE);
-    ShowWindow(m_windowHandleWorker, SW_SHOW);
+    ShowWindow(m_windowsIntegration.windowHandleWorker(), SW_HIDE);
+    ShowWindow(m_windowsIntegration.windowHandleWorker(), SW_SHOW);
 
     QGuiApplication::quit();
 }
@@ -289,7 +278,7 @@ void WinWindow::clearComponentCache()
 
 void WinWindow::checkForFullScreenWindow()
 {
-    bool hasFullscreenWindow = WindowsIntegration().checkForFullScreenWindow(m_windowHandle);
+    bool hasFullscreenWindow = m_windowsIntegration.checkForFullScreenWindow(m_windowsIntegration.windowHandle());
 
     setVisualsPaused(hasFullscreenWindow);
 }
