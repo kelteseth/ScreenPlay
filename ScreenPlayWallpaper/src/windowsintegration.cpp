@@ -43,26 +43,6 @@ float WindowsIntegration::getScaling(const int monitorIndex) const
     return 1.0f;
 }
 
-/*!
-   \brief Returns true of at least one monitor has active scaling enabled.
-*/
-bool WindowsIntegration::hasWindowScaling() const
-{
-    auto enumMonitorCallback = [](HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData) -> BOOL {
-        int scaling = GetDeviceCaps(hdcMonitor, LOGPIXELSX) / 96;
-        if (scaling != 1) {
-            *(bool*)dwData = true;
-            return false; // Stop enumeration
-        }
-        return true; // Continue enumeration
-    };
-
-    bool hasScaling = false;
-    EnumDisplayMonitors(NULL, NULL, enumMonitorCallback, (LPARAM)&hasScaling);
-
-    return hasScaling;
-}
-
 bool WindowsIntegration::searchWorkerWindowToParentTo()
 {
     HWND progman_hwnd = FindWindowW(L"Progman", L"Program Manager");
@@ -158,8 +138,18 @@ bool WindowsIntegration::checkForFullScreenWindow(HWND windowHandle)
  * scale factors.
  */
 
-std::optional<Monitor> WindowsIntegration::setupWallpaperForOneScreen(const int activeScreen, std::function<void(int, int)> updateWindowSize)
+WindowsIntegration::MonitorResult WindowsIntegration::setupWallpaperForOneScreen(const int activeScreen, std::function<void(int, int)> updateWindowSize)
 {
+    if (!IsWindow(m_windowHandle)) {
+        std::cout << "Could not get a valid window handle !";
+        return { std::nullopt, MonitorResultStatus::WindowHandleInvalidError };
+    }
+
+    if (!IsWindow(m_windowHandleWorker)) {
+        std::cout << "Could not get a valid window handle wroker!";
+        return { std::nullopt, MonitorResultStatus::WorkerWindowHandleInvalidError };
+    }
+
     std::vector<Monitor> monitors = GetAllMonitors();
     for (const auto& monitor : monitors) {
         monitor.print();
@@ -197,9 +187,9 @@ std::optional<Monitor> WindowsIntegration::setupWallpaperForOneScreen(const int 
         std::cout << "Calculated New Size: (" << newWidth << "x" << newHeight << ")" << std::endl;
 
         SetWindowPos(m_windowHandle, NULL, newX, newY, newWidth, newHeight, SWP_NOZORDER | SWP_NOACTIVATE);
-        return { monitor };
+        return { monitor, MonitorResultStatus::Ok };
     }
-    return std::nullopt;
+    return { std::nullopt, MonitorResultStatus::MonitorIterationError };
 }
 /**
  *  Spans the window across multiple monitors.
@@ -339,11 +329,6 @@ HWND WindowsIntegration::windowHandleWorker() const
 void WindowsIntegration::setWindowHandle(HWND windowHandle)
 {
     m_windowHandle = windowHandle;
-}
-
-void WindowsIntegration::setWindowHandleWorker(HWND windowHandleWorker)
-{
-    m_windowHandleWorker = windowHandleWorker;
 }
 
 BOOL GetMonitorByHandle(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData)

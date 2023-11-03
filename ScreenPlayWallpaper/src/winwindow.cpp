@@ -3,8 +3,6 @@
 #include "windowsintegration.h"
 #include <QGuiApplication>
 #include <QtQml>
-#include <algorithm>
-#include <iostream>
 #include <shellscalingapi.h>
 #include <vector>
 #include <windows.h>
@@ -171,7 +169,7 @@ void WinWindow::setupWallpaperForOneScreen(int activeScreen)
         m_window.setWidth(width);
         m_window.setHeight(height);
     };
-    std::optional<Monitor> monitor = m_windowsIntegration.setupWallpaperForOneScreen(activeScreen, updateWindowSize);
+    WindowsIntegration::MonitorResult monitor = m_windowsIntegration.setupWallpaperForOneScreen(activeScreen, updateWindowSize);
 }
 
 /*!

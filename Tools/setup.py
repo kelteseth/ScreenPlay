@@ -115,8 +115,9 @@ def main():
     vcpkg_path = project_source_parent_path.joinpath("vcpkg").resolve()
     vcpkg_packages_list = defines.VCPKG_BASE_PACKAGES
 
-    if not setup_godot.execute():
-        raise RuntimeError("Unable to download godot")
+    if system() == "Windows":
+        if not setup_godot.execute():
+            raise RuntimeError("Unable to download godot")
 
     if not download_ffmpeg.execute():
          raise RuntimeError("Unable to download ffmpeg")

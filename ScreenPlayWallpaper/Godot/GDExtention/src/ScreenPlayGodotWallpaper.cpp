@@ -56,13 +56,17 @@ void ScreenPlayGodotWallpaper::hideFromTaskbar(HWND hwnd)
 
 bool ScreenPlayGodotWallpaper::configureWindowGeometry()
 {
-    if (!m_windowsIntegration->searchWorkerWindowToParentTo()) {
+    if (!m_windowsIntegration.searchWorkerWindowToParentTo()) {
         UtilityFunctions::print("No worker window found");
         return false;
     }
+    if (!IsWindow(m_windowsIntegration.windowHandleWorker())) {
+        UtilityFunctions::print("Could not get a valid window handle worker!");
+        return false;
+    }
     // WARNING: Setting Window flags must be called *here*!
-    SetWindowLongPtr(m_windowsIntegration->windowHandle(), GWL_EXSTYLE, WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW | WS_EX_TRANSPARENT);
-    SetWindowLongPtr(m_windowsIntegration->windowHandle(), GWL_STYLE, WS_POPUPWINDOW);
+    SetWindowLongPtr(m_windowsIntegration.windowHandle(), GWL_EXSTYLE, WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW | WS_EX_TRANSPARENT);
+    SetWindowLongPtr(m_windowsIntegration.windowHandle(), GWL_STYLE, WS_POPUPWINDOW);
 
     return true;
 }
@@ -70,28 +74,65 @@ bool ScreenPlayGodotWallpaper::configureWindowGeometry()
 bool ScreenPlayGodotWallpaper::init(int activeScreen)
 {
     auto* displayServer = DisplayServer::get_singleton();
-    int64_t handle_int = displayServer->window_get_native_handle(godot::DisplayServer::HandleType::WINDOW_HANDLE, activeScreen);
-    HWND hwnd = reinterpret_cast<HWND>(static_cast<intptr_t>(handle_int));
-    m_windowsIntegration = std::make_unique<WindowsIntegration>();
-    m_windowsIntegration->setWindowHandle(hwnd);
-    hideFromTaskbar(hwnd);
+    {
+        int64_t handle_int = displayServer->window_get_native_handle(godot::DisplayServer::HandleType::WINDOW_HANDLE, activeScreen);
+        HWND hwnd = reinterpret_cast<HWND>(static_cast<intptr_t>(handle_int));
+        m_windowsIntegration.setWindowHandle(hwnd);
+    }
+    hideFromTaskbar(m_windowsIntegration.windowHandle());
+
     if (!configureWindowGeometry()) {
         return false;
     }
-    ShowWindow(m_windowsIntegration->windowHandle(), SW_HIDE);
+    ShowWindow(m_windowsIntegration.windowHandle(), SW_HIDE);
 
-    WindowsIntegration windowsIntegration;
     auto updateWindowSize = [&displayServer](const int width, const int height) {
         displayServer->window_set_size(godot::Vector2((real_t)width, (real_t)height));
     };
 
-    const std::optional<Monitor> monitor = windowsIntegration.setupWallpaperForOneScreen(activeScreen, updateWindowSize);
-    if (!monitor.has_value())
+    WindowsIntegration::MonitorResult monitor = m_windowsIntegration.setupWallpaperForOneScreen(activeScreen, updateWindowSize);
+    if (monitor.status != WindowsIntegration::MonitorResultStatus::Ok) {
+        UtilityFunctions::print("setupWallpaperForOneScreen failed status: ", (int)monitor.status);
         return false;
+    }
+    displayServer->window_set_size(godot::Vector2((real_t)monitor.monitor->size.cx, (real_t)monitor.monitor->size.cy));
 
     const std::string windowTitle = "ScreenPlayWallpaperGodot";
-    SetWindowText(hwnd, windowTitle.c_str());
-    ShowWindow(m_windowsIntegration->windowHandle(), SW_SHOW);
+    SetWindowText(m_windowsIntegration.windowHandle(), windowTitle.c_str());
+    ShowWindow(m_windowsIntegration.windowHandle(), SW_SHOW);
+
+    m_windowsIntegration.setupWindowMouseHook();
+    //  Set up the mouse event handler
+    m_windowsIntegration.setMouseEventHandler([this](DWORD mouseButton, UINT type, POINT p) {
+        Ref<InputEventMouseButton> mouse_event;
+        Ref<InputEventMouseMotion> motion_event;
+        switch (type) {
+        case WM_LBUTTONDOWN:
+        case WM_LBUTTONUP:
+        case WM_RBUTTONDOWN:
+        case WM_RBUTTONUP:
+            mouse_event.instantiate();
+            mouse_event->set_position(Vector2(p.x, p.y));
+            mouse_event->set_global_position(Vector2(p.x, p.y)); // Assuming global == local for this context
+            mouse_event->set_button_index(
+                type == WM_LBUTTONDOWN || type == WM_LBUTTONUP ? MOUSE_BUTTON_LEFT : MOUSE_BUTTON_RIGHT);
+            mouse_event->set_pressed(type == WM_LBUTTONDOWN || type == WM_RBUTTONDOWN);
+            break;
+        case WM_MOUSEMOVE:
+            motion_event.instantiate();
+            motion_event->set_position(Vector2(p.x, p.y));
+            motion_event->set_global_position(Vector2(p.x, p.y));
+            break;
+            // Add more cases as needed
+        }
+
+        if (mouse_event.is_valid()) {
+            get_tree()->get_root()->get_viewport()->push_input(mouse_event);
+        }
+        if (motion_event.is_valid()) {
+            get_tree()->get_root()->get_viewport()->push_input(motion_event);
+        }
+    });
     return true;
 }
 
@@ -197,15 +238,13 @@ bool ScreenPlayGodotWallpaper::exit()
 {
     // Somehow this gets called at editor startup
     // so just return if not initialized
-    if (m_windowsIntegration) {
 
-        ShowWindow(m_windowsIntegration->windowHandle(), SW_HIDE);
+    ShowWindow(m_windowsIntegration.windowHandle(), SW_HIDE);
 
-        // Force refresh so that we display the regular
-        // desktop wallpaper again
-        ShowWindow(m_windowsIntegration->windowHandleWorker(), SW_SHOW);
-        ShowWindow(m_windowsIntegration->windowHandleWorker(), SW_HIDE);
-    }
+    // Force refresh so that we display the regular
+    // desktop wallpaper again
+    ShowWindow(m_windowsIntegration.windowHandleWorker(), SW_SHOW);
+    ShowWindow(m_windowsIntegration.windowHandleWorker(), SW_HIDE);
     return true;
 }
 bool ScreenPlayGodotWallpaper::get_checkWallpaperVisible() const

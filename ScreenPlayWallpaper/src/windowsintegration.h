@@ -83,11 +83,10 @@ struct sEnumInfo {
     HMONITOR hMonitor;
 };
 
-// Define the type for the mouse event handler function
 using MouseEventHandler = std::function<void(DWORD mouseButton, UINT type, POINT p)>;
 static MouseEventHandler m_mouseEventHandler;
 static HHOOK m_mouseHook;
-// Define a callback type for keyboard events
+
 typedef std::function<void(UINT vkCode, bool keyDown)> KeyboardEventHandler;
 static HHOOK m_keyboardHook;
 static KeyboardEventHandler m_keyboardEventHandler;
@@ -99,21 +98,28 @@ public:
         int height = 0;
         bool success = false;
     };
+    enum class MonitorResultStatus {
+        Ok,
+        WindowHandleInvalidError,
+        WorkerWindowHandleInvalidError,
+        MonitorIterationError,
+    };
+    struct MonitorResult {
+        std::optional<Monitor> monitor;
+        MonitorResultStatus status = MonitorResultStatus::Ok;
+    };
 
     bool searchWorkerWindowToParentTo();
     float getScaling(const int monitorIndex) const;
-    bool hasWindowScaling() const;
     std::vector<Monitor> GetAllMonitors();
     int GetMonitorIndex(HMONITOR hMonitor);
     bool checkForFullScreenWindow(HWND windowHandle);
-    std::optional<Monitor> setupWallpaperForOneScreen(const int activeScreen, std::function<void(int, int)> updateWindowSize);
+    WindowsIntegration::MonitorResult setupWallpaperForOneScreen(const int activeScreen, std::function<void(int, int)> updateWindowSize);
     SpanResult setupWallpaperForMultipleScreens(const std::vector<int>& activeScreens);
     SpanResult setupWallpaperForAllScreens();
     HWND windowHandle() const;
     HWND windowHandleWorker() const;
     void setWindowHandle(HWND windowHandle);
-    void setWindowHandleWorker(HWND windowHandleWorker);
-
     void setupWindowMouseHook();
     void unhookMouse();
     void setMouseEventHandler(MouseEventHandler handler);

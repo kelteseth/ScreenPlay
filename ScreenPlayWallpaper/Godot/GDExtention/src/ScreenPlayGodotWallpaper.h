@@ -6,11 +6,19 @@
 #endif
 
 #include "godot_cpp/classes/control.hpp"
+#include "godot_cpp/classes/engine.hpp"
 #include "godot_cpp/classes/global_constants.hpp"
+#include "godot_cpp/classes/input_event_key.hpp"
+#include "godot_cpp/classes/input_event_mouse_button.hpp"
+#include "godot_cpp/classes/input_event_mouse_motion.hpp"
+#include "godot_cpp/classes/node.hpp"
+#include "godot_cpp/classes/scene_tree.hpp"
 #include "godot_cpp/classes/timer.hpp"
 #include "godot_cpp/classes/viewport.hpp"
+#include "godot_cpp/classes/window.hpp"
 #include "godot_cpp/core/binder_common.hpp"
 #include "godot_cpp/variant/string.hpp"
+#include "godot_cpp/variant/vector2.hpp"
 
 #include <memory>
 #include <string>
@@ -62,7 +70,7 @@ private:
 
     godot::String m_appID = "";
     godot::String m_projectPath = "";
-    std::unique_ptr<WindowsIntegration> m_windowsIntegration;
+    WindowsIntegration m_windowsIntegration;
     double m_timesinceLastRead = 0.0;
     bool m_pipeConnected = false;
     bool m_screenPlayConnected = false;
