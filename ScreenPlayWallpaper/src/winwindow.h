@@ -54,6 +54,7 @@ private:
     void setupWallpaperForAllScreens();
     void setupWallpaperForMultipleScreens(const QVector<int>& activeScreensList);
     void configureWindowGeometry();
+    std::tuple<int, QString> mapVirtualKeyToQtKey(UINT vkCode);
 
 private slots:
     void checkForFullScreenWindow();

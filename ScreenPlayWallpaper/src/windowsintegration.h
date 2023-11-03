@@ -87,6 +87,10 @@ struct sEnumInfo {
 using MouseEventHandler = std::function<void(DWORD mouseButton, UINT type, POINT p)>;
 static MouseEventHandler m_mouseEventHandler;
 static HHOOK m_mouseHook;
+// Define a callback type for keyboard events
+typedef std::function<void(UINT vkCode, bool keyDown)> KeyboardEventHandler;
+static HHOOK m_keyboardHook;
+static KeyboardEventHandler m_keyboardEventHandler;
 
 class WindowsIntegration {
 public:
@@ -111,9 +115,14 @@ public:
     void setWindowHandleWorker(HWND windowHandleWorker);
 
     void setupWindowMouseHook();
-    static LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam);
-    // Set the mouse event handler function
+    void unhookMouse();
     void setMouseEventHandler(MouseEventHandler handler);
+    static LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam);
+
+    void setupWindowKeyboardHook();
+    void unhookKeyboard();
+    void setKeyboardEventHandler(KeyboardEventHandler handler);
+    static LRESULT __stdcall KeyboardHookCallback(int nCode, WPARAM wParam, LPARAM lParam);
 
 private:
     HWND m_windowHandle {};

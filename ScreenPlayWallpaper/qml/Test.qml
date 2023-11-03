@@ -164,6 +164,7 @@ Rectangle {
     }
 
     Row {
+        id: rowCounter
         spacing: 20
 
         anchors {
@@ -205,18 +206,30 @@ Rectangle {
         }
     }
 
-    //    WebView {
-    //        width: 1000
-    //        height: 400
-    //        url: "https://screen-play.app"
+    Column {
 
-    //        anchors {
-    //            horizontalCenter: parent.horizontalCenter
-    //            bottom: parent.bottom
-    //            bottomMargin: 50
-    //        }
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            top: rowCounter.bottom
+            topMargin: 20
+        }
+        spacing: 20
+        TextField {
+            placeholderText: "Edit me"
 
-    //    }
+        }
+        Button {
+            text: "Exit"
+            onClicked: {
+            Qt.callLater(function () {
+                    Wallpaper.terminate();
+                });
+            }
+        }
+
+    }
+
+
     MultimediaView {
         width: 1000
         height: 400

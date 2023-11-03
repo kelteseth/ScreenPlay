@@ -112,6 +112,26 @@ ScreenPlay::WallpaperExitCode WinWindow::start()
             // Post the event to the target widget
             QCoreApplication::postEvent(&m_window, qEvent);
         });
+
+        // Inside your main application or somewhere appropriate
+        m_windowsIntegration.setupWindowKeyboardHook();
+        // Set up the keyboard event handler
+        m_windowsIntegration.setKeyboardEventHandler([this](UINT vkCode, bool keyDown) {
+            QEvent::Type eventType = keyDown ? QEvent::KeyPress : QEvent::KeyRelease;
+
+            // Map the vkCode to Qt key code if necessary
+            auto [qtKey, text] = mapVirtualKeyToQtKey(vkCode); // Implement this function based on your needs
+
+            // Create the QKeyEvent
+            QKeyEvent* qEvent = new QKeyEvent(eventType, qtKey, Qt::NoModifier, text);
+
+            // Handle the keyboard event
+            // For example, logging the key press
+            qDebug() << "Keyboard event: Key=" << vkCode << ", Type=" << (keyDown ? "KeyDown" : "KeyUp") << qEvent;
+
+            // Post the event to the target widget
+            QCoreApplication::postEvent(&m_window, qEvent);
+        });
     });
     return ScreenPlay::WallpaperExitCode::Ok;
 }
@@ -209,6 +229,155 @@ void WinWindow::configureWindowGeometry()
     m_window.show();
 }
 
+std::tuple<int, QString> WinWindow::mapVirtualKeyToQtKey(UINT vkCode)
+{
+    switch (vkCode) {
+    case VK_BACK:
+        return { Qt::Key_Backspace, QString() };
+    case VK_TAB:
+        return { Qt::Key_Tab, QString("\t") };
+    case VK_CLEAR:
+        return { Qt::Key_Clear, QString() };
+    case VK_RETURN:
+        return { Qt::Key_Return, QString("\r") };
+    // ... rest of the cases ...
+    case VK_SPACE:
+        return { Qt::Key_Space, QString(" ") };
+    // Extra keys
+    case 0x21: // '!'
+        return { Qt::Key_Exclam, QString("!") };
+    case 0x40: // '@'
+        return { Qt::Key_At, QString("@") };
+    case 0x23: // '#'
+        return { Qt::Key_NumberSign, QString("#") };
+    case 0x24: // '$'
+        return { Qt::Key_Dollar, QString("$") };
+    case 0x25: // '%'
+        return { Qt::Key_Percent, QString("%") };
+    case 0x5E: // '^'
+        return { Qt::Key_AsciiCircum, QString("^") };
+    case 0x26: // '&'
+        return { Qt::Key_Ampersand, QString("&") };
+    case 0x2A: // '*'
+        return { Qt::Key_Asterisk, QString("*") };
+    case 0x28: // '('
+        return { Qt::Key_ParenLeft, QString("(") };
+    case 0x29: // ')'
+        return { Qt::Key_ParenRight, QString(")") };
+    case 0x5F: // '_'
+        return { Qt::Key_Underscore, QString("_") };
+    case 0x2B: // '+'
+        return { Qt::Key_Plus, QString("+") };
+    case 0x2D: // '-'
+        return { Qt::Key_Minus, QString("-") };
+    case 0x3D: // '='
+        return { Qt::Key_Equal, QString("=") };
+    case 0x5B: // '['
+        return { Qt::Key_BracketLeft, QString("[") };
+    case 0x5D: // ']'
+        return { Qt::Key_BracketRight, QString("]") };
+    case 0x7B: // '{'
+        return { Qt::Key_BraceLeft, QString("{") };
+    case 0x7D: // '}'
+        return { Qt::Key_BraceRight, QString("}") };
+    case 0x3B: // ';'
+        return { Qt::Key_Semicolon, QString(";") };
+    case 0x27: // '''
+        return { Qt::Key_Apostrophe, QString("'") };
+    case 0x3A: // ':'
+        return { Qt::Key_Colon, QString(":") };
+    case 0x22: // '"'
+        return { Qt::Key_QuoteDbl, QString("\"") };
+    case 0x2F: // '/'
+        return { Qt::Key_Slash, QString("/") };
+    case 0x2E: // '.'
+        return { Qt::Key_Period, QString(".") };
+    case 0x3E: // '>'
+        return { Qt::Key_Greater, QString(">") };
+    case 0x2C: // ','
+        return { Qt::Key_Comma, QString(",") };
+    case 0x3F: // '?'
+        return { Qt::Key_Question, QString("?") };
+    // Numeric keys
+    case 0x30:
+        return { Qt::Key_0, QString("0") };
+    case 0x31:
+        return { Qt::Key_1, QString("1") };
+    case 0x32:
+        return { Qt::Key_2, QString("2") };
+    case 0x33:
+        return { Qt::Key_3, QString("3") };
+    case 0x34:
+        return { Qt::Key_4, QString("4") };
+    case 0x35:
+        return { Qt::Key_5, QString("5") };
+    case 0x36:
+        return { Qt::Key_6, QString("6") };
+    case 0x37:
+        return { Qt::Key_7, QString("7") };
+    case 0x38:
+        return { Qt::Key_8, QString("8") };
+    case 0x39:
+        return { Qt::Key_9, QString("9") };
+
+        // Alphabet keys
+    case 0x41:
+        return { Qt::Key_A, QString("a") };
+    case 0x42:
+        return { Qt::Key_B, QString("b") };
+    case 0x43:
+        return { Qt::Key_C, QString("c") };
+    case 0x44:
+        return { Qt::Key_D, QString("d") };
+    case 0x45:
+        return { Qt::Key_E, QString("e") };
+    case 0x46:
+        return { Qt::Key_F, QString("f") };
+    case 0x47:
+        return { Qt::Key_G, QString("g") };
+    case 0x48:
+        return { Qt::Key_H, QString("h") };
+    case 0x49:
+        return { Qt::Key_I, QString("i") };
+    case 0x4A:
+        return { Qt::Key_J, QString("j") };
+    case 0x4B:
+        return { Qt::Key_K, QString("k") };
+    case 0x4C:
+        return { Qt::Key_L, QString("l") };
+    case 0x4D:
+        return { Qt::Key_M, QString("m") };
+    case 0x4E:
+        return { Qt::Key_N, QString("n") };
+    case 0x4F:
+        return { Qt::Key_O, QString("o") };
+    case 0x50:
+        return { Qt::Key_P, QString("p") };
+    case 0x51:
+        return { Qt::Key_Q, QString("q") };
+    case 0x52:
+        return { Qt::Key_R, QString("r") };
+    case 0x53:
+        return { Qt::Key_S, QString("s") };
+    case 0x54:
+        return { Qt::Key_T, QString("t") };
+    case 0x55:
+        return { Qt::Key_U, QString("u") };
+    case 0x56:
+        return { Qt::Key_V, QString("v") };
+    case 0x57:
+        return { Qt::Key_W, QString("w") };
+    case 0x58:
+        return { Qt::Key_X, QString("x") };
+    case 0x59:
+        return { Qt::Key_Y, QString("y") };
+    case 0x5A:
+        return { Qt::Key_Z, QString("z") };
+    default:
+        return { Qt::Key_unknown, QString() };
+    }
+}
+
 /*!
   \brief Custom exit method to force a redraw of the window so that
          the default desktop wallpaper can be seen agian.
@@ -216,15 +385,16 @@ void WinWindow::configureWindowGeometry()
 void WinWindow::terminate()
 {
     using ScreenPlay::InstalledType::InstalledType;
-    if (type() != InstalledType::VideoWallpaper && type() != InstalledType::GifWallpaper) {
-        // UnhookWindowsHookEx(g_mouseHook);
-    }
+
     ShowWindow(m_windowsIntegration.windowHandle(), SW_HIDE);
 
     // Force refresh so that we display the regular
     // desktop wallpaper again
     ShowWindow(m_windowsIntegration.windowHandleWorker(), SW_HIDE);
     ShowWindow(m_windowsIntegration.windowHandleWorker(), SW_SHOW);
+
+    m_windowsIntegration.unhookKeyboard();
+    m_windowsIntegration.unhookMouse();
 
     QGuiApplication::quit();
 }

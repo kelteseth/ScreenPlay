@@ -442,3 +442,46 @@ void WindowsIntegration::setupWindowMouseHook()
         return;
     }
 }
+
+void WindowsIntegration::setupWindowKeyboardHook()
+{
+    HINSTANCE hInstance = GetModuleHandle(NULL);
+    if (!(m_keyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, KeyboardHookCallback, hInstance, 0))) {
+        OutputDebugStringW(L"Failed to install keyboard hook!");
+        return;
+    }
+}
+
+void WindowsIntegration::setKeyboardEventHandler(KeyboardEventHandler handler)
+{
+    m_keyboardEventHandler = std::move(handler);
+}
+
+LRESULT __stdcall WindowsIntegration::KeyboardHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
+{
+    if (nCode >= 0) {
+        KBDLLHOOKSTRUCT* kbStruct = (KBDLLHOOKSTRUCT*)lParam;
+        bool keyDown = wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN;
+        // Check if the callback function is set and call it
+        if (m_keyboardEventHandler) {
+            m_keyboardEventHandler(kbStruct->vkCode, keyDown);
+        }
+    }
+    return CallNextHookEx(NULL, nCode, wParam, lParam);
+}
+
+void WindowsIntegration::unhookMouse()
+{
+    if (m_mouseHook != NULL) {
+        UnhookWindowsHookEx(m_mouseHook);
+        m_mouseHook = NULL;
+    }
+}
+
+void WindowsIntegration::unhookKeyboard()
+{
+    if (m_keyboardHook != NULL) {
+        UnhookWindowsHookEx(m_keyboardHook);
+        m_keyboardHook = NULL;
+    }
+}

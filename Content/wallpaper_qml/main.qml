@@ -3,6 +3,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Controls.Material
+import ScreenPlayWallpaper
 
 Rectangle {
     id: root
@@ -22,6 +23,17 @@ Rectangle {
             text: "Click me!"
             Layout.fillWidth: true
             onClicked: root.counter++
+        }
+        TextField {
+            placeholderText: "Edit me"
+        }
+        Button {
+            text: "Exit"
+            onClicked: {
+            Qt.callLater(function () {
+                    Wallpaper.terminate();
+                });
+            }
         }
     }
 }
