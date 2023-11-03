@@ -389,3 +389,56 @@ BOOL MonitorEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPAR
 
     return true;
 }
+
+void WindowsIntegration::setMouseEventHandler(MouseEventHandler handler)
+{
+    m_mouseEventHandler = handler;
+}
+
+LRESULT __stdcall WindowsIntegration::MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
+{
+    // Initialize mouse event variables
+    DWORD mouseButton = 0;
+    UINT type = WM_MOUSEMOVE;
+    POINT p {};
+
+    if (nCode >= 0) {
+        switch (wParam) {
+        case WM_LBUTTONDOWN:
+            mouseButton = MK_LBUTTON;
+            type = WM_LBUTTONDOWN;
+            break;
+        case WM_LBUTTONUP:
+            mouseButton = MK_LBUTTON;
+            type = WM_LBUTTONUP;
+            break;
+        case WM_RBUTTONDOWN:
+            mouseButton = MK_RBUTTON;
+            type = WM_RBUTTONDOWN;
+            break;
+        default:
+            type = WM_MOUSEMOVE;
+        }
+    }
+
+    if (GetCursorPos(&p)) {
+        // Check if the callback function is set and call it
+        if (m_mouseEventHandler) {
+            m_mouseEventHandler(mouseButton, type, p);
+        }
+
+    } else {
+        return CallNextHookEx(m_mouseHook, nCode, wParam, lParam);
+    }
+
+    return CallNextHookEx(m_mouseHook, nCode, wParam, lParam);
+}
+
+void WindowsIntegration::setupWindowMouseHook()
+{
+    HINSTANCE hInstance = GetModuleHandle(NULL);
+    if (!(m_mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseHookCallback, hInstance, 0))) {
+        OutputDebugStringW(L"Failed to install mouse hook!");
+        return;
+    }
+}

@@ -83,6 +83,11 @@ struct sEnumInfo {
     HMONITOR hMonitor;
 };
 
+// Define the type for the mouse event handler function
+using MouseEventHandler = std::function<void(DWORD mouseButton, UINT type, POINT p)>;
+static MouseEventHandler m_mouseEventHandler;
+static HHOOK m_mouseHook;
+
 class WindowsIntegration {
 public:
     struct SpanResult {
@@ -104,6 +109,11 @@ public:
     HWND windowHandleWorker() const;
     void setWindowHandle(HWND windowHandle);
     void setWindowHandleWorker(HWND windowHandleWorker);
+
+    void setupWindowMouseHook();
+    static LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam);
+    // Set the mouse event handler function
+    void setMouseEventHandler(MouseEventHandler handler);
 
 private:
     HWND m_windowHandle {};

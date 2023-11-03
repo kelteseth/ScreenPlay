@@ -53,7 +53,6 @@ private:
     void setupWallpaperForOneScreen(int activeScreen);
     void setupWallpaperForAllScreens();
     void setupWallpaperForMultipleScreens(const QVector<int>& activeScreensList);
-    void setupWindowMouseHook();
     void configureWindowGeometry();
 
 private slots:

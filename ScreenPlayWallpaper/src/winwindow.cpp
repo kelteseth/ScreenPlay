@@ -15,89 +15,6 @@
     \brief  ScreenPlayWindow used for the Windows implementation.
 */
 
-HHOOK g_mouseHook;
-QPoint g_LastMousePosition { 0, 0 };
-QPoint g_globalOffset { 0, 0 };
-QQuickView* g_winGlobalHook = nullptr;
-
-/*!
-  \brief Windows mouse callback. This hook then forwards the event to the Qt window.
-         We must manually call a release event otherwise QML gets stuck.
-*/
-LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
-{
-
-    Qt::MouseButton mouseButton {};
-    Qt::MouseButtons mouseButtons {};
-    Qt::KeyboardModifier keyboardModifier {};
-    QMouseEvent::Type type { QMouseEvent::Type::MouseMove };
-
-    if (nCode >= 0) {
-        switch (wParam) {
-        case WM_LBUTTONDOWN:
-            mouseButton = Qt::MouseButton::LeftButton;
-            mouseButtons.setFlag(Qt::LeftButton);
-            type = QMouseEvent::Type::MouseButtonPress;
-            break;
-        case WM_LBUTTONUP:
-            mouseButton = Qt::MouseButton::LeftButton;
-            mouseButtons.setFlag(Qt::LeftButton);
-            type = QMouseEvent::Type::MouseButtonRelease;
-            break;
-        case WM_RBUTTONDOWN:
-            mouseButton = Qt::MouseButton::RightButton;
-            mouseButtons.setFlag(Qt::RightButton);
-            type = QMouseEvent::Type::MouseButtonPress;
-            break;
-        default:
-            type = QMouseEvent::Type::MouseMove;
-        }
-    }
-
-    POINT p {};
-    if (GetCursorPos(&p)) {
-        g_LastMousePosition.setX(p.x);
-        g_LastMousePosition.setY(p.y);
-    } else {
-        return CallNextHookEx(g_mouseHook, nCode, wParam, lParam);
-    }
-
-    auto event = QMouseEvent(type, g_LastMousePosition, mouseButton, mouseButtons, keyboardModifier);
-
-    QGuiApplication::sendEvent(g_winGlobalHook, &event);
-
-    if (type == QMouseEvent::Type::MouseButtonPress) {
-    }
-    QTimer::singleShot(100, [&]() {
-        // auto eventPress = QMouseEvent(QMouseEvent::Type::MouseButtonPress, g_LastMousePosition, mouseButton, mouseButtons, {});
-        // qInfo() << mouseButton << QGuiApplication::sendEvent(g_winGlobalHook, &eventPress) << g_globalOffset.x() << g_globalOffset.y();
-        auto eventRelease = QMouseEvent(QMouseEvent::Type::MouseButtonRelease, g_LastMousePosition, mouseButton, mouseButtons, {});
-        QGuiApplication::sendEvent(g_winGlobalHook, &eventRelease);
-    });
-
-    return CallNextHookEx(g_mouseHook, nCode, wParam, lParam);
-}
-
-/*!
-  \brief Setup the SetWindowsHookEx hook to be used to receive mouse events.
-*/
-void WinWindow::setupWindowMouseHook()
-{
-    using ScreenPlay::InstalledType::InstalledType;
-
-    // MUST be called before setting hook for events!
-    if (type() != InstalledType::VideoWallpaper && type() != InstalledType::GifWallpaper) {
-        qInfo() << "Enable mousehook";
-        g_winGlobalHook = &m_window;
-
-        HINSTANCE hInstance = GetModuleHandle(NULL);
-        if (!(g_mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseHookCallback, hInstance, 0))) {
-            qInfo() << "Faild to install mouse hook!";
-            return;
-        }
-    }
-}
-
 ScreenPlay::WallpaperExitCode WinWindow::start()
 {
     connect(
@@ -143,13 +60,59 @@ ScreenPlay::WallpaperExitCode WinWindow::start()
         }
     }
 
-    QTimer::singleShot(1000, this, [&]() {
-        setupWindowMouseHook();
-    });
-
     qInfo() << "Setup " << width() << height();
     m_window.setSource(QUrl("qrc:/qml/ScreenPlayWallpaper/qml/Wallpaper.qml"));
     m_window.show();
+
+    QTimer::singleShot(1000, this, [&]() {
+        m_windowsIntegration.setupWindowMouseHook();
+        // Set up the mouse event handler
+        m_windowsIntegration.setMouseEventHandler([this](DWORD mouseButton, UINT type, POINT p) {
+            Qt::MouseButton button = Qt::NoButton;
+            QEvent::Type eventType = QEvent::None;
+
+            // Determine the Qt mouse event type and button
+            switch (type) {
+            case WM_LBUTTONDOWN:
+                eventType = QEvent::MouseButtonPress;
+                button = Qt::LeftButton;
+                break;
+            case WM_LBUTTONUP:
+                eventType = QEvent::MouseButtonRelease;
+                button = Qt::LeftButton;
+                break;
+            case WM_RBUTTONDOWN:
+                eventType = QEvent::MouseButtonPress;
+                button = Qt::RightButton;
+                break;
+            case WM_RBUTTONUP:
+                eventType = QEvent::MouseButtonRelease;
+                button = Qt::RightButton;
+                break;
+            case WM_MOUSEMOVE:
+                eventType = QEvent::MouseMove;
+                button = Qt::NoButton;
+                break;
+                // Add more cases as needed
+            }
+
+            // Convert POINT to global position
+            QPoint globalPos(p.x, p.y);
+
+            // Convert global position to local position within the target widget
+            QPoint localPos = m_window.mapFromGlobal(globalPos);
+
+            // Create the QMouseEvent
+            QMouseEvent* qEvent = new QMouseEvent(eventType, localPos, globalPos, button, button, QGuiApplication::keyboardModifiers());
+
+            // Handle the mouse event
+            // For example, logging the mouse button and position
+            qDebug() << "Mouse event: Button=" << mouseButton << ", Type=" << type
+                     << ", Position=(" << p.x << ", " << p.y << ")" << globalPos << localPos << button;
+            // Post the event to the target widget
+            QCoreApplication::postEvent(&m_window, qEvent);
+        });
+    });
     return ScreenPlay::WallpaperExitCode::Ok;
 }
 
@@ -254,7 +217,7 @@ void WinWindow::terminate()
 {
     using ScreenPlay::InstalledType::InstalledType;
     if (type() != InstalledType::VideoWallpaper && type() != InstalledType::GifWallpaper) {
-        UnhookWindowsHookEx(g_mouseHook);
+        // UnhookWindowsHookEx(g_mouseHook);
     }
     ShowWindow(m_windowsIntegration.windowHandle(), SW_HIDE);
 
