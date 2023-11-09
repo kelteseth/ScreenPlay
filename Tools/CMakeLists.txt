@@ -12,7 +12,7 @@ add_custom_target(
 
 set(GODOT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/Godot")
 
-if(WIN32)
+if(WIN32 AND ${SCREENPLAY_GODOT})
     # Todo: Add Linux and Mac support
     configure_file(${GODOT_PATH}/${GODOT_EDITOR_NAME} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ COPYONLY)
 endif()
