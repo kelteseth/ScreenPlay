@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 class BuildConfig:
     root_path: str
-    cmake_osx_architectures: str
     cmake_target_triplet: str
     package: bool
     osx_bundle: str

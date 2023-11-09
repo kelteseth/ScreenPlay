@@ -4,6 +4,12 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
 include(GetProjectVersion)
 get_project_version(PROJECT_VERSION)
 
+# This be set before project()
+if(APPLE)
+    set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64" CACHE STRING "" FORCE)
+    set(SCREENPLAY_QML_MODULES_PATH "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ScreenPlay.app/Contents/MacOS/qml")
+endif()
+
 project(
     ScreenPlay
     VERSION ${PROJECT_VERSION}
@@ -20,6 +26,7 @@ elseif(APPLE)
     set(VCPKG_ARCH "64-osx-universal") # Our own triplet for universal binaries
     set(VCPKG_TARGET_ARCHITECTURE "arm64;x86_64")
 endif()
+
 # This sets cmake to compile all dlls into the main directory
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -35,11 +42,6 @@ set(CMAKE_OSX_DEPLOYMENT_TARGET "13.0")
 # This subdirectoy is needed for OSX and Linux to fix linker errors because we would have ScreenPlayApp executable and folder for the qml
 # files in the same directory.
 set(SCREENPLAY_QML_MODULES_PATH "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/qml")
-
-if(APPLE)
-    set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64")
-    set(SCREENPLAY_QML_MODULES_PATH "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ScreenPlay.app/Contents/MacOS/qml")
-endif()
 
 # Adds the qml import path so QtCreator can find them
 list(APPEND QML_DIRS "${SCREENPLAY_QML_MODULES_PATH}")
@@ -68,7 +70,7 @@ endif()
 option(SCREENPLAY_OSX_BUNDLE "Enable distribution macOS bundle" OFF)
 option(SCREENPLAY_STEAM "For FOSS distribution so we do not bundle proprietary code." ON)
 option(SCREENPLAY_DEPLOY "Marks this version as an official deploy version. This version uses different import paths and other settings."
-       OFF)
+    OFF)
 option(SCREENPLAY_TESTS "Enables UI tests." ON)
 option(SCREENPLAY_INSTALLER "Indicates whether an installer via the Qt Installer Framework is created." OFF)
 option(SCREENPLAY_GODOT "Compiles ScreenPlayGodotWallpaper." ON)
