@@ -102,8 +102,8 @@ def execute() -> bool:
 
     # Check if Godot executable already exists
     for file in godot_path.iterdir():
-        if defines.GODOT_VERSION in str(file):
-            print(f"Godot v{defines.GODOT_VERSION} already exists.")
+        if defines.GODOT_EDITOR_EXECUTABLE in str(file):
+            print(f"Godot v{defines.GODOT_EDITOR_EXECUTABLE} already exists.")
             return True
         
     return setup_godot()

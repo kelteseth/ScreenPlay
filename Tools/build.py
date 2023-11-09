@@ -46,15 +46,16 @@ def execute(
     # temporary files in the build directory.
     clean_build_dir(build_config.build_folder)
 
+    # Build Godot Wallpaper
+    # Note: This must happen before building ScreenPlay!
+    if platform.system() == "Windows" and build_config.build_godot == "ON":
+        build_godot.build_godot(str(build_config.bin_dir), build_config.build_type)
+
     # Runs cmake configure and cmake build
     step_time = time.time()
     build_result = build(build_config, build_result)
     build_duration = time.time() - step_time
     print(f"⏱️ build_duration: {build_duration}s")
-
-    # Build Godot Wallpaper
-    if platform.system() == "Windows":
-        build_godot.build_godot(str(build_config.bin_dir), build_config.build_type)
 
     # Copies all needed libraries and assets into the bin folder
     step_time = time.time()
@@ -180,6 +181,7 @@ def build(build_config: BuildConfig, build_result: BuildResult) -> BuildResult:
 	-DSCREENPLAY_STEAM={build_config.build_steam} \
 	-DSCREENPLAY_TESTS={build_config.build_tests} \
 	-DSCREENPLAY_DEPLOY={build_config.build_deploy} \
+	-DSCREENPLAY_GODOT={build_config.build_godot} \
 	-DSCREENPLAY_INSTALLER={build_config.create_installer} \
 	-DSCREENPLAY_IFW_ROOT:STRING={build_config.ifw_root_path} \
     -G "Ninja" \
@@ -360,6 +362,7 @@ if __name__ == "__main__":
                         help="Create a deploy version of ScreenPlay for sharing with the world. A not deploy version is for local development only!")
     parser.add_argument('--architecture', action="store", dest="build_architecture", default="",
                         help="Sets the build architecture. Used to build x86 and ARM osx versions. Currently only works with x86_64 and arm64")
+    parser.add_argument('--build-godot', action="store", dest="build_godot", default="", help="Builds the Godot Wallpaper")
     args = parser.parse_args()
 
     qt_version = defines.QT_VERSION
@@ -403,6 +406,10 @@ if __name__ == "__main__":
     if args.build_deploy:
         build_deploy = "ON"
 
+    build_godot = "OFF"
+    if args.build_godot:
+        build_godot = "ON"
+
     create_installer = "OFF"
     if args.create_installer:
         create_installer = "ON"
@@ -419,6 +426,7 @@ if __name__ == "__main__":
     build_config.build_steam = build_steam
     build_config.build_tests = build_tests
     build_config.build_deploy = build_deploy
+    build_config.build_godot = build_godot
     build_config.create_installer = create_installer
     build_config.build_type = build_type
     build_config.screenplay_version = screenplay_version
