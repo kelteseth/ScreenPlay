@@ -63,9 +63,7 @@ endif()
 add_executable(
     ${PROJECT_NAME}
     ${SOURCES}
-    ${HEADER}
-    src/windowsintegration.h
-    src/windowsintegration.cpp)
+    ${HEADER})
 
 qt_add_qml_module(
     ${PROJECT_NAME}

@@ -295,7 +295,6 @@ target_link_libraries(
     ScreenPlayApp
     PUBLIC ScreenPlaySDK
            LibArchive::LibArchive
-           ScreenPlayWallpaperLib
            ScreenPlayUtil
            ScreenPlayUtilplugin
            QArchive
@@ -354,7 +353,7 @@ if(WIN32
 endif()
 
 if(WIN32)
-    target_link_libraries(ScreenPlayApp PUBLIC CURL::libcurl sentry::sentry)
+    target_link_libraries(ScreenPlayApp PUBLIC CURL::libcurl sentry::sentry ScreenPlayWallpaperLib)
 
     # Icon
     target_sources(${PROJECT_NAME} PRIVATE ScreenPlay.rc)
