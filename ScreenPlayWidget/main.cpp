@@ -14,7 +14,7 @@
 #if defined(Q_OS_WIN)
 Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoPlugin)
 #endif
-#if defined(Q_OS_OSX)
+#if defined(Q_OS_MACOS)
 #include "ScreenPlayUtil/macutils.h"
 #endif
 
@@ -92,7 +92,7 @@ int main(int argc, char* argv[])
         argumentList.at(3), // Type
         QPoint { positionX, positionY });
 
-#if defined(Q_OS_OSX)
+#if defined(Q_OS_MACOS)
     MacUtils::showDockIcon(false);
 #endif
     logging = std::make_unique<const ScreenPlayUtil::LoggingHandler>("ScreenPlayWidget_" + appID);

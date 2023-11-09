@@ -723,7 +723,7 @@ QString CreateImportVideo::waitForFinished(
         m_process->setProgram(m_ffprobeExecutable);
     }
 
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     QProcess changeChmod;
     changeChmod.setProgram("chmod");
     changeChmod.setArguments({ "+x", m_process->program() });

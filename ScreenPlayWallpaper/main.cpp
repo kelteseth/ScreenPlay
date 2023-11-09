@@ -18,7 +18,7 @@ Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoPlugin)
 #elif defined(Q_OS_LINUX)
 #include "src/linuxwaylandwindow.h"
 #include "src/linuxx11window.h"
-#elif defined(Q_OS_OSX)
+#elif defined(Q_OS_MACOS)
 #include "src/macwindow.h"
 #endif
 
@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
     } else if (platformName == "wayland") {
         window = std::make_unique<LinuxWaylandWindow>();
     }
-#elif defined(Q_OS_OSX)
+#elif defined(Q_OS_MACOS)
     window = std::make_unique<MacWindow>();
 #endif
 

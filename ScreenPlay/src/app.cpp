@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
 #include "ScreenPlay/app.h"
-#if defined(Q_OS_OSX)
+#if defined(Q_OS_MACOS)
 #include "ScreenPlayUtil/macutils.h"
 #endif
 
@@ -75,7 +75,7 @@ App::App()
     QGuiApplication::setQuitOnLastWindowClosed(false);
 
     QString fontsPath = QGuiApplication::instance()->applicationDirPath() + "/assets/fonts/";
-#if defined(Q_OS_OSX)
+#if defined(Q_OS_MACOS)
     fontsPath = QGuiApplication::instance()->applicationDirPath() + "/../Resources/fonts/";
 #endif
     const QDir fontsDir(fontsPath);
@@ -234,7 +234,7 @@ void App::exit()
 
 void App::showDockIcon(const bool show)
 {
-#if defined(Q_OS_OSX)
+#if defined(Q_OS_MACOS)
     MacUtils::instance()->showDockIcon(show);
 #endif
 }

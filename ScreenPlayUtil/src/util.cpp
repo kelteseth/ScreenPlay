@@ -131,7 +131,7 @@ QString executableAppEnding()
 #ifdef Q_OS_WIN
     return ".exe";
 #endif
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     return ".app";
 #endif
     return "";

@@ -60,7 +60,7 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
 #ifdef Q_OS_WIN
     setDesktopEnvironment(DesktopEnvironment::Windows);
 #endif
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setDesktopEnvironment(DesktopEnvironment::OSX);
 #endif
 #ifdef Q_OS_LINUX
