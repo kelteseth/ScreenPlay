@@ -3,6 +3,8 @@
 #include "ScreenPlay/app.h"
 #include "ScreenPlay/create.h"
 
+#include "ScreenPlay/CMakeVariables.h"
+
 #include <QCommandLineParser>
 #include <QCoreApplication>
 #include <QDebug>
@@ -100,7 +102,7 @@ void ScreenPlayTest::import_convert_video()
     auto* createWallpaperInit = m_window->findChild<QQuickItem*>("createWallpaperInit");
     QVERIFY(createWallpaperInit);
 
-    const QString originalVideoPath = QString(SOURCE_DIR) + "/ScreenPlay/assets/tests/video_import.mp4";
+    const QString originalVideoPath = QString(SCREENPLAY_SOURCE_DIR) + "/ScreenPlay/assets/tests/video_import.mp4";
     qInfo() << originalVideoPath;
 
     QVERIFY(QMetaObject::invokeMethod(createWallpaperInit,

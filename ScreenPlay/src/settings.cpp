@@ -48,13 +48,14 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
     , m_globalVariables { globalVariables }
 {
     const QString qtVersion = QString("Qt Version: %1.%2.%3\n").arg(QT_VERSION_MAJOR).arg(QT_VERSION_MINOR).arg(QT_VERSION_PATCH);
-    const QString buildType = QString("Build type: %1\n").arg(BUILD_TYPE);
-    const QString buildDate = QString("Build date: %1\n").arg(BUILD_DATE);
-    const QString commitHash = QString("Git commit hash: %1").arg(GIT_COMMIT_HASH);
-    setBuildInfos(qtVersion + buildType + buildDate + commitHash);
-#ifdef SCREENPLAY_STEAM
-    setSteamVersion(true);
-#endif
+    const QString buildType = QString("Build type: %1\n").arg(QString(SCREENPLAY_BUILD_TYPE));
+    const QString buildDate = QString("Build date: %1\n").arg(QString(SCREENPLAY_BUILD_DATE));
+    const QString commitHash = QString("Git commit hash: %1\n").arg(QString(SCREENPLAY_GIT_COMMIT_HASH));
+    const QString isDeployVersion = QString("Is deploy version: %1\n").arg((SCREENPLAY_DEPLOY_VERSION ? QString("✅ Yes") : QString("❌ No")));
+    const QString isSteamVersion = QString("Is steam version: %1").arg((SCREENPLAY_STEAM_VERSION ? QString("✅ Yes") : QString("❌ No")));
+    setBuildInfos(qtVersion + buildType + buildDate + commitHash + isDeployVersion + isSteamVersion);
+
+    setSteamVersion(SCREENPLAY_STEAM);
 
 #ifdef Q_OS_WIN
     setDesktopEnvironment(DesktopEnvironment::Windows);
@@ -74,20 +75,18 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
     qmlRegisterUncreatableType<Settings>("Settings", 1, 0, "Settings", "Error only for enums");
 
     // Lets not set the dev version as startup.
-#ifdef DEPLOY_VERSION
-    if (desktopEnvironment() == DesktopEnvironment::Windows) {
-        QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
-        if (!settings.childGroups().contains("ScreenPlay", Qt::CaseSensitive)) {
-            settings.setValue("ScreenPlay", QDir::toNativeSeparators(QCoreApplication::applicationFilePath()) + " -silent");
-            settings.sync();
-            if (!m_qSettings.contains("Autostart")) {
-                m_qSettings.setValue("Autostart", true);
-                m_qSettings.sync();
+    if (SCREENPLAY_DEPLOY_VERSION)
+        if (desktopEnvironment() == DesktopEnvironment::Windows) {
+            QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
+            if (!settings.childGroups().contains("ScreenPlay", Qt::CaseSensitive)) {
+                settings.setValue("ScreenPlay", QDir::toNativeSeparators(QCoreApplication::applicationFilePath()) + " -silent");
+                settings.sync();
+                if (!m_qSettings.contains("Autostart")) {
+                    m_qSettings.setValue("Autostart", true);
+                    m_qSettings.sync();
+                }
             }
         }
-    }
-
-#endif
 
     setCheckWallpaperVisible(m_qSettings.value("CheckWallpaperVisible", false).toBool());
     setHighPriorityStart(m_qSettings.value("ScreenPlayExecutable", false).toBool());

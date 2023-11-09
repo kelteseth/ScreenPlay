@@ -117,7 +117,7 @@ endif()
 if(APPLE)
     target_link_libraries(${PROJECT_NAME} PRIVATE "-framework Cocoa")
 
-    if(NOT OSX_BUNDLE)
+    if(NOT SCREENPLAY_OSX_BUNDLE)
         add_custom_command(
             TARGET ${PROJECT_NAME}
             POST_BUILD

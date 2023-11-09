@@ -20,33 +20,12 @@ elseif(APPLE)
     set(VCPKG_ARCH "64-osx-universal") # Our own triplet for universal binaries
     set(VCPKG_TARGET_ARCHITECTURE "arm64;x86_64")
 endif()
-
-# Godot Editor
-set(GODOT_VERSION "v4.2")
-set(GODOT_RELEASE_TYPE "beta4")
-
-if(WIN32)
-    set(GODOT_EDITOR_NAME "Godot_${GODOT_VERSION}-${GODOT_RELEASE_TYPE}_win64.exe")
-elseif(APPLE)
-    set(GODOT_EDITOR_NAME "Godot.app")
-elseif(UNIX)
-    set(GODOT_EDITOR_NAME "Godot_${GODOT_VERSION}-${GODOT_RELEASE_TYPE}_linux.x86_64")
-else()
-    message(FATAL_ERROR "Unsupported OS")
-endif()
-
 # This sets cmake to compile all dlls into the main directory
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_CXX_STANDARD 20)
 set(THIRD_PARTY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty")
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
-list(APPEND CMAKE_MODULE_PATH "${THIRD_PARTY_PATH}/ecm/modules")
-list(APPEND CMAKE_MODULE_PATH "${THIRD_PARTY_PATH}/ecm/find-modules")
-list(APPEND CMAKE_MODULE_PATH "${THIRD_PARTY_PATH}/ecm/kde-modules")
-message(STATUS "[PROJECT] CMAKE_MODULE_PATH            = ${CMAKE_MODULE_PATH}")
-
-option(OSX_BUNDLE "Enable distribution macOS bundle" OFF)
 set(CMAKE_OSX_DEPLOYMENT_TARGET "13.0")
 
 # This is needed for OSX: Because we bundle ScreenPlay and ScreenPlayWallpaper into .app they both need other QML dependencies like
@@ -72,12 +51,27 @@ set(VCPKG_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../vcpkg")
 set(VCPKG_INSTALLED_PATH "${VCPKG_PATH}/installed/${VCPKG_ARCH}")
 set(VCPKG_BIN_PATH "${VCPKG_INSTALLED_PATH}/bin")
 
+# Godot Editor
+set(GODOT_VERSION "v4.2")
+set(GODOT_RELEASE_TYPE "beta4")
+
+if(WIN32)
+    set(GODOT_EDITOR_NAME "Godot_${GODOT_VERSION}-${GODOT_RELEASE_TYPE}_win64.exe")
+elseif(APPLE)
+    set(GODOT_EDITOR_NAME "Godot.app")
+elseif(UNIX)
+    set(GODOT_EDITOR_NAME "Godot_${GODOT_VERSION}-${GODOT_RELEASE_TYPE}_linux.x86_64")
+else()
+    message(FATAL_ERROR "Unsupported OS")
+endif()
+
+option(SCREENPLAY_OSX_BUNDLE "Enable distribution macOS bundle" OFF)
 option(SCREENPLAY_STEAM "For FOSS distribution so we do not bundle proprietary code." ON)
 option(SCREENPLAY_DEPLOY "Marks this version as an official deploy version. This version uses different import paths and other settings."
-    OFF)
+       OFF)
 option(SCREENPLAY_TESTS "Enables UI tests." ON)
 option(SCREENPLAY_INSTALLER "Indicates whether an installer via the Qt Installer Framework is created." OFF)
-option(SCREENPLAY_GODOT_SUPPORT "Compiles ScreenPlayGodotWallpaper." OFF)
+option(SCREENPLAY_GODOT "Compiles ScreenPlayGodotWallpaper." ON)
 
 # Gitlab CI has many ENV variables. We use this one to check if the current build happens inside the CI
 if(DEFINED ENV{CI_COMMIT_MESSAGE})
@@ -85,13 +79,6 @@ if(DEFINED ENV{CI_COMMIT_MESSAGE})
 endif()
 
 file(MAKE_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-
-add_compile_definitions(COMPILE_INFO="Build Date: ${BUILD_DATE}. Git Hash: ${GIT_COMMIT_HASH}. ")
-add_compile_definitions(SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
-
-if(${SCREENPLAY_DEPLOY})
-    add_compile_definitions(DEPLOY_VERSION)
-endif()
 
 find_package(Git REQUIRED)
 
@@ -127,25 +114,21 @@ execute_process(
     OUTPUT_VARIABLE GIT_COMMIT_HASH
     OUTPUT_STRIP_TRAILING_WHITESPACE)
 
-add_compile_definitions(BUILD_TYPE="${CMAKE_BUILD_TYPE}")
-add_compile_definitions(BUILD_DATE="${BUILD_DATE}")
-add_compile_definitions(GIT_BRANCH_NAME="${GIT_BRANCH_NAME}")
-add_compile_definitions(GIT_COMMIT_HASH="${GIT_COMMIT_HASH}")
-
-add_subdirectory(ThirdParty)
-set(ECM_DIR "${THIRD_PARTY_PATH}/ecm")
-add_subdirectory(CMake)
+if(${SCREENPLAY_TESTS})
+    enable_testing()
+endif()
 
 if(UNIX AND NOT APPLE)
     # Needs to be append, because we include ecm as third party on linux
+    set(ECM_DIR "${THIRD_PARTY_PATH}/ecm")
     list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
     list(APPEND CMAKE_MODULE_PATH "${ECM_DIR}")
     list(APPEND CMAKE_MODULE_PATH "${ECM_DIR}/cmake")
-else()
 endif()
 
+add_subdirectory(ThirdParty)
+add_subdirectory(CMake)
 add_subdirectory(Tools)
-
 add_subdirectory(ScreenPlay)
 add_subdirectory(ScreenPlaySDK)
 add_subdirectory(ScreenPlayShader)
@@ -154,12 +137,8 @@ add_subdirectory(ScreenPlayWidget)
 add_subdirectory(ScreenPlayUtil)
 add_subdirectory(ScreenPlayWeather)
 
-if(${SCREENPLAY_GODOT_SUPPORT})
+if(${SCREENPLAY_GODOT})
     add_subdirectory(ScreenPlayWallpaper/Godot)
-endif()
-
-if(${SCREENPLAY_TESTS})
-    enable_testing()
 endif()
 
 # Only add target SteamSDKQtEnums
@@ -181,6 +160,7 @@ if(${SCREENPLAY_INSTALLER})
     endif()
 endif()
 
+message(STATUS "[PROJECT] CMAKE_MODULE_PATH            = ${CMAKE_MODULE_PATH}")
 message(STATUS "[PROJECT] PROJECT_VERSION              = ${PROJECT_VERSION}")
 message(STATUS "[PROJECT] CMAKE_VERSION                = ${CMAKE_VERSION}")
 message(STATUS "[PROJECT] SCREENPLAY_QML_MODULES_PATH  = ${SCREENPLAY_QML_MODULES_PATH}")
@@ -195,7 +175,7 @@ message(STATUS "[OPTION] SCREENPLAY_DEPLOY             = ${SCREENPLAY_DEPLOY}")
 message(STATUS "[OPTION] SCREENPLAY_INSTALLER          = ${SCREENPLAY_INSTALLER}")
 message(STATUS "[OPTION] SCREENPLAY_STEAM              = ${SCREENPLAY_STEAM}")
 message(STATUS "[OPTION] SCREENPLAY_TESTS              = ${SCREENPLAY_TESTS}")
-message(STATUS "[OPTION] SCREENPLAY_GODOT_SUPPORT      = ${SCREENPLAY_GODOT_SUPPORT}")
+message(STATUS "[OPTION] SCREENPLAY_GODOT              = ${SCREENPLAY_GODOT}")
 message(STATUS "[DEFINE] BUILD_TYPE                    = ${CMAKE_BUILD_TYPE}")
 message(STATUS "[DEFINE] GIT_COMMIT_HASH               = ${GIT_COMMIT_HASH}")
 message(STATUS "[CPP DEFINE] DEPLOY_VERSION            = ${DEPLOY_VERSION}")

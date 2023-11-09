@@ -5,6 +5,9 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 
+# ##### USE CMAKE VARIABLES IN CODE #####
+include(GenerateCMakeVariableHeader)
+
 set(SOURCES
     # cmake-format: sort
     src/app.cpp
@@ -319,13 +322,14 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlayApp ScreenPlayAppplugin)
 if(${SCREENPLAY_TESTS})
     add_executable(tst_ScreenPlay tests/tst_main.cpp)
     target_link_libraries(tst_ScreenPlay PRIVATE ScreenPlayApp ScreenPlayAppplugin Qt6::Test)
+    generate_cmake_variable_header(tst_ScreenPlay)
     if(${SCREENPLAY_STEAM})
         target_compile_definitions(tst_ScreenPlay PRIVATE SCREENPLAY_STEAM)
         target_link_libraries(tst_ScreenPlay PUBLIC ScreenPlayWorkshopplugin ScreenPlayWorkshop)
     endif()
 endif()
 
-if(APPLE AND NOT OSX_BUNDLE)
+if(APPLE AND NOT SCREENPLAY_OSX_BUNDLE)
     set_source_files_properties(
         ${TS_FILES} PROPERTIES OUTPUT_LOCATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}.app/Contents/Resources/translations")
 else()
@@ -376,7 +380,7 @@ if(WIN32)
 
 endif()
 
-if(APPLE AND OSX_BUNDLE)
+if(APPLE AND SCREENPLAY_OSX_BUNDLE)
     # Set the installation destination
     install(TARGETS "ScreenPlay" DESTINATION /Applications)
 
@@ -399,7 +403,7 @@ if(APPLE AND OSX_BUNDLE)
 
 endif()
 
-if(APPLE AND NOT OSX_BUNDLE)
+if(APPLE AND NOT SCREENPLAY_OSX_BUNDLE)
     # Creates a ScreenPlay.app
     set_target_properties(
         ${PROJECT_NAME}
@@ -447,7 +451,6 @@ if(APPLE AND NOT OSX_BUNDLE)
 
 endif()
 
-# ##### USE CMAKE VARIABLES IN CODE #####
-include(GenerateCMakeVariableHeader)
-# Note: Must not be ${PROJECT_NAME}, but ScreenPlayApp to work!
+# Note: We need the variables in the lib and exe!
+generate_cmake_variable_header(${PROJECT_NAME})
 generate_cmake_variable_header(ScreenPlayApp)

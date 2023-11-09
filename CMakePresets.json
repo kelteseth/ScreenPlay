@@ -74,6 +74,17 @@
             }
         },
         {
+            "name": "windows-release-qt-6.6.0-release-deploy",
+            "inherits": "windows-release-qt-6.6.0",
+            "displayName": "MSVC SP Qt 6.6.0 Release Steam Deploy",
+            "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6.6.0_MSVC_Release_Steam_Deploy",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "SCREENPLAY_DEPLOY": "ON",
+                "SCREENPLAY_STEAM": "ON"
+            }
+        },
+        {
             "name": "linux-generic-debug",
             "displayName": "ScreenPlay 64bit Debug Linux",
             "description": "Linux only!",
