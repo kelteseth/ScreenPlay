@@ -311,7 +311,6 @@ target_link_libraries(
            Qt6::Xml)
 
 if(${SCREENPLAY_STEAM})
-    target_compile_definitions(ScreenPlayApp PRIVATE SCREENPLAY_STEAM)
     target_link_libraries(ScreenPlayApp PUBLIC ScreenPlayWorkshopplugin ScreenPlayWorkshop)
 endif()
 
@@ -323,7 +322,6 @@ if(${SCREENPLAY_TESTS})
     target_link_libraries(tst_ScreenPlay PRIVATE ScreenPlayApp ScreenPlayAppplugin Qt6::Test)
     generate_cmake_variable_header(tst_ScreenPlay)
     if(${SCREENPLAY_STEAM})
-        target_compile_definitions(tst_ScreenPlay PRIVATE SCREENPLAY_STEAM)
         target_link_libraries(tst_ScreenPlay PUBLIC ScreenPlayWorkshopplugin ScreenPlayWorkshop)
     endif()
 endif()

@@ -55,7 +55,7 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
     const QString isSteamVersion = QString("Is steam version: %1").arg((SCREENPLAY_STEAM_VERSION ? QString("✅ Yes") : QString("❌ No")));
     setBuildInfos(qtVersion + buildType + buildDate + commitHash + isDeployVersion + isSteamVersion);
 
-    setSteamVersion(SCREENPLAY_STEAM);
+    setSteamVersion(SCREENPLAY_STEAM_VERSION);
 
 #ifdef Q_OS_WIN
     setDesktopEnvironment(DesktopEnvironment::Windows);
