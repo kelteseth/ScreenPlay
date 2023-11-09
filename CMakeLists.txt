@@ -9,7 +9,6 @@ if(APPLE)
     set(CMAKE_OSX_ARCHITECTURES
         "arm64;x86_64"
         CACHE STRING "" FORCE)
-    set(SCREENPLAY_QML_MODULES_PATH "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ScreenPlay.app/Contents/MacOS/qml")
 endif()
 
 project(
@@ -44,7 +43,9 @@ set(CMAKE_OSX_DEPLOYMENT_TARGET "13.0")
 # This subdirectoy is needed for OSX and Linux to fix linker errors because we would have ScreenPlayApp executable and folder for the qml
 # files in the same directory.
 set(SCREENPLAY_QML_MODULES_PATH "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/qml")
-
+if(APPLE)
+    set(SCREENPLAY_QML_MODULES_PATH "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ScreenPlay.app/Contents/MacOS/qml")
+endif()
 # Adds the qml import path so QtCreator can find them
 list(APPEND QML_DIRS "${SCREENPLAY_QML_MODULES_PATH}")
 set(QML_IMPORT_PATH
