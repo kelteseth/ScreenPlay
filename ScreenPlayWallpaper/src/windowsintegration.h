@@ -4,12 +4,13 @@
 #define NOMINMAX
 #endif
 #include <windows.h>
+
+// Do not change windows.h order !
 #include <algorithm>
-#include <iostream>
-#include <shellscalingapi.h>
-#include <vector>
-#include <optional>
 #include <functional>
+#include <iostream>
+#include <optional>
+#include <vector>
 
 // Do not sort !
 #include "WinUser.h"

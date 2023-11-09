@@ -60,10 +60,7 @@ if(WIN32)
     target_link_libraries(ScreenPlayWallpaperLib PUBLIC shcore.lib)
 endif()
 
-add_executable(
-    ${PROJECT_NAME}
-    ${SOURCES}
-    ${HEADER})
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADER})
 
 qt_add_qml_module(
     ${PROJECT_NAME}
