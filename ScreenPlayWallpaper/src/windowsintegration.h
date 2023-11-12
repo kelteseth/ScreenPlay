@@ -41,38 +41,7 @@ BOOL CALLBACK GetMonitorByHandle(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcM
 BOOL CALLBACK FindTheDesiredWnd(HWND hWnd, LPARAM lParam);
 BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam);
 
-struct WinMonitorStats {
 
-    WinMonitorStats()
-    {
-        EnumDisplayMonitors(NULL, NULL, MonitorEnum, (LPARAM)this);
-    }
-
-    static BOOL CALLBACK MonitorEnum(HMONITOR hMon, HDC hdc, LPRECT lprcMonitor, LPARAM pData)
-    {
-        WinMonitorStats* pThis = reinterpret_cast<WinMonitorStats*>(pData);
-        auto scaleFactor = DEVICE_SCALE_FACTOR::DEVICE_SCALE_FACTOR_INVALID;
-        GetScaleFactorForMonitor(hMon, &scaleFactor);
-
-        UINT x = 0;
-        UINT y = 0;
-        GetDpiForMonitor(hMon, MONITOR_DPI_TYPE::MDT_RAW_DPI, &x, &y);
-        pThis->sizes.push_back({ x, y });
-        pThis->scaleFactor.push_back(scaleFactor);
-        pThis->hMonitors.push_back(hMon);
-        pThis->hdcMonitors.push_back(hdc);
-        pThis->rcMonitors.push_back(*lprcMonitor);
-        pThis->iMonitors.push_back(pThis->hdcMonitors.size());
-
-        return TRUE;
-    }
-    std::vector<size_t> iMonitors;
-    std::vector<HMONITOR> hMonitors;
-    std::vector<HDC> hdcMonitors;
-    std::vector<RECT> rcMonitors;
-    std::vector<DEVICE_SCALE_FACTOR> scaleFactor;
-    std::vector<std::pair<UINT, UINT>> sizes;
-};
 
 struct Point {
     int x = 0;

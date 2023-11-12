@@ -107,7 +107,7 @@ def main():
     parser = argparse.ArgumentParser(
         description='Build and Package ScreenPlay')
     parser.add_argument('--skip-aqt', action="store_true", dest="skip_aqt",
-                        help="Downloads QtCreator and needed binaries \Windows: C:\aqt\nLinux & macOS:~/aqt/.")
+                        help="Downloads QtCreator and needed binaries Windows: C:\\aqt\\nLinux & macOS:~/aqt/.")
     parser.add_argument('--setup-godot', action="store_true", dest="setup_godot",
                         help="Downloads Godot Editor.")
     args = parser.parse_args()

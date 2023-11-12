@@ -114,16 +114,15 @@ void MonitorListModel::loadMonitors()
 
 #ifdef Q_OS_WIN
     QModelIndex index;
-    WinMonitorStats monitors;
+    auto monitors = WindowsIntegration().GetAllMonitors();
 
     // This offset lets us center the monitor selection view in the center
     int offsetX = 0;
     int offsetY = 0;
-    const int moinitorCount = monitors.iMonitors.size();
 
-    for (int i = 0; i < moinitorCount; i++) {
-        const int x = monitors.rcMonitors[i].left;
-        const int y = monitors.rcMonitors[i].top;
+    for (auto& monitor : monitors) {
+        const int x = monitor.position.left;
+        const int y = monitor.position.top;
         if (x < 0) {
             offsetX += (x * -1);
         }
@@ -132,11 +131,11 @@ void MonitorListModel::loadMonitors()
         }
     }
 
-    for (int i = 0; i < moinitorCount; i++) {
-        const int width = std::abs(monitors.rcMonitors[i].right - monitors.rcMonitors[i].left);
-        const int height = std::abs(monitors.rcMonitors[i].top - monitors.rcMonitors[i].bottom);
-        const int x = monitors.rcMonitors[i].left;
-        const int y = monitors.rcMonitors[i].top;
+    for(int i = 0; auto& monitor : monitors) {
+        const int width = std::abs(monitor.position.right - monitor.position.left);
+        const int height = std::abs(monitor.position.top - monitor.position.bottom);
+        const int x = monitor.position.left;
+        const int y = monitor.position.top;
         QRect geometry(
             x + offsetX,
             y + offsetY,
@@ -145,6 +144,7 @@ void MonitorListModel::loadMonitors()
         beginInsertRows(index, m_monitorList.size(), m_monitorList.size());
         m_monitorList.append(Monitor { i, geometry });
         endInsertRows();
+        i++;
     }
 #else
     QModelIndex index;
