@@ -35,16 +35,16 @@ def unzip_godot(exe_zip_filepath: str, export_templates_filepath: str, destinati
     util.unzip(exe_zip_filepath, destination_path)
 
     # The export templates contain a templates subfolder in which the content is. This is bad because it clashes
-    # with the folder structure where the version comes after: AppData\Roaming\Godot\templates\3.3.4.stable
-    # Rename: AppData\Roaming\Godot\templates\templates
-    # to    : AppData\Roaming\Godot\templates\3.4.stable
+    # with the folder structure where the version comes after: /home/eli/.local/share/godot/export_templates/
+    # Rename: AppData\Roaming\Godot\export_templates\templates
+    # to    : AppData\Roaming\Godot\export_templates\3.4.stable
     godot_templates_dir = ""
     if sys.platform == "win32":
         godot_templates_dir = os.path.join(
-            os.getenv('APPDATA'), "Godot/templates")
+            os.getenv('APPDATA'), "Godot/export_templates")
     elif sys.platform == "linux":
         godot_templates_dir = os.path.join(
-            str(Path.home()), ".local/share/godot/templates")
+            str(Path.home()), ".local/share/godot/export_templates")
     os.makedirs(godot_templates_dir, exist_ok=True)
     export_templates_destination_version = f"{godot_templates_dir}/{defines.GODOT_VERSION}.{defines.GODOT_RELEASE_TYPE}"
 

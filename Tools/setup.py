@@ -108,8 +108,6 @@ def main():
         description='Build and Package ScreenPlay')
     parser.add_argument('--skip-aqt', action="store_true", dest="skip_aqt",
                         help="Downloads QtCreator and needed binaries Windows: C:\\aqt\\nLinux & macOS:~/aqt/.")
-    parser.add_argument('--setup-godot', action="store_true", dest="setup_godot",
-                        help="Downloads Godot Editor.")
     args = parser.parse_args()
 
     root_path = Path(util.cd_repo_root_path())
@@ -117,7 +115,7 @@ def main():
     vcpkg_path = project_source_parent_path.joinpath("vcpkg").resolve()
     vcpkg_packages_list = defines.VCPKG_BASE_PACKAGES
 
-    if system() != "Darwin" and args.setup_godot:
+    if system() != "Darwin":
         if not setup_godot.execute():
             raise RuntimeError("Unable to download godot")
 
