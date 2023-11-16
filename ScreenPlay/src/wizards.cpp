@@ -289,6 +289,73 @@ void Wizards::createQMLWallpaper(
     });
 }
 
+
+/*!
+    \brief .
+*/
+void Wizards::createGodotWallpaper(
+    const QString& title,
+    const QString& licenseName,
+    const QString& licenseFile,
+    const QString& createdBy,
+    const QString& previewThumbnail,
+    const QVector<QString>& tags)
+{
+    if (m_wizardFuture.isRunning()) {
+        qWarning() << "Another wizard is already running! Abort.";
+        return;
+    }
+
+    m_wizardFuture = QtConcurrent::run([=]() {
+        std::optional<QString> folderName = createTemporaryFolder();
+
+        if (!folderName.has_value()) {
+            emit widgetCreationFinished(WizardResult::CreateProjectFolderError);
+            return;
+        }
+
+        const QString workingPath = ScreenPlayUtil::toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
+
+        QJsonObject obj;
+        obj.insert("license", licenseName);
+        obj.insert("title", title);
+        obj.insert("createdBy", createdBy);
+        obj.insert("tags", ScreenPlayUtil::fillArray(tags));
+        obj.insert("type", QVariant::fromValue(InstalledType::InstalledType::GodotWallpaper).toString());
+        obj.insert("file", "wallpaper.tscn");
+
+        if (!previewThumbnail.isEmpty()) {
+            if (!Util::copyPreviewThumbnail(obj, previewThumbnail, workingPath)) {
+                emit widgetCreationFinished(WizardResult::CopyPreviewThumbnailError);
+                return;
+            }
+        }
+
+        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
+            qWarning() << "Could not write " << licenseFile;
+            emit widgetCreationFinished(WizardResult::WriteLicenseFileError);
+            return;
+        }
+
+
+        if (!Util::writeSettings(obj, workingPath + "/project.json")) {
+            emit widgetCreationFinished(WizardResult::WriteProjectFileError);
+            return;
+        }
+
+        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/Godot_v5/project.godot", workingPath + "/project.godot")) {
+            qWarning() << "Could not write main.qml";
+            return;
+        }
+        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/Godot_v5/wallpaper.tscn", workingPath + "/wallpaper.tscn")) {
+            qWarning() << "Could not write main.qml";
+            return;
+        }
+
+        emit widgetCreationFinished(WizardResult::Ok, workingPath);
+    });
+}
+
 void Wizards::createGifWallpaper(
     const QString& title,
     const QString& licenseName,

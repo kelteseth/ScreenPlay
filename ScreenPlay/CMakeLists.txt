@@ -73,11 +73,14 @@ set(QML
     qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml
     qml/Create/Wizards/ImportWebm/ImportWebmInit.qml
     qml/Create/Wizards/QMLWallpaper.qml
+    qml/Create/Wizards/GodotWallpaper.qml
     qml/Create/Wizards/QMLWidget.qml
     qml/Create/Wizards/WebsiteWallpaper.qml
     qml/Create/Wizards/WizardPage.qml
     qml/Create/WizardsFiles/QMLWallpaperMain.qml
     qml/Create/WizardsFiles/QMLWidgetMain.qml
+    qml/Create/WizardsFiles/Godot_v5/project.godot
+    qml/Create/WizardsFiles/Godot_v5/wallpaper.tscn
     qml/Installed/Installed.qml
     qml/Installed/InstalledNavigation.qml
     qml/Installed/InstalledWelcomeScreen.qml

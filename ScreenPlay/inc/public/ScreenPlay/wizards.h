@@ -82,6 +82,15 @@ public slots:
         const QString& previewThumbnail,
         const QVector<QString>& tags);
 
+
+    void createGodotWallpaper(
+        const QString& title,
+        const QString& licenseName,
+        const QString& licenseFile,
+        const QString& createdBy,
+        const QString& previewThumbnail,
+        const QVector<QString>& tags);
+
     void createGifWallpaper(
         const QString& title,
         const QString& licenseName,

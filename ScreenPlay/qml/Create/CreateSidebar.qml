@@ -88,6 +88,14 @@ Rectangle {
             }
 
             ListElement {
+                headline: qsTr("Godot Wallpaper")
+                source: "qrc:/qml/ScreenPlayApp/qml/Create/Wizards/GodotWallpaper.qml"
+                category: "Code Wallpaper"
+                objectName: ""
+            }
+
+
+            ListElement {
                 headline: qsTr("QML Wallpaper")
                 source: "qrc:/qml/ScreenPlayApp/qml/Create/Wizards/QMLWallpaper.qml"
                 category: "Code Wallpaper"
