@@ -138,10 +138,9 @@ void App::init()
 
     using std::make_shared, std::make_unique;
 
-    // Util should be created as first so we redirect qDebugs etc. into the log
-    m_util = make_unique<Util>();
     m_globalVariables = make_shared<GlobalVariables>();
     m_monitorListModel = make_shared<MonitorListModel>();
+    m_util = make_unique<Util>(m_globalVariables);
     m_profileListModel = make_shared<ProfileListModel>(m_globalVariables);
     m_settings = make_shared<Settings>(m_globalVariables);
     m_installedListModel = make_shared<InstalledListModel>(m_globalVariables, m_settings);

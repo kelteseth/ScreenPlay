@@ -14,6 +14,7 @@ Item {
     property string screenId
     property url absoluteStoragePath
     property int type: InstalledType.Unknown
+    // Must be var to make it work wit 64bit ints
     property var publishedFileID: 0
     property int itemIndex
     property bool isScrolling: false

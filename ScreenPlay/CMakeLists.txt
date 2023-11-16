@@ -185,6 +185,7 @@ set(RESOURCES
     assets/icons/icon_widgets.svg
     assets/icons/icon_window.svg
     assets/icons/item_banner_new.svg
+    assets/icons/icon_edit.svg
     assets/icons/monitor_setup.svg
     assets/icons/steam_default_avatar.png
     assets/images/Early_Access.png

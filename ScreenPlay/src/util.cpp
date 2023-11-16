@@ -23,8 +23,10 @@ namespace ScreenPlay {
 /*!
   \brief Constructor.
 */
-Util::Util()
+Util::Util(
+    const std::shared_ptr<GlobalVariables>& globalVariables)
     : QObject(nullptr)
+    , m_globalVariables { globalVariables }
 {
     m_extractor = std::make_unique<QArchive::DiskExtractor>();
     m_compressor = std::make_unique<QArchive::DiskCompressor>();
@@ -142,6 +144,15 @@ bool Util::exportProject(QString contentPath, QString exportFileName)
     m_compressor->addFiles(files);
     m_compressor->start();
     return true;
+}
+
+bool Util::openGodotEditor(QString contentPath) const
+{
+    const QList<QString> godotCmd = { "--editor", "--path", toLocal(contentPath) };
+    QProcess process;
+    process.setProgram(m_globalVariables->godotEditorExecutablePath().toString());
+    process.setArguments(godotCmd);
+    return process.startDetached();
 }
 
 /*!

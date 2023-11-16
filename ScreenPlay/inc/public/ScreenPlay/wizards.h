@@ -34,9 +34,11 @@ namespace ScreenPlay {
 class Wizards : public QObject {
     Q_OBJECT
     QML_ELEMENT
+    QML_UNCREATABLE("CPP ONLY")
 public:
-    explicit Wizards(const std::shared_ptr<GlobalVariables>& globalVariables, QObject* parent = nullptr);
-    Wizards() { }
+    explicit Wizards(
+        const std::shared_ptr<GlobalVariables>& globalVariables,
+        QObject* parent = nullptr);
 
     enum class WizardResult {
         Ok,
