@@ -5,6 +5,7 @@
 #include "ScreenPlayUtil/macutils.h"
 #endif
 
+#include "ScreenPlay/CMakeVariables.h"
 #include "app.h"
 #include "steam/steam_qt_enums_generated.h"
 #include <QGuiApplication>
@@ -71,7 +72,7 @@ App::App()
     QGuiApplication::setOrganizationName("ScreenPlay");
     QGuiApplication::setOrganizationDomain("screen-play.app");
     QGuiApplication::setApplicationName("ScreenPlay");
-    QGuiApplication::setApplicationVersion(QVersionNumber(0, 15, 0).toString());
+    QGuiApplication::setApplicationVersion(QString(SCREENPLAY_VERSION));
     QGuiApplication::setQuitOnLastWindowClosed(false);
 
     QString fontsPath = QGuiApplication::instance()->applicationDirPath() + "/assets/fonts/";

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.22.0)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
 include(GetProjectVersion)
-get_project_version(PROJECT_VERSION)
+get_project_version(SCREENPLAY_VERSION)
 
 # This must be set before project()
 if(APPLE)
@@ -13,7 +13,7 @@ endif()
 
 project(
     ScreenPlay
-    VERSION ${PROJECT_VERSION}
+    VERSION ${SCREENPLAY_VERSION}
     DESCRIPTION "Modern, Cross Plattform, Live Wallpaper, Widgets and AppDrawer!"
     HOMEPAGE_URL "https://screen-play.app/"
     LANGUAGES CXX)
@@ -166,7 +166,6 @@ if(${SCREENPLAY_INSTALLER})
 endif()
 
 message(STATUS "[PROJECT] CMAKE_MODULE_PATH            = ${CMAKE_MODULE_PATH}")
-message(STATUS "[PROJECT] PROJECT_VERSION              = ${PROJECT_VERSION}")
 message(STATUS "[PROJECT] CMAKE_VERSION                = ${CMAKE_VERSION}")
 message(STATUS "[PROJECT] SCREENPLAY_QML_MODULES_PATH  = ${SCREENPLAY_QML_MODULES_PATH}")
 message(STATUS "[PROJECT] CMAKE_TOOLCHAIN_FILE         = ${CMAKE_TOOLCHAIN_FILE}")
@@ -176,6 +175,7 @@ message(STATUS "[PROJECT] VCPKG_TARGET_TRIPLET         = ${VCPKG_TARGET_TRIPLET}
 message(STATUS "[PROJECT] CMAKE_PREFIX_PATH            = ${CMAKE_PREFIX_PATH}")
 message(STATUS "[PROJECT] GODOT_VERSION                = ${GODOT_VERSION}")
 message(STATUS "[PROJECT] GODOT_EDITOR_NAME            = ${GODOT_EDITOR_NAME}")
+message(STATUS "[PROJECT] SCREENPLAY_VERSION           = ${SCREENPLAY_VERSION}")
 message(STATUS "[OPTION] SCREENPLAY_DEPLOY             = ${SCREENPLAY_DEPLOY}")
 message(STATUS "[OPTION] SCREENPLAY_INSTALLER          = ${SCREENPLAY_INSTALLER}")
 message(STATUS "[OPTION] SCREENPLAY_STEAM              = ${SCREENPLAY_STEAM}")
