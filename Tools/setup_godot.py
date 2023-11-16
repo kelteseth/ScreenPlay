@@ -8,19 +8,22 @@ from pathlib import Path
 import defines
 import util
 
-def download_godot(version: str, exe_zip_filename: str, export_templates: str, download_destination_path: str) -> bool:
-    # https://downloads.tuxfamily.org/godotengine/4.2/beta4/Godot_v4.2-beta4_win64.exe.zip
-    # https://downloads.tuxfamily.org/godotengine/4.2/Godot_v4.2-beta4_win64.exe.zip
-    download_export_templates = f"{defines.GODOT_DOWNLOAD_SERVER}/{version}/{defines.GODOT_RELEASE_TYPE}/{export_templates}"
+def download_godot(exe_zip_filename: str, export_templates: str, download_destination_path: str) -> bool:
+    # https://github.com/godotengine/godot-builds/releases/download/4.2-beta6/Godot_v4.2-beta6_win64.exe.zip
+    subfolder = f"{defines.GODOT_VERSION}-{defines.GODOT_RELEASE_TYPE}"
+    base_url = f"{defines.GODOT_DOWNLOAD_SERVER}/{subfolder}"
+    
+    download_export_templates = f"{base_url}/{export_templates}"
     exe_destination_filepath = os.path.join(
         download_destination_path, exe_zip_filename)
     export_templates_destination_path = os.path.join(
         download_destination_path, export_templates)
 
-    # Godot adds ".stable" to the folder names for full releases: "AppData/Roaming/Godot/templates/3.4.stable":
-    print(f"Downloading Godot from {defines.GODOT_DOWNLOAD_SERVER}/")
-    download_link = f"{defines.GODOT_DOWNLOAD_SERVER}/{version}/{defines.GODOT_RELEASE_TYPE}/{exe_zip_filename}"
-    util.download(download_link, exe_destination_filepath, False)
+    # Godot adds ".stable" to the folder names for full releases: "AppData/Roaming/Godot/templates/4.2.stable":
+    download_editor = f"{base_url}/{exe_zip_filename}"
+    print(f"⬇️  Downloading Godot editor {download_editor}")
+    util.download(download_editor, exe_destination_filepath, False)
+    print(f"⬇️  Downloading Godot export templates {download_export_templates}")
     util.download(download_export_templates,
                             export_templates_destination_path, False)
 
@@ -28,7 +31,7 @@ def download_godot(version: str, exe_zip_filename: str, export_templates: str, d
 
 
 def unzip_godot(exe_zip_filepath: str, export_templates_filepath: str, destination_path: str) -> bool:
-    print("Unzip Godot")
+    print("🪛 Unzip Godot")
     util.unzip(exe_zip_filepath, destination_path)
 
     # The export templates contain a templates subfolder in which the content is. This is bad because it clashes
@@ -38,10 +41,10 @@ def unzip_godot(exe_zip_filepath: str, export_templates_filepath: str, destinati
     godot_templates_dir = ""
     if sys.platform == "win32":
         godot_templates_dir = os.path.join(
-            os.getenv('APPDATA'), "Godot/templates/")
+            os.getenv('APPDATA'), "Godot/templates")
     elif sys.platform == "linux":
         godot_templates_dir = os.path.join(
-            str(Path.home()), ".local/share/godot/templates/")
+            str(Path.home()), ".local/share/godot/templates")
     os.makedirs(godot_templates_dir, exist_ok=True)
     export_templates_destination_version = f"{godot_templates_dir}/{defines.GODOT_VERSION}.{defines.GODOT_RELEASE_TYPE}"
 
@@ -54,14 +57,14 @@ def unzip_godot(exe_zip_filepath: str, export_templates_filepath: str, destinati
     os.rename(os.path.join(godot_templates_dir, "templates"),
               export_templates_destination_version)
 
-    print(f"Remove {exe_zip_filepath}")
+    print(f"🚮 Remove {exe_zip_filepath}")
     try:
         os.remove(exe_zip_filepath)
     except OSError as error:
         print(f"Error deleting file: {error}")
         return False
     
-    print(f"Remove {export_templates_filepath}")
+    print(f"🚮 Remove {export_templates_filepath}")
     try:
         os.remove(export_templates_filepath)
     except OSError as error:
@@ -72,22 +75,22 @@ def unzip_godot(exe_zip_filepath: str, export_templates_filepath: str, destinati
 
 
 def setup_godot() -> bool:
-    print(f"Set up GODOT version {defines.GODOT_VERSION} {defines.GODOT_RELEASE_TYPE}")
+    print(f"🚀 Set up GODOT version {defines.GODOT_VERSION} {defines.GODOT_RELEASE_TYPE}")
     destination_path = os.path.join(defines.THIRDPATH_PATH, "Godot")
     export_templates = f"Godot_v{defines.GODOT_VERSION}-{defines.GODOT_RELEASE_TYPE}_export_templates.tpz"
     export_templates_filepath = os.path.join(
         destination_path, export_templates)
-    exe_zip_filename = defines.GODOT_EDITOR_EXECUTABLE + '.zip'
-    exe_zip_filepath = os.path.join(destination_path, exe_zip_filename)
-    download_godot(defines.GODOT_VERSION, exe_zip_filename,
+    exe_zip_filepath = os.path.join(destination_path, defines.GODOT_EDITOR_DOWNLOAD_NAME)
+    download_godot( defines.GODOT_EDITOR_DOWNLOAD_NAME,
                    export_templates, destination_path)
     if not unzip_godot(exe_zip_filepath, export_templates_filepath, destination_path):
         return False
-
+    
     # Linux needs to change file permission to be able to run godot
     if sys.platform == "linux":
-        execute(f"chmod +x {defines.GODOT_EDITOR_EXECUTABLE}",
-                destination_path, False)
+        command = f"chmod +x {defines.GODOT_EDITOR_EXECUTABLE}"
+        print(f"Make editor executable: {command} at {destination_path}")
+        util.run(command,destination_path)
 
     return True
 

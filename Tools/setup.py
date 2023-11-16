@@ -117,7 +117,7 @@ def main():
     vcpkg_path = project_source_parent_path.joinpath("vcpkg").resolve()
     vcpkg_packages_list = defines.VCPKG_BASE_PACKAGES
 
-    if system() == "Windows" and args.setup_godot:
+    if system() != "Darwin" and args.setup_godot:
         if not setup_godot.execute():
             raise RuntimeError("Unable to download godot")
 
