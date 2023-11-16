@@ -78,7 +78,7 @@ Item {
         id: radioButton
 
         checked: settingsBool.isChecked
-        onCheckedChanged: {
+        onClicked: {
             if (radioButton.checkState === Qt.Checked)
                 checkboxChanged(true);
             else

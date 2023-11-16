@@ -35,18 +35,23 @@ InstalledListModel::InstalledListModel(
 */
 void InstalledListModel::init()
 {
-    if (!m_fileSystemWatcher.addPath(m_globalVariables->localStoragePath().toLocalFile())) {
-        qWarning() << "Could not setup file system watcher for changed files with path: " << m_globalVariables->localStoragePath().toLocalFile();
+    QString projectsPath = m_globalVariables->localStoragePath().toLocalFile();
+    QDirIterator projectFilesIter(projectsPath, { "*.qml", "*.html", "*.css", "*.js", "*.png", "project.json" }, QDir::Files | QDir::NoSymLinks, QDirIterator::Subdirectories);
+    while (projectFilesIter.hasNext()) {
+        m_fileSystemWatcher.addPath(projectFilesIter.next());
     }
+    m_reloadLimiter.setInterval(500);
+    m_reloadLimiter.setSingleShot(true);
+    QObject::connect(&m_reloadLimiter, &QTimer::timeout, this, [this]() {
+        reset();
+    });
 
-    auto reloadLambda = [this]() {
-        QTimer::singleShot(500, this, [this]() {
-            reset();
-        });
+    auto restartTimer = [this]() {
+        m_reloadLimiter.start();
     };
 
-    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, reloadLambda);
-    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, reloadLambda);
+    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, restartTimer);
+    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, restartTimer);
 }
 
 /*!
@@ -288,6 +293,10 @@ QVariantMap InstalledListModel::get(const QString& folderName) const
 */
 void InstalledListModel::reset()
 {
+    if (m_isLoading) {
+        qInfo() << "loadInstalledContent is already running. Skip.";
+        return;
+    }
     beginResetModel();
     m_screenPlayFiles.clear();
     m_screenPlayFiles.squeeze();

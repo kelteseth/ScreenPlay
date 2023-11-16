@@ -96,6 +96,7 @@ private:
     QFileSystemWatcher m_fileSystemWatcher;
     QVector<ProjectFile> m_screenPlayFiles;
     int m_count { 0 };
+    QTimer m_reloadLimiter;
     std::atomic_bool m_isLoading { false };
 
     const std::shared_ptr<GlobalVariables>& m_globalVariables;

@@ -42,9 +42,7 @@ Rectangle {
 
             function onWizardExited() {
                 root.expanded = true;
-                stackView.clear(StackView.PushTransition);
-                stackView.push("qrc:/qml/ScreenPlayApp/qml/Create/StartInfo.qml");
-                listView.currentIndex = 0;
+                App.util.setNavigation("Installed");
                 App.util.setNavigationActive(true);
             }
 

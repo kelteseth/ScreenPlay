@@ -105,13 +105,13 @@ bool ProjectFile::init()
             qWarning("Invalid videoCodec was specified inside the json object!");
         }
     } else if (type == ScreenPlay::InstalledType::InstalledType::VideoWallpaper) {
-        qWarning("No videoCodec was specified inside the json object!");
+        // qWarning("No videoCodec was specified inside the json object!");
         if (file.endsWith(".mp4")) {
             videoCodec = ScreenPlay::VideoCodec::VideoCodec::H264;
-            qWarning("Eyeball to h264 because of .mp4");
+            // qWarning("Eyeball to h264 because of .mp4");
         } else if (file.endsWith(".webm")) {
             videoCodec = ScreenPlay::VideoCodec::VideoCodec::VP8;
-            qWarning("Eyeball to VP8 because of .webm");
+            // qWarning("Eyeball to VP8 because of .webm");
         }
     }
 

@@ -41,7 +41,6 @@ Item {
 
     StackView.onActivated: {
         navWrapper.state = "in";
-        App.installedListFilter.sortBySearchType(SearchType.All);
         checkIsContentInstalled();
     }
 
@@ -257,7 +256,7 @@ Item {
     Menu {
         id: contextMenu
         objectName: "installedItemContextMenu"
-
+        // Must be var to support 64-bit size!
         property var publishedFileID: 0
         property url absoluteStoragePath
         property string fileName
