@@ -58,7 +58,7 @@ set(VCPKG_BIN_PATH "${VCPKG_INSTALLED_PATH}/bin")
 
 # Godot Editor
 set(GODOT_VERSION "v4.2")
-set(GODOT_RELEASE_TYPE "beta4")
+set(GODOT_RELEASE_TYPE "beta6")
 
 if(WIN32)
     set(GODOT_EDITOR_NAME "Godot_${GODOT_VERSION}-${GODOT_RELEASE_TYPE}_win64.exe")
