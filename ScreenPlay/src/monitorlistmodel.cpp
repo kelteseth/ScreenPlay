@@ -114,7 +114,7 @@ void MonitorListModel::loadMonitors()
 
 #ifdef Q_OS_WIN
     QModelIndex index;
-    auto monitors = WindowsIntegration().GetAllMonitors();
+    auto monitors = WindowsIntegration().getAllMonitors();
 
     // This offset lets us center the monitor selection view in the center
     int offsetX = 0;
@@ -131,7 +131,7 @@ void MonitorListModel::loadMonitors()
         }
     }
 
-    for(int i = 0; auto& monitor : monitors) {
+    for (int i = 0; auto& monitor : monitors) {
         const int width = std::abs(monitor.position.right - monitor.position.left);
         const int height = std::abs(monitor.position.top - monitor.position.bottom);
         const int x = monitor.position.left;

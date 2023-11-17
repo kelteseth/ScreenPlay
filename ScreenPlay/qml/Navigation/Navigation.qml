@@ -13,7 +13,7 @@ Rectangle {
     id: root
 
     property string currentNavigationName: "Installed"
-    property var navArray: [navCreate, navWorkshop, navInstalled,navCommunity, navSettings]
+    property var navArray: [navCreate, navWorkshop, navInstalled, navCommunity, navSettings]
     property bool navActive: true
     property Item modalSource
     property int iconWidth: 16
@@ -30,11 +30,10 @@ Rectangle {
     }
     function setNavigation(name) {
         for (var i = 0; i < navArray.length; i++) {
-            print(navArray[i].objectName)
             if (navArray[i].objectName === name) {
                 navArray[i].state = "active";
                 root.currentNavigationName = name;
-                tabBar.currentIndex = navArray[i].index
+                tabBar.currentIndex = navArray[i].index;
             } else {
                 navArray[i].state = "inactive";
             }

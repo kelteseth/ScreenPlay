@@ -289,7 +289,6 @@ void Wizards::createQMLWallpaper(
     });
 }
 
-
 /*!
     \brief .
 */
@@ -337,18 +336,26 @@ void Wizards::createGodotWallpaper(
             return;
         }
 
-
         if (!Util::writeSettings(obj, workingPath + "/project.json")) {
             emit widgetCreationFinished(WizardResult::WriteProjectFileError);
             return;
         }
 
         if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/Godot_v5/project.godot", workingPath + "/project.godot")) {
-            qWarning() << "Could not write main.qml";
+            qWarning() << "Could not write project.godot";
             return;
         }
+
         if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/Godot_v5/wallpaper.tscn", workingPath + "/wallpaper.tscn")) {
-            qWarning() << "Could not write main.qml";
+            qWarning() << "Could not write wallpaper.tscn";
+            return;
+        }
+
+        // This presets file is needed for the export. Because we do only export
+        // package files, it does not matter that we hardcode "Windows Desktop" as
+        // export preset.
+        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/Godot_v5/export_presets.cfg", workingPath + "/export_presets.cfg")) {
+            qWarning() << "Could not write export_presets.cfg";
             return;
         }
 

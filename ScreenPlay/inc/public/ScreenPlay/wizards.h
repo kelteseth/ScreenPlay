@@ -84,7 +84,6 @@ public slots:
         const QString& previewThumbnail,
         const QVector<QString>& tags);
 
-
     void createGodotWallpaper(
         const QString& title,
         const QString& licenseName,

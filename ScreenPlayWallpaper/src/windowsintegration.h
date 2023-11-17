@@ -7,6 +7,7 @@
 
 // Do not change windows.h order !
 #include <algorithm>
+#include <format>
 #include <functional>
 #include <iostream>
 #include <optional>
@@ -22,16 +23,21 @@ struct Monitor {
     RECT position; // Monitor's position and size
     SIZE size; // Monitor's width and height
     float scaleFactor; // Scale factor (DPI scaling as a factor, e.g., 1.5 for 150% scaling)
-
+    std::string toString() const
+    {
+        return std::format(
+            "Monitor Info:\n"
+            "Monitor ID: {}\n"
+            "Index: {}\n"
+            "Position: ({}, {}, {}, {})\n"
+            "Size: ({}x{})\n"
+            "Scale Factor: {}\n",
+            (int64_t)monitorID, index, position.left, position.top,
+            position.right, position.bottom, size.cx, size.cy, scaleFactor);
+    }
     void print() const
     {
-        std::cout << "Monitor Info:" << std::endl;
-        std::cout << "Monitor ID: " << monitorID << std::endl;
-        std::cout << "Index: " << index << std::endl;
-        std::cout << "Position: (" << position.left << ", " << position.top << ", "
-                  << position.right << ", " << position.bottom << ")" << std::endl;
-        std::cout << "Size: (" << size.cx << "x" << size.cy << ")" << std::endl;
-        std::cout << "Scale Factor: " << scaleFactor << std::endl;
+        std::cout << toString() << std::endl;
     }
 };
 
@@ -40,8 +46,6 @@ BOOL CALLBACK MonitorEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMoni
 BOOL CALLBACK GetMonitorByHandle(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData);
 BOOL CALLBACK FindTheDesiredWnd(HWND hWnd, LPARAM lParam);
 BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam);
-
-
 
 struct Point {
     int x = 0;
@@ -81,7 +85,7 @@ public:
 
     bool searchWorkerWindowToParentTo();
     float getScaling(const int monitorIndex) const;
-    std::vector<Monitor> GetAllMonitors();
+    std::vector<Monitor> getAllMonitors();
     int GetMonitorIndex(HMONITOR hMonitor);
     bool checkForFullScreenWindow(HWND windowHandle);
     WindowsIntegration::MonitorResult setupWallpaperForOneScreen(const int activeScreen, std::function<void(int, int)> updateWindowSize);

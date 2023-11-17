@@ -14,23 +14,22 @@ SystemTrayIcon {
     onActivated: function (reason) {
         switch (reason) {
         case SystemTrayIcon.Unknown:
-            break
+            break;
         case SystemTrayIcon.Context:
-            break
+            break;
         case SystemTrayIcon.DoubleClick:
-            window.show()
-            break
+            window.show();
+            break;
         case SystemTrayIcon.Trigger:
-            break
+            break;
         case SystemTrayIcon.MiddleClick:
-            break
+            break;
         }
     }
 
-    function open(){
-        App.showDockIcon(true)
-        window.show()
-
+    function open() {
+        App.showDockIcon(true);
+        window.show();
     }
 
     menu: Menu {
@@ -38,16 +37,16 @@ SystemTrayIcon {
             id: miOpenScreenPlay
             text: qsTr("Open ScreenPlay")
             onTriggered: {
-                root.open()
+                root.open();
             }
         }
         MenuItem {
             id: miChangeWallpaperSettings
             text: qsTr("Change Wallpaper settings")
             onTriggered: {
-                root.open()
+                root.open();
                 App.util.setNavigation("Installed");
-                App.util.setToggleWallpaperConfiguration()
+                App.util.setToggleWallpaperConfiguration();
             }
         }
         MenuItem {
@@ -57,7 +56,7 @@ SystemTrayIcon {
         MenuItem {
             text: qsTr("Browse Workshop")
             onTriggered: {
-                root.open()
+                root.open();
                 App.util.setNavigation("Workshop");
             }
         }
@@ -66,7 +65,7 @@ SystemTrayIcon {
             id: miCreate
             text: qsTr("Create new Wallpaper or Widgets")
             onTriggered: {
-                root.open()
+                root.open();
                 App.util.setNavigation("Create");
             }
         }
@@ -74,7 +73,7 @@ SystemTrayIcon {
             id: miSettings
             text: qsTr("Settings")
             onTriggered: {
-                root.open()
+                root.open();
                 App.util.setNavigation("Settings");
             }
         }
@@ -85,14 +84,13 @@ SystemTrayIcon {
         MenuItem {
             text: qsTr("Forums")
             onTriggered: {
-                Qt.openUrlExternally("https://forum.screen-play.app/")
+                Qt.openUrlExternally("https://forum.screen-play.app/");
             }
         }
         MenuItem {
             text: qsTr("Frequently Asked Questions (FAQ)")
             onTriggered: {
-                Qt.openUrlExternally(
-                            "https://kelteseth.gitlab.io/ScreenPlayDocs/Frequently%20Asked%20Questions/")
+                Qt.openUrlExternally("https://kelteseth.gitlab.io/ScreenPlayDocs/Frequently%20Asked%20Questions/");
             }
         }
         MenuItem {
@@ -106,13 +104,13 @@ SystemTrayIcon {
             text: qsTr("Mute all")
             onTriggered: {
                 if (miMuteAll.isMuted) {
-                    isMuted = false
-                    miMuteAll.text = qsTr("Mute all")
-                    App.screenPlayManager.setAllWallpaperValue("muted", "true")
+                    isMuted = false;
+                    miMuteAll.text = qsTr("Mute all");
+                    App.screenPlayManager.setAllWallpaperValue("muted", "true");
                 } else {
-                    isMuted = true
-                    miMuteAll.text = qsTr("Unmute all")
-                    App.screenPlayManager.setAllWallpaperValue("muted", "false")
+                    isMuted = true;
+                    miMuteAll.text = qsTr("Unmute all");
+                    App.screenPlayManager.setAllWallpaperValue("muted", "false");
                 }
             }
         }
@@ -125,15 +123,13 @@ SystemTrayIcon {
             text: qsTr("Pause all")
             onTriggered: {
                 if (miStopAll.isPlaying) {
-                    isPlaying = false
-                    miStopAll.text = qsTr("Pause all")
-                    App.screenPlayManager.setAllWallpaperValue("isPlaying",
-                                                               "true")
+                    isPlaying = false;
+                    miStopAll.text = qsTr("Pause all");
+                    App.screenPlayManager.setAllWallpaperValue("isPlaying", "true");
                 } else {
-                    isPlaying = true
-                    miStopAll.text = qsTr("Play all")
-                    App.screenPlayManager.setAllWallpaperValue("isPlaying",
-                                                               "false")
+                    isPlaying = true;
+                    miStopAll.text = qsTr("Play all");
+                    App.screenPlayManager.setAllWallpaperValue("isPlaying", "false");
                 }
             }
         }

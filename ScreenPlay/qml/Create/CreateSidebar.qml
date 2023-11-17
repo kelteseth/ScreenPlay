@@ -92,7 +92,6 @@ Rectangle {
                 objectName: ""
             }
 
-
             ListElement {
                 headline: qsTr("QML Wallpaper")
                 source: "qrc:/qml/ScreenPlayApp/qml/Create/Wizards/QMLWallpaper.qml"

@@ -32,16 +32,15 @@ project(ScreenPlayGodotWallpaper LANGUAGES CXX)
 
 # Create our library
 add_library(${PROJECT_NAME} SHARED)
-# Runs after compilation
-# Enable executing python scripts
+# Runs after compilation Enable executing python scripts
 find_package(Python COMPONENTS Interpreter)
 
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+add_custom_command(
+    TARGET ${PROJECT_NAME}
+    POST_BUILD
     WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/Tools"
     COMMAND "${Python_EXECUTABLE}" "build_godot.py" "--build_path" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
-    COMMENT "Running post-build step"
-)
-
+    COMMENT "Running post-build step")
 
 # LIB_ARCH is the architecture being built. It is set to the build system's architecture. For macOS, we build a universal library (both
 # arm64 and x86_64).

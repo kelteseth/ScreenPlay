@@ -60,6 +60,7 @@ set(QML
     qml/Create/StartInfoLinkImage.qml
     qml/Create/Wizard.qml
     qml/Create/Wizards/GifWallpaper.qml
+    qml/Create/Wizards/GodotWallpaper.qml
     qml/Create/Wizards/HTMLWallpaper.qml
     qml/Create/Wizards/HTMLWidget.qml
     qml/Create/Wizards/Importh264/Importh264.qml
@@ -73,14 +74,14 @@ set(QML
     qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml
     qml/Create/Wizards/ImportWebm/ImportWebmInit.qml
     qml/Create/Wizards/QMLWallpaper.qml
-    qml/Create/Wizards/GodotWallpaper.qml
     qml/Create/Wizards/QMLWidget.qml
     qml/Create/Wizards/WebsiteWallpaper.qml
     qml/Create/Wizards/WizardPage.qml
-    qml/Create/WizardsFiles/QMLWallpaperMain.qml
-    qml/Create/WizardsFiles/QMLWidgetMain.qml
+    qml/Create/WizardsFiles/Godot_v5/export_presets.cfg
     qml/Create/WizardsFiles/Godot_v5/project.godot
     qml/Create/WizardsFiles/Godot_v5/wallpaper.tscn
+    qml/Create/WizardsFiles/QMLWallpaperMain.qml
+    qml/Create/WizardsFiles/QMLWidgetMain.qml
     qml/Installed/Installed.qml
     qml/Installed/InstalledNavigation.qml
     qml/Installed/InstalledWelcomeScreen.qml
@@ -149,6 +150,7 @@ set(RESOURCES
     assets/icons/icon_document.svg
     assets/icons/icon_done.svg
     assets/icons/icon_download.svg
+    assets/icons/icon_edit.svg
     assets/icons/icon_emptyWidget.svg
     assets/icons/icon_folder_open.svg
     assets/icons/icon_forum.svg
@@ -185,7 +187,6 @@ set(RESOURCES
     assets/icons/icon_widgets.svg
     assets/icons/icon_window.svg
     assets/icons/item_banner_new.svg
-    assets/icons/icon_edit.svg
     assets/icons/monitor_setup.svg
     assets/icons/steam_default_avatar.png
     assets/images/Early_Access.png

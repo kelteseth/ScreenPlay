@@ -23,40 +23,36 @@ ApplicationWindow {
     function setTheme(theme) {
         switch (theme) {
         case Settings.System:
-            root.Material.theme = Material.System
-            break
+            root.Material.theme = Material.System;
+            break;
         case Settings.Dark:
-            root.Material.theme = Material.Dark
-            break
+            root.Material.theme = Material.Dark;
+            break;
         case Settings.Light:
-            root.Material.theme = Material.Light
-            break
+            root.Material.theme = Material.Light;
+            break;
         }
     }
 
     function switchPage(name) {
         if (nav.currentNavigationName === name) {
             if (name === "Installed")
-                App.installedListModel.reset()
+                App.installedListModel.reset();
         }
         if (name === "Installed") {
-            stackView.replace(
-                        "qrc:/qml/ScreenPlayApp/qml/Installed/Installed.qml", {
-                            "sidebar": sidebar
-                        })
-            return
+            stackView.replace("qrc:/qml/ScreenPlayApp/qml/Installed/Installed.qml", {
+                    "sidebar": sidebar
+                });
+            return;
         }
-        stackView.replace(
-                    "qrc:/qml/ScreenPlayApp/qml/" + name + "/" + name + ".qml",
-                    {
-                        "modalSource": content
-                    })
-        nav.setNavigation(name)
-        sidebar.state = "inactive"
+        stackView.replace("qrc:/qml/ScreenPlayApp/qml/" + name + "/" + name + ".qml", {
+                "modalSource": content
+            });
+        nav.setNavigation(name);
+        sidebar.state = "inactive";
     }
 
-    color: Material.theme === Material.Dark ? Qt.darker(
-                                                  Material.background) : Material.background
+    color: Material.theme === Material.Dark ? Qt.darker(Material.background) : Material.background
     // Set visible if the -silent parameter was not set (see app.cpp end of constructor).
     visible: false
     width: 1400
@@ -78,28 +74,25 @@ ApplicationWindow {
     Material.accent: Material.color(Material.Orange)
     onVisibilityChanged: {
         if (root.visibility !== 2)
-            return
-
+            return;
     }
 
     onClosing: close => {
-                   close.accepted = false
-                   if (App.screenPlayManager.activeWallpaperCounter === 0
-                       && App.screenPlayManager.activeWidgetsCounter === 0) {
-                       App.exit()
-                   }
-                   const alwaysMinimize = settings.value("alwaysMinimize", null)
-                   if (alwaysMinimize === null) {
-                       console.error(
-                           "Unable to retreive alwaysMinimize setting")
-                   }
-                   if (alwaysMinimize === "true") {
-                       root.hide()
-                       App.showDockIcon(false)
-                       return
-                   }
-                   exitDialog.open()
-               }
+        close.accepted = false;
+        if (App.screenPlayManager.activeWallpaperCounter === 0 && App.screenPlayManager.activeWidgetsCounter === 0) {
+            App.exit();
+        }
+        const alwaysMinimize = settings.value("alwaysMinimize", null);
+        if (alwaysMinimize === null) {
+            console.error("Unable to retreive alwaysMinimize setting");
+        }
+        if (alwaysMinimize === "true") {
+            root.hide();
+            App.showDockIcon(false);
+            return;
+        }
+        exitDialog.open();
+    }
 
     QCore.Settings {
         id: settings
@@ -112,13 +105,13 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
-        setTheme(App.settings.theme)
+        setTheme(App.settings.theme);
         stackView.push("qrc:/qml/ScreenPlayApp/qml/Installed/Installed.qml", {
-                           "sidebar": sidebar
-                       })
+                "sidebar": sidebar
+            });
         if (!App.settings.silentStart) {
-            App.showDockIcon(true)
-            root.show()
+            App.showDockIcon(true);
+            root.show();
         }
         App.installedListModel.reset();
     }
@@ -150,7 +143,7 @@ ApplicationWindow {
 
     Connections {
         function onThemeChanged(theme) {
-            setTheme(theme)
+            setTheme(theme);
         }
 
         target: App.settings
@@ -158,7 +151,7 @@ ApplicationWindow {
 
     Connections {
         function onRequestNavigation(nav) {
-            switchPage(nav)
+            switchPage(nav);
         }
 
         target: App.util
@@ -166,18 +159,16 @@ ApplicationWindow {
 
     Connections {
         function onRequestRaise() {
-            App.showDockIcon(true)
-            root.show()
+            App.showDockIcon(true);
+            root.show();
         }
 
         function onActiveWidgetsCounterChanged() {
-            plausible.pageView(
-                        "widget/count/" + App.screenPlayManager.activeWidgetsCounter)
+            plausible.pageView("widget/count/" + App.screenPlayManager.activeWidgetsCounter);
         }
 
         function onActiveWallpaperCounterChanged() {
-            plausible.pageView(
-                        "wallpaper/count/" + App.screenPlayManager.activeWallpaperCounter)
+            plausible.pageView("wallpaper/count/" + App.screenPlayManager.activeWallpaperCounter);
         }
 
         target: App.screenPlayManager
@@ -235,16 +226,16 @@ ApplicationWindow {
         Connections {
             function onSetSidebarActive(active) {
                 if (active)
-                    sidebar.state = "active"
+                    sidebar.state = "active";
                 else
-                    sidebar.state = "inactive"
+                    sidebar.state = "inactive";
             }
 
             function onSetNavigationItem(pos) {
                 if (pos === 0)
-                    nav.onPageChanged("Create")
+                    nav.onPageChanged("Create");
                 else
-                    nav.onPageChanged("Workshop")
+                    nav.onPageChanged("Workshop");
             }
 
             target: stackView.currentItem
@@ -273,8 +264,8 @@ ApplicationWindow {
             }
 
             onChangePage: function (name) {
-                monitors.close()
-                switchPage(name)
+                monitors.close();
+                switchPage(name);
             }
         }
     }
