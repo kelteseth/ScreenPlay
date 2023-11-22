@@ -36,22 +36,25 @@ bool ProjectFile::init()
     }
     type = typeParsed.value();
 
-    // Required:
-    if (!obj.contains("file"))
+    // File is required. Website Wallpaper doe not have a file, but a url
+    if (!obj.contains("file") && type != ScreenPlay::InstalledType::InstalledType::WebsiteWallpaper)
         return false;
-    file = obj.value("file").toString();
 
-    if (type == ScreenPlay::InstalledType::InstalledType::GodotWallpaper) {
-        QFileInfo fileInfo(folder.path() + "/wallpaper.tscn");
-        if (!fileInfo.exists()) {
-            qCritical() << "Requested file:" << fileInfo.absoluteFilePath() << "does not exist!";
-            return false;
-        }
-    } else {
-        QFileInfo fileInfo(folder.path() + "/" + file);
-        if (!fileInfo.exists()) {
-            qCritical() << "Requested file:" << fileInfo.absoluteFilePath() << "does not exist!";
-            return false;
+    if (type != ScreenPlay::InstalledType::InstalledType::WebsiteWallpaper) {
+        file = obj.value("file").toString();
+
+        if (type == ScreenPlay::InstalledType::InstalledType::GodotWallpaper) {
+            QFileInfo fileInfo(folder.path() + "/wallpaper.tscn");
+            if (!fileInfo.exists()) {
+                qCritical() << "Requested file:" << fileInfo.absoluteFilePath() << "does not exist!";
+                return false;
+            }
+        } else {
+            QFileInfo fileInfo(folder.path() + "/" + file);
+            if (!fileInfo.exists()) {
+                qCritical() << "Requested file:" << fileInfo.absoluteFilePath() << "does not exist!";
+                return false;
+            }
         }
     }
 
