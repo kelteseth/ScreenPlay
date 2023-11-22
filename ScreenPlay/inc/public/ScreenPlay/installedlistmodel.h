@@ -77,7 +77,7 @@ public slots:
     void append(const QString& projectJsonFilePath);
     void reset();
     void init();
-    void deinstallItemAt(const QString& absoluteStoragePath);
+    bool deinstallItemAt(const QString& absoluteStoragePath);
 
     void setCount(int count)
     {

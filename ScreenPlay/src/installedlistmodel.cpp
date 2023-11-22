@@ -59,28 +59,27 @@ void InstalledListModel::init()
     installed list. We wait for the qml engine to free all resources before
     we proceed. This like the preview.gif will be in use when clicking on an item
 */
-void InstalledListModel::deinstallItemAt(const QString& absoluteStoragePath)
+bool InstalledListModel::deinstallItemAt(const QString& absoluteStoragePath)
 {
-    QTimer::singleShot(1000, this, [this, absoluteStoragePath]() {
-        int index = -1;
-        for (int i = 0; i < m_screenPlayFiles.size(); ++i) {
-            if (m_screenPlayFiles.at(i).projectJsonFilePath.absoluteFilePath() == absoluteStoragePath) {
-                index = i;
-                break;
-            }
+    const QString path = ScreenPlayUtil::toLocal(absoluteStoragePath);
+    int index = -1;
+    for (int i = 0; i < m_screenPlayFiles.size(); ++i) {
+        if (m_screenPlayFiles.at(i).projectJsonFilePath.path() == path) {
+            index = i;
+            break;
         }
+    }
 
-        if (index < 0 || index >= m_screenPlayFiles.count()) {
-            qWarning() << "Remove folder error, invalid index " << index;
-            return;
-        }
+    if (index < 0 || index >= m_screenPlayFiles.count()) {
+        qWarning() << "Remove folder error, invalid index " << index;
+        return false;
+    }
 
-        beginRemoveRows(QModelIndex(), index, index);
-        m_screenPlayFiles.removeAt(index);
-        endRemoveRows();
+    beginRemoveRows(QModelIndex(), index, index);
+    m_screenPlayFiles.removeAt(index);
+    endRemoveRows();
 
-        const QString path = ScreenPlayUtil::toLocal(absoluteStoragePath);
-
+    QTimer::singleShot(1000, this, [this, path]() {
         QDir dir(path);
         bool success = true;
         if (!dir.exists()) {
@@ -115,6 +114,7 @@ void InstalledListModel::deinstallItemAt(const QString& absoluteStoragePath)
             m_fileSystemWatcher.blockSignals(false);
         });
     });
+    return true;
 }
 
 /*!
