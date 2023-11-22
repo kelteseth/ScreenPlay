@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "ScreenPlay/wizards.h"
 #include "ScreenPlayUtil/util.h"
+#include <QFont>
+#include <QLinearGradient>
+#include <QPainter>
+#include <QTextOption>
 
 namespace ScreenPlay {
 /*!
@@ -67,15 +71,13 @@ void Wizards::createQMLWidget(const QString& title,
         }
 
         if (!previewThumbnail.isEmpty()) {
-            QUrl previewThumbnailUrl { previewThumbnail };
-            QFileInfo previewImageFile(previewThumbnailUrl.toLocalFile());
-            obj.insert("previewThumbnail", previewImageFile.fileName());
-            obj.insert("preview", previewImageFile.fileName());
-            if (!QFile::copy(previewThumbnailUrl.toLocalFile(), workingPath + "/" + previewImageFile.fileName())) {
-                qWarning() << "Could not copy" << previewThumbnailUrl.toLocalFile() << " to " << workingPath + "/" + previewImageFile.fileName();
-                emit widgetCreationFinished(WizardResult::CopyError);
+            if (!Util::copyPreviewThumbnail(obj, previewThumbnail, workingPath)) {
+                emit widgetCreationFinished(WizardResult::CopyPreviewThumbnailError);
                 return;
             }
+        } else {
+            obj.insert("preview", "preview.png");
+            createPreviewImage(title, workingPath);
         }
 
         if (!Util::writeSettings(obj, workingPath + "/project.json")) {
@@ -136,13 +138,13 @@ void Wizards::createHTMLWidget(const QString& title,
         QFileInfo previewImageFile(previewThumbnailUrl.toLocalFile());
 
         if (!previewThumbnail.isEmpty()) {
-            obj.insert("previewThumbnail", previewImageFile.fileName());
-            obj.insert("preview", previewImageFile.fileName());
-            if (!QFile::copy(previewThumbnailUrl.toLocalFile(), workingPath + "/" + previewImageFile.fileName())) {
-                qWarning() << "Could not copy" << previewThumbnailUrl.toLocalFile() << " to " << workingPath + "/" + previewImageFile.fileName();
-                emit widgetCreationFinished(WizardResult::CopyError);
+            if (!Util::copyPreviewThumbnail(obj, previewThumbnail, workingPath)) {
+                emit widgetCreationFinished(WizardResult::CopyPreviewThumbnailError);
                 return;
             }
+        } else {
+            obj.insert("preview", "preview.png");
+            createPreviewImage(title, workingPath);
         }
 
         if (!Util::writeSettings(obj, workingPath + "/project.json")) {
@@ -201,15 +203,13 @@ void Wizards::createHTMLWallpaper(
         }
 
         if (!previewThumbnail.isEmpty()) {
-            QUrl previewThumbnailUrl { previewThumbnail };
-            QFileInfo previewImageFile(previewThumbnailUrl.toLocalFile());
-            obj.insert("previewThumbnail", previewImageFile.fileName());
-            obj.insert("preview", previewImageFile.fileName());
-            if (!QFile::copy(previewThumbnailUrl.toLocalFile(), workingPath + "/" + previewImageFile.fileName())) {
-                qWarning() << "Could not copy" << previewThumbnailUrl.toLocalFile() << " to " << workingPath + "/" + previewImageFile.fileName();
+            if (!Util::copyPreviewThumbnail(obj, previewThumbnail, workingPath)) {
                 emit widgetCreationFinished(WizardResult::CopyPreviewThumbnailError);
                 return;
             }
+        } else {
+            obj.insert("preview", "preview.png");
+            createPreviewImage(title, workingPath);
         }
 
         if (!Util::writeSettings(obj, workingPath + "/project.json")) {
@@ -260,6 +260,9 @@ void Wizards::createQMLWallpaper(
                 emit widgetCreationFinished(WizardResult::CopyPreviewThumbnailError);
                 return;
             }
+        } else {
+            obj.insert("preview", "preview.png");
+            createPreviewImage(title, workingPath);
         }
 
         if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
@@ -328,6 +331,9 @@ void Wizards::createGodotWallpaper(
                 emit widgetCreationFinished(WizardResult::CopyPreviewThumbnailError);
                 return;
             }
+        } else {
+            obj.insert("preview", "preview.png");
+            createPreviewImage(title, workingPath);
         }
 
         if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
@@ -452,6 +458,9 @@ void Wizards::createWebsiteWallpaper(
                 emit widgetCreationFinished(WizardResult::CopyPreviewThumbnailError);
                 return;
             }
+        } else {
+            obj.insert("preview", "preview.png");
+            createPreviewImage(title, workingPath);
         }
 
         if (!Util::writeSettings(obj, workingPath + "/project.json")) {
@@ -481,6 +490,48 @@ const std::optional<QString> Wizards::createTemporaryFolder() const
     }
 
     return folderName;
+}
+
+/*!
+    \brief Creates a default preview.png.
+*/
+void Wizards::createPreviewImage(const QString& name, const QString& targetPath)
+{
+    // Step 1: Create QImage and QPainter
+    QImage image(749, 442, QImage::Format_ARGB32);
+    QPainter painter(&image);
+
+    // Step 2: Select Random Colors (example colors, replace with Material colors)
+    // These are just placeholder colors, replace with actual Material colors
+    QColor colors[] = { QColor("#B71C1C"), QColor("#1B5E20"), QColor("#0D47A1"), QColor("#FFD600"), QColor("#4A148C") };
+    int randomIndex1 = QRandomGenerator::global()->bounded(5);
+    int randomIndex2 = QRandomGenerator::global()->bounded(5);
+
+    // Step 3: Create and Set Gradient
+    QLinearGradient gradient(QPointF(0, image.height()), QPointF(image.width(), 0));
+    gradient.setColorAt(0, colors[randomIndex1].darker()); // Dark color
+    gradient.setColorAt(1, colors[randomIndex2].lighter()); // Bright color
+
+    painter.fillRect(image.rect(), gradient);
+
+    // Step 4: Draw Text
+    // Set the font size depending on the size of the image
+    painter.setPen(Qt::white);
+    int fontSize = qMin(image.width(), image.height()) / 10; // Adjust proportion as needed
+    QFont font = painter.font();
+    font.setPointSize(fontSize);
+    painter.setFont(font);
+
+    // Define a margin and adjust the rect accordingly
+    int margin = 30;
+    QRect rect(margin, margin, image.width() - 2 * margin, image.height() - 2 * margin);
+
+    // Draw text within the adjusted rect
+    QTextOption option(Qt::AlignCenter);
+    painter.drawText(rect, name, option);
+
+    // Step 5: Save Image
+    image.save(targetPath + "/preview.png");
 }
 }
 

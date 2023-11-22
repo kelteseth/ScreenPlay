@@ -113,6 +113,7 @@ signals:
 private:
     const std::shared_ptr<GlobalVariables> m_globalVariables;
     const std::optional<QString> createTemporaryFolder() const;
+    void createPreviewImage(const QString& name, const QString& targetPath);
 
 private:
     QFuture<void> m_wizardFuture;
