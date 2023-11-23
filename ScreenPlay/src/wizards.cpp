@@ -511,14 +511,13 @@ void Wizards::createPreviewImage(const QString& name, const QString& targetPath)
 
     // Step 2: Select Random Colors (example colors, replace with Material colors)
     // These are just placeholder colors, replace with actual Material colors
-    QColor colors[] = { QColor("#B71C1C"), QColor("#1B5E20"), QColor("#0D47A1"), QColor("#FFD600"), QColor("#4A148C") };
     int randomIndex1 = QRandomGenerator::global()->bounded(5);
     int randomIndex2 = QRandomGenerator::global()->bounded(5);
 
     // Step 3: Create and Set Gradient
     QLinearGradient gradient(QPointF(0, image.height()), QPointF(image.width(), 0));
-    gradient.setColorAt(0, colors[randomIndex1].darker()); // Dark color
-    gradient.setColorAt(1, colors[randomIndex2].lighter()); // Bright color
+    gradient.setColorAt(0, m_gradientColors[randomIndex1].darker()); // Dark color
+    gradient.setColorAt(1, m_gradientColors[randomIndex2].lighter()); // Bright color
 
     painter.fillRect(image.rect(), gradient);
 
@@ -527,6 +526,7 @@ void Wizards::createPreviewImage(const QString& name, const QString& targetPath)
     painter.setPen(Qt::white);
     int fontSize = qMin(image.width(), image.height()) / 10; // Adjust proportion as needed
     QFont font = painter.font();
+    font.setFamily("Noto Sans Light");
     font.setPointSize(fontSize);
     painter.setFont(font);
 

@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <QColor>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
@@ -117,5 +118,12 @@ private:
 
 private:
     QFuture<void> m_wizardFuture;
+    QVector<QColor> m_gradientColors = {
+        QColor("#B71C1C"),
+        QColor("#1B5E20"),
+        QColor("#0D47A1"),
+        QColor("#FFD600"),
+        QColor("#4A148C")
+    };
 };
 }
