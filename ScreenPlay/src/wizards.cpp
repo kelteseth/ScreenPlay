@@ -360,6 +360,11 @@ void Wizards::createGodotWallpaper(
             return;
         }
 
+        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/Godot_v5/spinner.gd", workingPath + "/spinner.gd")) {
+            qWarning() << "Could not write spinner.gd";
+            return;
+        }
+
         if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/Godot_v5/wallpaper.tscn", workingPath + "/wallpaper.tscn")) {
             qWarning() << "Could not write wallpaper.tscn";
             return;

@@ -79,6 +79,7 @@ set(QML
     qml/Create/Wizards/WizardPage.qml
     qml/Create/WizardsFiles/Godot_v5/export_presets.cfg
     qml/Create/WizardsFiles/Godot_v5/project.godot
+    qml/Create/WizardsFiles/Godot_v5/spinner.gd
     qml/Create/WizardsFiles/Godot_v5/wallpaper.tscn
     qml/Create/WizardsFiles/QMLWallpaperMain.qml
     qml/Create/WizardsFiles/QMLWidgetMain.qml
