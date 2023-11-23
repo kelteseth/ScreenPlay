@@ -243,8 +243,8 @@ set(RESOURCES
     legal/OpenSSL.txt
     profiles.json
     qml/Create/WizardsFiles/HTMLWallpaperMain.html
-    qml/Create/WizardsFiles/QmlProject.qmlproject
     qml/Create/WizardsFiles/HTMLWidgetMain.html
+    qml/Create/WizardsFiles/QmlProject.qmlproject
     qml/Create/WizardsFiles/QMLWallpaperMain.qml
     qml/Create/WizardsFiles/QMLWidgetMain.qml
     qtquickcontrols2.conf)

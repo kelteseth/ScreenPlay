@@ -333,8 +333,8 @@ Item {
         anchors.centerIn: Overlay.overlay
         onAccepted: {
             root.sidebar.clear();
-            if(!App.installedListModel.deinstallItemAt(contextMenu.absoluteStoragePath)){
-                console.error("Unable to uninstall item",contextMenu.absoluteStoragePath)
+            if (!App.installedListModel.deinstallItemAt(contextMenu.absoluteStoragePath)) {
+                console.error("Unable to uninstall item", contextMenu.absoluteStoragePath);
             }
         }
     }

@@ -63,7 +63,7 @@ set(GODOT_VERSION_PATCH "")
 
 set(GODOT_RELEASE_TYPE "rc1")
 # Use an if statement to check if GODOT_VERSION_PATCH is empty or not
-if (GODOT_VERSION_PATCH STREQUAL "")
+if(GODOT_VERSION_PATCH STREQUAL "")
     # If patch version is empty, don't include it and the preceding dot
     set(GODOT_VERSION "v${GODOT_VERSION_MAJOR}.${GODOT_VERSION_MINOR}-${GODOT_RELEASE_TYPE}")
 else()
