@@ -57,15 +57,26 @@ set(VCPKG_INSTALLED_PATH "${VCPKG_PATH}/installed/${VCPKG_ARCH}")
 set(VCPKG_BIN_PATH "${VCPKG_INSTALLED_PATH}/bin")
 
 # Godot Editor
-set(GODOT_VERSION "v4.2")
-set(GODOT_RELEASE_TYPE "beta6")
+set(GODOT_VERSION_MAJOR "4")
+set(GODOT_VERSION_MINOR "2")
+set(GODOT_VERSION_PATCH "")
+
+set(GODOT_RELEASE_TYPE "rc1")
+# Use an if statement to check if GODOT_VERSION_PATCH is empty or not
+if (GODOT_VERSION_PATCH STREQUAL "")
+    # If patch version is empty, don't include it and the preceding dot
+    set(GODOT_VERSION "v${GODOT_VERSION_MAJOR}.${GODOT_VERSION_MINOR}-${GODOT_RELEASE_TYPE}")
+else()
+    # If patch version is not empty, include it and the preceding dot
+    set(GODOT_VERSION "v${GODOT_VERSION_MAJOR}.${GODOT_VERSION_MINOR}.${GODOT_VERSION_PATCH}-${GODOT_RELEASE_TYPE}")
+endif()
 
 if(WIN32)
-    set(GODOT_EDITOR_NAME "Godot_${GODOT_VERSION}-${GODOT_RELEASE_TYPE}_win64.exe")
+    set(GODOT_EDITOR_NAME "Godot_${GODOT_VERSION}_win64.exe")
 elseif(APPLE)
     set(GODOT_EDITOR_NAME "Godot.app")
 elseif(UNIX)
-    set(GODOT_EDITOR_NAME "Godot_${GODOT_VERSION}-${GODOT_RELEASE_TYPE}_linux.x86_64")
+    set(GODOT_EDITOR_NAME "Godot_${GODOT_VERSION}_linux.x86_64")
 else()
     message(FATAL_ERROR "Unsupported OS")
 endif()

@@ -16,7 +16,8 @@ namespace ScreenPlay {
 /*!
     \brief  Constructor for ScreenPlayWallpaper.
 */
-ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
+ScreenPlayWallpaper::ScreenPlayWallpaper(
+    const QVector<int>& screenNumber,
     const std::shared_ptr<GlobalVariables>& globalVariables,
     const QString& appID,
     const QString& absolutePath,
@@ -42,7 +43,10 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
     , m_playbackRate { playbackRate }
     , m_settings { settings }
 {
-
+    std::optional<QJsonObject> projectOpt = ScreenPlayUtil::openJsonFileToObject(absolutePath + "/project.json");
+    if (projectOpt.has_value()) {
+        m_projectJson = projectOpt.value();
+    }
     QJsonObject projectSettingsListModelProperties;
     if (type == InstalledType::InstalledType::VideoWallpaper) {
         projectSettingsListModelProperties.insert("volume", m_volume);
@@ -66,7 +70,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
 
     QString tmpScreenNumber;
     if (m_screenNumber.length() > 1) {
-        for (const int number : qAsConst(m_screenNumber)) {
+        for (const int number : std::as_const(m_screenNumber)) {
             // IMPORTANT: NO TRAILING COMMA!
             if (number == m_screenNumber.back()) {
                 tmpScreenNumber += QString::number(number);
@@ -92,13 +96,22 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
     if (m_type != InstalledType::InstalledType::GodotWallpaper) {
         m_appArgumentsList.append(" --disable-features=HardwareMediaKeyHandling");
     }
+    if (m_type == InstalledType::InstalledType::GodotWallpaper) {
+        if (m_projectJson.contains("version")) {
+            const quint64 version = m_projectJson.value("version").toInt();
+            const QString packageFileName = QString("project-v%1.zip").arg(version);
+            m_appArgumentsList.append(packageFileName);
+        }
+    }
 }
 
 bool ScreenPlayWallpaper::start()
 {
     if (m_type == InstalledType::InstalledType::GodotWallpaper) {
-        exportGodotProject(m_absolutePath);
+        if (!exportGodotProject())
+            return false;
     }
+
     m_process.setArguments(m_appArgumentsList);
     if (m_type == InstalledType::InstalledType::GodotWallpaper) {
         m_process.setProgram(m_globalVariables->godotWallpaperExecutablePath().toString());
@@ -293,22 +306,40 @@ bool ScreenPlayWallpaper::replace(
     return success;
 }
 
-bool ScreenPlayWallpaper::exportGodotProject(const QString& absolutePath, int timeoutMilliseconds)
+/*!
+    \brief .
+*/
+bool ScreenPlayWallpaper::exportGodotProject()
 {
+    if (!m_projectJson.contains("version"))
+        return false;
+
+    const quint64 version = m_projectJson.value("version").toInt();
+    const QString packageFileName = QString("project-v%1.zip").arg(version);
+    QFileInfo godotPackageFile(m_absolutePath + "/" + packageFileName);
+    // Skip reexport
+    if (godotPackageFile.exists())
+        return true;
+
+    qInfo() << "No suitable version found for Godot package" << packageFileName << " at" << godotPackageFile.absoluteFilePath() << " exporting a new pck as zip.";
+
     // Prepare the Godot export command
-    const QList<QString> godotCmd = { "--export-pack", "--headless", "Windows Desktop", "project.zip" };
+    const QList<QString>
+        godotCmd
+        = { "--export-pack", "--headless", "Windows Desktop", packageFileName };
 
     // Create QProcess instance to run the command
     QProcess process;
 
     // Set the working directory to the given absolute path
-    process.setWorkingDirectory(absolutePath);
+    process.setWorkingDirectory(m_absolutePath);
     process.setProgram(m_globalVariables->godotEditorExecutablePath().toString());
     // Start the Godot export process
     process.setArguments(godotCmd);
     process.start();
 
     // Wait for the process to finish or timeout
+    const int timeoutMilliseconds = 30000;
     if (!process.waitForFinished(timeoutMilliseconds)) {
         qCritical() << "Godot export process timed out or failed to start.";
         return false;
@@ -331,9 +362,9 @@ bool ScreenPlayWallpaper::exportGodotProject(const QString& absolutePath, int ti
     }
 
     // Check if the project.zip file was created
-    QString zipPath = QDir(absolutePath).filePath("project.zip");
+    QString zipPath = QDir(m_absolutePath).filePath(packageFileName);
     if (!QFile::exists(zipPath)) {
-        qCritical() << "Expected export file (project.zip) was not created.";
+        qCritical() << "Expected export file (" << packageFileName << ") was not created.";
         return false;
     }
 
@@ -342,7 +373,7 @@ bool ScreenPlayWallpaper::exportGodotProject(const QString& absolutePath, int ti
     // but for simplicity, we're just checking its size here)
     QFileInfo zipInfo(zipPath);
     if (zipInfo.size() <= 0) {
-        qCritical() << "The exported project.zip file seems to be invalid.";
+        qCritical() << "The exported " << packageFileName << " file seems to be invalid.";
         return false;
     }
 

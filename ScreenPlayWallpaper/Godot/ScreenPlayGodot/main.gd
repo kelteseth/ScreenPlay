@@ -44,7 +44,7 @@ func _ready():
 			get_tree().quit()
 			return
 		#screen_play_wallpaper.set_projectPath("C:\\Code\\cpp\\ScreenPlay\\ScreenPlay\\Content\\wallpaper_godot_fjord")
-		path = screen_play_wallpaper.get_projectPath() + "/project.zip"
+		path = screen_play_wallpaper.get_projectPath() + "/" + screen_play_wallpaper.get_projectPackageFile()
 	else:
 		get_tree().quit()
 		return
@@ -99,7 +99,7 @@ func parse_args():
 	if args[0] == "res://main.tscn":
 		offset = 1
 
-	if args.size() < 7:  # Adjust this number based on the expected number of arguments
+	if args.size() < 8:  # Adjust this number based on the expected number of arguments
 		print("Not enough arguments provided!")
 		return false
 
@@ -122,6 +122,7 @@ func parse_args():
 	var type = args[5]  # This might need further parsing depending on its expected format
 	screen_play_wallpaper.set_checkWallpaperVisible(args[6 + offset].to_lower() == "true")
 	screen_play_wallpaper.set_activeScreensList(activeScreensList)
+	screen_play_wallpaper.set_projectPackageFile(args[7 + offset])
 
 	# Print or use the parsed values as needed
 	print("Parsing done:", activeScreensList, screen_play_wallpaper.get_projectPath(), screen_play_wallpaper.get_appID(), screen_play_wallpaper.get_volume(), type, screen_play_wallpaper.get_checkWallpaperVisible())

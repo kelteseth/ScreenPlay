@@ -3,10 +3,13 @@
 #pragma once
 
 #include <QDebug>
+#include <QDir>
+#include <QFileInfoList>
 #include <QJsonObject>
 #include <QObject>
 #include <QProcess>
-
+#include <QString>
+#include <QStringList>
 #include <memory>
 
 #include "ScreenPlay/globalvariables.h"
@@ -210,7 +213,7 @@ public slots:
     }
 
 private:
-    bool exportGodotProject(const QString& absolutePath, int timeoutMilliseconds = 30000);
+    bool exportGodotProject();
 
 private:
     const std::shared_ptr<GlobalVariables> m_globalVariables;
@@ -218,6 +221,7 @@ private:
     const std::shared_ptr<Settings> m_settings;
 
     ProjectSettingsListModel m_projectSettingsListModel;
+    QJsonObject m_projectJson;
     QVector<int> m_screenNumber;
     QProcess m_process;
     QString m_previewImage;

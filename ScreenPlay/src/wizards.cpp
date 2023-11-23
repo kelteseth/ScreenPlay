@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "ScreenPlay/wizards.h"
+#include "ScreenPlay/CMakeVariables.h"
 #include "ScreenPlayUtil/util.h"
 #include <QFont>
 #include <QLinearGradient>
@@ -322,6 +323,13 @@ void Wizards::createGodotWallpaper(
         obj.insert("license", licenseName);
         obj.insert("title", title);
         obj.insert("createdBy", createdBy);
+        // Every version change will trigger an reexport
+        obj.insert("version", 1);
+        // Something like v4.2-beta3 or v5.0.1-stable
+        QString godotVersionMajor = QString::number(SCREENPLAY_GODOT_VERSION_MAJOR);
+        QString godotVersionMinor = QString::number(SCREENPLAY_GODOT_VERSION_MINOR);
+        obj.insert("godotVersionMajor", godotVersionMajor);
+        obj.insert("godotVersionMinor", godotVersionMinor);
         obj.insert("tags", ScreenPlayUtil::fillArray(tags));
         obj.insert("type", QVariant::fromValue(InstalledType::InstalledType::GodotWallpaper).toString());
         obj.insert("file", "wallpaper.tscn");

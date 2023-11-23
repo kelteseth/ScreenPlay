@@ -33,6 +33,9 @@ void ScreenPlayGodotWallpaper::_bind_methods()
     ClassDB::bind_method(godot::D_METHOD("get_activeScreensList"), &ScreenPlayGodotWallpaper::get_activeScreensList);
     ClassDB::bind_method(godot::D_METHOD("set_activeScreensList", "screens"), &ScreenPlayGodotWallpaper::set_activeScreensList);
 
+    ClassDB::bind_method(godot::D_METHOD("get_projectPackageFile"), &ScreenPlayGodotWallpaper::get_projectPackageFile);
+    ClassDB::bind_method(godot::D_METHOD("set_projectPackageFile", "projectPackageFile"), &ScreenPlayGodotWallpaper::set_projectPackageFile);
+
     ClassDB::bind_method(godot::D_METHOD("get_projectPath"), &ScreenPlayGodotWallpaper::get_projectPath);
     ClassDB::bind_method(godot::D_METHOD("set_projectPath", "path"), &ScreenPlayGodotWallpaper::set_projectPath);
 
@@ -52,6 +55,16 @@ void ScreenPlayGodotWallpaper::hideFromTaskbar(HWND hwnd)
     lExStyle |= WS_EX_TOOLWINDOW; // Add WS_EX_TOOLWINDOW
     lExStyle &= ~WS_EX_APPWINDOW; // Remove WS_EX_APPWINDOW
     SetWindowLong(hwnd, GWL_EXSTYLE, lExStyle);
+}
+
+godot::String ScreenPlayGodotWallpaper::get_projectPackageFile() const
+{
+    return m_projectPackageFile;
+}
+
+void ScreenPlayGodotWallpaper::set_projectPackageFile(const godot::String& projectPackageFile)
+{
+    m_projectPackageFile = projectPackageFile;
 }
 
 bool ScreenPlayGodotWallpaper::configureWindowGeometry()
