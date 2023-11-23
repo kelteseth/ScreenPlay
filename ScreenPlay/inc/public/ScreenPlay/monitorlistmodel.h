@@ -41,6 +41,7 @@ struct Monitor {
 class MonitorListModel : public QAbstractListModel {
     Q_OBJECT
     QML_ELEMENT
+    QML_UNCREATABLE("")
 
 public:
     explicit MonitorListModel(QObject* parent = nullptr);

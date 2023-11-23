@@ -23,6 +23,7 @@ namespace ScreenPlay {
 class ScreenPlayWidget : public QObject {
     Q_OBJECT
     QML_ELEMENT
+    QML_UNCREATABLE("")
 
     Q_PROPERTY(QString absolutePath READ absolutePath WRITE setAbsolutePath NOTIFY absolutePathChanged)
     Q_PROPERTY(QString previewImage READ previewImage WRITE setPreviewImage NOTIFY previewImageChanged)

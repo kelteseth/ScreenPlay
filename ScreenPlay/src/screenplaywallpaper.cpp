@@ -139,7 +139,7 @@ bool ScreenPlayWallpaper::start()
 QJsonObject ScreenPlayWallpaper::getActiveSettingsJson()
 {
     QJsonArray screenNumber;
-    for (const int i : qAsConst(m_screenNumber)) {
+    for (const int i : std::as_const(m_screenNumber)) {
         screenNumber.append(i);
     }
 

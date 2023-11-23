@@ -16,6 +16,7 @@ namespace ScreenPlay {
 class GlobalVariables : public QObject {
     Q_OBJECT
     QML_ELEMENT
+    QML_UNCREATABLE("")
 
     Q_PROPERTY(QVersionNumber version READ version CONSTANT)
     Q_PROPERTY(QUrl localStoragePath READ localStoragePath WRITE setLocalStoragePath NOTIFY localStoragePathChanged FINAL)
