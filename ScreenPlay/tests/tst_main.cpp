@@ -102,7 +102,7 @@ void ScreenPlayTest::import_convert_video()
     auto* createWallpaperInit = m_window->findChild<QQuickItem*>("createWallpaperInit");
     QVERIFY(createWallpaperInit);
 
-    const QString originalVideoPath = QString(SCREENPLAY_SOURCE_DIR) + "/ScreenPlay/assets/tests/video_import.mp4";
+    const QString originalVideoPath = QString(SCREENPLAY_SOURCE_DIR) + "/Content/wallpaper_video_nebula_h264/mantissa.xyz_loop_072.mp4";
     qInfo() << originalVideoPath;
 
     QVERIFY(QMetaObject::invokeMethod(createWallpaperInit,

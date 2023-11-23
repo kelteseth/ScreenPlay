@@ -207,9 +207,6 @@ set(RESOURCES
     assets/licenses/Apache2.txt
     assets/licenses/OFL.txt
     assets/macos/app.screenplay.plist
-    assets/particle/backgroundGlow.png
-    assets/particle/dot.png
-    assets/shader/movingcolorramp.fsh
     assets/startinfo/blender.png
     assets/startinfo/flaticon.png
     assets/startinfo/forums.png
@@ -238,7 +235,6 @@ set(RESOURCES
     assets/wizards/License_CC_Attribution-ShareAlike_4.0.txt
     assets/wizards/License_CC_Attribution_4.0.txt
     assets/wizards/License_GPL_3.0.txt
-    assets/wizards/QmlProject.qmlproject
     assets/WorkshopPreview.html
     legal/DataProtection.txt
     legal/gpl-3.0.txt
@@ -247,6 +243,7 @@ set(RESOURCES
     legal/OpenSSL.txt
     profiles.json
     qml/Create/WizardsFiles/HTMLWallpaperMain.html
+    qml/Create/WizardsFiles/QmlProject.qmlproject
     qml/Create/WizardsFiles/HTMLWidgetMain.html
     qml/Create/WizardsFiles/QMLWallpaperMain.qml
     qml/Create/WizardsFiles/QMLWidgetMain.qml

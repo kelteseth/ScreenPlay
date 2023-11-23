@@ -273,7 +273,7 @@ void Wizards::createQMLWallpaper(
         }
 
         const QString qmlproject = workingPath + "/" + title + ".qmlproject";
-        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + QString("QmlProject.qmlproject"), qmlproject)) {
+        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/" + QString("QmlProject.qmlproject"), qmlproject)) {
             qWarning() << "Could not write " << qmlproject;
             emit widgetCreationFinished(WizardResult::WriteLicenseFileError);
             return;

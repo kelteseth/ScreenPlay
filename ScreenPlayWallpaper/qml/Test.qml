@@ -104,14 +104,6 @@ Rectangle {
         }
     }
 
-    ImageParticle {
-        height: 16
-        width: 16
-        source: "dot.png"
-        system: particleSystem
-        opacity: root.imgOpacity
-    }
-
     Text {
         id: txtMousePos
 
