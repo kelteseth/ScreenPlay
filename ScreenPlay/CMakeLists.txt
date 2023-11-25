@@ -134,6 +134,7 @@ set(RESOURCES
     assets/icons/brand_reddit.svg
     assets/icons/brand_twitch.svg
     assets/icons/brand_twitter.svg
+    assets/icons/icon_cancel_presentation.svg
     assets/icons/exclamation-triangle-solid.svg
     assets/icons/font-awsome/close.svg
     assets/icons/font-awsome/frown-o.svg
@@ -165,6 +166,7 @@ set(RESOURCES
     assets/icons/icon_movie.svg
     assets/icons/icon_new_releases.svg
     assets/icons/icon_open_in_new.svg
+    assets/icons/icon_open_in_new_black.svg
     assets/icons/icon_pause.svg
     assets/icons/icon_people.svg
     assets/icons/icon_play.svg
@@ -181,7 +183,7 @@ set(RESOURCES
     assets/icons/icon_thumb_down.svg
     assets/icons/icon_thumb_up.svg
     assets/icons/icon_upload.svg
-    assets/icons/icon_video_settings_black_24dp.svg
+    assets/icons/icon_video_settings.svg
     assets/icons/icon_volume.svg
     assets/icons/icon_volume_mute.svg
     assets/icons/icon_volume_up.svg
