@@ -25,10 +25,11 @@ QT_VERSION = "6.6.0"
 QT_BIN_PATH = QT_PATH.joinpath(f"{QT_VERSION}/{QT_PLATFORM}/bin")
 QT_TOOLS_PATH = QT_PATH.joinpath("Tools/")
 QT_IFW_VERSION = "4.6"
-# 02.06.2023 https://gitlab.com/kelteseth/screenplay-vcpkg :
-VCPKG_VERSION = "f06975f46d8c7a1dad916e1e997584f77ae0c34a"
+# 25.11.2023 https://gitlab.com/kelteseth/screenplay-vcpkg :
+VCPKG_VERSION = "cd5e746ec203c8c3c61647e0886a8df8c1e78e41"
 VCPKG_BASE_PACKAGES =  [
         "curl",
+        "openssl",
         "cpp-httplib",
         "libarchive",
         "fmt",
