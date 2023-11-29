@@ -128,7 +128,6 @@ set(RESOURCES
     assets/icons/brand_reddit.svg
     assets/icons/brand_twitch.svg
     assets/icons/brand_twitter.svg
-    assets/icons/icon_cancel_presentation.svg
     assets/icons/exclamation-triangle-solid.svg
     assets/icons/font-awsome/close.svg
     assets/icons/font-awsome/frown-o.svg
@@ -138,6 +137,7 @@ set(RESOURCES
     assets/icons/icon_build.svg
     assets/icons/icon_cake.afdesign
     assets/icons/icon_cake.svg
+    assets/icons/icon_cancel_presentation.svg
     assets/icons/icon_close.svg
     assets/icons/icon_code.svg
     assets/icons/icon_community.svg
@@ -238,16 +238,16 @@ set(RESOURCES
     legal/OFL.txt
     legal/OpenSSL.txt
     profiles.json
-    qml/Create/WizardsFiles/HTMLWallpaperMain.html
-    qml/Create/WizardsFiles/HTMLWidgetMain.html
-    qml/Create/WizardsFiles/QmlProject.qmlproject
-    qml/Create/WizardsFiles/QMLWallpaperMain.qml
-    qml/Create/WizardsFiles/QMLWidgetMain.qml
     qml/Create/WizardsFiles/Godot_v5/export_presets.cfg
     qml/Create/WizardsFiles/Godot_v5/project.godot
     qml/Create/WizardsFiles/Godot_v5/spinner.gd
     qml/Create/WizardsFiles/Godot_v5/wallpaper.tscn
+    qml/Create/WizardsFiles/HTMLWallpaperMain.html
+    qml/Create/WizardsFiles/HTMLWidgetMain.html
+    qml/Create/WizardsFiles/QmlProject.qmlproject
     qml/Create/WizardsFiles/QMLWallpaperMain.qml
+    qml/Create/WizardsFiles/QMLWallpaperMain.qml
+    qml/Create/WizardsFiles/QMLWidgetMain.qml
     qml/Create/WizardsFiles/QMLWidgetMain.qml
     qtquickcontrols2.conf)
 

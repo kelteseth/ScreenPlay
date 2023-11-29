@@ -114,12 +114,12 @@ SystemTrayIcon {
                 if (miMuteAll.isMuted) {
                     isMuted = false;
                     miMuteAll.text = qsTr("Mute all");
-                    miMuteAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume_mute.svg"
+                    miMuteAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume_mute.svg";
                     App.screenPlayManager.setAllWallpaperValue("muted", "true");
                 } else {
                     isMuted = true;
                     miMuteAll.text = qsTr("Unmute all");
-                    miMuteAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume_up.svg"
+                    miMuteAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume_up.svg";
                     App.screenPlayManager.setAllWallpaperValue("muted", "false");
                 }
             }
@@ -136,12 +136,12 @@ SystemTrayIcon {
                 if (miStopAll.isPlaying) {
                     isPlaying = false;
                     miStopAll.text = qsTr("Pause all");
-                    miStopAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_pause.svg"
+                    miStopAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_pause.svg";
                     App.screenPlayManager.setAllWallpaperValue("isPlaying", "true");
                 } else {
                     isPlaying = true;
                     miStopAll.text = qsTr("Play all");
-                    miStopAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_play.svg"
+                    miStopAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_play.svg";
                     App.screenPlayManager.setAllWallpaperValue("isPlaying", "false");
                 }
             }
