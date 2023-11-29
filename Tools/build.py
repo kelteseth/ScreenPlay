@@ -14,7 +14,7 @@ from typing import Tuple
 from pathlib import Path
 import macos_sign
 import build_godot
-from util import sha256, cd_repo_root_path, repo_root_path, zipdir, run, get_vs_env_dict, get_latest_git_tag, parse_semver, semver_to_string
+from util import sha256, cd_repo_root_path, repo_root_path, zipdir, run, get_vs_env_dict, get_latest_git_tag, parse_semver, semver_to_string, check_universal_binary
 from sys import stdout
 
 stdout.reconfigure(encoding='utf-8')
@@ -218,6 +218,8 @@ def package(build_config: BuildConfig):
             build_bin_dir=build_bin_dir, app="ScreenPlayWallpaper"), cwd=cwd)
         run(cmd=cmd_raw.format(qt_bin_path=qt_bin_path, repo_root_path=source_path,
             build_bin_dir=build_bin_dir, app="ScreenPlayWidget"), cwd=cwd)
+        
+        check_universal_binary()
 
     if platform.system() == "Windows":
         print("Executing deploy commands...")
@@ -301,6 +303,7 @@ def package(build_config: BuildConfig):
                 if file.is_file():
                     print("Remove: %s" % file.resolve())
                     file.unlink()
+    
 
 
 def build_installer(build_config: BuildConfig, build_result: BuildResult):

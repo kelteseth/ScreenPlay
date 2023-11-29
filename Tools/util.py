@@ -178,3 +178,38 @@ def unzip(zip_path: str, destination_path: str, specific_file: str = None):
             zip_ref.extract(specific_file, path=destination_path)
         else:
             zip_ref.extractall(path=destination_path)
+
+
+def listfiles(path):
+    files = []
+    extensions = ('.dylib', '.so','')
+    ignored = ('qmldir')
+    print(f"WALK: {path}")
+    for dirName, subdirList, fileList in os.walk(path):
+        dir = dirName.replace(path, '')
+        for fname in fileList:
+            if Path(fname).suffix in extensions and not fname in ignored:
+                file =  path + os.path.join(dir, fname)
+                if(os.path.isfile(file)):
+                    files.append(file)
+                    if  os.path.islink(file):
+                        print(f"Warning: file {file} is a symlink!")
+                        print("Symlink target: ", os.readlink(file))
+    return files
+
+
+def check_universal_binary():
+    dir = 'build-64-osx-universal-release/bin/ScreenPlay.app/Contents'
+    path = Path.joinpath(repo_root_path(), dir).absolute()
+    print(f"Checking files at: {path}")
+    files = listfiles(str(path))
+    none_fat_found = False
+    for file in files:
+        out = run_and_capture_output(f"lipo -info {file}")
+        if out.startswith('Non-fat'):
+            print(out)
+            none_fat_found = True
+    if none_fat_found:
+        print("✅ All files are a universal binaries")
+    else:
+        print("❌ None universal binaries found")
