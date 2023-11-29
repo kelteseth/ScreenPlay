@@ -74,6 +74,20 @@ App::App()
     QGuiApplication::setApplicationName("ScreenPlay");
     QGuiApplication::setApplicationVersion(QString(SCREENPLAY_VERSION));
     QGuiApplication::setQuitOnLastWindowClosed(false);
+    // ScreenPlayManager first to check if another ScreenPlay Instace is running
+    m_screenPlayManager = std::make_unique<ScreenPlayManager>();
+    m_isAnotherScreenPlayInstanceRunning = m_screenPlayManager->isAnotherScreenPlayInstanceRunning();
+}
+
+/*!
+    \brief Used for initialization after the constructor. The sole purpose is to check if
+    another ScreenPlay instance is running and then quit early. This is also because we cannot
+    call QGuiApplication::quit(); in the SDKConnector before the app.exec(); ( the Qt main event
+    loop ) has started.
+*/
+void App::init()
+{
+    qInfo() << "Init ScreenPlay";
 
     QString fontsPath = QGuiApplication::instance()->applicationDirPath() + "/assets/fonts/";
 #if defined(Q_OS_MACOS)
@@ -121,20 +135,6 @@ App::App()
         1, 0,
         "SearchType",
         "Error: only enums");
-
-    // ScreenPlayManager first to check if another ScreenPlay Instace is running
-    m_screenPlayManager = std::make_unique<ScreenPlayManager>();
-    m_isAnotherScreenPlayInstanceRunning = m_screenPlayManager->isAnotherScreenPlayInstanceRunning();
-}
-
-/*!
-    \brief Used for initialization after the constructor. The sole purpose is to check if
-    another ScreenPlay instance is running and then quit early. This is also because we cannot
-    call QGuiApplication::quit(); in the SDKConnector before the app.exec(); ( the Qt main event
-    loop ) has started.
-*/
-void App::init()
-{
 
     using std::make_shared, std::make_unique;
 

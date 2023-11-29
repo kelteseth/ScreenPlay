@@ -265,7 +265,7 @@ Rectangle {
         ToolButton {
             id: miConfig
             Layout.alignment: Qt.AlignVCenter
-            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_video_settings_black_24dp.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_video_settings.svg"
             icon.width: root.iconWidth
             icon.height: root.iconHeight
             onClicked: App.util.setToggleWallpaperConfiguration()
