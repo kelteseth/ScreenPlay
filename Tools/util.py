@@ -200,16 +200,19 @@ def listfiles(path):
 
 def check_universal_binary():
     dir = 'build-64-osx-universal-release/bin/ScreenPlay.app/Contents'
-    path = Path.joinpath(repo_root_path(), dir).absolute()
+    path = Path(repo_root_path()).joinpath(dir).absolute()
     print(f"Checking files at: {path}")
     files = listfiles(str(path))
     none_fat_found = False
+    none_fat_files = []
     for file in files:
         out = run_and_capture_output(f"lipo -info {file}")
         if out.startswith('Non-fat'):
-            print(out)
             none_fat_found = True
+            none_fat_files.append(file)
     if none_fat_found:
-        print("✅ All files are a universal binaries")
-    else:
         print("❌ None universal binaries found")
+        for file in none_fat_files:
+            print(f"❌ {file}")
+    else:
+        print("✅ All files are a universal binaries")
