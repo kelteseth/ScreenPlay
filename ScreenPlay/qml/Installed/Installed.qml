@@ -41,7 +41,6 @@ Item {
 
     StackView.onActivated: {
         navWrapper.state = "in";
-        App.installedListFilter.sortBySearchType(SearchType.All);
         checkIsContentInstalled();
     }
 
@@ -86,8 +85,6 @@ Item {
         property bool isScrolling: gridView.verticalVelocity !== 0
 
         boundsBehavior: Flickable.DragOverBounds
-        maximumFlickVelocity: 3000
-        flickDeceleration: 7500
         anchors.fill: parent
         cellWidth: 340
         cellHeight: 200
@@ -240,11 +237,19 @@ Item {
                 contextMenu.publishedFileID = delegate.publishedFileID;
                 contextMenu.absoluteStoragePath = delegate.absoluteStoragePath;
                 contextMenu.fileName = delegate.customTitle;
+                contextMenu.type = delegate.type;
+                print(delegate.publishedFileID);
+                if (contextMenu.godotItem)
+                    contextMenu.godotItem.destroy();
                 const pos = delegate.mapToItem(root, position.x, position.y);
                 // Disable duplicate opening. The can happen if we
                 // call popup when we are in the closing animtion.
                 if (contextMenu.visible || contextMenu.opened)
                     return;
+                if (delegate.type === InstalledType.GodotWallpaper) {
+                    contextMenu.godotItem = editGodotWallpaperComp.createObject();
+                    contextMenu.insertItem(0, contextMenu.godotItem);
+                }
                 contextMenu.popup(pos.x, pos.y);
             }
         }
@@ -253,14 +258,30 @@ Item {
             snapMode: ScrollBar.SnapOnRelease
         }
     }
+    Component {
+        id: editGodotWallpaperComp
 
+        MenuItem {
+            text: qsTr("Edit Wallpaper")
+            objectName: "editWallpaper"
+            enabled: contextMenu.type === InstalledType.GodotWallpaper
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_edit.svg"
+            onClicked: {
+                App.util.openGodotEditor(contextMenu.absoluteStoragePath);
+            }
+        }
+    }
     Menu {
         id: contextMenu
         objectName: "installedItemContextMenu"
-
+        // Must be var to support 64-bit size!
         property var publishedFileID: 0
+        property var type: 0
         property url absoluteStoragePath
         property string fileName
+        // We need to dynamically add this menu item
+        // if it is a Godot Wallpaper, see onOpenContextMenu
+        property var godotItem
 
         MenuItem {
             text: qsTr("Open containing folder")
@@ -312,7 +333,9 @@ Item {
         anchors.centerIn: Overlay.overlay
         onAccepted: {
             root.sidebar.clear();
-            App.installedListModel.deinstallItemAt(contextMenu.absoluteStoragePath);
+            if (!App.installedListModel.deinstallItemAt(contextMenu.absoluteStoragePath)) {
+                console.error("Unable to uninstall item", contextMenu.absoluteStoragePath);
+            }
         }
     }
 
@@ -392,7 +415,8 @@ Item {
                 importProjectErrorDialog.open();
                 return;
             }
-            var file = ""; // Convert url to string
+            var file = "";
+            // Convert url to string
             file = "" + drop.urls[0];
             if (!file.endsWith('.screenplay')) {
                 importProjectErrorDialog.title = qsTr("File type not supported. We only support '.screenplay' files.");

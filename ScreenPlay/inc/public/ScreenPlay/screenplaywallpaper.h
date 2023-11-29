@@ -3,10 +3,13 @@
 #pragma once
 
 #include <QDebug>
+#include <QDir>
+#include <QFileInfoList>
 #include <QJsonObject>
 #include <QObject>
 #include <QProcess>
-
+#include <QString>
+#include <QStringList>
 #include <memory>
 
 #include "ScreenPlay/globalvariables.h"
@@ -19,27 +22,21 @@ namespace ScreenPlay {
 class ScreenPlayWallpaper : public QObject {
     Q_OBJECT
     QML_ELEMENT
+    QML_UNCREATABLE("")
 
     Q_PROPERTY(bool isConnected READ isConnected WRITE setIsConnected NOTIFY isConnectedChanged)
-
     Q_PROPERTY(QVector<int> screenNumber READ screenNumber WRITE setScreenNumber NOTIFY screenNumberChanged)
-
     Q_PROPERTY(float volume READ volume WRITE setVolume NOTIFY volumeChanged)
     Q_PROPERTY(float playbackRate READ playbackRate WRITE setPlaybackRate NOTIFY playbackRateChanged)
     Q_PROPERTY(bool isLooping READ isLooping WRITE setIsLooping NOTIFY isLoopingChanged)
-
     Q_PROPERTY(QString file READ file WRITE setFile NOTIFY fileChanged)
     Q_PROPERTY(QString absolutePath READ absolutePath WRITE setAbsolutePath NOTIFY absolutePathChanged)
     Q_PROPERTY(QString previewImage READ previewImage WRITE setPreviewImage NOTIFY previewImageChanged)
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
-
     Q_PROPERTY(FillMode::FillMode fillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged)
     Q_PROPERTY(InstalledType::InstalledType type READ type WRITE setType NOTIFY typeChanged)
 
 public:
-    // Default constructor needed for qml engine
-    ScreenPlayWallpaper() { }
-
     explicit ScreenPlayWallpaper(
         const QVector<int>& screenNumber,
         const std::shared_ptr<GlobalVariables>& globalVariables,
@@ -210,7 +207,7 @@ public slots:
     }
 
 private:
-    bool exportGodotProject(const QString& absolutePath, int timeoutMilliseconds = 30000);
+    bool exportGodotProject();
 
 private:
     const std::shared_ptr<GlobalVariables> m_globalVariables;
@@ -218,6 +215,7 @@ private:
     const std::shared_ptr<Settings> m_settings;
 
     ProjectSettingsListModel m_projectSettingsListModel;
+    QJsonObject m_projectJson;
     QVector<int> m_screenNumber;
     QProcess m_process;
     QString m_previewImage;

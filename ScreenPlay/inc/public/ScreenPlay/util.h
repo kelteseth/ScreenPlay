@@ -58,7 +58,8 @@ class Util : public QObject {
     Q_PROPERTY(QString debugMessages READ debugMessages NOTIFY debugMessagesChanged)
 
 public:
-    Util();
+    Util(
+        const std::shared_ptr<GlobalVariables>& globalVariables);
     ~Util();
 
     QString debugMessages() const { return m_debugMessages; }
@@ -82,6 +83,7 @@ public slots:
     void openFolderInExplorer(const QString& url) const;
     QString toLocal(const QString& url) const;
     bool exportProject(QString contentPath, QString exportFileName);
+    bool openGodotEditor(QString contentPath) const;
     bool importProject(QString archivePath, QString extractionPath);
     void requestAllLicenses();
     void requestDataProtection();
@@ -124,6 +126,7 @@ private:
     QFuture<void> m_requestAllLicensesFuture;
     std::unique_ptr<QArchive::DiskCompressor> m_compressor;
     std::unique_ptr<QArchive::DiskExtractor> m_extractor;
+    const std::shared_ptr<GlobalVariables>& m_globalVariables;
 };
 
 }

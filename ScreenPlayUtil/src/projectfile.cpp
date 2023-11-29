@@ -36,22 +36,25 @@ bool ProjectFile::init()
     }
     type = typeParsed.value();
 
-    // Required:
-    if (!obj.contains("file"))
+    // File is required. Website Wallpaper doe not have a file, but a url
+    if (!obj.contains("file") && type != ScreenPlay::InstalledType::InstalledType::WebsiteWallpaper)
         return false;
-    file = obj.value("file").toString();
 
-    if (type == ScreenPlay::InstalledType::InstalledType::GodotWallpaper) {
-        QFileInfo fileInfo(folder.path() + "/wallpaper.tscn");
-        if (!fileInfo.exists()) {
-            qCritical() << "Requested file:" << fileInfo.absoluteFilePath() << "does not exist!";
-            return false;
-        }
-    } else {
-        QFileInfo fileInfo(folder.path() + "/" + file);
-        if (!fileInfo.exists()) {
-            qCritical() << "Requested file:" << fileInfo.absoluteFilePath() << "does not exist!";
-            return false;
+    if (type != ScreenPlay::InstalledType::InstalledType::WebsiteWallpaper) {
+        file = obj.value("file").toString();
+
+        if (type == ScreenPlay::InstalledType::InstalledType::GodotWallpaper) {
+            QFileInfo fileInfo(folder.path() + "/wallpaper.tscn");
+            if (!fileInfo.exists()) {
+                qCritical() << "Requested file:" << fileInfo.absoluteFilePath() << "does not exist!";
+                return false;
+            }
+        } else {
+            QFileInfo fileInfo(folder.path() + "/" + file);
+            if (!fileInfo.exists()) {
+                qCritical() << "Requested file:" << fileInfo.absoluteFilePath() << "does not exist!";
+                return false;
+            }
         }
     }
 
@@ -105,13 +108,13 @@ bool ProjectFile::init()
             qWarning("Invalid videoCodec was specified inside the json object!");
         }
     } else if (type == ScreenPlay::InstalledType::InstalledType::VideoWallpaper) {
-        qWarning("No videoCodec was specified inside the json object!");
+        // qWarning("No videoCodec was specified inside the json object!");
         if (file.endsWith(".mp4")) {
             videoCodec = ScreenPlay::VideoCodec::VideoCodec::H264;
-            qWarning("Eyeball to h264 because of .mp4");
+            // qWarning("Eyeball to h264 because of .mp4");
         } else if (file.endsWith(".webm")) {
             videoCodec = ScreenPlay::VideoCodec::VideoCodec::VP8;
-            qWarning("Eyeball to VP8 because of .webm");
+            // qWarning("Eyeball to VP8 because of .webm");
         }
     }
 

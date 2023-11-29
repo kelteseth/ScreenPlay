@@ -104,14 +104,6 @@ Rectangle {
         }
     }
 
-    ImageParticle {
-        height: 16
-        width: 16
-        source: "dot.png"
-        system: particleSystem
-        opacity: root.imgOpacity
-    }
-
     Text {
         id: txtMousePos
 
@@ -216,19 +208,16 @@ Rectangle {
         spacing: 20
         TextField {
             placeholderText: "Edit me"
-
         }
         Button {
             text: "Exit"
             onClicked: {
-            Qt.callLater(function () {
-                    Wallpaper.terminate();
-                });
+                Qt.callLater(function () {
+                        Wallpaper.terminate();
+                    });
             }
         }
-
     }
-
 
     MultimediaView {
         width: 1000

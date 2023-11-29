@@ -46,7 +46,7 @@ set(QML
     qml/Wallpaper.qml
     qml/WebsiteWallpaper.qml)
 
-set(RESOURCES dot.png qtquickcontrols2.conf index.html)
+set(RESOURCES qtquickcontrols2.conf index.html)
 
 set(LIB_SOURCES)
 set(LIB_HEADER)

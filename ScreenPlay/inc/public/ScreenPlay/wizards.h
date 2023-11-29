@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <QColor>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
@@ -34,9 +35,11 @@ namespace ScreenPlay {
 class Wizards : public QObject {
     Q_OBJECT
     QML_ELEMENT
+    QML_UNCREATABLE("CPP ONLY")
 public:
-    explicit Wizards(const std::shared_ptr<GlobalVariables>& globalVariables, QObject* parent = nullptr);
-    Wizards() { }
+    explicit Wizards(
+        const std::shared_ptr<GlobalVariables>& globalVariables,
+        QObject* parent = nullptr);
 
     enum class WizardResult {
         Ok,
@@ -82,6 +85,14 @@ public slots:
         const QString& previewThumbnail,
         const QVector<QString>& tags);
 
+    void createGodotWallpaper(
+        const QString& title,
+        const QString& licenseName,
+        const QString& licenseFile,
+        const QString& createdBy,
+        const QString& previewThumbnail,
+        const QVector<QString>& tags);
+
     void createGifWallpaper(
         const QString& title,
         const QString& licenseName,
@@ -103,8 +114,16 @@ signals:
 private:
     const std::shared_ptr<GlobalVariables> m_globalVariables;
     const std::optional<QString> createTemporaryFolder() const;
+    void createPreviewImage(const QString& name, const QString& targetPath);
 
 private:
     QFuture<void> m_wizardFuture;
+    QVector<QColor> m_gradientColors = {
+        QColor("#B71C1C"),
+        QColor("#1B5E20"),
+        QColor("#0D47A1"),
+        QColor("#FFD600"),
+        QColor("#4A148C")
+    };
 };
 }

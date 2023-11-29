@@ -68,7 +68,7 @@ BOOL SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
     return TRUE;
 }
 
-std::vector<Monitor> WindowsIntegration::GetAllMonitors()
+std::vector<Monitor> WindowsIntegration::getAllMonitors()
 {
     std::vector<Monitor> monitors;
 
@@ -150,7 +150,7 @@ WindowsIntegration::MonitorResult WindowsIntegration::setupWallpaperForOneScreen
         return { std::nullopt, MonitorResultStatus::WorkerWindowHandleInvalidError };
     }
 
-    std::vector<Monitor> monitors = GetAllMonitors();
+    std::vector<Monitor> monitors = getAllMonitors();
     for (const auto& monitor : monitors) {
         monitor.print();
         if (monitor.index != activeScreen)
@@ -212,7 +212,7 @@ WindowsIntegration::MonitorResult WindowsIntegration::setupWallpaperForOneScreen
  */
 WindowsIntegration::SpanResult WindowsIntegration::setupWallpaperForMultipleScreens(const std::vector<int>& activeScreens)
 {
-    std::vector<Monitor> monitors = GetAllMonitors();
+    std::vector<Monitor> monitors = getAllMonitors();
 
     int leftmost = INT_MAX;
     int topmost = INT_MAX;
@@ -272,7 +272,7 @@ WindowsIntegration::SpanResult WindowsIntegration::setupWallpaperForMultipleScre
  */
 WindowsIntegration::SpanResult WindowsIntegration::setupWallpaperForAllScreens()
 {
-    std::vector<Monitor> monitors = GetAllMonitors();
+    std::vector<Monitor> monitors = getAllMonitors();
 
     int leftmost = INT_MAX;
     int topmost = INT_MAX;

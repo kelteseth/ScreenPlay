@@ -42,9 +42,7 @@ Rectangle {
 
             function onWizardExited() {
                 root.expanded = true;
-                stackView.clear(StackView.PushTransition);
-                stackView.push("qrc:/qml/ScreenPlayApp/qml/Create/StartInfo.qml");
-                listView.currentIndex = 0;
+                App.util.setNavigation("Installed");
                 App.util.setNavigationActive(true);
             }
 
@@ -84,6 +82,13 @@ Rectangle {
                 headline: qsTr("GIF Wallpaper")
                 source: "qrc:/qml/ScreenPlayApp/qml/Create/Wizards/GifWallpaper.qml"
                 category: "Video Wallpaper"
+                objectName: ""
+            }
+
+            ListElement {
+                headline: qsTr("Godot Wallpaper")
+                source: "qrc:/qml/ScreenPlayApp/qml/Create/Wizards/GodotWallpaper.qml"
+                category: "Code Wallpaper"
                 objectName: ""
             }
 

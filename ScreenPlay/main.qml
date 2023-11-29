@@ -48,6 +48,7 @@ ApplicationWindow {
         stackView.replace("qrc:/qml/ScreenPlayApp/qml/" + name + "/" + name + ".qml", {
                 "modalSource": content
             });
+        nav.setNavigation(name);
         sidebar.state = "inactive";
     }
 
@@ -56,7 +57,7 @@ ApplicationWindow {
     visible: false
     width: 1400
     height: 810
-    title: "ScreenPlay Alpha - V" + App.version()
+    title: "ScreenPlay Alpha - v" + App.version()
     minimumHeight: 450
     minimumWidth: 1050
 
@@ -72,9 +73,10 @@ ApplicationWindow {
     // https://bugreports.qt.io/browse/QTBUG-86047
     Material.accent: Material.color(Material.Orange)
     onVisibilityChanged: {
-        if (root.visibility === 2)
-            App.installedListModel.reset();
+        if (root.visibility !== 2)
+            return;
     }
+
     onClosing: close => {
         close.accepted = false;
         if (App.screenPlayManager.activeWallpaperCounter === 0 && App.screenPlayManager.activeWidgetsCounter === 0) {
@@ -111,6 +113,7 @@ ApplicationWindow {
             App.showDockIcon(true);
             root.show();
         }
+        App.installedListModel.reset();
     }
 
     Item {

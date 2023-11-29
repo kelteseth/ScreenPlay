@@ -403,7 +403,7 @@ Item {
                             Image {
                                 id: imgLogoHead
 
-                                source: "https://assets.gitlab-static.net/uploads/-/system/user/avatar/64172/avatar.png"
+                                source: "https://gitlab.com/uploads/-/system/user/avatar/64172/avatar.png"
                                 width: 120
                                 height: 120
                                 visible: false

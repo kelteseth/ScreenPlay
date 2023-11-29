@@ -5,6 +5,7 @@
 #include "ScreenPlayUtil/macutils.h"
 #endif
 
+#include "ScreenPlay/CMakeVariables.h"
 #include "app.h"
 #include "steam/steam_qt_enums_generated.h"
 #include <QGuiApplication>
@@ -71,8 +72,22 @@ App::App()
     QGuiApplication::setOrganizationName("ScreenPlay");
     QGuiApplication::setOrganizationDomain("screen-play.app");
     QGuiApplication::setApplicationName("ScreenPlay");
-    QGuiApplication::setApplicationVersion(QVersionNumber(0, 15, 0).toString());
+    QGuiApplication::setApplicationVersion(QString(SCREENPLAY_VERSION));
     QGuiApplication::setQuitOnLastWindowClosed(false);
+    // ScreenPlayManager first to check if another ScreenPlay Instace is running
+    m_screenPlayManager = std::make_unique<ScreenPlayManager>();
+    m_isAnotherScreenPlayInstanceRunning = m_screenPlayManager->isAnotherScreenPlayInstanceRunning();
+}
+
+/*!
+    \brief Used for initialization after the constructor. The sole purpose is to check if
+    another ScreenPlay instance is running and then quit early. This is also because we cannot
+    call QGuiApplication::quit(); in the SDKConnector before the app.exec(); ( the Qt main event
+    loop ) has started.
+*/
+void App::init()
+{
+    qInfo() << "Init ScreenPlay";
 
     QString fontsPath = QGuiApplication::instance()->applicationDirPath() + "/assets/fonts/";
 #if defined(Q_OS_MACOS)
@@ -121,26 +136,11 @@ App::App()
         "SearchType",
         "Error: only enums");
 
-    // ScreenPlayManager first to check if another ScreenPlay Instace is running
-    m_screenPlayManager = std::make_unique<ScreenPlayManager>();
-    m_isAnotherScreenPlayInstanceRunning = m_screenPlayManager->isAnotherScreenPlayInstanceRunning();
-}
-
-/*!
-    \brief Used for initialization after the constructor. The sole purpose is to check if
-    another ScreenPlay instance is running and then quit early. This is also because we cannot
-    call QGuiApplication::quit(); in the SDKConnector before the app.exec(); ( the Qt main event
-    loop ) has started.
-*/
-void App::init()
-{
-
     using std::make_shared, std::make_unique;
 
-    // Util should be created as first so we redirect qDebugs etc. into the log
-    m_util = make_unique<Util>();
     m_globalVariables = make_shared<GlobalVariables>();
     m_monitorListModel = make_shared<MonitorListModel>();
+    m_util = make_unique<Util>(m_globalVariables);
     m_profileListModel = make_shared<ProfileListModel>(m_globalVariables);
     m_settings = make_shared<Settings>(m_globalVariables);
     m_installedListModel = make_shared<InstalledListModel>(m_globalVariables, m_settings);

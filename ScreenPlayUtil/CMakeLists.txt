@@ -107,3 +107,7 @@ if(WIN32)
     # Used for query windows monitor data
     target_link_libraries(${PROJECT_NAME} PUBLIC shcore.lib)
 endif()
+
+# ##### USE CMAKE VARIABLES IN CODE #####
+include(GenerateCMakeVariableHeader)
+generate_cmake_variable_header(${PROJECT_NAME})

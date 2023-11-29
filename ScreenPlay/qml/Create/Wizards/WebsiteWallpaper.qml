@@ -10,16 +10,21 @@ import ScreenPlayUtil as Util
 
 WizardPage {
     id: root
-
+    function isValidURL(string) {
+        var res = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+        return (res !== null);
+    }
     sourceComponent: ColumnLayout {
-        property bool ready: tfTitle.text.length >= 1 && tfUrl.text.length > 1
+        id: layout
+        function validate() {
+            root.ready = tfTitle.text.length >= 1 && root.isValidURL(tfUrl.text);
+        }
 
         function create() {
             App.wizards.createWebsiteWallpaper(tfTitle.text, previewSelector.imageSource, tfUrl.text, tagSelector.getTags());
         }
 
         spacing: 10
-        onReadyChanged: root.ready = ready
 
         anchors {
             top: parent.top
@@ -41,11 +46,10 @@ WizardPage {
 
             Util.TextField {
                 id: tfTitle
-
                 Layout.fillWidth: true
                 placeholderText: qsTr("Wallpaper name")
                 required: true
-                onTextChanged: root.ready = text.length >= 1
+                onTextChanged: layout.validate()
             }
 
             Util.TextField {
@@ -65,10 +69,10 @@ WizardPage {
 
         Util.TextField {
             id: tfUrl
-
             Layout.fillWidth: true
             required: true
             text: "https://"
+            onTextChanged: layout.validate()
         }
 
         Item {

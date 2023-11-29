@@ -60,6 +60,7 @@ set(QML
     qml/Create/StartInfoLinkImage.qml
     qml/Create/Wizard.qml
     qml/Create/Wizards/GifWallpaper.qml
+    qml/Create/Wizards/GodotWallpaper.qml
     qml/Create/Wizards/HTMLWallpaper.qml
     qml/Create/Wizards/HTMLWidget.qml
     qml/Create/Wizards/Importh264/Importh264.qml
@@ -76,8 +77,6 @@ set(QML
     qml/Create/Wizards/QMLWidget.qml
     qml/Create/Wizards/WebsiteWallpaper.qml
     qml/Create/Wizards/WizardPage.qml
-    qml/Create/WizardsFiles/QMLWallpaperMain.qml
-    qml/Create/WizardsFiles/QMLWidgetMain.qml
     qml/Installed/Installed.qml
     qml/Installed/InstalledNavigation.qml
     qml/Installed/InstalledWelcomeScreen.qml
@@ -129,6 +128,7 @@ set(RESOURCES
     assets/icons/brand_reddit.svg
     assets/icons/brand_twitch.svg
     assets/icons/brand_twitter.svg
+    assets/icons/icon_cancel_presentation.svg
     assets/icons/exclamation-triangle-solid.svg
     assets/icons/font-awsome/close.svg
     assets/icons/font-awsome/frown-o.svg
@@ -146,6 +146,7 @@ set(RESOURCES
     assets/icons/icon_document.svg
     assets/icons/icon_done.svg
     assets/icons/icon_download.svg
+    assets/icons/icon_edit.svg
     assets/icons/icon_emptyWidget.svg
     assets/icons/icon_folder_open.svg
     assets/icons/icon_forum.svg
@@ -159,6 +160,7 @@ set(RESOURCES
     assets/icons/icon_movie.svg
     assets/icons/icon_new_releases.svg
     assets/icons/icon_open_in_new.svg
+    assets/icons/icon_open_in_new_black.svg
     assets/icons/icon_pause.svg
     assets/icons/icon_people.svg
     assets/icons/icon_play.svg
@@ -175,7 +177,7 @@ set(RESOURCES
     assets/icons/icon_thumb_down.svg
     assets/icons/icon_thumb_up.svg
     assets/icons/icon_upload.svg
-    assets/icons/icon_video_settings_black_24dp.svg
+    assets/icons/icon_video_settings.svg
     assets/icons/icon_volume.svg
     assets/icons/icon_volume_mute.svg
     assets/icons/icon_volume_up.svg
@@ -201,9 +203,6 @@ set(RESOURCES
     assets/licenses/Apache2.txt
     assets/licenses/OFL.txt
     assets/macos/app.screenplay.plist
-    assets/particle/backgroundGlow.png
-    assets/particle/dot.png
-    assets/shader/movingcolorramp.fsh
     assets/startinfo/blender.png
     assets/startinfo/flaticon.png
     assets/startinfo/forums.png
@@ -232,7 +231,6 @@ set(RESOURCES
     assets/wizards/License_CC_Attribution-ShareAlike_4.0.txt
     assets/wizards/License_CC_Attribution_4.0.txt
     assets/wizards/License_GPL_3.0.txt
-    assets/wizards/QmlProject.qmlproject
     assets/WorkshopPreview.html
     legal/DataProtection.txt
     legal/gpl-3.0.txt
@@ -242,6 +240,13 @@ set(RESOURCES
     profiles.json
     qml/Create/WizardsFiles/HTMLWallpaperMain.html
     qml/Create/WizardsFiles/HTMLWidgetMain.html
+    qml/Create/WizardsFiles/QmlProject.qmlproject
+    qml/Create/WizardsFiles/QMLWallpaperMain.qml
+    qml/Create/WizardsFiles/QMLWidgetMain.qml
+    qml/Create/WizardsFiles/Godot_v5/export_presets.cfg
+    qml/Create/WizardsFiles/Godot_v5/project.godot
+    qml/Create/WizardsFiles/Godot_v5/spinner.gd
+    qml/Create/WizardsFiles/Godot_v5/wallpaper.tscn
     qml/Create/WizardsFiles/QMLWallpaperMain.qml
     qml/Create/WizardsFiles/QMLWidgetMain.qml
     qtquickcontrols2.conf)

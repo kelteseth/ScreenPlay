@@ -7,6 +7,7 @@ import download_ffmpeg
 import defines
 import argparse
 import util
+import macos_make_universal
 import datetime
 import setup_godot
 from sys import stdout
@@ -54,17 +55,15 @@ def download(aqt_path: Path, qt_platform: Path):
         qt_packages =  "qtwaylandcompositor "
         os = "linux"
 
-    # Windows: python -m aqt list-qt windows desktop --modules 6.6.0 win64_msvc2019_64
-    # Linux: python3 -m aqt list-qt linux  desktop --modules 6.6.0 gcc_64
     qt_packages += "qt3d qtquick3d qtconnectivity qt5compat qtimageformats qtmultimedia qtshadertools qtwebchannel qtwebengine qtwebsockets qtwebview qtpositioning"
+    # Windows: python -m aqt list-qt windows desktop --modules 6.6.1 win64_msvc2019_64
+    # Linux: python3 -m aqt list-qt linux  desktop --modules 6.6.1 gcc_64
     print(f"Downloading: {qt_packages} to {aqt_path}")
     execute(f"{defines.PYTHON_EXECUTABLE} -m aqt install-qt -O  {aqt_path} {os} desktop {defines.QT_VERSION} {qt_platform} -m {qt_packages}")
 
     # Tools can only be installed one at the time:
     # see:  python -m aqt list-tool windows desktop
-    tools = ["tools_ifw", "tools_qtcreator", "tools_ninja", "tools_cmake"]
-    if system() == "Windows":
-        tools += ["tools_opensslv3_x64"]
+    tools = ["tools_ifw"]
     for tool in tools:
         execute(
             f"{defines.PYTHON_EXECUTABLE} -m aqt install-tool -O {aqt_path} {os} desktop {tool}")
@@ -107,9 +106,7 @@ def main():
     parser = argparse.ArgumentParser(
         description='Build and Package ScreenPlay')
     parser.add_argument('--skip-aqt', action="store_true", dest="skip_aqt",
-                        help="Downloads QtCreator and needed binaries \Windows: C:\aqt\nLinux & macOS:~/aqt/.")
-    parser.add_argument('--setup-godot', action="store_true", dest="setup_godot",
-                        help="Downloads Godot Editor.")
+                        help="Downloads QtCreator and needed binaries Windows: C:\\aqt\\nLinux & macOS:~/aqt/.")
     args = parser.parse_args()
 
     root_path = Path(util.cd_repo_root_path())
@@ -117,7 +114,7 @@ def main():
     vcpkg_path = project_source_parent_path.joinpath("vcpkg").resolve()
     vcpkg_packages_list = defines.VCPKG_BASE_PACKAGES
 
-    if system() == "Windows" and args.setup_godot:
+    if system() != "Darwin":
         if not setup_godot.execute():
             raise RuntimeError("Unable to download godot")
 
@@ -140,7 +137,7 @@ def main():
         platform_command.add("chmod +x bootstrap-vcpkg.sh", vcpkg_path)
         platform_command.add("./bootstrap-vcpkg.sh", vcpkg_path, False)
         platform_command.add("chmod +x vcpkg", vcpkg_path)
-        vcpkg_triplet = ["64-osx-universal"]
+        vcpkg_triplet = ["x64-osx","arm64-osx"]
     elif system() == "Linux":
         vcpkg_command = "./vcpkg"
         # vcpkg_packages_list.append("infoware[opengl]")
@@ -153,7 +150,7 @@ def main():
         raise NotImplementedError("Unknown system: {}".format(system()))
 
     print(f"Clone into {vcpkg_path}")
-    execute("git clone https://gitlab.com/kelteseth/screenplay-vcpkg vcpkg",
+    execute("git clone https://github.com/microsoft/vcpkg vcpkg",
             project_source_parent_path, True)
     execute("git fetch", vcpkg_path)
     execute(f"git checkout {defines.VCPKG_VERSION}", vcpkg_path)
@@ -167,9 +164,15 @@ def main():
         vcpkg_packages = " ".join(vcpkg_packages_list)
         execute(
             f"{vcpkg_command} install {vcpkg_packages} --triplet {triplet} --recurse", vcpkg_path, False)
+        
+    # Combine x64 and arm
+    if system() == "Darwin":
+        macos_make_universal.execute()
 
     if not args.skip_aqt:
         setup_qt()
+
+
 
 if __name__ == "__main__":
     main()

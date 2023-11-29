@@ -57,6 +57,9 @@ public:
     bool send_ping();
     bool exit();
 
+    godot::String get_projectPackageFile() const;
+    void set_projectPackageFile(const godot::String& projectPackageFile);
+
 protected:
     static void _bind_methods();
 
@@ -70,6 +73,7 @@ private:
 
     godot::String m_appID = "";
     godot::String m_projectPath = "";
+    godot::String m_projectPackageFile = "";
     WindowsIntegration m_windowsIntegration;
     double m_timesinceLastRead = 0.0;
     bool m_pipeConnected = false;

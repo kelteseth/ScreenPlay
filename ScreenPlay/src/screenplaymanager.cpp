@@ -303,7 +303,7 @@ bool ScreenPlayManager::removeWallpaperAt(int index)
 */
 bool ScreenPlayManager::requestProjectSettingsAtMonitorIndex(const int index)
 {
-    for (const std::shared_ptr<ScreenPlayWallpaper>& uPtrWallpaper : qAsConst(m_screenPlayWallpapers)) {
+    for (const std::shared_ptr<ScreenPlayWallpaper>& uPtrWallpaper : std::as_const(m_screenPlayWallpapers)) {
         if (uPtrWallpaper->screenNumber()[0] == index) {
 
             emit projectSettingsListModelResult(
@@ -514,12 +514,12 @@ bool ScreenPlayManager::saveProfiles()
     m_saveLimiter.stop();
 
     QJsonArray wallpaper {};
-    for (const auto& activeWallpaper : qAsConst(m_screenPlayWallpapers)) {
+    for (const auto& activeWallpaper : std::as_const(m_screenPlayWallpapers)) {
         wallpaper.append(activeWallpaper->getActiveSettingsJson());
     }
 
     QJsonArray widgets {};
-    for (const auto& activeWidget : qAsConst(m_screenPlayWidgets)) {
+    for (const auto& activeWidget : std::as_const(m_screenPlayWidgets)) {
         widgets.append(activeWidget->getActiveSettingsJson());
     }
 

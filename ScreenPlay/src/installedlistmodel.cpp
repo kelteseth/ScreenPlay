@@ -35,18 +35,23 @@ InstalledListModel::InstalledListModel(
 */
 void InstalledListModel::init()
 {
-    if (!m_fileSystemWatcher.addPath(m_globalVariables->localStoragePath().toLocalFile())) {
-        qWarning() << "Could not setup file system watcher for changed files with path: " << m_globalVariables->localStoragePath().toLocalFile();
+    QString projectsPath = m_globalVariables->localStoragePath().toLocalFile();
+    QDirIterator projectFilesIter(projectsPath, { "*.qml", "*.html", "*.css", "*.js", "*.png", "project.json" }, QDir::Files | QDir::NoSymLinks, QDirIterator::Subdirectories);
+    while (projectFilesIter.hasNext()) {
+        m_fileSystemWatcher.addPath(projectFilesIter.next());
     }
+    m_reloadLimiter.setInterval(500);
+    m_reloadLimiter.setSingleShot(true);
+    QObject::connect(&m_reloadLimiter, &QTimer::timeout, this, [this]() {
+        reset();
+    });
 
-    auto reloadLambda = [this]() {
-        QTimer::singleShot(500, this, [this]() {
-            reset();
-        });
+    auto restartTimer = [this]() {
+        m_reloadLimiter.start();
     };
 
-    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, reloadLambda);
-    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, reloadLambda);
+    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, restartTimer);
+    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, restartTimer);
 }
 
 /*!
@@ -54,28 +59,27 @@ void InstalledListModel::init()
     installed list. We wait for the qml engine to free all resources before
     we proceed. This like the preview.gif will be in use when clicking on an item
 */
-void InstalledListModel::deinstallItemAt(const QString& absoluteStoragePath)
+bool InstalledListModel::deinstallItemAt(const QString& absoluteStoragePath)
 {
-    QTimer::singleShot(1000, this, [this, absoluteStoragePath]() {
-        int index = -1;
-        for (int i = 0; i < m_screenPlayFiles.size(); ++i) {
-            if (m_screenPlayFiles.at(i).projectJsonFilePath.absoluteFilePath() == absoluteStoragePath) {
-                index = i;
-                break;
-            }
+    const QString path = ScreenPlayUtil::toLocal(absoluteStoragePath);
+    int index = -1;
+    for (int i = 0; i < m_screenPlayFiles.size(); ++i) {
+        if (m_screenPlayFiles.at(i).projectJsonFilePath.path() == path) {
+            index = i;
+            break;
         }
+    }
 
-        if (index < 0 || index >= m_screenPlayFiles.count()) {
-            qWarning() << "Remove folder error, invalid index " << index;
-            return;
-        }
+    if (index < 0 || index >= m_screenPlayFiles.count()) {
+        qWarning() << "Remove folder error, invalid index " << index;
+        return false;
+    }
 
-        beginRemoveRows(QModelIndex(), index, index);
-        m_screenPlayFiles.removeAt(index);
-        endRemoveRows();
+    beginRemoveRows(QModelIndex(), index, index);
+    m_screenPlayFiles.removeAt(index);
+    endRemoveRows();
 
-        const QString path = ScreenPlayUtil::toLocal(absoluteStoragePath);
-
+    QTimer::singleShot(1000, this, [this, path]() {
         QDir dir(path);
         bool success = true;
         if (!dir.exists()) {
@@ -110,6 +114,7 @@ void InstalledListModel::deinstallItemAt(const QString& absoluteStoragePath)
             m_fileSystemWatcher.blockSignals(false);
         });
     });
+    return true;
 }
 
 /*!
@@ -288,6 +293,10 @@ QVariantMap InstalledListModel::get(const QString& folderName) const
 */
 void InstalledListModel::reset()
 {
+    if (m_isLoading) {
+        qInfo() << "loadInstalledContent is already running. Skip.";
+        return;
+    }
     beginResetModel();
     m_screenPlayFiles.clear();
     m_screenPlayFiles.squeeze();
