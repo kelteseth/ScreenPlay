@@ -286,14 +286,6 @@ def package(build_config: BuildConfig):
                 print("Copy: ", file, build_config.bin_dir)
                 shutil.copy2(file, build_config.bin_dir)
 
-        # Use Qt OpenSSLv3
-        openSLL_path = Path(
-            f"{defines.QT_PATH}/Tools/OpenSSLv3/Win_x64/bin").resolve()
-        for file in openSLL_path.iterdir():
-            if file.suffix == ".dll" and file.is_file():
-                print("Copy: ", file, build_config.bin_dir)
-                shutil.copy2(file, build_config.bin_dir)
-
     if not platform.system() == "Darwin":
         file_endings = [".ninja_deps", ".ninja", ".ninja_log", ".lib", ".a", ".exp",
                         ".manifest", ".cmake", ".cbp", "CMakeCache.txt"]
