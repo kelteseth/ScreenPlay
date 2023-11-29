@@ -11,7 +11,7 @@ FetchContent_Populate(
 FetchContent_Populate(
     qml-plausible
     GIT_REPOSITORY https://gitlab.com/kelteseth/qml-plausible.git
-    GIT_TAG 5069ba3bf25663ea06be8b94c398d6c61058d4d5
+    GIT_TAG 322d8e17cab77b496f0d7fafb19f6dcda4193ed7
     # Workaround because: 1. QtCreator cannot handle QML_ELEMENT stuff when it is in bin folder
     # https://bugreports.qt.io/browse/QTCREATORBUG-27083
     SOURCE_DIR ${THIRD_PARTY_PATH}/qml-plausible)

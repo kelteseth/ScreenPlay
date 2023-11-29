@@ -43,9 +43,11 @@ set(CMAKE_OSX_DEPLOYMENT_TARGET "13.0")
 # This subdirectoy is needed for OSX and Linux to fix linker errors because we would have ScreenPlayApp executable and folder for the qml
 # files in the same directory.
 set(SCREENPLAY_QML_MODULES_PATH "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/qml")
+
 if(APPLE)
     set(SCREENPLAY_QML_MODULES_PATH "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ScreenPlay.app/Contents/MacOS/qml")
 endif()
+
 # Adds the qml import path so QtCreator can find them
 list(APPEND QML_DIRS "${SCREENPLAY_QML_MODULES_PATH}")
 set(QML_IMPORT_PATH
@@ -60,8 +62,8 @@ set(VCPKG_BIN_PATH "${VCPKG_INSTALLED_PATH}/bin")
 set(GODOT_VERSION_MAJOR "4")
 set(GODOT_VERSION_MINOR "2")
 set(GODOT_VERSION_PATCH "")
+set(GODOT_RELEASE_TYPE "rc2")
 
-set(GODOT_RELEASE_TYPE "rc1")
 # Use an if statement to check if GODOT_VERSION_PATCH is empty or not
 if(GODOT_VERSION_PATCH STREQUAL "")
     # If patch version is empty, don't include it and the preceding dot
@@ -84,7 +86,7 @@ endif()
 option(SCREENPLAY_OSX_BUNDLE "Enable distribution macOS bundle" OFF)
 option(SCREENPLAY_STEAM "For FOSS distribution so we do not bundle proprietary code." ON)
 option(SCREENPLAY_DEPLOY "Marks this version as an official deploy version. This version uses different import paths and other settings."
-       OFF)
+    OFF)
 option(SCREENPLAY_TESTS "Enables UI tests." ON)
 option(SCREENPLAY_INSTALLER "Indicates whether an installer via the Qt Installer Framework is created." OFF)
 option(SCREENPLAY_GODOT "Compiles ScreenPlayGodotWallpaper." ON)

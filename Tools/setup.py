@@ -55,9 +55,9 @@ def download(aqt_path: Path, qt_platform: Path):
         qt_packages =  "qtwaylandcompositor "
         os = "linux"
 
-    # Windows: python -m aqt list-qt windows desktop --modules 6.6.0 win64_msvc2019_64
-    # Linux: python3 -m aqt list-qt linux  desktop --modules 6.6.0 gcc_64
     qt_packages += "qt3d qtquick3d qtconnectivity qt5compat qtimageformats qtmultimedia qtshadertools qtwebchannel qtwebengine qtwebsockets qtwebview qtpositioning"
+    # Windows: python -m aqt list-qt windows desktop --modules 6.6.1 win64_msvc2019_64
+    # Linux: python3 -m aqt list-qt linux  desktop --modules 6.6.1 gcc_64
     print(f"Downloading: {qt_packages} to {aqt_path}")
     execute(f"{defines.PYTHON_EXECUTABLE} -m aqt install-qt -O  {aqt_path} {os} desktop {defines.QT_VERSION} {qt_platform} -m {qt_packages}")
 

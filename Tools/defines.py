@@ -21,12 +21,12 @@ elif sys.platform == "linux":
 REPO_PATH =  Path(__file__, "../../").resolve()
 THIRDPATH_PATH =  Path(REPO_PATH, "ThirdParty").resolve()
 QT_PATH = path = Path(REPO_PATH, "../aqt").resolve()
-QT_VERSION = "6.6.0"
+QT_VERSION = "6.6.1"
 QT_BIN_PATH = QT_PATH.joinpath(f"{QT_VERSION}/{QT_PLATFORM}/bin")
 QT_TOOLS_PATH = QT_PATH.joinpath("Tools/")
 QT_IFW_VERSION = "4.6"
 # 25.11.2023 https://gitlab.com/kelteseth/screenplay-vcpkg :
-VCPKG_VERSION = "cd5e746ec203c8c3c61647e0886a8df8c1e78e41"
+VCPKG_VERSION = "cabba0d0379b78e34d0a0d37edb4c459c5a03337"
 VCPKG_BASE_PACKAGES =  [
         "curl",
         "openssl",
@@ -38,7 +38,7 @@ VCPKG_BASE_PACKAGES =  [
 PYTHON_EXECUTABLE = "python" if sys.platform == "win32" else "python3"
 FFMPEG_VERSION = "6.0"
 GODOT_VERSION = "4.2"
-GODOT_RELEASE_TYPE = "rc1"
+GODOT_RELEASE_TYPE = "rc2"
 GODOT_DOWNLOAD_SERVER = "https://github.com/godotengine/godot-builds/releases/download"
 if sys.platform == "win32":
     SCREENPLAYWALLPAPER_GODOT_EXECUTABLE = "ScreenPlayWallpaperGodot.exe"
