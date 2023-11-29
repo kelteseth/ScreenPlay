@@ -8,6 +8,8 @@
 #include <QUrl>
 #include <fmt/color.h>
 
+#include "ScreenPlayUtil/CMakeVariables.h"
+
 #ifdef Q_OS_WINDOWS
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -29,11 +31,14 @@ LoggingHandler::LoggingHandler(const QString& logFileName)
 #ifdef Q_OS_WINDOWS
     // Enable UTF-8 support
     SetConsoleOutputCP(CP_UTF8);
-
-    // QtCreator has issues with fmt prints
-    // https://bugreports.qt.io/browse/QTCREATORBUG-3994
-    setbuf(stdout, NULL);
-
+    // This is a QtCreator workaround and crashes std::fmt
+    // when running standalone.
+    if (!SCREENPLAY_DEPLOY_VERSION) {
+        // QtCreator has issues with fmt prints
+        // https://bugreports.qt.io/browse/QTCREATORBUG-3994
+        setvbuf(stdout, NULL, _IONBF, 0);
+        qInfo() << "Setting setvbuf(stdout, NULL, _IONBF, 0); This unbuffered output causes crashes in release with threaded fmt!";
+    }
 #endif
 
     qSetMessagePattern("[%{time dd.MM.yyyy h:mm:ss.zzz} %{if-debug}Debug%{endif}%{if-info}Info%{endif}%{if-warning}Warning%{endif}%{if-critical}Critical%{endif}%{if-fatal}Fatal%{endif}] %{file}:%{line} - %{message}");
@@ -227,7 +232,6 @@ void LoggingHandler::writeToConsole(QtMsgType type, const QMessageLogContext& co
     const auto filename = extractFileName(context);
     const auto function = extractFunction(context);
     const auto line = context.line;
-
     fmt::print(
         "[{}] {} {}:{} - {}\n",
         fmt::styled(now.toStdString(), fmt::emphasis::bold),
