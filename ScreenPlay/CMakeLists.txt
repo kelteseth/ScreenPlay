@@ -77,12 +77,6 @@ set(QML
     qml/Create/Wizards/QMLWidget.qml
     qml/Create/Wizards/WebsiteWallpaper.qml
     qml/Create/Wizards/WizardPage.qml
-    qml/Create/WizardsFiles/Godot_v5/export_presets.cfg
-    qml/Create/WizardsFiles/Godot_v5/project.godot
-    qml/Create/WizardsFiles/Godot_v5/spinner.gd
-    qml/Create/WizardsFiles/Godot_v5/wallpaper.tscn
-    qml/Create/WizardsFiles/QMLWallpaperMain.qml
-    qml/Create/WizardsFiles/QMLWidgetMain.qml
     qml/Installed/Installed.qml
     qml/Installed/InstalledNavigation.qml
     qml/Installed/InstalledWelcomeScreen.qml
@@ -247,6 +241,12 @@ set(RESOURCES
     qml/Create/WizardsFiles/HTMLWallpaperMain.html
     qml/Create/WizardsFiles/HTMLWidgetMain.html
     qml/Create/WizardsFiles/QmlProject.qmlproject
+    qml/Create/WizardsFiles/QMLWallpaperMain.qml
+    qml/Create/WizardsFiles/QMLWidgetMain.qml
+    qml/Create/WizardsFiles/Godot_v5/export_presets.cfg
+    qml/Create/WizardsFiles/Godot_v5/project.godot
+    qml/Create/WizardsFiles/Godot_v5/spinner.gd
+    qml/Create/WizardsFiles/Godot_v5/wallpaper.tscn
     qml/Create/WizardsFiles/QMLWallpaperMain.qml
     qml/Create/WizardsFiles/QMLWidgetMain.qml
     qtquickcontrols2.conf)
