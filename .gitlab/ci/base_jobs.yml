@@ -61,7 +61,3 @@
     - git submodule update --init --recursive
   tags:
     - osx
-  artifacts:
-    expire_in: "2 weeks"
-    paths:
-      - build-64-osx-universal-release/bin/

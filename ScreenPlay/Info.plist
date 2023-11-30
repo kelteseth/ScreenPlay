@@ -7,9 +7,9 @@
         <key>CFBundleExecutable</key>
         <string>ScreenPlay</string>
         <key>CFBundleIconFile</key>
-        <string></string>
+        <string>ScreenPlay</string>
         <key>CFBundleIdentifier</key>
-        <string>app.screen-play</string>
+        <string>app.screenplay</string>
         <key>CFBundleInfoDictionaryVersion</key>
         <string>6.0</string>
         <key>CFBundleName</key>

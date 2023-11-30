@@ -329,16 +329,11 @@ if(${SCREENPLAY_TESTS})
     if(${SCREENPLAY_STEAM})
         target_link_libraries(tst_ScreenPlay PUBLIC ScreenPlayWorkshopplugin ScreenPlayWorkshop)
     endif()
-endif()
 
-if(APPLE AND NOT SCREENPLAY_OSX_BUNDLE)
-    set_source_files_properties(
-        ${TS_FILES} PROPERTIES OUTPUT_LOCATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}.app/Contents/Resources/translations")
-else()
-    set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/translations")
+    if(APPLE)
+        set_target_properties(tst_ScreenPlay PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
+    endif()
 endif()
-
-qt_add_lrelease(${PROJECT_NAME} TS_FILES ${TS_FILES})
 
 target_include_directories(
     ScreenPlayApp
@@ -382,42 +377,35 @@ if(WIN32)
 
 endif()
 
-if(APPLE AND SCREENPLAY_OSX_BUNDLE)
-    # Set the installation destination
-    install(TARGETS "ScreenPlay" DESTINATION /Applications)
+if(APPLE)
 
-    include(InstallRequiredSystemLibraries)
-    set(CPACK_GENERATOR "Bundle")
-    set(CPACK_BINARY_DRAGNDROP ON)
-    set(CPACK_BUNDLE_NAME "ScreenPlay")
-    set(CPACK_BUNDLE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/assets/icons/app.ico")
-    set(CPACK_PACKAGE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/assets/icons/app.ico")
-    set(CPACK_BUNDLE_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/Info.plist")
-    set(CPACK_BUNDLE_APPLE_ENTITLEMENTS "${CMAKE_CURRENT_SOURCE_DIR}/entitlements.plist")
-    set(CPACK_PACKAGE_FILE_NAME "ScreenPlay-0.15")
-    include(CPack)
+    # Set the path to the icon file
+    set(APP_ICON_MACOSX ${CMAKE_CURRENT_SOURCE_DIR}/assets/icons/ScreenPlay.icns)
 
-    # Install all files from /bin
-    install(
-        DIRECTORY "${CMAKE_BINARY_DIR}/bin/"
-        COMPONENT ScreenPlay
-        DESTINATION "./")
+    # Tell CMake where to find the icon
+    set_source_files_properties(${APP_ICON_MACOSX} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
 
-endif()
+    set(RESOURCES_DIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ScreenPlay.app/Contents/Resources")
+    file(MAKE_DIRECTORY ${RESOURCES_DIR})
 
-if(APPLE AND NOT SCREENPLAY_OSX_BUNDLE)
+    # Specify the name of the icon file for the bundle
+    set(MACOSX_BUNDLE_ICON_FILE ScreenPlay.icns) # Only the file name
+    # Fore some reason this only works with maually copy
+    configure_file(${APP_ICON_MACOSX} "${RESOURCES_DIR}/ScreenPlay.icns" COPYONLY)
+
     # Creates a ScreenPlay.app
     set_target_properties(
         ${PROJECT_NAME}
         PROPERTIES OUTPUT_NAME ${PROJECT_NAME}
-                   MACOSX_BUNDLE TRUE
-                   MACOSX_RPATH TRUE
-                   MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist
-                   MACOSX_FRAMEWORK_IDENTIFIER screen-play.app
-                   XCODE_ATTRIBUTE_LD_RUNPATH_SEARCH_PATHS "@loader_path/Libraries"
-                   RESOURCE "${RESOURCE_FILES}"
-                   XCODE_ATTRIBUTE_ENABLE_HARDENED_RUNTIME TRUE
-                   XCODE_ATTRIBUTE_EXECUTABLE_NAME ${PROJECT_NAME})
+                MACOSX_BUNDLE TRUE
+                MACOSX_RPATH TRUE
+                MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist
+                MACOSX_FRAMEWORK_IDENTIFIER app.screenplay
+                XCODE_ATTRIBUTE_LD_RUNPATH_SEARCH_PATHS "@loader_path/Libraries"
+                RESOURCE "${RESOURCE_FILES};${APP_ICON_MACOSX}" # Include the icon in the resources
+                XCODE_ATTRIBUTE_ENABLE_HARDENED_RUNTIME TRUE
+                XCODE_ATTRIBUTE_EXECUTABLE_NAME ${PROJECT_NAME})
+
 
     add_custom_command(
         TARGET ${PROJECT_NAME}
@@ -431,27 +419,23 @@ if(APPLE AND NOT SCREENPLAY_OSX_BUNDLE)
         COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/ffprobe
                 ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/)
 
-    # tst_ScreenPlay needs ffmpeg in the base path
-    if(${SCREENPLAY_TESTS})
-        add_custom_command(
-            TARGET ${PROJECT_NAME}
-            POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/ffmpeg ${CMAKE_BINARY_DIR}/bin/)
-
-        add_custom_command(
-            TARGET ${PROJECT_NAME}
-            POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/ffprobe ${CMAKE_BINARY_DIR}/bin/)
-    endif()
-
     # fonts
     include(CopyRecursive)
-    set(FONTS_OUT_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ScreenPlay.app/Contents/Resources/fonts/)
+    set(FONTS_OUT_DIR "${RESOURCES_DIR}/fonts")
     file(MAKE_DIRECTORY ${FONTS_OUT_DIR})
     copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.ttf")
     copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.otf")
 
+    # .qm translations
+    set(QM_OUT_DIR "${RESOURCES_DIR}/translations")
+    file(MAKE_DIRECTORY ${QM_OUT_DIR})
+    set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${QM_OUT_DIR})
+
 endif()
+
+# Must be called here, because we need to change the
+# OUTPUT_LOCATION for macos
+qt_add_lrelease(${PROJECT_NAME} TS_FILES ${TS_FILES} )
 
 # Note: We need the variables in the lib and exe!
 generate_cmake_variable_header(${PROJECT_NAME})

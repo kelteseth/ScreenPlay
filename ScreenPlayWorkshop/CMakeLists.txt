@@ -122,14 +122,11 @@ qt_add_qml_module(
     ${RESOURCES})
 
 if(${SCREENPLAY_STEAM})
-    if(APPLE AND NOT SCREENPLAY_OSX_BUNDLE)
+    if(APPLE)
         set(MACOS_FRAMEWORKS_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ScreenPlay.app/Contents/MacOS/)
         file(MAKE_DIRECTORY ${MACOS_FRAMEWORKS_DIR})
         configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${MACOS_FRAMEWORKS_DIR} COPYONLY)
         configure_file(${STEAM_BIN} ${MACOS_FRAMEWORKS_DIR} COPYONLY)
-    else()
-        configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${CMAKE_BINARY_DIR}/bin/steam_appid.txt COPYONLY)
-        configure_file(${STEAM_BIN} ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
     endif()
 
     if(${SCREENPLAY_TESTS})
@@ -142,5 +139,9 @@ if(${SCREENPLAY_STEAM})
                     ScreenPlayUtilplugin
                     SteamSDK
                     SteamSDKQtEnums)
+
+    if(APPLE)
+        set_target_properties(tst_ScreenPlayWorkshop PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
+    endif()
     endif()
 endif()
