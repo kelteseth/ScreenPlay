@@ -319,7 +319,7 @@ Item {
                                 print("EDITING FINISHED", root.state);
                                 if (tiSearch.text === "") {
                                     Qt.callLater(function () {
-                                            root.steamWorkshop.searchWorkshop(SteamEnums.K_EUGCQuery_RankedByTrend);
+                                            root.steamWorkshop.searchWorkshop(Util.Steam.EUGCQuery.K_EUGCQuery_RankedByTrend);
                                         });
                                     return;
                                 }
@@ -344,7 +344,7 @@ Item {
                                     root.state = "searching";
                                     tiSearch.clear();
                                     Qt.callLater(function () {
-                                            root.steamWorkshop.searchWorkshop(SteamEnums.K_EUGCQuery_RankedByTrend);
+                                            root.steamWorkshop.searchWorkshop(Util.Steam.EUGCQuery.K_EUGCQuery_RankedByTrend);
                                         });
                                     return;
                                 }
@@ -400,34 +400,34 @@ Item {
                         currentIndex: 2
                         Layout.preferredHeight: searchWrapper.height
                         model: [{
-                                "value": SteamEnums.k_EUGCQuery_RankedByVote,
+                                "value": Util.Steam.EUGCQuery.K_EUGCQuery_RankedByVote,
                                 "text": qsTr("Ranked By Vote")
                             }, {
-                                "value": SteamEnums.K_EUGCQuery_RankedByPublicationDate,
+                                "value": Util.Steam.EUGCQuery.K_EUGCQuery_RankedByPublicationDate,
                                 "text": qsTr("Publication Date")
                             }, {
-                                "value": SteamEnums.K_EUGCQuery_RankedByTrend,
+                                "value": Util.Steam.EUGCQuery.K_EUGCQuery_RankedByTrend,
                                 "text": qsTr("Ranked By Trend")
                             }, {
-                                "value": SteamEnums.K_EUGCQuery_FavoritedByFriendsRankedByPublicationDate,
+                                "value": Util.Steam.EUGCQuery.K_EUGCQuery_FavoritedByFriendsRankedByPublicationDate,
                                 "text": qsTr("Favorited By Friends")
                             }, {
-                                "value": SteamEnums.K_EUGCQuery_CreatedByFriendsRankedByPublicationDate,
+                                "value": Util.Steam.EUGCQuery.K_EUGCQuery_CreatedByFriendsRankedByPublicationDate,
                                 "text": qsTr("Created By Friends")
                             }, {
-                                "value": SteamEnums.K_EUGCQuery_CreatedByFollowedUsersRankedByPublicationDate,
+                                "value": Util.Steam.EUGCQuery.K_EUGCQuery_CreatedByFollowedUsersRankedByPublicationDate,
                                 "text": qsTr("Created By Followed Users")
                             }, {
-                                "value": SteamEnums.K_EUGCQuery_NotYetRated,
+                                "value": Util.Steam.EUGCQuery.K_EUGCQuery_NotYetRated,
                                 "text": qsTr("Not Yet Rated")
                             }, {
-                                "value": SteamEnums.K_EUGCQuery_RankedByTotalVotesAsc,
+                                "value": Util.Steam.EUGCQuery.K_EUGCQuery_RankedByTotalVotesAsc,
                                 "text": qsTr("Total VotesAsc")
                             }, {
-                                "value": SteamEnums.K_EUGCQuery_RankedByVotesUp,
+                                "value": Util.Steam.EUGCQuery.K_EUGCQuery_RankedByVotesUp,
                                 "text": qsTr("Votes Up")
                             }, {
-                                "value": SteamEnums.K_EUGCQuery_RankedByTotalUniqueSubscriptions,
+                                "value": Util.Steam.EUGCQuery.K_EUGCQuery_RankedByTotalUniqueSubscriptions,
                                 "text": qsTr("Total Unique Subscriptions")
                             }]
                         onActivated: {
@@ -481,7 +481,7 @@ Item {
                     onClicked: {
                         root.state = "searching";
                         root.steamWorkshop.workshopListModel.setCurrentPage(root.steamWorkshop.workshopListModel.currentPage - 1);
-                        root.steamWorkshop.searchWorkshop(SteamEnums.K_EUGCQuery_RankedByTrend);
+                        root.steamWorkshop.searchWorkshop(Util.Steam.EUGCQuery.K_EUGCQuery_RankedByTrend);
                     }
                 }
 
@@ -502,7 +502,7 @@ Item {
                     onClicked: {
                         root.state = "searching";
                         root.steamWorkshop.workshopListModel.setCurrentPage(root.steamWorkshop.workshopListModel.currentPage + 1);
-                        root.steamWorkshop.searchWorkshop(SteamEnums.K_EUGCQuery_RankedByTrend);
+                        root.steamWorkshop.searchWorkshop(Util.Steam.EUGCQuery.K_EUGCQuery_RankedByTrend);
                     }
                 }
 
