@@ -62,7 +62,7 @@ set(VCPKG_BIN_PATH "${VCPKG_INSTALLED_PATH}/bin")
 set(GODOT_VERSION_MAJOR "4")
 set(GODOT_VERSION_MINOR "2")
 set(GODOT_VERSION_PATCH "")
-set(GODOT_RELEASE_TYPE "rc2")
+set(GODOT_RELEASE_TYPE "stable")
 
 # Use an if statement to check if GODOT_VERSION_PATCH is empty or not
 if(GODOT_VERSION_PATCH STREQUAL "")
@@ -85,7 +85,7 @@ endif()
 
 option(SCREENPLAY_STEAM "For FOSS distribution so we do not bundle proprietary code." ON)
 option(SCREENPLAY_DEPLOY "Marks this version as an official deploy version. This version uses different import paths and other settings."
-       OFF)
+    OFF)
 option(SCREENPLAY_TESTS "Enables UI tests." ON)
 option(SCREENPLAY_INSTALLER "Indicates whether an installer via the Qt Installer Framework is created." OFF)
 option(SCREENPLAY_GODOT "Compiles ScreenPlayGodotWallpaper." ON)
