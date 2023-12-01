@@ -40,7 +40,7 @@ set(QML
 
 set(SOURCES
     # cmake-format: sort
-    inc/public/ScreenPlayUtil/httpfileserver.cpp
+    src/httpfileserver.cpp
     src/contenttypes.cpp
     src/logginghandler.cpp
     src/projectfile.cpp
@@ -49,18 +49,14 @@ set(SOURCES
 
 set(HEADER
     # cmake-format: sort
-    inc/public/ScreenPlayUtil/AutoPropertyHelpers.h
-    inc/public/ScreenPlayUtil/ConstRefPropertyHelpers.h
     inc/public/ScreenPlayUtil/contenttypes.h
     inc/public/ScreenPlayUtil/exitcodes.h
-    inc/public/ScreenPlayUtil/HelpersCommon.h
     inc/public/ScreenPlayUtil/httpfileserver.h
-    inc/public/ScreenPlayUtil/ListPropertyHelper.h
     inc/public/ScreenPlayUtil/logginghandler.h
     inc/public/ScreenPlayUtil/projectfile.h
     inc/public/ScreenPlayUtil/PropertyHelpers.h
-    inc/public/ScreenPlayUtil/PtrPropertyHelpers.h
-    inc/public/ScreenPlayUtil/SingletonHelper.h
+    inc/public/ScreenPlayUtil/ListPropertyHelper.h
+    inc/public/ScreenPlayUtil/HelpersCommon.h
     inc/public/ScreenPlayUtil/util.h)
 
 if(APPLE)
