@@ -556,7 +556,7 @@ void Settings::setCheckWallpaperVisible(bool checkWallpaperVisible)
     emit checkWallpaperVisibleChanged(m_checkWallpaperVisible);
 }
 
-void Settings::setVideoFillMode(Video::FillMode videoFillMode)
+void Settings::setVideoFillMode(ScreenPlay::Video::FillMode videoFillMode)
 {
     if (m_videoFillMode == videoFillMode)
         return;
@@ -567,7 +567,7 @@ void Settings::setVideoFillMode(Video::FillMode videoFillMode)
     emit videoFillModeChanged(m_videoFillMode);
 }
 
-void Settings::setLanguage(Language language)
+void Settings::setLanguage(ScreenPlay::Settings::Language language)
 {
     if (m_language == language)
         return;
@@ -587,7 +587,7 @@ void Settings::setFont(QString font)
     emit fontChanged(m_font);
 }
 
-void Settings::setTheme(Theme theme)
+void Settings::setTheme(ScreenPlay::Settings::Theme theme)
 {
     if (m_theme == theme)
         return;

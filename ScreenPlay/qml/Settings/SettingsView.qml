@@ -14,14 +14,6 @@ Item {
 
     property Item modalSource
 
-    function indexOfValue(model, value) {
-        for (var i = 0; i < model.length; i++) {
-            let ourValue = model[i].value;
-            if (value === ourValue)
-                return i;
-        }
-        return -1;
-    }
 
     Flickable {
         id: flickableWrapper
@@ -151,14 +143,8 @@ Item {
 
                         headline: qsTr("Language")
                         description: qsTr("Set the ScreenPlay UI Language")
-                        Component.onCompleted: {
-                            print("as",settingsLanguage.comboBox.currentIndex,settingsLanguage.comboBox.model,App.settings.language )
-                            //settingsLanguage.comboBox.currentIndex = root.indexOfValue(settingsLanguage.comboBox.model, App.settings.language);
-                            //print(settingsLanguage.comboBox.currentIndex )
-
-                        }
-
                         comboBox {
+                            Component.onCompleted: comboBox.currentIndex = comboBox.indexOfValue(App.settings.language)
                             model: ListModel {
                                 id: lmLangauge
                                    ListElement { value: Settings.Language.En_US; text: "English" }
@@ -175,13 +161,9 @@ Item {
                                    ListElement { value: Settings.Language.Tr_TR; text: "Turkish" }
                                    ListElement { value: Settings.Language.Nl_NL; text: "Dutch" }
                                }
-                            onActivated: (index) => {
-                                             print(index,lmLangauge.get(index),lmLangauge.get(index).value,lmLangauge.get(index).text)
-                                             print(Settings.Language.Pl_PL)
-                                print("onActivated",settingsLanguage.comboBox.currentValue,index)
-                               // App.settings.setLanguage(settingsLanguage.comboBox.currentValue);
-
-                                             //App.settings.retranslateUI();
+                            onActivated: {
+                               App.settings.setLanguage(settingsLanguage.comboBox.currentValue);
+                               App.settings.retranslateUI();
                             }
                         }
                     }
@@ -194,18 +176,14 @@ Item {
 
                         headline: qsTr("Theme")
                         description: qsTr("Switch dark/light theme")
-                        Component.onCompleted: {
-                            //settingsTheme.comboBox.currentIndex = root.indexOfValue(settingsTheme.comboBox.model, App.settings.theme);
-                        }
-
                         comboBox {
+                            Component.onCompleted: comboBox.currentIndex = comboBox.indexOfValue(App.settings.theme)
                             model: ListModel {
                                     ListElement { value: Settings.Theme.System; text: qsTr("System Default") }
                                     ListElement { value: Settings.Theme.Dark; text: qsTr("Dark") }
                                     ListElement { value: Settings.Theme.Light; text: qsTr("Light") }
                                 }
                             onActivated: {
-                                print("onActivated", settingsTheme.comboBox.currentValue,Settings.Theme.Light)
                                 App.settings.setTheme(settingsTheme.comboBox.currentValue);
                             }
                         }
@@ -244,11 +222,8 @@ Item {
 
                         headline: qsTr("Default Wallpaper Fill Mode")
                         description: qsTr("Set this property to define how the video is scaled to fit the target area.")
-                        Component.onCompleted: {
-                            cbVideoFillMode.comboBox.currentIndex = root.indexOfValue(cbVideoFillMode.comboBox.model, App.settings.videoFillMode);
-                        }
-
                         comboBox {
+                            Component.onCompleted: comboBox.currentIndex = comboBox.indexOfValue(App.settings.videoFillMode)
                             model: ListModel {
                                 ListElement { value: Video.FillMode.Stretch; text: qsTr("Stretch") }
                                 ListElement { value: Video.FillMode.Fill; text: qsTr("Fill") }

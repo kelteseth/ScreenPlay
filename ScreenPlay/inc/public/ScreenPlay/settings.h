@@ -170,7 +170,7 @@ public slots:
     void setFont(QString font);
     void setTheme(ScreenPlay::Settings::Theme theme);
     void setSteamVersion(bool steamVersion);
-    void setDesktopEnvironment(DesktopEnvironment desktopEnvironment);
+    void setDesktopEnvironment(ScreenPlay::Settings::DesktopEnvironment desktopEnvironment);
     void setBuildInfos(const QString& buildInfos);
 
 private:
