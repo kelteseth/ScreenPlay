@@ -187,7 +187,7 @@ void SteamWorkshopItem::submitItemUpdateStatus(SubmitItemUpdateResult_t* pCallba
     if (pCallback->m_bUserNeedsToAcceptWorkshopLegalAgreement)
         emit userNeedsToAcceptWorkshopLegalAgreement();
 
-    setStatus(static_cast<ScreenPlayWorkshopSteamEnums::EResult>(pCallback->m_eResult));
+    setStatus(static_cast<ScreenPlay::Steam::EResult>(pCallback->m_eResult));
 
     switch (pCallback->m_eResult) {
     case EResult::k_EResultOK: {

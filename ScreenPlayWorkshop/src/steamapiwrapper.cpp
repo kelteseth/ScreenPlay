@@ -10,7 +10,7 @@
 #include "steam/steamtypes.h"
 #include "steamapiwrapper.h"
 
-namespace SteamApiWrapper {
+namespace ScreenPlay {
 bool setItemTags(const QVariant& updateHandle, const QStringList& tags)
 {
     auto pTags = std::make_unique<SteamParamStringArray_t>();

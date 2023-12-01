@@ -18,7 +18,7 @@
 
 // Steam
 #include "steam/steam_api.h"
-#include "steam/steam_qt_enums_generated.h"
+#include "ScreenPlayUtil/steamenumsgenerated.h"
 
 #include "steamaccount.h"
 #include "steamworkshoplistmodel.h"
@@ -87,9 +87,9 @@ public slots:
     void requestWorkshopItemDetails(const QVariant publishedFileID);
     void vote(const QVariant publishedFileID, const bool voteUp);
     void subscribeItem(const QVariant publishedFileID);
-    bool searchWorkshop(const ScreenPlayWorkshopSteamEnums::EUGCQuery enumEUGCQuery);
+    bool searchWorkshop(const ScreenPlay::Steam::EUGCQuery enumEUGCQuery);
     void searchWorkshopByText(const QString text,
-        const ScreenPlayWorkshopSteamEnums::EUGCQuery rankedBy = ScreenPlayWorkshopSteamEnums::EUGCQuery::K_EUGCQuery_RankedByTrend);
+        const ScreenPlay::Steam::EUGCQuery rankedBy = ScreenPlay::Steam::EUGCQuery::K_EUGCQuery_RankedByTrend);
 
     bool checkAndSetQueryActive()
     {

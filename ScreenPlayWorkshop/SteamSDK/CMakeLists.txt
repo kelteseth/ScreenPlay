@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 
-find_package(Qt6 COMPONENTS Core)
+find_package(Qt6 COMPONENTS Core Quick)
 
 set(HEADER
     public/steam/isteamapplist.h
@@ -54,11 +54,5 @@ set(HEADER
 if(${SCREENPLAY_STEAM})
     qt_add_library(${PROJECT_NAME} STATIC ${HEADER})
     target_include_directories(${PROJECT_NAME} PUBLIC public/)
-    target_link_libraries(${PROJECT_NAME})
+    target_link_libraries(${PROJECT_NAME} PUBLIC ScreenPlayUtil)
 endif()
-
-# We allaways need the generated enums as a workaround to register these enums in app.cpp. Registering in the ScreenPlayWorkshop plugin does
-# not work for some reason.
-qt_add_library(SteamSDKQtEnums STATIC public/steam/steam_qt_enums_generated.h)
-target_include_directories(SteamSDKQtEnums PUBLIC public/)
-target_link_libraries(SteamSDKQtEnums PRIVATE Qt6::Core)

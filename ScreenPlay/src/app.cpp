@@ -6,8 +6,8 @@
 #endif
 
 #include "ScreenPlay/CMakeVariables.h"
+#include "ScreenPlayUtil/steamenumsgenerated.h"
 #include "app.h"
-#include "steam/steam_qt_enums_generated.h"
 #include <QGuiApplication>
 #include <QProcessEnvironment>
 #include <QQuickStyle>
@@ -74,15 +74,6 @@ void App::init()
     } else {
         qWarning() << "Unable to load font from: " << fontsPath;
     }
-
-    // TODO: This is a workaround because I don't know how to
-    //       init this in the ScreenPlayWorkshop plugin.
-    //       Move to workshop plugin.
-    qmlRegisterUncreatableMetaObject(ScreenPlayWorkshopSteamEnums::staticMetaObject,
-        "WorkshopEnums",
-        1, 0,
-        "SteamEnums",
-        "Error: only enums");
 
     using std::make_shared, std::make_unique;
 

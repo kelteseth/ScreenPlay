@@ -100,8 +100,7 @@ target_link_libraries(
            Qt6::Quick
            ${STEAM_LIB}
            ScreenPlayUtil
-           SteamSDK
-           SteamSDKQtEnums)
+           SteamSDK)
 
 qt_add_qml_module(
     ${PROJECT_NAME}
@@ -137,8 +136,7 @@ if(${SCREENPLAY_STEAM})
                     Qt6::QuickControls2
                     ${PROJECT_NAME}plugin
                     ScreenPlayUtilplugin
-                    SteamSDK
-                    SteamSDKQtEnums)
+                    SteamSDK)
 
     if(APPLE)
         set_target_properties(tst_ScreenPlayWorkshop PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")

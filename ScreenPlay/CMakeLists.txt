@@ -314,7 +314,6 @@ target_link_libraries(
            ScreenPlayUtilplugin
            QArchive
            Plausibleplugin
-           SteamSDKQtEnums
            Threads::Threads
            Qt6::Quick
            Qt6::Gui

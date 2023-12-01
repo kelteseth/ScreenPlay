@@ -47,12 +47,14 @@ set(SOURCES
     src/logginghandler.cpp
     src/projectfile.cpp
     src/exitcodes.cpp
+    src/steamenumsgenerated.cpp
     src/util.cpp
     src/archive.cpp)
 
 set(HEADER
     # cmake-format: sort
     inc/public/ScreenPlayUtil/contenttypes.h
+    inc/public/ScreenPlayUtil/steamenumsgenerated.h
     inc/public/ScreenPlayUtil/exitcodes.h
     inc/public/ScreenPlayUtil/httpfileserver.h
     inc/public/ScreenPlayUtil/logginghandler.h

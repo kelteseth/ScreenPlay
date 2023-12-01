@@ -21,9 +21,6 @@ Wizards::Wizards(const std::shared_ptr<GlobalVariables>& globalVariables, QObjec
     : QObject(parent)
     , m_globalVariables(globalVariables)
 {
-    qRegisterMetaType<Wizards::WizardResult>("Wizards::WizardResult");
-    qmlRegisterUncreatableType<Wizards>("ScreenPlay.Wizards", 1, 0, "WizardResult", "Error only for enums");
-    qmlRegisterType<Wizards>("ScreenPlay.Wizards", 1, 0, "Wizards");
 }
 
 /*!
