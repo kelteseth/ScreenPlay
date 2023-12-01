@@ -12,7 +12,7 @@ Item {
     property string customTitle
     property string screenId
     property url absoluteStoragePath
-    property int type: InstalledType.Unknown
+    property int type: ContentTypes.InstalledType.Unknown
     // Must be var to make it work wit 64bit ints
     property var publishedFileID: 0
     property int itemIndex

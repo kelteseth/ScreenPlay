@@ -17,7 +17,7 @@ Item {
 
     property string previewImage
     property string appID
-    property var installedType: InstalledType.QMLWallpaper
+    property var installedType: ContentTypes.InstalledType.QMLWallpaper
     property bool monitorWithoutContentSelectable: true
     property bool hasContent: appID !== ""
     property int fontSize: 10

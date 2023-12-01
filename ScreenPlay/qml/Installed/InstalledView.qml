@@ -242,7 +242,7 @@ Item {
                 // call popup when we are in the closing animtion.
                 if (contextMenu.visible || contextMenu.opened)
                     return;
-                if (delegate.type === InstalledType.GodotWallpaper) {
+                if (delegate.type === ContentTypes.InstalledType.GodotWallpaper) {
                     contextMenu.godotItem = editGodotWallpaperComp.createObject();
                     contextMenu.insertItem(0, contextMenu.godotItem);
                 }
@@ -260,7 +260,7 @@ Item {
         MenuItem {
             text: qsTr("Edit Wallpaper")
             objectName: "editWallpaper"
-            enabled: contextMenu.type === InstalledType.GodotWallpaper
+            enabled: contextMenu.type === ContentTypes.InstalledType.GodotWallpaper
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_edit.svg"
             onClicked: {
                 App.util.openGodotEditor(contextMenu.absoluteStoragePath);

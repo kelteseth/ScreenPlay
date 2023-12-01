@@ -6,7 +6,6 @@ import QtQuick.Layouts
 import QtQuick.Controls.Material.impl
 import ScreenPlayApp
 import ScreenPlay
-
 import ScreenPlayUtil as Util
 
 Util.Popup {
@@ -80,7 +79,7 @@ Util.Popup {
                 availableWidth: width - 20
                 availableHeight: 150
                 onRequestProjectSettings: function (index, installedType, appID) {
-                    if (installedType === InstalledType.VideoWallpaper) {
+                    if (installedType === Util.ContentTypes.InstalledType.VideoWallpaper) {
                         videoControlWrapper.state = "visible";
                         customPropertiesGridView.visible = false;
                         const wallpaper = App.screenPlayManager.getWallpaperByAppID(appID);
