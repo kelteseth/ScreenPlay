@@ -15,8 +15,6 @@ class ContentTypes : public QObject {
     QML_ELEMENT
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     /*!
-        \namespace ScreenPlay::SearchType
-        \inmodule ScreenPlayUtil
         \brief Global enum for search types. Used in the "Installed" tab.
     */
 public:
@@ -30,8 +28,6 @@ public:
     };
     Q_ENUM(SearchType)
     /*!
-        \namespace ScreenPlay::InstalledType
-        \inmodule ScreenPlayUtil
         \brief When changing the enum, one also needs to change:
              GlobalVariables::getAvailableWallpaper
              GlobalVariables::getAvailableWidgets
@@ -61,8 +57,6 @@ class Video : public QObject {
 public:
     Video(QObject* parent = nullptr);
     /*!
-        \namespace ScreenPlay::FillMode
-        \inmodule ScreenPlayUtil
         \brief Global enum for fill mode. This is a c++ representation
                of HTML fill modes. We use "_" instead of "-" for scale down,
                because c++ forbids "-" in enum names.
@@ -77,8 +71,6 @@ public:
     Q_ENUM(FillMode)
 
     /*!
-        \namespace ScreenPlay::InstalledType
-        \inmodule ScreenPlayUtil
         \brief When changing the enum, one also needs to change:
              GlobalVariables::getAvailableWallpaper
              GlobalVariables::getAvailableWidgets

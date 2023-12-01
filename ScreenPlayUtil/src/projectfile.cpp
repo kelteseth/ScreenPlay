@@ -7,7 +7,8 @@ bool ProjectFile::init()
     if (!isValid())
         return false;
 
-    const auto jsonObjOpt = ScreenPlayUtil::openJsonFileToObject(projectJsonFilePath.absoluteFilePath());
+    Util util;
+    const auto jsonObjOpt = util.openJsonFileToObject(projectJsonFilePath.absoluteFilePath());
     QDir folder = projectJsonFilePath.dir();
     folderName = folder.dirName();
     QFileInfo folderInfo(folder.path());
@@ -29,7 +30,7 @@ bool ProjectFile::init()
     if (!obj.contains("type"))
         return false;
 
-    auto typeParsed = ScreenPlayUtil::getInstalledTypeFromString(obj.value("type").toString());
+    auto typeParsed = util.getInstalledTypeFromString(obj.value("type").toString());
     if (!typeParsed.has_value()) {
         qWarning() << "Type could not parsed from string: " << obj.value("type").toString();
         return false;
@@ -99,10 +100,10 @@ bool ProjectFile::init()
         }
     }
 
-    searchType = ScreenPlayUtil::getSearchTypeFromInstalledType(type);
+    searchType = util.getSearchTypeFromInstalledType(type);
 
     if (obj.contains("codec")) {
-        if (auto videoCodecOpt = ScreenPlayUtil::getVideoCodecFromString(obj.value("codec").toString())) {
+        if (auto videoCodecOpt = util.getVideoCodecFromString(obj.value("codec").toString())) {
             videoCodec = videoCodecOpt.value();
         } else {
             qWarning("Invalid videoCodec was specified inside the json object!");

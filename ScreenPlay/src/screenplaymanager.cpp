@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
 #include "ScreenPlay/screenplaymanager.h"
-#include "ScreenPlay/util.h"
+#include "ScreenPlayUtil/util.h"
 
 #include <QScopeGuard>
 namespace ScreenPlay {
@@ -129,7 +129,7 @@ bool ScreenPlayManager::createWallpaper(
     });
 
     const QString path = QUrl::fromUserInput(absoluteStoragePath).toLocalFile();
-    const QString appID = ScreenPlayUtil::generateRandomString();
+    const QString appID = Util().generateRandomString();
 
     // Only support remove wallpaper that spans over 1 monitor
     if (monitorIndex.length() == 1) {
@@ -196,7 +196,7 @@ bool ScreenPlayManager::createWidget(
         }
     });
 
-    const QString appID = ScreenPlayUtil::generateRandomString();
+    const QString appID = Util().generateRandomString();
     const QString path = QUrl::fromUserInput(absoluteStoragePath).toLocalFile();
 
     if (path.isEmpty()) {
@@ -536,7 +536,7 @@ bool ScreenPlayManager::saveProfiles()
     profile.insert("version", "1.0.0");
     profile.insert("profiles", activeProfileList);
 
-    if (Util::writeJsonObjectToFile({ m_globalVariables->localSettingsPath().toString() + "/profiles.json" }, profile)) {
+    if (Util().writeJsonObjectToFile({ m_globalVariables->localSettingsPath().toString() + "/profiles.json" }, profile)) {
         emit profilesSaved();
         return true;
     }
@@ -548,14 +548,15 @@ bool ScreenPlayManager::saveProfiles()
 */
 bool ScreenPlayManager::loadProfiles()
 {
-    const auto configObj = ScreenPlayUtil::openJsonFileToObject(m_globalVariables->localSettingsPath().toString() + "/profiles.json");
+    Util util;
+    const auto configObj = util.openJsonFileToObject(m_globalVariables->localSettingsPath().toString() + "/profiles.json");
 
     if (!configObj) {
         qWarning() << "Could not load active profiles at path: " << m_globalVariables->localSettingsPath().toString() + "/profiles.json";
         return false;
     }
 
-    std::optional<QVersionNumber> version = ScreenPlayUtil::getVersionNumberFromString(configObj->value("version").toString());
+    std::optional<QVersionNumber> version = util.getVersionNumberFromString(configObj->value("version").toString());
 
     if (version && *version != m_globalVariables->version()) {
         qWarning() << "Version missmatch fileVersion: " << version->toString() << "m_version: " << m_globalVariables->version().toString();
@@ -670,7 +671,6 @@ bool ScreenPlayManager::loadProfiles()
 
     return true;
 }
-
 }
 
 #include "moc_screenplaymanager.cpp"

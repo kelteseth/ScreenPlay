@@ -4,7 +4,6 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import ScreenPlayApp
 import ScreenPlay
-
 import ScreenPlayUtil as Util
 
 Item {
@@ -26,15 +25,15 @@ Item {
     width: 320
     height: 180
     onTypeChanged: {
-        if (Util.JSUtil.isWidget(type)) {
+        if (App.util.isWidget(type)) {
             icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_widgets.svg";
             return;
         }
-        if (Util.JSUtil.isScene(type)) {
+        if (App.util.isScene(type)) {
             icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_code.svg";
             return;
         }
-        if (Util.JSUtil.isVideo(type)) {
+        if (App.util.isVideo(type)) {
             icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_movie.svg";
             return;
         }

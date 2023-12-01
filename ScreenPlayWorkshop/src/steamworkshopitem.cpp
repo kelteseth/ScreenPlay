@@ -55,9 +55,9 @@ void SteamWorkshopItem::uploadItemToWorkshop(CreateItemResult_t* pCallback, bool
         return;
     }
 
-    const QString absoluteContentPath = ScreenPlayUtil::toLocal(m_absolutePath.toString());
-
-    auto jsonObjectOpt = ScreenPlayUtil::openJsonFileToObject(absoluteContentPath + "/project.json");
+    ScreenPlay::Util util;
+    const QString absoluteContentPath = util.toLocal(m_absolutePath.toString());
+    auto jsonObjectOpt = util.openJsonFileToObject(absoluteContentPath + "/project.json");
 
     if (!jsonObjectOpt.has_value()) {
         qWarning() << "Unable to load project file";
@@ -212,9 +212,10 @@ void SteamWorkshopItem::submitItemUpdateStatus(SubmitItemUpdateResult_t* pCallba
 
 void SteamWorkshopItem::saveWorkshopID()
 {
+    ScreenPlay::Util util;
     const QString path = QUrl::fromUserInput(m_absolutePath.toString() + "/project.json").toLocalFile();
     qInfo() << m_absolutePath << m_publishedFileId << path;
-    auto jsonProject = ScreenPlayUtil::openJsonFileToObject(path);
+    auto jsonProject = util.openJsonFileToObject(path);
 
     if (!jsonProject.has_value()) {
         qWarning() << "Could not parse project file!";
@@ -225,7 +226,7 @@ void SteamWorkshopItem::saveWorkshopID()
     jsonObject.insert("workshopid", m_publishedFileId.toString());
 
     qInfo() << "Writing workshopID: " << m_publishedFileId.toString() << "into: " << path;
-    if (!ScreenPlayUtil::writeJsonObjectToFile(path, jsonObject)) {
+    if (!util.writeJsonObjectToFile(path, jsonObject)) {
         qWarning() << "Could not write project file!";
     }
 }

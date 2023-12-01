@@ -25,8 +25,8 @@
 #include "ScreenPlay/profilelistmodel.h"
 #include "ScreenPlay/screenplaymanager.h"
 #include "ScreenPlay/settings.h"
-#include "ScreenPlay/util.h"
 #include "ScreenPlay/wizards.h"
+#include "ScreenPlayUtil/util.h"
 
 #include <memory>
 

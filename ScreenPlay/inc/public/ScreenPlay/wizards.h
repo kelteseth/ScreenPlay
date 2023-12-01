@@ -25,7 +25,7 @@
 
 #include "ScreenPlay/createimportvideo.h"
 #include "ScreenPlay/globalvariables.h"
-#include "ScreenPlay/util.h"
+#include "ScreenPlayUtil/util.h"
 
 #include <memory>
 #include <optional>
@@ -125,5 +125,6 @@ private:
         QColor("#FFD600"),
         QColor("#4A148C")
     };
+    Util m_util;
 };
 }

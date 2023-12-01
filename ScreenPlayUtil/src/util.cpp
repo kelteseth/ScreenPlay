@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "ScreenPlayUtil/util.h"
+#include "qguiapplication.h"
+#include <QDesktopServices>
 #include <QFile>
 #include <QJsonParseError>
 #include <QRandomGenerator>
@@ -10,18 +12,18 @@
     \brief Module for ScreenPlayUtil.
 */
 /*!
-    \namespace ScreenPlayUtil
+    \namespace ScreenPlay
     \inmodule ScreenPlayUtil
     \brief Namespace for ScreenPlayUtil.
 */
 
-namespace ScreenPlayUtil {
+namespace ScreenPlay {
 
 /*!
   \brief Opens a json file (absolute path) and tries to convert it to a QJsonObject.
   Returns std::nullopt when not successful.
 */
-std::optional<QJsonObject> openJsonFileToObject(const QString& path)
+std::optional<QJsonObject> Util::openJsonFileToObject(const QString& path)
 {
     auto jsonString = openJsonFileToString(path);
 
@@ -45,7 +47,7 @@ std::optional<QJsonObject> openJsonFileToObject(const QString& path)
     \brief Writes a QJsonObject into a given file. It defaults to truncate the file
            or you can set it to append to an existing file.
 */
-bool writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObject& object, bool truncate)
+bool Util::writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObject& object, bool truncate)
 {
     QFile configTmp;
     configTmp.setFileName(absoluteFilePath);
@@ -70,10 +72,77 @@ bool writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObject& o
 }
 
 /*!
+  \brief Takes ownership of \a obj and \a name. Tries to save into a text file
+    with of name.
+*/
+bool Util::writeSettings(const QJsonObject& obj, const QString& absolutePath)
+{
+    QFile file { absolutePath };
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qDebug() << "Could not open" << absolutePath;
+        return false;
+    }
+
+    QTextStream out(&file);
+    out.setEncoding(QStringConverter::Utf8);
+    QJsonDocument doc(obj);
+
+    out << doc.toJson();
+
+    file.close();
+    return true;
+}
+/*!
+  \brief Tries to save into a text file with absolute path.
+*/
+bool Util::writeFile(const QString& text, const QString& absolutePath)
+{
+    QFile file { absolutePath };
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qDebug() << "Could not open" << absolutePath;
+        return false;
+    }
+
+    QTextStream out(&file);
+    out.setEncoding(QStringConverter::Utf8);
+    out << text;
+
+    file.close();
+    return true;
+}
+/*!
+  \brief Tries to save into a text file with absolute path.
+*/
+bool Util::writeFileFromQrc(const QString& qrcPath, const QString& absolutePath)
+{
+
+    QFile file { absolutePath };
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qDebug() << "Could not open" << absolutePath;
+        return false;
+    }
+
+    QTextStream out(&file);
+    out.setEncoding(QStringConverter::Utf8);
+
+    QFile qrc(qrcPath);
+    qrc.open(QIODevice::ReadOnly);
+
+    QTextStream in(&qrc);
+    // Read line by line to avoid CLRF/LF issues
+    while (!in.atEnd()) {
+        out << in.readLine() << "\n";
+    }
+
+    qrc.close();
+    file.close();
+    return true;
+}
+/*!
   \brief  Opens a json file (absolute path) and tries to convert it to a QString.
   Returns std::nullopt when not successful.
 */
-std::optional<QString> openJsonFileToString(const QString& path)
+std::optional<QString> Util::openJsonFileToString(const QString& path)
 {
     QFile file;
     file.setFileName(path);
@@ -96,7 +165,7 @@ std::optional<QString> openJsonFileToString(const QString& path)
     \li 0-9
    \endlist
 */
-QString generateRandomString(quint32 length)
+QString Util::generateRandomString(quint32 length)
 {
     const QString possibleCharacters {
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
@@ -115,7 +184,7 @@ QString generateRandomString(quint32 length)
 /*!
   \brief Return .exe on windows otherwise empty string.
 */
-QString executableBinEnding()
+QString Util::executableBinEnding()
 {
 #ifdef Q_OS_WIN
     return ".exe";
@@ -126,7 +195,7 @@ QString executableBinEnding()
 /*!
   \brief Return .exe on windows, .app on osx otherwise empty string.
 */
-QString executableAppEnding()
+QString Util::executableAppEnding()
 {
 #ifdef Q_OS_WIN
     return ".exe";
@@ -142,7 +211,7 @@ QString executableAppEnding()
   1.0.0 - Major.Minor.Patch. A fixed position is used for parsing (at 0,2,4).
   Return std::nullopt when not successful.
 */
-std::optional<QVersionNumber> getVersionNumberFromString(const QString& str)
+std::optional<QVersionNumber> Util::getVersionNumberFromString(const QString& str)
 {
     // Must be: Major.Minor.Patch
     bool okMajor { false };
@@ -163,7 +232,7 @@ std::optional<QVersionNumber> getVersionNumberFromString(const QString& str)
 /*!
   \brief Parses a QByteArray to a QJsonObject. If returns and std::nullopt on failure.
 */
-std::optional<QJsonObject> parseQByteArrayToQJsonObject(const QByteArray& byteArray)
+std::optional<QJsonObject> Util::parseQByteArrayToQJsonObject(const QByteArray& byteArray)
 {
     QJsonObject obj;
     QJsonParseError err {};
@@ -180,7 +249,7 @@ std::optional<QJsonObject> parseQByteArrayToQJsonObject(const QByteArray& byteAr
 /*!
     \brief Helper function to append a QStringList into a QString with a space between the items.
 */
-QString toString(const QStringList& list)
+QString Util::toString(const QStringList& list) const
 {
     QString out;
     for (const auto& string : list) {
@@ -192,7 +261,7 @@ QString toString(const QStringList& list)
 /*!
   \brief Util function that converts a QVector of Strings into a QJsonArray.
 */
-QJsonArray fillArray(const QVector<QString>& items)
+QJsonArray Util::fillArray(const QVector<QString>& items)
 {
     QJsonArray array;
     for (const QString& item : items) {
@@ -204,7 +273,7 @@ QJsonArray fillArray(const QVector<QString>& items)
 /*!
   \brief Maps the Search type to an installed type. Used for filtering the installed content.
 */
-ScreenPlay::ContentTypes::SearchType getSearchTypeFromInstalledType(const ScreenPlay::ContentTypes::InstalledType type)
+ScreenPlay::ContentTypes::SearchType Util::getSearchTypeFromInstalledType(const ScreenPlay::ContentTypes::InstalledType type)
 {
     using namespace ScreenPlay;
     switch (type) {
@@ -228,7 +297,7 @@ ScreenPlay::ContentTypes::SearchType getSearchTypeFromInstalledType(const Screen
 /*!
     \brief Maps the installed type from a QString to an enum. Used for parsing the project.json.
 */
-std::optional<ScreenPlay::ContentTypes::InstalledType> getInstalledTypeFromString(const QString& type)
+std::optional<ScreenPlay::ContentTypes::InstalledType> Util::getInstalledTypeFromString(const QString& type)
 {
     using namespace ScreenPlay;
     if (type.endsWith("Wallpaper", Qt::CaseInsensitive)) {
@@ -267,7 +336,7 @@ std::optional<ScreenPlay::ContentTypes::InstalledType> getInstalledTypeFromStrin
 /*!
     \brief Maps the video codec type from a QString to an enum. Used for parsing the project.json.
 */
-std::optional<ScreenPlay::Video::VideoCodec> getVideoCodecFromString(const QString& type)
+std::optional<ScreenPlay::Video::VideoCodec> Util::getVideoCodecFromString(const QString& type)
 {
     if (type.isEmpty())
         return std::nullopt;
@@ -293,7 +362,7 @@ std::optional<ScreenPlay::Video::VideoCodec> getVideoCodecFromString(const QStri
 /*!
     \brief Converts the given \a url string to a local file path.
 */
-QString toLocal(const QString& url)
+QString Util::toLocal(const QString& url) const
 {
     return QUrl(url).toLocalFile();
 }
@@ -301,7 +370,7 @@ QString toLocal(const QString& url)
 /*!
     \brief Returns a list of available wallpaper types like videoWallpaper.
 */
-QStringList getAvailableWallpaper()
+QStringList Util::getAvailableWallpaper() const
 {
     return {
         "qmlWallpaper",
@@ -316,7 +385,7 @@ QStringList getAvailableWallpaper()
 /*!
     \brief Returns a list of available widget types like qmlWidget.
 */
-QStringList getAvailableWidgets()
+QStringList Util::getAvailableWidgets() const
 {
     return {
         "qmlWidget",
@@ -327,7 +396,7 @@ QStringList getAvailableWidgets()
 /*!
     \brief Returns a combined list of available widgets and wallpaper types.
 */
-QStringList getAvailableTypes()
+QStringList Util::getAvailableTypes() const
 {
     return { getAvailableWallpaper() + getAvailableWidgets() };
 }
@@ -335,7 +404,7 @@ QStringList getAvailableTypes()
 /*!
     \brief Returns true of the given type is a wallpaper.
 */
-bool isWallpaper(const ScreenPlay::ContentTypes::InstalledType type)
+bool Util::isWallpaper(const ScreenPlay::ContentTypes::InstalledType type) const
 {
 
     using namespace ScreenPlay;
@@ -350,18 +419,40 @@ bool isWallpaper(const ScreenPlay::ContentTypes::InstalledType type)
 /*!
     \brief Returns true of the given type is a widget.
 */
-bool isWidget(const ScreenPlay::ContentTypes::InstalledType type)
+bool Util::isWidget(const ScreenPlay::ContentTypes::InstalledType type) const
 {
     using namespace ScreenPlay;
 
     return (type == ContentTypes::InstalledType::QMLWidget || type == ContentTypes::InstalledType::HTMLWidget);
+}
+/*!
+    \brief Returns true of the given type is a isScene.
+*/
+bool Util::isScene(const ScreenPlay::ContentTypes::InstalledType type) const
+{
+    using namespace ScreenPlay;
+
+    return (type == ContentTypes::InstalledType::HTMLWallpaper
+        || type == ContentTypes::InstalledType::QMLWallpaper
+        || type == ContentTypes::InstalledType::WebsiteWallpaper
+        || type == ContentTypes::InstalledType::GodotWallpaper);
+}
+/*!
+    \brief Returns true of the given type is a isVideo.
+*/
+bool Util::isVideo(const ScreenPlay::ContentTypes::InstalledType type) const
+{
+    using namespace ScreenPlay;
+
+    return (type == ContentTypes::InstalledType::VideoWallpaper
+        || type == ContentTypes::InstalledType::GifWallpaper);
 }
 
 /*!
     \brief HTML video fillModes to be used in the QWebEngine video player.
            See https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit
 */
-QStringList getAvailableFillModes()
+QStringList Util::getAvailableFillModes() const
 {
     return { "stretch", "fill", "contain", "cover", "scale-down" };
 }
@@ -370,7 +461,7 @@ QStringList getAvailableFillModes()
   \brief parseIntList parses a list of string separated with a comma
         "1,2,3". IMPORTANT: No trailing comma!
  */
-std::optional<QVector<int>> parseStringToIntegerList(const QString string)
+std::optional<QVector<int>> Util::parseStringToIntegerList(const QString string) const
 {
     if (string.isEmpty())
         return {};
@@ -390,10 +481,145 @@ std::optional<QVector<int>> parseStringToIntegerList(const QString string)
     return list;
 }
 
-float roundDecimalPlaces(const float number)
+float Util::roundDecimalPlaces(const float number) const
 {
     float big = number * 100.0;
     return std::ceil(big * 0.01);
 }
+/*!
+  \brief Copies the given string to the clipboard.
+*/
+void Util::copyToClipboard(const QString& text) const
+{
+    auto* clipboard = QGuiApplication::clipboard();
+    clipboard->setText(text);
+}
 
+/*!
+  \brief Opens a native folder window on the given path. Windows and Mac only for now!
+*/
+void Util::openFolderInExplorer(const QString& url) const
+{
+    const QString path = QUrl::fromUserInput(url).toLocalFile();
+
+    // QDesktopServices can hang on Windows
+    if (QSysInfo::productType() == "windows") {
+        QProcess explorer;
+        explorer.setProgram("explorer.exe");
+        // When we have space in the path like
+        // C:\Program Files (x86)\Steam\...
+        // we cannot set the path as an argument. But we can set the working it
+        // to the wanted path and open the current path via the dot.
+        explorer.setWorkingDirectory(QDir::toNativeSeparators(path));
+        explorer.setArguments({ "." });
+        explorer.startDetached();
+        return;
+    }
+
+    QDesktopServices::openUrl(QUrl::fromLocalFile(path));
+}
+
+bool Util::openGodotEditor(QString contentPath) const
+{
+    const QList<QString> godotCmd = { "--editor", "--path", toLocal(contentPath) };
+    QProcess process;
+    // process.setProgram(m_globalVariables->godotEditorExecutablePath().toString());
+    process.setArguments(godotCmd);
+    return process.startDetached();
+}
+
+/*!
+  \brief Loads all content of the legal folder in the qrc into a property string of this class.
+  allLicenseLoaded is emited when loading is finished.
+*/
+void Util::requestAllLicenses()
+{
+    if (m_requestAllLicensesFuture.isRunning())
+        return;
+
+    m_requestAllLicensesFuture = QtConcurrent::run([this]() {
+        QString tmp;
+        QFile file;
+        QTextStream out(&file);
+
+        file.setFileName(":/qml/ScreenPlayApp/legal/Font Awesome Free License.txt");
+        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        tmp += out.readAll();
+        file.close();
+
+        file.setFileName(":/qml/ScreenPlayApp/legal/gpl-3.0.txt");
+        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        tmp += out.readAll();
+        file.close();
+
+        file.setFileName(":/qml/ScreenPlayApp/legal/gpl-3.0.txt");
+        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        tmp += out.readAll();
+        file.close();
+
+        file.setFileName(":/qml/ScreenPlayApp/legal/OFL.txt");
+        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        tmp += out.readAll();
+        file.close();
+
+        file.setFileName(":/qml/ScreenPlayApp/legal/OpenSSL.txt");
+        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        tmp += out.readAll();
+        file.close();
+
+        file.setFileName(":/qml/ScreenPlayApp/legal/Qt LGPLv3.txt");
+        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        tmp += out.readAll();
+        file.close();
+
+        emit this->allLicenseLoaded(tmp);
+    });
+}
+
+/*!
+  \brief Loads all dataprotection of the legal folder in the qrc into a property string of this class.
+  allDataProtectionLoaded is emited when loading is finished.
+*/
+void Util::requestDataProtection()
+{
+    QString tmp;
+    QFile file;
+    QTextStream out(&file);
+
+    file.setFileName(":/qml/ScreenPlayApp/legal/DataProtection.txt");
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    tmp += out.readAll();
+    file.close();
+
+    emit this->allDataProtectionLoaded(tmp);
+}
+
+bool Util::fileExists(const QString& filePath) const
+{
+    const QFileInfo file(toLocal(filePath));
+    return file.isFile();
+}
+
+/*!
+  \brief Takes reference to \a obj. If the copy of the thumbnail is successful,
+  it adds the corresponding settings entry to the json object reference.
+*/
+bool Util::copyPreviewThumbnail(QJsonObject& obj, const QString& previewThumbnail, const QString& destination)
+{
+    const QUrl previewThumbnailUrl { previewThumbnail };
+    const QFileInfo previewImageFile(previewThumbnailUrl.toString());
+    const QString destinationFilePath = destination + "/" + previewImageFile.fileName();
+
+    if (!previewThumbnail.isEmpty()) {
+        if (!QFile::copy(previewThumbnailUrl.toLocalFile(), destinationFilePath)) {
+            qDebug() << "Could not copy" << previewThumbnailUrl.toLocalFile() << " to " << destinationFilePath;
+            return false;
+        }
+    }
+
+    obj.insert("previewThumbnail", previewImageFile.fileName());
+    obj.insert("preview", previewImageFile.fileName());
+
+    return true;
+}
 }

@@ -34,7 +34,7 @@ ScreenPlayWidget::ScreenPlayWidget(
     QJsonObject projectSettingsListModelProperties;
 
     if (properties.isEmpty()) {
-        if (auto obj = ScreenPlayUtil::openJsonFileToObject(absolutePath + "/project.json")) {
+        if (auto obj = Util().openJsonFileToObject(absolutePath + "/project.json")) {
             if (obj->contains("properties"))
                 projectSettingsListModelProperties = obj->value("properties").toObject();
         }

@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
 #include "ScreenPlay/create.h"
-#include "ScreenPlay/util.h"
 #include "ScreenPlayUtil/util.h"
 
 namespace ScreenPlay {
@@ -47,9 +46,10 @@ void Create::reset()
 void Create::createWallpaperStart(QString videoPath, Create::VideoCodec codec, const int quality)
 {
     reset();
-    videoPath = ScreenPlayUtil::toLocal(videoPath);
+    ScreenPlay::Util util;
+    videoPath = util.toLocal(videoPath);
 
-    const QDir installedDir = ScreenPlayUtil::toLocal(m_globalVariables->localStoragePath().toString());
+    const QDir installedDir = util.toLocal(m_globalVariables->localStoragePath().toString());
 
     // Create a temp dir so we can later alter it to the workshop id
     const QDateTime date = QDateTime::currentDateTime();
@@ -160,9 +160,10 @@ void Create::createWallpaperStart(QString videoPath, Create::VideoCodec codec, c
 void Create::importH264(QString videoPath)
 {
     reset();
-    videoPath = ScreenPlayUtil::toLocal(videoPath);
+    ScreenPlay::Util util;
+    videoPath = util.toLocal(videoPath);
 
-    const QDir installedDir = ScreenPlayUtil::toLocal(m_globalVariables->localStoragePath().toString());
+    const QDir installedDir = util.toLocal(m_globalVariables->localStoragePath().toString());
 
     // Create a temp dir so we can later alter it to the workshop id
     const QDateTime date = QDateTime::currentDateTime();
@@ -254,8 +255,9 @@ void Create::saveWallpaper(
     const Create::VideoCodec codec,
     const QVector<QString> tags)
 {
-    filePath = ScreenPlayUtil::toLocal(filePath);
-    previewImagePath = ScreenPlayUtil::toLocal(previewImagePath);
+    ScreenPlay::Util util;
+    filePath = util.toLocal(filePath);
+    previewImagePath = util.toLocal(previewImagePath);
 
     emit createWallpaperStateChanged(Import::State::CopyFiles);
 
@@ -301,7 +303,7 @@ void Create::saveWallpaper(
     obj.insert("preview", previewImageFile.exists() ? previewImageFile.fileName() : "preview.jpg");
     obj.insert("previewThumbnail", "previewThumbnail.jpg");
     obj.insert("type", "videoWallpaper");
-    obj.insert("tags", ScreenPlayUtil::fillArray(tags));
+    obj.insert("tags", util.fillArray(tags));
 
     QFile audioFile { m_workingDir + "/audio.mp3" };
     if (audioFile.exists() && audioFile.size() > 0) {
@@ -309,7 +311,7 @@ void Create::saveWallpaper(
         obj.insert("audioCodec", "mp3");
     }
 
-    if (!Util::writeSettings(std::move(obj), m_workingDir + "/project.json")) {
+    if (!util.writeSettings(std::move(obj), m_workingDir + "/project.json")) {
         emit createWallpaperStateChanged(Import::State::CreateProjectFileError);
         return;
     }

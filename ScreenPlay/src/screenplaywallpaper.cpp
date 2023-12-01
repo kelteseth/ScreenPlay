@@ -43,7 +43,8 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
     , m_playbackRate { playbackRate }
     , m_settings { settings }
 {
-    std::optional<QJsonObject> projectOpt = ScreenPlayUtil::openJsonFileToObject(absolutePath + "/project.json");
+    Util util;
+    std::optional<QJsonObject> projectOpt = util.openJsonFileToObject(absolutePath + "/project.json");
     if (projectOpt.has_value()) {
         m_projectJson = projectOpt.value();
     }
@@ -53,7 +54,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
         projectSettingsListModelProperties.insert("playbackRate", m_playbackRate);
     } else {
         if (properties.isEmpty()) {
-            if (auto obj = ScreenPlayUtil::openJsonFileToObject(absolutePath + "/project.json")) {
+            if (auto obj = util.openJsonFileToObject(absolutePath + "/project.json")) {
                 if (obj->contains("properties"))
                     projectSettingsListModelProperties = obj->value("properties").toObject();
             }

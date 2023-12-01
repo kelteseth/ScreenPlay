@@ -50,13 +50,14 @@ CreateImportVideo::CreateImportVideo(const QString& videoPath, const QString& ex
 void CreateImportVideo::setupFFMPEG()
 {
 
+    Util util;
 #ifdef Q_OS_LINUX
     // Use system ffmpeg
     m_ffprobeExecutable = "ffprobe";
     m_ffmpegExecutable = "ffmpeg";
 #else
-    m_ffprobeExecutable = QGuiApplication::applicationDirPath() + "/ffprobe" + ScreenPlayUtil::executableBinEnding();
-    m_ffmpegExecutable = QGuiApplication::applicationDirPath() + "/ffmpeg" + ScreenPlayUtil::executableBinEnding();
+    m_ffprobeExecutable = QGuiApplication::applicationDirPath() + "/ffprobe" + util.executableBinEnding();
+    m_ffmpegExecutable = QGuiApplication::applicationDirPath() + "/ffmpeg" + util.executableBinEnding();
 #endif
 // We use system ffmpeg on linux
 #ifndef Q_OS_LINUX
@@ -109,7 +110,8 @@ bool CreateImportVideo::createWallpaperInfo()
 
     args.append(m_videoPath);
 
-    emit processOutput("ffprobe " + ScreenPlayUtil::toString(args));
+    Util util;
+    emit processOutput("ffprobe " + util.toString(args));
 
     emit createWallpaperStateChanged(Import::State::AnalyseVideo);
 
@@ -118,7 +120,7 @@ bool CreateImportVideo::createWallpaperInfo()
 
     emit createWallpaperStateChanged(Import::State::AnalyseVideoFinished);
 
-    auto obj = ScreenPlayUtil::parseQByteArrayToQJsonObject(QByteArray::fromStdString(ffmpegOut.toStdString()));
+    auto obj = util.parseQByteArrayToQJsonObject(QByteArray::fromStdString(ffmpegOut.toStdString()));
 
     if (!obj) {
         QString error = ffmpegOut;
@@ -329,7 +331,7 @@ bool CreateImportVideo::createWallpaperVideoPreview()
     // Disable audio
     args.append("-an");
     args.append(m_exportPath + "/preview.webm");
-    emit processOutput("ffmpeg " + ScreenPlayUtil::toString(args));
+    emit processOutput("ffmpeg " + Util().toString(args));
 
     const QString ffmpegOut = waitForFinished(args);
     const QFile previewVideo(m_exportPath + "/preview.webm");
@@ -376,7 +378,7 @@ bool CreateImportVideo::createWallpaperGifPreview()
     args.append("-filter_complex");
     args.append("[0:v] fps=12,scale=w=480:h=-1,split [a][b];[a] palettegen=stats_mode=single [p];[b][p] paletteuse=new=1");
     args.append(m_exportPath + "/preview.gif");
-    emit processOutput("ffmpeg " + ScreenPlayUtil::toString(args));
+    emit processOutput("ffmpeg " + Util().toString(args));
 
     const QString ffmpegOut = waitForFinished(args);
 
@@ -435,7 +437,7 @@ bool CreateImportVideo::createWallpaperImageThumbnailPreview()
     }
     args.append(m_exportPath + "/previewThumbnail.jpg");
 
-    emit processOutput("ffmpeg " + ScreenPlayUtil::toString(args));
+    emit processOutput("ffmpeg " + Util().toString(args));
 
     const QString ffmpegOut = waitForFinished(args);
     if (!ffmpegOut.isEmpty()) {
@@ -480,7 +482,7 @@ bool CreateImportVideo::createWallpaperImagePreview()
     }
     args.append(m_exportPath + "/preview.jpg");
 
-    emit processOutput("ffmpeg " + ScreenPlayUtil::toString(args));
+    emit processOutput("ffmpeg " + Util().toString(args));
     const QString ffmpegOut = waitForFinished(args);
     if (!ffmpegOut.isEmpty()) {
         const QFile previewImg(m_exportPath + "/preview.jpg");
@@ -694,7 +696,7 @@ QString CreateImportVideo::waitForFinished(
 {
 
     m_process = std::make_unique<QProcess>();
-    QObject::connect(m_process.get(), &QProcess::errorOccurred, [=](QProcess::ProcessError error) {
+    QObject::connect(m_process.get(), &QProcess::errorOccurred, [=, this](QProcess::ProcessError error) {
         qDebug() << "error enum val = " << error << m_process->errorString();
         emit createWallpaperStateChanged(Import::State::AnalyseVideoError);
         m_process->terminate();

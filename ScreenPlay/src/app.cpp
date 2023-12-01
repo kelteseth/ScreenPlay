@@ -88,7 +88,7 @@ void App::init()
 
     m_globalVariables = make_shared<GlobalVariables>();
     m_monitorListModel = make_shared<MonitorListModel>();
-    m_util = make_unique<Util>(m_globalVariables);
+    m_util = make_unique<Util>();
     m_profileListModel = make_shared<ProfileListModel>(m_globalVariables);
     m_settings = make_shared<Settings>(m_globalVariables);
     m_installedListModel = make_shared<InstalledListModel>(m_globalVariables, m_settings);
@@ -107,7 +107,7 @@ void App::init()
         const QString appPath = QGuiApplication::applicationDirPath();
         sentry_options_set_handler_path(options, QString(appPath + "/crashpad_handler.exe").toStdString().c_str());
         sentry_options_set_database_path(options, appPath.toStdString().c_str());
-        sentry_options_set_handler_path(options, QString(QGuiApplication::applicationDirPath() + "/crashpad_handler" + ScreenPlayUtil::executableBinEnding()).toStdString().c_str());
+        sentry_options_set_handler_path(options, QString(QGuiApplication::applicationDirPath() + "/crashpad_handler" + Util().executableBinEnding()).toStdString().c_str());
         sentry_options_set_database_path(options, QGuiApplication::applicationDirPath().toStdString().c_str());
         const int sentryInitStatus = sentry_init(options);
         if (sentryInitStatus != 0) {

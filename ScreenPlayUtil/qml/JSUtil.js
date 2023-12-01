@@ -1,25 +1,25 @@
 function isWallpaper(type) {
-    return type === InstalledType.VideoWallpaper
-            || type === InstalledType.HTMLWallpaper
-            || type === InstalledType.QMLWallpaper
-            || type === InstalledType.GifWallpaper
-            || type === InstalledType.WebsiteWallpaper
-            || type === InstalledType.GodotWallpaper
+    return type === ContentTypes.InstalledType.VideoWallpaper
+            || type === ContentTypes.InstalledType.HTMLWallpaper
+            || type === ContentTypes.InstalledType.QMLWallpaper
+            || type === ContentTypes.InstalledType.GifWallpaper
+            || type === ContentTypes.InstalledType.WebsiteWallpaper
+            || type === ContentTypes.InstalledType.GodotWallpaper
 }
 
 function isWidget(type) {
-    return type === InstalledType.HTMLWidget || type === InstalledType.QMLWidget
+    return type === ContentTypes.InstalledType.HTMLWidget || type === ContentTypes.InstalledType.QMLWidget
 }
 
 function isScene(type) {
-    return type === InstalledType.HTMLWallpaper
-            || type === InstalledType.QMLWallpaper
-            || type === InstalledType.WebsiteWallpaper
-            || type === InstalledType.GodotWallpaper
+    return type === ContentTypes.InstalledType.HTMLWallpaper
+            || type === ContentTypes.InstalledType.QMLWallpaper
+            || type === ContentTypes.InstalledType.WebsiteWallpaper
+            || type === ContentTypes.InstalledType.GodotWallpaper
 }
 
 function isVideo(type) {
-    return type === InstalledType.VideoWallpaper
-            || type === InstalledType.GifWallpaper
+    return type === ContentTypes.InstalledType.VideoWallpaper
+            || type === ContentTypes.InstalledType.GifWallpaper
 }
 

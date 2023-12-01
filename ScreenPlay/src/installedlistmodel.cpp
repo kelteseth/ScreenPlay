@@ -61,7 +61,7 @@ void InstalledListModel::init()
 */
 bool InstalledListModel::deinstallItemAt(const QString& absoluteStoragePath)
 {
-    const QString path = ScreenPlayUtil::toLocal(absoluteStoragePath);
+    const QString path = Util().toLocal(absoluteStoragePath);
     int index = -1;
     for (int i = 0; i < m_screenPlayFiles.size(); ++i) {
         if (m_screenPlayFiles.at(i).projectJsonFilePath.path() == path) {

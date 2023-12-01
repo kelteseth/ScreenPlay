@@ -48,12 +48,13 @@ WidgetWindow::WidgetWindow(
     setWindowBlur();
 #endif
 
+    ScreenPlay::Util util;
     if (projectPath == "test") {
         setProjectSourceFileAbsolute({ "qrc:/qml/ScreenPlayWidget/qml/Test.qml" });
         setType(ScreenPlay::ContentTypes::InstalledType::QMLWidget);
     } else {
         setProjectPath(projectPath);
-        auto projectOpt = ScreenPlayUtil::openJsonFileToObject(m_projectPath + "/project.json");
+        auto projectOpt = util.openJsonFileToObject(m_projectPath + "/project.json");
         if (!projectOpt.has_value()) {
             qWarning() << "Unable to parse project file!";
             return;
@@ -63,7 +64,7 @@ WidgetWindow::WidgetWindow(
         setProjectSourceFile(m_project.value("file").toString());
         setProjectSourceFileAbsolute(QUrl::fromLocalFile(m_projectPath + "/" + projectSourceFile()));
 
-        if (auto typeOpt = ScreenPlayUtil::getInstalledTypeFromString(m_project.value("type").toString())) {
+        if (auto typeOpt = util.getInstalledTypeFromString(m_project.value("type").toString())) {
             setType(typeOpt.value());
         } else {
             qWarning() << "Cannot parse Wallpaper type from value" << m_project.value("type");

@@ -85,8 +85,8 @@ int main(int argc, char* argv[])
         if (argumentList.length() != 9) {
             return static_cast<int>(ScreenPlay::WallpaperExit::Code::Invalid_ArgumentSize);
         }
-
-        const auto activeScreensList = ScreenPlayUtil::parseStringToIntegerList(argumentList.at(1));
+        ScreenPlay::Util util;
+        const auto activeScreensList = util.parseStringToIntegerList(argumentList.at(1));
 
         if (!activeScreensList.has_value()) {
             qCritical("Could not activeScreensList");
@@ -94,7 +94,7 @@ int main(int argc, char* argv[])
         }
 
         auto installedType = ScreenPlay::ContentTypes::InstalledType::Unknown;
-        if (auto typeOpt = ScreenPlayUtil::getInstalledTypeFromString(argumentList.at(6))) {
+        if (auto typeOpt = util.getInstalledTypeFromString(argumentList.at(6))) {
             installedType = typeOpt.value();
         } else {
             qCritical() << "Cannot parse Wallpaper type from value" << argumentList.at(6);

@@ -148,13 +148,14 @@ void Settings::setupWidgetAndWindowPaths()
 {
     QDir workingDir(QGuiApplication::applicationDirPath());
     const QString osType = QSysInfo::productType();
+    Util util;
 
     QString godotVersion = QString(SCREENPLAY_GODOT_VERSION);
     QString godotReleaseType = QString(SCREENPLAY_GODOT_RELEASE_TYPE);
     if (osType == "windows") {
-        m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget" + ScreenPlayUtil::executableBinEnding()));
-        m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper" + ScreenPlayUtil::executableBinEnding()));
-        m_globalVariables->setGodotWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaperGodot" + ScreenPlayUtil::executableBinEnding()));
+        m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget" + util.executableBinEnding()));
+        m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper" + util.executableBinEnding()));
+        m_globalVariables->setGodotWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaperGodot" + util.executableBinEnding()));
         const auto godotEditorName = "Godot_" + godotVersion + "_win64.exe";
         m_globalVariables->setGodotEditorExecutablePath(QUrl(workingDir.path() + "/" + godotEditorName));
         if (!QFileInfo::exists(m_globalVariables->godotWallpaperExecutablePath().toString())) {

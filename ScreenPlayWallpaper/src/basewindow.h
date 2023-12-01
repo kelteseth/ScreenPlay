@@ -231,10 +231,10 @@ public slots:
 
         fillMode = fillMode.toLower();
 
-        if (!ScreenPlayUtil::getAvailableFillModes().contains(fillMode)) {
+        if (!ScreenPlay::Util().getAvailableFillModes().contains(fillMode)) {
             qWarning() << "Unable to set fillmode, the provided value did not match the available values"
                        << "Provided: " << fillMode
-                       << "Available: " << ScreenPlayUtil::getAvailableFillModes();
+                       << "Available: " << ScreenPlay::Util().getAvailableFillModes();
             return;
         }
 

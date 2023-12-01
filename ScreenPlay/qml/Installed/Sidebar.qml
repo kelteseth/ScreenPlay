@@ -6,15 +6,15 @@ import QtQuick.Controls.Material
 import QtQuick.Controls.Material.impl
 import ScreenPlayApp
 import ScreenPlay
+import ScreenPlayUtil
 
 import "../Monitors"
-import ScreenPlayUtil as Util
 
 Item {
     id: root
 
     property real navHeight
-    property var type: InstalledType.QMLWallpaper
+    property var type: ContentTypes.InstalledType.QMLWallpaper
     property string contentFolderName
 
     function indexOfValue(model, value) {
@@ -50,7 +50,7 @@ Item {
         } else {
             imagePreview.source = previewImageFilePath;
         }
-        if (Util.JSUtil.isWidget(root.type) || (monitorSelection.activeMonitors.length > 0)) {
+        if (App.util.isWidget(root.type) || (monitorSelection.activeMonitors.length > 0)) {
             btnLaunchContent.enabled = true;
             return;
         }
@@ -67,8 +67,8 @@ Item {
             }
             root.contentFolderName = folderName;
             root.type = type;
-            if (Util.JSUtil.isWallpaper(root.type)) {
-                if (type === InstalledType.VideoWallpaper)
+            if (App.util.isWallpaper(root.type)) {
+                if (type === ContentTypes.InstalledType.VideoWallpaper)
                     root.state = "activeWallpaper";
                 else
                     root.state = "activeScene";
@@ -82,7 +82,7 @@ Item {
         target: App.util
     }
 
-    Util.MouseHoverBlocker {
+    MouseHoverBlocker {
     }
 
     Rectangle {
@@ -274,7 +274,7 @@ Item {
                     }
                 }
 
-                Util.Slider {
+                Slider {
                     id: sliderVolume
 
                     Layout.fillWidth: true
@@ -314,19 +314,19 @@ Item {
                         valueRole: "value"
                         font.family: App.settings.font
                         model: [{
-                                "value": FillMode.Stretch,
+                                "value": Settings.FillMode.Stretch,
                                 "text": qsTr("Stretch")
                             }, {
-                                "value": FillMode.Fill,
+                                "value": Settings.FillMode.Fill,
                                 "text": qsTr("Fill")
                             }, {
-                                "value": FillMode.Contain,
+                                "value": Settings.FillMode.Contain,
                                 "text": qsTr("Contain")
                             }, {
-                                "value": FillMode.Cover,
+                                "value": Settings.FillMode.Cover,
                                 "text": qsTr("Cover")
                             }, {
-                                "value": FillMode.Scale_Down,
+                                "value": Settings.FillMode.Scale_Down,
                                 "text": qsTr("Scale-Down")
                             }]
                         Component.onCompleted: {
@@ -339,7 +339,7 @@ Item {
             Button {
                 id: btnLaunchContent
                 objectName: "btnLaunchContent"
-                enabled: Util.JSUtil.isWidget(root.type) ? true : monitorSelection.isSelected
+                enabled: App.util.isWidget(root.type) ? true : monitorSelection.isSelected
                 Material.background: Material.accent
                 Material.foreground: "white"
                 icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_plus.svg"
@@ -349,7 +349,7 @@ Item {
                     const item = App.installedListModel.get(root.contentFolderName);
                     const absoluteStoragePath = item.m_absoluteStoragePath;
                     const previewImage = item.m_preview;
-                    if (Util.JSUtil.isWallpaper(root.type)) {
+                    if (App.util.isWallpaper(root.type)) {
                         let activeMonitors = monitorSelection.getActiveMonitors();
                         // TODO Alert user to choose a monitor
                         if (activeMonitors.length === 0)
@@ -357,12 +357,12 @@ Item {
 
                         // We only have sliderVolume if it is a VideoWallpaper
                         let volume = 0;
-                        if (type === InstalledType.VideoWallpaper)
+                        if (type === ContentTypes.InstalledType.VideoWallpaper)
                             volume = Math.round(sliderVolume.slider.value * 100) / 100;
                         const screenFile = item.m_file;
                         let success = App.screenPlayManager.createWallpaper(root.type, cbVideoFillMode.currentValue, absoluteStoragePath, previewImage, screenFile, activeMonitors, volume, 1, {}, true);
                     }
-                    if (Util.JSUtil.isWidget(root.type))
+                    if (App.util.isWidget(root.type))
                         App.screenPlayManager.createWidget(type, Qt.point(0, 0), absoluteStoragePath, previewImage, {}, true);
                     root.state = "inactive";
                     monitorSelection.reset();

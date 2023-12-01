@@ -150,7 +150,7 @@ void BaseWindow::replaceWallpaper(
     setVolume(volume);
     setFillMode(fillMode);
 
-    if (auto typeOpt = ScreenPlayUtil::getInstalledTypeFromString(type)) {
+    if (auto typeOpt = ScreenPlay::Util().getInstalledTypeFromString(type)) {
         setType(typeOpt.value());
     }
 

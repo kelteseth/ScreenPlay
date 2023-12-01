@@ -49,30 +49,30 @@ void Wizards::createQMLWidget(const QString& title,
             return;
         }
 
-        const QString workingPath = ScreenPlayUtil::toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
+        const QString workingPath = m_util.toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
 
         QJsonObject obj;
         obj.insert("license", licenseName);
         obj.insert("title", title);
-        obj.insert("tags", ScreenPlayUtil::fillArray(tags));
+        obj.insert("tags", m_util.fillArray(tags));
         obj.insert("createdBy", createdBy);
         obj.insert("type", QVariant::fromValue(ContentTypes::InstalledType::QMLWidget).toString());
         obj.insert("file", "main.qml");
 
-        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
+        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
             qWarning() << "Could not write " << licenseFile;
             emit widgetCreationFinished(WizardResult::WriteLicenseFileError);
             return;
         }
 
-        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/QMLWidgetMain.qml", workingPath + "/main.qml")) {
+        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/QMLWidgetMain.qml", workingPath + "/main.qml")) {
             qWarning() << "Could not write main.qml";
             emit widgetCreationFinished(WizardResult::WriteProjectFileError);
             return;
         }
 
         if (!previewThumbnail.isEmpty()) {
-            if (!Util::copyPreviewThumbnail(obj, previewThumbnail, workingPath)) {
+            if (!m_util.copyPreviewThumbnail(obj, previewThumbnail, workingPath)) {
                 emit widgetCreationFinished(WizardResult::CopyPreviewThumbnailError);
                 return;
             }
@@ -81,7 +81,7 @@ void Wizards::createQMLWidget(const QString& title,
             createPreviewImage(title, workingPath);
         }
 
-        if (!Util::writeSettings(obj, workingPath + "/project.json")) {
+        if (!m_util.writeSettings(obj, workingPath + "/project.json")) {
             emit widgetCreationFinished(WizardResult::WriteProjectFileError);
             return;
         }
@@ -113,23 +113,23 @@ void Wizards::createHTMLWidget(const QString& title,
             return;
         }
 
-        const QString workingPath = ScreenPlayUtil::toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
+        const QString workingPath = m_util.toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
 
         QJsonObject obj;
         obj.insert("license", licenseName);
         obj.insert("createdBy", createdBy);
         obj.insert("title", title);
-        obj.insert("tags", ScreenPlayUtil::fillArray(tags));
+        obj.insert("tags", m_util.fillArray(tags));
         obj.insert("type", QVariant::fromValue(ContentTypes::InstalledType::HTMLWidget).toString());
         obj.insert("file", "index.html");
 
-        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
+        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
             qWarning() << "Could not write " << licenseFile;
             emit widgetCreationFinished(WizardResult::WriteLicenseFileError);
             return;
         }
 
-        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/HTMLWidgetMain.html", workingPath + "/index.html")) {
+        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/HTMLWidgetMain.html", workingPath + "/index.html")) {
             qWarning() << "Could not write HTMLWidgetMain.html";
             emit widgetCreationFinished(WizardResult::WriteProjectFileError);
             return;
@@ -139,7 +139,7 @@ void Wizards::createHTMLWidget(const QString& title,
         QFileInfo previewImageFile(previewThumbnailUrl.toLocalFile());
 
         if (!previewThumbnail.isEmpty()) {
-            if (!Util::copyPreviewThumbnail(obj, previewThumbnail, workingPath)) {
+            if (!m_util.copyPreviewThumbnail(obj, previewThumbnail, workingPath)) {
                 emit widgetCreationFinished(WizardResult::CopyPreviewThumbnailError);
                 return;
             }
@@ -148,7 +148,7 @@ void Wizards::createHTMLWidget(const QString& title,
             createPreviewImage(title, workingPath);
         }
 
-        if (!Util::writeSettings(obj, workingPath + "/project.json")) {
+        if (!m_util.writeSettings(obj, workingPath + "/project.json")) {
             emit widgetCreationFinished(WizardResult::WriteProjectFileError);
             return;
         }
@@ -181,30 +181,30 @@ void Wizards::createHTMLWallpaper(
             return;
         }
 
-        const QString workingPath = ScreenPlayUtil::toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
+        const QString workingPath = m_util.toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
 
         QJsonObject obj;
         obj.insert("license", licenseName);
         obj.insert("createdBy", createdBy);
         obj.insert("title", title);
-        obj.insert("tags", ScreenPlayUtil::fillArray(tags));
+        obj.insert("tags", m_util.fillArray(tags));
         obj.insert("type", QVariant::fromValue(ContentTypes::InstalledType::HTMLWallpaper).toString());
         obj.insert("file", "index.html");
 
-        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
+        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
             qWarning() << "Could not write " << licenseFile;
             emit widgetCreationFinished(WizardResult::WriteLicenseFileError);
             return;
         }
 
-        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/HTMLWallpaperMain.html", workingPath + "/index.html")) {
+        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/HTMLWallpaperMain.html", workingPath + "/index.html")) {
             qWarning() << "Could not write HTMLWallpaperMain.html";
             emit widgetCreationFinished(WizardResult::WriteProjectFileError);
             return;
         }
 
         if (!previewThumbnail.isEmpty()) {
-            if (!Util::copyPreviewThumbnail(obj, previewThumbnail, workingPath)) {
+            if (!m_util.copyPreviewThumbnail(obj, previewThumbnail, workingPath)) {
                 emit widgetCreationFinished(WizardResult::CopyPreviewThumbnailError);
                 return;
             }
@@ -213,7 +213,7 @@ void Wizards::createHTMLWallpaper(
             createPreviewImage(title, workingPath);
         }
 
-        if (!Util::writeSettings(obj, workingPath + "/project.json")) {
+        if (!m_util.writeSettings(obj, workingPath + "/project.json")) {
             emit widgetCreationFinished(WizardResult::WriteProjectFileError);
             return;
         }
@@ -246,18 +246,18 @@ void Wizards::createQMLWallpaper(
             return;
         }
 
-        const QString workingPath = ScreenPlayUtil::toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
+        const QString workingPath = m_util.toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
 
         QJsonObject obj;
         obj.insert("license", licenseName);
         obj.insert("title", title);
         obj.insert("createdBy", createdBy);
-        obj.insert("tags", ScreenPlayUtil::fillArray(tags));
+        obj.insert("tags", m_util.fillArray(tags));
         obj.insert("type", QVariant::fromValue(ContentTypes::InstalledType::QMLWallpaper).toString());
         obj.insert("file", "main.qml");
 
         if (!previewThumbnail.isEmpty()) {
-            if (!Util::copyPreviewThumbnail(obj, previewThumbnail, workingPath)) {
+            if (!m_util.copyPreviewThumbnail(obj, previewThumbnail, workingPath)) {
                 emit widgetCreationFinished(WizardResult::CopyPreviewThumbnailError);
                 return;
             }
@@ -266,25 +266,25 @@ void Wizards::createQMLWallpaper(
             createPreviewImage(title, workingPath);
         }
 
-        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
+        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
             qWarning() << "Could not write " << licenseFile;
             emit widgetCreationFinished(WizardResult::WriteLicenseFileError);
             return;
         }
 
         const QString qmlproject = workingPath + "/" + title + ".qmlproject";
-        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/" + QString("QmlProject.qmlproject"), qmlproject)) {
+        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/" + QString("QmlProject.qmlproject"), qmlproject)) {
             qWarning() << "Could not write " << qmlproject;
             emit widgetCreationFinished(WizardResult::WriteLicenseFileError);
             return;
         }
 
-        if (!Util::writeSettings(obj, workingPath + "/project.json")) {
+        if (!m_util.writeSettings(obj, workingPath + "/project.json")) {
             emit widgetCreationFinished(WizardResult::WriteProjectFileError);
             return;
         }
 
-        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/QMLWallpaperMain.qml", workingPath + "/main.qml")) {
+        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/QMLWallpaperMain.qml", workingPath + "/main.qml")) {
             qWarning() << "Could not write main.qml";
             return;
         }
@@ -317,7 +317,7 @@ void Wizards::createGodotWallpaper(
             return;
         }
 
-        const QString workingPath = ScreenPlayUtil::toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
+        const QString workingPath = m_util.toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
 
         QJsonObject obj;
         obj.insert("license", licenseName);
@@ -330,12 +330,12 @@ void Wizards::createGodotWallpaper(
         QString godotVersionMinor = QString::number(SCREENPLAY_GODOT_VERSION_MINOR);
         obj.insert("godotVersionMajor", godotVersionMajor);
         obj.insert("godotVersionMinor", godotVersionMinor);
-        obj.insert("tags", ScreenPlayUtil::fillArray(tags));
+        obj.insert("tags", m_util.fillArray(tags));
         obj.insert("type", QVariant::fromValue(ContentTypes::InstalledType::GodotWallpaper).toString());
         obj.insert("file", "wallpaper.tscn");
 
         if (!previewThumbnail.isEmpty()) {
-            if (!Util::copyPreviewThumbnail(obj, previewThumbnail, workingPath)) {
+            if (!m_util.copyPreviewThumbnail(obj, previewThumbnail, workingPath)) {
                 emit widgetCreationFinished(WizardResult::CopyPreviewThumbnailError);
                 return;
             }
@@ -344,28 +344,28 @@ void Wizards::createGodotWallpaper(
             createPreviewImage(title, workingPath);
         }
 
-        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
+        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
             qWarning() << "Could not write " << licenseFile;
             emit widgetCreationFinished(WizardResult::WriteLicenseFileError);
             return;
         }
 
-        if (!Util::writeSettings(obj, workingPath + "/project.json")) {
+        if (!m_util.writeSettings(obj, workingPath + "/project.json")) {
             emit widgetCreationFinished(WizardResult::WriteProjectFileError);
             return;
         }
 
-        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/Godot_v5/project.godot", workingPath + "/project.godot")) {
+        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/Godot_v5/project.godot", workingPath + "/project.godot")) {
             qWarning() << "Could not write project.godot";
             return;
         }
 
-        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/Godot_v5/spinner.gd", workingPath + "/spinner.gd")) {
+        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/Godot_v5/spinner.gd", workingPath + "/spinner.gd")) {
             qWarning() << "Could not write spinner.gd";
             return;
         }
 
-        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/Godot_v5/wallpaper.tscn", workingPath + "/wallpaper.tscn")) {
+        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/Godot_v5/wallpaper.tscn", workingPath + "/wallpaper.tscn")) {
             qWarning() << "Could not write wallpaper.tscn";
             return;
         }
@@ -373,7 +373,7 @@ void Wizards::createGodotWallpaper(
         // This presets file is needed for the export. Because we do only export
         // package files, it does not matter that we hardcode "Windows Desktop" as
         // export preset.
-        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/Godot_v5/export_presets.cfg", workingPath + "/export_presets.cfg")) {
+        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/Godot_v5/export_presets.cfg", workingPath + "/export_presets.cfg")) {
             qWarning() << "Could not write export_presets.cfg";
             return;
         }
@@ -403,8 +403,8 @@ void Wizards::createGifWallpaper(
             return;
         }
 
-        const QString workingPath = ScreenPlayUtil::toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
-        const QString gifFileName = QFileInfo(ScreenPlayUtil::toLocal(file)).fileName();
+        const QString workingPath = m_util.toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
+        const QString gifFileName = QFileInfo(m_util.toLocal(file)).fileName();
 
         QJsonObject obj;
         obj.insert("license", licenseName);
@@ -412,21 +412,21 @@ void Wizards::createGifWallpaper(
         obj.insert("title", title);
         obj.insert("file", gifFileName);
         obj.insert("previewGIF", gifFileName);
-        obj.insert("tags", ScreenPlayUtil::fillArray(tags));
+        obj.insert("tags", m_util.fillArray(tags));
         obj.insert("type", QVariant::fromValue(ContentTypes::InstalledType::GifWallpaper).toString());
 
-        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
+        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
             qWarning() << "Could not write " << licenseFile;
             emit widgetCreationFinished(WizardResult::WriteLicenseFileError);
             return;
         }
 
-        if (!Util::writeSettings(obj, workingPath + "/project.json")) {
+        if (!m_util.writeSettings(obj, workingPath + "/project.json")) {
             emit widgetCreationFinished(WizardResult::WriteProjectFileError);
             return;
         }
 
-        if (!QFile::copy(ScreenPlayUtil::toLocal(file), workingPath + "/" + gifFileName)) {
+        if (!QFile::copy(m_util.toLocal(file), workingPath + "/" + gifFileName)) {
             qWarning() << "Could not copy gif " << file << " to: " << workingPath + "/" + gifFileName;
             emit widgetCreationFinished(WizardResult::CopyFileError);
             return;
@@ -458,16 +458,16 @@ void Wizards::createWebsiteWallpaper(
             return;
         }
 
-        const QString workingPath = ScreenPlayUtil::toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
+        const QString workingPath = m_util.toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
 
         QJsonObject obj;
         obj.insert("title", title);
-        obj.insert("tags", ScreenPlayUtil::fillArray(tags));
+        obj.insert("tags", m_util.fillArray(tags));
         obj.insert("type", QVariant::fromValue(ContentTypes::InstalledType::WebsiteWallpaper).toString());
         obj.insert("url", url.toString());
 
         if (!previewThumbnail.isEmpty()) {
-            if (!Util::copyPreviewThumbnail(obj, previewThumbnail, workingPath)) {
+            if (!m_util.copyPreviewThumbnail(obj, previewThumbnail, workingPath)) {
                 emit widgetCreationFinished(WizardResult::CopyPreviewThumbnailError);
                 return;
             }
@@ -476,7 +476,7 @@ void Wizards::createWebsiteWallpaper(
             createPreviewImage(title, workingPath);
         }
 
-        if (!Util::writeSettings(obj, workingPath + "/project.json")) {
+        if (!m_util.writeSettings(obj, workingPath + "/project.json")) {
             emit widgetCreationFinished(WizardResult::WriteProjectFileError);
             return;
         }

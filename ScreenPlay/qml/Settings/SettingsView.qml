@@ -7,7 +7,7 @@ import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
 import ScreenPlayApp
 import ScreenPlay
-import ScreenPlayUtil as Util
+import ScreenPlayUtil
 
 Item {
     id: root
@@ -250,11 +250,11 @@ Item {
 
                         comboBox {
                             model: ListModel {
-                                ListElement { value: Settings.FillMode.Stretch; text: qsTr("Stretch") }
-                                ListElement { value: Settings.FillMode.Fill; text: qsTr("Fill") }
-                                ListElement { value: Settings.FillMode.Contain; text: qsTr("Contain") }
-                                ListElement { value: Settings.FillMode.Cover; text: qsTr("Cover") }
-                                ListElement { value: Settings.FillMode.Scale_Down; text: qsTr("Scale-Down") }
+                                ListElement { value: Video.FillMode.Stretch; text: qsTr("Stretch") }
+                                ListElement { value: Video.FillMode.Fill; text: qsTr("Fill") }
+                                ListElement { value: Video.FillMode.Contain; text: qsTr("Contain") }
+                                ListElement { value: Video.FillMode.Cover; text: qsTr("Cover") }
+                                ListElement { value: Video.FillMode.Scale_Down; text: qsTr("Scale-Down") }
                                 }
                             onActivated: {
                                 App.settings.setVideoFillMode(cbVideoFillMode.comboBox.currentValue)
@@ -340,31 +340,31 @@ Item {
                                     bottom: parent.bottom
                                 }
 
-                                Util.GrowIconLink {
+                                GrowIconLink {
                                     iconSource: "qrc:/qml/ScreenPlayApp/assets/icons/brand_github.svg"
                                     url: "https://github.com/kelteseth"
                                     color: "#333333"
                                 }
 
-                                Util.GrowIconLink {
+                               GrowIconLink {
                                     iconSource: "qrc:/qml/ScreenPlayApp/assets/icons/brand_gitlab.svg"
                                     url: "https://gitlab.com/kelteseth"
                                     color: "#FC6D26"
                                 }
 
-                                Util.GrowIconLink {
+                                GrowIconLink {
                                     iconSource: "qrc:/qml/ScreenPlayApp/assets/icons/brand_twitter.svg"
                                     url: "https://twitter.com/Kelteseth"
                                     color: "#1DA1F2"
                                 }
 
-                                Util.GrowIconLink {
+                               GrowIconLink {
                                     iconSource: "qrc:/qml/ScreenPlayApp/assets/icons/brand_twitch.svg"
                                     url: "https://www.twitch.tv/kelteseth/"
                                     color: "#6441A5"
                                 }
 
-                                Util.GrowIconLink {
+                                GrowIconLink {
                                     iconSource: "qrc:/qml/ScreenPlayApp/assets/icons/brand_reddit.svg"
                                     url: "https://www.reddit.com/r/ScreenPlayApp/"
                                     color: "#FF4500"

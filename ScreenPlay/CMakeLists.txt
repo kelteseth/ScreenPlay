@@ -24,7 +24,6 @@ set(SOURCES
     src/screenplaywidget.cpp
     src/sdkconnection.cpp
     src/settings.cpp
-    src/util.cpp
     src/wizards.cpp)
 
 set(HEADER
@@ -45,7 +44,6 @@ set(HEADER
     inc/public/ScreenPlay/screenplaywidget.h
     inc/public/ScreenPlay/sdkconnection.h
     inc/public/ScreenPlay/settings.h
-    inc/public/ScreenPlay/util.h
     inc/public/ScreenPlay/wizards.h)
 
 set(QML

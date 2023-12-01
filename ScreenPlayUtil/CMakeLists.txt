@@ -6,9 +6,12 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 
 find_package(fmt CONFIG REQUIRED)
+# Needed on macos
+find_package(Threads REQUIRED)
+find_package(LibArchive REQUIRED)
 find_package(
     Qt6
-    COMPONENTS Core Quick
+    COMPONENTS Core Quick Gui
     REQUIRED)
 
 set(QML
@@ -26,7 +29,6 @@ set(QML
     qml/Headline.qml
     qml/HeadlineSection.qml
     qml/ImageSelector.qml
-    qml/JSUtil.js
     qml/LicenseSelector.qml
     qml/ModalBackgroundBlur.qml
     qml/MouseHoverBlocker.qml
@@ -45,7 +47,8 @@ set(SOURCES
     src/logginghandler.cpp
     src/projectfile.cpp
     src/exitcodes.cpp
-    src/util.cpp)
+    src/util.cpp
+    src/archive.cpp)
 
 set(HEADER
     # cmake-format: sort
@@ -57,6 +60,7 @@ set(HEADER
     inc/public/ScreenPlayUtil/PropertyHelpers.h
     inc/public/ScreenPlayUtil/ListPropertyHelper.h
     inc/public/ScreenPlayUtil/HelpersCommon.h
+    inc/public/ScreenPlayUtil/archive.h
     inc/public/ScreenPlayUtil/util.h)
 
 if(APPLE)
@@ -71,7 +75,8 @@ qt_add_library(
     ${PROJECT_NAME}
     STATIC
     ${SOURCES}
-    ${HEADER})
+    ${HEADER}
+    )
 
 qt_add_qml_module(
     ${PROJECT_NAME}
@@ -104,7 +109,11 @@ target_include_directories(${PROJECT_NAME} PUBLIC inc/public/ScreenPlayUtil)
 target_link_libraries(
     ${PROJECT_NAME}
     PRIVATE Qt6::Core Qt6::Quick
-    PUBLIC fmt::fmt-header-only)
+    PUBLIC
+     Qt6::Gui
+    fmt::fmt-header-only
+    LibArchive::LibArchive
+    QArchive)
 
 if(WIN32)
     # Used for query windows monitor data
