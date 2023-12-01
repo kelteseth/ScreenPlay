@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtWebEngine
 import ScreenPlayWidget
-import ScreenPlay.Enums.InstalledType
+
 import ScreenPlayUtil as Util
 
 Item {

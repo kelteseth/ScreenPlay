@@ -19,7 +19,7 @@ public:
     InstalledListFilter(const std::shared_ptr<InstalledListModel>& ilm);
 
 public slots:
-    void sortBySearchType(const ScreenPlay::SearchType::SearchType searchType);
+    void sortBySearchType(const ScreenPlay::ContentTypes::SearchType searchType);
     void setSortOrder(const Qt::SortOrder sortOrder);
     void sortByName(const QString& name);
     void resetFilter();
@@ -29,7 +29,7 @@ signals:
 
 private:
     const std::shared_ptr<InstalledListModel> m_ilm;
-    ScreenPlay::SearchType::SearchType m_searchType = ScreenPlay::SearchType::SearchType::All;
+    ScreenPlay::ContentTypes::SearchType m_searchType = ScreenPlay::ContentTypes::SearchType::All;
     Qt::SortOrder m_sortOrder = Qt::SortOrder::DescendingOrder;
 };
 }

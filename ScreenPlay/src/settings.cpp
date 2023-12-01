@@ -68,12 +68,6 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
     setDesktopEnvironment(DesktopEnvironment::Wayland);
 #endif
 
-    qRegisterMetaType<Settings::Language>("Settings::Language");
-    qRegisterMetaType<Settings::Theme>("Settings::Theme");
-    qRegisterMetaType<Settings::DesktopEnvironment>("Settings::DesktopEnvironment");
-
-    qmlRegisterUncreatableType<Settings>("Settings", 1, 0, "Settings", "Error only for enums");
-
     // Lets not set the dev version as startup.
     if (SCREENPLAY_DEPLOY_VERSION)
         if (desktopEnvironment() == DesktopEnvironment::Windows) {
@@ -92,9 +86,9 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
     setHighPriorityStart(m_qSettings.value("ScreenPlayExecutable", false).toBool());
     if (m_qSettings.contains("VideoFillMode")) {
         auto value = m_qSettings.value("VideoFillMode").toString();
-        setVideoFillMode(QStringToEnum<FillMode::FillMode>(value, FillMode::FillMode::Cover));
+        setVideoFillMode(QStringToEnum<Video::FillMode>(value, Video::FillMode::Cover));
     } else {
-        setVideoFillMode(FillMode::FillMode::Cover);
+        setVideoFillMode(Video::FillMode::Cover);
     }
 
     if (m_qSettings.contains("Theme")) {
@@ -281,13 +275,17 @@ void Settings::initSteamInstalledPath()
 void Settings::setupLanguage()
 {
     QString langCode;
-    if (m_qSettings.value("Language").isNull()) {
+
+    // Note: isNull is true of no "Language" entry _at all_ is set
+    //       isEmpty is true if we have an "Language" entry that is empty
+    if (m_qSettings.value("Language").isNull() || m_qSettings.value("Language").toString().isEmpty()) {
         langCode = QLocale::system().name();
         // QML enum begin with uppercase: de_DE -> De_DE
         langCode = langCode.replace(0, 1, langCode.at(0).toUpper());
     } else {
         langCode = m_qSettings.value("Language").toString();
     }
+    QStringList parts = langCode.split('_');
 
     setLanguage(QStringToEnum<Language>(langCode, Language::En_US));
     retranslateUI();
@@ -322,6 +320,307 @@ bool Settings::retranslateUI()
     }
     qWarning() << tsFile.fileName() << ", cannot be loaded width langCode " << langCode;
     return false;
+}
+
+void Settings::setShowDefaultContent(bool showDefaultContent)
+{
+    if (m_showDefaultContent == showDefaultContent)
+        return;
+    m_showDefaultContent = showDefaultContent;
+    emit showDefaultContentChanged(showDefaultContent);
+}
+
+void Settings::setqSetting(const QString& key, const QVariant& value)
+{
+    m_qSettings.setValue(key, value);
+    m_qSettings.sync();
+}
+
+void Settings::setAutostart(bool autostart)
+{
+    if (desktopEnvironment() == DesktopEnvironment::Windows) {
+
+        QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
+        if (autostart) {
+            settings.setValue("ScreenPlay", QDir::toNativeSeparators(QCoreApplication::applicationFilePath()) + " -silent");
+            settings.sync();
+        } else {
+            settings.remove("ScreenPlay");
+        }
+    }
+    if (desktopEnvironment() == DesktopEnvironment::OSX) {
+        const QString plistFileName = "app.screenplay.plist";
+        QFile defaultPListFile(":/qml/ScreenPlayApp/assets/macos/" + plistFileName);
+        defaultPListFile.open(QIODevice::ReadOnly);
+        QString settingsPlistContent = defaultPListFile.readAll();
+        if (!settingsPlistContent.contains("{{SCREENPLAY_PATH}}")) {
+            qCritical() << "Unable to load plist settings template from qrc to set autostart!";
+            return;
+        }
+
+        QDir workingDir(QGuiApplication::applicationDirPath());
+        workingDir.cdUp();
+        workingDir.cdUp();
+        workingDir.cdUp();
+        const QString screenPlayPath = QUrl::fromUserInput(workingDir.path() + "/ScreenPlay.app/Contents/MacOS/ScreenPlay").toLocalFile();
+        settingsPlistContent.replace("{{SCREENPLAY_PATH}}", screenPlayPath);
+        settingsPlistContent.replace("{{SCREENPLAY_AUTOSTART}}", autostart ? "true" : "false");
+
+        const QString homePath = QDir::homePath();
+        QFile settingsPlist(homePath + "/Library/LaunchAgents/" + plistFileName);
+        if (settingsPlist.exists()) {
+            QDomDocument doc;
+            if (!doc.setContent(&settingsPlist)) {
+                settingsPlist.close();
+                return;
+            }
+            settingsPlist.close();
+
+            QDomElement root = doc.firstChildElement();
+            QDomNodeList dictList = root.elementsByTagName("dict");
+            if (dictList.size() > 1 && dictList.size() < 1) {
+                return;
+            }
+
+            // Check if autostart and corresponding path is set and abort if so. This is needed since osx 13.0 Ventura
+            // because it displays an annoying message every time we change the file.
+            bool isCorrectPath = false;
+            bool isAutostartEnabled = false;
+            QDomNode dictNode = dictList.at(0);
+            if (dictNode.isElement()) {
+                QDomElement dictElement = dictNode.toElement();
+                QDomNodeList keyList = dictElement.elementsByTagName("key");
+                for (int j = 0; j < keyList.size(); j++) {
+                    QDomNode keyNode = keyList.at(j);
+                    if (keyNode.isElement()) {
+                        QDomElement keyElement = keyNode.toElement();
+                        if (keyElement.text() == "ProgramArguments") {
+                            QDomNode valueNode = keyNode.nextSibling();
+                            if (valueNode.isElement()) {
+                                QDomElement valueElement = valueNode.toElement();
+                                QDomNodeList stringList = valueElement.elementsByTagName("string");
+                                if (!stringList.isEmpty()) {
+                                    QDomNode stringNode = stringList.at(0);
+                                    if (stringNode.isElement()) {
+                                        QDomElement stringElement = stringNode.toElement();
+                                        const QString path = stringElement.text();
+                                        if (path == screenPlayPath) {
+                                            isCorrectPath = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (dictNode.isElement()) {
+                QDomElement dictElement = dictNode.toElement();
+                QDomNodeList keyList = dictElement.elementsByTagName("key");
+                for (int j = 0; j < keyList.size(); j++) {
+                    QDomNode keyNode = keyList.at(j);
+                    if (keyNode.isElement()) {
+                        QDomElement keyElement = keyNode.toElement();
+                        if (keyElement.text() == "RunAtLoad") {
+                            QDomNode valueNode = keyNode.nextSibling();
+                            if (valueNode.isElement()) {
+                                QDomElement valueElement = valueNode.toElement();
+                                if (valueElement.tagName() == "true") {
+                                    isAutostartEnabled = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Nothing to do. Autostart has the same value and the path is also correct.
+            if (isAutostartEnabled == autostart && isCorrectPath)
+                return;
+
+            if (!settingsPlist.remove()) {
+                qCritical() << "Unable to remove: " << settingsPlist.fileName();
+            }
+        }
+
+        settingsPlist.open(QIODevice::WriteOnly | QIODevice::Truncate);
+        QTextStream out(&settingsPlist);
+        out.setEncoding(QStringConverter::Utf8);
+        out << settingsPlistContent;
+        settingsPlist.flush();
+        settingsPlist.close();
+
+        qInfo() << "Set autostart enabled: " << autostart;
+    }
+    setqSetting("Autostart", autostart);
+
+    m_autostart = autostart;
+    emit autostartChanged(m_autostart);
+}
+
+void Settings::setHighPriorityStart(bool highPriorityStart)
+{
+    if (m_highPriorityStart == highPriorityStart)
+        return;
+
+    setqSetting("HighPriorityStart", highPriorityStart);
+
+    const QString app = "'" + QGuiApplication::applicationDirPath() + "/WindowsServiceHelper.exe" + "'";
+    QStringList args { "-Command", QString("Start-Process %1 -Verb runAs").arg(app), "-ArgumentList" };
+
+    // Because we must use powershell, we need to add an extra 'var' and ,
+    auto appendAsString = [&](const QString& string, const bool isLast = false) {
+        QString arg = "'" + string + "'";
+        if (!isLast)
+            arg += ",";
+        args.append(arg);
+    };
+
+    appendAsString("--t");
+    appendAsString("create");
+    appendAsString("--sn");
+    appendAsString("ScreenPlayService");
+    appendAsString("--dn");
+    appendAsString("ScreenPlayService");
+    appendAsString("--a");
+    appendAsString(QVariant(highPriorityStart).toString(), true);
+
+    QProcess process;
+    process.start(QStringLiteral("powershell"), args);
+    process.waitForFinished(5000);
+
+    m_highPriorityStart = highPriorityStart;
+    emit highPriorityStartChanged(m_highPriorityStart);
+}
+
+void Settings::setLocalStoragePath(QUrl localStoragePath)
+{
+    // Remove: "file:///"
+    QJsonValue cleanedPath = QJsonValue(localStoragePath.toString());
+
+    setqSetting("ScreenPlayContentPath", cleanedPath);
+
+    m_globalVariables->setLocalStoragePath(cleanedPath.toString());
+    emit resetInstalledListmodel();
+}
+
+void Settings::setDecoder(QString decoder)
+{
+    if (m_decoder == decoder)
+        return;
+
+    m_decoder = decoder;
+
+    emit decoderChanged(m_decoder);
+}
+
+void Settings::setOfflineMode(bool offlineMode)
+{
+    if (m_offlineMode == offlineMode)
+        return;
+
+    m_offlineMode = offlineMode;
+    emit offlineModeChanged(m_offlineMode);
+}
+
+void Settings::setSilentStart(bool silentStart)
+{
+    if (m_silentStart == silentStart)
+        return;
+
+    m_silentStart = silentStart;
+    emit silentStartChanged(m_silentStart);
+}
+
+void Settings::setAnonymousTelemetry(bool anonymousTelemetry)
+{
+    if (m_anonymousTelemetry == anonymousTelemetry)
+        return;
+
+    setqSetting("AnonymousTelemetry", anonymousTelemetry);
+
+    m_anonymousTelemetry = anonymousTelemetry;
+    emit anonymousTelemetryChanged(m_anonymousTelemetry);
+}
+
+void Settings::setCheckWallpaperVisible(bool checkWallpaperVisible)
+{
+    if (m_checkWallpaperVisible == checkWallpaperVisible)
+        return;
+
+    setqSetting("CheckWallpaperVisible", checkWallpaperVisible);
+
+    m_checkWallpaperVisible = checkWallpaperVisible;
+    emit checkWallpaperVisibleChanged(m_checkWallpaperVisible);
+}
+
+void Settings::setVideoFillMode(Video::FillMode videoFillMode)
+{
+    if (m_videoFillMode == videoFillMode)
+        return;
+
+    setqSetting("VideoFillMode", QVariant::fromValue(videoFillMode).toString());
+
+    m_videoFillMode = videoFillMode;
+    emit videoFillModeChanged(m_videoFillMode);
+}
+
+void Settings::setLanguage(Language language)
+{
+    if (m_language == language)
+        return;
+
+    setqSetting("Language", QVariant::fromValue(language).toString());
+
+    m_language = language;
+    emit languageChanged(m_language);
+}
+
+void Settings::setFont(QString font)
+{
+    if (m_font == font)
+        return;
+
+    m_font = font;
+    emit fontChanged(m_font);
+}
+
+void Settings::setTheme(Theme theme)
+{
+    if (m_theme == theme)
+        return;
+
+    setqSetting("Theme", QVariant::fromValue(theme).toString());
+
+    m_theme = theme;
+    emit themeChanged(m_theme);
+}
+
+void Settings::setSteamVersion(bool steamVersion)
+{
+    if (m_steamVersion == steamVersion)
+        return;
+
+    m_steamVersion = steamVersion;
+    emit steamVersionChanged(m_steamVersion);
+}
+
+void Settings::setDesktopEnvironment(DesktopEnvironment desktopEnvironment)
+{
+    if (m_desktopEnvironment == desktopEnvironment)
+        return;
+
+    m_desktopEnvironment = desktopEnvironment;
+    emit desktopEnvironmentChanged(m_desktopEnvironment);
+}
+
+void Settings::setBuildInfos(const QString& buildInfos)
+{
+    if (m_buildInfos == buildInfos)
+        return;
+    m_buildInfos = buildInfos;
+    emit buildInfosChanged(m_buildInfos);
 }
 
 /*!

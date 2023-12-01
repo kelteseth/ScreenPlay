@@ -6,8 +6,7 @@ import QtQuick.Controls.Material
 import QtQuick.Controls.Material.impl
 import ScreenPlayApp
 import ScreenPlay
-import ScreenPlay.Enums.FillMode
-import ScreenPlay.Enums.InstalledType
+
 import "../Monitors"
 import ScreenPlayUtil as Util
 

@@ -32,14 +32,6 @@ WidgetWindow::WidgetWindow(
     , m_sdk { std::make_unique<ScreenPlaySDK>(appID, type) }
     , m_debugMode { debugMode }
 {
-
-    qRegisterMetaType<ScreenPlay::InstalledType::InstalledType>();
-    qmlRegisterUncreatableMetaObject(ScreenPlay::InstalledType::staticMetaObject,
-        "ScreenPlay.Enums.InstalledType",
-        1, 0,
-        "InstalledType",
-        "Error: only enums");
-
     Qt::WindowFlags flags = m_window.flags();
     if (QSysInfo::productType() == "macos") {
         // Setting it as a SlashScreen causes the window to hide on focus lost
@@ -58,7 +50,7 @@ WidgetWindow::WidgetWindow(
 
     if (projectPath == "test") {
         setProjectSourceFileAbsolute({ "qrc:/qml/ScreenPlayWidget/qml/Test.qml" });
-        setType(ScreenPlay::InstalledType::InstalledType::QMLWidget);
+        setType(ScreenPlay::ContentTypes::InstalledType::QMLWidget);
     } else {
         setProjectPath(projectPath);
         auto projectOpt = ScreenPlayUtil::openJsonFileToObject(m_projectPath + "/project.json");

@@ -2,9 +2,6 @@ import QtQml
 import QtQuick
 import QtQuick.Controls
 import ScreenPlayWallpaper
-import ScreenPlay.Enums.InstalledType
-import ScreenPlay.Enums.VideoCodec
-
 Rectangle {
     id: root
 

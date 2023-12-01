@@ -25,8 +25,8 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
     const QString& file,
     const float volume,
     const float playbackRate,
-    const FillMode::FillMode fillMode,
-    const InstalledType::InstalledType type,
+    const Video::FillMode fillMode,
+    const ContentTypes::InstalledType type,
     const QJsonObject& properties,
     const std::shared_ptr<Settings>& settings,
     QObject* parent)
@@ -48,7 +48,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
         m_projectJson = projectOpt.value();
     }
     QJsonObject projectSettingsListModelProperties;
-    if (type == InstalledType::InstalledType::VideoWallpaper) {
+    if (type == ContentTypes::InstalledType::VideoWallpaper) {
         projectSettingsListModelProperties.insert("volume", m_volume);
         projectSettingsListModelProperties.insert("playbackRate", m_playbackRate);
     } else {
@@ -93,10 +93,10 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
     };
 
     // Fixes issue 84 media key overlay in Qt apps
-    if (m_type != InstalledType::InstalledType::GodotWallpaper) {
+    if (m_type != ContentTypes::InstalledType::GodotWallpaper) {
         m_appArgumentsList.append(" --disable-features=HardwareMediaKeyHandling");
     }
-    if (m_type == InstalledType::InstalledType::GodotWallpaper) {
+    if (m_type == ContentTypes::InstalledType::GodotWallpaper) {
         if (m_projectJson.contains("version")) {
             const quint64 version = m_projectJson.value("version").toInt();
             const QString packageFileName = QString("project-v%1.zip").arg(version);
@@ -107,13 +107,13 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
 
 bool ScreenPlayWallpaper::start()
 {
-    if (m_type == InstalledType::InstalledType::GodotWallpaper) {
+    if (m_type == ContentTypes::InstalledType::GodotWallpaper) {
         if (!exportGodotProject())
             return false;
     }
 
     m_process.setArguments(m_appArgumentsList);
-    if (m_type == InstalledType::InstalledType::GodotWallpaper) {
+    if (m_type == ContentTypes::InstalledType::GodotWallpaper) {
         m_process.setProgram(m_globalVariables->godotWallpaperExecutablePath().toString());
     } else {
         m_process.setProgram(m_globalVariables->wallpaperExecutablePath().toString());
@@ -145,7 +145,7 @@ QJsonObject ScreenPlayWallpaper::getActiveSettingsJson()
 
     QJsonObject obj;
     QJsonObject properties;
-    if (m_type == InstalledType::InstalledType::VideoWallpaper) {
+    if (m_type == ContentTypes::InstalledType::VideoWallpaper) {
         obj.insert("fillMode", QVariant::fromValue(m_fillMode).toString());
         obj.insert("isLooping", m_isLooping);
         obj.insert("volume", m_volume);
@@ -222,7 +222,7 @@ bool ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QString& v
         setPlaybackRate(value.toFloat());
     }
     if (key == "fillmode") {
-        setFillMode(QStringToEnum<FillMode::FillMode>(value, FillMode::FillMode::Cover));
+        setFillMode(QStringToEnum<Video::FillMode>(value, Video::FillMode::Cover));
     }
 
     const bool success = m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
@@ -273,8 +273,8 @@ bool ScreenPlayWallpaper::replace(
     const QString& previewImage,
     const QString& file,
     const float volume,
-    const FillMode::FillMode fillMode,
-    const InstalledType::InstalledType type,
+    const Video::FillMode fillMode,
+    const ContentTypes::InstalledType type,
     const bool checkWallpaperVisible)
 {
 

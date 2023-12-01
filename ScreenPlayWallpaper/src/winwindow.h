@@ -28,7 +28,7 @@ class WinWindow : public BaseWindow {
 public:
     WindowsDesktopProperties* windowsDesktopProperties() const { return m_windowsDesktopProperties.get(); }
 
-    ScreenPlay::WallpaperExitCode start() override;
+    ScreenPlay::WallpaperExit::Code start() override;
 
 public slots:
     void setVisible(bool show) override;

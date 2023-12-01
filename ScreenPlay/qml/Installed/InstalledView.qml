@@ -8,8 +8,6 @@ import QtQuick.Controls.Material.impl
 import QtCore as QCore
 import ScreenPlayApp
 import ScreenPlay
-import ScreenPlay.Enums.InstalledType
-import ScreenPlay.Enums.SearchType
 import ScreenPlayUtil as Util
 
 Item {
@@ -84,13 +82,11 @@ Item {
         property bool isDragging: false
         property bool isScrolling: gridView.verticalVelocity !== 0
 
-        boundsBehavior: Flickable.DragOverBounds
         anchors.fill: parent
         cellWidth: 340
         cellHeight: 200
         cacheBuffer: 160
         interactive: root.enabled
-        snapMode: GridView.SnapToRow
         onDragStarted: isDragging = true
         onDragEnded: isDragging = false
         model: App.installedListFilter

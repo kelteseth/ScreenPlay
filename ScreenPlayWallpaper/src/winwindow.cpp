@@ -13,7 +13,7 @@
     \brief  ScreenPlayWindow used for the Windows implementation.
 */
 
-ScreenPlay::WallpaperExitCode WinWindow::start()
+ScreenPlay::WallpaperExit::Code WinWindow::start()
 {
     connect(
         &m_window, &QQuickView::statusChanged, this, [this](auto status) {
@@ -41,7 +41,7 @@ ScreenPlay::WallpaperExitCode WinWindow::start()
     m_windowsIntegration.setWindowHandle(reinterpret_cast<HWND>(m_window.winId()));
     if (!IsWindow(m_windowsIntegration.windowHandle())) {
         qCritical("Could not get a valid window handle!");
-        return ScreenPlay::WallpaperExitCode::Invalid_Start_Windows_HandleError;
+        return ScreenPlay::WallpaperExit::Code::Invalid_Start_Windows_HandleError;
     }
     qRegisterMetaType<WindowsDesktopProperties*>();
     qRegisterMetaType<WinWindow*>();
@@ -105,8 +105,8 @@ ScreenPlay::WallpaperExitCode WinWindow::start()
 
             // Handle the mouse event
             // For example, logging the mouse button and position
-            qDebug() << "Mouse event: Button=" << mouseButton << ", Type=" << type
-                     << ", Position=(" << p.x << ", " << p.y << ")" << globalPos << localPos << button;
+            // qDebug() << "Mouse event: Button=" << mouseButton << ", Type=" << type
+            //         << ", Position=(" << p.x << ", " << p.y << ")" << globalPos << localPos << button;
             // Post the event to the target widget
             QCoreApplication::postEvent(&m_window, qEvent);
         });
@@ -125,13 +125,13 @@ ScreenPlay::WallpaperExitCode WinWindow::start()
 
             // Handle the keyboard event
             // For example, logging the key press
-            qDebug() << "Keyboard event: Key=" << vkCode << ", Type=" << (keyDown ? "KeyDown" : "KeyUp") << qEvent;
+            // qDebug() << "Keyboard event: Key=" << vkCode << ", Type=" << (keyDown ? "KeyDown" : "KeyUp") << qEvent;
 
             // Post the event to the target widget
             QCoreApplication::postEvent(&m_window, qEvent);
         });
     });
-    return ScreenPlay::WallpaperExitCode::Ok;
+    return ScreenPlay::WallpaperExit::Code::Ok;
 }
 
 /*!
@@ -170,6 +170,9 @@ void WinWindow::setupWallpaperForOneScreen(int activeScreen)
         m_window.setHeight(height);
     };
     WindowsIntegration::MonitorResult monitor = m_windowsIntegration.setupWallpaperForOneScreen(activeScreen, updateWindowSize);
+    if (monitor.status != WindowsIntegration::MonitorResultStatus::Ok) {
+        qCritical("setupWallpaperForOneScreen failed status: ", (int)monitor.status);
+    }
 }
 
 /*!
@@ -382,7 +385,6 @@ std::tuple<int, QString> WinWindow::mapVirtualKeyToQtKey(UINT vkCode)
 */
 void WinWindow::terminate()
 {
-    using ScreenPlay::InstalledType::InstalledType;
 
     ShowWindow(m_windowsIntegration.windowHandle(), SW_HIDE);
 

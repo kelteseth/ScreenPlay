@@ -15,9 +15,9 @@
 namespace ScreenPlayUtil {
 
 QJsonArray fillArray(const QVector<QString>& items);
-ScreenPlay::SearchType::SearchType getSearchTypeFromInstalledType(const ScreenPlay::InstalledType::InstalledType type);
-std::optional<ScreenPlay::InstalledType::InstalledType> getInstalledTypeFromString(const QString& type);
-std::optional<ScreenPlay::VideoCodec::VideoCodec> getVideoCodecFromString(const QString& type);
+ScreenPlay::ContentTypes::SearchType getSearchTypeFromInstalledType(const ScreenPlay::ContentTypes::InstalledType type);
+std::optional<ScreenPlay::ContentTypes::InstalledType> getInstalledTypeFromString(const QString& type);
+std::optional<ScreenPlay::Video::VideoCodec> getVideoCodecFromString(const QString& type);
 std::optional<QJsonObject> parseQByteArrayToQJsonObject(const QByteArray& byteArray);
 std::optional<QJsonObject> openJsonFileToObject(const QString& path);
 std::optional<QString> openJsonFileToString(const QString& path);
@@ -36,8 +36,8 @@ QStringList getAvailableWallpaper();
 QStringList getAvailableWidgets();
 QStringList getAvailableTypes();
 QStringList getAvailableFillModes();
-bool isWallpaper(const ScreenPlay::InstalledType::InstalledType type);
-bool isWidget(const ScreenPlay::InstalledType::InstalledType type);
+bool isWallpaper(const ScreenPlay::ContentTypes::InstalledType type);
+bool isWidget(const ScreenPlay::ContentTypes::InstalledType type);
 std::optional<QVector<int>> parseStringToIntegerList(const QString string);
 float roundDecimalPlaces(const float number);
 }

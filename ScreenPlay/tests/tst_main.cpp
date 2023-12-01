@@ -114,15 +114,15 @@ void ScreenPlayTest::import_convert_video()
     QTest::qWait(1000);
     // Wait for Create::createWallpaperStart
     {
-        ImportVideoState::ImportVideoState status = ImportVideoState::ImportVideoState::Idle;
-        QObject::connect(app.create(), &Create::createWallpaperStateChanged, this, [&status](ImportVideoState::ImportVideoState state) {
+        Import::State status = Import::State::Idle;
+        QObject::connect(app.create(), &Create::createWallpaperStateChanged, this, [&status](Import::State state) {
             status = state;
         });
 
         while (true) {
             QSignalSpy videoConvertFinishSpy(app.create(), &Create::createWallpaperStateChanged);
-            if (status == ImportVideoState::ImportVideoState::Finished || status == ImportVideoState::ImportVideoState::Failed) {
-                QVERIFY(status == ImportVideoState::ImportVideoState::Finished);
+            if (status == Import::State::Finished || status == Import::State::Failed) {
+                QVERIFY(status == Import::State::Finished);
                 QTest::qWait(1000); // Wait for the ui to process the event
                 break;
             }
@@ -137,15 +137,15 @@ void ScreenPlayTest::import_convert_video()
 
     // Wait for Create::saveWallpaper
     {
-        ImportVideoState::ImportVideoState status = ImportVideoState::ImportVideoState::Idle;
-        QObject::connect(app.create(), &Create::createWallpaperStateChanged, this, [&status](ImportVideoState::ImportVideoState state) {
+        Import::State status = Import::State::Idle;
+        QObject::connect(app.create(), &Create::createWallpaperStateChanged, this, [&status](Import::State state) {
             status = state;
         });
 
         while (true) {
             QSignalSpy videoConvertFinishSpy(app.create(), &Create::createWallpaperStateChanged);
-            if (status == ImportVideoState::ImportVideoState::CreateProjectFileFinished || status == ImportVideoState::ImportVideoState::CreateProjectFileError || status == ImportVideoState::ImportVideoState::CopyFilesError) {
-                QVERIFY(status == ImportVideoState::ImportVideoState::CreateProjectFileFinished);
+            if (status == Import::State::CreateProjectFileFinished || status == Import::State::CreateProjectFileError || status == Import::State::CopyFilesError) {
+                QVERIFY(status == Import::State::CreateProjectFileFinished);
                 QTest::qWait(1000); // Wait for the ui to process the event
                 break;
             }

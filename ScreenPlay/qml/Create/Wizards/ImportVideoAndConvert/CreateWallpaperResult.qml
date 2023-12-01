@@ -5,7 +5,7 @@ import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
 import ScreenPlayApp
 import ScreenPlay
-import ScreenPlay.Create
+
 
 Item {
     id: wrapperError

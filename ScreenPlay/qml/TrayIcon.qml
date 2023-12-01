@@ -106,7 +106,7 @@ SystemTrayIcon {
         MenuItem {
             id: miMuteAll
 
-            property bool isMuted: true
+            property bool isMuted: false
 
             text: qsTr("Mute all")
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume_mute.svg"

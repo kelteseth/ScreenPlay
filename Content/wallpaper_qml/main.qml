@@ -30,9 +30,9 @@ Rectangle {
         Button {
             text: "Exit"
             onClicked: {
-            Qt.callLater(function () {
-                    Wallpaper.terminate();
-                });
+                Qt.callLater(function () {
+                        Wallpaper.terminate();
+                    });
             }
         }
     }

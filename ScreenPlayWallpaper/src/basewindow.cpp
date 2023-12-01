@@ -21,37 +21,23 @@
 BaseWindow::BaseWindow()
 {
     QGuiApplication::instance()->installEventFilter(this);
-
-    qRegisterMetaType<ScreenPlay::InstalledType::InstalledType>();
-    qmlRegisterUncreatableMetaObject(ScreenPlay::InstalledType::staticMetaObject,
-        "ScreenPlay.Enums.InstalledType",
-        1, 0,
-        "InstalledType",
-        "Error: only enums");
-
-    qmlRegisterUncreatableMetaObject(ScreenPlay::VideoCodec::staticMetaObject,
-        "ScreenPlay.Enums.VideoCodec",
-        1, 0,
-        "VideoCodec",
-        "Error: only enums");
-
     setOSVersion(QSysInfo::productVersion());
 }
 
-ScreenPlay::WallpaperExitCode BaseWindow::setup()
+ScreenPlay::WallpaperExit::Code BaseWindow::setup()
 {
 
     if (projectPath() == "test") {
-        setType(ScreenPlay::InstalledType::InstalledType::QMLWallpaper);
+        setType(ScreenPlay::ContentTypes::InstalledType::QMLWallpaper);
         setProjectSourceFileAbsolute({ "qrc:/qml/ScreenPlayWallpaper/qml/Test.qml" });
         setupLiveReloading();
-        return ScreenPlay::WallpaperExitCode::Ok;
+        return ScreenPlay::WallpaperExit::Code::Ok;
     }
     ScreenPlay::ProjectFile projectFile;
     projectFile.projectJsonFilePath = QFileInfo(projectPath() + "/project.json");
     if (!projectFile.init()) {
         qWarning() << "Invalid project at " << projectPath();
-        return ScreenPlay::WallpaperExitCode::Invalid_Setup_ProjectParsingError;
+        return ScreenPlay::WallpaperExit::Code::Invalid_Setup_ProjectParsingError;
     }
     setType(projectFile.type);
     setProjectSourceFile(projectFile.file);
@@ -65,7 +51,7 @@ ScreenPlay::WallpaperExitCode BaseWindow::setup()
         }
     }
 
-    if (m_type == ScreenPlay::InstalledType::InstalledType::WebsiteWallpaper) {
+    if (m_type == ScreenPlay::ContentTypes::InstalledType::WebsiteWallpaper) {
         setProjectSourceFileAbsolute(projectFile.url);
     } else {
         setProjectSourceFileAbsolute(QUrl::fromLocalFile(projectPath() + "/" + projectSourceFile()));
@@ -82,7 +68,7 @@ ScreenPlay::WallpaperExitCode BaseWindow::setup()
         sdk()->start();
     }
 
-    return ScreenPlay::WallpaperExitCode::Ok;
+    return ScreenPlay::WallpaperExit::Code::Ok;
 }
 
 /*!
@@ -159,7 +145,7 @@ void BaseWindow::replaceWallpaper(
     const QString type,
     const bool checkWallpaperVisible)
 {
-    const ScreenPlay::InstalledType::InstalledType oldType = this->type();
+    const ScreenPlay::ContentTypes::InstalledType oldType = this->type();
     setCheckWallpaperVisible(checkWallpaperVisible);
     setVolume(volume);
     setFillMode(fillMode);
@@ -174,13 +160,13 @@ void BaseWindow::replaceWallpaper(
         setProjectSourceFileAbsolute(QUrl::fromUserInput(absolutePath + "/" + file));
     }
 
-    if (m_type == ScreenPlay::InstalledType::InstalledType::QMLWallpaper || m_type == ScreenPlay::InstalledType::InstalledType::HTMLWallpaper)
+    if (m_type == ScreenPlay::ContentTypes::InstalledType::QMLWallpaper || m_type == ScreenPlay::ContentTypes::InstalledType::HTMLWallpaper)
         emit reloadQML(oldType);
 
-    if (m_type == ScreenPlay::InstalledType::InstalledType::VideoWallpaper)
+    if (m_type == ScreenPlay::ContentTypes::InstalledType::VideoWallpaper)
         emit reloadVideo(oldType);
 
-    if (m_type == ScreenPlay::InstalledType::InstalledType::GifWallpaper)
+    if (m_type == ScreenPlay::ContentTypes::InstalledType::GifWallpaper)
         emit reloadGIF(oldType);
 }
 
@@ -242,12 +228,12 @@ void BaseWindow::setupLiveReloading()
     }
 }
 
-ScreenPlay::VideoCodec::VideoCodec BaseWindow::videoCodec() const
+ScreenPlay::Video::VideoCodec BaseWindow::videoCodec() const
 {
     return m_videoCodec;
 }
 
-void BaseWindow::setVideoCodec(ScreenPlay::VideoCodec::VideoCodec newVideoCodec)
+void BaseWindow::setVideoCodec(ScreenPlay::Video::VideoCodec newVideoCodec)
 {
     if (m_videoCodec == newVideoCodec)
         return;

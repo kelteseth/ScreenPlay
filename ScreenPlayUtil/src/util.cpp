@@ -204,63 +204,60 @@ QJsonArray fillArray(const QVector<QString>& items)
 /*!
   \brief Maps the Search type to an installed type. Used for filtering the installed content.
 */
-ScreenPlay::SearchType::SearchType getSearchTypeFromInstalledType(const ScreenPlay::InstalledType::InstalledType type)
+ScreenPlay::ContentTypes::SearchType getSearchTypeFromInstalledType(const ScreenPlay::ContentTypes::InstalledType type)
 {
-    using ScreenPlay::InstalledType::InstalledType;
-    using ScreenPlay::SearchType::SearchType;
-
+    using namespace ScreenPlay;
     switch (type) {
-    case InstalledType::GodotWallpaper:
-    case InstalledType::HTMLWallpaper:
-    case InstalledType::QMLWallpaper:
-    case InstalledType::GifWallpaper:
-    case InstalledType::WebsiteWallpaper:
-        return SearchType::Scene;
-    case InstalledType::VideoWallpaper:
-        return SearchType::Wallpaper;
-    case InstalledType::HTMLWidget:
-    case InstalledType::QMLWidget:
-        return SearchType::Widget;
-    case InstalledType::Unknown:
+    case ContentTypes::InstalledType::GodotWallpaper:
+    case ContentTypes::InstalledType::HTMLWallpaper:
+    case ContentTypes::InstalledType::QMLWallpaper:
+    case ContentTypes::InstalledType::GifWallpaper:
+    case ContentTypes::InstalledType::WebsiteWallpaper:
+        return ContentTypes::SearchType::Scene;
+    case ContentTypes::InstalledType::VideoWallpaper:
+        return ContentTypes::SearchType::Wallpaper;
+    case ContentTypes::InstalledType::HTMLWidget:
+    case ContentTypes::InstalledType::QMLWidget:
+        return ContentTypes::SearchType::Widget;
+    case ContentTypes::InstalledType::Unknown:
     default:
-        return SearchType::All;
+        return ContentTypes::SearchType::All;
     }
 }
 
 /*!
     \brief Maps the installed type from a QString to an enum. Used for parsing the project.json.
 */
-std::optional<ScreenPlay::InstalledType::InstalledType> getInstalledTypeFromString(const QString& type)
+std::optional<ScreenPlay::ContentTypes::InstalledType> getInstalledTypeFromString(const QString& type)
 {
-    using ScreenPlay::InstalledType::InstalledType;
-
+    using namespace ScreenPlay;
     if (type.endsWith("Wallpaper", Qt::CaseInsensitive)) {
         if (type.startsWith("video", Qt::CaseInsensitive)) {
-            return InstalledType::VideoWallpaper;
+            return ContentTypes::InstalledType::VideoWallpaper;
         }
         if (type.startsWith("qml", Qt::CaseInsensitive)) {
-            return InstalledType::QMLWallpaper;
+            return ContentTypes::InstalledType::QMLWallpaper;
         }
         if (type.startsWith("html", Qt::CaseInsensitive)) {
-            return InstalledType::HTMLWallpaper;
+            return ContentTypes::InstalledType::HTMLWallpaper;
         }
         if (type.startsWith("godot", Qt::CaseInsensitive)) {
-            return InstalledType::GodotWallpaper;
+            return ContentTypes::InstalledType::GodotWallpaper;
         }
         if (type.startsWith("website", Qt::CaseInsensitive)) {
-            return InstalledType::WebsiteWallpaper;
+            return ContentTypes::InstalledType::WebsiteWallpaper;
         }
         if (type.startsWith("gif", Qt::CaseInsensitive)) {
-            return InstalledType::GifWallpaper;
+            return ContentTypes::InstalledType::GifWallpaper;
         }
     }
 
     if (type.endsWith("Widget", Qt::CaseInsensitive)) {
         if (type.startsWith("qml", Qt::CaseInsensitive)) {
-            return InstalledType::QMLWidget;
+            return ContentTypes::InstalledType::QMLWidget;
         }
         if (type.startsWith("html", Qt::CaseInsensitive)) {
-            return InstalledType::HTMLWidget;
+            return ContentTypes::InstalledType::HTMLWidget;
         }
     }
 
@@ -270,25 +267,25 @@ std::optional<ScreenPlay::InstalledType::InstalledType> getInstalledTypeFromStri
 /*!
     \brief Maps the video codec type from a QString to an enum. Used for parsing the project.json.
 */
-std::optional<ScreenPlay::VideoCodec::VideoCodec> getVideoCodecFromString(const QString& type)
+std::optional<ScreenPlay::Video::VideoCodec> getVideoCodecFromString(const QString& type)
 {
     if (type.isEmpty())
         return std::nullopt;
 
     if (type.contains("vp8", Qt::CaseInsensitive))
-        return ScreenPlay::VideoCodec::VideoCodec::VP8;
+        return ScreenPlay::Video::VideoCodec::VP8;
 
     if (type.contains("vp9", Qt::CaseInsensitive))
-        return ScreenPlay::VideoCodec::VideoCodec::VP9;
+        return ScreenPlay::Video::VideoCodec::VP9;
 
     if (type.contains("av1", Qt::CaseInsensitive))
-        return ScreenPlay::VideoCodec::VideoCodec::AV1;
+        return ScreenPlay::Video::VideoCodec::AV1;
 
     if (type.contains("h264", Qt::CaseInsensitive))
-        return ScreenPlay::VideoCodec::VideoCodec::H264;
+        return ScreenPlay::Video::VideoCodec::H264;
 
     if (type.contains("h265", Qt::CaseInsensitive))
-        return ScreenPlay::VideoCodec::VideoCodec::H264;
+        return ScreenPlay::Video::VideoCodec::H264;
 
     return std::nullopt;
 }
@@ -338,28 +335,26 @@ QStringList getAvailableTypes()
 /*!
     \brief Returns true of the given type is a wallpaper.
 */
-bool isWallpaper(const ScreenPlay::InstalledType::InstalledType type)
+bool isWallpaper(const ScreenPlay::ContentTypes::InstalledType type)
 {
 
-    using ScreenPlay::InstalledType::InstalledType;
-
-    return (type == InstalledType::VideoWallpaper
-        || type == InstalledType::QMLWallpaper
-        || type == InstalledType::HTMLWallpaper
-        || type == InstalledType::GifWallpaper
-        || type == InstalledType::WebsiteWallpaper
-        || type == InstalledType::GodotWallpaper);
+    using namespace ScreenPlay;
+    return (type == ContentTypes::InstalledType::VideoWallpaper
+        || type == ContentTypes::InstalledType::QMLWallpaper
+        || type == ContentTypes::InstalledType::HTMLWallpaper
+        || type == ContentTypes::InstalledType::GifWallpaper
+        || type == ContentTypes::InstalledType::WebsiteWallpaper
+        || type == ContentTypes::InstalledType::GodotWallpaper);
 }
 
 /*!
     \brief Returns true of the given type is a widget.
 */
-bool isWidget(const ScreenPlay::InstalledType::InstalledType type)
+bool isWidget(const ScreenPlay::ContentTypes::InstalledType type)
 {
+    using namespace ScreenPlay;
 
-    using ScreenPlay::InstalledType::InstalledType;
-
-    return (type == InstalledType::QMLWidget || type == InstalledType::HTMLWidget);
+    return (type == ContentTypes::InstalledType::QMLWidget || type == ContentTypes::InstalledType::HTMLWidget);
 }
 
 /*!

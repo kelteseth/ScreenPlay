@@ -59,7 +59,7 @@ public:
     Q_ENUM(ProjectSettingsRole)
 
     QJsonObject getActiveSettingsJson();
-    void init(const InstalledType::InstalledType& type, const QJsonObject& properties);
+    void init(const ContentTypes::InstalledType& type, const QJsonObject& properties);
     void append(const SettingsItem&& item);
 
 public slots:

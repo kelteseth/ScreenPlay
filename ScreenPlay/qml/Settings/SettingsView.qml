@@ -1,15 +1,13 @@
 import QtQuick
+import QtCore as QCore
 import QtQuick.Dialogs
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
-import QtCore
 import Qt5Compat.GraphicalEffects
 import ScreenPlayApp
 import ScreenPlay
-import ScreenPlay.Enums.FillMode
-import Settings
-import ScreenPlayUtil
+import ScreenPlayUtil as Util
 
 Item {
     id: root
@@ -154,53 +152,36 @@ Item {
                         headline: qsTr("Language")
                         description: qsTr("Set the ScreenPlay UI Language")
                         Component.onCompleted: {
-                            settingsLanguage.comboBox.currentIndex = root.indexOfValue(settingsLanguage.comboBox.model, App.settings.language);
+                            print("as",settingsLanguage.comboBox.currentIndex,settingsLanguage.comboBox.model,App.settings.language )
+                            //settingsLanguage.comboBox.currentIndex = root.indexOfValue(settingsLanguage.comboBox.model, App.settings.language);
+                            //print(settingsLanguage.comboBox.currentIndex )
+
                         }
 
                         comboBox {
-                            model: [{
-                                    "value": Settings.En_US,
-                                    "text": "English"
-                                }, {
-                                    "value": Settings.De_DE,
-                                    "text": "German"
-                                }, {
-                                    "value": Settings.Pl_PL,
-                                    "text": "Polish"
-                                }, {
-                                    "value": Settings.It_IT,
-                                    "text": "Italian"
-                                }, {
-                                    "value": Settings.Zh_CN,
-                                    "text": "Chinese - Simplified"
-                                }, {
-                                    "value": Settings.Ru_RU,
-                                    "text": "Russian"
-                                }, {
-                                    "value": Settings.Fr_FR,
-                                    "text": "French"
-                                }, {
-                                    "value": Settings.Es_ES,
-                                    "text": "Spanish"
-                                }, {
-                                    "value": Settings.Ko_KR,
-                                    "text": "Korean"
-                                }, {
-                                    "value": Settings.Vi_VN,
-                                    "text": "Vietnamese"
-                                }, {
-                                    "value": Settings.Pt_BR,
-                                    "text": "Portuguese (Brazil)"
-                                }, {
-                                    "value": Settings.Tr_TR,
-                                    "text": "Turkish"
-                                }, {
-                                    "value": Settings.Nl_NL,
-                                    "text": "Dutch"
-                                }]
-                            onActivated: {
-                                App.settings.setLanguage(settingsLanguage.comboBox.currentValue);
-                                App.settings.retranslateUI();
+                            model: ListModel {
+                                id: lmLangauge
+                                   ListElement { value: Settings.Language.En_US; text: "English" }
+                                   ListElement { value: Settings.Language.De_DE; text: "German" }
+                                   ListElement { value: Settings.Language.Pl_PL; text: "Polish" }
+                                   ListElement { value: Settings.Language.It_IT; text: "Italian" }
+                                   ListElement { value: Settings.Language.Zh_CN; text: "Chinese - Simplified" }
+                                   ListElement { value: Settings.Language.Ru_RU; text: "Russian" }
+                                   ListElement { value: Settings.Language.Fr_FR; text: "French" }
+                                   ListElement { value: Settings.Language.Es_ES; text: "Spanish" }
+                                   ListElement { value: Settings.Language.Ko_KR; text: "Korean" }
+                                   ListElement { value: Settings.Language.Vi_VN; text: "Vietnamese" }
+                                   ListElement { value: Settings.Language.Pt_BR; text: "Portuguese (Brazil)" }
+                                   ListElement { value: Settings.Language.Tr_TR; text: "Turkish" }
+                                   ListElement { value: Settings.Language.Nl_NL; text: "Dutch" }
+                               }
+                            onActivated: (index) => {
+                                             print(index,lmLangauge.get(index),lmLangauge.get(index).value,lmLangauge.get(index).text)
+                                             print(Settings.Language.Pl_PL)
+                                print("onActivated",settingsLanguage.comboBox.currentValue,index)
+                               // App.settings.setLanguage(settingsLanguage.comboBox.currentValue);
+
+                                             //App.settings.retranslateUI();
                             }
                         }
                     }
@@ -214,21 +195,17 @@ Item {
                         headline: qsTr("Theme")
                         description: qsTr("Switch dark/light theme")
                         Component.onCompleted: {
-                            settingsTheme.comboBox.currentIndex = root.indexOfValue(settingsTheme.comboBox.model, App.settings.theme);
+                            //settingsTheme.comboBox.currentIndex = root.indexOfValue(settingsTheme.comboBox.model, App.settings.theme);
                         }
 
                         comboBox {
-                            model: [{
-                                    "value": Settings.System,
-                                    "text": qsTr("System Default")
-                                }, {
-                                    "value": Settings.Dark,
-                                    "text": qsTr("Dark")
-                                }, {
-                                    "value": Settings.Light,
-                                    "text": qsTr("Light")
-                                }]
+                            model: ListModel {
+                                    ListElement { value: Settings.Theme.System; text: qsTr("System Default") }
+                                    ListElement { value: Settings.Theme.Dark; text: qsTr("Dark") }
+                                    ListElement { value: Settings.Theme.Light; text: qsTr("Light") }
+                                }
                             onActivated: {
+                                print("onActivated", settingsTheme.comboBox.currentValue,Settings.Theme.Light)
                                 App.settings.setTheme(settingsTheme.comboBox.currentValue);
                             }
                         }
@@ -272,23 +249,17 @@ Item {
                         }
 
                         comboBox {
-                            onActivated: App.settings.setVideoFillMode(cbVideoFillMode.comboBox.currentValue)
-                            model: [{
-                                    "value": FillMode.Stretch,
-                                    "text": qsTr("Stretch")
-                                }, {
-                                    "value": FillMode.Fill,
-                                    "text": qsTr("Fill")
-                                }, {
-                                    "value": FillMode.Contain,
-                                    "text": qsTr("Contain")
-                                }, {
-                                    "value": FillMode.Cover,
-                                    "text": qsTr("Cover")
-                                }, {
-                                    "value": FillMode.Scale_Down,
-                                    "text": qsTr("Scale-Down")
-                                }]
+                            model: ListModel {
+                                ListElement { value: Settings.FillMode.Stretch; text: qsTr("Stretch") }
+                                ListElement { value: Settings.FillMode.Fill; text: qsTr("Fill") }
+                                ListElement { value: Settings.FillMode.Contain; text: qsTr("Contain") }
+                                ListElement { value: Settings.FillMode.Cover; text: qsTr("Cover") }
+                                ListElement { value: Settings.FillMode.Scale_Down; text: qsTr("Scale-Down") }
+                                }
+                            onActivated: {
+                                App.settings.setVideoFillMode(cbVideoFillMode.comboBox.currentValue)
+                            }
+
                         }
                     }
                 }
@@ -369,31 +340,31 @@ Item {
                                     bottom: parent.bottom
                                 }
 
-                                GrowIconLink {
+                                Util.GrowIconLink {
                                     iconSource: "qrc:/qml/ScreenPlayApp/assets/icons/brand_github.svg"
                                     url: "https://github.com/kelteseth"
                                     color: "#333333"
                                 }
 
-                                GrowIconLink {
+                                Util.GrowIconLink {
                                     iconSource: "qrc:/qml/ScreenPlayApp/assets/icons/brand_gitlab.svg"
                                     url: "https://gitlab.com/kelteseth"
                                     color: "#FC6D26"
                                 }
 
-                                GrowIconLink {
+                                Util.GrowIconLink {
                                     iconSource: "qrc:/qml/ScreenPlayApp/assets/icons/brand_twitter.svg"
                                     url: "https://twitter.com/Kelteseth"
                                     color: "#1DA1F2"
                                 }
 
-                                GrowIconLink {
+                                Util.GrowIconLink {
                                     iconSource: "qrc:/qml/ScreenPlayApp/assets/icons/brand_twitch.svg"
                                     url: "https://www.twitch.tv/kelteseth/"
                                     color: "#6441A5"
                                 }
 
-                                GrowIconLink {
+                                Util.GrowIconLink {
                                     iconSource: "qrc:/qml/ScreenPlayApp/assets/icons/brand_reddit.svg"
                                     url: "https://www.reddit.com/r/ScreenPlayApp/"
                                     color: "#FF4500"
@@ -516,4 +487,7 @@ Item {
             }
         }
     }
+
+
+
 }

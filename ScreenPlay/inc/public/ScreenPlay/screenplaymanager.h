@@ -58,8 +58,8 @@ private slots:
 public slots:
     // moc needs full enum namespace info see QTBUG-58454
     bool createWallpaper(
-        const ScreenPlay::InstalledType::InstalledType type,
-        const ScreenPlay::FillMode::FillMode fillMode,
+        const ScreenPlay::ContentTypes::InstalledType type,
+        const ScreenPlay::Video::FillMode fillMode,
         const QString& absoluteStoragePath,
         const QString& previewImage,
         const QString& file,
@@ -70,7 +70,7 @@ public slots:
         const bool saveToProfilesConfigFile);
 
     bool createWidget(
-        const ScreenPlay::InstalledType::InstalledType type,
+        const ScreenPlay::ContentTypes::InstalledType type,
         const QPoint& position,
         const QString& absoluteStoragePath,
         const QString& previewImage,

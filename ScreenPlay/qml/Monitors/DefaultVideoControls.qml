@@ -5,7 +5,6 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 import ScreenPlayApp
 import ScreenPlay
-import ScreenPlay.Enums.FillMode
 import ScreenPlayUtil as Util
 
 ColumnLayout {

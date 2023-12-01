@@ -2,16 +2,25 @@
 
 #pragma once
 #include <QObject>
+#include <QQmlEngine>
 #include <QtCore/qmetatype.h>
-namespace ScreenPlay {
-/*!
-    \namespace ScreenPlay::SearchType
-    \inmodule ScreenPlayUtil
-    \brief Global enum for search types. Used in the "Installed" tab.
-*/
-namespace SearchType {
-    Q_NAMESPACE
 
+// We must package everything into a class for
+// qml to be able to have typed enums. Making
+// qml enums unscoped as default was a mistake.
+namespace ScreenPlay {
+
+class ContentTypes : public QObject {
+    Q_OBJECT
+    QML_ELEMENT
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
+    /*!
+        \namespace ScreenPlay::SearchType
+        \inmodule ScreenPlayUtil
+        \brief Global enum for search types. Used in the "Installed" tab.
+    */
+public:
+    ContentTypes(QObject* parent = nullptr);
     enum class SearchType {
         All,
         Text,
@@ -19,41 +28,16 @@ namespace SearchType {
         Wallpaper,
         Widget,
     };
-    Q_ENUM_NS(SearchType)
-
-}
-/*!
-    \namespace ScreenPlay::FillMode
-    \inmodule ScreenPlayUtil
-    \brief Global enum for fill mode. This is a c++ representation
-           of HTML fill modes. We use "_" instead of "-" for scale down,
-           because c++ forbids "-" in enum names.
-*/
-namespace FillMode {
-    Q_NAMESPACE
-
-    enum class FillMode {
-        Stretch,
-        Fill,
-        Contain,
-        Cover,
-        Scale_Down
-    };
-    Q_ENUM_NS(FillMode)
-
-}
-/*!
-    \namespace ScreenPlay::InstalledType
-    \inmodule ScreenPlayUtil
-    \brief When changing the enum, one also needs to change:
-         GlobalVariables::getAvailableWallpaper
-         GlobalVariables::getAvailableWidgets
-         Common/Util.js isWallpaper() and isWidget()
-         ScreenPlayWallpaper: BaseWindow::parseWallpaperType()
-*/
-namespace InstalledType {
-    Q_NAMESPACE
-
+    Q_ENUM(SearchType)
+    /*!
+        \namespace ScreenPlay::InstalledType
+        \inmodule ScreenPlayUtil
+        \brief When changing the enum, one also needs to change:
+             GlobalVariables::getAvailableWallpaper
+             GlobalVariables::getAvailableWidgets
+             Common/Util.js isWallpaper() and isWidget()
+             ScreenPlayWallpaper: BaseWindow::parseWallpaperType()
+    */
     enum class InstalledType {
         Unknown,
         // Wallpaper
@@ -67,21 +51,40 @@ namespace InstalledType {
         QMLWidget,
         HTMLWidget,
     };
-    Q_ENUM_NS(InstalledType)
+    Q_ENUM(InstalledType)
+};
 
-}
+class Video : public QObject {
+    Q_OBJECT
+    QML_ELEMENT
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
+public:
+    Video(QObject* parent = nullptr);
+    /*!
+        \namespace ScreenPlay::FillMode
+        \inmodule ScreenPlayUtil
+        \brief Global enum for fill mode. This is a c++ representation
+               of HTML fill modes. We use "_" instead of "-" for scale down,
+               because c++ forbids "-" in enum names.
+    */
+    enum class FillMode {
+        Stretch,
+        Fill,
+        Contain,
+        Cover,
+        Scale_Down
+    };
+    Q_ENUM(FillMode)
 
-/*!
-    \namespace ScreenPlay::InstalledType
-    \inmodule ScreenPlayUtil
-    \brief When changing the enum, one also needs to change:
-         GlobalVariables::getAvailableWallpaper
-         GlobalVariables::getAvailableWidgets
-         Common/Util.js isWallpaper() and isWidget()
-         ScreenPlayWallpaper: BaseWindow::parseWallpaperType()
-*/
-namespace VideoCodec {
-    Q_NAMESPACE
+    /*!
+        \namespace ScreenPlay::InstalledType
+        \inmodule ScreenPlayUtil
+        \brief When changing the enum, one also needs to change:
+             GlobalVariables::getAvailableWallpaper
+             GlobalVariables::getAvailableWidgets
+             Common/Util.js isWallpaper() and isWidget()
+             ScreenPlayWallpaper: BaseWindow::parseWallpaperType()
+    */
 
     enum class VideoCodec {
         Unknown,
@@ -91,6 +94,6 @@ namespace VideoCodec {
         H264,
         H265
     };
-    Q_ENUM_NS(VideoCodec)
-}
+    Q_ENUM(VideoCodec)
+};
 }

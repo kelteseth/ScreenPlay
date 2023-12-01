@@ -6,7 +6,7 @@ import QtQuick.Layouts
 import QtQuick.Controls.Material.impl
 import ScreenPlayApp
 import ScreenPlay
-import ScreenPlay.Enums.InstalledType
+
 import ScreenPlayUtil as Util
 
 Util.Popup {

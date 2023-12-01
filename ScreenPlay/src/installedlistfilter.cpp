@@ -48,9 +48,9 @@ void InstalledListFilter::sortByName(const QString& name)
         Wallpaper,
         Widget,
 */
-void InstalledListFilter::sortBySearchType(const ScreenPlay::SearchType::SearchType searchType)
+void InstalledListFilter::sortBySearchType(const ScreenPlay::ContentTypes::SearchType searchType)
 {
-    if (searchType == SearchType::SearchType::All) {
+    if (searchType == ContentTypes::SearchType::All) {
         resetFilter();
         emit sortChanged();
         return;

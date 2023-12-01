@@ -24,24 +24,27 @@ namespace ScreenPlay {
 
 class CreateImportVideo : public QObject {
     Q_OBJECT
+    QML_ELEMENT
     QML_UNCREATABLE("")
-
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     Q_PROPERTY(float progress READ progress WRITE setProgress NOTIFY progressChanged)
 
 public:
     explicit CreateImportVideo(const QString& videoPath, const QString& exportPath, const QString& codec, const int quality, std::atomic<bool>& interrupt);
     explicit CreateImportVideo(const QString& videoPath, const QString& exportPath, std::atomic<bool>& interrupt);
 
+    enum class Executable {
+        FFMPEG,
+        FFPROBE
+    };
+    Q_ENUM(Executable)
+
     float progress() const { return m_progress; }
-
     bool m_skipAudio { false };
-
     // If the video is < 1s in duration we cannot create a 5s preview
     bool m_smallVideo { false };
-
     // We do not get many infos with this
     bool m_isWebm { false };
-
     float m_progress { 0.0F };
 
     QString m_videoPath;
@@ -54,13 +57,8 @@ public:
     int m_length { 0 };
     int m_framerate { 0 };
 
-    enum class Executable {
-        FFMPEG,
-        FFPROBE
-    };
-
 signals:
-    void createWallpaperStateChanged(ImportVideoState::ImportVideoState state);
+    void createWallpaperStateChanged(ScreenPlay::Import::State state);
     void processOutput(QString text);
     void finished();
     void abortAndCleanup();
@@ -104,4 +102,3 @@ private:
     std::atomic<bool>& m_interrupt;
 };
 }
-Q_DECLARE_METATYPE(ScreenPlay::ImportVideoState::ImportVideoState)

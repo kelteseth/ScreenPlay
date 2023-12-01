@@ -6,8 +6,6 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
 import ScreenPlayApp
 import ScreenPlay
-import ScreenPlay.Enums.InstalledType
-import ScreenPlay.Enums.SearchType
 import ScreenPlayUtil as Util
 
 Item {

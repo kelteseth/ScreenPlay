@@ -42,6 +42,7 @@ class MonitorListModel : public QAbstractListModel {
     Q_OBJECT
     QML_ELEMENT
     QML_UNCREATABLE("")
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
 
 public:
     explicit MonitorListModel(QObject* parent = nullptr);

@@ -4,7 +4,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import ScreenPlayApp
 import ScreenPlay
-import ScreenPlay.Enums.InstalledType
+
 import ScreenPlayUtil as Util
 
 Item {

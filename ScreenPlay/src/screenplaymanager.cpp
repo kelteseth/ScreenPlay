@@ -98,8 +98,8 @@ void ScreenPlayManager::init(
     if we call the method when using via the settings on startup to skip a unnecessary save.
 */
 bool ScreenPlayManager::createWallpaper(
-    const InstalledType::InstalledType type,
-    const FillMode::FillMode fillMode,
+    const ContentTypes::InstalledType type,
+    const Video::FillMode fillMode,
     const QString& absoluteStoragePath,
     const QString& previewImage,
     const QString& file,
@@ -182,7 +182,7 @@ bool ScreenPlayManager::createWallpaper(
   \brief Creates a ScreenPlayWidget object via a \a absoluteStoragePath and a \a preview image (relative path).
 */
 bool ScreenPlayManager::createWidget(
-    const InstalledType::InstalledType type,
+    const ContentTypes::InstalledType type,
     const QPoint& position,
     const QString& absoluteStoragePath,
     const QString& previewImage,
@@ -333,10 +333,10 @@ bool ScreenPlayManager::setWallpaperValueAtMonitorIndex(const int index, const Q
 */
 bool ScreenPlayManager::setWallpaperFillModeAtMonitorIndex(const int index, const int fillmode)
 {
-    const auto fillModeTyped = static_cast<FillMode::FillMode>(fillmode);
+    const auto fillModeTyped = static_cast<Video::FillMode>(fillmode);
 
     if (auto appID = m_monitorListModel->getAppIDByMonitorIndex(index)) {
-        return setWallpaperValue(*appID, "fillmode", QVariant::fromValue<FillMode::FillMode>(fillModeTyped).toString());
+        return setWallpaperValue(*appID, "fillmode", QVariant::fromValue<Video::FillMode>(fillModeTyped).toString());
     }
 
     qWarning() << "Could net get appID from m_monitorListModel!";
@@ -627,8 +627,8 @@ bool ScreenPlayManager::loadProfiles()
             const QString typeString = wallpaperObj.value("type").toString();
             const QJsonObject properties = wallpaperObj.value("properties").toObject();
 
-            const auto type = QStringToEnum<InstalledType::InstalledType>(typeString, InstalledType::InstalledType::VideoWallpaper);
-            const auto fillMode = QStringToEnum<FillMode::FillMode>(fillModeString, FillMode::FillMode::Cover);
+            const auto type = QStringToEnum<ContentTypes::InstalledType>(typeString, ContentTypes::InstalledType::VideoWallpaper);
+            const auto fillMode = QStringToEnum<Video::FillMode>(fillModeString, Video::FillMode::Cover);
 
             const bool success = createWallpaper(type, fillMode, absolutePath, previewImage, file, monitors, volume, playbackRate, properties, false);
 
@@ -650,7 +650,7 @@ bool ScreenPlayManager::loadProfiles()
             const int positionX = widgetObj.value("positionX").toInt(0);
             const int positionY = widgetObj.value("positionY").toInt(0);
             const QPoint position { positionX, positionY };
-            const auto type = QStringToEnum<InstalledType::InstalledType>(typeString, InstalledType::InstalledType::QMLWidget);
+            const auto type = QStringToEnum<ContentTypes::InstalledType>(typeString, ContentTypes::InstalledType::QMLWidget);
             const QJsonObject properties = widgetObj.value("properties").toObject();
 
             const bool success = createWidget(type, position, absolutePath, previewImage, properties, false);

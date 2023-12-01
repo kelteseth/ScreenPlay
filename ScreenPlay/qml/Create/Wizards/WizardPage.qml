@@ -6,7 +6,7 @@ import QtQuick.Layouts
 import QtQuick.Window
 import ScreenPlayApp
 import ScreenPlay
-import ScreenPlay.Create
+
 
 FocusScope {
     id: root

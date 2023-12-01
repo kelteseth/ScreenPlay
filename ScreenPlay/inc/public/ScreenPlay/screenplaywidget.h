@@ -29,7 +29,7 @@ class ScreenPlayWidget : public QObject {
     Q_PROPERTY(QString previewImage READ previewImage WRITE setPreviewImage NOTIFY previewImageChanged)
     Q_PROPERTY(QPoint position READ position WRITE setPosition NOTIFY positionChanged)
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
-    Q_PROPERTY(InstalledType::InstalledType type READ type WRITE setType NOTIFY typeChanged)
+    Q_PROPERTY(ContentTypes::InstalledType type READ type WRITE setType NOTIFY typeChanged)
 
 public:
     explicit ScreenPlayWidget(
@@ -38,7 +38,7 @@ public:
         const QPoint& position,
         const QString& absolutePath,
         const QString& previewImage, const QJsonObject& properties,
-        const InstalledType::InstalledType type);
+        const ContentTypes::InstalledType type);
 
     bool start();
 
@@ -48,7 +48,7 @@ public:
     QPoint position() const { return m_position; }
     QString absolutePath() const { return m_absolutePath; }
     QString appID() const { return m_appID; }
-    InstalledType::InstalledType type() const { return m_type; }
+    ContentTypes::InstalledType type() const { return m_type; }
 
     void setSDKConnection(std::unique_ptr<SDKConnection> connection);
 
@@ -85,7 +85,7 @@ public slots:
         emit appIDChanged(m_appID);
     }
 
-    void setType(InstalledType::InstalledType type)
+    void setType(ContentTypes::InstalledType type)
     {
         if (m_type == type)
             return;
@@ -107,7 +107,7 @@ signals:
     void previewImageChanged(QString previewImage);
     void positionChanged(QPoint position);
     void appIDChanged(QString appID);
-    void typeChanged(InstalledType::InstalledType type);
+    void typeChanged(ContentTypes::InstalledType type);
     void absolutePathChanged(QString absolutePath);
 
     void requestSave();
@@ -123,7 +123,7 @@ private:
     QString m_previewImage;
     QString m_appID;
     QPoint m_position;
-    InstalledType::InstalledType m_type;
+    ContentTypes::InstalledType m_type;
     QString m_absolutePath;
     QTimer m_pingAliveTimer;
     QStringList m_appArgumentsList;

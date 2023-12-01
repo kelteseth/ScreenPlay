@@ -23,7 +23,6 @@ Create::Create(const std::shared_ptr<GlobalVariables>& globalVariables)
     : QObject(nullptr)
     , m_globalVariables(globalVariables)
 {
-    init();
 }
 
 /*!
@@ -32,21 +31,6 @@ Create::Create(const std::shared_ptr<GlobalVariables>& globalVariables)
 Create::Create()
     : QObject(nullptr)
 {
-    init();
-}
-
-void Create::init()
-{
-    qRegisterMetaType<Create::VideoCodec>("Create::VideoCodec");
-    qmlRegisterUncreatableType<Create>("ScreenPlay.Create", 1, 0, "VideoCodec", "Error only for enums");
-    qmlRegisterType<Create>("ScreenPlay.Create", 1, 0, "Create");
-
-    qRegisterMetaType<ImportVideoState::ImportVideoState>("ImportVideoState::ImportVideoState");
-    qmlRegisterUncreatableMetaObject(ScreenPlay::ImportVideoState::staticMetaObject,
-        "ScreenPlay.Enums.ImportVideoState",
-        1, 0,
-        "ImportVideoState",
-        "Error: only enums");
 }
 
 void Create::reset()
@@ -74,7 +58,7 @@ void Create::createWallpaperStart(QString videoPath, Create::VideoCodec codec, c
 
     if (!installedDir.mkdir(folderName)) {
         qInfo() << "Unable to create folder with name: " << folderName << " at: " << installedDir;
-        emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::CreateTmpFolderError);
+        emit createWallpaperStateChanged(Import::State::CreateTmpFolderError);
         emit abortCreateWallpaper();
         return;
     }
@@ -103,21 +87,21 @@ void Create::createWallpaperStart(QString videoPath, Create::VideoCodec codec, c
             Qt::ConnectionType::QueuedConnection);
 
         if (!import.createWallpaperInfo() || m_interrupt) {
-            emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::Failed);
+            emit createWallpaperStateChanged(Import::State::Failed);
             emit import.abortAndCleanup();
             return;
         }
 
         qInfo() << "createWallpaperImageThumbnailPreview()";
         if (!import.createWallpaperImageThumbnailPreview() || m_interrupt) {
-            emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::Failed);
+            emit createWallpaperStateChanged(Import::State::Failed);
             emit import.abortAndCleanup();
             return;
         }
 
         qInfo() << "createWallpaperImagePreview()";
         if (!import.createWallpaperImagePreview() || m_interrupt) {
-            emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::Failed);
+            emit createWallpaperStateChanged(Import::State::Failed);
             emit import.abortAndCleanup();
             return;
         }
@@ -126,7 +110,7 @@ void Create::createWallpaperStart(QString videoPath, Create::VideoCodec codec, c
         if (!import.m_isWebm) {
             qInfo() << "createWallpaperVideoPreview()";
             if (!import.createWallpaperVideoPreview() || m_interrupt) {
-                emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::Failed);
+                emit createWallpaperStateChanged(Import::State::Failed);
                 emit import.abortAndCleanup();
 
                 return;
@@ -135,7 +119,7 @@ void Create::createWallpaperStart(QString videoPath, Create::VideoCodec codec, c
 
         qInfo() << "createWallpaperGifPreview()";
         if (!import.createWallpaperGifPreview() || m_interrupt) {
-            emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::Failed);
+            emit createWallpaperStateChanged(Import::State::Failed);
             emit import.abortAndCleanup();
             return;
         }
@@ -144,7 +128,7 @@ void Create::createWallpaperStart(QString videoPath, Create::VideoCodec codec, c
         if (!import.m_skipAudio) {
             qInfo() << "extractWallpaperAudio()";
             if (!import.extractWallpaperAudio() || m_interrupt) {
-                emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::Failed);
+                emit createWallpaperStateChanged(Import::State::Failed);
                 emit import.abortAndCleanup();
                 return;
             }
@@ -152,17 +136,17 @@ void Create::createWallpaperStart(QString videoPath, Create::VideoCodec codec, c
 
         // Skip convert for webm
         if (import.m_isWebm) {
-            emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::Finished);
+            emit createWallpaperStateChanged(Import::State::Finished);
             return;
         }
 
         qInfo() << "createWallpaperVideo()";
         if (!import.createWallpaperVideo() || m_interrupt) {
-            emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::Failed);
+            emit createWallpaperStateChanged(Import::State::Failed);
             emit import.abortAndCleanup();
             return;
         }
-        emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::Finished);
+        emit createWallpaperStateChanged(Import::State::Finished);
     });
 
     QObject::connect(&m_createImportFutureWatcher, &QFutureWatcherBase::finished, this, [this]() {
@@ -187,7 +171,7 @@ void Create::importH264(QString videoPath)
 
     if (!installedDir.mkdir(folderName)) {
         qInfo() << "Unable to create folder with name: " << folderName << " at: " << installedDir;
-        emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::CreateTmpFolderError);
+        emit createWallpaperStateChanged(Import::State::CreateTmpFolderError);
         emit abortCreateWallpaper();
         return;
     }
@@ -203,35 +187,35 @@ void Create::importH264(QString videoPath)
             Qt::ConnectionType::QueuedConnection);
 
         if (!import.createWallpaperInfo() || m_interrupt) {
-            emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::Failed);
+            emit createWallpaperStateChanged(Import::State::Failed);
             emit import.abortAndCleanup();
             return;
         }
 
         qInfo() << "createWallpaperImageThumbnailPreview()";
         if (!import.createWallpaperImageThumbnailPreview() || m_interrupt) {
-            emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::Failed);
+            emit createWallpaperStateChanged(Import::State::Failed);
             emit import.abortAndCleanup();
             return;
         }
 
         qInfo() << "createWallpaperImagePreview()";
         if (!import.createWallpaperImagePreview() || m_interrupt) {
-            emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::Failed);
+            emit createWallpaperStateChanged(Import::State::Failed);
             emit import.abortAndCleanup();
             return;
         }
 
         // Skip preview convert for webm
         if (!import.createWallpaperVideoPreview() || m_interrupt) {
-            emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::Failed);
+            emit createWallpaperStateChanged(Import::State::Failed);
             emit import.abortAndCleanup();
             return;
         }
 
         qInfo() << "createWallpaperGifPreview()";
         if (!import.createWallpaperGifPreview() || m_interrupt) {
-            emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::Failed);
+            emit createWallpaperStateChanged(Import::State::Failed);
             emit import.abortAndCleanup();
             return;
         }
@@ -240,13 +224,13 @@ void Create::importH264(QString videoPath)
         if (!import.m_skipAudio) {
             qInfo() << "extractWallpaperAudio()";
             if (!import.extractWallpaperAudio() || m_interrupt) {
-                emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::Failed);
+                emit createWallpaperStateChanged(Import::State::Failed);
                 emit import.abortAndCleanup();
                 return;
             }
         }
 
-        emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::Finished);
+        emit createWallpaperStateChanged(Import::State::Finished);
         return;
     });
 
@@ -273,7 +257,7 @@ void Create::saveWallpaper(
     filePath = ScreenPlayUtil::toLocal(filePath);
     previewImagePath = ScreenPlayUtil::toLocal(previewImagePath);
 
-    emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::CopyFiles);
+    emit createWallpaperStateChanged(Import::State::CopyFiles);
 
     // Case when the selected users preview image has the same name as
     // our default "preview.jpg" name. QFile::copy does no override exsisting files
@@ -282,7 +266,7 @@ void Create::saveWallpaper(
     if (userSelectedPreviewImage.fileName() == "preview.jpg") {
         if (!userSelectedPreviewImage.remove()) {
             qDebug() << "Could remove" << previewImagePath;
-            emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::CopyFilesError);
+            emit createWallpaperStateChanged(Import::State::CopyFilesError);
         }
     }
 
@@ -290,7 +274,7 @@ void Create::saveWallpaper(
     if (previewImageFile.exists()) {
         if (!QFile::copy(previewImagePath, m_workingDir + "/" + previewImageFile.fileName())) {
             qDebug() << "Could not copy" << previewImagePath << " to " << m_workingDir + "/" + previewImageFile.fileName();
-            emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::CopyFilesError);
+            emit createWallpaperStateChanged(Import::State::CopyFilesError);
             return;
         }
     }
@@ -299,12 +283,12 @@ void Create::saveWallpaper(
     if (filePath.endsWith(".webm") || filePath.endsWith(".mp4")) {
         if (!QFile::copy(filePath, m_workingDir + "/" + filePathFile.fileName())) {
             qDebug() << "Could not copy" << filePath << " to " << m_workingDir + "/" + filePathFile.fileName();
-            emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::CopyFilesError);
+            emit createWallpaperStateChanged(Import::State::CopyFilesError);
             return;
         }
     }
-    emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::CopyFilesFinished);
-    emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::CreateProjectFile);
+    emit createWallpaperStateChanged(Import::State::CopyFilesFinished);
+    emit createWallpaperStateChanged(Import::State::CreateProjectFile);
 
     QJsonObject obj;
     obj.insert("description", description);
@@ -326,11 +310,11 @@ void Create::saveWallpaper(
     }
 
     if (!Util::writeSettings(std::move(obj), m_workingDir + "/project.json")) {
-        emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::CreateProjectFileError);
+        emit createWallpaperStateChanged(Import::State::CreateProjectFileError);
         return;
     }
 
-    emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::CreateProjectFileFinished);
+    emit createWallpaperStateChanged(Import::State::CreateProjectFileFinished);
     emit finished();
 }
 
@@ -351,7 +335,7 @@ void Create::abortAndCleanup()
     QDir exportPath(m_workingDir);
     if (exportPath.exists()) {
         if (!exportPath.removeRecursively()) {
-            emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::AbortCleanupError);
+            emit createWallpaperStateChanged(Import::State::AbortCleanupError);
             qWarning() << "Could not delete temp exportPath: " << exportPath;
         }
     } else {

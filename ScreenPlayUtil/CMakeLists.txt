@@ -44,6 +44,7 @@ set(SOURCES
     src/contenttypes.cpp
     src/logginghandler.cpp
     src/projectfile.cpp
+    src/exitcodes.cpp
     src/util.cpp)
 
 set(HEADER
@@ -98,6 +99,12 @@ target_include_directories(
     ${PROJECT_NAME}
     PUBLIC inc/public/
     PRIVATE src/)
+
+# Note making this public is so thatscreenplayutil_qmltyperegistrations.cpp
+# can find the #include <contenttypes.h> include
+target_include_directories(${PROJECT_NAME} PUBLIC inc/public/ScreenPlayUtil)
+
+
 target_link_libraries(
     ${PROJECT_NAME}
     PRIVATE Qt6::Core Qt6::Quick

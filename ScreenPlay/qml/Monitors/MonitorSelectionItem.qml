@@ -3,7 +3,7 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material
 import ScreenPlayApp
 import ScreenPlay
-import ScreenPlay.Enums.InstalledType
+
 
 Item {
     id: root

@@ -51,10 +51,10 @@ set(HEADER
 set(QML
     # cmake-format: sort
     main.qml
-    qml/Community/Community.qml
+    qml/Community/CommunityView.qml
     qml/Community/CommunityNavItem.qml
     qml/Community/XMLNewsfeed.qml
-    qml/Create/Create.qml
+    qml/Create/CreateView.qml
     qml/Create/CreateSidebar.qml
     qml/Create/StartInfo.qml
     qml/Create/StartInfoLinkImage.qml
@@ -77,14 +77,14 @@ set(QML
     qml/Create/Wizards/QMLWidget.qml
     qml/Create/Wizards/WebsiteWallpaper.qml
     qml/Create/Wizards/WizardPage.qml
-    qml/Installed/Installed.qml
+    qml/Installed/InstalledView.qml
     qml/Installed/InstalledNavigation.qml
     qml/Installed/InstalledWelcomeScreen.qml
     qml/Installed/ScreenPlayItem.qml
     qml/Installed/ScreenPlayItemImage.qml
     qml/Installed/Sidebar.qml
     qml/Monitors/DefaultVideoControls.qml
-    qml/Monitors/Monitors.qml
+    qml/Monitors/MonitorsView.qml
     qml/Monitors/MonitorSelection.qml
     qml/Monitors/MonitorSelectionItem.qml
     qml/Monitors/MonitorsProjectSettingItem.qml
@@ -92,7 +92,7 @@ set(QML
     qml/Navigation/ExitPopup.qml
     qml/Navigation/Navigation.qml
     qml/Settings/SettingBool.qml
-    qml/Settings/Settings.qml
+    qml/Settings/SettingsView.qml
     qml/Settings/SettingsButton.qml
     qml/Settings/SettingsComboBox.qml
     qml/Settings/SettingsExpander.qml
@@ -100,7 +100,7 @@ set(QML
     qml/Settings/SettingsHorizontalSeperator.qml
     qml/Settings/SettingsPage.qml
     qml/TrayIcon.qml
-    qml/Workshop/Workshop.qml)
+    qml/Workshop/WorkshopView.qml)
 
 set(TS_FILES
     # cmake-format: sort
@@ -276,8 +276,20 @@ find_package(
                Test)
 
 add_library(ScreenPlayApp STATIC)
+
+target_include_directories(
+    ScreenPlayApp
+    PUBLIC inc/public/
+    PRIVATE src/)
+
+# Note making this public is so that *_qmltyperegistrations.cpp
+# can find the needed include
 target_include_directories(ScreenPlayApp PUBLIC src/ inc/public/ScreenPlay)
 
+# ScreenPlayApp is our qml module needed for compiling
+# of all classes and most importanly for QML_ELEMENT.
+# So our app is mostly a module that then link to
+# ScreenPlay executable.
 qt_add_qml_module(
     ScreenPlayApp
     URI
@@ -334,11 +346,6 @@ if(${SCREENPLAY_TESTS})
         set_target_properties(tst_ScreenPlay PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
     endif()
 endif()
-
-target_include_directories(
-    ScreenPlayApp
-    PUBLIC inc/public/
-    PRIVATE src/)
 
 if(WIN32
    OR UNIX
