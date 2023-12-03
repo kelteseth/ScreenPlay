@@ -120,3 +120,23 @@ Error: HTTP status code: 403. A required agreement is missing or has expired. Th
 ```
 
 Go to [appstoreconnect.apple.com](https://appstoreconnect.apple.com) and accept the updated  'Apple Developer Program License Agreement'.
+
+## Dmg signing
+Ensure you have both a Developer ID Application certificate and a Developer ID Installer certificate in your Keychain. You can check this in the Keychain Access app.
+- Developer ID Application Certificate: 
+    - Used for code signing the application itself. This ensures that the app is from a known developer and hasn't been tampered with since it was signed.
+- Developer ID Installer Certificate: 
+    - Used specifically for signing installer packages like PKG files or disk images (DMGs). This is separate from the application certificate and is specifically for the installer.
+1. Check Your Certificates at https://developer.apple.com/account/resources/certificates/list and create a new one `Mac Installer Distribution
+This certificate is used to sign your app's Installer Package for submission to the Mac App Store.` 
+2. `Upload a Certificate Signing Request`. To manually generate a Certificate, you need a Certificate Signing Request (CSR) file from your Mac. https://developer.apple.com/help/account/create-certificates/create-a-certificate-signing-request
+    1. Launch Keychain Access located in /Applications/Utilities.
+    1. Choose Keychain Access > Certificate Assistant > Request a Certificate from a Certificate Authority.
+    1. In the Certificate Assistant dialog, enter an email address in the User Email Address field.
+    1. In the Common Name field, enter a name for the key (for example, Gita Kumar Dev Key). 
+    1. Leave the CA Email Address field empty.
+    1. Choose “Saved to disk,” call it something like `CertificateSigningRequest_Tachiom_Installer_Certificate` then click Continue.
+3. Download the new certificate
+4. Download your certificate to your Mac, then double click the .cer file to install in Keychain Access. IMPORTANT: Select `Keychan: Login` in the dropdown! Make sure to save a backup copy of your private and public keys somewhere secure.
+    - The "login" keychain is tied to your user account and unlocks when you log in, making it a convenient location for development-related certificates. The "System" keychain is more restrictive and requires admin permissions for access, while the "Local Items" keychain is specific to iCloud Keychain items.
+5. This should now be displayed like `3rd Party Mac Developer Installer: Elias Steurer (V887LHYKRH)` and be valid one year.

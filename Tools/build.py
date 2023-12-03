@@ -78,10 +78,26 @@ def execute(
         print(f"⏱️ build_installer_duration: {build_installer_duration}s")
 
         if platform.system() == "Darwin":
+            # TODO FIX installer signing
+            return
             if (build_config.sign_osx):
+                # Base directory
+                base_dir = Path(build_config.build_folder)
+
+                # Paths for the original and new filenames
+                original_file = base_dir / 'ScreenPlay-Installer-ScreenPlayComponent.dmg'
+                new_file = base_dir / 'ScreenPlay-Installer.dmg'
+
+                # Renaming the file
+                try:
+                    original_file.rename(new_file)
+                    print(f"File renamed successfully to {new_file}")
+                except OSError as error:
+                    print(f"Error: {error}")
+
                 print(
-                    f"Sign ScreenPlay-installer.dmg at: {build_config.bin_dir}")
-                macos_sign.sign_dmg(build_config=build_config)
+                    f"Sign ScreenPlay-installer.dmg at: {new_file}")
+                macos_sign.sign_dmg(build_config)
 
     # Create a zip file of the build
     if platform.system() != "Darwin":

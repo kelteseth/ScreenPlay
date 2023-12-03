@@ -48,7 +48,7 @@ def sign(build_config: BuildConfig):
 
 def sign_dmg(build_config: BuildConfig):
     # Sign the DMG
-    run("codesign -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --timestamp --options \"runtime\" -f --deep \"ScreenPlay-Installer.dmg\"", cwd=build_config.build_folder)
+    run("codesign -f -s \"3rd Party Mac Developer Installer: Elias Steurer (V887LHYKRH)\" --timestamp  -f --deep \"ScreenPlay-Installer.dmg\"", cwd=build_config.build_folder)
 
     # Verify the DMG's signature
     run("codesign --verify --verbose=4  \"ScreenPlay-Installer.dmg\"",

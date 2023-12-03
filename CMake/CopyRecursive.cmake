@@ -22,7 +22,7 @@ function(copy_recursive SOURCE_PATH DESTINATION_PATH REGEX)
         file(RELATIVE_PATH RELATIVE_FILE_PATH ${SOURCE_PATH} ${file})
         get_filename_component(FOLDER ${RELATIVE_FILE_PATH} DIRECTORY ${SOURCE_PATH})
         file(MAKE_DIRECTORY ${DESTINATION_PATH}/${FOLDER} )
-        message(STATUS "${file}   - ${DESTINATION_PATH}/${RELATIVE_FILE_PATH}")
+        #message(STATUS "${file}   - ${DESTINATION_PATH}/${RELATIVE_FILE_PATH}")
         configure_file(${file} "${DESTINATION_PATH}/${RELATIVE_FILE_PATH}" COPYONLY)
     endforeach()
 
