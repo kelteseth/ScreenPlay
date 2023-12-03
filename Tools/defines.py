@@ -36,7 +36,7 @@ VCPKG_BASE_PACKAGES =  [
         "catch2"
     ]
 PYTHON_EXECUTABLE = "python" if sys.platform == "win32" else "python3"
-FFMPEG_VERSION = "6.0"
+FFMPEG_VERSION = "6.1"
 GODOT_VERSION = "4.2"
 GODOT_RELEASE_TYPE = "stable"
 GODOT_DOWNLOAD_SERVER = "https://github.com/godotengine/godot-builds/releases/download"
