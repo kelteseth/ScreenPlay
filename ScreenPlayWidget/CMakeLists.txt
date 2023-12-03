@@ -40,7 +40,8 @@ qt_add_executable(
 target_link_libraries(
     ${PROJECT_NAME}
     PRIVATE ScreenPlaySDK
-            ScreenPlayUtil
+    ScreenPlayUtil
+    ScreenPlayUtilplugin
             ScreenPlayWeatherplugin
             Qt6::Quick
             Qt6::Gui
@@ -52,7 +53,7 @@ target_link_libraries(
             Qt6::WebEngineQuick)
 
 if(WIN32)
-    target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlaySysInfoplugin)
+    target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlaySysInfoplugin ScreenPlayUtilplugin)
 endif()
 
 qt_add_qml_module(

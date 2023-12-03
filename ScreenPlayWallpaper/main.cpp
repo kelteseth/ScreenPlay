@@ -23,10 +23,11 @@ Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoPlugin)
 #endif
 
 Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherPlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlayUtilPlugin)
 
 int main(int argc, char* argv[])
 {
-
+    using namespace ScreenPlay;
     // Lets keep using it until: https://bugreports.qt.io/browse/QTBUG-109401
     QtWebEngineQuick::initialize();
 
@@ -83,14 +84,14 @@ int main(int argc, char* argv[])
     } else {
         // 8 parameter + 1 OS working directory as the first default paramter
         if (argumentList.length() != 9) {
-            return static_cast<int>(ScreenPlay::WallpaperExit::Code::Invalid_ArgumentSize);
+            return static_cast<int>(WallpaperExit::Code::Invalid_ArgumentSize);
         }
         ScreenPlay::Util util;
         const auto activeScreensList = util.parseStringToIntegerList(argumentList.at(1));
 
         if (!activeScreensList.has_value()) {
             qCritical("Could not activeScreensList");
-            return static_cast<int>(ScreenPlay::WallpaperExit::Code::Invalid_ActiveScreensList);
+            return static_cast<int>(WallpaperExit::Code::Invalid_ActiveScreensList);
         }
 
         auto installedType = ScreenPlay::ContentTypes::InstalledType::Unknown;
@@ -98,26 +99,26 @@ int main(int argc, char* argv[])
             installedType = typeOpt.value();
         } else {
             qCritical() << "Cannot parse Wallpaper type from value" << argumentList.at(6);
-            return static_cast<int>(ScreenPlay::WallpaperExit::Code::Invalid_InstalledType);
+            return static_cast<int>(WallpaperExit::Code::Invalid_InstalledType);
         }
 
         bool okParseCheckWallpaperVisible = false;
         const bool checkWallpaperVisible = argumentList.at(7).toInt(&okParseCheckWallpaperVisible);
         if (!okParseCheckWallpaperVisible) {
             qCritical("Could not parse checkWallpaperVisible");
-            return static_cast<int>(ScreenPlay::WallpaperExit::Code::Invalid_CheckWallpaperVisible);
+            return static_cast<int>(WallpaperExit::Code::Invalid_CheckWallpaperVisible);
         }
         bool okParseVolume = 0.0f;
         const float volume = argumentList.at(4).toFloat(&okParseVolume);
         if (!okParseVolume) {
             qCritical("Could not parse Volume");
-            return static_cast<int>(ScreenPlay::WallpaperExit::Code::Invalid_Volume);
+            return static_cast<int>(WallpaperExit::Code::Invalid_Volume);
         }
 
         appID = argumentList.at(3);
         if (!appID.startsWith("appID=")) {
             qCritical("Invalid appID");
-            return static_cast<int>(ScreenPlay::WallpaperExit::Code::Invalid_AppID);
+            return static_cast<int>(WallpaperExit::Code::Invalid_AppID);
         }
         appID = appID.remove("appID=");
 
@@ -132,11 +133,11 @@ int main(int argc, char* argv[])
     }
 
     const auto setupStatus = window->setup();
-    if (setupStatus != ScreenPlay::WallpaperExit::Code::Ok) {
+    if (setupStatus != WallpaperExit::Code::Ok) {
         return static_cast<int>(setupStatus);
     }
     const auto startStatus = window->start();
-    if (startStatus != ScreenPlay::WallpaperExit::Code::Ok) {
+    if (startStatus != WallpaperExit::Code::Ok) {
         return static_cast<int>(startStatus);
     }
     emit window->qmlStart();

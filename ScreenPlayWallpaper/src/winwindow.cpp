@@ -13,7 +13,9 @@
     \brief  ScreenPlayWindow used for the Windows implementation.
 */
 
-ScreenPlay::WallpaperExit::Code WinWindow::start()
+namespace ScreenPlay {
+
+WallpaperExit::Code WinWindow::start()
 {
     connect(
         &m_window, &QQuickView::statusChanged, this, [this](auto status) {
@@ -41,7 +43,7 @@ ScreenPlay::WallpaperExit::Code WinWindow::start()
     m_windowsIntegration.setWindowHandle(reinterpret_cast<HWND>(m_window.winId()));
     if (!IsWindow(m_windowsIntegration.windowHandle())) {
         qCritical("Could not get a valid window handle!");
-        return ScreenPlay::WallpaperExit::Code::Invalid_Start_Windows_HandleError;
+        return WallpaperExit::Code::Invalid_Start_Windows_HandleError;
     }
     qRegisterMetaType<WindowsDesktopProperties*>();
     qRegisterMetaType<WinWindow*>();
@@ -131,7 +133,7 @@ ScreenPlay::WallpaperExit::Code WinWindow::start()
             QCoreApplication::postEvent(&m_window, qEvent);
         });
     });
-    return ScreenPlay::WallpaperExit::Code::Ok;
+    return WallpaperExit::Code::Ok;
 }
 
 /*!
@@ -414,6 +416,7 @@ void WinWindow::checkForFullScreenWindow()
     bool hasFullscreenWindow = m_windowsIntegration.checkForFullScreenWindow(m_windowsIntegration.windowHandle());
 
     setVisualsPaused(hasFullscreenWindow);
+}
 }
 
 #include "moc_winwindow.cpp"

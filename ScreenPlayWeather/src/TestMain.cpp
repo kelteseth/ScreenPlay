@@ -4,6 +4,7 @@
 #include <QtQml/qqmlextensionplugin.h>
 
 Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherPlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlayUtilPlugin)
 
 int main(int argc, char* argv[])
 {

@@ -4,7 +4,8 @@
 
 #include <QGuiApplication>
 
-ScreenPlay::WallpaperExitCode MacWindow::start()
+namespace ScreenPlay {
+WallpaperExit::Code MacWindow::start()
 {
 
     MacUtils::showDockIcon(false);
@@ -31,7 +32,7 @@ ScreenPlay::WallpaperExitCode MacWindow::start()
     MacIntegration* macIntegration = new MacIntegration(this);
     macIntegration->SetBackgroundLevel(&m_window);
 
-    return ScreenPlay::WallpaperExitCode::Ok;
+    return WallpaperExit::Code::Ok;
 }
 
 void MacWindow::setVisible(bool show)
@@ -53,5 +54,5 @@ void MacWindow::clearComponentCache()
 {
     m_window.engine()->clearComponentCache();
 }
-
+}
 #include "moc_macwindow.cpp"

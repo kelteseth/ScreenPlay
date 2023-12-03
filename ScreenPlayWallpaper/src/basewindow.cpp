@@ -18,26 +18,27 @@
     \brief  .
 */
 
+namespace ScreenPlay {
 BaseWindow::BaseWindow()
 {
     QGuiApplication::instance()->installEventFilter(this);
     setOSVersion(QSysInfo::productVersion());
 }
 
-ScreenPlay::WallpaperExit::Code BaseWindow::setup()
+WallpaperExit::Code BaseWindow::setup()
 {
 
     if (projectPath() == "test") {
         setType(ScreenPlay::ContentTypes::InstalledType::QMLWallpaper);
         setProjectSourceFileAbsolute({ "qrc:/qml/ScreenPlayWallpaper/qml/Test.qml" });
         setupLiveReloading();
-        return ScreenPlay::WallpaperExit::Code::Ok;
+        return WallpaperExit::Code::Ok;
     }
     ScreenPlay::ProjectFile projectFile;
     projectFile.projectJsonFilePath = QFileInfo(projectPath() + "/project.json");
     if (!projectFile.init()) {
         qWarning() << "Invalid project at " << projectPath();
-        return ScreenPlay::WallpaperExit::Code::Invalid_Setup_ProjectParsingError;
+        return WallpaperExit::Code::Invalid_Setup_ProjectParsingError;
     }
     setType(projectFile.type);
     setProjectSourceFile(projectFile.file);
@@ -68,7 +69,7 @@ ScreenPlay::WallpaperExit::Code BaseWindow::setup()
         sdk()->start();
     }
 
-    return ScreenPlay::WallpaperExit::Code::Ok;
+    return WallpaperExit::Code::Ok;
 }
 
 /*!
@@ -239,6 +240,7 @@ void BaseWindow::setVideoCodec(ScreenPlay::Video::VideoCodec newVideoCodec)
         return;
     m_videoCodec = newVideoCodec;
     emit videoCodecChanged(newVideoCodec);
+}
 }
 
 #include "moc_basewindow.cpp"

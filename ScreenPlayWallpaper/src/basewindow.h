@@ -19,15 +19,16 @@
 
 #include <memory>
 
+namespace ScreenPlay {
 class BaseWindow : public QObject {
     Q_OBJECT
 
 public:
     BaseWindow();
 
-    virtual ScreenPlay::WallpaperExit::Code setup() final;
+    virtual WallpaperExit::Code setup() final;
 
-    virtual ScreenPlay::WallpaperExit::Code start() = 0;
+    virtual WallpaperExit::Code start() = 0;
 
     Q_PROPERTY(int width READ width WRITE setWidth NOTIFY widthChanged)
     Q_PROPERTY(int height READ height WRITE setHeight NOTIFY heightChanged)
@@ -357,3 +358,4 @@ protected:
     QUrl m_projectSourceFileAbsolute;
     ScreenPlay::Video::VideoCodec m_videoCodec = ScreenPlay::Video::VideoCodec::Unknown;
 };
+}

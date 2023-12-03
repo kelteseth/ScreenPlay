@@ -6,6 +6,7 @@
 #include <QtQml/qqmlextensionplugin.h>
 
 Q_IMPORT_QML_PLUGIN(ScreenPlayWorkshopPlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlayUtilPlugin)
 
 int main(int argc, char* argv[])
 {

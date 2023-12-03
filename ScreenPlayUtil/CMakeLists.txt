@@ -106,13 +106,14 @@ target_include_directories(
 # Note making this public is so thatscreenplayutil_qmltyperegistrations.cpp
 # can find the #include <contenttypes.h> include
 target_include_directories(${PROJECT_NAME} PUBLIC inc/public/ScreenPlayUtil)
-
+target_include_directories(${PROJECT_NAME}plugin PUBLIC inc/public/ScreenPlayUtil)
 
 target_link_libraries(
     ${PROJECT_NAME}
-    PRIVATE Qt6::Core Qt6::Quick
     PUBLIC
-     Qt6::Gui
+    Qt6::Core 
+    Qt6::Quick
+    Qt6::Gui
     fmt::fmt-header-only
     LibArchive::LibArchive
     QArchive)

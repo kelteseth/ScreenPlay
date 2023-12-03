@@ -20,6 +20,8 @@
 #include "windowsdesktopproperties.h"
 #include "windowsintegration.h"
 
+namespace ScreenPlay {
+
 class WinWindow : public BaseWindow {
     Q_OBJECT
 
@@ -28,7 +30,7 @@ class WinWindow : public BaseWindow {
 public:
     WindowsDesktopProperties* windowsDesktopProperties() const { return m_windowsDesktopProperties.get(); }
 
-    ScreenPlay::WallpaperExit::Code start() override;
+    WallpaperExit::Code start() override;
 
 public slots:
     void setVisible(bool show) override;
@@ -67,3 +69,4 @@ private:
     QTimer m_reconfigureTimer;
     std::unique_ptr<WindowsDesktopProperties> m_windowsDesktopProperties;
 };
+}

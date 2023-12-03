@@ -14,11 +14,12 @@
 
 #include "basewindow.h"
 
+namespace ScreenPlay {
 class LinuxWaylandWindow : public BaseWindow {
     Q_OBJECT
 
 public:
-    ScreenPlay::WallpaperExitCode start() override;
+    WallpaperExit::Code start() override;
 
 signals:
 
@@ -33,3 +34,4 @@ private:
     void setupWallpaperForAllScreens();
     void setupWallpaperForMultipleScreens(const QVector<int>& activeScreensList);
 };
+}

@@ -19,6 +19,7 @@ Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoPlugin)
 #endif
 
 Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherPlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlayUtilPlugin)
 
 int main(int argc, char* argv[])
 {

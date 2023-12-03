@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+find_package(LibArchive REQUIRED)
 find_package(
     Qt6
     COMPONENTS Core Quick
@@ -242,7 +243,7 @@ set(RESOURCES
     assets/icons/wi-windy.svg)
 
 qt_add_library(${PROJECT_NAME} STATIC)
-target_link_libraries(${PROJECT_NAME} PUBLIC ScreenPlayUtil)
+target_link_libraries(${PROJECT_NAME} PUBLIC ScreenPlayUtil ScreenPlayUtilplugin)
 target_include_directories(${PROJECT_NAME} PUBLIC src/)
 
 qt_add_qml_module(

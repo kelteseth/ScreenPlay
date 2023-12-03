@@ -6,7 +6,8 @@
 #include <LayerShellQt/Shell>
 #include <LayerShellQt/Window>
 
-ScreenPlay::WallpaperExitCode LinuxWaylandWindow::start()
+namespace ScreenPlay {
+WallpaperExit::Code LinuxWaylandWindow::start()
 {
 
     if (!debugMode()) {
@@ -31,7 +32,7 @@ ScreenPlay::WallpaperExitCode LinuxWaylandWindow::start()
     }
 
     m_window.show();
-    return ScreenPlay::WallpaperExitCode::Ok;
+    return WallpaperExit::Code::Ok;
 }
 
 void LinuxWaylandWindow::setupWallpaperForOneScreen(int activeScreen)
@@ -59,4 +60,5 @@ void LinuxWaylandWindow::destroyThis()
 void LinuxWaylandWindow::terminate()
 {
     QCoreApplication::quit();
+}
 }

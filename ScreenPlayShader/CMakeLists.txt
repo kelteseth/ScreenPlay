@@ -36,7 +36,7 @@ set(RESOURCES
     assets/test_image_andras-vas-Bd7gNnWJBkU-unsplash.jpg)
 
 qt_add_library(${PROJECT_NAME} STATIC)
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Quick)
+target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::Core Qt6::Quick ScreenPlayUtilplugin)
 target_include_directories(${PROJECT_NAME} PUBLIC src/)
 
 qt_add_qml_module(

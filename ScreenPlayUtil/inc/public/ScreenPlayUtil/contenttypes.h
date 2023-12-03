@@ -15,7 +15,7 @@ class ContentTypes : public QObject {
     QML_ELEMENT
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     /*!
-        \brief Global enum for search types. Used in the "Installed" tab.
+        \brief Used in the "Installed" tab.
     */
 public:
     ContentTypes(QObject* parent = nullptr);
@@ -57,7 +57,7 @@ class Video : public QObject {
 public:
     Video(QObject* parent = nullptr);
     /*!
-        \brief Global enum for fill mode. This is a c++ representation
+        \brief This is a c++ representation
                of HTML fill modes. We use "_" instead of "-" for scale down,
                because c++ forbids "-" in enum names.
     */
