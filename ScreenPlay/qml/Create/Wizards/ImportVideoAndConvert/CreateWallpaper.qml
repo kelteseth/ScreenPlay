@@ -6,7 +6,6 @@ import QtQuick.Layouts
 import ScreenPlayApp
 import ScreenPlay
 
-
 Item {
     id: root
 

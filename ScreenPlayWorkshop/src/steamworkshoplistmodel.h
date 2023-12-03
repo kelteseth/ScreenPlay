@@ -11,10 +11,10 @@
 
 #include "workshopitem.h"
 // Steam
+#include "ScreenPlayUtil/steamenumsgenerated.h"
 #include "cstring"
 #include "stdlib.h"
 #include "steam/steam_api.h"
-#include "ScreenPlayUtil/steamenumsgenerated.h"
 
 /*!
     \class Steam Workshop List Model

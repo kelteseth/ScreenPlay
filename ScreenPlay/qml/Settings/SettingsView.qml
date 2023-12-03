@@ -14,7 +14,6 @@ Item {
 
     property Item modalSource
 
-
     Flickable {
         id: flickableWrapper
 
@@ -147,23 +146,62 @@ Item {
                             Component.onCompleted: comboBox.currentIndex = comboBox.indexOfValue(App.settings.language)
                             model: ListModel {
                                 id: lmLangauge
-                                   ListElement { value: Settings.Language.En_US; text: "English" }
-                                   ListElement { value: Settings.Language.De_DE; text: "German" }
-                                   ListElement { value: Settings.Language.Pl_PL; text: "Polish" }
-                                   ListElement { value: Settings.Language.It_IT; text: "Italian" }
-                                   ListElement { value: Settings.Language.Zh_CN; text: "Chinese - Simplified" }
-                                   ListElement { value: Settings.Language.Ru_RU; text: "Russian" }
-                                   ListElement { value: Settings.Language.Fr_FR; text: "French" }
-                                   ListElement { value: Settings.Language.Es_ES; text: "Spanish" }
-                                   ListElement { value: Settings.Language.Ko_KR; text: "Korean" }
-                                   ListElement { value: Settings.Language.Vi_VN; text: "Vietnamese" }
-                                   ListElement { value: Settings.Language.Pt_BR; text: "Portuguese (Brazil)" }
-                                   ListElement { value: Settings.Language.Tr_TR; text: "Turkish" }
-                                   ListElement { value: Settings.Language.Nl_NL; text: "Dutch" }
-                               }
+                                ListElement {
+                                    value: Settings.Language.En_US
+                                    text: "English"
+                                }
+                                ListElement {
+                                    value: Settings.Language.De_DE
+                                    text: "German"
+                                }
+                                ListElement {
+                                    value: Settings.Language.Pl_PL
+                                    text: "Polish"
+                                }
+                                ListElement {
+                                    value: Settings.Language.It_IT
+                                    text: "Italian"
+                                }
+                                ListElement {
+                                    value: Settings.Language.Zh_CN
+                                    text: "Chinese - Simplified"
+                                }
+                                ListElement {
+                                    value: Settings.Language.Ru_RU
+                                    text: "Russian"
+                                }
+                                ListElement {
+                                    value: Settings.Language.Fr_FR
+                                    text: "French"
+                                }
+                                ListElement {
+                                    value: Settings.Language.Es_ES
+                                    text: "Spanish"
+                                }
+                                ListElement {
+                                    value: Settings.Language.Ko_KR
+                                    text: "Korean"
+                                }
+                                ListElement {
+                                    value: Settings.Language.Vi_VN
+                                    text: "Vietnamese"
+                                }
+                                ListElement {
+                                    value: Settings.Language.Pt_BR
+                                    text: "Portuguese (Brazil)"
+                                }
+                                ListElement {
+                                    value: Settings.Language.Tr_TR
+                                    text: "Turkish"
+                                }
+                                ListElement {
+                                    value: Settings.Language.Nl_NL
+                                    text: "Dutch"
+                                }
+                            }
                             onActivated: {
-                               App.settings.setLanguage(settingsLanguage.comboBox.currentValue);
-                               App.settings.retranslateUI();
+                                App.settings.setLanguage(settingsLanguage.comboBox.currentValue);
+                                App.settings.retranslateUI();
                             }
                         }
                     }
@@ -179,10 +217,19 @@ Item {
                         comboBox {
                             Component.onCompleted: comboBox.currentIndex = comboBox.indexOfValue(App.settings.theme)
                             model: ListModel {
-                                    ListElement { value: Settings.Theme.System; text: qsTr("System Default") }
-                                    ListElement { value: Settings.Theme.Dark; text: qsTr("Dark") }
-                                    ListElement { value: Settings.Theme.Light; text: qsTr("Light") }
+                                ListElement {
+                                    value: Settings.Theme.System
+                                    text: qsTr("System Default")
                                 }
+                                ListElement {
+                                    value: Settings.Theme.Dark
+                                    text: qsTr("Dark")
+                                }
+                                ListElement {
+                                    value: Settings.Theme.Light
+                                    text: qsTr("Light")
+                                }
+                            }
                             onActivated: {
                                 App.settings.setTheme(settingsTheme.comboBox.currentValue);
                             }
@@ -225,16 +272,30 @@ Item {
                         comboBox {
                             Component.onCompleted: comboBox.currentIndex = comboBox.indexOfValue(App.settings.videoFillMode)
                             model: ListModel {
-                                ListElement { value: Video.FillMode.Stretch; text: qsTr("Stretch") }
-                                ListElement { value: Video.FillMode.Fill; text: qsTr("Fill") }
-                                ListElement { value: Video.FillMode.Contain; text: qsTr("Contain") }
-                                ListElement { value: Video.FillMode.Cover; text: qsTr("Cover") }
-                                ListElement { value: Video.FillMode.Scale_Down; text: qsTr("Scale-Down") }
+                                ListElement {
+                                    value: Video.FillMode.Stretch
+                                    text: qsTr("Stretch")
                                 }
-                            onActivated: {
-                                App.settings.setVideoFillMode(cbVideoFillMode.comboBox.currentValue)
+                                ListElement {
+                                    value: Video.FillMode.Fill
+                                    text: qsTr("Fill")
+                                }
+                                ListElement {
+                                    value: Video.FillMode.Contain
+                                    text: qsTr("Contain")
+                                }
+                                ListElement {
+                                    value: Video.FillMode.Cover
+                                    text: qsTr("Cover")
+                                }
+                                ListElement {
+                                    value: Video.FillMode.Scale_Down
+                                    text: qsTr("Scale-Down")
+                                }
                             }
-
+                            onActivated: {
+                                App.settings.setVideoFillMode(cbVideoFillMode.comboBox.currentValue);
+                            }
                         }
                     }
                 }
@@ -321,7 +382,7 @@ Item {
                                     color: "#333333"
                                 }
 
-                               GrowIconLink {
+                                GrowIconLink {
                                     iconSource: "qrc:/qml/ScreenPlayApp/assets/icons/brand_gitlab.svg"
                                     url: "https://gitlab.com/kelteseth"
                                     color: "#FC6D26"
@@ -333,7 +394,7 @@ Item {
                                     color: "#1DA1F2"
                                 }
 
-                               GrowIconLink {
+                                GrowIconLink {
                                     iconSource: "qrc:/qml/ScreenPlayApp/assets/icons/brand_twitch.svg"
                                     url: "https://www.twitch.tv/kelteseth/"
                                     color: "#6441A5"
@@ -462,7 +523,4 @@ Item {
             }
         }
     }
-
-
-
 }

@@ -269,6 +269,7 @@ if(${SCREENPLAY_TESTS})
     target_link_libraries(tst_ScreenPlayWeather PRIVATE Qt6::Quick ${PROJECT_NAME}plugin)
 
     if(APPLE)
-        set_target_properties(tst_ScreenPlayWeather PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
+        set_target_properties(tst_ScreenPlayWeather PROPERTIES RUNTIME_OUTPUT_DIRECTORY
+                                                               "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
     endif()
 endif()

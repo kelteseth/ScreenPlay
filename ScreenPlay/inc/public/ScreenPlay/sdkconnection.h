@@ -15,7 +15,6 @@
 
 #include "ScreenPlay/globalvariables.h"
 #include "ScreenPlayUtil/util.h"
-#include "ScreenPlayUtil/util.h"
 
 #include <memory>
 

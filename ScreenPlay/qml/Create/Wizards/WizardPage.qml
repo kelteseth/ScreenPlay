@@ -7,7 +7,6 @@ import QtQuick.Window
 import ScreenPlayApp
 import ScreenPlay
 
-
 FocusScope {
     id: root
 

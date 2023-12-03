@@ -42,27 +42,27 @@ set(QML
 
 set(SOURCES
     # cmake-format: sort
-    src/httpfileserver.cpp
+    src/archive.cpp
     src/contenttypes.cpp
+    src/exitcodes.cpp
+    src/httpfileserver.cpp
     src/logginghandler.cpp
     src/projectfile.cpp
-    src/exitcodes.cpp
     src/steamenumsgenerated.cpp
-    src/util.cpp
-    src/archive.cpp)
+    src/util.cpp)
 
 set(HEADER
     # cmake-format: sort
+    inc/public/ScreenPlayUtil/archive.h
     inc/public/ScreenPlayUtil/contenttypes.h
-    inc/public/ScreenPlayUtil/steamenumsgenerated.h
     inc/public/ScreenPlayUtil/exitcodes.h
+    inc/public/ScreenPlayUtil/HelpersCommon.h
     inc/public/ScreenPlayUtil/httpfileserver.h
+    inc/public/ScreenPlayUtil/ListPropertyHelper.h
     inc/public/ScreenPlayUtil/logginghandler.h
     inc/public/ScreenPlayUtil/projectfile.h
     inc/public/ScreenPlayUtil/PropertyHelpers.h
-    inc/public/ScreenPlayUtil/ListPropertyHelper.h
-    inc/public/ScreenPlayUtil/HelpersCommon.h
-    inc/public/ScreenPlayUtil/archive.h
+    inc/public/ScreenPlayUtil/steamenumsgenerated.h
     inc/public/ScreenPlayUtil/util.h)
 
 if(APPLE)
@@ -77,8 +77,7 @@ qt_add_library(
     ${PROJECT_NAME}
     STATIC
     ${SOURCES}
-    ${HEADER}
-    )
+    ${HEADER})
 
 qt_add_qml_module(
     ${PROJECT_NAME}
@@ -103,20 +102,18 @@ target_include_directories(
     PUBLIC inc/public/
     PRIVATE src/)
 
-# Note making this public is so thatscreenplayutil_qmltyperegistrations.cpp
-# can find the #include <contenttypes.h> include
+# Note making this public is so thatscreenplayutil_qmltyperegistrations.cpp can find the #include <contenttypes.h> include
 target_include_directories(${PROJECT_NAME} PUBLIC inc/public/ScreenPlayUtil)
 target_include_directories(${PROJECT_NAME}plugin PUBLIC inc/public/ScreenPlayUtil)
 
 target_link_libraries(
     ${PROJECT_NAME}
-    PUBLIC
-    Qt6::Core 
-    Qt6::Quick
-    Qt6::Gui
-    fmt::fmt-header-only
-    LibArchive::LibArchive
-    QArchive)
+    PUBLIC Qt6::Core
+           Qt6::Quick
+           Qt6::Gui
+           fmt::fmt-header-only
+           LibArchive::LibArchive
+           QArchive)
 
 if(WIN32)
     # Used for query windows monitor data

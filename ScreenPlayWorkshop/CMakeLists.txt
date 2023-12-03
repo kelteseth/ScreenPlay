@@ -139,8 +139,9 @@ if(${SCREENPLAY_STEAM})
                     ScreenPlayUtilplugin
                     SteamSDK)
 
-    if(APPLE)
-        set_target_properties(tst_ScreenPlayWorkshop PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
-    endif()
+        if(APPLE)
+            set_target_properties(tst_ScreenPlayWorkshop PROPERTIES RUNTIME_OUTPUT_DIRECTORY
+                                                                    "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
+        endif()
     endif()
 endif()

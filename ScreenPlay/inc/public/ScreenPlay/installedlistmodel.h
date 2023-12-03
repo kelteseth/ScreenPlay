@@ -25,8 +25,8 @@
 #include "ScreenPlay/globalvariables.h"
 #include "ScreenPlay/profilelistmodel.h"
 #include "ScreenPlay/settings.h"
-#include "ScreenPlayUtil/util.h"
 #include "ScreenPlayUtil/projectfile.h"
+#include "ScreenPlayUtil/util.h"
 
 #include <memory>
 

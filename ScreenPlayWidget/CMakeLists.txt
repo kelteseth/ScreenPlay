@@ -40,8 +40,8 @@ qt_add_executable(
 target_link_libraries(
     ${PROJECT_NAME}
     PRIVATE ScreenPlaySDK
-    ScreenPlayUtil
-    ScreenPlayUtilplugin
+            ScreenPlayUtil
+            ScreenPlayUtilplugin
             ScreenPlayWeatherplugin
             Qt6::Quick
             Qt6::Gui

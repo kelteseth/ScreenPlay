@@ -168,7 +168,7 @@ void Settings::setupWidgetAndWindowPaths()
         }
     } else if (osType == "macos") {
         m_globalVariables->setWidgetExecutablePath(QUrl::fromUserInput(workingDir.path() + "/ScreenPlayWidget").toLocalFile());
-        m_globalVariables->setWallpaperExecutablePath(QUrl::fromUserInput(workingDir.path()  + "/ScreenPlayWallpaper").toLocalFile());
+        m_globalVariables->setWallpaperExecutablePath(QUrl::fromUserInput(workingDir.path() + "/ScreenPlayWallpaper").toLocalFile());
         m_globalVariables->setGodotWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaperGodot").toLocalFile());
         const auto godotEditorName = "Godot_" + godotVersion + "-stable_osx.universal";
         m_globalVariables->setGodotEditorExecutablePath(QUrl(workingDir.path() + "/" + godotEditorName));

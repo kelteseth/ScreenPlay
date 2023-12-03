@@ -20,7 +20,7 @@ Rectangle {
 
             // macOS only supports h264 via the native Qt MM
             if (Qt.platform.os === "osx") {
-                print(ContentTypes.InstalledType.VideoWallpaper )
+                print(ContentTypes.InstalledType.VideoWallpaper);
                 if ((Wallpaper.videoCodec === Video.VideoCodec.VP8 || Wallpaper.videoCodec === Video.VideoCodec.VP9)) {
                     loader.source = "qrc:/qml/ScreenPlayWallpaper/qml/MultimediaWebView.qml";
                 } else {

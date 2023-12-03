@@ -104,8 +104,8 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
-         print("Settings.Language.Pl_PL",Settings.Language.Pl_PL)
-        print(App.settings.theme,Settings.Theme.Light);
+        print("Settings.Language.Pl_PL", Settings.Language.Pl_PL);
+        print(App.settings.theme, Settings.Theme.Light);
         setTheme(App.settings.theme);
         stackView.push("qrc:/qml/ScreenPlayApp/qml/Installed/InstalledView.qml", {
                 "sidebar": sidebar

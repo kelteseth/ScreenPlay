@@ -49,11 +49,11 @@ set(HEADER
 set(QML
     # cmake-format: sort
     main.qml
-    qml/Community/CommunityView.qml
     qml/Community/CommunityNavItem.qml
+    qml/Community/CommunityView.qml
     qml/Community/XMLNewsfeed.qml
-    qml/Create/CreateView.qml
     qml/Create/CreateSidebar.qml
+    qml/Create/CreateView.qml
     qml/Create/StartInfo.qml
     qml/Create/StartInfoLinkImage.qml
     qml/Create/Wizard.qml
@@ -75,28 +75,28 @@ set(QML
     qml/Create/Wizards/QMLWidget.qml
     qml/Create/Wizards/WebsiteWallpaper.qml
     qml/Create/Wizards/WizardPage.qml
-    qml/Installed/InstalledView.qml
     qml/Installed/InstalledNavigation.qml
+    qml/Installed/InstalledView.qml
     qml/Installed/InstalledWelcomeScreen.qml
     qml/Installed/ScreenPlayItem.qml
     qml/Installed/ScreenPlayItemImage.qml
     qml/Installed/Sidebar.qml
     qml/Monitors/DefaultVideoControls.qml
-    qml/Monitors/MonitorsView.qml
     qml/Monitors/MonitorSelection.qml
     qml/Monitors/MonitorSelectionItem.qml
     qml/Monitors/MonitorsProjectSettingItem.qml
+    qml/Monitors/MonitorsView.qml
     qml/Monitors/SaveNotification.qml
     qml/Navigation/ExitPopup.qml
     qml/Navigation/Navigation.qml
     qml/Settings/SettingBool.qml
-    qml/Settings/SettingsView.qml
     qml/Settings/SettingsButton.qml
     qml/Settings/SettingsComboBox.qml
     qml/Settings/SettingsExpander.qml
     qml/Settings/SettingsHeader.qml
     qml/Settings/SettingsHorizontalSeperator.qml
     qml/Settings/SettingsPage.qml
+    qml/Settings/SettingsView.qml
     qml/TrayIcon.qml
     qml/Workshop/WorkshopView.qml)
 
@@ -280,14 +280,11 @@ target_include_directories(
     PUBLIC inc/public/
     PRIVATE src/)
 
-# Note making this public is so that *_qmltyperegistrations.cpp
-# can find the needed include
+# Note making this public is so that *_qmltyperegistrations.cpp can find the needed include
 target_include_directories(ScreenPlayApp PUBLIC src/ inc/public/ScreenPlay)
 
-# ScreenPlayApp is our qml module needed for compiling
-# of all classes and most importanly for QML_ELEMENT.
-# So our app is mostly a module that then link to
-# ScreenPlay executable.
+# ScreenPlayApp is our qml module needed for compiling of all classes and most importanly for QML_ELEMENT. So our app is mostly a module
+# that then link to ScreenPlay executable.
 qt_add_qml_module(
     ScreenPlayApp
     URI
@@ -401,15 +398,14 @@ if(APPLE)
     set_target_properties(
         ${PROJECT_NAME}
         PROPERTIES OUTPUT_NAME ${PROJECT_NAME}
-                MACOSX_BUNDLE TRUE
-                MACOSX_RPATH TRUE
-                MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist
-                MACOSX_FRAMEWORK_IDENTIFIER app.screenplay
-                XCODE_ATTRIBUTE_LD_RUNPATH_SEARCH_PATHS "@loader_path/Libraries"
-                RESOURCE "${RESOURCE_FILES};${APP_ICON_MACOSX}" # Include the icon in the resources
-                XCODE_ATTRIBUTE_ENABLE_HARDENED_RUNTIME TRUE
-                XCODE_ATTRIBUTE_EXECUTABLE_NAME ${PROJECT_NAME})
-
+                   MACOSX_BUNDLE TRUE
+                   MACOSX_RPATH TRUE
+                   MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist
+                   MACOSX_FRAMEWORK_IDENTIFIER app.screenplay
+                   XCODE_ATTRIBUTE_LD_RUNPATH_SEARCH_PATHS "@loader_path/Libraries"
+                   RESOURCE "${RESOURCE_FILES};${APP_ICON_MACOSX}" # Include the icon in the resources
+                   XCODE_ATTRIBUTE_ENABLE_HARDENED_RUNTIME TRUE
+                   XCODE_ATTRIBUTE_EXECUTABLE_NAME ${PROJECT_NAME})
 
     add_custom_command(
         TARGET ${PROJECT_NAME}
@@ -437,9 +433,8 @@ if(APPLE)
 
 endif()
 
-# Must be called here, because we need to change the
-# OUTPUT_LOCATION for macos
-qt_add_lrelease(${PROJECT_NAME} TS_FILES ${TS_FILES} )
+# Must be called here, because we need to change the OUTPUT_LOCATION for macos
+qt_add_lrelease(${PROJECT_NAME} TS_FILES ${TS_FILES})
 
 # Note: We need the variables in the lib and exe!
 generate_cmake_variable_header(${PROJECT_NAME})

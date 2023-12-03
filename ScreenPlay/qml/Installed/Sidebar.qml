@@ -7,7 +7,6 @@ import QtQuick.Controls.Material.impl
 import ScreenPlayApp
 import ScreenPlay
 import ScreenPlayUtil
-
 import "../Monitors"
 
 Item {
