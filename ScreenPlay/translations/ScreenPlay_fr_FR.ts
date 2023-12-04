@@ -252,11 +252,11 @@ ScreenPlay se fermera seulement si aucun fond d&apos;écran n'est actif.</transl
     </message>
     <message>
       <source>You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the bottom right Tray-Icon.</source>
-      <translation type="unfinished">You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the bottom right Tray-Icon.</translation>
+      <translation>Vous pouvez &lt;b&gt;quitter&lt;/b&gt; ScreenPlay via l'icône en bas à droite.</translation>
     </message>
     <message>
       <source>You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the top right Tray-Icon.</source>
-      <translation type="unfinished">You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the top right Tray-Icon.</translation>
+      <translation>Vous pouvez &lt;b&gt;quitter&lt;/b&gt; ScreenPlay via l'icône en haut à droite.</translation>
     </message>
     <message>
       <source>Quit ScreenPlay now</source>
@@ -490,7 +490,7 @@ ScreenPlay se fermera seulement si aucun fond d&apos;écran n'est actif.</transl
     </message>
     <message>
       <source>Import a video to a wallpaper</source>
-      <translation type="unfinished">Import a video to a wallpaper</translation>
+      <translation>Convertir une vidéo en fond d&apos;écran</translation>
     </message>
     <message>
       <source>Generating preview video...</source>
@@ -757,7 +757,7 @@ ScreenPlay se fermera seulement si aucun fond d&apos;écran n'est actif.</transl
     <name>QMLWallpaperMain</name>
     <message>
       <source>My ScreenPlay Wallpaper 🚀</source>
-      <translation type="unfinished">My ScreenPlay Wallpaper 🚀</translation>
+      <translation>Mon fond d&apos;écran ScreenPlay 🚀</translation>
     </message>
   </context>
   <context>
