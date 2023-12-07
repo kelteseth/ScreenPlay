@@ -85,7 +85,7 @@ Rectangle {
             }
 
             ListElement {
-                headline: qsTr("Godot Wallpaper")
+                headline: qsTr("3D Engine Wallpaper (Godot 4.2)")
                 source: "qrc:/qml/ScreenPlayApp/qml/Create/Wizards/GodotWallpaper.qml"
                 category: "Code Wallpaper"
                 objectName: ""

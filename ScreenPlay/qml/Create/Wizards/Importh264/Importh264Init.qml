@@ -45,7 +45,7 @@ Item {
                 Text {
                     id: txtDescription
 
-                    text: qsTr("ScreenPlay V0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.")
+                    text: qsTr("ScreenPlay v0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.")
                     color: Material.primaryTextColor
                     Layout.fillWidth: true
                     font.pointSize: 13

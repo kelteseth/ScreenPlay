@@ -86,7 +86,7 @@ public:
 
     Q_INVOKABLE void copyToClipboard(const QString& text) const;
     Q_INVOKABLE void openFolderInExplorer(const QString& url) const;
-    Q_INVOKABLE bool openGodotEditor(QString contentPath) const;
+    Q_INVOKABLE bool openGodotEditor(QString contentPath, QString godotEditorExecutablePath) const;
     Q_INVOKABLE void requestAllLicenses();
     Q_INVOKABLE void requestDataProtection();
     Q_INVOKABLE bool fileExists(const QString& filePath) const;

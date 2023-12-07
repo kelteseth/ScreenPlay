@@ -519,11 +519,11 @@ void Util::openFolderInExplorer(const QString& url) const
     QDesktopServices::openUrl(QUrl::fromLocalFile(path));
 }
 
-bool Util::openGodotEditor(QString contentPath) const
+bool Util::openGodotEditor(QString contentPath, QString godotEditorExecutablePath) const
 {
     const QList<QString> godotCmd = { "--editor", "--path", toLocal(contentPath) };
     QProcess process;
-    // process.setProgram(m_globalVariables->godotEditorExecutablePath().toString());
+    process.setProgram(godotEditorExecutablePath);
     process.setArguments(godotCmd);
     return process.startDetached();
 }
