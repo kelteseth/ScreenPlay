@@ -63,18 +63,18 @@ Item {
                         }
                     }
 
-                    SettingsHorizontalSeperator {
-                    }
+                    // SettingsHorizontalSeperator {
+                    // }
 
-                    SettingBool {
-                        headline: qsTr("Show default installed content")
-                        description: qsTr("ScreenPlay will show build in content.")
-                        isChecked: App.settings.showDefaultContent
-                        onCheckboxChanged: function (checked) {
-                            App.settings.setShowDefaultContent(checked);
-                            App.installedListModel.reset();
-                        }
-                    }
+                    // SettingBool {
+                    //     headline: qsTr("Show default installed content")
+                    //     description: qsTr("ScreenPlay will show build in content.")
+                    //     isChecked: App.settings.showDefaultContent
+                    //     onCheckboxChanged: function (checked) {
+                    //         App.settings.setShowDefaultContent(checked);
+                    //         App.installedListModel.reset();
+                    //     }
+                    // }
 
                     SettingsHorizontalSeperator {
                     }

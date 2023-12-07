@@ -191,7 +191,7 @@ private:
     bool m_checkWallpaperVisible { false };
     bool m_silentStart { false };
     bool m_anonymousTelemetry { true };
-    bool m_showDefaultContent { true };
+    bool m_showDefaultContent { false };
 
     ScreenPlay::Video::FillMode m_videoFillMode { ScreenPlay::Video::FillMode::Cover };
     ScreenPlay::Settings::Language m_language { Language::En_US };
