@@ -17,8 +17,8 @@
 #include <QtQml>
 
 // Steam
-#include "steam/steam_api.h"
 #include "ScreenPlayUtil/steamenumsgenerated.h"
+#include "steam/steam_api.h"
 
 #include "steamaccount.h"
 #include "steamworkshoplistmodel.h"
