@@ -7,6 +7,7 @@ import download_ffmpeg
 import defines
 import argparse
 import util
+import shutil
 import macos_make_universal
 import datetime
 import setup_godot
@@ -106,7 +107,7 @@ def main():
     parser = argparse.ArgumentParser(
         description='Build and Package ScreenPlay')
     parser.add_argument('--skip-aqt', action="store_true", dest="skip_aqt",
-                        help="Downloads QtCreator and needed binaries Windows: C:\\aqt\\nLinux & macOS:~/aqt/.")
+                        help="Downloads needed Qt binaries Windows")
     args = parser.parse_args()
 
     root_path = Path(util.cd_repo_root_path())
@@ -148,9 +149,13 @@ def main():
         vcpkg_triplet = ["x64-linux"]
     else:
         raise NotImplementedError("Unknown system: {}".format(system()))
-
+    
+    if vcpkg_path.exists():
+        print(f"Deleting exisitng vcpkg: {vcpkg_path}")
+        shutil.rmtree(str(vcpkg_path))
+        
     print(f"Clone into {vcpkg_path}")
-    execute("git clone https://github.com/microsoft/vcpkg vcpkg",
+    execute("git clone --depth 1  https://github.com/microsoft/vcpkg vcpkg",
             project_source_parent_path, True)
     execute("git fetch", vcpkg_path)
     execute(f"git checkout {defines.VCPKG_VERSION}", vcpkg_path)
