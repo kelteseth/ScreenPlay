@@ -2,41 +2,41 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="it_IT" sourcelanguage="en">
 <context>
-    <name>Community</name>
+    <name>CommunityNavItem</name>
+    <message>
+        <source>Open in browser</source>
+        <translation>Apri nel browser</translation>
+    </message>
+</context>
+<context>
+    <name>CommunityView</name>
     <message>
         <source>News</source>
-        <translation>Notizie</translation>
+        <translation type="unfinished">Notizie</translation>
     </message>
     <message>
         <source>Wiki</source>
-        <translation>Wiki</translation>
+        <translation type="unfinished">Wiki</translation>
     </message>
     <message>
         <source>Forum</source>
-        <translation>Forum</translation>
+        <translation type="unfinished">Forum</translation>
     </message>
     <message>
-        <source>Contribute</source>
-        <translation>Contribuisci</translation>
-    </message>
-    <message>
-        <source>Steam Workshop</source>
-        <translation>Steam Workshop</translation>
+        <source>Reddit</source>
+        <translation type="unfinished">Reddit</translation>
     </message>
     <message>
         <source>Issue Tracker</source>
         <translation type="unfinished">Issue Tracker</translation>
     </message>
     <message>
-        <source>Reddit</source>
-        <translation type="unfinished">Reddit</translation>
+        <source>Contribute</source>
+        <translation type="unfinished">Contribuisci</translation>
     </message>
-</context>
-<context>
-    <name>CommunityNavItem</name>
     <message>
-        <source>Open in browser</source>
-        <translation>Apri nel browser</translation>
+        <source>Steam Workshop</source>
+        <translation type="unfinished">Steam Workshop</translation>
     </message>
 </context>
 <context>
@@ -80,6 +80,10 @@
     <message>
         <source>HTML Widget</source>
         <translation type="unfinished">HTML Widget</translation>
+    </message>
+    <message>
+        <source>3D Engine Wallpaper (Godot 4.2)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -292,6 +296,37 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     <message>
         <source>Tags</source>
         <translation>Tag</translation>
+    </message>
+</context>
+<context>
+    <name>GodotWallpaper</name>
+    <message>
+        <source>Create a Godot Wallpaper</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation type="unfinished">Generale</translation>
+    </message>
+    <message>
+        <source>Wallpaper name</source>
+        <translation type="unfinished">Nome sfondo</translation>
+    </message>
+    <message>
+        <source>Created By</source>
+        <translation type="unfinished">Creato da</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>License &amp; Tags</source>
+        <translation type="unfinished">Licenza &amp; Tag</translation>
+    </message>
+    <message>
+        <source>Preview Image</source>
+        <translation type="unfinished">Immagine d’anteprima</translation>
     </message>
 </context>
 <context>
@@ -528,10 +563,6 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
         <translation type="unfinished">Import a .mp4 video</translation>
     </message>
     <message>
-        <source>ScreenPlay V0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.</source>
-        <translation type="unfinished">ScreenPlay V0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.</translation>
-    </message>
-    <message>
         <source>Invalid file type. Must be valid h264 (*.mp4)!</source>
         <translation type="unfinished">Invalid file type. Must be valid h264 (*.mp4)!</translation>
     </message>
@@ -547,64 +578,16 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
         <source>Select file</source>
         <translation type="unfinished">Select file</translation>
     </message>
+    <message>
+        <source>ScreenPlay v0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Installed</name>
     <message>
         <source></source>
         <translation></translation>
-    </message>
-    <message>
-        <source>Refreshing!</source>
-        <translation>Aggiornamento!</translation>
-    </message>
-    <message>
-        <source>Pull to refresh!</source>
-        <translation>Trascina per aggiornare!</translation>
-    </message>
-    <message>
-        <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
-        <translation>Ottieni altri Wallpaper &amp; Widget dal workshop di Steam!</translation>
-    </message>
-    <message>
-        <source>Open containing folder</source>
-        <translation>Apri percorso file</translation>
-    </message>
-    <message>
-        <source>Remove Item</source>
-        <translation>Rimuovi elemento</translation>
-    </message>
-    <message>
-        <source>Remove via Workshop</source>
-        <translation>Rimuovi tramite Workshop</translation>
-    </message>
-    <message>
-        <source>Open Workshop Page</source>
-        <translation>Apri pagina del Workshop</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this item?</source>
-        <translation>Sei sicuro di voler rimuovere questo elemento?</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation type="unfinished">Export</translation>
-    </message>
-    <message>
-        <source>We only support adding one item at once.</source>
-        <translation type="unfinished">We only support adding one item at once.</translation>
-    </message>
-    <message>
-        <source>File type not supported. We only support &apos;.screenplay&apos; files.</source>
-        <translation type="unfinished">File type not supported. We only support &apos;.screenplay&apos; files.</translation>
-    </message>
-    <message>
-        <source>Import Content...</source>
-        <translation type="unfinished">Import Content...</translation>
-    </message>
-    <message>
-        <source>Export Content...</source>
-        <translation type="unfinished">Export Content...</translation>
     </message>
 </context>
 <context>
@@ -631,6 +614,65 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
 </context>
 <context>
+    <name>InstalledView</name>
+    <message>
+        <source>Refreshing!</source>
+        <translation type="unfinished">Aggiornamento!</translation>
+    </message>
+    <message>
+        <source>Pull to refresh!</source>
+        <translation type="unfinished">Trascina per aggiornare!</translation>
+    </message>
+    <message>
+        <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
+        <translation type="unfinished">Ottieni altri Wallpaper &amp; Widget dal workshop di Steam!</translation>
+    </message>
+    <message>
+        <source>Edit Wallpaper</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open containing folder</source>
+        <translation type="unfinished">Apri percorso file</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">Export</translation>
+    </message>
+    <message>
+        <source>Remove Item</source>
+        <translation type="unfinished">Rimuovi elemento</translation>
+    </message>
+    <message>
+        <source>Remove via Workshop</source>
+        <translation type="unfinished">Rimuovi tramite Workshop</translation>
+    </message>
+    <message>
+        <source>Open Workshop Page</source>
+        <translation type="unfinished">Apri pagina del Workshop</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this item?</source>
+        <translation type="unfinished">Sei sicuro di voler rimuovere questo elemento?</translation>
+    </message>
+    <message>
+        <source>Export Content...</source>
+        <translation type="unfinished">Export Content...</translation>
+    </message>
+    <message>
+        <source>We only support adding one item at once.</source>
+        <translation type="unfinished">We only support adding one item at once.</translation>
+    </message>
+    <message>
+        <source>File type not supported. We only support &apos;.screenplay&apos; files.</source>
+        <translation type="unfinished">File type not supported. We only support &apos;.screenplay&apos; files.</translation>
+    </message>
+    <message>
+        <source>Import Content...</source>
+        <translation type="unfinished">Import Content...</translation>
+    </message>
+</context>
+<context>
     <name>InstalledWelcomeScreen</name>
     <message>
         <source>Get free Widgets and Wallpaper via the Steam Workshop</source>
@@ -650,29 +692,6 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
 </context>
 <context>
-    <name>Monitors</name>
-    <message>
-        <source>Wallpaper Configuration</source>
-        <translation>Configurazione Sfondo</translation>
-    </message>
-    <message>
-        <source>Remove selected</source>
-        <translation>Rimuovi selezionati</translation>
-    </message>
-    <message>
-        <source>Wallpapers</source>
-        <translation>Sfondi</translation>
-    </message>
-    <message>
-        <source>Widgets</source>
-        <translation>Widgets</translation>
-    </message>
-    <message>
-        <source>Remove all </source>
-        <translation type="unfinished">Remove all </translation>
-    </message>
-</context>
-<context>
     <name>MonitorsProjectSettingItem</name>
     <message>
         <source>Set color</source>
@@ -681,6 +700,29 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     <message>
         <source>Please choose a color</source>
         <translation>Scegli un colore</translation>
+    </message>
+</context>
+<context>
+    <name>MonitorsView</name>
+    <message>
+        <source>Wallpaper Configuration</source>
+        <translation type="unfinished">Configurazione Sfondo</translation>
+    </message>
+    <message>
+        <source>Remove selected</source>
+        <translation type="unfinished">Rimuovi selezionati</translation>
+    </message>
+    <message>
+        <source>Remove all </source>
+        <translation type="unfinished">Remove all </translation>
+    </message>
+    <message>
+        <source>Wallpapers</source>
+        <translation type="unfinished">Sfondi</translation>
+    </message>
+    <message>
+        <source>Widgets</source>
+        <translation type="unfinished">Widgets</translation>
     </message>
 </context>
 <context>
@@ -809,158 +851,77 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
 </context>
 <context>
-    <name>Settings</name>
+    <name>SettingsExpander</name>
+    <message>
+        <source>Copy text to clipboard</source>
+        <translation>Copia testo negli appunti</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsView</name>
     <message>
         <source>General</source>
-        <translation>Generale</translation>
+        <translation type="unfinished">Generale</translation>
     </message>
     <message>
         <source>Autostart</source>
-        <translation>Avvio automatico</translation>
+        <translation type="unfinished">Avvio automatico</translation>
     </message>
     <message>
         <source>ScreenPlay will start with Windows and will setup your Desktop every time for you.</source>
-        <translation>ScreenPlay si avvierà con Windows e configurerà il desktop ogni volta per te.</translation>
+        <translation type="unfinished">ScreenPlay si avvierà con Windows e configurerà il desktop ogni volta per te.</translation>
     </message>
     <message>
         <source>Send anonymous crash reports and statistics</source>
-        <translation>Invia report e statistiche anonime sui crash</translation>
+        <translation type="unfinished">Invia report e statistiche anonime sui crash</translation>
     </message>
     <message>
         <source>Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use &lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; to collect and analyze this data. A &lt;b&gt;big thanks to them&lt;/b&gt; for providing us with free premium support for open source projects!</source>
-        <translation>Aiutaci a rendere ScreenPlay più veloce e stabile. Tutti i dati raccolti sono puramente anonimi e utilizzati solo per scopi di sviluppo! Usiamo &lt;a href=&quot;https://sentry.io&quot;&gt;sentry. o&lt;/a&gt; per raccogliere e analizzare questi dati. Un &lt;b&gt;grande grazie a loro&lt;/b&gt; per averci fornito supporto premium gratuito per i progetti open source!</translation>
+        <translation type="unfinished">Aiutaci a rendere ScreenPlay più veloce e stabile. Tutti i dati raccolti sono puramente anonimi e utilizzati solo per scopi di sviluppo! Usiamo &lt;a href=&quot;https://sentry.io&quot;&gt;sentry. o&lt;/a&gt; per raccogliere e analizzare questi dati. Un &lt;b&gt;grande grazie a loro&lt;/b&gt; per averci fornito supporto premium gratuito per i progetti open source!</translation>
     </message>
     <message>
         <source>Set save location</source>
-        <translation>Imposta cartella di salvataggio</translation>
+        <translation type="unfinished">Imposta cartella di salvataggio</translation>
     </message>
     <message>
         <source>Set location</source>
-        <translation>Imposta posizione</translation>
+        <translation type="unfinished">Imposta posizione</translation>
     </message>
     <message>
         <source>Your storage path is empty!</source>
-        <translation>Il tuo percorso di archiviazione è vuoto!</translation>
+        <translation type="unfinished">Il tuo percorso di archiviazione è vuoto!</translation>
     </message>
     <message>
         <source>Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</source>
-        <translation>Importante: la modifica di questa cartella non ha effetto sul percorso di download del workshop. ScreenPlay supporta solo una cartella contenuti!</translation>
+        <translation type="unfinished">Importante: la modifica di questa cartella non ha effetto sul percorso di download del workshop. ScreenPlay supporta solo una cartella contenuti!</translation>
     </message>
     <message>
         <source>Language</source>
-        <translation>Lingua</translation>
+        <translation type="unfinished">Lingua</translation>
     </message>
     <message>
         <source>Set the ScreenPlay UI Language</source>
-        <translation>Imposta la lingua dell&apos;interfaccia utente di ScreenPlay</translation>
+        <translation type="unfinished">Imposta la lingua dell&apos;interfaccia utente di ScreenPlay</translation>
     </message>
     <message>
         <source>Theme</source>
-        <translation>Tema</translation>
+        <translation type="unfinished">Tema</translation>
     </message>
     <message>
         <source>Switch dark/light theme</source>
-        <translation>Cambia tema scuro/chiaro</translation>
+        <translation type="unfinished">Cambia tema scuro/chiaro</translation>
     </message>
     <message>
         <source>System Default</source>
-        <translation>Predefinito di Sistema</translation>
+        <translation type="unfinished">Predefinito di Sistema</translation>
     </message>
     <message>
         <source>Dark</source>
-        <translation>Scuro</translation>
+        <translation type="unfinished">Scuro</translation>
     </message>
     <message>
         <source>Light</source>
-        <translation>Chiaro</translation>
-    </message>
-    <message>
-        <source>Set this property to define how the video is scaled to fit the target area.</source>
-        <translation>Imposta questa proprietà per definire come il video viene adattato all&apos;area di destinazione.</translation>
-    </message>
-    <message>
-        <source>Stretch</source>
-        <translation>Estensione</translation>
-    </message>
-    <message>
-        <source>Fill</source>
-        <translation>Riempimento</translation>
-    </message>
-    <message>
-        <source>Contain</source>
-        <translation>Contenimento</translation>
-    </message>
-    <message>
-        <source>Cover</source>
-        <translation>Coprente</translation>
-    </message>
-    <message>
-        <source>Scale-Down</source>
-        <translation>Riduzione</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation>Informazioni aggiuntive</translation>
-    </message>
-    <message>
-        <source>Thank you for using ScreenPlay</source>
-        <translation>Grazie per aver usato ScreenPlay</translation>
-    </message>
-    <message>
-        <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
-        <translation>Ciao, sono Elias Steurer conosciuto anche come Kelteseth e sono lo sviluppatore di ScreenPlay. Grazie per aver utilizzato il mio software. Puoi seguirmi per ricevere aggiornamenti su ScreenPlay qui:</translation>
-    </message>
-    <message>
-        <source>Version</source>
-        <translation>Versione</translation>
-    </message>
-    <message>
-        <source>Open Changelog</source>
-        <translation>Apri Changelog</translation>
-    </message>
-    <message>
-        <source>Third Party Software</source>
-        <translation>Software di terze parti</translation>
-    </message>
-    <message>
-        <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
-        <translation>ScreenPlay non sarebbe possibile senza il lavoro di altri. Un grande ringraziamento a: </translation>
-    </message>
-    <message>
-        <source>Licenses</source>
-        <translation>Licenze</translation>
-    </message>
-    <message>
-        <source>Logs</source>
-        <translation>Logs</translation>
-    </message>
-    <message>
-        <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
-        <translation>Se il tuo ScreenPlay non funziona correttamente questo è un buon modo per cercare risposte. Questo mostra tutti i log e gli avvisi durante l&apos;esecuzione.</translation>
-    </message>
-    <message>
-        <source>Show Logs</source>
-        <translation>Visualizza i Log</translation>
-    </message>
-    <message>
-        <source>Data Protection</source>
-        <translation>Protezione dei dati</translation>
-    </message>
-    <message>
-        <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
-        <translation>Utilizziamo i tuoi dati con molta attenzione per migliorare ScreenPlay. Non vendiamo o condividiamo queste informazioni (anonime) con altri!</translation>
-    </message>
-    <message>
-        <source>Privacy</source>
-        <translation>Privacy</translation>
-    </message>
-    <message>
-        <source>Show default installed content</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ScreenPlay will show build in content.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Chiaro</translation>
     </message>
     <message>
         <source>Wallpaper and Widgets</source>
@@ -978,12 +939,85 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
         <source>Default Wallpaper Fill Mode</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>SettingsExpander</name>
     <message>
-        <source>Copy text to clipboard</source>
-        <translation>Copia testo negli appunti</translation>
+        <source>Set this property to define how the video is scaled to fit the target area.</source>
+        <translation type="unfinished">Imposta questa proprietà per definire come il video viene adattato all&apos;area di destinazione.</translation>
+    </message>
+    <message>
+        <source>Stretch</source>
+        <translation type="unfinished">Estensione</translation>
+    </message>
+    <message>
+        <source>Fill</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Contain</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cover</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scale-Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>About</source>
+        <translation type="unfinished">Informazioni aggiuntive</translation>
+    </message>
+    <message>
+        <source>Thank you for using ScreenPlay</source>
+        <translation type="unfinished">Grazie per aver usato ScreenPlay</translation>
+    </message>
+    <message>
+        <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
+        <translation type="unfinished">Ciao, sono Elias Steurer conosciuto anche come Kelteseth e sono lo sviluppatore di ScreenPlay. Grazie per aver utilizzato il mio software. Puoi seguirmi per ricevere aggiornamenti su ScreenPlay qui:</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation type="unfinished">Versione</translation>
+    </message>
+    <message>
+        <source>Open Changelog</source>
+        <translation type="unfinished">Apri Changelog</translation>
+    </message>
+    <message>
+        <source>Third Party Software</source>
+        <translation type="unfinished">Software di terze parti</translation>
+    </message>
+    <message>
+        <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
+        <translation type="unfinished">ScreenPlay non sarebbe possibile senza il lavoro di altri. Un grande ringraziamento a: </translation>
+    </message>
+    <message>
+        <source>Licenses</source>
+        <translation type="unfinished">Licenze</translation>
+    </message>
+    <message>
+        <source>Logs</source>
+        <translation type="unfinished">Logs</translation>
+    </message>
+    <message>
+        <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
+        <translation type="unfinished">Se il tuo ScreenPlay non funziona correttamente questo è un buon modo per cercare risposte. Questo mostra tutti i log e gli avvisi durante l&apos;esecuzione.</translation>
+    </message>
+    <message>
+        <source>Show Logs</source>
+        <translation type="unfinished">Visualizza i Log</translation>
+    </message>
+    <message>
+        <source>Data Protection</source>
+        <translation type="unfinished">Protezione dei dati</translation>
+    </message>
+    <message>
+        <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
+        <translation type="unfinished">Utilizziamo i tuoi dati con molta attenzione per migliorare ScreenPlay. Non vendiamo o condividiamo queste informazioni (anonime) con altri!</translation>
+    </message>
+    <message>
+        <source>Privacy</source>
+        <translation type="unfinished">Privacy</translation>
     </message>
 </context>
 <context>
@@ -1072,6 +1106,30 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
     <message>
         <source>Quit ScreenPlay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change Wallpaper settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse Workshop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create new Wallpaper or Widgets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished">Impostazioni</translation>
+    </message>
+    <message>
+        <source>Forums and Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Frequently Asked Questions (FAQ)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

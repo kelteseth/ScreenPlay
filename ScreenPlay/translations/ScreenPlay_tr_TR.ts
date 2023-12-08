@@ -2,41 +2,41 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="tr_TR" sourcelanguage="en">
 <context>
-    <name>Community</name>
+    <name>CommunityNavItem</name>
+    <message>
+        <source>Open in browser</source>
+        <translation>Tarayıcıda aç</translation>
+    </message>
+</context>
+<context>
+    <name>CommunityView</name>
     <message>
         <source>News</source>
-        <translation>Yenilikler</translation>
+        <translation type="unfinished">Yenilikler</translation>
     </message>
     <message>
         <source>Wiki</source>
-        <translation>Wiki</translation>
+        <translation type="unfinished">Wiki</translation>
     </message>
     <message>
         <source>Forum</source>
-        <translation>Forum</translation>
+        <translation type="unfinished">Forum</translation>
     </message>
     <message>
-        <source>Contribute</source>
-        <translation>Bağış yap</translation>
-    </message>
-    <message>
-        <source>Steam Workshop</source>
-        <translation>Steam Atölyesi</translation>
+        <source>Reddit</source>
+        <translation type="unfinished">Reddit</translation>
     </message>
     <message>
         <source>Issue Tracker</source>
         <translation type="unfinished">Issue Tracker</translation>
     </message>
     <message>
-        <source>Reddit</source>
-        <translation type="unfinished">Reddit</translation>
+        <source>Contribute</source>
+        <translation type="unfinished">Bağış yap</translation>
     </message>
-</context>
-<context>
-    <name>CommunityNavItem</name>
     <message>
-        <source>Open in browser</source>
-        <translation>Tarayıcıda aç</translation>
+        <source>Steam Workshop</source>
+        <translation type="unfinished">Steam Atölyesi</translation>
     </message>
 </context>
 <context>
@@ -80,6 +80,10 @@
     <message>
         <source>HTML Widget</source>
         <translation type="unfinished">HTML Widget</translation>
+    </message>
+    <message>
+        <source>3D Engine Wallpaper (Godot 4.2)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -292,6 +296,37 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     <message>
         <source>Tags</source>
         <translation>Etiketler</translation>
+    </message>
+</context>
+<context>
+    <name>GodotWallpaper</name>
+    <message>
+        <source>Create a Godot Wallpaper</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wallpaper name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Created By</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>License &amp; Tags</source>
+        <translation type="unfinished">Lisans &amp; Etiketler</translation>
+    </message>
+    <message>
+        <source>Preview Image</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -528,10 +563,6 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
         <translation type="unfinished">Import a .mp4 video</translation>
     </message>
     <message>
-        <source>ScreenPlay V0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.</source>
-        <translation type="unfinished">ScreenPlay V0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.</translation>
-    </message>
-    <message>
         <source>Invalid file type. Must be valid h264 (*.mp4)!</source>
         <translation type="unfinished">Invalid file type. Must be valid h264 (*.mp4)!</translation>
     </message>
@@ -547,64 +578,16 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
         <source>Select file</source>
         <translation type="unfinished">Select file</translation>
     </message>
+    <message>
+        <source>ScreenPlay v0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Installed</name>
     <message>
         <source></source>
         <translation></translation>
-    </message>
-    <message>
-        <source>Refreshing!</source>
-        <translation>Yenileniyor!</translation>
-    </message>
-    <message>
-        <source>Pull to refresh!</source>
-        <translation>Yenilemek için çek!</translation>
-    </message>
-    <message>
-        <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
-        <translation>Steam atölyesi aracılığıyla daha fazla Duvar Kağıdı ve Widget edinin!</translation>
-    </message>
-    <message>
-        <source>Open containing folder</source>
-        <translation>İçeren klasörü aç</translation>
-    </message>
-    <message>
-        <source>Remove Item</source>
-        <translation>Öğeyi Kaldır</translation>
-    </message>
-    <message>
-        <source>Remove via Workshop</source>
-        <translation>Atölye ile Kaldır</translation>
-    </message>
-    <message>
-        <source>Open Workshop Page</source>
-        <translation>Atölyeyi Aç</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this item?</source>
-        <translation>Bu öğeyi silmek istediğinizden emin misiniz?</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation type="unfinished">Export</translation>
-    </message>
-    <message>
-        <source>We only support adding one item at once.</source>
-        <translation type="unfinished">We only support adding one item at once.</translation>
-    </message>
-    <message>
-        <source>File type not supported. We only support &apos;.screenplay&apos; files.</source>
-        <translation type="unfinished">File type not supported. We only support &apos;.screenplay&apos; files.</translation>
-    </message>
-    <message>
-        <source>Import Content...</source>
-        <translation type="unfinished">Import Content...</translation>
-    </message>
-    <message>
-        <source>Export Content...</source>
-        <translation type="unfinished">Export Content...</translation>
     </message>
 </context>
 <context>
@@ -631,6 +614,65 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
 </context>
 <context>
+    <name>InstalledView</name>
+    <message>
+        <source>Refreshing!</source>
+        <translation type="unfinished">Yenileniyor!</translation>
+    </message>
+    <message>
+        <source>Pull to refresh!</source>
+        <translation type="unfinished">Yenilemek için çek!</translation>
+    </message>
+    <message>
+        <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
+        <translation type="unfinished">Steam atölyesi aracılığıyla daha fazla Duvar Kağıdı ve Widget edinin!</translation>
+    </message>
+    <message>
+        <source>Edit Wallpaper</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open containing folder</source>
+        <translation type="unfinished">İçeren klasörü aç</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">Export</translation>
+    </message>
+    <message>
+        <source>Remove Item</source>
+        <translation type="unfinished">Öğeyi Kaldır</translation>
+    </message>
+    <message>
+        <source>Remove via Workshop</source>
+        <translation type="unfinished">Atölye ile Kaldır</translation>
+    </message>
+    <message>
+        <source>Open Workshop Page</source>
+        <translation type="unfinished">Atölyeyi Aç</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this item?</source>
+        <translation type="unfinished">Bu öğeyi silmek istediğinizden emin misiniz?</translation>
+    </message>
+    <message>
+        <source>Export Content...</source>
+        <translation type="unfinished">Export Content...</translation>
+    </message>
+    <message>
+        <source>We only support adding one item at once.</source>
+        <translation type="unfinished">We only support adding one item at once.</translation>
+    </message>
+    <message>
+        <source>File type not supported. We only support &apos;.screenplay&apos; files.</source>
+        <translation type="unfinished">File type not supported. We only support &apos;.screenplay&apos; files.</translation>
+    </message>
+    <message>
+        <source>Import Content...</source>
+        <translation type="unfinished">Import Content...</translation>
+    </message>
+</context>
+<context>
     <name>InstalledWelcomeScreen</name>
     <message>
         <source>Get free Widgets and Wallpaper via the Steam Workshop</source>
@@ -650,29 +692,6 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
 </context>
 <context>
-    <name>Monitors</name>
-    <message>
-        <source>Wallpaper Configuration</source>
-        <translation>Duvar Kağıdı Yapılandırması</translation>
-    </message>
-    <message>
-        <source>Remove selected</source>
-        <translation>Seçilenleri kaldır</translation>
-    </message>
-    <message>
-        <source>Wallpapers</source>
-        <translation>Duvar kağıtları</translation>
-    </message>
-    <message>
-        <source>Widgets</source>
-        <translation>Widget’lar</translation>
-    </message>
-    <message>
-        <source>Remove all </source>
-        <translation type="unfinished">Remove all </translation>
-    </message>
-</context>
-<context>
     <name>MonitorsProjectSettingItem</name>
     <message>
         <source>Set color</source>
@@ -681,6 +700,29 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     <message>
         <source>Please choose a color</source>
         <translation>Lütfen renk seçin</translation>
+    </message>
+</context>
+<context>
+    <name>MonitorsView</name>
+    <message>
+        <source>Wallpaper Configuration</source>
+        <translation type="unfinished">Duvar Kağıdı Yapılandırması</translation>
+    </message>
+    <message>
+        <source>Remove selected</source>
+        <translation type="unfinished">Seçilenleri kaldır</translation>
+    </message>
+    <message>
+        <source>Remove all </source>
+        <translation type="unfinished">Remove all </translation>
+    </message>
+    <message>
+        <source>Wallpapers</source>
+        <translation type="unfinished">Duvar kağıtları</translation>
+    </message>
+    <message>
+        <source>Widgets</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -809,18 +851,25 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
 </context>
 <context>
-    <name>Settings</name>
+    <name>SettingsExpander</name>
+    <message>
+        <source>Copy text to clipboard</source>
+        <translation type="unfinished">Copy text to clipboard</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsView</name>
     <message>
         <source>General</source>
-        <translation>Genel</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Autostart</source>
-        <translation>Otomatik başlatma</translation>
+        <translation type="unfinished">Otomatik başlatma</translation>
     </message>
     <message>
         <source>ScreenPlay will start with Windows and will setup your Desktop every time for you.</source>
-        <translation>ScreenPlay, Windows ile başlayacak ve her seferinde sizin için Masaüstünüzü kuracaktır.</translation>
+        <translation type="unfinished">ScreenPlay, Windows ile başlayacak ve her seferinde sizin için Masaüstünüzü kuracaktır.</translation>
     </message>
     <message>
         <source>Send anonymous crash reports and statistics</source>
@@ -844,67 +893,83 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
     <message>
         <source>Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</source>
-        <translation>Önemli: Bu dizini değiştirmenin atölye indirme yolu üzerinde hiçbir etkisi yoktur. ScreenPlay yalnızca bir içerik klasörüne sahip olmayı destekler!</translation>
+        <translation type="unfinished">Önemli: Bu dizini değiştirmenin atölye indirme yolu üzerinde hiçbir etkisi yoktur. ScreenPlay yalnızca bir içerik klasörüne sahip olmayı destekler!</translation>
     </message>
     <message>
         <source>Language</source>
-        <translation>Dil</translation>
+        <translation type="unfinished">Dil</translation>
     </message>
     <message>
         <source>Set the ScreenPlay UI Language</source>
-        <translation>ScreenPlay Arayüz Dilini Ayarlayın</translation>
+        <translation type="unfinished">ScreenPlay Arayüz Dilini Ayarlayın</translation>
     </message>
     <message>
         <source>Theme</source>
-        <translation>Tema</translation>
+        <translation type="unfinished">Tema</translation>
     </message>
     <message>
         <source>Switch dark/light theme</source>
-        <translation>Koyu/Açık temayı değiştir</translation>
+        <translation type="unfinished">Koyu/Açık temayı değiştir</translation>
     </message>
     <message>
         <source>System Default</source>
-        <translation>Sistem Varsayılanı</translation>
+        <translation type="unfinished">Sistem Varsayılanı</translation>
     </message>
     <message>
         <source>Dark</source>
-        <translation>Karanlık</translation>
+        <translation type="unfinished">Karanlık</translation>
     </message>
     <message>
         <source>Light</source>
-        <translation>Aydınlık</translation>
+        <translation type="unfinished">Aydınlık</translation>
+    </message>
+    <message>
+        <source>Wallpaper and Widgets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pause wallpaper video rendering while another app is in the foreground.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Limitations: This setting is Windows only, currently only works if you have exactly one monitor connected, and is limited to wallpapers with no audio. Wallpaper restart is required, when changing this setting!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default Wallpaper Fill Mode</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Set this property to define how the video is scaled to fit the target area.</source>
-        <translation>Videonun hedef alana sığacak şekilde nasıl ölçeklendirileceğini tanımlamak için bu özelliği ayarlayın.</translation>
+        <translation type="unfinished">Videonun hedef alana sığacak şekilde nasıl ölçeklendirileceğini tanımlamak için bu özelliği ayarlayın.</translation>
     </message>
     <message>
         <source>Stretch</source>
-        <translation>Esnet</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Fill</source>
-        <translation>Doldur</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Contain</source>
-        <translation>İçeren</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cover</source>
-        <translation>Kapak</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Scale-Down</source>
-        <translation>Ölçek-Düşür</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>About</source>
-        <translation>Hakkında</translation>
+        <translation type="unfinished">Hakkında</translation>
     </message>
     <message>
         <source>Thank you for using ScreenPlay</source>
-        <translation>ScreePlay&apos;i kullandığınız için teşekkür ederiz!</translation>
+        <translation type="unfinished">ScreePlay&apos;i kullandığınız için teşekkür ederiz!</translation>
     </message>
     <message>
         <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
@@ -953,37 +1018,6 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     <message>
         <source>Privacy</source>
         <translation type="unfinished">Privacy</translation>
-    </message>
-    <message>
-        <source>Show default installed content</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ScreenPlay will show build in content.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Wallpaper and Widgets</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Pause wallpaper video rendering while another app is in the foreground.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Limitations: This setting is Windows only, currently only works if you have exactly one monitor connected, and is limited to wallpapers with no audio. Wallpaper restart is required, when changing this setting!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Default Wallpaper Fill Mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>SettingsExpander</name>
-    <message>
-        <source>Copy text to clipboard</source>
-        <translation type="unfinished">Copy text to clipboard</translation>
     </message>
 </context>
 <context>
@@ -1072,6 +1106,30 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
     <message>
         <source>Quit ScreenPlay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change Wallpaper settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse Workshop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create new Wallpaper or Widgets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished">Settings</translation>
+    </message>
+    <message>
+        <source>Forums and Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Frequently Asked Questions (FAQ)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

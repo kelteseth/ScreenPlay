@@ -2,41 +2,41 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN" sourcelanguage="en">
 <context>
-    <name>Community</name>
-    <message>
-        <source>News</source>
-        <translation>新闻</translation>
-    </message>
-    <message>
-        <source>Wiki</source>
-        <translation>维基</translation>
-    </message>
-    <message>
-        <source>Forum</source>
-        <translation>论坛</translation>
-    </message>
-    <message>
-        <source>Contribute</source>
-        <translation>贡献</translation>
-    </message>
-    <message>
-        <source>Steam Workshop</source>
-        <translation>Steam 创意工坊</translation>
-    </message>
-    <message>
-        <source>Issue Tracker</source>
-        <translation>问题跟踪器</translation>
-    </message>
-    <message>
-        <source>Reddit</source>
-        <translation>Reddit</translation>
-    </message>
-</context>
-<context>
     <name>CommunityNavItem</name>
     <message>
         <source>Open in browser</source>
         <translation>在浏览器中打开</translation>
+    </message>
+</context>
+<context>
+    <name>CommunityView</name>
+    <message>
+        <source>News</source>
+        <translation type="unfinished">新闻</translation>
+    </message>
+    <message>
+        <source>Wiki</source>
+        <translation type="unfinished">维基</translation>
+    </message>
+    <message>
+        <source>Forum</source>
+        <translation type="unfinished">论坛</translation>
+    </message>
+    <message>
+        <source>Reddit</source>
+        <translation type="unfinished">Reddit</translation>
+    </message>
+    <message>
+        <source>Issue Tracker</source>
+        <translation type="unfinished">问题跟踪器</translation>
+    </message>
+    <message>
+        <source>Contribute</source>
+        <translation type="unfinished">贡献</translation>
+    </message>
+    <message>
+        <source>Steam Workshop</source>
+        <translation type="unfinished">Steam 创意工坊</translation>
     </message>
 </context>
 <context>
@@ -80,6 +80,10 @@
     <message>
         <source>HTML Widget</source>
         <translation type="unfinished">HTML Widget</translation>
+    </message>
+    <message>
+        <source>3D Engine Wallpaper (Godot 4.2)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -292,6 +296,37 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     <message>
         <source>Tags</source>
         <translation>标签</translation>
+    </message>
+</context>
+<context>
+    <name>GodotWallpaper</name>
+    <message>
+        <source>Create a Godot Wallpaper</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation type="unfinished">常规</translation>
+    </message>
+    <message>
+        <source>Wallpaper name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Created By</source>
+        <translation type="unfinished">作者</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation type="unfinished">简介</translation>
+    </message>
+    <message>
+        <source>License &amp; Tags</source>
+        <translation type="unfinished">许可证 &amp; 标签</translation>
+    </message>
+    <message>
+        <source>Preview Image</source>
+        <translation type="unfinished">预览图</translation>
     </message>
 </context>
 <context>
@@ -528,10 +563,6 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
         <translation>导入 .mp4 视频</translation>
     </message>
     <message>
-        <source>ScreenPlay V0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.</source>
-        <translation>ScreenPlay V0.15及以上可播放 *.mp4 (通常称为h264)，这可以提高旧系统上的性能。</translation>
-    </message>
-    <message>
         <source>Invalid file type. Must be valid h264 (*.mp4)!</source>
         <translation>文件类型无效。必须是有效的 h264 (*.mp4)！</translation>
     </message>
@@ -547,64 +578,16 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
         <source>Select file</source>
         <translation>选择文件</translation>
     </message>
+    <message>
+        <source>ScreenPlay v0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Installed</name>
     <message>
         <source></source>
         <translation></translation>
-    </message>
-    <message>
-        <source>Refreshing!</source>
-        <translation>刷新中！</translation>
-    </message>
-    <message>
-        <source>Pull to refresh!</source>
-        <translation>下拉以刷新！</translation>
-    </message>
-    <message>
-        <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
-        <translation>从创意工坊获取更多壁纸和物件！</translation>
-    </message>
-    <message>
-        <source>Open containing folder</source>
-        <translation>打开文件夹</translation>
-    </message>
-    <message>
-        <source>Remove Item</source>
-        <translation>删除物品</translation>
-    </message>
-    <message>
-        <source>Remove via Workshop</source>
-        <translation>从创意工坊中删除</translation>
-    </message>
-    <message>
-        <source>Open Workshop Page</source>
-        <translation>打开创意工坊页面</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this item?</source>
-        <translation>您确定要删除此物品？</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation type="unfinished">Export</translation>
-    </message>
-    <message>
-        <source>We only support adding one item at once.</source>
-        <translation type="unfinished">We only support adding one item at once.</translation>
-    </message>
-    <message>
-        <source>File type not supported. We only support &apos;.screenplay&apos; files.</source>
-        <translation type="unfinished">File type not supported. We only support &apos;.screenplay&apos; files.</translation>
-    </message>
-    <message>
-        <source>Import Content...</source>
-        <translation type="unfinished">Import Content...</translation>
-    </message>
-    <message>
-        <source>Export Content...</source>
-        <translation type="unfinished">Export Content...</translation>
     </message>
 </context>
 <context>
@@ -631,6 +614,65 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
 </context>
 <context>
+    <name>InstalledView</name>
+    <message>
+        <source>Refreshing!</source>
+        <translation type="unfinished">刷新中！</translation>
+    </message>
+    <message>
+        <source>Pull to refresh!</source>
+        <translation type="unfinished">下拉以刷新！</translation>
+    </message>
+    <message>
+        <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
+        <translation type="unfinished">从创意工坊获取更多壁纸和物件！</translation>
+    </message>
+    <message>
+        <source>Edit Wallpaper</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open containing folder</source>
+        <translation type="unfinished">打开文件夹</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">Export</translation>
+    </message>
+    <message>
+        <source>Remove Item</source>
+        <translation type="unfinished">删除物品</translation>
+    </message>
+    <message>
+        <source>Remove via Workshop</source>
+        <translation type="unfinished">从创意工坊中删除</translation>
+    </message>
+    <message>
+        <source>Open Workshop Page</source>
+        <translation type="unfinished">打开创意工坊页面</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this item?</source>
+        <translation type="unfinished">您确定要删除此物品？</translation>
+    </message>
+    <message>
+        <source>Export Content...</source>
+        <translation type="unfinished">Export Content...</translation>
+    </message>
+    <message>
+        <source>We only support adding one item at once.</source>
+        <translation type="unfinished">We only support adding one item at once.</translation>
+    </message>
+    <message>
+        <source>File type not supported. We only support &apos;.screenplay&apos; files.</source>
+        <translation type="unfinished">File type not supported. We only support &apos;.screenplay&apos; files.</translation>
+    </message>
+    <message>
+        <source>Import Content...</source>
+        <translation type="unfinished">Import Content...</translation>
+    </message>
+</context>
+<context>
     <name>InstalledWelcomeScreen</name>
     <message>
         <source>Get free Widgets and Wallpaper via the Steam Workshop</source>
@@ -650,29 +692,6 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
 </context>
 <context>
-    <name>Monitors</name>
-    <message>
-        <source>Wallpaper Configuration</source>
-        <translation>壁纸配置</translation>
-    </message>
-    <message>
-        <source>Remove selected</source>
-        <translation>移除已选择</translation>
-    </message>
-    <message>
-        <source>Wallpapers</source>
-        <translation>壁纸</translation>
-    </message>
-    <message>
-        <source>Widgets</source>
-        <translation>物件</translation>
-    </message>
-    <message>
-        <source>Remove all </source>
-        <translation>移除所有</translation>
-    </message>
-</context>
-<context>
     <name>MonitorsProjectSettingItem</name>
     <message>
         <source>Set color</source>
@@ -681,6 +700,29 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     <message>
         <source>Please choose a color</source>
         <translation>请选择颜色</translation>
+    </message>
+</context>
+<context>
+    <name>MonitorsView</name>
+    <message>
+        <source>Wallpaper Configuration</source>
+        <translation type="unfinished">壁纸配置</translation>
+    </message>
+    <message>
+        <source>Remove selected</source>
+        <translation type="unfinished">移除已选择</translation>
+    </message>
+    <message>
+        <source>Remove all </source>
+        <translation type="unfinished">移除所有</translation>
+    </message>
+    <message>
+        <source>Wallpapers</source>
+        <translation type="unfinished">壁纸</translation>
+    </message>
+    <message>
+        <source>Widgets</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -809,158 +851,77 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
 </context>
 <context>
-    <name>Settings</name>
+    <name>SettingsExpander</name>
+    <message>
+        <source>Copy text to clipboard</source>
+        <translation>复制文本至剪贴板</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsView</name>
     <message>
         <source>General</source>
-        <translation>常规</translation>
+        <translation type="unfinished">常规</translation>
     </message>
     <message>
         <source>Autostart</source>
-        <translation>自启动</translation>
+        <translation type="unfinished">自启动</translation>
     </message>
     <message>
         <source>ScreenPlay will start with Windows and will setup your Desktop every time for you.</source>
-        <translation>ScreenPlay将在操作系统启动时启动，并会设置您的桌面。</translation>
+        <translation type="unfinished">ScreenPlay将在操作系统启动时启动，并会设置您的桌面。</translation>
     </message>
     <message>
         <source>Send anonymous crash reports and statistics</source>
-        <translation>发送匿名崩溃报告和统计数据</translation>
+        <translation type="unfinished">发送匿名崩溃报告和统计数据</translation>
     </message>
     <message>
         <source>Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use &lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; to collect and analyze this data. A &lt;b&gt;big thanks to them&lt;/b&gt; for providing us with free premium support for open source projects!</source>
-        <translation>帮助我们让 ScreenPlay 更快更稳定。所有被收集的数据完全匿名，而且仅用于开发用途！我们使用&lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; 收集与分析数据。&lt;b&gt;感谢他们&lt;/b&gt; 为我们提供对开源项目免费而优质的服务！</translation>
+        <translation type="unfinished">帮助我们让 ScreenPlay 更快更稳定。所有被收集的数据完全匿名，而且仅用于开发用途！我们使用&lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; 收集与分析数据。&lt;b&gt;感谢他们&lt;/b&gt; 为我们提供对开源项目免费而优质的服务！</translation>
     </message>
     <message>
         <source>Set save location</source>
-        <translation>设置保存位置</translation>
+        <translation type="unfinished">设置保存位置</translation>
     </message>
     <message>
         <source>Set location</source>
-        <translation>选择位置</translation>
+        <translation type="unfinished">选择位置</translation>
     </message>
     <message>
         <source>Your storage path is empty!</source>
-        <translation>您的存储路径是空的！</translation>
+        <translation type="unfinished">您的存储路径是空的！</translation>
     </message>
     <message>
         <source>Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</source>
-        <translation>注意：修改此目录并不影响创意工坊的下载路径。ScreenPlay仅支持单个内容文件夹！</translation>
+        <translation type="unfinished">注意：修改此目录并不影响创意工坊的下载路径。ScreenPlay仅支持单个内容文件夹！</translation>
     </message>
     <message>
         <source>Language</source>
-        <translation>语言</translation>
+        <translation type="unfinished">语言</translation>
     </message>
     <message>
         <source>Set the ScreenPlay UI Language</source>
-        <translation>设置ScreenPlay界面语言</translation>
+        <translation type="unfinished">设置ScreenPlay界面语言</translation>
     </message>
     <message>
         <source>Theme</source>
-        <translation>主题</translation>
+        <translation type="unfinished">主题</translation>
     </message>
     <message>
         <source>Switch dark/light theme</source>
-        <translation>切换到暗/亮主题</translation>
+        <translation type="unfinished">切换到暗/亮主题</translation>
     </message>
     <message>
         <source>System Default</source>
-        <translation>跟随系统</translation>
+        <translation type="unfinished">跟随系统</translation>
     </message>
     <message>
         <source>Dark</source>
-        <translation>暗</translation>
+        <translation type="unfinished">暗</translation>
     </message>
     <message>
         <source>Light</source>
-        <translation>亮</translation>
-    </message>
-    <message>
-        <source>Set this property to define how the video is scaled to fit the target area.</source>
-        <translation>设置此属性可定义视频的缩放方式以适应目标区域。</translation>
-    </message>
-    <message>
-        <source>Stretch</source>
-        <translation>拉伸</translation>
-    </message>
-    <message>
-        <source>Fill</source>
-        <translation>填充</translation>
-    </message>
-    <message>
-        <source>Contain</source>
-        <translation>适应</translation>
-    </message>
-    <message>
-        <source>Cover</source>
-        <translation>平铺</translation>
-    </message>
-    <message>
-        <source>Scale-Down</source>
-        <translation>裁剪</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation>关于</translation>
-    </message>
-    <message>
-        <source>Thank you for using ScreenPlay</source>
-        <translation>感谢您的使用</translation>
-    </message>
-    <message>
-        <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
-        <translation>您好，我是Elias Steurer，也叫Kelteseth，我是ScreenPlay的开发者。感谢您使用我的软件。您可以在这里关注我，接收ScreenPlay的更新。</translation>
-    </message>
-    <message>
-        <source>Version</source>
-        <translation>版本</translation>
-    </message>
-    <message>
-        <source>Open Changelog</source>
-        <translation>打开更改日志。</translation>
-    </message>
-    <message>
-        <source>Third Party Software</source>
-        <translation>第三方软件</translation>
-    </message>
-    <message>
-        <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
-        <translation>ScreenPlay离不开一些人的帮助。非常感谢你们：</translation>
-    </message>
-    <message>
-        <source>Licenses</source>
-        <translation>许可证</translation>
-    </message>
-    <message>
-        <source>Logs</source>
-        <translation>日志</translation>
-    </message>
-    <message>
-        <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
-        <translation>如果您的ScreenPlay出错，这是个很好的查错方式。它显示所有的日志和运行时警告。</translation>
-    </message>
-    <message>
-        <source>Show Logs</source>
-        <translation>显示日志</translation>
-    </message>
-    <message>
-        <source>Data Protection</source>
-        <translation>数据保护</translation>
-    </message>
-    <message>
-        <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
-        <translation>我们使用您的数据提升ScreenPlay的体验。我们承诺不出售或分享这些匿名信息！</translation>
-    </message>
-    <message>
-        <source>Privacy</source>
-        <translation>隐私</translation>
-    </message>
-    <message>
-        <source>Show default installed content</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ScreenPlay will show build in content.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">亮</translation>
     </message>
     <message>
         <source>Wallpaper and Widgets</source>
@@ -978,12 +939,85 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
         <source>Default Wallpaper Fill Mode</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>SettingsExpander</name>
     <message>
-        <source>Copy text to clipboard</source>
-        <translation>复制文本至剪贴板</translation>
+        <source>Set this property to define how the video is scaled to fit the target area.</source>
+        <translation type="unfinished">设置此属性可定义视频的缩放方式以适应目标区域。</translation>
+    </message>
+    <message>
+        <source>Stretch</source>
+        <translation type="unfinished">拉伸</translation>
+    </message>
+    <message>
+        <source>Fill</source>
+        <translation type="unfinished">填充</translation>
+    </message>
+    <message>
+        <source>Contain</source>
+        <translation type="unfinished">适应</translation>
+    </message>
+    <message>
+        <source>Cover</source>
+        <translation type="unfinished">平铺</translation>
+    </message>
+    <message>
+        <source>Scale-Down</source>
+        <translation type="unfinished">裁剪</translation>
+    </message>
+    <message>
+        <source>About</source>
+        <translation type="unfinished">关于</translation>
+    </message>
+    <message>
+        <source>Thank you for using ScreenPlay</source>
+        <translation type="unfinished">感谢您的使用</translation>
+    </message>
+    <message>
+        <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
+        <translation type="unfinished">您好，我是Elias Steurer，也叫Kelteseth，我是ScreenPlay的开发者。感谢您使用我的软件。您可以在这里关注我，接收ScreenPlay的更新。</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation type="unfinished">版本</translation>
+    </message>
+    <message>
+        <source>Open Changelog</source>
+        <translation type="unfinished">打开更改日志。</translation>
+    </message>
+    <message>
+        <source>Third Party Software</source>
+        <translation type="unfinished">第三方软件</translation>
+    </message>
+    <message>
+        <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
+        <translation type="unfinished">ScreenPlay离不开一些人的帮助。非常感谢你们：</translation>
+    </message>
+    <message>
+        <source>Licenses</source>
+        <translation type="unfinished">许可证</translation>
+    </message>
+    <message>
+        <source>Logs</source>
+        <translation type="unfinished">日志</translation>
+    </message>
+    <message>
+        <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
+        <translation type="unfinished">如果您的ScreenPlay出错，这是个很好的查错方式。它显示所有的日志和运行时警告。</translation>
+    </message>
+    <message>
+        <source>Show Logs</source>
+        <translation type="unfinished">显示日志</translation>
+    </message>
+    <message>
+        <source>Data Protection</source>
+        <translation type="unfinished">数据保护</translation>
+    </message>
+    <message>
+        <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
+        <translation type="unfinished">我们使用您的数据提升ScreenPlay的体验。我们承诺不出售或分享这些匿名信息！</translation>
+    </message>
+    <message>
+        <source>Privacy</source>
+        <translation type="unfinished">隐私</translation>
     </message>
 </context>
 <context>
@@ -1072,6 +1106,30 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
     <message>
         <source>Quit ScreenPlay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change Wallpaper settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse Workshop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create new Wallpaper or Widgets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished">设置</translation>
+    </message>
+    <message>
+        <source>Forums and Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Frequently Asked Questions (FAQ)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -2,7 +2,14 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en_US">
 <context>
-    <name>Community</name>
+    <name>CommunityNavItem</name>
+    <message>
+        <source>Open in browser</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CommunityView</name>
     <message>
         <source>News</source>
         <translation type="unfinished"></translation>
@@ -16,11 +23,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Contribute</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Steam Workshop</source>
+        <source>Reddit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -28,14 +31,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Reddit</source>
+        <source>Contribute</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>CommunityNavItem</name>
     <message>
-        <source>Open in browser</source>
+        <source>Steam Workshop</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -79,6 +79,10 @@
     </message>
     <message>
         <source>HTML Widget</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>3D Engine Wallpaper (Godot 4.2)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -288,6 +292,37 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
     </message>
     <message>
         <source>Tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>GodotWallpaper</name>
+    <message>
+        <source>Create a Godot Wallpaper</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wallpaper name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Created By</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>License &amp; Tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preview Image</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -525,10 +560,6 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>ScreenPlay V0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Invalid file type. Must be valid h264 (*.mp4)!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -544,64 +575,16 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
         <source>Select file</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>ScreenPlay v0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Installed</name>
     <message>
         <source></source>
         <translation></translation>
-    </message>
-    <message>
-        <source>Refreshing!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Pull to refresh!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open containing folder</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove Item</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove via Workshop</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open Workshop Page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this item?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>We only support adding one item at once.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>File type not supported. We only support &apos;.screenplay&apos; files.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Import Content...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Export Content...</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -628,6 +611,65 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
     </message>
 </context>
 <context>
+    <name>InstalledView</name>
+    <message>
+        <source>Refreshing!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pull to refresh!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit Wallpaper</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open containing folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove Item</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove via Workshop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open Workshop Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this item?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export Content...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>We only support adding one item at once.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File type not supported. We only support &apos;.screenplay&apos; files.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import Content...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>InstalledWelcomeScreen</name>
     <message>
         <source>Get free Widgets and Wallpaper via the Steam Workshop</source>
@@ -647,7 +689,18 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
     </message>
 </context>
 <context>
-    <name>Monitors</name>
+    <name>MonitorsProjectSettingItem</name>
+    <message>
+        <source>Set color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please choose a color</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MonitorsView</name>
     <message>
         <source>Wallpaper Configuration</source>
         <translation type="unfinished"></translation>
@@ -657,26 +710,15 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Remove all </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Wallpapers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Widgets</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove all </source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>MonitorsProjectSettingItem</name>
-    <message>
-        <source>Set color</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please choose a color</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -806,7 +848,14 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
     </message>
 </context>
 <context>
-    <name>Settings</name>
+    <name>SettingsExpander</name>
+    <message>
+        <source>Copy text to clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SettingsView</name>
     <message>
         <source>General</source>
         <translation type="unfinished"></translation>
@@ -869,6 +918,22 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
     </message>
     <message>
         <source>Light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wallpaper and Widgets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pause wallpaper video rendering while another app is in the foreground.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Limitations: This setting is Windows only, currently only works if you have exactly one monitor connected, and is limited to wallpapers with no audio. Wallpaper restart is required, when changing this setting!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default Wallpaper Fill Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -949,37 +1014,6 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
     </message>
     <message>
         <source>Privacy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Show default installed content</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ScreenPlay will show build in content.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Wallpaper and Widgets</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Pause wallpaper video rendering while another app is in the foreground.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Limitations: This setting is Windows only, currently only works if you have exactly one monitor connected, and is limited to wallpapers with no audio. Wallpaper restart is required, when changing this setting!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Default Wallpaper Fill Mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>SettingsExpander</name>
-    <message>
-        <source>Copy text to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1069,6 +1103,30 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
     </message>
     <message>
         <source>Quit ScreenPlay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change Wallpaper settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse Workshop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create new Wallpaper or Widgets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Forums and Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Frequently Asked Questions (FAQ)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

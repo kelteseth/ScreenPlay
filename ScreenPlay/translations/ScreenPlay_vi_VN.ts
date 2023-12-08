@@ -2,41 +2,41 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="vi_VN" sourcelanguage="en">
 <context>
-    <name>Community</name>
+    <name>CommunityNavItem</name>
+    <message>
+        <source>Open in browser</source>
+        <translation>Mở trong trình duyệt</translation>
+    </message>
+</context>
+<context>
+    <name>CommunityView</name>
     <message>
         <source>News</source>
-        <translation>Tin tức</translation>
+        <translation type="unfinished">Tin tức</translation>
     </message>
     <message>
         <source>Wiki</source>
-        <translation>Wiki</translation>
+        <translation type="unfinished">Wiki</translation>
     </message>
     <message>
         <source>Forum</source>
-        <translation>Diễn đàn</translation>
+        <translation type="unfinished">Diễn đàn</translation>
     </message>
     <message>
-        <source>Contribute</source>
-        <translation>Đóng góp</translation>
-    </message>
-    <message>
-        <source>Steam Workshop</source>
-        <translation>Steam Workshop</translation>
+        <source>Reddit</source>
+        <translation type="unfinished">Reddit</translation>
     </message>
     <message>
         <source>Issue Tracker</source>
         <translation type="unfinished">Issue Tracker</translation>
     </message>
     <message>
-        <source>Reddit</source>
-        <translation type="unfinished">Reddit</translation>
+        <source>Contribute</source>
+        <translation type="unfinished">Đóng góp</translation>
     </message>
-</context>
-<context>
-    <name>CommunityNavItem</name>
     <message>
-        <source>Open in browser</source>
-        <translation>Mở trong trình duyệt</translation>
+        <source>Steam Workshop</source>
+        <translation type="unfinished">Steam Workshop</translation>
     </message>
 </context>
 <context>
@@ -80,6 +80,10 @@
     <message>
         <source>HTML Widget</source>
         <translation type="unfinished">HTML Widget</translation>
+    </message>
+    <message>
+        <source>3D Engine Wallpaper (Godot 4.2)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -292,6 +296,37 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     <message>
         <source>Tags</source>
         <translation>Thẻ</translation>
+    </message>
+</context>
+<context>
+    <name>GodotWallpaper</name>
+    <message>
+        <source>Create a Godot Wallpaper</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation type="unfinished">Chung</translation>
+    </message>
+    <message>
+        <source>Wallpaper name</source>
+        <translation type="unfinished">Tên ảnh động</translation>
+    </message>
+    <message>
+        <source>Created By</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>License &amp; Tags</source>
+        <translation type="unfinished">Bản quyền &amp; Thẻ</translation>
+    </message>
+    <message>
+        <source>Preview Image</source>
+        <translation type="unfinished">Ảnh xem trước</translation>
     </message>
 </context>
 <context>
@@ -528,10 +563,6 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
         <translation type="unfinished">Import a .mp4 video</translation>
     </message>
     <message>
-        <source>ScreenPlay V0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.</source>
-        <translation type="unfinished">ScreenPlay V0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.</translation>
-    </message>
-    <message>
         <source>Invalid file type. Must be valid h264 (*.mp4)!</source>
         <translation type="unfinished">Invalid file type. Must be valid h264 (*.mp4)!</translation>
     </message>
@@ -547,64 +578,16 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
         <source>Select file</source>
         <translation type="unfinished">Select file</translation>
     </message>
+    <message>
+        <source>ScreenPlay v0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Installed</name>
     <message>
         <source></source>
         <translation></translation>
-    </message>
-    <message>
-        <source>Refreshing!</source>
-        <translation>Đang làm mới!</translation>
-    </message>
-    <message>
-        <source>Pull to refresh!</source>
-        <translation>Kéo xuống để làm mới!</translation>
-    </message>
-    <message>
-        <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
-        <translation>Lấy thêm nhiều hình nền &amp; widgets từ Steam Workshop!</translation>
-    </message>
-    <message>
-        <source>Open containing folder</source>
-        <translation>Mở thư mục chứa hình nền.</translation>
-    </message>
-    <message>
-        <source>Remove Item</source>
-        <translation>Xóa hình nền</translation>
-    </message>
-    <message>
-        <source>Remove via Workshop</source>
-        <translation>Xóa nhờ Workshop</translation>
-    </message>
-    <message>
-        <source>Open Workshop Page</source>
-        <translation>Mở trang workshop</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this item?</source>
-        <translation>Bạn có chắc chắn muốn xóa hình nền này không?</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation type="unfinished">Export</translation>
-    </message>
-    <message>
-        <source>We only support adding one item at once.</source>
-        <translation type="unfinished">We only support adding one item at once.</translation>
-    </message>
-    <message>
-        <source>File type not supported. We only support &apos;.screenplay&apos; files.</source>
-        <translation type="unfinished">File type not supported. We only support &apos;.screenplay&apos; files.</translation>
-    </message>
-    <message>
-        <source>Import Content...</source>
-        <translation type="unfinished">Import Content...</translation>
-    </message>
-    <message>
-        <source>Export Content...</source>
-        <translation type="unfinished">Export Content...</translation>
     </message>
 </context>
 <context>
@@ -631,6 +614,65 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
 </context>
 <context>
+    <name>InstalledView</name>
+    <message>
+        <source>Refreshing!</source>
+        <translation type="unfinished">Đang làm mới!</translation>
+    </message>
+    <message>
+        <source>Pull to refresh!</source>
+        <translation type="unfinished">Kéo xuống để làm mới!</translation>
+    </message>
+    <message>
+        <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
+        <translation type="unfinished">Lấy thêm nhiều hình nền &amp; widgets từ Steam Workshop!</translation>
+    </message>
+    <message>
+        <source>Edit Wallpaper</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open containing folder</source>
+        <translation type="unfinished">Mở thư mục chứa hình nền.</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">Export</translation>
+    </message>
+    <message>
+        <source>Remove Item</source>
+        <translation type="unfinished">Xóa hình nền</translation>
+    </message>
+    <message>
+        <source>Remove via Workshop</source>
+        <translation type="unfinished">Xóa nhờ Workshop</translation>
+    </message>
+    <message>
+        <source>Open Workshop Page</source>
+        <translation type="unfinished">Mở trang workshop</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this item?</source>
+        <translation type="unfinished">Bạn có chắc chắn muốn xóa hình nền này không?</translation>
+    </message>
+    <message>
+        <source>Export Content...</source>
+        <translation type="unfinished">Export Content...</translation>
+    </message>
+    <message>
+        <source>We only support adding one item at once.</source>
+        <translation type="unfinished">We only support adding one item at once.</translation>
+    </message>
+    <message>
+        <source>File type not supported. We only support &apos;.screenplay&apos; files.</source>
+        <translation type="unfinished">File type not supported. We only support &apos;.screenplay&apos; files.</translation>
+    </message>
+    <message>
+        <source>Import Content...</source>
+        <translation type="unfinished">Import Content...</translation>
+    </message>
+</context>
+<context>
     <name>InstalledWelcomeScreen</name>
     <message>
         <source>Get free Widgets and Wallpaper via the Steam Workshop</source>
@@ -650,29 +692,6 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
 </context>
 <context>
-    <name>Monitors</name>
-    <message>
-        <source>Wallpaper Configuration</source>
-        <translation>Cấu hình ảnh động</translation>
-    </message>
-    <message>
-        <source>Remove selected</source>
-        <translation>Xóa mục đã chọn</translation>
-    </message>
-    <message>
-        <source>Wallpapers</source>
-        <translation>Ảnh động</translation>
-    </message>
-    <message>
-        <source>Widgets</source>
-        <translation>Widgets</translation>
-    </message>
-    <message>
-        <source>Remove all </source>
-        <translation type="unfinished">Remove all </translation>
-    </message>
-</context>
-<context>
     <name>MonitorsProjectSettingItem</name>
     <message>
         <source>Set color</source>
@@ -681,6 +700,29 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     <message>
         <source>Please choose a color</source>
         <translation>Xin hãy chọn một màu</translation>
+    </message>
+</context>
+<context>
+    <name>MonitorsView</name>
+    <message>
+        <source>Wallpaper Configuration</source>
+        <translation type="unfinished">Cấu hình ảnh động</translation>
+    </message>
+    <message>
+        <source>Remove selected</source>
+        <translation type="unfinished">Xóa mục đã chọn</translation>
+    </message>
+    <message>
+        <source>Remove all </source>
+        <translation type="unfinished">Remove all </translation>
+    </message>
+    <message>
+        <source>Wallpapers</source>
+        <translation type="unfinished">Ảnh động</translation>
+    </message>
+    <message>
+        <source>Widgets</source>
+        <translation type="unfinished">Widgets</translation>
     </message>
 </context>
 <context>
@@ -809,158 +851,77 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
 </context>
 <context>
-    <name>Settings</name>
+    <name>SettingsExpander</name>
+    <message>
+        <source>Copy text to clipboard</source>
+        <translation>Sao chép vào khay nhớ tạm</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsView</name>
     <message>
         <source>General</source>
-        <translation>Chung</translation>
+        <translation type="unfinished">Chung</translation>
     </message>
     <message>
         <source>Autostart</source>
-        <translation>Tự động mở</translation>
+        <translation type="unfinished">Tự động mở</translation>
     </message>
     <message>
         <source>ScreenPlay will start with Windows and will setup your Desktop every time for you.</source>
-        <translation>ScreenPlay sẽ chạy cùng với Windows và sẽ thiết lập màn hình nền cho bạn.</translation>
+        <translation type="unfinished">ScreenPlay sẽ chạy cùng với Windows và sẽ thiết lập màn hình nền cho bạn.</translation>
     </message>
     <message>
         <source>Send anonymous crash reports and statistics</source>
-        <translation>Gửi báo cáo sự cố và só liệu thống kê ẩn danh</translation>
+        <translation type="unfinished">Gửi báo cáo sự cố và só liệu thống kê ẩn danh</translation>
     </message>
     <message>
         <source>Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use &lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; to collect and analyze this data. A &lt;b&gt;big thanks to them&lt;/b&gt; for providing us with free premium support for open source projects!</source>
-        <translation>Giúp chúng tôi làm ScreenPlay trở nên nhanh và ổn định hơn. Tất cả các dữ liệu thu thập được đều là ẩn danh và chỉ được sử dụng cho mục đích phát triển! Chúng tôi dùng &lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; để thu thập và xử lý dữ liệu này. Một &lt;b&gt;sự cảm ơn lớn dành cho họ&lt;/b&gt; vì đã cung cấp cho chúng tôi bản trả phí miễn phí cho những dự án mã nguồn mở!</translation>
+        <translation type="unfinished">Giúp chúng tôi làm ScreenPlay trở nên nhanh và ổn định hơn. Tất cả các dữ liệu thu thập được đều là ẩn danh và chỉ được sử dụng cho mục đích phát triển! Chúng tôi dùng &lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; để thu thập và xử lý dữ liệu này. Một &lt;b&gt;sự cảm ơn lớn dành cho họ&lt;/b&gt; vì đã cung cấp cho chúng tôi bản trả phí miễn phí cho những dự án mã nguồn mở!</translation>
     </message>
     <message>
         <source>Set save location</source>
-        <translation>Đặt vị trí lưu</translation>
+        <translation type="unfinished">Đặt vị trí lưu</translation>
     </message>
     <message>
         <source>Set location</source>
-        <translation>Đặt vị trí</translation>
+        <translation type="unfinished">Đặt vị trí</translation>
     </message>
     <message>
         <source>Your storage path is empty!</source>
-        <translation>Đường dẫn lưu trữ của bạn đang trống!</translation>
+        <translation type="unfinished">Đường dẫn lưu trữ của bạn đang trống!</translation>
     </message>
     <message>
         <source>Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</source>
-        <translation>Quan trọng: Thay đổi thư mục này không có hiệu ứng gì ở thư mục tải về của workshop. ScreenPlay chỉ hỗ trợ có một thư mục chứa nội dung!</translation>
+        <translation type="unfinished">Quan trọng: Thay đổi thư mục này không có hiệu ứng gì ở thư mục tải về của workshop. ScreenPlay chỉ hỗ trợ có một thư mục chứa nội dung!</translation>
     </message>
     <message>
         <source>Language</source>
-        <translation>Ngôn ngữ</translation>
+        <translation type="unfinished">Ngôn ngữ</translation>
     </message>
     <message>
         <source>Set the ScreenPlay UI Language</source>
-        <translation>Đặt ngôn ngữ của ScreenPlay</translation>
+        <translation type="unfinished">Đặt ngôn ngữ của ScreenPlay</translation>
     </message>
     <message>
         <source>Theme</source>
-        <translation>Chủ đề</translation>
+        <translation type="unfinished">Chủ đề</translation>
     </message>
     <message>
         <source>Switch dark/light theme</source>
-        <translation>Chuyển chủ để sáng/tôí</translation>
+        <translation type="unfinished">Chuyển chủ để sáng/tôí</translation>
     </message>
     <message>
         <source>System Default</source>
-        <translation>Mặc định theo hệ thống</translation>
+        <translation type="unfinished">Mặc định theo hệ thống</translation>
     </message>
     <message>
         <source>Dark</source>
-        <translation>Tối</translation>
+        <translation type="unfinished">Tối</translation>
     </message>
     <message>
         <source>Light</source>
-        <translation>Sáng</translation>
-    </message>
-    <message>
-        <source>Set this property to define how the video is scaled to fit the target area.</source>
-        <translation>Đặt thuộc tính này để xác định cách chia tỷ lệ video để phù hợp với khu vực mục tiêu.</translation>
-    </message>
-    <message>
-        <source>Stretch</source>
-        <translation>Kéo dài</translation>
-    </message>
-    <message>
-        <source>Fill</source>
-        <translation>Lấp đầy</translation>
-    </message>
-    <message>
-        <source>Contain</source>
-        <translation>Chứa đựng</translation>
-    </message>
-    <message>
-        <source>Cover</source>
-        <translation>Bao phủ</translation>
-    </message>
-    <message>
-        <source>Scale-Down</source>
-        <translation>Giảm tỉ lệ</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation>Về ứng dụng</translation>
-    </message>
-    <message>
-        <source>Thank you for using ScreenPlay</source>
-        <translation>Cảm ơn bạn vì đã sử dụng ScreenPlay</translation>
-    </message>
-    <message>
-        <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
-        <translation>Chào, tôi là Elias Steurer hay được biết đến là Kelteseth và tôi là người phát triển của ScreenPlay. Cảm ơn bạn đã sử dụng phần mềm của tôi. Bạn có thể theo dõi tôi để nhận được những cập nhật về ScreenPlay tại:</translation>
-    </message>
-    <message>
-        <source>Version</source>
-        <translation>Phiên bản</translation>
-    </message>
-    <message>
-        <source>Open Changelog</source>
-        <translation>Mở nhật kí thay đổi</translation>
-    </message>
-    <message>
-        <source>Third Party Software</source>
-        <translation>Phần mềm của bên thứ ba</translation>
-    </message>
-    <message>
-        <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
-        <translation>ScreenPlay sẽ không thể có được nếu như không có thành quả của những người khác. Một lời cảm ơn lớn đến: </translation>
-    </message>
-    <message>
-        <source>Licenses</source>
-        <translation>Bản quyền</translation>
-    </message>
-    <message>
-        <source>Logs</source>
-        <translation>Nhật kí</translation>
-    </message>
-    <message>
-        <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
-        <translation>Nếu ScreenPlay của bạn hoạt động sai thì đây là một cách tốt để tìm câu trả lời. Ở đây hiện tất cả các nhật kí và cảnh báo trong khi chạy</translation>
-    </message>
-    <message>
-        <source>Show Logs</source>
-        <translation>Hiện nhật kí</translation>
-    </message>
-    <message>
-        <source>Data Protection</source>
-        <translation>Bảo vệ dữ liệu</translation>
-    </message>
-    <message>
-        <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
-        <translation>Chúng tôi sử dụng dữ liệu của bạn rất cẩn thận để cải thiện ScreenPlay. Chúng tôi không bán hoặc chia sẻ thông tin này (ẩn danh) với người khác!</translation>
-    </message>
-    <message>
-        <source>Privacy</source>
-        <translation>Quyền riêng tư</translation>
-    </message>
-    <message>
-        <source>Show default installed content</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ScreenPlay will show build in content.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sáng</translation>
     </message>
     <message>
         <source>Wallpaper and Widgets</source>
@@ -978,12 +939,85 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
         <source>Default Wallpaper Fill Mode</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>SettingsExpander</name>
     <message>
-        <source>Copy text to clipboard</source>
-        <translation>Sao chép vào khay nhớ tạm</translation>
+        <source>Set this property to define how the video is scaled to fit the target area.</source>
+        <translation type="unfinished">Đặt thuộc tính này để xác định cách chia tỷ lệ video để phù hợp với khu vực mục tiêu.</translation>
+    </message>
+    <message>
+        <source>Stretch</source>
+        <translation type="unfinished">Kéo dài</translation>
+    </message>
+    <message>
+        <source>Fill</source>
+        <translation type="unfinished">Lấp đầy</translation>
+    </message>
+    <message>
+        <source>Contain</source>
+        <translation type="unfinished">Chứa đựng</translation>
+    </message>
+    <message>
+        <source>Cover</source>
+        <translation type="unfinished">Bao phủ</translation>
+    </message>
+    <message>
+        <source>Scale-Down</source>
+        <translation type="unfinished">Giảm tỉ lệ</translation>
+    </message>
+    <message>
+        <source>About</source>
+        <translation type="unfinished">Về ứng dụng</translation>
+    </message>
+    <message>
+        <source>Thank you for using ScreenPlay</source>
+        <translation type="unfinished">Cảm ơn bạn vì đã sử dụng ScreenPlay</translation>
+    </message>
+    <message>
+        <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
+        <translation type="unfinished">Chào, tôi là Elias Steurer hay được biết đến là Kelteseth và tôi là người phát triển của ScreenPlay. Cảm ơn bạn đã sử dụng phần mềm của tôi. Bạn có thể theo dõi tôi để nhận được những cập nhật về ScreenPlay tại:</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation type="unfinished">Phiên bản</translation>
+    </message>
+    <message>
+        <source>Open Changelog</source>
+        <translation type="unfinished">Mở nhật kí thay đổi</translation>
+    </message>
+    <message>
+        <source>Third Party Software</source>
+        <translation type="unfinished">Phần mềm của bên thứ ba</translation>
+    </message>
+    <message>
+        <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
+        <translation type="unfinished">ScreenPlay sẽ không thể có được nếu như không có thành quả của những người khác. Một lời cảm ơn lớn đến: </translation>
+    </message>
+    <message>
+        <source>Licenses</source>
+        <translation type="unfinished">Bản quyền</translation>
+    </message>
+    <message>
+        <source>Logs</source>
+        <translation type="unfinished">Nhật kí</translation>
+    </message>
+    <message>
+        <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
+        <translation type="unfinished">Nếu ScreenPlay của bạn hoạt động sai thì đây là một cách tốt để tìm câu trả lời. Ở đây hiện tất cả các nhật kí và cảnh báo trong khi chạy</translation>
+    </message>
+    <message>
+        <source>Show Logs</source>
+        <translation type="unfinished">Hiện nhật kí</translation>
+    </message>
+    <message>
+        <source>Data Protection</source>
+        <translation type="unfinished">Bảo vệ dữ liệu</translation>
+    </message>
+    <message>
+        <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
+        <translation type="unfinished">Chúng tôi sử dụng dữ liệu của bạn rất cẩn thận để cải thiện ScreenPlay. Chúng tôi không bán hoặc chia sẻ thông tin này (ẩn danh) với người khác!</translation>
+    </message>
+    <message>
+        <source>Privacy</source>
+        <translation type="unfinished">Quyền riêng tư</translation>
     </message>
 </context>
 <context>
@@ -1072,6 +1106,30 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
     <message>
         <source>Quit ScreenPlay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change Wallpaper settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse Workshop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create new Wallpaper or Widgets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished">Settings</translation>
+    </message>
+    <message>
+        <source>Forums and Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Frequently Asked Questions (FAQ)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
