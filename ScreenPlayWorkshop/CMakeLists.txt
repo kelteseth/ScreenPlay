@@ -15,6 +15,7 @@ find_package(
     REQUIRED)
 
 set(QML
+
     # cmake-format: sort
     qml/Background.qml
     qml/Forum.qml
@@ -36,6 +37,7 @@ set(QML
     qml/WorkshopItem.qml)
 
 set(SOURCES
+
     # cmake-format: sort
     src/installedlistmodel.cpp
     src/screenplayworkshop.cpp
@@ -47,6 +49,7 @@ set(SOURCES
     src/steamworkshoplistmodel.cpp)
 
 set(HEADER
+
     # cmake-format: sort
     src/installedlistmodel.h
     src/screenplayworkshop.h
@@ -60,6 +63,7 @@ set(HEADER
     src/workshopitem.h)
 
 set(RESOURCES
+
     # cmake-format: sort
     assets/icons/icon_account_circle.svg
     assets/icons/icon_arrow_left.svg
@@ -92,16 +96,17 @@ elseif(UNIX)
 endif()
 
 qt_add_library(${PROJECT_NAME} STATIC ${RESOURCES})
+
 # Needed by the automatic generated target missing includes
 # https://github.com/qt/qtdeclarative/blob/7a7064e14f094e843e1ee832cc927e86f887621a/src/qml/Qt6QmlMacros.cmake#L2042
 target_include_directories(${PROJECT_NAME} PUBLIC src/)
 target_link_libraries(
     ${PROJECT_NAME}
     PUBLIC Qt6::Core
-           Qt6::Quick
-           ${STEAM_LIB}
-           ScreenPlayUtil
-           SteamSDK)
+    Qt6::Quick
+    ${STEAM_LIB}
+    ScreenPlayUtil
+    SteamSDK)
 
 qt_add_qml_module(
     ${PROJECT_NAME}
@@ -127,6 +132,8 @@ if(${SCREENPLAY_STEAM})
         file(MAKE_DIRECTORY ${MACOS_FRAMEWORKS_DIR})
         configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${MACOS_FRAMEWORKS_DIR} COPYONLY)
         configure_file(${STEAM_BIN} ${MACOS_FRAMEWORKS_DIR} COPYONLY)
+    else()
+        configure_file(${STEAM_BIN} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
     endif()
 
     if(${SCREENPLAY_TESTS})
@@ -134,14 +141,14 @@ if(${SCREENPLAY_STEAM})
         target_link_libraries(
             tst_ScreenPlayWorkshop
             PRIVATE Qt6::Quick
-                    Qt6::QuickControls2
-                    ${PROJECT_NAME}plugin
-                    ScreenPlayUtilplugin
-                    SteamSDK)
+            Qt6::QuickControls2
+            ${PROJECT_NAME}plugin
+            ScreenPlayUtilplugin
+            SteamSDK)
 
         if(APPLE)
             set_target_properties(tst_ScreenPlayWorkshop PROPERTIES RUNTIME_OUTPUT_DIRECTORY
-                                                                    "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
+                "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
         endif()
     endif()
 endif()
