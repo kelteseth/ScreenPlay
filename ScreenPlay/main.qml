@@ -56,7 +56,7 @@ ApplicationWindow {
     visible: false
     width: 1400
     height: 810
-    title: "ScreenPlay Alpha - v" + App.version()
+    title: "ScreenPlay - v" + App.version()
     minimumHeight: 450
     minimumWidth: 1050
 
@@ -104,8 +104,6 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
-        print("Settings.Language.Pl_PL", Settings.Language.Pl_PL);
-        print(App.settings.theme, Settings.Theme.Light);
         setTheme(App.settings.theme);
         stackView.push("qrc:/qml/ScreenPlayApp/qml/Installed/InstalledView.qml", {
                 "sidebar": sidebar
