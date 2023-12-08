@@ -8,16 +8,18 @@
 #include <QStringList>
 #include <QtWebEngineQuick>
 
+#include "ScreenPlayUtil/logginghandler.h"
 #include "src/widgetwindow.h"
 
 #if defined(Q_OS_WIN)
 Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoPlugin)
 #endif
-#if defined(Q_OS_OSX)
+#if defined(Q_OS_MACOS)
 #include "ScreenPlayUtil/macutils.h"
 #endif
 
 Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherPlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlayUtilPlugin)
 
 int main(int argc, char* argv[])
 {
@@ -32,6 +34,7 @@ int main(int argc, char* argv[])
 #endif
 
     QGuiApplication app(argc, argv);
+    std::unique_ptr<const ScreenPlayUtil::LoggingHandler> logging;
 
     const QStringList argumentList = app.arguments();
 
@@ -83,16 +86,18 @@ int main(int argc, char* argv[])
         qWarning() << "Could not parse PositionY value to int: " << argumentList.at(5);
         positionY = 0;
     }
-
+    const QString appID = argumentList.at(2);
     WidgetWindow spwmw(
         argumentList.at(1), // Project path,
-        argumentList.at(2), // AppID
+        appID, // AppID
         argumentList.at(3), // Type
         QPoint { positionX, positionY });
 
-#if defined(Q_OS_OSX)
+#if defined(Q_OS_MACOS)
     MacUtils::showDockIcon(false);
 #endif
-
-    return app.exec();
+    logging = std::make_unique<const ScreenPlayUtil::LoggingHandler>("ScreenPlayWidget_" + appID);
+    const int status = app.exec();
+    logging.reset();
+    return status;
 }

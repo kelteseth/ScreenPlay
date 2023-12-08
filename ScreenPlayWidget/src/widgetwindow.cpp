@@ -32,14 +32,6 @@ WidgetWindow::WidgetWindow(
     , m_sdk { std::make_unique<ScreenPlaySDK>(appID, type) }
     , m_debugMode { debugMode }
 {
-
-    qRegisterMetaType<ScreenPlay::InstalledType::InstalledType>();
-    qmlRegisterUncreatableMetaObject(ScreenPlay::InstalledType::staticMetaObject,
-        "ScreenPlay.Enums.InstalledType",
-        1, 0,
-        "InstalledType",
-        "Error: only enums");
-
     Qt::WindowFlags flags = m_window.flags();
     if (QSysInfo::productType() == "macos") {
         // Setting it as a SlashScreen causes the window to hide on focus lost
@@ -56,12 +48,13 @@ WidgetWindow::WidgetWindow(
     setWindowBlur();
 #endif
 
+    ScreenPlay::Util util;
     if (projectPath == "test") {
         setProjectSourceFileAbsolute({ "qrc:/qml/ScreenPlayWidget/qml/Test.qml" });
-        setType(ScreenPlay::InstalledType::InstalledType::QMLWidget);
+        setType(ScreenPlay::ContentTypes::InstalledType::QMLWidget);
     } else {
         setProjectPath(projectPath);
-        auto projectOpt = ScreenPlayUtil::openJsonFileToObject(m_projectPath + "/project.json");
+        auto projectOpt = util.openJsonFileToObject(m_projectPath + "/project.json");
         if (!projectOpt.has_value()) {
             qWarning() << "Unable to parse project file!";
             return;
@@ -71,7 +64,7 @@ WidgetWindow::WidgetWindow(
         setProjectSourceFile(m_project.value("file").toString());
         setProjectSourceFileAbsolute(QUrl::fromLocalFile(m_projectPath + "/" + projectSourceFile()));
 
-        if (auto typeOpt = ScreenPlayUtil::getInstalledTypeFromString(m_project.value("type").toString())) {
+        if (auto typeOpt = util.getInstalledTypeFromString(m_project.value("type").toString())) {
             setType(typeOpt.value());
         } else {
             qWarning() << "Cannot parse Wallpaper type from value" << m_project.value("type");

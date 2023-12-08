@@ -5,8 +5,6 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 import ScreenPlayApp
 import ScreenPlay
-import ScreenPlay.Create
-import ScreenPlay.Enums.ImportVideoState
 import ScreenPlayUtil as Util
 
 Item {
@@ -329,7 +327,7 @@ Item {
                 onClicked: {
                     if (conversionFinishedSuccessful) {
                         btnSave.enabled = false;
-                        App.create.saveWallpaper(textFieldName.text, textFieldDescription.text, root.filePath, previewSelector.imageSource, textFieldYoutubeURL.text, Create.VP9, textFieldTags.getTags());
+                        App.create.saveWallpaper(textFieldName.text, textFieldDescription.text, root.filePath, previewSelector.imageSource, textFieldYoutubeURL.text, Util.Video.VideoCodec.VP9, textFieldTags.getTags());
                         savePopup.open();
                     }
                 }

@@ -16,7 +16,7 @@ def createEnum(name,valueList):
     enum_string += "\n{"
     enum_string += "\t"+ enum_string_values
     enum_string += " };"
-    enum_string += "\nQ_ENUM_NS(" + name +")"
+    enum_string += "\nQ_ENUM(" + name +")"
     enum_string += "\n\n"
     return enum_string
     
@@ -33,15 +33,23 @@ if __name__ == '__main__':
 
 #pragma once
 #include <QObject>
+#include <QQmlEngine>
 
-namespace ScreenPlayWorkshopSteamEnums {
+namespace ScreenPlay {
 
-    Q_NAMESPACE
+class Steam : public QObject {
+    Q_OBJECT
+    QML_ELEMENT
+    QML_UNCREATABLE("")
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
+
+public:
+    explicit Steam();
 
     """
 
     file_end = """
-
+};
 }
     """
 
@@ -58,7 +66,7 @@ namespace ScreenPlayWorkshopSteamEnums {
         file_complete  += file_content
         file_complete  += file_end
 
-    with open('public/steam/steam_qt_enums_generated.h', 'w') as outfile:
+    with open('steamenumsgenerated.h', 'w') as outfile:
         outfile.write(file_complete)
 
     print("Update write") 

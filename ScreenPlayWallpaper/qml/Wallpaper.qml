@@ -2,8 +2,7 @@ import QtQml
 import QtQuick
 import QtQuick.Controls
 import ScreenPlayWallpaper
-import ScreenPlay.Enums.InstalledType
-import ScreenPlay.Enums.VideoCodec
+import ScreenPlayUtil
 
 Rectangle {
     id: root
@@ -14,14 +13,15 @@ Rectangle {
     function start() {
         fadeInImageSetup();
         switch (Wallpaper.type) {
-        case InstalledType.VideoWallpaper:
-            if (Wallpaper.videoCodec === VideoCodec.Unknown) {
+        case ContentTypes.InstalledType.VideoWallpaper:
+            if (Wallpaper.videoCodec === Video.VideoCodec.Unknown) {
                 Wallpaper.terminate();
             }
 
             // macOS only supports h264 via the native Qt MM
             if (Qt.platform.os === "osx") {
-                if ((Wallpaper.videoCodec === VideoCodec.VP8 || Wallpaper.videoCodec === VideoCodec.VP9)) {
+                print(ContentTypes.InstalledType.VideoWallpaper);
+                if ((Wallpaper.videoCodec === Video.VideoCodec.VP8 || Wallpaper.videoCodec === Video.VideoCodec.VP9)) {
                     loader.source = "qrc:/qml/ScreenPlayWallpaper/qml/MultimediaWebView.qml";
                 } else {
                     loader.source = "qrc:/qml/ScreenPlayWallpaper/qml/MultimediaView.qml";
@@ -31,20 +31,20 @@ Rectangle {
                 loader.source = "qrc:/qml/ScreenPlayWallpaper/qml/MultimediaView.qml";
             }
             break;
-        case InstalledType.HTMLWallpaper:
+        case ContentTypes.InstalledType.HTMLWallpaper:
             loader.setSource("qrc:/qml/ScreenPlayWallpaper/qml/WebsiteWallpaper.qml", {
                     "url": Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute)
                 });
             break;
-        case InstalledType.QMLWallpaper:
+        case ContentTypes.InstalledType.QMLWallpaper:
             loader.source = Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute);
             break;
-        case InstalledType.WebsiteWallpaper:
+        case ContentTypes.InstalledType.WebsiteWallpaper:
             loader.setSource("qrc:/qml/ScreenPlayWallpaper/qml/WebsiteWallpaper.qml", {
                     "url": Wallpaper.projectSourceFileAbsolute
                 });
             break;
-        case InstalledType.GifWallpaper:
+        case ContentTypes.InstalledType.GifWallpaper:
             loader.setSource("qrc:/qml/ScreenPlayWallpaper/qml/GifWallpaper.qml", {
                     "source": Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute)
                 });
@@ -171,7 +171,7 @@ Rectangle {
         function onReloadVideo(oldType) {
             // We need to check if the old type
             // was also Video not get called twice
-            if (oldType === InstalledType.VideoWallpaper)
+            if (oldType === ContentTypes.InstalledType.VideoWallpaper)
                 return;
             loader.source = "qrc:/qml/ScreenPlayWallpaper/qml/MultimediaView.qml";
         }
@@ -184,7 +184,7 @@ Rectangle {
         //asynchronous: true
         onStatusChanged: {
             if (loader.status === Loader.Ready) {
-                if (Wallpaper.type === InstalledType.QMLWallpaper) {
+                if (Wallpaper.type === ContentTypes.InstalledType.QMLWallpaper) {
                     root.fadeIn();
                 }
             }

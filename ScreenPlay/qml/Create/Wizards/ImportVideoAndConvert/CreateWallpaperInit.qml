@@ -6,7 +6,6 @@ import QtQuick.Layouts
 import QtQuick.Dialogs
 import ScreenPlayApp
 import ScreenPlay
-import ScreenPlay.Create
 import ScreenPlayUtil as Util
 
 Item {
@@ -59,10 +58,6 @@ Item {
             }
 
             ComboBox {
-                //                ListElement {
-                //                    text: "AV1 (NVidia 3000, AMD 6000 or newer). ULTRA SLOW ENCODING!"
-                //                    value: Create.AV1
-                //                }
                 id: comboBoxCodec
 
                 Layout.preferredWidth: 400
@@ -76,14 +71,13 @@ Item {
 
                     ListElement {
                         text: "VP8 (Better for older hardware)"
-                        value: Create.VP9
+                        value: Util.Video.VideoCodec.VP9
                     }
 
                     ListElement {
                         text: "VP9 (Better for newer hardware 2018+)"
-                        value: Create.VP8
+                        value: Util.Video.VideoCodec.VP8
                     }
-                    // Import works but the QWebEngine cannot display AV1 :(
                 }
             }
         }

@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+find_package(LibArchive REQUIRED)
 find_package(
     Qt6
     COMPONENTS Core Quick
@@ -242,7 +243,7 @@ set(RESOURCES
     assets/icons/wi-windy.svg)
 
 qt_add_library(${PROJECT_NAME} STATIC)
-target_link_libraries(${PROJECT_NAME} PUBLIC ScreenPlayUtil)
+target_link_libraries(${PROJECT_NAME} PUBLIC ScreenPlayUtil ScreenPlayUtilplugin)
 target_include_directories(${PROJECT_NAME} PUBLIC src/)
 
 qt_add_qml_module(
@@ -266,4 +267,9 @@ qt_add_qml_module(
 if(${SCREENPLAY_TESTS})
     qt_add_executable(tst_ScreenPlayWeather src/TestMain.cpp)
     target_link_libraries(tst_ScreenPlayWeather PRIVATE Qt6::Quick ${PROJECT_NAME}plugin)
+
+    if(APPLE)
+        set_target_properties(tst_ScreenPlayWeather PROPERTIES RUNTIME_OUTPUT_DIRECTORY
+                                                               "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
+    endif()
 endif()

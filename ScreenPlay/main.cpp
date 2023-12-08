@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
+#include "ScreenPlay/CMakeVariables.h"
 #include "ScreenPlay/app.h"
+#include "ScreenPlayUtil/logginghandler.h"
 #include <QCommandLineParser>
 #include <QDebug>
 #include <QGuiApplication>
@@ -30,12 +32,14 @@ int main(int argc, char* argv[])
 
     if (app.m_isAnotherScreenPlayInstanceRunning) {
         return 0;
-    } else {
-        app.init();
-        const int status = qtGuiApp.exec();
-#if defined(Q_OS_WIN)
-        sentry_shutdown();
-#endif
-        return status;
     }
+
+    auto logging = std::make_unique<const ScreenPlayUtil::LoggingHandler>("ScreenPlay");
+    app.init();
+    const int status = qtGuiApp.exec();
+#if defined(Q_OS_WIN)
+    sentry_shutdown();
+#endif
+    logging.reset();
+    return status;
 }

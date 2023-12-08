@@ -1,6 +1,7 @@
+#!/usr/bin/python3
+# SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 class BuildConfig:
     root_path: str
-    cmake_osx_architectures: str
     cmake_target_triplet: str
     package: bool
     osx_bundle: str
@@ -25,5 +26,6 @@ class BuildConfig:
     build_deploy: str
     build_type: str
     build_architecture: str
+    build_godot: str
     create_installer: str
     sign_osx: bool

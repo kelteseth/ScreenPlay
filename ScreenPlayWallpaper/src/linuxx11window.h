@@ -13,12 +13,12 @@
 #include <QVector>
 
 #include "basewindow.h"
-
+namespace ScreenPlay {
 class LinuxX11Window : public BaseWindow {
     Q_OBJECT
 
 public:
-    ScreenPlay::WallpaperExitCode start() override;
+    WallpaperExit::Code start() override;
 
 signals:
 
@@ -33,3 +33,5 @@ private:
     void setupWallpaperForAllScreens();
     void setupWallpaperForMultipleScreens(const QVector<int>& activeScreensList);
 };
+
+}

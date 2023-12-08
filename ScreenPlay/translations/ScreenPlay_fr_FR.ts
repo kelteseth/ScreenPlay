@@ -625,6 +625,10 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
         <source>Widgets</source>
         <translation>Widgets</translation>
     </message>
+    <message>
+        <source>Search for Wallpaper &amp; Widgets</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>InstalledWelcomeScreen</name>
@@ -819,14 +823,6 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
         <translation>ScreenPlay démarrera avec Windows et configurera votre bureau à chaque fois pour vous.</translation>
     </message>
     <message>
-        <source>High priority Autostart</source>
-        <translation>Démarrage automatique haute priorité</translation>
-    </message>
-    <message>
-        <source>This options grants ScreenPlay a higher autostart priority than other apps.</source>
-        <translation>Cette option accorde à ScreenPlay une priorité de démarrage automatique plus élevée que les autres applications.</translation>
-    </message>
-    <message>
         <source>Send anonymous crash reports and statistics</source>
         <translation>Envoyer des rapports d&apos;incidents et des statistiques anonymes</translation>
     </message>
@@ -877,22 +873,6 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     <message>
         <source>Light</source>
         <translation>Clair</translation>
-    </message>
-    <message>
-        <source>Performance</source>
-        <translation>Performance</translation>
-    </message>
-    <message>
-        <source>Pause wallpaper video rendering while another app is in the foreground</source>
-        <translation>Mettre en pause le rendu vidéo du fond d&apos;écran quand une autre application est en premier plan</translation>
-    </message>
-    <message>
-        <source>We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!</source>
-        <translation>Nous désactivons le rendu vidéo (pas l&apos;audio) pour obtenir les meilleures performances. Si vous rencontrez des problèmes, vous pouvez désactiver ce comportement ici. Redémarrage du fond d&apos;écran requis !</translation>
-    </message>
-    <message>
-        <source>Default Fill Mode</source>
-        <translation>Mode de remplissage par défaut</translation>
     </message>
     <message>
         <source>Set this property to define how the video is scaled to fit the target area.</source>
@@ -974,6 +954,30 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
         <source>Privacy</source>
         <translation>Confidentialité</translation>
     </message>
+    <message>
+        <source>Show default installed content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ScreenPlay will show build in content.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wallpaper and Widgets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pause wallpaper video rendering while another app is in the foreground.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Limitations: This setting is Windows only, currently only works if you have exactly one monitor connected, and is limited to wallpapers with no audio. Wallpaper restart is required, when changing this setting!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default Wallpaper Fill Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SettingsExpander</name>
@@ -1038,6 +1042,37 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     <message>
         <source>Below you can find tools to create wallaper, beyond the tools that ScreenPlay provides for you!</source>
         <translation>Vous trouverez ci-dessous des outils pour créer des fonds d&apos;écran, au-delà des outils que ScreenPlay met à votre disposition !</translation>
+    </message>
+</context>
+<context>
+    <name>TrayIcon</name>
+    <message>
+        <source>ScreenPlay - Double click to change you settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open ScreenPlay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mute all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unmute all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pause all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Quit ScreenPlay</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

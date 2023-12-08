@@ -5,7 +5,6 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 import ScreenPlayApp
 import ScreenPlay
-import ScreenPlay.Enums.FillMode
 import ScreenPlayUtil as Util
 
 ColumnLayout {
@@ -81,19 +80,19 @@ ColumnLayout {
             valueRole: "value"
             currentIndex: root.indexOfValue(settingsComboBox.model, App.settings.videoFillMode)
             model: [{
-                    "value": FillMode.Stretch,
+                    "value": Util.Video.FillMode.Stretch,
                     "text": qsTr("Stretch")
                 }, {
-                    "value": FillMode.Fill,
+                    "value": Util.Video.FillMode.Fill,
                     "text": qsTr("Fill")
                 }, {
-                    "value": FillMode.Contain,
+                    "value": Util.Video.FillMode.Contain,
                     "text": qsTr("Contain")
                 }, {
-                    "value": FillMode.Cover,
+                    "value": Util.Video.FillMode.Cover,
                     "text": qsTr("Cover")
                 }, {
-                    "value": FillMode.Scale_Down,
+                    "value": Util.Video.FillMode.Scale_Down,
                     "text": qsTr("Scale_Down")
                 }]
             onActivated: {

@@ -625,6 +625,10 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
         <source>Widgets</source>
         <translation type="unfinished">Widgets</translation>
     </message>
+    <message>
+        <source>Search for Wallpaper &amp; Widgets</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>InstalledWelcomeScreen</name>
@@ -819,14 +823,6 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
         <translation>ScreenPlay, Windows ile başlayacak ve her seferinde sizin için Masaüstünüzü kuracaktır.</translation>
     </message>
     <message>
-        <source>High priority Autostart</source>
-        <translation>Yüksek öncelikli Otomatik başlatma</translation>
-    </message>
-    <message>
-        <source>This options grants ScreenPlay a higher autostart priority than other apps.</source>
-        <translation>Bu seçenekler, ScreenPlay&apos;e diğer uygulamalardan daha yüksek bir otomatik başlatma önceliği verir.</translation>
-    </message>
-    <message>
         <source>Send anonymous crash reports and statistics</source>
         <translation type="unfinished">Send anonymous crash reports and statistics</translation>
     </message>
@@ -877,22 +873,6 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     <message>
         <source>Light</source>
         <translation>Aydınlık</translation>
-    </message>
-    <message>
-        <source>Performance</source>
-        <translation>Performans</translation>
-    </message>
-    <message>
-        <source>Pause wallpaper video rendering while another app is in the foreground</source>
-        <translation>Başka bir uygulama ön plandayken duvar kağıdı video oluşturmayı duraklatın</translation>
-    </message>
-    <message>
-        <source>We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!</source>
-        <translation>En iyi performans için video oluşturmayı (sesi değil!) devre dışı bırakıyoruz. Sorun yaşıyorsanız, bu davranışı buradan devre dışı bırakabilirsiniz. Duvar kağıdının yeniden başlatılması gerekiyor!</translation>
-    </message>
-    <message>
-        <source>Default Fill Mode</source>
-        <translation>Varsayılan Doldurma Modu</translation>
     </message>
     <message>
         <source>Set this property to define how the video is scaled to fit the target area.</source>
@@ -974,6 +954,30 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
         <source>Privacy</source>
         <translation type="unfinished">Privacy</translation>
     </message>
+    <message>
+        <source>Show default installed content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ScreenPlay will show build in content.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wallpaper and Widgets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pause wallpaper video rendering while another app is in the foreground.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Limitations: This setting is Windows only, currently only works if you have exactly one monitor connected, and is limited to wallpapers with no audio. Wallpaper restart is required, when changing this setting!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default Wallpaper Fill Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SettingsExpander</name>
@@ -1038,6 +1042,37 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     <message>
         <source>Below you can find tools to create wallaper, beyond the tools that ScreenPlay provides for you!</source>
         <translation type="unfinished">Below you can find tools to create wallaper, beyond the tools that ScreenPlay provides for you!</translation>
+    </message>
+</context>
+<context>
+    <name>TrayIcon</name>
+    <message>
+        <source>ScreenPlay - Double click to change you settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open ScreenPlay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mute all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unmute all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pause all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Quit ScreenPlay</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

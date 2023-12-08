@@ -5,7 +5,7 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Controls.Material.impl
 import ScreenPlayWorkshop
-import WorkshopEnums
+import ScreenPlayUtil
 
 Page {
     id: root

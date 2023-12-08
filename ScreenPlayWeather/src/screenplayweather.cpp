@@ -31,7 +31,7 @@ void ScreenPlayWeather::updateLatitudeLongtitude(const QString& city)
         if (data.size() <= 0)
             return;
 
-        const auto msgOpt = ScreenPlayUtil::parseQByteArrayToQJsonObject(data);
+        const auto msgOpt = ScreenPlay::Util().parseQByteArrayToQJsonObject(data);
         if (!msgOpt.has_value())
             return;
 
@@ -80,13 +80,13 @@ void ScreenPlayWeather::update()
     request.setUrl(url);
     qInfo() << url;
     auto* reply = m_networkAccessManager.get(request);
-
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() {
         const QByteArray data = reply->readAll();
         if (data.size() <= 0)
             return;
 
-        const auto msgOpt = ScreenPlayUtil::parseQByteArrayToQJsonObject(data);
+        ScreenPlay::Util util;
+        const auto msgOpt = util.parseQByteArrayToQJsonObject(data);
         if (!msgOpt.has_value())
             return;
 
@@ -113,10 +113,10 @@ void ScreenPlayWeather::update()
             day->set_sunrise(QDateTime::fromString(sunrise.at(i).toString(), m_dataTimeFormat).toString("mm:ss"));
             day->set_sunset(QDateTime::fromString(sunset.at(i).toString(), m_dataTimeFormat).toString("mm:ss"));
             day->set_weatherCode(weathercode.at(i).toInt());
-            day->set_temperature_2m_min(ScreenPlayUtil::roundDecimalPlaces(temperature_2m_min.at(i).toDouble()));
-            day->set_temperature_2m_max(ScreenPlayUtil::roundDecimalPlaces(temperature_2m_max.at(i).toDouble()));
+            day->set_temperature_2m_min(util.roundDecimalPlaces(temperature_2m_min.at(i).toDouble()));
+            day->set_temperature_2m_max(util.roundDecimalPlaces(temperature_2m_max.at(i).toDouble()));
             day->set_precipitationHours(precipitation_hours.at(i).toInt());
-            day->set_precipitationSum(ScreenPlayUtil::roundDecimalPlaces(precipitation_sum.at(i).toDouble()));
+            day->set_precipitationSum(util.roundDecimalPlaces(precipitation_sum.at(i).toDouble()));
             m_days.append(&m_days, std::move(day));
         }
         const auto hourly = msgOpt->value("hourly").toObject();

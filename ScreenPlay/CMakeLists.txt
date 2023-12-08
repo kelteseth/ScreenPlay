@@ -5,6 +5,9 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 
+# ##### USE CMAKE VARIABLES IN CODE #####
+include(GenerateCMakeVariableHeader)
+
 set(SOURCES
     # cmake-format: sort
     src/app.cpp
@@ -21,7 +24,6 @@ set(SOURCES
     src/screenplaywidget.cpp
     src/sdkconnection.cpp
     src/settings.cpp
-    src/util.cpp
     src/wizards.cpp)
 
 set(HEADER
@@ -42,21 +44,21 @@ set(HEADER
     inc/public/ScreenPlay/screenplaywidget.h
     inc/public/ScreenPlay/sdkconnection.h
     inc/public/ScreenPlay/settings.h
-    inc/public/ScreenPlay/util.h
     inc/public/ScreenPlay/wizards.h)
 
 set(QML
     # cmake-format: sort
     main.qml
-    qml/Community/Community.qml
     qml/Community/CommunityNavItem.qml
+    qml/Community/CommunityView.qml
     qml/Community/XMLNewsfeed.qml
-    qml/Create/Create.qml
     qml/Create/CreateSidebar.qml
+    qml/Create/CreateView.qml
     qml/Create/StartInfo.qml
     qml/Create/StartInfoLinkImage.qml
     qml/Create/Wizard.qml
     qml/Create/Wizards/GifWallpaper.qml
+    qml/Create/Wizards/GodotWallpaper.qml
     qml/Create/Wizards/HTMLWallpaper.qml
     qml/Create/Wizards/HTMLWidget.qml
     qml/Create/Wizards/Importh264/Importh264.qml
@@ -73,32 +75,30 @@ set(QML
     qml/Create/Wizards/QMLWidget.qml
     qml/Create/Wizards/WebsiteWallpaper.qml
     qml/Create/Wizards/WizardPage.qml
-    qml/Create/WizardsFiles/QMLWallpaperMain.qml
-    qml/Create/WizardsFiles/QMLWidgetMain.qml
-    qml/Installed/Installed.qml
     qml/Installed/InstalledNavigation.qml
+    qml/Installed/InstalledView.qml
     qml/Installed/InstalledWelcomeScreen.qml
     qml/Installed/ScreenPlayItem.qml
     qml/Installed/ScreenPlayItemImage.qml
     qml/Installed/Sidebar.qml
     qml/Monitors/DefaultVideoControls.qml
-    qml/Monitors/Monitors.qml
     qml/Monitors/MonitorSelection.qml
     qml/Monitors/MonitorSelectionItem.qml
     qml/Monitors/MonitorsProjectSettingItem.qml
+    qml/Monitors/MonitorsView.qml
     qml/Monitors/SaveNotification.qml
     qml/Navigation/ExitPopup.qml
     qml/Navigation/Navigation.qml
     qml/Settings/SettingBool.qml
-    qml/Settings/Settings.qml
     qml/Settings/SettingsButton.qml
     qml/Settings/SettingsComboBox.qml
     qml/Settings/SettingsExpander.qml
     qml/Settings/SettingsHeader.qml
     qml/Settings/SettingsHorizontalSeperator.qml
     qml/Settings/SettingsPage.qml
+    qml/Settings/SettingsView.qml
     qml/TrayIcon.qml
-    qml/Workshop/Workshop.qml)
+    qml/Workshop/WorkshopView.qml)
 
 set(TS_FILES
     # cmake-format: sort
@@ -135,6 +135,7 @@ set(RESOURCES
     assets/icons/icon_build.svg
     assets/icons/icon_cake.afdesign
     assets/icons/icon_cake.svg
+    assets/icons/icon_cancel_presentation.svg
     assets/icons/icon_close.svg
     assets/icons/icon_code.svg
     assets/icons/icon_community.svg
@@ -143,6 +144,7 @@ set(RESOURCES
     assets/icons/icon_document.svg
     assets/icons/icon_done.svg
     assets/icons/icon_download.svg
+    assets/icons/icon_edit.svg
     assets/icons/icon_emptyWidget.svg
     assets/icons/icon_folder_open.svg
     assets/icons/icon_forum.svg
@@ -156,6 +158,7 @@ set(RESOURCES
     assets/icons/icon_movie.svg
     assets/icons/icon_new_releases.svg
     assets/icons/icon_open_in_new.svg
+    assets/icons/icon_open_in_new_black.svg
     assets/icons/icon_pause.svg
     assets/icons/icon_people.svg
     assets/icons/icon_play.svg
@@ -172,7 +175,7 @@ set(RESOURCES
     assets/icons/icon_thumb_down.svg
     assets/icons/icon_thumb_up.svg
     assets/icons/icon_upload.svg
-    assets/icons/icon_video_settings_black_24dp.svg
+    assets/icons/icon_video_settings.svg
     assets/icons/icon_volume.svg
     assets/icons/icon_volume_mute.svg
     assets/icons/icon_volume_up.svg
@@ -198,9 +201,6 @@ set(RESOURCES
     assets/licenses/Apache2.txt
     assets/licenses/OFL.txt
     assets/macos/app.screenplay.plist
-    assets/particle/backgroundGlow.png
-    assets/particle/dot.png
-    assets/shader/movingcolorramp.fsh
     assets/startinfo/blender.png
     assets/startinfo/flaticon.png
     assets/startinfo/forums.png
@@ -229,7 +229,6 @@ set(RESOURCES
     assets/wizards/License_CC_Attribution-ShareAlike_4.0.txt
     assets/wizards/License_CC_Attribution_4.0.txt
     assets/wizards/License_GPL_3.0.txt
-    assets/wizards/QmlProject.qmlproject
     assets/WorkshopPreview.html
     legal/DataProtection.txt
     legal/gpl-3.0.txt
@@ -237,9 +236,16 @@ set(RESOURCES
     legal/OFL.txt
     legal/OpenSSL.txt
     profiles.json
+    qml/Create/WizardsFiles/Godot_v5/export_presets.cfg
+    qml/Create/WizardsFiles/Godot_v5/project.godot
+    qml/Create/WizardsFiles/Godot_v5/spinner.gd
+    qml/Create/WizardsFiles/Godot_v5/wallpaper.tscn
     qml/Create/WizardsFiles/HTMLWallpaperMain.html
     qml/Create/WizardsFiles/HTMLWidgetMain.html
+    qml/Create/WizardsFiles/QmlProject.qmlproject
     qml/Create/WizardsFiles/QMLWallpaperMain.qml
+    qml/Create/WizardsFiles/QMLWallpaperMain.qml
+    qml/Create/WizardsFiles/QMLWidgetMain.qml
     qml/Create/WizardsFiles/QMLWidgetMain.qml
     qtquickcontrols2.conf)
 
@@ -268,8 +274,17 @@ find_package(
                Test)
 
 add_library(ScreenPlayApp STATIC)
+
+target_include_directories(
+    ScreenPlayApp
+    PUBLIC inc/public/
+    PRIVATE src/)
+
+# Note making this public is so that *_qmltyperegistrations.cpp can find the needed include
 target_include_directories(ScreenPlayApp PUBLIC src/ inc/public/ScreenPlay)
 
+# ScreenPlayApp is our qml module needed for compiling of all classes and most importanly for QML_ELEMENT. So our app is mostly a module
+# that then link to ScreenPlay executable.
 qt_add_qml_module(
     ScreenPlayApp
     URI
@@ -296,7 +311,6 @@ target_link_libraries(
            ScreenPlayUtilplugin
            QArchive
            Plausibleplugin
-           SteamSDKQtEnums
            Threads::Threads
            Qt6::Quick
            Qt6::Gui
@@ -308,7 +322,6 @@ target_link_libraries(
            Qt6::Xml)
 
 if(${SCREENPLAY_STEAM})
-    target_compile_definitions(ScreenPlayApp PRIVATE SCREENPLAY_STEAM)
     target_link_libraries(ScreenPlayApp PUBLIC ScreenPlayWorkshopplugin ScreenPlayWorkshop)
 endif()
 
@@ -318,25 +331,15 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlayApp ScreenPlayAppplugin)
 if(${SCREENPLAY_TESTS})
     add_executable(tst_ScreenPlay tests/tst_main.cpp)
     target_link_libraries(tst_ScreenPlay PRIVATE ScreenPlayApp ScreenPlayAppplugin Qt6::Test)
+    generate_cmake_variable_header(tst_ScreenPlay)
     if(${SCREENPLAY_STEAM})
-        target_compile_definitions(tst_ScreenPlay PRIVATE SCREENPLAY_STEAM)
         target_link_libraries(tst_ScreenPlay PUBLIC ScreenPlayWorkshopplugin ScreenPlayWorkshop)
     endif()
+
+    if(APPLE)
+        set_target_properties(tst_ScreenPlay PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
+    endif()
 endif()
-
-if(APPLE AND NOT OSX_BUNDLE)
-    set_source_files_properties(
-        ${TS_FILES} PROPERTIES OUTPUT_LOCATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}.app/Contents/Resources/translations")
-else()
-    set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/translations")
-endif()
-
-qt_add_lrelease(${PROJECT_NAME} TS_FILES ${TS_FILES})
-
-target_include_directories(
-    ScreenPlayApp
-    PUBLIC inc/public/
-    PRIVATE src/)
 
 if(WIN32
    OR UNIX
@@ -349,7 +352,7 @@ if(WIN32
 endif()
 
 if(WIN32)
-    target_link_libraries(ScreenPlayApp PUBLIC CURL::libcurl sentry::sentry)
+    target_link_libraries(ScreenPlayApp PUBLIC CURL::libcurl sentry::sentry ScreenPlayWallpaperLib)
 
     # Icon
     target_sources(${PROJECT_NAME} PRIVATE ScreenPlay.rc)
@@ -375,30 +378,22 @@ if(WIN32)
 
 endif()
 
-if(APPLE AND OSX_BUNDLE)
-    # Set the installation destination
-    install(TARGETS "ScreenPlay" DESTINATION /Applications)
+if(APPLE)
 
-    include(InstallRequiredSystemLibraries)
-    set(CPACK_GENERATOR "Bundle")
-    set(CPACK_BINARY_DRAGNDROP ON)
-    set(CPACK_BUNDLE_NAME "ScreenPlay")
-    set(CPACK_BUNDLE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/assets/icons/app.ico")
-    set(CPACK_PACKAGE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/assets/icons/app.ico")
-    set(CPACK_BUNDLE_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/Info.plist")
-    set(CPACK_BUNDLE_APPLE_ENTITLEMENTS "${CMAKE_CURRENT_SOURCE_DIR}/entitlements.plist")
-    set(CPACK_PACKAGE_FILE_NAME "ScreenPlay-0.15")
-    include(CPack)
+    # Set the path to the icon file
+    set(APP_ICON_MACOSX ${CMAKE_CURRENT_SOURCE_DIR}/assets/icons/ScreenPlay.icns)
 
-    # Install all files from /bin
-    install(
-        DIRECTORY "${CMAKE_BINARY_DIR}/bin/"
-        COMPONENT ScreenPlay
-        DESTINATION "./")
+    # Tell CMake where to find the icon
+    set_source_files_properties(${APP_ICON_MACOSX} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
 
-endif()
+    set(RESOURCES_DIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ScreenPlay.app/Contents/Resources")
+    file(MAKE_DIRECTORY ${RESOURCES_DIR})
 
-if(APPLE AND NOT OSX_BUNDLE)
+    # Specify the name of the icon file for the bundle
+    set(MACOSX_BUNDLE_ICON_FILE ScreenPlay.icns) # Only the file name
+    # Fore some reason this only works with maually copy
+    configure_file(${APP_ICON_MACOSX} "${RESOURCES_DIR}/ScreenPlay.icns" COPYONLY)
+
     # Creates a ScreenPlay.app
     set_target_properties(
         ${PROJECT_NAME}
@@ -406,9 +401,9 @@ if(APPLE AND NOT OSX_BUNDLE)
                    MACOSX_BUNDLE TRUE
                    MACOSX_RPATH TRUE
                    MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist
-                   MACOSX_FRAMEWORK_IDENTIFIER screen-play.app
+                   MACOSX_FRAMEWORK_IDENTIFIER app.screenplay
                    XCODE_ATTRIBUTE_LD_RUNPATH_SEARCH_PATHS "@loader_path/Libraries"
-                   RESOURCE "${RESOURCE_FILES}"
+                   RESOURCE "${RESOURCE_FILES};${APP_ICON_MACOSX}" # Include the icon in the resources
                    XCODE_ATTRIBUTE_ENABLE_HARDENED_RUNTIME TRUE
                    XCODE_ATTRIBUTE_EXECUTABLE_NAME ${PROJECT_NAME})
 
@@ -424,29 +419,23 @@ if(APPLE AND NOT OSX_BUNDLE)
         COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/ffprobe
                 ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/)
 
-    # tst_ScreenPlay needs ffmpeg in the base path
-    if(${SCREENPLAY_TESTS})
-        add_custom_command(
-            TARGET ${PROJECT_NAME}
-            POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/ffmpeg ${CMAKE_BINARY_DIR}/bin/)
-
-        add_custom_command(
-            TARGET ${PROJECT_NAME}
-            POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/ffprobe ${CMAKE_BINARY_DIR}/bin/)
-    endif()
-
     # fonts
     include(CopyRecursive)
-    set(FONTS_OUT_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ScreenPlay.app/Contents/Resources/fonts/)
+    set(FONTS_OUT_DIR "${RESOURCES_DIR}/fonts")
     file(MAKE_DIRECTORY ${FONTS_OUT_DIR})
     copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.ttf")
     copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.otf")
 
+    # .qm translations
+    set(QM_OUT_DIR "${RESOURCES_DIR}/translations")
+    file(MAKE_DIRECTORY ${QM_OUT_DIR})
+    set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${QM_OUT_DIR})
+
 endif()
 
-# ##### USE CMAKE VARIABLES IN CODE #####
-include(GenerateCMakeVariableHeader)
-# Note: Must not be ${PROJECT_NAME}, but ScreenPlayApp to work!
+# Must be called here, because we need to change the OUTPUT_LOCATION for macos
+qt_add_lrelease(${PROJECT_NAME} TS_FILES ${TS_FILES})
+
+# Note: We need the variables in the lib and exe!
+generate_cmake_variable_header(${PROJECT_NAME})
 generate_cmake_variable_header(ScreenPlayApp)

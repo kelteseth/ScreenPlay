@@ -5,9 +5,13 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 
+find_package(fmt CONFIG REQUIRED)
+# Needed on macos
+find_package(Threads REQUIRED)
+find_package(LibArchive REQUIRED)
 find_package(
     Qt6
-    COMPONENTS Core Quick
+    COMPONENTS Core Quick Gui
     REQUIRED)
 
 set(QML
@@ -25,7 +29,6 @@ set(QML
     qml/Headline.qml
     qml/HeadlineSection.qml
     qml/ImageSelector.qml
-    qml/JSUtil.js
     qml/LicenseSelector.qml
     qml/ModalBackgroundBlur.qml
     qml/MouseHoverBlocker.qml
@@ -39,24 +42,27 @@ set(QML
 
 set(SOURCES
     # cmake-format: sort
-    inc/public/ScreenPlayUtil/httpfileserver.cpp
+    src/archive.cpp
     src/contenttypes.cpp
+    src/exitcodes.cpp
+    src/httpfileserver.cpp
+    src/logginghandler.cpp
     src/projectfile.cpp
+    src/steamenumsgenerated.cpp
     src/util.cpp)
 
 set(HEADER
     # cmake-format: sort
-    inc/public/ScreenPlayUtil/AutoPropertyHelpers.h
-    inc/public/ScreenPlayUtil/ConstRefPropertyHelpers.h
+    inc/public/ScreenPlayUtil/archive.h
     inc/public/ScreenPlayUtil/contenttypes.h
     inc/public/ScreenPlayUtil/exitcodes.h
     inc/public/ScreenPlayUtil/HelpersCommon.h
     inc/public/ScreenPlayUtil/httpfileserver.h
     inc/public/ScreenPlayUtil/ListPropertyHelper.h
+    inc/public/ScreenPlayUtil/logginghandler.h
     inc/public/ScreenPlayUtil/projectfile.h
     inc/public/ScreenPlayUtil/PropertyHelpers.h
-    inc/public/ScreenPlayUtil/PtrPropertyHelpers.h
-    inc/public/ScreenPlayUtil/SingletonHelper.h
+    inc/public/ScreenPlayUtil/steamenumsgenerated.h
     inc/public/ScreenPlayUtil/util.h)
 
 if(APPLE)
@@ -96,9 +102,24 @@ target_include_directories(
     PUBLIC inc/public/
     PRIVATE src/)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Quick)
+# Note making this public is so thatscreenplayutil_qmltyperegistrations.cpp can find the #include <contenttypes.h> include
+target_include_directories(${PROJECT_NAME} PUBLIC inc/public/ScreenPlayUtil)
+target_include_directories(${PROJECT_NAME}plugin PUBLIC inc/public/ScreenPlayUtil)
+
+target_link_libraries(
+    ${PROJECT_NAME}
+    PUBLIC Qt6::Core
+           Qt6::Quick
+           Qt6::Gui
+           fmt::fmt-header-only
+           LibArchive::LibArchive
+           QArchive)
 
 if(WIN32)
     # Used for query windows monitor data
     target_link_libraries(${PROJECT_NAME} PUBLIC shcore.lib)
 endif()
+
+# ##### USE CMAKE VARIABLES IN CODE #####
+include(GenerateCMakeVariableHeader)
+generate_cmake_variable_header(${PROJECT_NAME})

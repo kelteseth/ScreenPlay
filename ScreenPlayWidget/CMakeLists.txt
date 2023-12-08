@@ -41,6 +41,7 @@ target_link_libraries(
     ${PROJECT_NAME}
     PRIVATE ScreenPlaySDK
             ScreenPlayUtil
+            ScreenPlayUtilplugin
             ScreenPlayWeatherplugin
             Qt6::Quick
             Qt6::Gui
@@ -52,7 +53,7 @@ target_link_libraries(
             Qt6::WebEngineQuick)
 
 if(WIN32)
-    target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlaySysInfoplugin)
+    target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlaySysInfoplugin ScreenPlayUtilplugin)
 endif()
 
 qt_add_qml_module(
@@ -76,7 +77,7 @@ if(WIN32)
     set_property(TARGET ${PROJECT_NAME} PROPERTY WIN32_EXECUTABLE true)
 endif()
 
-if(APPLE AND NOT OSX_BUNDLE)
+if(APPLE)
     set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
 endif()
 

@@ -44,13 +44,13 @@ struct ProjectFile {
     // Website Wallpaper
     QUrl url;
     // Video Wallpaper
-    ScreenPlay::VideoCodec::VideoCodec videoCodec;
+    ScreenPlay::Video::VideoCodec videoCodec;
 
     QVariant publishedFileID { 0 };
     QStringList tags;
 
-    InstalledType::InstalledType type = InstalledType::InstalledType::Unknown;
-    SearchType::SearchType searchType = SearchType::SearchType::All;
+    ContentTypes::InstalledType type = ContentTypes::InstalledType::Unknown;
+    ContentTypes::SearchType searchType = ContentTypes::SearchType::All;
     bool isNew = false;
     bool containsAudio = false;
     QDateTime lastModified;

@@ -6,6 +6,9 @@
         "ms-vscode.cmake-tools",
         "seanwu.vscode-qt-for-python",
         "mhutchie.git-graph",
-        "vadimcn.vscode-lldb"
+        "vadimcn.vscode-lldb",
+        "josetr.cmake-language-support-vscode",
+        "geequlim.godot-tools",
+        "stevebushresearch.buildoutputcolorizer"
     ]
 }

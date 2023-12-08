@@ -15,10 +15,11 @@
 #include "basewindow.h"
 #include "macintegration.h"
 
+namespace ScreenPlay {
 class MacWindow : public BaseWindow {
     Q_OBJECT
 public:
-    ScreenPlay::WallpaperExitCode start() override;
+    WallpaperExit::Code start() override;
 
 signals:
 
@@ -31,3 +32,4 @@ public slots:
 private:
     QQuickView m_window;
 };
+}

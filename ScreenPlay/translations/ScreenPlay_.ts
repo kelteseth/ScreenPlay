@@ -622,6 +622,10 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
         <source>Widgets</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Search for Wallpaper &amp; Widgets</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>InstalledWelcomeScreen</name>
@@ -816,14 +820,6 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>High priority Autostart</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This options grants ScreenPlay a higher autostart priority than other apps.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Send anonymous crash reports and statistics</source>
         <translation type="unfinished"></translation>
     </message>
@@ -873,22 +869,6 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
     </message>
     <message>
         <source>Light</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Performance</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Pause wallpaper video rendering while another app is in the foreground</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Default Fill Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -971,6 +951,30 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
         <source>Privacy</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Show default installed content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ScreenPlay will show build in content.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wallpaper and Widgets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pause wallpaper video rendering while another app is in the foreground.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Limitations: This setting is Windows only, currently only works if you have exactly one monitor connected, and is limited to wallpapers with no audio. Wallpaper restart is required, when changing this setting!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default Wallpaper Fill Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SettingsExpander</name>
@@ -1034,6 +1038,37 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
     </message>
     <message>
         <source>Below you can find tools to create wallaper, beyond the tools that ScreenPlay provides for you!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TrayIcon</name>
+    <message>
+        <source>ScreenPlay - Double click to change you settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open ScreenPlay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mute all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unmute all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pause all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Quit ScreenPlay</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

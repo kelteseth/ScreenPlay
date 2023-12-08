@@ -6,8 +6,6 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
 import ScreenPlayApp
 import ScreenPlay
-import ScreenPlay.Enums.InstalledType
-import ScreenPlay.Enums.SearchType
 import ScreenPlayUtil as Util
 
 Item {
@@ -64,7 +62,7 @@ Item {
                 icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_installed.svg"
                 onClicked: {
                     setSidebarActive(false);
-                    App.installedListFilter.sortBySearchType(SearchType.All);
+                    App.installedListFilter.sortBySearchType(Util.ContentTypes.SearchType.All);
                 }
             }
 
@@ -73,7 +71,7 @@ Item {
                 icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_code.svg"
                 onClicked: {
                     setSidebarActive(false);
-                    App.installedListFilter.sortBySearchType(SearchType.Scene);
+                    App.installedListFilter.sortBySearchType(Util.ContentTypes.SearchType.Scene);
                 }
             }
 
@@ -82,7 +80,7 @@ Item {
                 icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_movie.svg"
                 onClicked: {
                     setSidebarActive(false);
-                    App.installedListFilter.sortBySearchType(SearchType.Wallpaper);
+                    App.installedListFilter.sortBySearchType(Util.ContentTypes.SearchType.Wallpaper);
                 }
             }
 
@@ -91,7 +89,7 @@ Item {
                 icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_widgets.svg"
                 onClicked: {
                     setSidebarActive(false);
-                    App.installedListFilter.sortBySearchType(SearchType.Widget);
+                    App.installedListFilter.sortBySearchType(Util.ContentTypes.SearchType.Widget);
                 }
             }
         }

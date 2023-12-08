@@ -4,8 +4,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import ScreenPlayApp
 import ScreenPlay
-import ScreenPlay.Enums.InstalledType
-import ScreenPlayUtil
+import ScreenPlayUtil as Util
 
 Item {
     id: root
@@ -13,7 +12,8 @@ Item {
     property string customTitle
     property string screenId
     property url absoluteStoragePath
-    property int type: InstalledType.Unknown
+    property int type: ContentTypes.InstalledType.Unknown
+    // Must be var to make it work wit 64bit ints
     property var publishedFileID: 0
     property int itemIndex
     property bool isScrolling: false
@@ -25,15 +25,15 @@ Item {
     width: 320
     height: 180
     onTypeChanged: {
-        if (JSUtil.isWidget(type)) {
+        if (App.util.isWidget(type)) {
             icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_widgets.svg";
             return;
         }
-        if (JSUtil.isScene(type)) {
+        if (App.util.isScene(type)) {
             icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_code.svg";
             return;
         }
-        if (JSUtil.isVideo(type)) {
+        if (App.util.isVideo(type)) {
             icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_movie.svg";
             return;
         }

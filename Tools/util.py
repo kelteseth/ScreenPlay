@@ -9,6 +9,27 @@ import os
 import re
 import subprocess
 from sys import stdout
+import zipfile
+import urllib.request
+import sys
+import ssl
+
+def progress(count: int, block_size: int, total_size: int):
+    percent = int(count * block_size * 100 / total_size)
+    sys.stdout.write("\rDownload: {}%".format(percent))
+    sys.stdout.flush()
+
+# disable broken progress bar in CI
+def download(url: str, filename: str, show_progress: bool = True):
+    # This is needed for downloading from https sites
+    # see https://programmerah.com/python-error-certificate-verify-failed-certificate-has-expired-40374/
+    ssl._create_default_https_context = ssl._create_unverified_context
+
+    if show_progress:
+        urllib.request.urlretrieve(url, filename, progress)
+    else:
+        urllib.request.urlretrieve(url, filename)
+        
 
 stdout.reconfigure(encoding='utf-8')
 
@@ -41,6 +62,11 @@ def repo_root_path() -> str:
     path = os.path.join(os.path.realpath(__file__), "../../")
     return os.path.realpath(path)
 
+
+def workspace_path() -> str:
+    # One folder above the repo
+    path = os.path.join(repo_root_path(), "../")
+    return os.path.realpath(path)
 
 def cd_repo_root_path() -> str:
     # Make sure the script is always started from the same
@@ -144,3 +170,49 @@ def semver_to_string(semver_dict):
     if semver_dict['pre_release']:
         version_str += f"-{semver_dict['pre_release']}"
     return version_str
+
+
+def unzip(zip_path: str, destination_path: str, specific_file: str = None):
+    with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+        if specific_file:
+            zip_ref.extract(specific_file, path=destination_path)
+        else:
+            zip_ref.extractall(path=destination_path)
+
+
+def listfiles(path):
+    files = []
+    extensions = ('.dylib', '.so','')
+    ignored = ('qmldir')
+    print(f"WALK: {path}")
+    for dirName, subdirList, fileList in os.walk(path):
+        dir = dirName.replace(path, '')
+        for fname in fileList:
+            if Path(fname).suffix in extensions and not fname in ignored:
+                file =  path + os.path.join(dir, fname)
+                if(os.path.isfile(file)):
+                    files.append(file)
+                    if  os.path.islink(file):
+                        print(f"Warning: file {file} is a symlink!")
+                        print("Symlink target: ", os.readlink(file))
+    return files
+
+
+def check_universal_binary():
+    dir = 'build-64-osx-universal-release/bin/ScreenPlay.app/Contents'
+    path = Path(repo_root_path()).joinpath(dir).absolute()
+    print(f"Checking files at: {path}")
+    files = listfiles(str(path))
+    none_fat_found = False
+    none_fat_files = []
+    for file in files:
+        out = run_and_capture_output(f"lipo -info {file}")
+        if out.startswith('Non-fat'):
+            none_fat_found = True
+            none_fat_files.append(file)
+    if none_fat_found:
+        print("❌ None universal binaries found")
+        for file in none_fat_files:
+            print(f"❌ {file}")
+    else:
+        print("✅ All files are a universal binaries")

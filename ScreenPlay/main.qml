@@ -7,7 +7,6 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 import ScreenPlayApp
 import ScreenPlay
-import Settings
 import ScreenPlayUtil as Util
 import Qt5Compat.GraphicalEffects
 import Plausible 1.0
@@ -22,13 +21,13 @@ ApplicationWindow {
 
     function setTheme(theme) {
         switch (theme) {
-        case Settings.System:
+        case Settings.Theme.System:
             root.Material.theme = Material.System;
             break;
-        case Settings.Dark:
+        case Settings.Theme.Dark:
             root.Material.theme = Material.Dark;
             break;
-        case Settings.Light:
+        case Settings.Theme.Light:
             root.Material.theme = Material.Light;
             break;
         }
@@ -40,14 +39,15 @@ ApplicationWindow {
                 App.installedListModel.reset();
         }
         if (name === "Installed") {
-            stackView.replace("qrc:/qml/ScreenPlayApp/qml/Installed/Installed.qml", {
+            stackView.replace("qrc:/qml/ScreenPlayApp/qml/Installed/InstalledView.qml", {
                     "sidebar": sidebar
                 });
             return;
         }
-        stackView.replace("qrc:/qml/ScreenPlayApp/qml/" + name + "/" + name + ".qml", {
+        stackView.replace("qrc:/qml/ScreenPlayApp/qml/" + name + "/" + name + "View.qml", {
                 "modalSource": content
             });
+        nav.setNavigation(name);
         sidebar.state = "inactive";
     }
 
@@ -56,7 +56,7 @@ ApplicationWindow {
     visible: false
     width: 1400
     height: 810
-    title: "ScreenPlay Alpha - V" + App.version()
+    title: "ScreenPlay Alpha - v" + App.version()
     minimumHeight: 450
     minimumWidth: 1050
 
@@ -72,9 +72,10 @@ ApplicationWindow {
     // https://bugreports.qt.io/browse/QTBUG-86047
     Material.accent: Material.color(Material.Orange)
     onVisibilityChanged: {
-        if (root.visibility === 2)
-            App.installedListModel.reset();
+        if (root.visibility !== 2)
+            return;
     }
+
     onClosing: close => {
         close.accepted = false;
         if (App.screenPlayManager.activeWallpaperCounter === 0 && App.screenPlayManager.activeWidgetsCounter === 0) {
@@ -103,14 +104,17 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
+        print("Settings.Language.Pl_PL", Settings.Language.Pl_PL);
+        print(App.settings.theme, Settings.Theme.Light);
         setTheme(App.settings.theme);
-        stackView.push("qrc:/qml/ScreenPlayApp/qml/Installed/Installed.qml", {
+        stackView.push("qrc:/qml/ScreenPlayApp/qml/Installed/InstalledView.qml", {
                 "sidebar": sidebar
             });
         if (!App.settings.silentStart) {
             App.showDockIcon(true);
             root.show();
         }
+        App.installedListModel.reset();
     }
 
     Item {
@@ -129,7 +133,7 @@ ApplicationWindow {
             modalSource: content
         }
 
-        Monitors.Monitors {
+        Monitors.MonitorsView {
             id: monitors
             modalSource: content
         }

@@ -15,61 +15,7 @@
         },
         {
             "type": "process",
-            "label": "Format Cpp files",
-            "command": "python3",
-            "windows": {
-                "command": "python"
-            },
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "options": {
-                "cwd": "${workspaceFolder}/Tools"
-            },
-            "args": [
-                "check_format_cpp.py"
-            ]
-        },
-        {
-            "type": "process",
-            "label": "Format CMake files",
-            "command": "python3",
-            "windows": {
-                "command": "python"
-            },
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "options": {
-                "cwd": "${workspaceFolder}/Tools"
-            },
-            "args": [
-                "check_format_cmake.py"
-            ]
-        },
-        {
-            "type": "process",
-            "label": "Format Qml files",
-            "command": "python3",
-            "windows": {
-                "command": "python"
-            },
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "options": {
-                "cwd": "${workspaceFolder}/Tools"
-            },
-            "args": [
-                "check_format_qml.py"
-            ]
-        },
-        {
-            "type": "process",
-            "label": "Run setup.py",
+            "label": "🛫 Run setup.py",
             "command": "python3",
             "windows": {
                 "command": "python"
@@ -87,7 +33,27 @@
         },
         {
             "type": "process",
-            "label": "Build ScreenPlay release, with deploy and steam enabled",
+            "label": "⚙️ Build Godot Wallpaper",
+            "command": "python3",
+            "windows": {
+                "command": "python"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/Tools"
+            },
+            "args": [
+                "build_godot.py",
+                "--build_path",
+                "${command:cmake.buildDirectory}/bin"
+            ]
+        },
+        {
+            "type": "process",
+            "label": "⚙️ Build ScreenPlay release, with deploy and steam enabled",
             "command": "python3",
             "windows": {
                 "command": "python"
@@ -116,7 +82,61 @@
         },
         {
             "type": "process",
-            "label": "Update Qt *.ts translations",
+            "label": "📃 Format Cpp files",
+            "command": "python3",
+            "windows": {
+                "command": "python"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/Tools"
+            },
+            "args": [
+                "check_format_cpp.py"
+            ]
+        },
+        {
+            "type": "process",
+            "label": "📃 Format CMake files",
+            "command": "python3",
+            "windows": {
+                "command": "python"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/Tools"
+            },
+            "args": [
+                "check_format_cmake.py"
+            ]
+        },
+        {
+            "type": "process",
+            "label": "📃 Format Qml files",
+            "command": "python3",
+            "windows": {
+                "command": "python"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/Tools"
+            },
+            "args": [
+                "check_format_qml.py"
+            ]
+        },
+        {
+            "type": "process",
+            "label": "🗨️ Update Qt *.ts translations",
             "command": "python3",
             "windows": {
                 "command": "python"

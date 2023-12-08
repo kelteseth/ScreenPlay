@@ -13,7 +13,7 @@ Rectangle {
     id: root
 
     property string currentNavigationName: "Installed"
-    property var navArray: [navCreate, navWorkshop, navInstalled, navSettings, navCommunity]
+    property var navArray: [navCreate, navWorkshop, navInstalled, navCommunity, navSettings]
     property bool navActive: true
     property Item modalSource
     property int iconWidth: 16
@@ -28,13 +28,12 @@ Rectangle {
         else
             root.state = "disabled";
     }
-
     function setNavigation(name) {
-        var i = 0;
-        for (; i < navArray.length; i++) {
-            if (navArray[i].name === name) {
+        for (var i = 0; i < navArray.length; i++) {
+            if (navArray[i].objectName === name) {
                 navArray[i].state = "active";
                 root.currentNavigationName = name;
+                tabBar.currentIndex = navArray[i].index;
             } else {
                 navArray[i].state = "inactive";
             }
@@ -70,7 +69,7 @@ Rectangle {
     }
 
     TabBar {
-        id: row
+        id: tabBar
         height: 50
         currentIndex: 2
 
@@ -84,55 +83,60 @@ Rectangle {
 
         CustomTabButton {
             id: navCreate
+            index: 0
             icon.height: 22
             icon.width: 22
             text: qsTr("Create")
+            objectName: "Create"
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_plus.svg"
             onClicked: {
                 root.onPageChanged("Create");
             }
-            objectName: "createTab"
         }
 
         CustomTabButton {
             id: navWorkshop
+            index: 1
             enabled: App.settings.steamVersion
             text: qsTr("Workshop")
+            objectName: "Workshop"
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_steam.svg"
             onClicked: {
                 root.onPageChanged("Workshop");
             }
-            objectName: "workshopTab"
         }
 
         CustomTabButton {
             id: navInstalled
+            index: 2
             text: qsTr("Installed") + " " + App.installedListModel.count
+            objectName: "Installed"
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_installed.svg"
             onClicked: {
                 root.onPageChanged("Installed");
             }
-            objectName: "installedTab"
         }
 
         CustomTabButton {
             id: navCommunity
+            index: 3
             text: qsTr("Community")
+            objectName: "Community"
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_community.svg"
             onClicked: {
                 root.onPageChanged("Community");
             }
-            objectName: "communityTab"
         }
 
         CustomTabButton {
             id: navSettings
+            index: 4
             text: qsTr("Settings")
+            objectName: "Settings"
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_settings.svg"
             onClicked: {
                 root.onPageChanged("Settings");
             }
-            objectName: "settingsTab"
         }
     }
 
@@ -142,6 +146,7 @@ Rectangle {
         font.pointSize: 12
         height: parent.height
         width: implicitWidth
+        property int index: 0
         background: Item {
         }
         font.capitalization: Font.MixedCase
@@ -260,7 +265,7 @@ Rectangle {
         ToolButton {
             id: miConfig
             Layout.alignment: Qt.AlignVCenter
-            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_video_settings_black_24dp.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_video_settings.svg"
             icon.width: root.iconWidth
             icon.height: root.iconHeight
             onClicked: App.util.setToggleWallpaperConfiguration()
@@ -278,7 +283,7 @@ Rectangle {
             name: "disabled"
 
             PropertyChanges {
-                target: row
+                target: tabBar
                 opacity: 0.3
             }
         }
@@ -289,7 +294,7 @@ Rectangle {
             to: "*"
 
             PropertyAnimation {
-                target: row
+                target: tabBar
                 duration: 300
             }
         }

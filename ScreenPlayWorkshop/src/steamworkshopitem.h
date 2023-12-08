@@ -15,10 +15,10 @@
 #include <QUrl>
 
 // Steam
+#include "ScreenPlayUtil/steamenumsgenerated.h"
 #include "cstring"
 #include "stdlib.h"
 #include "steam/steam_api.h"
-#include "steam/steam_qt_enums_generated.h"
 
 #include "ScreenPlayUtil/util.h"
 #include "steamapiwrapper.h"
@@ -32,7 +32,7 @@ class SteamWorkshopItem : public QObject {
     Q_PROPERTY(QUrl absolutePath READ absolutePath WRITE setAbsolutePath NOTIFY absolutePathChanged)
     Q_PROPERTY(int uploadProgress READ uploadProgress WRITE setUploadProgress NOTIFY uploadProgressChanged)
     Q_PROPERTY(QUrl absolutePreviewImagePath READ absolutePreviewImagePath WRITE setAbsolutePreviewImagePath NOTIFY absolutePreviewImagePathChanged)
-    Q_PROPERTY(ScreenPlayWorkshopSteamEnums::EResult status READ status WRITE setStatus NOTIFY statusChanged)
+    Q_PROPERTY(ScreenPlay::Steam::EResult status READ status WRITE setStatus NOTIFY statusChanged)
     Q_PROPERTY(QVariant publishedFileId READ publishedFileId WRITE setPublishedFileId NOTIFY publishedFileIdChanged)
 
 public:
@@ -45,7 +45,7 @@ public:
     QUrl absolutePath() const { return m_absolutePath; }
     int uploadProgress() const { return m_uploadProgress; }
     QUrl absolutePreviewImagePath() const { return m_absolutePreviewImagePath; }
-    ScreenPlayWorkshopSteamEnums::EResult status() const { return m_status; }
+    ScreenPlay::Steam::EResult status() const { return m_status; }
     QVariant publishedFileId() const { return m_publishedFileId; }
 
 public slots:
@@ -90,7 +90,7 @@ public slots:
         emit absolutePreviewImagePathChanged(m_absolutePreviewImagePath);
     }
 
-    void setStatus(ScreenPlayWorkshopSteamEnums::EResult status)
+    void setStatus(ScreenPlay::Steam::EResult status)
     {
         if (m_status == status)
             return;
@@ -115,7 +115,7 @@ signals:
     void removeThis(SteamWorkshopItem* item);
     void absolutePreviewImagePathChanged(QUrl absolutePreviewImagePath);
     void uploadComplete(bool successful);
-    void statusChanged(ScreenPlayWorkshopSteamEnums::EResult status);
+    void statusChanged(ScreenPlay::Steam::EResult status);
     void uploadFailed(const quint64 m_PublishedFileId);
     void userNeedsToAcceptWorkshopLegalAgreement();
     void publishedFileIdChanged(QVariant publishedFileId);
@@ -136,7 +136,7 @@ private:
     quint64 m_appID { 0 };
     const int m_updateTimerInterval { 500 };
     int m_uploadProgress { 0 }; // 0 - 100
-    ScreenPlayWorkshopSteamEnums::EResult m_status { ScreenPlayWorkshopSteamEnums::EResult::K_EResultNone };
+    ScreenPlay::Steam::EResult m_status { ScreenPlay::Steam::EResult::K_EResultNone };
     UGCUpdateHandle_t m_UGCUpdateHandle { 0 };
     SubmitItemUpdateResult_t m_submitItemUpdateResultHanlde;
     QTimer m_updateTimer;

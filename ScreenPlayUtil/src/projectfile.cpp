@@ -7,7 +7,8 @@ bool ProjectFile::init()
     if (!isValid())
         return false;
 
-    const auto jsonObjOpt = ScreenPlayUtil::openJsonFileToObject(projectJsonFilePath.absoluteFilePath());
+    Util util;
+    const auto jsonObjOpt = util.openJsonFileToObject(projectJsonFilePath.absoluteFilePath());
     QDir folder = projectJsonFilePath.dir();
     folderName = folder.dirName();
     QFileInfo folderInfo(folder.path());
@@ -22,17 +23,6 @@ bool ProjectFile::init()
     if (obj.isEmpty())
         return false;
 
-    // Required:
-    if (!obj.contains("file"))
-        return false;
-    file = obj.value("file").toString();
-
-    QFileInfo fileInfo(folder.path() + "/" + file);
-    if (!fileInfo.exists()) {
-        qCritical() << "Requested file:" << fileInfo.absoluteFilePath() << "does not exist!";
-        return false;
-    }
-
     if (!obj.contains("title"))
         return false;
     title = obj.value("title").toString();
@@ -40,12 +30,34 @@ bool ProjectFile::init()
     if (!obj.contains("type"))
         return false;
 
-    auto typeParsed = ScreenPlayUtil::getInstalledTypeFromString(obj.value("type").toString());
+    auto typeParsed = util.getInstalledTypeFromString(obj.value("type").toString());
     if (!typeParsed.has_value()) {
         qWarning() << "Type could not parsed from string: " << obj.value("type").toString();
         return false;
     }
     type = typeParsed.value();
+
+    // File is required. Website Wallpaper doe not have a file, but a url
+    if (!obj.contains("file") && type != ScreenPlay::ContentTypes::InstalledType::WebsiteWallpaper)
+        return false;
+
+    if (type != ScreenPlay::ContentTypes::InstalledType::WebsiteWallpaper) {
+        file = obj.value("file").toString();
+
+        if (type == ScreenPlay::ContentTypes::InstalledType::GodotWallpaper) {
+            QFileInfo fileInfo(folder.path() + "/wallpaper.tscn");
+            if (!fileInfo.exists()) {
+                qCritical() << "Requested file:" << fileInfo.absoluteFilePath() << "does not exist!";
+                return false;
+            }
+        } else {
+            QFileInfo fileInfo(folder.path() + "/" + file);
+            if (!fileInfo.exists()) {
+                qCritical() << "Requested file:" << fileInfo.absoluteFilePath() << "does not exist!";
+                return false;
+            }
+        }
+    }
 
     // Optional:
     if (!obj.contains("description"))
@@ -78,36 +90,36 @@ bool ProjectFile::init()
         }
     }
 
-    if (type == InstalledType::InstalledType::GifWallpaper) {
+    if (type == ContentTypes::InstalledType::GifWallpaper) {
         preview = previewGIF;
     }
-    if (type == ScreenPlay::InstalledType::InstalledType::WebsiteWallpaper) {
+    if (type == ContentTypes::InstalledType::WebsiteWallpaper) {
         if (url.isEmpty()) {
             qWarning() << "No url was specified for a websiteWallpaper!";
             return false;
         }
     }
 
-    searchType = ScreenPlayUtil::getSearchTypeFromInstalledType(type);
+    searchType = util.getSearchTypeFromInstalledType(type);
 
     if (obj.contains("codec")) {
-        if (auto videoCodecOpt = ScreenPlayUtil::getVideoCodecFromString(obj.value("codec").toString())) {
+        if (auto videoCodecOpt = util.getVideoCodecFromString(obj.value("codec").toString())) {
             videoCodec = videoCodecOpt.value();
         } else {
             qWarning("Invalid videoCodec was specified inside the json object!");
         }
-    } else if (type == ScreenPlay::InstalledType::InstalledType::VideoWallpaper) {
-        qWarning("No videoCodec was specified inside the json object!");
+    } else if (type == ScreenPlay::ContentTypes::InstalledType::VideoWallpaper) {
+        // qWarning("No videoCodec was specified inside the json object!");
         if (file.endsWith(".mp4")) {
-            videoCodec = ScreenPlay::VideoCodec::VideoCodec::H264;
-            qWarning("Eyeball to h264 because of .mp4");
+            videoCodec = ScreenPlay::Video::VideoCodec::H264;
+            // qWarning("Eyeball to h264 because of .mp4");
         } else if (file.endsWith(".webm")) {
-            videoCodec = ScreenPlay::VideoCodec::VideoCodec::VP8;
-            qWarning("Eyeball to VP8 because of .webm");
+            videoCodec = ScreenPlay::Video::VideoCodec::VP8;
+            // qWarning("Eyeball to VP8 because of .webm");
         }
     }
 
-    if (type == ScreenPlay::InstalledType::InstalledType::VideoWallpaper) {
+    if (type == ScreenPlay::ContentTypes::InstalledType::VideoWallpaper) {
         QFileInfo audioFile(folder.absolutePath() + "/audio.mp3");
         containsAudio = audioFile.exists();
     }

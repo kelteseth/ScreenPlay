@@ -2,91 +2,125 @@
 
 #pragma once
 
-#include <QtGlobal>
-
-#if defined(Q_OS_WIN)
-
-// Must be first!
-#include <qt_windows.h>
-// Do not sort !
-#include "WinUser.h"
-#include <ShellScalingApi.h>
-#endif
-
-#include "ScreenPlayUtil/contenttypes.h"
+#include <QClipboard>
+#include <QCoreApplication>
+#include <QDateTime>
+#include <QDebug>
+#include <QDir>
 #include <QJsonArray>
+#include <QJsonDocument>
 #include <QJsonObject>
 #include <QMetaEnum>
 #include <QMetaType>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QObject>
+#include <QProcess>
+#include <QQmlEngine>
+#include <QScopeGuard>
 #include <QString>
+#include <QTextStream>
 #include <QVersionNumber>
-#include <cmath>
+#include <QtConcurrent/QtConcurrent>
+#include <QtGlobal>
 #include <optional>
 
-namespace ScreenPlayUtil {
-#if defined(Q_OS_WIN)
-struct WinMonitorStats {
+#include "ScreenPlayUtil/contenttypes.h"
 
-    WinMonitorStats()
-    {
-        EnumDisplayMonitors(NULL, NULL, MonitorEnum, (LPARAM)this);
+namespace ScreenPlay {
+
+template <typename T>
+T QStringToEnum(const QString& key, const T defaultValue)
+{
+    auto metaEnum = QMetaEnum::fromType<T>();
+
+    bool ok = false;
+    T wantedEnum = static_cast<T>(metaEnum.keyToValue(key.toUtf8(), &ok));
+
+    if (ok) {
+        return wantedEnum;
+    } else {
+        qWarning() << "Unable to convert QStringToEnum. Key: " << key;
     }
 
-    static BOOL CALLBACK MonitorEnum(HMONITOR hMon, HDC hdc, LPRECT lprcMonitor,
-        LPARAM pData)
+    return defaultValue;
+}
+
+class Util : public QObject {
+    Q_OBJECT
+    QML_ELEMENT
+    QML_UNCREATABLE("")
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
+
+public:
+    QJsonArray fillArray(const QVector<QString>& items);
+    ScreenPlay::ContentTypes::SearchType getSearchTypeFromInstalledType(const ScreenPlay::ContentTypes::InstalledType type);
+    std::optional<ScreenPlay::ContentTypes::InstalledType> getInstalledTypeFromString(const QString& type);
+    std::optional<ScreenPlay::Video::VideoCodec> getVideoCodecFromString(const QString& type);
+    std::optional<QJsonObject> parseQByteArrayToQJsonObject(const QByteArray& byteArray);
+    std::optional<QJsonObject> openJsonFileToObject(const QString& path);
+    std::optional<QString> openJsonFileToString(const QString& path);
+    std::optional<QVersionNumber> getVersionNumberFromString(const QString& str);
+    bool writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObject& object, bool truncate = true);
+    bool writeSettings(const QJsonObject& obj, const QString& absolutePath);
+    bool writeFile(const QString& text, const QString& absolutePath);
+    bool writeFileFromQrc(const QString& qrcPath, const QString& absolutePath);
+    bool copyPreviewThumbnail(QJsonObject& obj, const QString& previewThumbnail, const QString& destination);
+    QString toString(const QStringList& list) const;
+    std::optional<QVector<int>> parseStringToIntegerList(const QString string) const;
+    float roundDecimalPlaces(const float number) const;
+    QString generateRandomString(quint32 length = 32);
+    QString executableAppEnding();
+    QString executableBinEnding();
+    QStringList getAvailableWallpaper() const;
+    QStringList getAvailableWidgets() const;
+    QStringList getAvailableTypes() const;
+    QStringList getAvailableFillModes() const;
+    // QML callable functions
+    Q_INVOKABLE QString toLocal(const QString& url) const;
+
+    Q_INVOKABLE bool isWallpaper(const ScreenPlay::ContentTypes::InstalledType type) const;
+    Q_INVOKABLE bool isWidget(const ScreenPlay::ContentTypes::InstalledType type) const;
+    Q_INVOKABLE bool isScene(const ScreenPlay::ContentTypes::InstalledType type) const;
+    Q_INVOKABLE bool isVideo(const ScreenPlay::ContentTypes::InstalledType type) const;
+
+    Q_INVOKABLE void copyToClipboard(const QString& text) const;
+    Q_INVOKABLE void openFolderInExplorer(const QString& url) const;
+    Q_INVOKABLE bool openGodotEditor(QString contentPath, QString godotEditorExecutablePath) const;
+    Q_INVOKABLE void requestAllLicenses();
+    Q_INVOKABLE void requestDataProtection();
+    Q_INVOKABLE bool fileExists(const QString& filePath) const;
+
+    Q_INVOKABLE void setNavigation(QString nav)
     {
-        WinMonitorStats* pThis = reinterpret_cast<WinMonitorStats*>(pData);
-        auto scaleFactor = DEVICE_SCALE_FACTOR::DEVICE_SCALE_FACTOR_INVALID;
-        GetScaleFactorForMonitor(hMon, &scaleFactor);
-
-        UINT x = 0;
-        UINT y = 0;
-        GetDpiForMonitor(hMon, MONITOR_DPI_TYPE::MDT_RAW_DPI, &x, &y);
-        pThis->sizes.push_back({ x, y });
-        pThis->scaleFactor.push_back(scaleFactor);
-        pThis->hMonitors.push_back(hMon);
-        pThis->hdcMonitors.push_back(hdc);
-        pThis->rcMonitors.push_back(*lprcMonitor);
-        pThis->iMonitors.push_back(pThis->hdcMonitors.size());
-
-        // qInfo() << std::abs(lprcMonitor->right - lprcMonitor->left) << std::abs(lprcMonitor->top - lprcMonitor->bottom);
-
-        return TRUE;
+        emit requestNavigation(nav);
     }
 
-    std::vector<int> iMonitors;
-    std::vector<HMONITOR> hMonitors;
-    std::vector<HDC> hdcMonitors;
-    std::vector<RECT> rcMonitors;
-    std::vector<DEVICE_SCALE_FACTOR> scaleFactor;
-    std::vector<std::pair<UINT, UINT>> sizes;
-    int index = 0;
+    // When we create a wallpaper the main navigation gets disabled
+    Q_INVOKABLE void setNavigationActive(bool isActive)
+    {
+        emit requestNavigationActive(isActive);
+    }
+
+    Q_INVOKABLE void setToggleWallpaperConfiguration()
+    {
+        emit requestToggleWallpaperConfiguration();
+    }
+
+signals:
+    void extractionProgressChanged(QString file, int proc, int total, qint64 br, qint64 bt);
+    void extractionFinished();
+    void compressionProgressChanged(QString file, int proc, int total, qint64 br, qint64 bt);
+    void compressionFinished();
+
+    void requestNavigation(QString nav);
+    void requestNavigationActive(bool isActive);
+    void requestToggleWallpaperConfiguration();
+    void setSidebarItem(QString folderName, ScreenPlay::ContentTypes::InstalledType type);
+    void allLicenseLoaded(QString licensesText);
+    void allDataProtectionLoaded(QString dataProtectionText);
+
+private:
+    QFuture<void> m_requestAllLicensesFuture;
 };
-#endif
-QJsonArray fillArray(const QVector<QString>& items);
-ScreenPlay::SearchType::SearchType getSearchTypeFromInstalledType(const ScreenPlay::InstalledType::InstalledType type);
-std::optional<ScreenPlay::InstalledType::InstalledType> getInstalledTypeFromString(const QString& type);
-std::optional<ScreenPlay::VideoCodec::VideoCodec> getVideoCodecFromString(const QString& type);
-std::optional<QJsonObject> parseQByteArrayToQJsonObject(const QByteArray& byteArray);
-std::optional<QJsonObject> openJsonFileToObject(const QString& path);
-std::optional<QString> openJsonFileToString(const QString& path);
-std::optional<QVersionNumber> getVersionNumberFromString(const QString& str);
-bool writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObject& object, bool truncate = true);
-bool writeSettings(const QJsonObject& obj, const QString& absolutePath);
-bool writeFile(const QString& text, const QString& absolutePath);
-bool writeFileFromQrc(const QString& qrcPath, const QString& absolutePath);
-bool copyPreviewThumbnail(QJsonObject& obj, const QString& previewThumbnail, const QString& destination);
-QString toString(const QStringList& list);
-QString toLocal(const QString& url);
-QString generateRandomString(quint32 length = 32);
-QString executableAppEnding();
-QString executableBinEnding();
-QStringList getAvailableWallpaper();
-QStringList getAvailableWidgets();
-QStringList getAvailableTypes();
-QStringList getAvailableFillModes();
-bool isWallpaper(const ScreenPlay::InstalledType::InstalledType type);
-bool isWidget(const ScreenPlay::InstalledType::InstalledType type);
-std::optional<QVector<int>> parseStringToIntegerList(const QString string);
-float roundDecimalPlaces(const float number);
 }

@@ -3,7 +3,7 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material
 import ScreenPlayApp
 import ScreenPlay
-import ScreenPlay.Enums.InstalledType
+import ScreenPlayUtil
 
 Item {
     id: root
@@ -18,7 +18,7 @@ Item {
 
     property string previewImage
     property string appID
-    property var installedType: InstalledType.QMLWallpaper
+    property var installedType: ContentTypes.InstalledType.QMLWallpaper
     property bool monitorWithoutContentSelectable: true
     property bool hasContent: appID !== ""
     property int fontSize: 10

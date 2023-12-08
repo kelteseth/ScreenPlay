@@ -18,6 +18,9 @@
 
 #include "basewindow.h"
 #include "windowsdesktopproperties.h"
+#include "windowsintegration.h"
+
+namespace ScreenPlay {
 
 class WinWindow : public BaseWindow {
     Q_OBJECT
@@ -27,7 +30,7 @@ class WinWindow : public BaseWindow {
 public:
     WindowsDesktopProperties* windowsDesktopProperties() const { return m_windowsDesktopProperties.get(); }
 
-    ScreenPlay::WallpaperExitCode start() override;
+    WallpaperExit::Code start() override;
 
 public slots:
     void setVisible(bool show) override;
@@ -52,11 +55,8 @@ private:
     void setupWallpaperForOneScreen(int activeScreen);
     void setupWallpaperForAllScreens();
     void setupWallpaperForMultipleScreens(const QVector<int>& activeScreensList);
-    void setupWindowMouseHook();
-    bool searchWorkerWindowToParentTo();
     void configureWindowGeometry();
-    bool hasWindowScaling() const;
-    float getScaling(const int monitorIndex) const;
+    std::tuple<int, QString> mapVirtualKeyToQtKey(UINT vkCode);
 
 private slots:
     void checkForFullScreenWindow();
@@ -64,9 +64,9 @@ private slots:
 private:
     QPoint m_zeroPoint {};
     QQuickView m_window;
-    HWND m_windowHandle {};
-    HWND m_windowHandleWorker {};
+    WindowsIntegration m_windowsIntegration;
     QTimer m_checkForFullScreenWindowTimer;
     QTimer m_reconfigureTimer;
     std::unique_ptr<WindowsDesktopProperties> m_windowsDesktopProperties;
 };
+}

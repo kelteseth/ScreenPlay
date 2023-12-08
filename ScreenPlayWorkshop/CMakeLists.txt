@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+find_package(LibArchive REQUIRED)
 find_package(
     Qt6
     COMPONENTS Core Quick QuickControls2
@@ -100,8 +101,7 @@ target_link_libraries(
            Qt6::Quick
            ${STEAM_LIB}
            ScreenPlayUtil
-           SteamSDK
-           SteamSDKQtEnums)
+           SteamSDK)
 
 qt_add_qml_module(
     ${PROJECT_NAME}
@@ -122,14 +122,11 @@ qt_add_qml_module(
     ${RESOURCES})
 
 if(${SCREENPLAY_STEAM})
-    if(APPLE AND NOT OSX_BUNDLE)
+    if(APPLE)
         set(MACOS_FRAMEWORKS_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ScreenPlay.app/Contents/MacOS/)
         file(MAKE_DIRECTORY ${MACOS_FRAMEWORKS_DIR})
         configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${MACOS_FRAMEWORKS_DIR} COPYONLY)
         configure_file(${STEAM_BIN} ${MACOS_FRAMEWORKS_DIR} COPYONLY)
-    else()
-        configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${CMAKE_BINARY_DIR}/bin/steam_appid.txt COPYONLY)
-        configure_file(${STEAM_BIN} ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
     endif()
 
     if(${SCREENPLAY_TESTS})
@@ -140,7 +137,11 @@ if(${SCREENPLAY_STEAM})
                     Qt6::QuickControls2
                     ${PROJECT_NAME}plugin
                     ScreenPlayUtilplugin
-                    SteamSDK
-                    SteamSDKQtEnums)
+                    SteamSDK)
+
+        if(APPLE)
+            set_target_properties(tst_ScreenPlayWorkshop PROPERTIES RUNTIME_OUTPUT_DIRECTORY
+                                                                    "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
+        endif()
     endif()
 endif()

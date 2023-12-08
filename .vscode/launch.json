@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Windows Launch",
+            "name": "🪟 Windows Launch",
             "type": "cppvsdbg",
             "request": "launch",
             "program": "${command:cmake.launchTargetPath}",
@@ -17,18 +17,26 @@
             "environment": [
                 {
                     "name": "Path",
-                    "value": "${env:Path};${workspaceFolder}\\..\\aqt\\6.5.2\\msvc2019_64\\bin\\;${workspaceFolder}\\..\\aqt\\6.5.2\\msvc2019_64\\modules\\;${workspaceFolder}\\..\\aqt\\6.5.2\\msvc2019_64\\qml\\;${workspaceFolder}\\..\\vcpkg\\installed\\x64-windows\\debug\\bin;"
+                    "value": "${env:Path};${workspaceFolder}\\..\\aqt\\6.6.1\\msvc2019_64\\bin\\;${workspaceFolder}\\..\\aqt\\6.6.1\\msvc2019_64\\modules\\;${workspaceFolder}\\..\\aqt\\6.6.1\\msvc2019_64\\qml\\;${workspaceFolder}\\..\\vcpkg\\installed\\x64-windows\\debug\\bin;"
                 }
             ],
             "visualizerFile": "${workspaceFolder}/.vscode/qt.natvis.xml"
         },
         {
-            "name": "macOS/linux Launch",
+            "name": "🍏macOS & 🐧linux Launch",
             "type": "lldb",
             "request": "launch",
             "program": "${command:cmake.launchTargetPath}",
             "args": [],
             "cwd": "${command:cmake.buildDirectory}/bin",
+        },
+        {
+            "name": "🐍 Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true
         }
     ]
 }

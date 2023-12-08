@@ -6,7 +6,7 @@
 #include <QUrl>
 #include <QVector>
 
-#include "steam/steam_qt_enums_generated.h"
+#include "ScreenPlayUtil/steamenumsgenerated.h"
 #include "steamworkshopitem.h"
 
 namespace ScreenPlayWorkshop {
@@ -116,12 +116,12 @@ public slots:
         QObject::connect(item.get(), &SteamWorkshopItem::uploadComplete, this, [=](bool successful) {
             onDataChanged();
         });
-        QObject::connect(item.get(), &SteamWorkshopItem::statusChanged, this, [=](ScreenPlayWorkshopSteamEnums::EResult status) {
+        QObject::connect(item.get(), &SteamWorkshopItem::statusChanged, this, [=](ScreenPlay::Steam::EResult status) {
             onDataChanged();
 
             bool allItemsUploaded = std::all_of(m_uploadListModelItems.cbegin(), m_uploadListModelItems.cend(), [](const auto& item) {
                 const auto status = item->status();
-                return status == ScreenPlayWorkshopSteamEnums::EResult::K_EResultOK || status == ScreenPlayWorkshopSteamEnums::EResult::K_EResultFail;
+                return status == ScreenPlay::Steam::EResult::K_EResultOK || status == ScreenPlay::Steam::EResult::K_EResultFail;
             });
 
             if (allItemsUploaded) {

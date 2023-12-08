@@ -24,7 +24,8 @@
 #define NAME "xwinwrap"
 #define ATOM(a) XInternAtom(display, #a, False)
 
-ScreenPlay::WallpaperExitCode LinuxX11Window::start()
+namespace ScreenPlay {
+WallpaperExit::Code LinuxX11Window::start()
 {
 
     if (!debugMode()) {
@@ -111,7 +112,7 @@ ScreenPlay::WallpaperExitCode LinuxX11Window::start()
     m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
     m_window.setSource(QUrl("qrc:/qml/ScreenPlayWallpaper/qml/Wallpaper.qml"));
     m_window.show();
-    return ScreenPlay::WallpaperExitCode::Ok;
+    return WallpaperExit::Code::Ok;
 }
 
 void LinuxX11Window::setupWallpaperForOneScreen(int activeScreen)
@@ -139,4 +140,5 @@ void LinuxX11Window::destroyThis()
 void LinuxX11Window::terminate()
 {
     QCoreApplication::quit();
+}
 }

@@ -16,7 +16,8 @@ namespace ScreenPlay {
 /*!
     \brief  Constructor for ScreenPlayWallpaper.
 */
-ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
+ScreenPlayWallpaper::ScreenPlayWallpaper(
+    const QVector<int>& screenNumber,
     const std::shared_ptr<GlobalVariables>& globalVariables,
     const QString& appID,
     const QString& absolutePath,
@@ -24,8 +25,8 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
     const QString& file,
     const float volume,
     const float playbackRate,
-    const FillMode::FillMode fillMode,
-    const InstalledType::InstalledType type,
+    const Video::FillMode fillMode,
+    const ContentTypes::InstalledType type,
     const QJsonObject& properties,
     const std::shared_ptr<Settings>& settings,
     QObject* parent)
@@ -42,14 +43,18 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
     , m_playbackRate { playbackRate }
     , m_settings { settings }
 {
-
+    Util util;
+    std::optional<QJsonObject> projectOpt = util.openJsonFileToObject(absolutePath + "/project.json");
+    if (projectOpt.has_value()) {
+        m_projectJson = projectOpt.value();
+    }
     QJsonObject projectSettingsListModelProperties;
-    if (type == InstalledType::InstalledType::VideoWallpaper) {
+    if (type == ContentTypes::InstalledType::VideoWallpaper) {
         projectSettingsListModelProperties.insert("volume", m_volume);
         projectSettingsListModelProperties.insert("playbackRate", m_playbackRate);
     } else {
         if (properties.isEmpty()) {
-            if (auto obj = ScreenPlayUtil::openJsonFileToObject(absolutePath + "/project.json")) {
+            if (auto obj = util.openJsonFileToObject(absolutePath + "/project.json")) {
                 if (obj->contains("properties"))
                     projectSettingsListModelProperties = obj->value("properties").toObject();
             }
@@ -66,7 +71,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
 
     QString tmpScreenNumber;
     if (m_screenNumber.length() > 1) {
-        for (const int number : qAsConst(m_screenNumber)) {
+        for (const int number : std::as_const(m_screenNumber)) {
             // IMPORTANT: NO TRAILING COMMA!
             if (number == m_screenNumber.back()) {
                 tmpScreenNumber += QString::number(number);
@@ -86,20 +91,41 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
         QVariant::fromValue(fillMode).toString(),
         QVariant::fromValue(type).toString(),
         QString::number(m_settings->checkWallpaperVisible()),
-        // Fixes issue 84 media key overlay
-        " --disable-features=HardwareMediaKeyHandling"
     };
+
+    // Fixes issue 84 media key overlay in Qt apps
+    if (m_type != ContentTypes::InstalledType::GodotWallpaper) {
+        m_appArgumentsList.append(" --disable-features=HardwareMediaKeyHandling");
+    }
+    if (m_type == ContentTypes::InstalledType::GodotWallpaper) {
+        if (m_projectJson.contains("version")) {
+            const quint64 version = m_projectJson.value("version").toInt();
+            const QString packageFileName = QString("project-v%1.zip").arg(version);
+            m_appArgumentsList.append(packageFileName);
+        }
+    }
 }
 
 bool ScreenPlayWallpaper::start()
 {
+    if (m_type == ContentTypes::InstalledType::GodotWallpaper) {
+        if (!exportGodotProject())
+            return false;
+    }
+
     m_process.setArguments(m_appArgumentsList);
-    m_process.setProgram(m_globalVariables->wallpaperExecutablePath().toString());
+    if (m_type == ContentTypes::InstalledType::GodotWallpaper) {
+        m_process.setProgram(m_globalVariables->godotWallpaperExecutablePath().toString());
+    } else {
+        m_process.setProgram(m_globalVariables->wallpaperExecutablePath().toString());
+    }
+
     // We must start detatched otherwise we would instantly close the process
     // and would loose the animted fade-out and the background refresh needed
     // to display the original wallpaper.
     const bool success = m_process.startDetached();
-    qInfo() << "Starting ScreenPlayWallpaper detached: " << (success ? "success" : "failed!");
+    qInfo() << "Starting ScreenPlayWallpaper detached: " << (success ? "success" : "failed!") << m_process.program();
+    qInfo() << m_appArgumentsList;
     if (!success) {
         qInfo() << m_process.program() << m_appArgumentsList;
         emit error(QString("Could not start Wallpaper: " + m_process.errorString()));
@@ -114,13 +140,13 @@ bool ScreenPlayWallpaper::start()
 QJsonObject ScreenPlayWallpaper::getActiveSettingsJson()
 {
     QJsonArray screenNumber;
-    for (const int i : qAsConst(m_screenNumber)) {
+    for (const int i : std::as_const(m_screenNumber)) {
         screenNumber.append(i);
     }
 
     QJsonObject obj;
     QJsonObject properties;
-    if (m_type == InstalledType::InstalledType::VideoWallpaper) {
+    if (m_type == ContentTypes::InstalledType::VideoWallpaper) {
         obj.insert("fillMode", QVariant::fromValue(m_fillMode).toString());
         obj.insert("isLooping", m_isLooping);
         obj.insert("volume", m_volume);
@@ -197,7 +223,7 @@ bool ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QString& v
         setPlaybackRate(value.toFloat());
     }
     if (key == "fillmode") {
-        setFillMode(QStringToEnum<FillMode::FillMode>(value, FillMode::FillMode::Cover));
+        setFillMode(QStringToEnum<Video::FillMode>(value, Video::FillMode::Cover));
     }
 
     const bool success = m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
@@ -220,7 +246,7 @@ void ScreenPlayWallpaper::setSDKConnection(std::unique_ptr<SDKConnection> connec
 
     QObject::connect(m_connection.get(), &SDKConnection::disconnected, this, [this]() {
         setIsConnected(false);
-        qInfo() << "disconnecetd;";
+        qInfo() << "Wallpaper:" << m_connection->appID() << "disconnected";
     });
     QTimer::singleShot(1000, this, [this]() {
         if (playbackRate() != 1.0) {
@@ -248,8 +274,8 @@ bool ScreenPlayWallpaper::replace(
     const QString& previewImage,
     const QString& file,
     const float volume,
-    const FillMode::FillMode fillMode,
-    const InstalledType::InstalledType type,
+    const Video::FillMode fillMode,
+    const ContentTypes::InstalledType type,
     const bool checkWallpaperVisible)
 {
 
@@ -281,6 +307,79 @@ bool ScreenPlayWallpaper::replace(
     return success;
 }
 
+/*!
+    \brief .
+*/
+bool ScreenPlayWallpaper::exportGodotProject()
+{
+    if (!m_projectJson.contains("version"))
+        return false;
+
+    const quint64 version = m_projectJson.value("version").toInt();
+    const QString packageFileName = QString("project-v%1.zip").arg(version);
+    QFileInfo godotPackageFile(m_absolutePath + "/" + packageFileName);
+    // Skip reexport
+    if (godotPackageFile.exists())
+        return true;
+
+    qInfo() << "No suitable version found for Godot package" << packageFileName << " at" << godotPackageFile.absoluteFilePath() << " exporting a new pck as zip.";
+
+    // Prepare the Godot export command
+    const QList<QString>
+        godotCmd
+        = { "--export-pack", "--headless", "Windows Desktop", packageFileName };
+
+    // Create QProcess instance to run the command
+    QProcess process;
+
+    // Set the working directory to the given absolute path
+    process.setWorkingDirectory(m_absolutePath);
+    process.setProgram(m_globalVariables->godotEditorExecutablePath().toString());
+    // Start the Godot export process
+    process.setArguments(godotCmd);
+    process.start();
+
+    // Wait for the process to finish or timeout
+    const int timeoutMilliseconds = 30000;
+    if (!process.waitForFinished(timeoutMilliseconds)) {
+        qCritical() << "Godot export process timed out or failed to start.";
+        return false;
+    }
+
+    // Capture the standard output and error
+    QString stdoutString = process.readAllStandardOutput();
+    QString stderrString = process.readAllStandardError();
+
+    // If you want to print the output to the console:
+    if (!stdoutString.isEmpty())
+        qDebug() << "Output:" << stdoutString;
+    if (!stderrString.isEmpty())
+        qDebug() << "Error:" << stderrString;
+
+    // Check for errors
+    if (process.exitStatus() != QProcess::NormalExit || process.exitCode() != 0) {
+        qCritical() << "Failed to export Godot project. Error:" << process.errorString();
+        return false;
+    }
+
+    // Check if the project.zip file was created
+    QString zipPath = QDir(m_absolutePath).filePath(packageFileName);
+    if (!QFile::exists(zipPath)) {
+        qCritical() << "Expected export file (" << packageFileName << ") was not created.";
+        return false;
+    }
+
+    // Optional: Verify if the .zip file is valid
+    // (A complete verification would involve extracting the file and checking its contents,
+    // but for simplicity, we're just checking its size here)
+    QFileInfo zipInfo(zipPath);
+    if (zipInfo.size() <= 0) {
+        qCritical() << "The exported " << packageFileName << " file seems to be invalid.";
+        return false;
+    }
+
+    return true;
+}
 }
 
 #include "moc_screenplaywallpaper.cpp"

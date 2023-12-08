@@ -9,23 +9,25 @@
 #include "ScreenPlayWallpaper/CMakeVariables.h"
 
 #include "ScreenPlayUtil/exitcodes.h"
+#include "ScreenPlayUtil/logginghandler.h"
 #include "ScreenPlayUtil/util.h"
 
 #if defined(Q_OS_WIN)
 #include "src/winwindow.h"
 Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoPlugin)
 #elif defined(Q_OS_LINUX)
-#include "src/linuxx11window.h"
 #include "src/linuxwaylandwindow.h"
-#elif defined(Q_OS_OSX)
+#include "src/linuxx11window.h"
+#elif defined(Q_OS_MACOS)
 #include "src/macwindow.h"
 #endif
 
 Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherPlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlayUtilPlugin)
 
 int main(int argc, char* argv[])
 {
-
+    using namespace ScreenPlay;
     // Lets keep using it until: https://bugreports.qt.io/browse/QTBUG-109401
     QtWebEngineQuick::initialize();
 
@@ -36,24 +38,26 @@ int main(int argc, char* argv[])
 #endif
 
     QGuiApplication app(argc, argv);
+    std::unique_ptr<const ScreenPlayUtil::LoggingHandler> logging;
     std::unique_ptr<BaseWindow> window;
     const auto platformName = QGuiApplication::platformName();
 
 #if defined(Q_OS_WIN)
     window = std::make_unique<WinWindow>();
 #elif defined(Q_OS_LINUX)
-    if(platformName == "xcb"){
-        window = std::make_unique<LinuxX11Window>();  
-    } else if(platformName == "wayland"){
+    if (platformName == "xcb") {
+        window = std::make_unique<LinuxX11Window>();
+    } else if (platformName == "wayland") {
         window = std::make_unique<LinuxWaylandWindow>();
     }
-#elif defined(Q_OS_OSX)
+#elif defined(Q_OS_MACOS)
     window = std::make_unique<MacWindow>();
 #endif
 
     // If we start with only one argument (app path)
     // It means we want to test a single wallpaper
     const QStringList argumentList = app.arguments();
+    QString appID;
 
     // For testing purposes when starting the ScreenPlayWallpaper directly.
     if (argumentList.length() == 1) {
@@ -66,7 +70,7 @@ int main(int argc, char* argv[])
             "/wallpaper_video_astronaut_vp9", // 4
             "/wallpaper_video_nebula_h264" // 5
         };
-        const int index = 1;
+        const int index = 5;
         QString projectPath = exampleContentPath + contentFolder.at(index);
 
         window->setActiveScreensList({ 0 });
@@ -74,47 +78,47 @@ int main(int argc, char* argv[])
         window->setAppID("test");
         window->setVolume(1);
         window->setFillMode("cover");
-        window->setType(ScreenPlay::InstalledType::InstalledType::VideoWallpaper);
+        window->setType(ScreenPlay::ContentTypes::InstalledType::VideoWallpaper);
         window->setCheckWallpaperVisible(true);
         window->setDebugMode(false);
     } else {
         // 8 parameter + 1 OS working directory as the first default paramter
         if (argumentList.length() != 9) {
-            return static_cast<int>(ScreenPlay::WallpaperExitCode::Invalid_ArgumentSize);
+            return static_cast<int>(WallpaperExit::Code::Invalid_ArgumentSize);
         }
-
-        const auto activeScreensList = ScreenPlayUtil::parseStringToIntegerList(argumentList.at(1));
+        ScreenPlay::Util util;
+        const auto activeScreensList = util.parseStringToIntegerList(argumentList.at(1));
 
         if (!activeScreensList.has_value()) {
             qCritical("Could not activeScreensList");
-            return static_cast<int>(ScreenPlay::WallpaperExitCode::Invalid_ActiveScreensList);
+            return static_cast<int>(WallpaperExit::Code::Invalid_ActiveScreensList);
         }
 
-        auto installedType = ScreenPlay::InstalledType::InstalledType::Unknown;
-        if (auto typeOpt = ScreenPlayUtil::getInstalledTypeFromString(argumentList.at(6))) {
+        auto installedType = ScreenPlay::ContentTypes::InstalledType::Unknown;
+        if (auto typeOpt = util.getInstalledTypeFromString(argumentList.at(6))) {
             installedType = typeOpt.value();
         } else {
             qCritical() << "Cannot parse Wallpaper type from value" << argumentList.at(6);
-            return static_cast<int>(ScreenPlay::WallpaperExitCode::Invalid_InstalledType);
+            return static_cast<int>(WallpaperExit::Code::Invalid_InstalledType);
         }
 
         bool okParseCheckWallpaperVisible = false;
         const bool checkWallpaperVisible = argumentList.at(7).toInt(&okParseCheckWallpaperVisible);
         if (!okParseCheckWallpaperVisible) {
             qCritical("Could not parse checkWallpaperVisible");
-            return static_cast<int>(ScreenPlay::WallpaperExitCode::Invalid_CheckWallpaperVisible);
+            return static_cast<int>(WallpaperExit::Code::Invalid_CheckWallpaperVisible);
         }
         bool okParseVolume = 0.0f;
         const float volume = argumentList.at(4).toFloat(&okParseVolume);
         if (!okParseVolume) {
             qCritical("Could not parse Volume");
-            return static_cast<int>(ScreenPlay::WallpaperExitCode::Invalid_Volume);
+            return static_cast<int>(WallpaperExit::Code::Invalid_Volume);
         }
 
-        QString appID = argumentList.at(3);
+        appID = argumentList.at(3);
         if (!appID.startsWith("appID=")) {
             qCritical("Invalid appID");
-            return static_cast<int>(ScreenPlay::WallpaperExitCode::Invalid_AppID);
+            return static_cast<int>(WallpaperExit::Code::Invalid_AppID);
         }
         appID = appID.remove("appID=");
 
@@ -129,13 +133,16 @@ int main(int argc, char* argv[])
     }
 
     const auto setupStatus = window->setup();
-    if (setupStatus != ScreenPlay::WallpaperExitCode::Ok) {
+    if (setupStatus != WallpaperExit::Code::Ok) {
         return static_cast<int>(setupStatus);
     }
     const auto startStatus = window->start();
-    if (startStatus != ScreenPlay::WallpaperExitCode::Ok) {
+    if (startStatus != WallpaperExit::Code::Ok) {
         return static_cast<int>(startStatus);
     }
     emit window->qmlStart();
-    return app.exec();
+    logging = std::make_unique<const ScreenPlayUtil::LoggingHandler>("ScreenPlayWallpaper_" + appID);
+    const int status = app.exec();
+    logging.reset();
+    return status;
 }

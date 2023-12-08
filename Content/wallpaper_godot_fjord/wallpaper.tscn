@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://dp883pjlm7gk8"]
+
+[ext_resource type="Script" path="res://Action.gd" id="1_p251a"]
+
+[sub_resource type="Curve3D" id="Curve3D_8adw4"]
+bake_interval = 2.4
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -2.82099, -0.143238, -1.14419, 0, 0, 0, 0, 0, 0, -0.837192, 0.205974, -1.5077, 0, 0, 0, 0, 0, 0, 2.26923, 2.38419e-07, -1.10178, 0, 0, 0, 0, 0, 0, 3.0406, -0.00296563, 0.345948, 0, 0, 0, 0, 0, 0, 0.398976, -0.117547, 1.42909, 0, 0, 0, 0, 0, 0, -2.74903, -0.071628, 0.795209, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 8
+
+[node name="Node3D" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0123152, 0)
+script = ExtResource("1_p251a")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.04825, 4.0185)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(3.5774, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.223695, 0)
+size = Vector3(7.59119, 0.0764128, 5.75358)
+
+[node name="Path3D" type="Path3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1394, 0, 0.705414)
+curve = SubResource("Curve3D_8adw4")
+
+[node name="PathFollow3D" type="PathFollow3D" parent="Path3D"]
+transform = Transform3D(0.375854, -0.0435545, 0.925652, -3.72525e-09, 0.998895, 0.0470007, -0.926666, -0.0176657, 0.375443, 0, 0, 0)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Path3D/PathFollow3D"]
+light_color = Color(0.921569, 0.52549, 0.32549, 1)
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(0.997247, 0, 0, 0, 0.997247, 0, 0, 0, 0.997247, 0.030704, 1.238, -1.40679)
+shaded = true
+text = "GODO WALLPAPER"
+font_size = 126
+outline_size = 42

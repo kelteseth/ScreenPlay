@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
 #include "ScreenPlay/screenplaymanager.h"
-#include "ScreenPlay/util.h"
+#include "ScreenPlayUtil/util.h"
 
 #include <QScopeGuard>
 namespace ScreenPlay {
@@ -98,8 +98,8 @@ void ScreenPlayManager::init(
     if we call the method when using via the settings on startup to skip a unnecessary save.
 */
 bool ScreenPlayManager::createWallpaper(
-    const InstalledType::InstalledType type,
-    const FillMode::FillMode fillMode,
+    const ContentTypes::InstalledType type,
+    const Video::FillMode fillMode,
     const QString& absoluteStoragePath,
     const QString& previewImage,
     const QString& file,
@@ -129,7 +129,7 @@ bool ScreenPlayManager::createWallpaper(
     });
 
     const QString path = QUrl::fromUserInput(absoluteStoragePath).toLocalFile();
-    const QString appID = ScreenPlayUtil::generateRandomString();
+    const QString appID = Util().generateRandomString();
 
     // Only support remove wallpaper that spans over 1 monitor
     if (monitorIndex.length() == 1) {
@@ -169,7 +169,9 @@ bool ScreenPlayManager::createWallpaper(
     QObject::connect(wallpaper.get(), &ScreenPlayWallpaper::requestSave, this, &ScreenPlayManager::requestSaveProfiles);
     QObject::connect(wallpaper.get(), &ScreenPlayWallpaper::requestClose, this, &ScreenPlayManager::removeWallpaper);
     QObject::connect(wallpaper.get(), &ScreenPlayWallpaper::error, this, &ScreenPlayManager::displayErrorPopup);
-
+    if (!wallpaper->start()) {
+        return false;
+    }
     m_screenPlayWallpapers.append(wallpaper);
     m_monitorListModel->setWallpaperMonitor(wallpaper, monitorIndex);
     increaseActiveWallpaperCounter();
@@ -180,7 +182,7 @@ bool ScreenPlayManager::createWallpaper(
   \brief Creates a ScreenPlayWidget object via a \a absoluteStoragePath and a \a preview image (relative path).
 */
 bool ScreenPlayManager::createWidget(
-    const InstalledType::InstalledType type,
+    const ContentTypes::InstalledType type,
     const QPoint& position,
     const QString& absoluteStoragePath,
     const QString& previewImage,
@@ -194,7 +196,7 @@ bool ScreenPlayManager::createWidget(
         }
     });
 
-    const QString appID = ScreenPlayUtil::generateRandomString();
+    const QString appID = Util().generateRandomString();
     const QString path = QUrl::fromUserInput(absoluteStoragePath).toLocalFile();
 
     if (path.isEmpty()) {
@@ -256,7 +258,7 @@ bool ScreenPlayManager::removeAllWallpapers()
 bool ScreenPlayManager::removeAllWidgets()
 {
     if (m_screenPlayWidgets.empty()) {
-        qWarning() << "Trying to remove all Widgets while m_screenPlayWidgets is not empty. Count: " << m_screenPlayWidgets.size();
+        qWarning() << "Trying to remove all Widgets while m_screenPlayWidgets is empty. Count: " << m_screenPlayWidgets.size();
         return false;
     }
 
@@ -301,7 +303,7 @@ bool ScreenPlayManager::removeWallpaperAt(int index)
 */
 bool ScreenPlayManager::requestProjectSettingsAtMonitorIndex(const int index)
 {
-    for (const std::shared_ptr<ScreenPlayWallpaper>& uPtrWallpaper : qAsConst(m_screenPlayWallpapers)) {
+    for (const std::shared_ptr<ScreenPlayWallpaper>& uPtrWallpaper : std::as_const(m_screenPlayWallpapers)) {
         if (uPtrWallpaper->screenNumber()[0] == index) {
 
             emit projectSettingsListModelResult(
@@ -331,10 +333,10 @@ bool ScreenPlayManager::setWallpaperValueAtMonitorIndex(const int index, const Q
 */
 bool ScreenPlayManager::setWallpaperFillModeAtMonitorIndex(const int index, const int fillmode)
 {
-    const auto fillModeTyped = static_cast<FillMode::FillMode>(fillmode);
+    const auto fillModeTyped = static_cast<Video::FillMode>(fillmode);
 
     if (auto appID = m_monitorListModel->getAppIDByMonitorIndex(index)) {
-        return setWallpaperValue(*appID, "fillmode", QVariant::fromValue<FillMode::FillMode>(fillModeTyped).toString());
+        return setWallpaperValue(*appID, "fillmode", QVariant::fromValue<Video::FillMode>(fillModeTyped).toString());
     }
 
     qWarning() << "Could net get appID from m_monitorListModel!";
@@ -512,12 +514,12 @@ bool ScreenPlayManager::saveProfiles()
     m_saveLimiter.stop();
 
     QJsonArray wallpaper {};
-    for (const auto& activeWallpaper : qAsConst(m_screenPlayWallpapers)) {
+    for (const auto& activeWallpaper : std::as_const(m_screenPlayWallpapers)) {
         wallpaper.append(activeWallpaper->getActiveSettingsJson());
     }
 
     QJsonArray widgets {};
-    for (const auto& activeWidget : qAsConst(m_screenPlayWidgets)) {
+    for (const auto& activeWidget : std::as_const(m_screenPlayWidgets)) {
         widgets.append(activeWidget->getActiveSettingsJson());
     }
 
@@ -534,7 +536,7 @@ bool ScreenPlayManager::saveProfiles()
     profile.insert("version", "1.0.0");
     profile.insert("profiles", activeProfileList);
 
-    if (Util::writeJsonObjectToFile({ m_globalVariables->localSettingsPath().toString() + "/profiles.json" }, profile)) {
+    if (Util().writeJsonObjectToFile({ m_globalVariables->localSettingsPath().toString() + "/profiles.json" }, profile)) {
         emit profilesSaved();
         return true;
     }
@@ -546,14 +548,15 @@ bool ScreenPlayManager::saveProfiles()
 */
 bool ScreenPlayManager::loadProfiles()
 {
-    const auto configObj = ScreenPlayUtil::openJsonFileToObject(m_globalVariables->localSettingsPath().toString() + "/profiles.json");
+    Util util;
+    const auto configObj = util.openJsonFileToObject(m_globalVariables->localSettingsPath().toString() + "/profiles.json");
 
     if (!configObj) {
         qWarning() << "Could not load active profiles at path: " << m_globalVariables->localSettingsPath().toString() + "/profiles.json";
         return false;
     }
 
-    std::optional<QVersionNumber> version = ScreenPlayUtil::getVersionNumberFromString(configObj->value("version").toString());
+    std::optional<QVersionNumber> version = util.getVersionNumberFromString(configObj->value("version").toString());
 
     if (version && *version != m_globalVariables->version()) {
         qWarning() << "Version missmatch fileVersion: " << version->toString() << "m_version: " << m_globalVariables->version().toString();
@@ -625,8 +628,8 @@ bool ScreenPlayManager::loadProfiles()
             const QString typeString = wallpaperObj.value("type").toString();
             const QJsonObject properties = wallpaperObj.value("properties").toObject();
 
-            const auto type = QStringToEnum<InstalledType::InstalledType>(typeString, InstalledType::InstalledType::VideoWallpaper);
-            const auto fillMode = QStringToEnum<FillMode::FillMode>(fillModeString, FillMode::FillMode::Cover);
+            const auto type = QStringToEnum<ContentTypes::InstalledType>(typeString, ContentTypes::InstalledType::VideoWallpaper);
+            const auto fillMode = QStringToEnum<Video::FillMode>(fillModeString, Video::FillMode::Cover);
 
             const bool success = createWallpaper(type, fillMode, absolutePath, previewImage, file, monitors, volume, playbackRate, properties, false);
 
@@ -648,7 +651,7 @@ bool ScreenPlayManager::loadProfiles()
             const int positionX = widgetObj.value("positionX").toInt(0);
             const int positionY = widgetObj.value("positionY").toInt(0);
             const QPoint position { positionX, positionY };
-            const auto type = QStringToEnum<InstalledType::InstalledType>(typeString, InstalledType::InstalledType::QMLWidget);
+            const auto type = QStringToEnum<ContentTypes::InstalledType>(typeString, ContentTypes::InstalledType::QMLWidget);
             const QJsonObject properties = widgetObj.value("properties").toObject();
 
             const bool success = createWidget(type, position, absolutePath, previewImage, properties, false);
@@ -668,7 +671,6 @@ bool ScreenPlayManager::loadProfiles()
 
     return true;
 }
-
 }
 
 #include "moc_screenplaymanager.cpp"

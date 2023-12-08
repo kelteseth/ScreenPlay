@@ -1,6 +1,5 @@
 import QtQuick
 import QtWebEngine
-import ScreenPlay.Enums.InstalledType
 import ScreenPlayWallpaper
 
 /*!

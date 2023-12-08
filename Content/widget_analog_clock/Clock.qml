@@ -63,7 +63,7 @@ Item {
                 origin.x: 7.5
                 origin.y: 73
                 angle: (clock.hours * 30) + (clock.minutes * 0.5)
-                Behavior on angle  {
+                Behavior on angle {
                     SpringAnimation {
                         spring: 2
                         damping: 0.2
@@ -82,7 +82,7 @@ Item {
                 origin.x: 6.5
                 origin.y: 83
                 angle: clock.minutes * 6
-                Behavior on angle  {
+                Behavior on angle {
                     SpringAnimation {
                         spring: 2
                         damping: 0.2
@@ -101,7 +101,7 @@ Item {
                 origin.x: 2.5
                 origin.y: 80
                 angle: clock.seconds * 6
-                Behavior on angle  {
+                Behavior on angle {
                     SpringAnimation {
                         spring: 2
                         damping: 0.2

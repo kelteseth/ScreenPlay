@@ -4,6 +4,8 @@
     - python -m pip install -U pip wheel
     - python -m pip install -r Tools/requirements.txt
     - python Tools/setup.py
+    - git submodule sync --recursive
+    - git submodule update --init --recursive
   tags:
     - windows10
   artifacts:
@@ -33,11 +35,13 @@
     - cd ..
     - git clone https://invent.kde.org/plasma/layer-shell-qt.git
     - cd layer-shell-qt
-    - cmake configure . -DCMAKE_PREFIX_PATH="./../../../aqt/6.5.2/gcc_64"
+    - cmake configure . -DCMAKE_PREFIX_PATH="./../../../aqt/6.6.1/gcc_64"
     - make
     - make install
     - cd ..
     - cd ..
+    - git submodule sync --recursive
+    - git submodule update --init --recursive
   image:
     name: ubuntu:22.04
   tags:
@@ -53,9 +57,7 @@
     - pip3 install -U pip
     - pip3 install -r Tools/requirements.txt
     - python3 Tools/setup.py
+    - git submodule sync --recursive
+    - git submodule update --init --recursive
   tags:
     - osx
-  artifacts:
-    expire_in: "2 weeks"
-    paths:
-      - build-64-osx-universal-release/bin/

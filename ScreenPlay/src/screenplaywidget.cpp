@@ -21,7 +21,7 @@ ScreenPlayWidget::ScreenPlayWidget(
     const QString& absolutePath,
     const QString& previewImage,
     const QJsonObject& properties,
-    const InstalledType::InstalledType type)
+    const ContentTypes::InstalledType type)
     : QObject { nullptr }
     , m_globalVariables { globalVariables }
     , m_previewImage { previewImage }
@@ -34,7 +34,7 @@ ScreenPlayWidget::ScreenPlayWidget(
     QJsonObject projectSettingsListModelProperties;
 
     if (properties.isEmpty()) {
-        if (auto obj = ScreenPlayUtil::openJsonFileToObject(absolutePath + "/project.json")) {
+        if (auto obj = Util().openJsonFileToObject(absolutePath + "/project.json")) {
             if (obj->contains("properties"))
                 projectSettingsListModelProperties = obj->value("properties").toObject();
         }

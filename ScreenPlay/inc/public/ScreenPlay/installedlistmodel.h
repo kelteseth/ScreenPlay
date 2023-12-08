@@ -25,8 +25,8 @@
 #include "ScreenPlay/globalvariables.h"
 #include "ScreenPlay/profilelistmodel.h"
 #include "ScreenPlay/settings.h"
-#include "ScreenPlay/util.h"
 #include "ScreenPlayUtil/projectfile.h"
+#include "ScreenPlayUtil/util.h"
 
 #include <memory>
 
@@ -77,7 +77,7 @@ public slots:
     void append(const QString& projectJsonFilePath);
     void reset();
     void init();
-    void deinstallItemAt(const QString& absoluteStoragePath);
+    bool deinstallItemAt(const QString& absoluteStoragePath);
 
     void setCount(int count)
     {
@@ -96,6 +96,7 @@ private:
     QFileSystemWatcher m_fileSystemWatcher;
     QVector<ProjectFile> m_screenPlayFiles;
     int m_count { 0 };
+    QTimer m_reloadLimiter;
     std::atomic_bool m_isLoading { false };
 
     const std::shared_ptr<GlobalVariables>& m_globalVariables;

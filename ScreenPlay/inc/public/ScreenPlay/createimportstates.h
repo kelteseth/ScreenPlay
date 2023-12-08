@@ -3,17 +3,16 @@
 #pragma once
 
 #include <QObject>
+#include <QQmlEngine>
 
 namespace ScreenPlay {
-/*!
-    \namespace ScreenPlay::ImportVideoState
-    \inmodule ScreenPlay
-    \brief Global enum for ImportVideoState.
-*/
-namespace ImportVideoState {
-    Q_NAMESPACE
 
-    enum class ImportVideoState {
+class Import : public QObject {
+    Q_OBJECT
+    QML_ELEMENT
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
+public:
+    enum class State {
         Idle,
         Started,
         AnalyseVideo,
@@ -49,6 +48,6 @@ namespace ImportVideoState {
         Finished,
         Failed,
     };
-    Q_ENUM_NS(ImportVideoState)
-}
+    Q_ENUM(State)
+};
 }

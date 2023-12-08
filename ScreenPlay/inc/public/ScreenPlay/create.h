@@ -24,6 +24,7 @@
 
 #include <memory>
 
+#include "ScreenPlay/createimportstates.h"
 #include "ScreenPlay/createimportvideo.h"
 #include "ScreenPlay/globalvariables.h"
 
@@ -32,6 +33,8 @@ namespace ScreenPlay {
 class Create : public QObject {
     Q_OBJECT
     QML_ELEMENT
+    QML_UNCREATABLE("")
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
 
     Q_PROPERTY(QString workingDir READ workingDir WRITE setWorkingDir NOTIFY workingDirChanged)
     Q_PROPERTY(float progress READ progress WRITE setProgress NOTIFY progressChanged)
@@ -55,7 +58,7 @@ public:
     QString ffmpegOutput() const { return m_ffmpegOutput; }
 
 signals:
-    void createWallpaperStateChanged(ImportVideoState::ImportVideoState state);
+    void createWallpaperStateChanged(Import::State state);
     void progressChanged(float progress);
     void abortCreateWallpaper();
     void workingDirChanged(QString workingDir);
@@ -112,7 +115,6 @@ public slots:
     }
 
 private:
-    void init();
     void reset();
 
 private:

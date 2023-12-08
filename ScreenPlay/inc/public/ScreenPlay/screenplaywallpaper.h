@@ -3,10 +3,13 @@
 #pragma once
 
 #include <QDebug>
+#include <QDir>
+#include <QFileInfoList>
 #include <QJsonObject>
 #include <QObject>
 #include <QProcess>
-
+#include <QString>
+#include <QStringList>
 #include <memory>
 
 #include "ScreenPlay/globalvariables.h"
@@ -19,27 +22,21 @@ namespace ScreenPlay {
 class ScreenPlayWallpaper : public QObject {
     Q_OBJECT
     QML_ELEMENT
+    QML_UNCREATABLE("")
 
     Q_PROPERTY(bool isConnected READ isConnected WRITE setIsConnected NOTIFY isConnectedChanged)
-
     Q_PROPERTY(QVector<int> screenNumber READ screenNumber WRITE setScreenNumber NOTIFY screenNumberChanged)
-
     Q_PROPERTY(float volume READ volume WRITE setVolume NOTIFY volumeChanged)
     Q_PROPERTY(float playbackRate READ playbackRate WRITE setPlaybackRate NOTIFY playbackRateChanged)
     Q_PROPERTY(bool isLooping READ isLooping WRITE setIsLooping NOTIFY isLoopingChanged)
-
     Q_PROPERTY(QString file READ file WRITE setFile NOTIFY fileChanged)
     Q_PROPERTY(QString absolutePath READ absolutePath WRITE setAbsolutePath NOTIFY absolutePathChanged)
     Q_PROPERTY(QString previewImage READ previewImage WRITE setPreviewImage NOTIFY previewImageChanged)
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
-
-    Q_PROPERTY(FillMode::FillMode fillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged)
-    Q_PROPERTY(InstalledType::InstalledType type READ type WRITE setType NOTIFY typeChanged)
+    Q_PROPERTY(Video::FillMode fillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged)
+    Q_PROPERTY(ContentTypes::InstalledType type READ type WRITE setType NOTIFY typeChanged)
 
 public:
-    // Default constructor needed for qml engine
-    ScreenPlayWallpaper() { }
-
     explicit ScreenPlayWallpaper(
         const QVector<int>& screenNumber,
         const std::shared_ptr<GlobalVariables>& globalVariables,
@@ -49,8 +46,8 @@ public:
         const QString& file,
         const float volume,
         const float playbackRate,
-        const FillMode::FillMode fillMode,
-        const InstalledType::InstalledType type,
+        const Video::FillMode fillMode,
+        const ContentTypes::InstalledType type,
         const QJsonObject& properties,
         const std::shared_ptr<Settings>& settings,
         QObject* parent = nullptr);
@@ -62,8 +59,8 @@ public:
         const QString& previewImage,
         const QString& file,
         const float volume,
-        const FillMode::FillMode fillMode,
-        const InstalledType::InstalledType type,
+        const Video::FillMode fillMode,
+        const ContentTypes::InstalledType type,
         const bool checkWallpaperVisible);
 
     void setSDKConnection(std::unique_ptr<SDKConnection> connection);
@@ -73,9 +70,9 @@ public:
     QVector<int> screenNumber() const { return m_screenNumber; }
     QString previewImage() const { return m_previewImage; }
     QString appID() const { return m_appID; }
-    InstalledType::InstalledType type() const { return m_type; }
+    ContentTypes::InstalledType type() const { return m_type; }
     QString file() const { return m_file; }
-    FillMode::FillMode fillMode() const { return m_fillMode; }
+    Video::FillMode fillMode() const { return m_fillMode; }
     QString absolutePath() const { return m_absolutePath; }
     float volume() const { return m_volume; }
     bool isLooping() const { return m_isLooping; }
@@ -87,9 +84,9 @@ signals:
     void screenNumberChanged(QVector<int> screenNumber);
     void previewImageChanged(QString previewImage);
     void appIDChanged(QString appID);
-    void typeChanged(InstalledType::InstalledType type);
+    void typeChanged(ContentTypes::InstalledType type);
     void fileChanged(QString file);
-    void fillModeChanged(FillMode::FillMode fillMode);
+    void fillModeChanged(Video::FillMode fillMode);
     void absolutePathChanged(QString absolutePath);
     void profileJsonObjectChanged(QJsonObject profileJsonObject);
     void volumeChanged(float volume);
@@ -135,7 +132,7 @@ public slots:
         emit appIDChanged(m_appID);
     }
 
-    void setType(InstalledType::InstalledType type)
+    void setType(ContentTypes::InstalledType type)
     {
         if (m_type == type)
             return;
@@ -153,7 +150,7 @@ public slots:
         emit fileChanged(m_file);
     }
 
-    void setFillMode(FillMode::FillMode fillMode)
+    void setFillMode(Video::FillMode fillMode)
     {
         if (m_fillMode == fillMode)
             return;
@@ -210,16 +207,20 @@ public slots:
     }
 
 private:
+    bool exportGodotProject();
+
+private:
     const std::shared_ptr<GlobalVariables> m_globalVariables;
     std::unique_ptr<SDKConnection> m_connection;
     const std::shared_ptr<Settings> m_settings;
 
     ProjectSettingsListModel m_projectSettingsListModel;
+    QJsonObject m_projectJson;
     QVector<int> m_screenNumber;
     QProcess m_process;
     QString m_previewImage;
-    InstalledType::InstalledType m_type;
-    FillMode::FillMode m_fillMode;
+    ContentTypes::InstalledType m_type;
+    Video::FillMode m_fillMode;
     QString m_appID;
     QString m_absolutePath;
     QString m_file;

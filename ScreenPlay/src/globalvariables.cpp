@@ -19,6 +19,58 @@ ScreenPlay::GlobalVariables::GlobalVariables(QObject* parent)
     setLocalSettingsPath(QUrl { QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) });
 }
 
+void GlobalVariables::setLocalStoragePath(QUrl localStoragePath)
+{
+    if (m_localStoragePath == localStoragePath)
+        return;
+
+    m_localStoragePath = localStoragePath;
+    emit localStoragePathChanged(m_localStoragePath);
+}
+
+void GlobalVariables::setLocalSettingsPath(QUrl localSettingsPath)
+{
+    if (m_localSettingsPath == localSettingsPath)
+        return;
+
+    m_localSettingsPath = localSettingsPath;
+    emit localSettingsPathChanged(m_localSettingsPath);
+}
+
+void GlobalVariables::setWallpaperExecutablePath(QUrl wallpaperExecutablePath)
+{
+    if (m_wallpaperExecutablePath == wallpaperExecutablePath)
+        return;
+
+    m_wallpaperExecutablePath = wallpaperExecutablePath;
+    emit wallpaperExecutablePathChanged(m_wallpaperExecutablePath);
+}
+
+void GlobalVariables::setWidgetExecutablePath(QUrl widgetExecutablePath)
+{
+    if (m_widgetExecutablePath == widgetExecutablePath)
+        return;
+
+    m_widgetExecutablePath = widgetExecutablePath;
+    emit widgetExecutablePathChanged(m_widgetExecutablePath);
+}
+
+void GlobalVariables::setGodotWallpaperExecutablePath(QUrl godotWallpaperExecutablePath)
+{
+    if (m_godotWallpaperExecutablePath == godotWallpaperExecutablePath)
+        return;
+    m_godotWallpaperExecutablePath = godotWallpaperExecutablePath;
+    emit godotWallpaperExecutablePathChanged(m_godotWallpaperExecutablePath);
+}
+
+void GlobalVariables::setGodotEditorExecutablePath(QUrl godotEditorExecutablePath)
+{
+    if (m_godotEditorExecutablePath == godotEditorExecutablePath)
+        return;
+    m_godotEditorExecutablePath = godotEditorExecutablePath;
+    emit godotEditorExecutablePathChanged(m_godotEditorExecutablePath);
+}
+
 }
 
 #include "moc_globalvariables.cpp"

@@ -19,15 +19,16 @@
 
 #include <memory>
 
+namespace ScreenPlay {
 class BaseWindow : public QObject {
     Q_OBJECT
 
 public:
     BaseWindow();
 
-    virtual ScreenPlay::WallpaperExitCode setup() final;
+    virtual WallpaperExit::Code setup() final;
 
-    virtual ScreenPlay::WallpaperExitCode start() = 0;
+    virtual WallpaperExit::Code start() = 0;
 
     Q_PROPERTY(int width READ width WRITE setWidth NOTIFY widthChanged)
     Q_PROPERTY(int height READ height WRITE setHeight NOTIFY heightChanged)
@@ -54,8 +55,8 @@ public:
     Q_PROPERTY(float playbackRate READ playbackRate WRITE setPlaybackRate NOTIFY playbackRateChanged)
     Q_PROPERTY(float currentTime READ currentTime WRITE setCurrentTime NOTIFY currentTimeChanged)
 
-    Q_PROPERTY(ScreenPlay::InstalledType::InstalledType type READ type WRITE setType NOTIFY typeChanged)
-    Q_PROPERTY(ScreenPlay::VideoCodec::VideoCodec videoCodec READ videoCodec WRITE setVideoCodec NOTIFY videoCodecChanged)
+    Q_PROPERTY(ScreenPlay::ContentTypes::InstalledType type READ type WRITE setType NOTIFY typeChanged)
+    Q_PROPERTY(ScreenPlay::Video::VideoCodec videoCodec READ videoCodec WRITE setVideoCodec NOTIFY videoCodecChanged)
     Q_PROPERTY(QString OSVersion READ OSVersion WRITE setOSVersion NOTIFY OSVersionChanged)
 
     Q_PROPERTY(ScreenPlaySDK* sdk READ sdk WRITE setSdk NOTIFY sdkChanged)
@@ -64,7 +65,7 @@ public:
     float volume() const { return m_volume; }
     bool isPlaying() const { return m_isPlaying; }
     float playbackRate() const { return m_playbackRate; }
-    ScreenPlay::InstalledType::InstalledType type() const { return m_type; }
+    ScreenPlay::ContentTypes::InstalledType type() const { return m_type; }
     QString appID() const { return m_appID; }
     QString OSVersion() const { return m_OSVersion; }
     bool muted() const { return m_muted; }
@@ -82,22 +83,22 @@ public:
     const QString& projectSourceFile() const { return m_projectSourceFile; }
     const QUrl& projectSourceFileAbsolute() const { return m_projectSourceFileAbsolute; }
 
-    ScreenPlay::VideoCodec::VideoCodec videoCodec() const;
-    void setVideoCodec(ScreenPlay::VideoCodec::VideoCodec newVideoCodec);
+    ScreenPlay::Video::VideoCodec videoCodec() const;
+    void setVideoCodec(ScreenPlay::Video::VideoCodec newVideoCodec);
 
 signals:
     void qmlStart();
     void qmlExit();
     void fadeIn();
-    void reloadQML(const ScreenPlay::InstalledType::InstalledType oldType);
-    void reloadVideo(const ScreenPlay::InstalledType::InstalledType oldType);
-    void reloadGIF(const ScreenPlay::InstalledType::InstalledType oldType);
+    void reloadQML(const ScreenPlay::ContentTypes::InstalledType oldType);
+    void reloadVideo(const ScreenPlay::ContentTypes::InstalledType oldType);
+    void reloadGIF(const ScreenPlay::ContentTypes::InstalledType oldType);
 
     void loopsChanged(bool loops);
     void volumeChanged(float volume);
     void isPlayingChanged(bool isPlaying);
     void playbackRateChanged(float playbackRate);
-    void typeChanged(ScreenPlay::InstalledType::InstalledType type);
+    void typeChanged(ScreenPlay::ContentTypes::InstalledType type);
     void appIDChanged(QString appID);
     void qmlSceneValueReceived(QString key, QString value);
     void OSVersionChanged(QString OSVersion);
@@ -115,7 +116,7 @@ signals:
     void projectPathChanged(const QString& rojectPath);
     void projectSourceFileChanged(const QString& projectSourceFile);
     void projectSourceFileAbsoluteChanged(const QUrl& rojectSourceFileAbsolute);
-    void videoCodecChanged(ScreenPlay::VideoCodec::VideoCodec codec);
+    void videoCodecChanged(ScreenPlay::Video::VideoCodec codec);
 
 public slots:
     void requestFadeIn();
@@ -173,7 +174,7 @@ public slots:
         m_playbackRate = playbackRate;
         emit playbackRateChanged(m_playbackRate);
     }
-    void setType(ScreenPlay::InstalledType::InstalledType type)
+    void setType(ScreenPlay::ContentTypes::InstalledType type)
     {
         if (m_type == type)
             return;
@@ -231,10 +232,10 @@ public slots:
 
         fillMode = fillMode.toLower();
 
-        if (!ScreenPlayUtil::getAvailableFillModes().contains(fillMode)) {
+        if (!ScreenPlay::Util().getAvailableFillModes().contains(fillMode)) {
             qWarning() << "Unable to set fillmode, the provided value did not match the available values"
                        << "Provided: " << fillMode
-                       << "Available: " << ScreenPlayUtil::getAvailableFillModes();
+                       << "Available: " << ScreenPlay::Util().getAvailableFillModes();
             return;
         }
 
@@ -348,12 +349,13 @@ protected:
     int m_width { 0 };
     int m_height { 0 };
 
-    ScreenPlay::InstalledType::InstalledType m_type = ScreenPlay::InstalledType::InstalledType::Unknown;
+    ScreenPlay::ContentTypes::InstalledType m_type = ScreenPlay::ContentTypes::InstalledType::Unknown;
     QVector<int> m_activeScreensList;
     QFileSystemWatcher m_fileSystemWatcher;
     QTimer m_liveReloadLimiter;
     QSysInfo m_sysinfo;
     std::unique_ptr<ScreenPlaySDK> m_sdk;
     QUrl m_projectSourceFileAbsolute;
-    ScreenPlay::VideoCodec::VideoCodec m_videoCodec = ScreenPlay::VideoCodec::VideoCodec::Unknown;
+    ScreenPlay::Video::VideoCodec m_videoCodec = ScreenPlay::Video::VideoCodec::Unknown;
 };
+}

@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import QtWebEngine
 import ScreenPlayWidget
-import ScreenPlay.Enums.InstalledType
 import ScreenPlayUtil as Util
 
 Item {
@@ -77,10 +76,10 @@ Item {
         asynchronous: true
         Component.onCompleted: {
             switch (Widget.type) {
-            case InstalledType.QMLWidget:
+            case ContentTypes.InstalledType.QMLWidget:
                 loader.source = Qt.resolvedUrl(Widget.projectSourceFileAbsolute);
                 break;
-            case InstalledType.HTMLWidget:
+            case ContentTypes.InstalledType.HTMLWidget:
                 loader.sourceComponent = webViewComponent;
                 break;
             }

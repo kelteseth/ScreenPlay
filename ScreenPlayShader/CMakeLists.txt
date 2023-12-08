@@ -36,7 +36,7 @@ set(RESOURCES
     assets/test_image_andras-vas-Bd7gNnWJBkU-unsplash.jpg)
 
 qt_add_library(${PROJECT_NAME} STATIC)
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Quick)
+target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::Core Qt6::Quick ScreenPlayUtilplugin)
 target_include_directories(${PROJECT_NAME} PUBLIC src/)
 
 qt_add_qml_module(
@@ -71,4 +71,8 @@ qt6_add_shaders(
 if(${SCREENPLAY_TESTS})
     qt_add_executable(tst_ScreenPlayShader src/TestMain.cpp)
     target_link_libraries(tst_ScreenPlayShader PRIVATE Qt::Quick ${PROJECT_NAME}plugin)
+    if(APPLE)
+        set_target_properties(tst_ScreenPlayShader PROPERTIES RUNTIME_OUTPUT_DIRECTORY
+                                                              "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
+    endif()
 endif()

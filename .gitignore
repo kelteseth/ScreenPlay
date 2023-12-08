@@ -262,3 +262,4 @@ cython_debug/
 /ThirdParty/qml-plausible/
 /ThirdParty/ffmpeg/**
 /ThirdParty/qt-layer-shell/**
+/ThirdParty/Godot/Godot_*.*

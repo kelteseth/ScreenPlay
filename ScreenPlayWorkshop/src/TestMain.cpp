@@ -1,24 +1,16 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
-#include "steam/steam_qt_enums_generated.h"
+#include "ScreenPlayUtil/steamenumsgenerated.h"
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
 #include <QtQml/qqmlextensionplugin.h>
 
 Q_IMPORT_QML_PLUGIN(ScreenPlayWorkshopPlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlayUtilPlugin)
 
 int main(int argc, char* argv[])
 {
     QGuiApplication app(argc, argv);
-
-    // TODO: This is a workaround because I don't know how to
-    //       init this in the ScreenPlayWorkshop plugin.
-    //       Move to workshop plugin.
-    qmlRegisterUncreatableMetaObject(ScreenPlayWorkshopSteamEnums::staticMetaObject,
-        "WorkshopEnums",
-        1, 0,
-        "SteamEnums",
-        "Error: only enums");
 
     // Must be set so we can access the global ScreenPlay settings like install path.
     QGuiApplication::setOrganizationName("ScreenPlay");

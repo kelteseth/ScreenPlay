@@ -13,7 +13,8 @@ from build_config import BuildConfig
 from typing import Tuple
 from pathlib import Path
 import macos_sign
-from util import sha256, cd_repo_root_path, repo_root_path, zipdir, run, get_vs_env_dict, get_latest_git_tag, parse_semver, semver_to_string
+import build_godot
+from util import sha256, cd_repo_root_path, repo_root_path, zipdir, run, get_vs_env_dict, get_latest_git_tag, parse_semver, semver_to_string, check_universal_binary
 from sys import stdout
 
 stdout.reconfigure(encoding='utf-8')
@@ -50,6 +51,13 @@ def execute(
     build_result = build(build_config, build_result)
     build_duration = time.time() - step_time
     print(f"⏱️ build_duration: {build_duration}s")
+    
+    
+    # Build Godot Wallpaper
+    # Note: This must happen after building ScreenPlay!
+    if platform.system() == "Windows":
+        build_godot.build_godot(str(build_config.bin_dir), build_config.build_type)
+
 
     # Copies all needed libraries and assets into the bin folder
     step_time = time.time()
@@ -70,10 +78,26 @@ def execute(
         print(f"⏱️ build_installer_duration: {build_installer_duration}s")
 
         if platform.system() == "Darwin":
+            # TODO FIX installer signing
+            return
             if (build_config.sign_osx):
+                # Base directory
+                base_dir = Path(build_config.build_folder)
+
+                # Paths for the original and new filenames
+                original_file = base_dir / 'ScreenPlay-Installer-ScreenPlayComponent.dmg'
+                new_file = base_dir / 'ScreenPlay-Installer.dmg'
+
+                # Renaming the file
+                try:
+                    original_file.rename(new_file)
+                    print(f"File renamed successfully to {new_file}")
+                except OSError as error:
+                    print(f"Error: {error}")
+
                 print(
-                    f"Sign ScreenPlay-installer.dmg at: {build_config.bin_dir}")
-                macos_sign.sign_dmg(build_config=build_config)
+                    f"Sign ScreenPlay-installer.dmg at: {new_file}")
+                macos_sign.sign_dmg(build_config)
 
     # Create a zip file of the build
     if platform.system() != "Darwin":
@@ -211,6 +235,8 @@ def package(build_config: BuildConfig):
             build_bin_dir=build_bin_dir, app="ScreenPlayWallpaper"), cwd=cwd)
         run(cmd=cmd_raw.format(qt_bin_path=qt_bin_path, repo_root_path=source_path,
             build_bin_dir=build_bin_dir, app="ScreenPlayWidget"), cwd=cwd)
+        
+        check_universal_binary()
 
     if platform.system() == "Windows":
         print("Executing deploy commands...")
@@ -278,14 +304,6 @@ def package(build_config: BuildConfig):
                 print("Copy: ", file, build_config.bin_dir)
                 shutil.copy2(file, build_config.bin_dir)
 
-        # Use Qt OpenSSLv3
-        openSLL_path = Path(
-            f"{defines.QT_PATH}/Tools/OpenSSLv3/Win_x64/bin").resolve()
-        for file in openSLL_path.iterdir():
-            if file.suffix == ".dll" and file.is_file():
-                print("Copy: ", file, build_config.bin_dir)
-                shutil.copy2(file, build_config.bin_dir)
-
     if not platform.system() == "Darwin":
         file_endings = [".ninja_deps", ".ninja", ".ninja_log", ".lib", ".a", ".exp",
                         ".manifest", ".cmake", ".cbp", "CMakeCache.txt"]
@@ -294,6 +312,7 @@ def package(build_config: BuildConfig):
                 if file.is_file():
                     print("Remove: %s" % file.resolve())
                     file.unlink()
+    
 
 
 def build_installer(build_config: BuildConfig, build_result: BuildResult):
@@ -384,7 +403,7 @@ if __name__ == "__main__":
         qt_ifw_version = args.qt_installer_version_overwrite
         print("Using Qt installer framework version {qt_ifw_version}")
 
-    build_type = args.build_type
+    build_type = args.build_type.lower()
 
     build_steam = "OFF"
     if args.build_steam:

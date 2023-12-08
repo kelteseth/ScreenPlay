@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://bc5caslt2tiuk"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_ceeuk"]
+
+[node name="Wallpaper" type="Node3D"]
+script = ExtResource("1_ceeuk")
+
+[node name="ScreenPlayGodotWallpaper" type="ScreenPlayGodotWallpaper" parent="."]
+
+[node name="PingAliveTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="CheckMessagesTimer" type="Timer" parent="."]
+wait_time = 0.5

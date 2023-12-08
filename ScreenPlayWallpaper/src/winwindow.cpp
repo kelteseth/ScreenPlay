@@ -1,10 +1,8 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "winwindow.h"
-#include "ScreenPlayUtil/projectfile.h"
+#include "windowsintegration.h"
 #include <QGuiApplication>
 #include <QtQml>
-#include <algorithm>
-#include <iostream>
 #include <shellscalingapi.h>
 #include <vector>
 #include <windows.h>
@@ -15,106 +13,9 @@
     \brief  ScreenPlayWindow used for the Windows implementation.
 */
 
-/*!
-  \brief Searches for the worker window for our window to parent to.
-*/
-BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
-{
-    // 0xXXXXXXX "" WorkerW
-    //   ...
-    //   0xXXXXXXX "" SHELLDLL_DefView
-    //     0xXXXXXXXX "FolderView" SysListView32
-    // 0xXXXXXXXX "" WorkerW                           <---- We want this one
-    // 0xXXXXXXXX "Program Manager" Progman
-    if (FindWindowExW(hwnd, nullptr, L"SHELLDLL_DefView", nullptr))
-        *reinterpret_cast<HWND*>(lparam) = FindWindowExW(nullptr, hwnd, L"WorkerW", nullptr);
-    return TRUE;
-}
+namespace ScreenPlay {
 
-HHOOK g_mouseHook;
-QPoint g_LastMousePosition { 0, 0 };
-QPoint g_globalOffset { 0, 0 };
-QQuickView* g_winGlobalHook = nullptr;
-
-/*!
-  \brief Windows mouse callback. This hook then forwards the event to the Qt window.
-         We must manually call a release event otherwise QML gets stuck.
-*/
-LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
-{
-
-    Qt::MouseButton mouseButton {};
-    Qt::MouseButtons mouseButtons {};
-    Qt::KeyboardModifier keyboardModifier {};
-    QMouseEvent::Type type { QMouseEvent::Type::MouseMove };
-
-    if (nCode >= 0) {
-        switch (wParam) {
-        case WM_LBUTTONDOWN:
-            mouseButton = Qt::MouseButton::LeftButton;
-            mouseButtons.setFlag(Qt::LeftButton);
-            type = QMouseEvent::Type::MouseButtonPress;
-            break;
-        case WM_LBUTTONUP:
-            mouseButton = Qt::MouseButton::LeftButton;
-            mouseButtons.setFlag(Qt::LeftButton);
-            type = QMouseEvent::Type::MouseButtonRelease;
-            break;
-        case WM_RBUTTONDOWN:
-            mouseButton = Qt::MouseButton::RightButton;
-            mouseButtons.setFlag(Qt::RightButton);
-            type = QMouseEvent::Type::MouseButtonPress;
-            break;
-        default:
-            type = QMouseEvent::Type::MouseMove;
-        }
-    }
-
-    POINT p {};
-    if (GetCursorPos(&p)) {
-        g_LastMousePosition.setX(p.x);
-        g_LastMousePosition.setY(p.y);
-    } else {
-        return CallNextHookEx(g_mouseHook, nCode, wParam, lParam);
-    }
-
-    auto event = QMouseEvent(type, g_LastMousePosition, mouseButton, mouseButtons, keyboardModifier);
-
-    QGuiApplication::sendEvent(g_winGlobalHook, &event);
-
-    if (type == QMouseEvent::Type::MouseButtonPress) {
-    }
-    QTimer::singleShot(100, [&]() {
-        // auto eventPress = QMouseEvent(QMouseEvent::Type::MouseButtonPress, g_LastMousePosition, mouseButton, mouseButtons, {});
-        // qInfo() << mouseButton << QGuiApplication::sendEvent(g_winGlobalHook, &eventPress) << g_globalOffset.x() << g_globalOffset.y();
-        auto eventRelease = QMouseEvent(QMouseEvent::Type::MouseButtonRelease, g_LastMousePosition, mouseButton, mouseButtons, {});
-        QGuiApplication::sendEvent(g_winGlobalHook, &eventRelease);
-    });
-
-    return CallNextHookEx(g_mouseHook, nCode, wParam, lParam);
-}
-
-/*!
-  \brief Setup the SetWindowsHookEx hook to be used to receive mouse events.
-*/
-void WinWindow::setupWindowMouseHook()
-{
-    using ScreenPlay::InstalledType::InstalledType;
-
-    // MUST be called before setting hook for events!
-    if (type() != InstalledType::VideoWallpaper && type() != InstalledType::GifWallpaper) {
-        qInfo() << "Enable mousehook";
-        g_winGlobalHook = &m_window;
-
-        HINSTANCE hInstance = GetModuleHandle(NULL);
-        if (!(g_mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseHookCallback, hInstance, 0))) {
-            qInfo() << "Faild to install mouse hook!";
-            return;
-        }
-    }
-}
-
-ScreenPlay::WallpaperExitCode WinWindow::start()
+WallpaperExit::Code WinWindow::start()
 {
     connect(
         &m_window, &QQuickView::statusChanged, this, [this](auto status) {
@@ -139,15 +40,16 @@ ScreenPlay::WallpaperExitCode WinWindow::start()
     }
 
     m_windowsDesktopProperties = std::make_unique<WindowsDesktopProperties>();
-    m_windowHandle = reinterpret_cast<HWND>(m_window.winId());
-    if (!IsWindow(m_windowHandle)) {
+    m_windowsIntegration.setWindowHandle(reinterpret_cast<HWND>(m_window.winId()));
+    if (!IsWindow(m_windowsIntegration.windowHandle())) {
         qCritical("Could not get a valid window handle!");
-        return ScreenPlay::WallpaperExitCode::Invalid_Start_Windows_HandleError;
+        return WallpaperExit::Code::Invalid_Start_Windows_HandleError;
     }
     qRegisterMetaType<WindowsDesktopProperties*>();
     qRegisterMetaType<WinWindow*>();
     qmlRegisterSingletonInstance<WinWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", this);
 
+    m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
     configureWindowGeometry();
 
     // We do not support autopause for multi monitor wallpaper and
@@ -158,11 +60,80 @@ ScreenPlay::WallpaperExitCode WinWindow::start()
         }
     }
 
-    QTimer::singleShot(1000, this, [&]() {
-        setupWindowMouseHook();
-    });
+    qInfo() << "Setup " << width() << height();
+    m_window.setSource(QUrl("qrc:/qml/ScreenPlayWallpaper/qml/Wallpaper.qml"));
+    m_window.show();
 
-    return ScreenPlay::WallpaperExitCode::Ok;
+    QTimer::singleShot(1000, this, [&]() {
+        m_windowsIntegration.setupWindowMouseHook();
+        // Set up the mouse event handler
+        m_windowsIntegration.setMouseEventHandler([this](DWORD mouseButton, UINT type, POINT p) {
+            Qt::MouseButton button = Qt::NoButton;
+            QEvent::Type eventType = QEvent::None;
+
+            // Determine the Qt mouse event type and button
+            switch (type) {
+            case WM_LBUTTONDOWN:
+                eventType = QEvent::MouseButtonPress;
+                button = Qt::LeftButton;
+                break;
+            case WM_LBUTTONUP:
+                eventType = QEvent::MouseButtonRelease;
+                button = Qt::LeftButton;
+                break;
+            case WM_RBUTTONDOWN:
+                eventType = QEvent::MouseButtonPress;
+                button = Qt::RightButton;
+                break;
+            case WM_RBUTTONUP:
+                eventType = QEvent::MouseButtonRelease;
+                button = Qt::RightButton;
+                break;
+            case WM_MOUSEMOVE:
+                eventType = QEvent::MouseMove;
+                button = Qt::NoButton;
+                break;
+                // Add more cases as needed
+            }
+
+            // Convert POINT to global position
+            QPoint globalPos(p.x, p.y);
+
+            // Convert global position to local position within the target widget
+            QPoint localPos = m_window.mapFromGlobal(globalPos);
+
+            // Create the QMouseEvent
+            QMouseEvent* qEvent = new QMouseEvent(eventType, localPos, globalPos, button, button, QGuiApplication::keyboardModifiers());
+
+            // Handle the mouse event
+            // For example, logging the mouse button and position
+            // qDebug() << "Mouse event: Button=" << mouseButton << ", Type=" << type
+            //         << ", Position=(" << p.x << ", " << p.y << ")" << globalPos << localPos << button;
+            // Post the event to the target widget
+            QCoreApplication::postEvent(&m_window, qEvent);
+        });
+
+        // Inside your main application or somewhere appropriate
+        m_windowsIntegration.setupWindowKeyboardHook();
+        // Set up the keyboard event handler
+        m_windowsIntegration.setKeyboardEventHandler([this](UINT vkCode, bool keyDown) {
+            QEvent::Type eventType = keyDown ? QEvent::KeyPress : QEvent::KeyRelease;
+
+            // Map the vkCode to Qt key code if necessary
+            auto [qtKey, text] = mapVirtualKeyToQtKey(vkCode); // Implement this function based on your needs
+
+            // Create the QKeyEvent
+            QKeyEvent* qEvent = new QKeyEvent(eventType, qtKey, Qt::NoModifier, text);
+
+            // Handle the keyboard event
+            // For example, logging the key press
+            // qDebug() << "Keyboard event: Key=" << vkCode << ", Type=" << (keyDown ? "KeyDown" : "KeyUp") << qEvent;
+
+            // Post the event to the target widget
+            QCoreApplication::postEvent(&m_window, qEvent);
+        });
+    });
+    return WallpaperExit::Code::Ok;
 }
 
 /*!
@@ -171,12 +142,12 @@ ScreenPlay::WallpaperExitCode WinWindow::start()
 void WinWindow::setVisible(bool show)
 {
     if (show) {
-        if (!ShowWindow(m_windowHandle, SW_SHOW)) {
+        if (!ShowWindow(m_windowsIntegration.windowHandle(), SW_SHOW)) {
             qDebug() << "Cannot set window handle SW_SHOW";
         }
 
     } else {
-        if (!ShowWindow(m_windowHandle, SW_HIDE)) {
+        if (!ShowWindow(m_windowsIntegration.windowHandle(), SW_HIDE)) {
             qDebug() << "Cannot set window handle SW_HIDE";
         }
     }
@@ -192,54 +163,17 @@ void WinWindow::destroyThis()
     emit qmlExit();
 }
 
-struct sEnumInfo {
-    int iIndex;
-    HMONITOR hMonitor;
-};
-
-BOOL CALLBACK GetMonitorByIndex(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData)
-{
-    auto* info = (sEnumInfo*)dwData;
-    if (--info->iIndex < 0) {
-        info->hMonitor = hMonitor;
-        return FALSE;
-    }
-    return TRUE;
-}
-
-/*!
-  \brief This method is called if the user want to have one wallpaper on one window.
-*/
 void WinWindow::setupWallpaperForOneScreen(int activeScreen)
 {
-
-    const QRect screenRect = QGuiApplication::screens().at(activeScreen)->geometry();
-    const int boderWidth = 2;
-    const float scaling = getScaling(activeScreen);
-    const int borderOffset = -1;
-
-    ScreenPlayUtil::WinMonitorStats monitors;
-    const int width = (std::abs(monitors.rcMonitors[activeScreen].right - monitors.rcMonitors[activeScreen].left) / scaling) + boderWidth;
-    const int height = (std::abs(monitors.rcMonitors[activeScreen].top - monitors.rcMonitors[activeScreen].bottom) / scaling) + boderWidth;
-
-    const int x = monitors.rcMonitors[activeScreen].left + m_zeroPoint.x() + borderOffset;
-    const int y = monitors.rcMonitors[activeScreen].top + m_zeroPoint.y() + borderOffset;
-    qInfo() << QString("Setup window activeScreen: %1 scaling: %2 x: %3 y: %4 width: %5 height: %6").arg(activeScreen).arg(scaling).arg(x).arg(y).arg(width).arg(height);
-    // Also set it in BaseWindow. This is needed for Windows fade in.
-    setWidth(width - boderWidth);
-    setHeight(height - boderWidth);
-    {
-        // Must be called twice for some reason when window has scaling...
-        if (!SetWindowPos(m_windowHandle, nullptr, x, y, width, height, SWP_HIDEWINDOW)) {
-            qFatal("Could not set window pos");
-        }
-        if (!SetWindowPos(m_windowHandle, nullptr, x, y, width, height, SWP_HIDEWINDOW)) {
-            qFatal("Could not set window pos");
-        }
-    }
-
-    if (SetParent(m_windowHandle, m_windowHandleWorker) == nullptr) {
-        qFatal("Could not attach to parent window");
+    auto updateWindowSize = [this](const int width, const int height) {
+        setWidth(width);
+        setHeight(height);
+        m_window.setWidth(width);
+        m_window.setHeight(height);
+    };
+    WindowsIntegration::MonitorResult monitor = m_windowsIntegration.setupWallpaperForOneScreen(activeScreen, updateWindowSize);
+    if (monitor.status != WindowsIntegration::MonitorResultStatus::Ok) {
+        qCritical("setupWallpaperForOneScreen failed status: ", (int)monitor.status);
     }
 }
 
@@ -248,43 +182,11 @@ void WinWindow::setupWallpaperForOneScreen(int activeScreen)
 */
 void WinWindow::setupWallpaperForAllScreens()
 {
-    ScreenPlayUtil::WinMonitorStats monitors;
-    QRect rect;
-    for (int i = 0; i < monitors.iMonitors.size(); i++) {
-        const int width = std::abs(monitors.rcMonitors[i].right - monitors.rcMonitors[i].left);
-        const int height = std::abs(monitors.rcMonitors[i].top - monitors.rcMonitors[i].bottom);
-        qInfo() << width << height;
-        rect.setWidth(rect.width() + width);
-        rect.setHeight(rect.height() + height);
-    }
-    int offsetX = 0;
-    int offsetY = 0;
-    for (int i = 0; i < monitors.iMonitors.size(); i++) {
-        const int x = monitors.rcMonitors[i].left;
-        const int y = monitors.rcMonitors[i].top;
-        qInfo() << x << y;
-        if (x < offsetX) {
-            offsetX = x;
-        }
-        if (y < offsetY) {
-            offsetY += y;
-        }
-    }
-    if (!SetWindowPos(m_windowHandle, nullptr, offsetX, offsetY, rect.width(), rect.height(), SWP_NOSIZE | SWP_NOMOVE)) {
-        qFatal("Could not set window pos: ");
-    }
-    if (!SetWindowPos(m_windowHandle, nullptr, offsetX, offsetY, rect.width(), rect.height(), SWP_NOSIZE | SWP_NOMOVE)) {
-        qFatal("Could not set window pos: ");
-    }
-    if (SetParent(m_windowHandle, m_windowHandleWorker) == nullptr) {
-        qFatal("Could not attach to parent window");
-    }
-    qInfo() << rect.width() << rect.height() << offsetX << offsetY;
-    m_window.setHeight(rect.height());
-    m_window.setWidth(rect.width());
-    m_window.setY(offsetY);
-    m_window.setX(offsetX + 1920);
-    qInfo() << m_window.geometry();
+    WindowsIntegration::SpanResult span = m_windowsIntegration.setupWallpaperForAllScreens();
+    setWidth(span.width);
+    setHeight(span.height);
+    m_window.setWidth(width());
+    m_window.setHeight(height());
 }
 
 /*!
@@ -292,99 +194,12 @@ void WinWindow::setupWallpaperForAllScreens()
 */
 void WinWindow::setupWallpaperForMultipleScreens(const QVector<int>& activeScreensList)
 {
-    QRect rect;
-    QScreen* upperLeftScreen { nullptr };
-    // Check for the upper left screen first so we get x and y positions
-    for (const int screen : activeScreensList) {
-        QScreen* screenTmp = QGuiApplication::screens().at(screen);
-        if (upperLeftScreen != nullptr) {
-            if (screenTmp->geometry().x() < upperLeftScreen->geometry().x() || screenTmp->geometry().y() < upperLeftScreen->geometry().y()) {
-                upperLeftScreen = screenTmp;
-            }
-        } else {
-            upperLeftScreen = screenTmp;
-        }
-        rect.setWidth(screenTmp->geometry().width() + rect.width());
-        rect.setHeight(screenTmp->geometry().height() + rect.height());
-    }
-
-    rect.setX(upperLeftScreen->geometry().x());
-    rect.setY(upperLeftScreen->geometry().y());
-
-    if (!SetWindowPos(m_windowHandle, nullptr, rect.x() + m_zeroPoint.x(), rect.y() + m_zeroPoint.y(), rect.width(), rect.height(), SWP_SHOWWINDOW)) {
-        qFatal("Could not set window pos: ");
-    }
-    if (SetParent(m_windowHandle, m_windowHandleWorker) == nullptr) {
-        qFatal("Could not attach to parent window");
-    }
-}
-
-bool WinWindow::searchWorkerWindowToParentTo()
-{
-
-    HWND progman_hwnd = FindWindowW(L"Progman", L"Program Manager");
-    const DWORD WM_SPAWN_WORKER = 0x052C;
-    SendMessageTimeoutW(progman_hwnd, WM_SPAWN_WORKER, 0xD, 0x1, SMTO_NORMAL,
-        10000, nullptr);
-
-    return EnumWindows(SearchForWorkerWindow, reinterpret_cast<LPARAM>(&m_windowHandleWorker));
-}
-
-/*!
-   \brief Returns scaling factor as reported by Windows.
-*/
-float WinWindow::getScaling(const int monitorIndex) const
-{
-    // Get all monitors
-    int monitorCount = GetSystemMetrics(SM_CMONITORS);
-
-    if (monitorIndex < 0 || monitorIndex >= monitorCount) {
-        // Invalid monitor index
-        return 1.0f;
-    }
-
-    DISPLAY_DEVICE displayDevice;
-    ZeroMemory(&displayDevice, sizeof(displayDevice));
-    displayDevice.cb = sizeof(displayDevice);
-
-    // Enumerate through monitors until we find the one we're looking for
-    for (int i = 0; EnumDisplayDevices(NULL, i, &displayDevice, 0); i++) {
-        if (i == monitorIndex) {
-            DEVMODE devMode;
-            ZeroMemory(&devMode, sizeof(devMode));
-            devMode.dmSize = sizeof(devMode);
-
-            // Get settings for selected monitor
-            if (!EnumDisplaySettings(displayDevice.DeviceName, ENUM_CURRENT_SETTINGS, &devMode)) {
-                // Unable to get monitor settings
-                return 1.0f;
-            }
-
-            // Get DPI for selected monitor
-            HMONITOR hMonitor = MonitorFromPoint({ devMode.dmPosition.x, devMode.dmPosition.y }, MONITOR_DEFAULTTONEAREST);
-            UINT dpiX = 0, dpiY = 0;
-            if (SUCCEEDED(GetDpiForMonitor(hMonitor, MDT_EFFECTIVE_DPI, &dpiX, &dpiY))) {
-                return (float)dpiX / 96.0f; // Standard DPI is 96
-            }
-        }
-    }
-
-    // If we reach here, it means we couldn't find the monitor with the given index or couldn't get the DPI.
-    return 1.0f;
-}
-
-/*!
-   \brief Returns true of at least one monitor has active scaling enabled.
-*/
-bool WinWindow::hasWindowScaling() const
-{
-    const auto screens = QGuiApplication::screens();
-    for (int i = 0; i < screens.count(); i++) {
-        if (getScaling(i) != 1) {
-            return true;
-        }
-    }
-    return false;
+    std::vector<int> activeScreens(activeScreensList.begin(), activeScreensList.end());
+    WindowsIntegration::SpanResult span = m_windowsIntegration.setupWallpaperForMultipleScreens(activeScreens);
+    setWidth(span.width);
+    setHeight(span.height);
+    m_window.setWidth(width());
+    m_window.setHeight(height());
 }
 
 /*!
@@ -393,24 +208,17 @@ bool WinWindow::hasWindowScaling() const
 */
 void WinWindow::configureWindowGeometry()
 {
-    if (!searchWorkerWindowToParentTo()) {
+    if (!m_windowsIntegration.searchWorkerWindowToParentTo()) {
         qFatal("No worker window found");
     }
-
-    RECT rect {};
-    if (!GetWindowRect(m_windowHandleWorker, &rect)) {
-        qFatal("Unable to get WindoeRect from worker");
+    if (!IsWindow(m_windowsIntegration.windowHandleWorker())) {
+        qCritical("Could not get a valid window handle wroker!");
+        return;
     }
 
-    // Windows coordante system begins at 0x0 at the
-    // main monitors upper left and not at the most left top monitor.
-    // This can be easily read from the worker window.
-    m_zeroPoint = { std::abs(rect.left), std::abs(rect.top) };
-    g_globalOffset = m_zeroPoint;
-
     // WARNING: Setting Window flags must be called *here*!
-    SetWindowLongPtr(m_windowHandle, GWL_EXSTYLE, WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW | WS_EX_TRANSPARENT);
-    SetWindowLongPtr(m_windowHandle, GWL_STYLE, WS_POPUPWINDOW);
+    SetWindowLongPtr(m_windowsIntegration.windowHandle(), GWL_EXSTYLE, WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW | WS_EX_TRANSPARENT);
+    SetWindowLongPtr(m_windowsIntegration.windowHandle(), GWL_STYLE, WS_POPUP);
 
     // Ether for one Screen or for all
     if ((QGuiApplication::screens().length() == activeScreensList().length()) && (activeScreensList().length() != 1)) {
@@ -421,95 +229,174 @@ void WinWindow::configureWindowGeometry()
     } else if (activeScreensList().length() > 1) {
         setupWallpaperForMultipleScreens(activeScreensList());
     }
-
-    m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
-    m_window.setWidth(width());
-    m_window.setHeight(height());
-    qInfo() << "Setup " << width() << height();
-    m_window.setSource(QUrl("qrc:/qml/ScreenPlayWallpaper/qml/Wallpaper.qml"));
-    m_window.hide();
+    m_window.show();
 }
 
-BOOL CALLBACK FindTheDesiredWnd(HWND hWnd, LPARAM lParam)
+std::tuple<int, QString> WinWindow::mapVirtualKeyToQtKey(UINT vkCode)
 {
-    DWORD dwStyle = (DWORD)GetWindowLong(hWnd, GWL_STYLE);
-    if ((dwStyle & WS_MAXIMIZE) != 0) {
-        *(reinterpret_cast<HWND*>(lParam)) = hWnd;
-        return false; // stop enumerating
+    switch (vkCode) {
+    case VK_BACK:
+        return { Qt::Key_Backspace, QString() };
+    case VK_TAB:
+        return { Qt::Key_Tab, QString("\t") };
+    case VK_CLEAR:
+        return { Qt::Key_Clear, QString() };
+    case VK_RETURN:
+        return { Qt::Key_Return, QString("\r") };
+    // ... rest of the cases ...
+    case VK_SPACE:
+        return { Qt::Key_Space, QString(" ") };
+    // Extra keys
+    case 0x21: // '!'
+        return { Qt::Key_Exclam, QString("!") };
+    case 0x40: // '@'
+        return { Qt::Key_At, QString("@") };
+    case 0x23: // '#'
+        return { Qt::Key_NumberSign, QString("#") };
+    case 0x24: // '$'
+        return { Qt::Key_Dollar, QString("$") };
+    case 0x25: // '%'
+        return { Qt::Key_Percent, QString("%") };
+    case 0x5E: // '^'
+        return { Qt::Key_AsciiCircum, QString("^") };
+    case 0x26: // '&'
+        return { Qt::Key_Ampersand, QString("&") };
+    case 0x2A: // '*'
+        return { Qt::Key_Asterisk, QString("*") };
+    case 0x28: // '('
+        return { Qt::Key_ParenLeft, QString("(") };
+    case 0x29: // ')'
+        return { Qt::Key_ParenRight, QString(")") };
+    case 0x5F: // '_'
+        return { Qt::Key_Underscore, QString("_") };
+    case 0x2B: // '+'
+        return { Qt::Key_Plus, QString("+") };
+    case 0x2D: // '-'
+        return { Qt::Key_Minus, QString("-") };
+    case 0x3D: // '='
+        return { Qt::Key_Equal, QString("=") };
+    case 0x5B: // '['
+        return { Qt::Key_BracketLeft, QString("[") };
+    case 0x5D: // ']'
+        return { Qt::Key_BracketRight, QString("]") };
+    case 0x7B: // '{'
+        return { Qt::Key_BraceLeft, QString("{") };
+    case 0x7D: // '}'
+        return { Qt::Key_BraceRight, QString("}") };
+    case 0x3B: // ';'
+        return { Qt::Key_Semicolon, QString(";") };
+    case 0x27: // '''
+        return { Qt::Key_Apostrophe, QString("'") };
+    case 0x3A: // ':'
+        return { Qt::Key_Colon, QString(":") };
+    case 0x22: // '"'
+        return { Qt::Key_QuoteDbl, QString("\"") };
+    case 0x2F: // '/'
+        return { Qt::Key_Slash, QString("/") };
+    case 0x2E: // '.'
+        return { Qt::Key_Period, QString(".") };
+    case 0x3E: // '>'
+        return { Qt::Key_Greater, QString(">") };
+    case 0x2C: // ','
+        return { Qt::Key_Comma, QString(",") };
+    case 0x3F: // '?'
+        return { Qt::Key_Question, QString("?") };
+    // Numeric keys
+    case 0x30:
+        return { Qt::Key_0, QString("0") };
+    case 0x31:
+        return { Qt::Key_1, QString("1") };
+    case 0x32:
+        return { Qt::Key_2, QString("2") };
+    case 0x33:
+        return { Qt::Key_3, QString("3") };
+    case 0x34:
+        return { Qt::Key_4, QString("4") };
+    case 0x35:
+        return { Qt::Key_5, QString("5") };
+    case 0x36:
+        return { Qt::Key_6, QString("6") };
+    case 0x37:
+        return { Qt::Key_7, QString("7") };
+    case 0x38:
+        return { Qt::Key_8, QString("8") };
+    case 0x39:
+        return { Qt::Key_9, QString("9") };
+
+        // Alphabet keys
+    case 0x41:
+        return { Qt::Key_A, QString("a") };
+    case 0x42:
+        return { Qt::Key_B, QString("b") };
+    case 0x43:
+        return { Qt::Key_C, QString("c") };
+    case 0x44:
+        return { Qt::Key_D, QString("d") };
+    case 0x45:
+        return { Qt::Key_E, QString("e") };
+    case 0x46:
+        return { Qt::Key_F, QString("f") };
+    case 0x47:
+        return { Qt::Key_G, QString("g") };
+    case 0x48:
+        return { Qt::Key_H, QString("h") };
+    case 0x49:
+        return { Qt::Key_I, QString("i") };
+    case 0x4A:
+        return { Qt::Key_J, QString("j") };
+    case 0x4B:
+        return { Qt::Key_K, QString("k") };
+    case 0x4C:
+        return { Qt::Key_L, QString("l") };
+    case 0x4D:
+        return { Qt::Key_M, QString("m") };
+    case 0x4E:
+        return { Qt::Key_N, QString("n") };
+    case 0x4F:
+        return { Qt::Key_O, QString("o") };
+    case 0x50:
+        return { Qt::Key_P, QString("p") };
+    case 0x51:
+        return { Qt::Key_Q, QString("q") };
+    case 0x52:
+        return { Qt::Key_R, QString("r") };
+    case 0x53:
+        return { Qt::Key_S, QString("s") };
+    case 0x54:
+        return { Qt::Key_T, QString("t") };
+    case 0x55:
+        return { Qt::Key_U, QString("u") };
+    case 0x56:
+        return { Qt::Key_V, QString("v") };
+    case 0x57:
+        return { Qt::Key_W, QString("w") };
+    case 0x58:
+        return { Qt::Key_X, QString("x") };
+    case 0x59:
+        return { Qt::Key_Y, QString("y") };
+    case 0x5A:
+        return { Qt::Key_Z, QString("z") };
+    default:
+        return { Qt::Key_unknown, QString() };
     }
-    return true; // keep enumerating
 }
 
-BOOL CALLBACK GetMonitorByHandle(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData)
-{
-    Q_UNUSED(hdcMonitor)
-    Q_UNUSED(lprcMonitor)
-
-    auto info = (sEnumInfo*)dwData;
-    if (info->hMonitor == hMonitor)
-        return FALSE;
-    ++info->iIndex;
-    return TRUE;
-}
-
-int GetMonitorIndex(HMONITOR hMonitor)
-{
-    sEnumInfo info;
-    info.hMonitor = hMonitor;
-
-    if (EnumDisplayMonitors(NULL, NULL, GetMonitorByHandle, (LPARAM)&info))
-        return -1;
-
-    return info.iIndex;
-}
-
-/*!
-  \brief This method is called via a fixed interval to detect if a window completely
-         covers a monitor. If then sets visualPaused for QML to pause the content.
-*/
-void WinWindow::checkForFullScreenWindow()
-{
-
-    HWND hFoundWnd = nullptr;
-    EnumWindows(&FindTheDesiredWnd, reinterpret_cast<LPARAM>(&hFoundWnd));
-
-    // True if one window has WS_MAXIMIZE
-    if (hFoundWnd != nullptr) {
-        DWORD dwFlags = 0;
-        HMONITOR monitor = MonitorFromWindow(hFoundWnd, dwFlags);
-        HMONITOR wallpaper = MonitorFromWindow(m_windowHandle, dwFlags);
-        int monitorIndex = GetMonitorIndex(monitor);
-        int wallpaperIndex = GetMonitorIndex(wallpaper);
-        // qDebug() << monitorIndex << wallpaperIndex;
-
-        // If the window that has WS_MAXIMIZE is at the same monitor as this wallpaper
-        if (monitorIndex == wallpaperIndex) {
-
-            setVisualsPaused(true);
-        } else {
-            setVisualsPaused(false);
-        }
-
-    } else {
-        setVisualsPaused(false);
-    }
-}
 /*!
   \brief Custom exit method to force a redraw of the window so that
          the default desktop wallpaper can be seen agian.
 */
 void WinWindow::terminate()
 {
-    using ScreenPlay::InstalledType::InstalledType;
-    if (type() != InstalledType::VideoWallpaper && type() != InstalledType::GifWallpaper) {
-        UnhookWindowsHookEx(g_mouseHook);
-    }
-    ShowWindow(m_windowHandle, SW_HIDE);
+
+    ShowWindow(m_windowsIntegration.windowHandle(), SW_HIDE);
 
     // Force refresh so that we display the regular
     // desktop wallpaper again
-    ShowWindow(m_windowHandleWorker, SW_HIDE);
-    ShowWindow(m_windowHandleWorker, SW_SHOW);
+    ShowWindow(m_windowsIntegration.windowHandleWorker(), SW_HIDE);
+    ShowWindow(m_windowsIntegration.windowHandleWorker(), SW_SHOW);
+
+    m_windowsIntegration.unhookKeyboard();
+    m_windowsIntegration.unhookMouse();
 
     QGuiApplication::quit();
 }
@@ -522,6 +409,14 @@ void WinWindow::terminate()
 void WinWindow::clearComponentCache()
 {
     m_window.engine()->clearComponentCache();
+}
+
+void WinWindow::checkForFullScreenWindow()
+{
+    bool hasFullscreenWindow = m_windowsIntegration.checkForFullScreenWindow(m_windowsIntegration.windowHandle());
+
+    setVisualsPaused(hasFullscreenWindow);
+}
 }
 
 #include "moc_winwindow.cpp"

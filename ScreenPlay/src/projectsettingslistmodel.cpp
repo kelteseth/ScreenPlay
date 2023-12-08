@@ -41,7 +41,7 @@ namespace ScreenPlay {
   We need to _flatten_ the json to make it work with a flat list model!
   See \sa getActiveSettingsJson to make the flat list to a hierarchical json object
 */
-void ProjectSettingsListModel::init(const InstalledType::InstalledType& type, const QJsonObject& properties)
+void ProjectSettingsListModel::init(const ContentTypes::InstalledType& type, const QJsonObject& properties)
 {
 
     for (QJsonObject::const_iterator itParent = properties.begin(); itParent != properties.end(); itParent++) {
