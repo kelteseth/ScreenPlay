@@ -1,19 +1,47 @@
-[gd_scene load_steps=2 format=3 uid="uid://d105uliklnkd5"]
+[gd_scene load_steps=5 format=3 uid="uid://d105uliklnkd5"]
 
 [ext_resource type="Script" path="res://spinner.gd" id="1_ggnsn"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_e2y6e"]
+sky_top_color = Color(0.0431373, 0.431373, 0.490196, 1)
+sky_horizon_color = Color(0.290196, 0.486275, 0.592157, 1)
+ground_bottom_color = Color(0.47451, 0.596078, 0.247059, 1)
+ground_horizon_color = Color(0.533333, 0.72549, 0.266667, 1)
+
+[sub_resource type="Sky" id="Sky_lblg2"]
+sky_material = SubResource("ProceduralSkyMaterial_e2y6e")
+
+[sub_resource type="Environment" id="Environment_o4j5r"]
+background_mode = 2
+sky = SubResource("Sky_lblg2")
 
 [node name="Node3D" type="Node3D"]
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
 
-[node name="CSGBox3D" type="CSGBox3D" parent="."]
-transform = Transform3D(0.707107, -0.5, -0.5, 0, 0.707107, -0.707107, 0.707107, 0.5, 0.5, 0, 0, 0)
+[node name="Cube" type="CSGBox3D" parent="."]
+transform = Transform3D(0.707107, -0.5, -0.5, 0, 0.707107, -0.707107, 0.707107, 0.5, 0.5, 0, 0.645491, 0)
 script = ExtResource("1_ggnsn")
 
+[node name="Godot Engine 3d Text" type="Label3D" parent="Cube"]
+transform = Transform3D(1, 0, 0, 0, -5.96046e-08, 1, 0, -1, -1.19209e-07, 0.00762761, 0.513576, 0.00745064)
+text = "Godot Wallpaper"
+font_size = 22
+
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41283, 1.52646)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.37605, 0.497631)
+shadow_enabled = true
+omni_range = 7.41946
 
 [node name="Label3D" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.874896, 0.37249)
-text = "Godot Wallpaper"
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.29892, 0.37249)
+text = "You can edit this wallpaper by right click
+edit in the Installed tab."
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_o4j5r")
+
+[node name="Floor" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.78161, 0)
+size = Vector3(94.9521, 0.361328, 7.57324)
