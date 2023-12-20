@@ -3,11 +3,13 @@
 #include "ScreenPlay/CMakeVariables.h"
 #include "ScreenPlay/app.h"
 #include "ScreenPlayUtil/logginghandler.h"
+#include "qcorotask.h"
+#include "qml/qcoroqml.h"
+#include "qml/qcoroqmltask.h"
 #include <QCommandLineParser>
 #include <QDebug>
 #include <QGuiApplication>
 #include <QStyleFactory>
-
 #if defined(Q_OS_WIN)
 #include <sentry.h>
 #endif
@@ -22,7 +24,7 @@ Q_IMPORT_QML_PLUGIN(PlausiblePlugin)
 
 int main(int argc, char* argv[])
 {
-
+    QCoro::Qml::registerTypes();
 #if !defined(Q_OS_LINUX)
     qputenv("QT_MEDIA_BACKEND", "ffmpeg");
 #endif

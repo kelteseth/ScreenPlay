@@ -622,4 +622,80 @@ bool Util::copyPreviewThumbnail(QJsonObject& obj, const QString& previewThumbnai
 
     return true;
 }
+
+QCoro::QmlTask Util::exportGodotProject(const QString& absolutePath, const QString& godotEditorExecutablePath)
+{
+    return QCoro::QmlTask([this, absolutePath, godotEditorExecutablePath]() -> QCoro::Task<Result> {
+        QString projectPath = toLocal(absolutePath);
+        std::optional<QJsonObject> projectOpt = openJsonFileToObject(projectPath + "/project.json");
+        QJsonObject projectJson;
+        if (!projectOpt.has_value()) {
+            co_return Result { false };
+        }
+        projectJson = projectOpt.value();
+        if (!projectJson.contains("version"))
+            co_return Result { false };
+
+        const quint64 version = projectJson.value("version").toInt();
+        const QString packageFileName = QString("project-v%1.zip").arg(version);
+        QFileInfo godotPackageFile(projectPath + "/" + packageFileName);
+        // Skip reexport
+        if (godotPackageFile.exists())
+            co_return Result { true };
+
+        qInfo() << "No suitable version found for Godot package" << packageFileName << " at" << godotPackageFile.absoluteFilePath() << " exporting a new pck as zip.";
+
+        // Prepare the Godot export command
+        const QList<QString>
+            godotCmd
+            = { "--export-pack", "--headless", "Windows Desktop", packageFileName };
+
+        QProcess process;
+        process.setWorkingDirectory(projectPath);
+        process.setProgram(godotEditorExecutablePath);
+        process.setArguments(godotCmd);
+        using namespace QCoro;
+        auto coro_process = qCoro(process);
+        qInfo() << "Start" << process.program() << " " << process.arguments() << process.workingDirectory();
+        co_await coro_process.start();
+        co_await coro_process.waitForFinished();
+
+        // Capture the standard output and error
+        QString stdoutString = process.readAllStandardOutput();
+        QString stderrString = process.readAllStandardError();
+
+        // If you want to print the output to the console:
+        if (!stdoutString.isEmpty())
+            qDebug() << "Output:" << stdoutString;
+        if (!stderrString.isEmpty())
+            qDebug() << "Error:" << stderrString;
+
+        // Check for errors
+        if (process.exitStatus() != QProcess::NormalExit || process.exitCode() != 0) {
+            QString errorMessage = tr("Failed to export Godot project. Error: %1").arg(process.errorString());
+            qCritical() << errorMessage;
+            co_return Result { false, {}, errorMessage };
+        }
+
+        // Check if the project.zip file was created
+        QString zipPath = QDir(projectPath).filePath(packageFileName);
+        if (!QFile::exists(zipPath)) {
+            qCritical() << "Expected export file (" << packageFileName << ") was not created.";
+            co_return Result { false };
+        }
+
+        // Optional: Verify if the .zip file is valid
+        //     (A complete verification would involve extracting the file and checking its contents,
+        //     but for simplicity, we're just checking its size here)
+        QFileInfo zipInfo(zipPath);
+        if (zipInfo.size() <= 0) {
+            qCritical() << "The exported " << packageFileName << " file seems to be invalid.";
+            co_return Result { false };
+        }
+        qInfo() << "exportGodotProject END";
+        co_return Result { true };
+    }());
 }
+}
+
+#include "moc_util.cpp"

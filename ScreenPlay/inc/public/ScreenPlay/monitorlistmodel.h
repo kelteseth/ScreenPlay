@@ -11,9 +11,7 @@
 #include <QString>
 #include <QVector>
 
-#include "ScreenPlay/projectsettingslistmodel.h"
 #include "ScreenPlay/screenplaywallpaper.h"
-#include "ScreenPlay/screenplaywidget.h"
 
 #ifdef Q_OS_WIN
 #include <qt_windows.h>

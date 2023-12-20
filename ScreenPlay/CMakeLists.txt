@@ -9,6 +9,7 @@ set(CMAKE_AUTOMOC ON)
 include(GenerateCMakeVariableHeader)
 
 set(SOURCES
+
     # cmake-format: sort
     src/app.cpp
     src/create.cpp
@@ -27,6 +28,7 @@ set(SOURCES
     src/wizards.cpp)
 
 set(HEADER
+
     # cmake-format: sort
     inc/public/ScreenPlay/app.h
     inc/public/ScreenPlay/create.h
@@ -47,6 +49,7 @@ set(HEADER
     inc/public/ScreenPlay/wizards.h)
 
 set(QML
+
     # cmake-format: sort
     main.qml
     qml/Community/CommunityNavItem.qml
@@ -101,6 +104,7 @@ set(QML
     qml/Workshop/WorkshopView.qml)
 
 set(TS_FILES
+
     # cmake-format: sort
     translations/ScreenPlay_.ts
     translations/ScreenPlay_de_DE.ts
@@ -117,6 +121,7 @@ set(TS_FILES
     translations/ScreenPlay_zh_CN.ts)
 
 set(RESOURCES
+
     # cmake-format: sort
     "legal/Font Awesome Free License.txt"
     "legal/Qt LGPLv3.txt"
@@ -263,15 +268,15 @@ endif()
 find_package(
     Qt6
     COMPONENTS Core
-               Quick
-               QuickControls2
-               Gui
-               Widgets
-               WebSockets
-               Svg
-               Xml
-               LinguistTools
-               Test)
+    Quick
+    QuickControls2
+    Gui
+    Widgets
+    WebSockets
+    Svg
+    Xml
+    LinguistTools
+    Test)
 
 add_library(ScreenPlayApp STATIC)
 
@@ -306,32 +311,34 @@ qt_add_qml_module(
 target_link_libraries(
     ScreenPlayApp
     PUBLIC ScreenPlaySDK
-           LibArchive::LibArchive
-           ScreenPlayUtil
-           ScreenPlayUtilplugin
-           QArchive
-           Plausibleplugin
-           Threads::Threads
-           Qt6::Quick
-           Qt6::Gui
-           Qt6::Widgets
-           Qt6::Core
-           Qt6::WebSockets
-           Qt6::Svg
-           Qt6::QuickControls2
-           Qt6::Xml)
+    LibArchive::LibArchive
+    ScreenPlayUtil
+    ScreenPlayUtilplugin
+    QArchive
+    Plausibleplugin
+    Threads::Threads
+    QCoro6::Qml
+    Qt6::Quick
+    Qt6::Gui
+    Qt6::Widgets
+    Qt6::Core
+    Qt6::WebSockets
+    Qt6::Svg
+    Qt6::QuickControls2
+    Qt6::Xml)
 
 if(${SCREENPLAY_STEAM})
     target_link_libraries(ScreenPlayApp PUBLIC ScreenPlayWorkshopplugin ScreenPlayWorkshop)
 endif()
 
 qt_add_executable(${PROJECT_NAME} main.cpp)
-target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlayApp ScreenPlayAppplugin)
+target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlayApp ScreenPlayAppplugin QCoro6::Qml)
 
 if(${SCREENPLAY_TESTS})
     add_executable(tst_ScreenPlay tests/tst_main.cpp)
     target_link_libraries(tst_ScreenPlay PRIVATE ScreenPlayApp ScreenPlayAppplugin Qt6::Test)
     generate_cmake_variable_header(tst_ScreenPlay)
+
     if(${SCREENPLAY_STEAM})
         target_link_libraries(tst_ScreenPlay PUBLIC ScreenPlayWorkshopplugin ScreenPlayWorkshop)
     endif()
@@ -342,8 +349,8 @@ if(${SCREENPLAY_TESTS})
 endif()
 
 if(WIN32
-   OR UNIX
-   AND NOT APPLE)
+    OR UNIX
+    AND NOT APPLE)
     include(CopyRecursive)
     set(FONTS_OUT_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets/fonts)
     file(MAKE_DIRECTORY ${FONTS_OUT_DIR})
@@ -366,6 +373,7 @@ if(WIN32)
 
     # Copy ffmpeg. If the ffmpeg files are missing, start the install_dependencies_XXX for your system!
     file(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/*")
+
     foreach(filename ${files})
         configure_file(${filename} ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
     endforeach()
@@ -375,11 +383,9 @@ if(WIN32)
 
     configure_file(${VCPKG_BIN_PATH}/libssl-3-x64.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ COPYONLY)
     configure_file(${VCPKG_BIN_PATH}/libcrypto-3-x64.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ COPYONLY)
-
 endif()
 
 if(APPLE)
-
     # Set the path to the icon file
     set(APP_ICON_MACOSX ${CMAKE_CURRENT_SOURCE_DIR}/assets/icons/ScreenPlay.icns)
 
@@ -391,6 +397,7 @@ if(APPLE)
 
     # Specify the name of the icon file for the bundle
     set(MACOSX_BUNDLE_ICON_FILE ScreenPlay.icns) # Only the file name
+
     # Fore some reason this only works with maually copy
     configure_file(${APP_ICON_MACOSX} "${RESOURCES_DIR}/ScreenPlay.icns" COPYONLY)
 
@@ -398,26 +405,26 @@ if(APPLE)
     set_target_properties(
         ${PROJECT_NAME}
         PROPERTIES OUTPUT_NAME ${PROJECT_NAME}
-                   MACOSX_BUNDLE TRUE
-                   MACOSX_RPATH TRUE
-                   MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist
-                   MACOSX_FRAMEWORK_IDENTIFIER app.screenplay
-                   XCODE_ATTRIBUTE_LD_RUNPATH_SEARCH_PATHS "@loader_path/Libraries"
-                   RESOURCE "${RESOURCE_FILES};${APP_ICON_MACOSX}" # Include the icon in the resources
-                   XCODE_ATTRIBUTE_ENABLE_HARDENED_RUNTIME TRUE
-                   XCODE_ATTRIBUTE_EXECUTABLE_NAME ${PROJECT_NAME})
+        MACOSX_BUNDLE TRUE
+        MACOSX_RPATH TRUE
+        MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist
+        MACOSX_FRAMEWORK_IDENTIFIER app.screenplay
+        XCODE_ATTRIBUTE_LD_RUNPATH_SEARCH_PATHS "@loader_path/Libraries"
+        RESOURCE "${RESOURCE_FILES};${APP_ICON_MACOSX}" # Include the icon in the resources
+        XCODE_ATTRIBUTE_ENABLE_HARDENED_RUNTIME TRUE
+        XCODE_ATTRIBUTE_EXECUTABLE_NAME ${PROJECT_NAME})
 
     add_custom_command(
         TARGET ${PROJECT_NAME}
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/ffmpeg
-                ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/)
+        ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/)
 
     add_custom_command(
         TARGET ${PROJECT_NAME}
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/ffprobe
-                ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/)
+        ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/)
 
     # fonts
     include(CopyRecursive)
@@ -430,7 +437,6 @@ if(APPLE)
     set(QM_OUT_DIR "${RESOURCES_DIR}/translations")
     file(MAKE_DIRECTORY ${QM_OUT_DIR})
     set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${QM_OUT_DIR})
-
 endif()
 
 # Must be called here, because we need to change the OUTPUT_LOCATION for macos

@@ -6,6 +6,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 
 find_package(fmt CONFIG REQUIRED)
+
 # Needed on macos
 find_package(Threads REQUIRED)
 find_package(LibArchive REQUIRED)
@@ -15,6 +16,7 @@ find_package(
     REQUIRED)
 
 set(QML
+
     # cmake-format: sort
     qml/CloseIcon.qml
     qml/ColorImage.qml
@@ -41,6 +43,7 @@ set(QML
     qml/TextField.qml)
 
 set(SOURCES
+
     # cmake-format: sort
     src/archive.cpp
     src/contenttypes.cpp
@@ -52,6 +55,7 @@ set(SOURCES
     src/util.cpp)
 
 set(HEADER
+
     # cmake-format: sort
     inc/public/ScreenPlayUtil/archive.h
     inc/public/ScreenPlayUtil/contenttypes.h
@@ -71,7 +75,7 @@ if(APPLE)
 endif()
 
 set(RESOURCES # cmake-format: sort
-              assets/icons/attach_file.svg assets/icons/description.svg assets/icons/folder.svg)
+    assets/icons/attach_file.svg assets/icons/description.svg assets/icons/folder.svg)
 
 qt_add_library(
     ${PROJECT_NAME}
@@ -108,12 +112,15 @@ target_include_directories(${PROJECT_NAME}plugin PUBLIC inc/public/ScreenPlayUti
 
 target_link_libraries(
     ${PROJECT_NAME}
-    PUBLIC Qt6::Core
-           Qt6::Quick
-           Qt6::Gui
-           fmt::fmt-header-only
-           LibArchive::LibArchive
-           QArchive)
+    PUBLIC
+    Qt6::Core
+    Qt6::Quick
+    Qt6::Gui
+    QCoro6::Core
+    QCoro6::Qml
+    fmt::fmt-header-only
+    LibArchive::LibArchive
+    QArchive)
 
 if(WIN32)
     # Used for query windows monitor data

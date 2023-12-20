@@ -26,6 +26,9 @@
 #include <optional>
 
 #include "ScreenPlayUtil/contenttypes.h"
+#include "qcorotask.h"
+#include "qml/qcoroqml.h"
+#include "qml/qcoroqmltask.h"
 
 namespace ScreenPlay {
 
@@ -45,6 +48,46 @@ T QStringToEnum(const QString& key, const T defaultValue)
 
     return defaultValue;
 }
+
+class GodotExport : public QObject {
+    Q_OBJECT
+    QML_ELEMENT
+    QML_UNCREATABLE("")
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
+public:
+    enum class Result {
+        Failed,
+        Ok,
+    };
+    Q_ENUM(Result)
+};
+
+class Result {
+    Q_GADGET
+    Q_PROPERTY(bool success READ success WRITE setSuccess)
+    Q_PROPERTY(QVariant status READ status WRITE setStatus)
+    Q_PROPERTY(QString messag READ messag WRITE setMessag)
+
+public:
+    explicit Result() { }
+    explicit Result(bool success, const QVariant& status = {}, const QString& messag = "")
+    {
+        m_success = success;
+        m_status = status;
+        m_messag = messag;
+    }
+    bool success() const { return m_success; }
+    void setSuccess(bool success) { m_success = success; }
+    QString messag() const { return m_messag; }
+    void setMessag(const QString& messag) { m_messag = messag; }
+    QVariant status() const { return m_status; }
+    void setStatus(const QVariant& status) { m_status = status; }
+
+private:
+    bool m_success;
+    QString m_messag;
+    QVariant m_status;
+};
 
 class Util : public QObject {
     Q_OBJECT
@@ -78,6 +121,7 @@ public:
     QStringList getAvailableFillModes() const;
     // QML callable functions
     Q_INVOKABLE QString toLocal(const QString& url) const;
+    Q_INVOKABLE QCoro::QmlTask exportGodotProject(const QString& absolutePath, const QString& godotEditorExecutablePath);
 
     Q_INVOKABLE bool isWallpaper(const ScreenPlay::ContentTypes::InstalledType type) const;
     Q_INVOKABLE bool isWidget(const ScreenPlay::ContentTypes::InstalledType type) const;

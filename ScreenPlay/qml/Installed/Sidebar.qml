@@ -2,6 +2,7 @@ import QtQuick
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Dialogs
 import QtQuick.Controls.Material
 import QtQuick.Controls.Material.impl
 import ScreenPlayApp
@@ -18,71 +19,74 @@ Item {
 
     function indexOfValue(model, value) {
         for (var i = 0; i < model.length; i++) {
-            let ourValue = model[i].value;
+            let ourValue = model[i].value
             if (value === ourValue)
-                return i;
+                return i
         }
-        return -1;
+        return -1
     }
 
     // This is used for removing wallpaper. We need to clear
     // the preview image/gif so we can release the file for deletion.
     function clear() {
-        imagePreview.source = "";
-        animatedImagePreview.source = "";
-        txtHeadline.text = "";
-        root.state = "inactive";
+        imagePreview.source = ""
+        animatedImagePreview.source = ""
+        txtHeadline.text = ""
+        root.state = "inactive"
     }
 
     width: 400
     state: "inactive"
     property bool hasPreviewGif: false
     onContentFolderNameChanged: {
-        const item = App.installedListModel.get(root.contentFolderName);
-        txtHeadline.text = item.m_title;
-        const previewGiFilePath = Qt.resolvedUrl(item.m_absoluteStoragePath + "/" + item.m_previewGIF);
-        const previewImageFilePath = Qt.resolvedUrl(item.m_absoluteStoragePath + "/" + item.m_preview);
-        root.hasPreviewGif = App.util.fileExists(previewGiFilePath);
+        const item = App.installedListModel.get(root.contentFolderName)
+        txtHeadline.text = item.m_title
+        const previewGiFilePath = Qt.resolvedUrl(
+                                    item.m_absoluteStoragePath + "/" + item.m_previewGIF)
+        const previewImageFilePath = Qt.resolvedUrl(
+                                       item.m_absoluteStoragePath + "/" + item.m_preview)
+        root.hasPreviewGif = App.util.fileExists(previewGiFilePath)
         if (hasPreviewGif) {
-            animatedImagePreview.source = previewGiFilePath;
-            animatedImagePreview.playing = true;
+            animatedImagePreview.source = previewGiFilePath
+            animatedImagePreview.playing = true
         } else {
-            imagePreview.source = previewImageFilePath;
+            imagePreview.source = previewImageFilePath
         }
-        if (App.util.isWidget(root.type) || (monitorSelection.activeMonitors.length > 0)) {
-            btnLaunchContent.enabled = true;
-            return;
+        if (App.util.isWidget(root.type)
+                || (monitorSelection.activeMonitors.length > 0)) {
+            btnLaunchContent.enabled = true
+            return
         }
-        btnLaunchContent.enabled = false;
+        btnLaunchContent.enabled = false
     }
 
     Connections {
         function onSetSidebarItem(folderName, type) {
 
             // Toggle sidebar if clicked on the same content twice
-            if (root.contentFolderName === folderName && root.state !== "inactive") {
-                root.state = "inactive";
-                return;
+            if (root.contentFolderName === folderName
+                    && root.state !== "inactive") {
+                root.state = "inactive"
+                return
             }
-            root.contentFolderName = folderName;
-            root.type = type;
+            root.contentFolderName = folderName
+            root.type = type
             if (App.util.isWallpaper(root.type)) {
                 if (type === ContentTypes.InstalledType.VideoWallpaper)
-                    root.state = "activeWallpaper";
+                    root.state = "activeWallpaper"
                 else
-                    root.state = "activeScene";
-                btnLaunchContent.text = qsTr("Set Wallpaper");
+                    root.state = "activeScene"
+                btnLaunchContent.text = qsTr("Set Wallpaper")
             } else {
-                root.state = "activeWidget";
-                btnLaunchContent.text = qsTr("Set Widget");
+                root.state = "activeWidget"
+                btnLaunchContent.text = qsTr("Set Widget")
             }
         }
 
         target: App.util
     }
 
-    MouseHoverBlocker {
-    }
+    MouseHoverBlocker {}
 
     Rectangle {
         anchors.fill: parent
@@ -329,42 +333,80 @@ Item {
                                 "text": qsTr("Scale-Down")
                             }]
                         Component.onCompleted: {
-                            cbVideoFillMode.currentIndex = root.indexOfValue(cbVideoFillMode.model, App.settings.videoFillMode);
+                            cbVideoFillMode.currentIndex = root.indexOfValue(
+                                        cbVideoFillMode.model,
+                                        App.settings.videoFillMode)
                         }
                     }
                 }
+            }
+            MessageDialog {
+                id: errorDialog
+                buttons: MessageDialog.Ok
             }
 
             Button {
                 id: btnLaunchContent
                 objectName: "btnLaunchContent"
-                enabled: App.util.isWidget(root.type) ? true : monitorSelection.isSelected
-                Material.background: Material.accent
-                Material.foreground: "white"
+                enabled: App.util.isWidget(
+                             root.type) ? true : monitorSelection.isSelected
                 icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_plus.svg"
                 icon.color: "white"
                 font.pointSize: 12
                 onClicked: {
-                    const item = App.installedListModel.get(root.contentFolderName);
-                    const absoluteStoragePath = item.m_absoluteStoragePath;
-                    const previewImage = item.m_preview;
+                    const item = App.installedListModel.get(
+                                   root.contentFolderName)
+                    const absoluteStoragePath = item.m_absoluteStoragePath
+                    const previewImage = item.m_preview
                     if (App.util.isWallpaper(root.type)) {
-                        let activeMonitors = monitorSelection.getActiveMonitors();
+                        let activeMonitors = monitorSelection.getActiveMonitors(
+                                )
                         // TODO Alert user to choose a monitor
                         if (activeMonitors.length === 0)
-                            return;
+                            return
 
                         // We only have sliderVolume if it is a VideoWallpaper
-                        let volume = 0;
+                        let volume = 0
                         if (type === ContentTypes.InstalledType.VideoWallpaper)
-                            volume = Math.round(sliderVolume.slider.value * 100) / 100;
-                        const screenFile = item.m_file;
-                        let success = App.screenPlayManager.createWallpaper(root.type, cbVideoFillMode.currentValue, absoluteStoragePath, previewImage, screenFile, activeMonitors, volume, 1, {}, true);
+                            volume = Math.round(
+                                        sliderVolume.slider.value * 100) / 100
+                        if (type === ContentTypes.InstalledType.GodotWallpaper) {
+                            App.util.exportGodotProject(
+                                        absoluteStoragePath,
+                                        App.globalVariables.godotEditorExecutablePath).then(
+                                        result => {
+                                            if(!result.success){
+                                                errorDialog.text = ("Error exporting Godot")
+                                                errorDialog.informativeText   = result.messag
+                                                errorDialog.open()
+                                                return
+                                            }
+                                            const screenFile = item.m_file
+                                            let success = App.screenPlayManager.createWallpaper(
+                                                root.type,
+                                                cbVideoFillMode.currentValue,
+                                                absoluteStoragePath,
+                                                previewImage, screenFile,
+                                                activeMonitors, volume,
+                                                1, {}, true)
+                                        })
+                            return
+                        }
+
+                        const screenFile = item.m_file
+                        let success = App.screenPlayManager.createWallpaper(
+                                root.type, cbVideoFillMode.currentValue,
+                                absoluteStoragePath, previewImage, screenFile,
+                                activeMonitors, volume, 1, {}, true)
                     }
                     if (App.util.isWidget(root.type))
-                        App.screenPlayManager.createWidget(type, Qt.point(0, 0), absoluteStoragePath, previewImage, {}, true);
-                    root.state = "inactive";
-                    monitorSelection.reset();
+                        App.screenPlayManager.createWidget(type,
+                                                           Qt.point(0, 0),
+                                                           absoluteStoragePath,
+                                                           previewImage, {},
+                                                           true)
+                    root.state = "inactive"
+                    monitorSelection.reset()
                 }
 
                 anchors {

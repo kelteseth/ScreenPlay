@@ -58,7 +58,7 @@ public:
     QString ffmpegOutput() const { return m_ffmpegOutput; }
 
 signals:
-    void createWallpaperStateChanged(Import::State state);
+    void createWallpaperStateChanged(ScreenPlay::Import::State state);
     void progressChanged(float progress);
     void abortCreateWallpaper();
     void workingDirChanged(QString workingDir);
