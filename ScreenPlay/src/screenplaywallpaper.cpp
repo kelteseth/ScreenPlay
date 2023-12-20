@@ -83,14 +83,16 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
         tmpScreenNumber = QString::number(m_screenNumber.first());
     }
 
+    const QString screens = "{" + tmpScreenNumber + "}";
+
     m_appArgumentsList = QStringList {
-        tmpScreenNumber,
-        m_absolutePath,
-        QString { "appID=" + m_appID },
-        QString::number(static_cast<double>(volume)),
-        QVariant::fromValue(fillMode).toString(),
-        QVariant::fromValue(type).toString(),
-        QString::number(m_settings->checkWallpaperVisible()),
+        "--screens", screens,
+        "--path", m_absolutePath,
+        "--appID", m_appID,
+        "--volume", QString::number(static_cast<double>(volume)),
+        "--fillmode", QVariant::fromValue(fillMode).toString(),
+        "--type", QVariant::fromValue(type).toString(),
+        "--check", QString::number(m_settings->checkWallpaperVisible())
     };
 
     // Fixes issue 84 media key overlay in Qt apps
@@ -101,7 +103,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
         if (m_projectJson.contains("version")) {
             const quint64 version = m_projectJson.value("version").toInt();
             const QString packageFileName = QString("project-v%1.zip").arg(version);
-            m_appArgumentsList.append(packageFileName);
+            m_appArgumentsList.append({ "--projectPackageFile", packageFileName });
         }
     }
 }

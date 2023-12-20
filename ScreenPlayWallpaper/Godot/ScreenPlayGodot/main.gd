@@ -39,16 +39,12 @@ func _ready():
 		
 	var path
 	var args = OS.get_cmdline_args()
-	if args.size() > 1:
-		if not parse_args():
-			get_tree().quit()
-			return
-		#screen_play_wallpaper.set_projectPath("C:\\Code\\cpp\\ScreenPlay\\ScreenPlay\\Content\\wallpaper_godot_fjord")
-		path = screen_play_wallpaper.get_projectPath() + "/" + screen_play_wallpaper.get_projectPackageFile()
-	else:
+	if not parse_args():
 		get_tree().quit()
 		return
-	print(path)
+
+	path = screen_play_wallpaper.get_projectPath() + "/" + screen_play_wallpaper.get_projectPackageFile()
+
 	if not load_scene(path):
 		print("Failed to load the PCK file.")
 		# No not call terminate here because we did not
@@ -95,35 +91,76 @@ func load_scene(path):
 func parse_args():
 	var args = OS.get_cmdline_args()
 	print("Parse args:", args)
-	var offset = 0
-	if args[0] == "res://main.tscn":
-		offset = 1
+	
+	# Check if only the default argument is provided
+	if args.size() == 1:
+		args = ["--path", 
+				#"C:/Code/cpp/ScreenPlay/ScreenPlay/Content/wallpaper_godot_fjord", 
+				"C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/2023_12_08_205323",
+				"--appID", "qmz9lq4wglox5DdYaXumVgRSDeZYAUjC", 
+				"--screens", "{0}", 
+				"--volume", "1", 
+				"--check", "0",
+				"--projectPackageFile","project-v1.zip"
+				]
+				
+	 # Remove the first argument if it's the main.tscn file
+	if args.size() > 0 and args[0] == "res://main.tscn":
+		var new_args = []
+		for i in range(1, args.size()):
+			new_args.append(args[i])
+		args = new_args
+	
+	# Create a dictionary to hold the key-value pairs
+	var arg_dict = {}
+	var i = 0
+	while i < args.size():
+		var key = args[i]
+		if key.begins_with("--"):
+			key = key.substr(2)  # Remove '--' prefix
+			i += 1
+			if i < args.size():
+				arg_dict[key] = args[i]
+		i += 1
 
-	if args.size() < 8:  # Adjust this number based on the expected number of arguments
-		print("Not enough arguments provided!")
+	# Check for all required arguments
+	var required_args = ["screens", "path", "appID", "volume", "check", "projectPackageFile"]
+	for req_arg in required_args:
+		if not arg_dict.has(req_arg):
+			print("Missing argument:", req_arg)
+			return false
+
+	# Parse the 'screens' argument
+	var activeScreensList = []
+	var screens_str = arg_dict["screens"]
+	if screens_str.begins_with("{") and screens_str.ends_with("}"):
+		screens_str = screens_str.substr(1, screens_str.length() - 2)  # Remove '{' and '}'
+		var screens = screens_str.split(",")
+		for screen in screens:
+			if screen.is_valid_int():
+				activeScreensList.append(screen.to_int())
+			else:
+				print("Invalid screens argument:", screen)
+				return false
+	else:
+		print("Invalid format for screens argument")
 		return false
 
-	var activeScreensList = []
-	if args[0 + offset].is_valid_int():
-		activeScreensList.append(args[0 + offset].to_int())
-	else:
-		var potentialInts = args[0 + offset].split(",")
-		for val in potentialInts:
-			if not val.is_valid_int():
-				print("Invalid argument: Not an integer:", val)
-				return false
-			else:
-				activeScreensList.append(val.to_int())
-
-	screen_play_wallpaper.set_projectPath(args[1 + offset])
-	screen_play_wallpaper.set_appID(args[2 + offset].replace("appID=", ""))
-	screen_play_wallpaper.set_volume(float(args[3 + offset]))
-	#screen_play_wallpaper.set_fillmode(int(args[4 + offset]))
-	var type = args[5]  # This might need further parsing depending on its expected format
-	screen_play_wallpaper.set_checkWallpaperVisible(args[6 + offset].to_lower() == "true")
+	# Assign the values to the respective properties
+	screen_play_wallpaper.set_projectPath(arg_dict["path"])
+	screen_play_wallpaper.set_appID(arg_dict["appID"])
+	screen_play_wallpaper.set_volume(float(arg_dict["volume"]))
+	screen_play_wallpaper.set_projectPackageFile(arg_dict["projectPackageFile"])
+	screen_play_wallpaper.set_checkWallpaperVisible(arg_dict["check"] == "1")
 	screen_play_wallpaper.set_activeScreensList(activeScreensList)
-	screen_play_wallpaper.set_projectPackageFile(args[7 + offset])
 
 	# Print or use the parsed values as needed
-	print("Parsing done:", activeScreensList, screen_play_wallpaper.get_projectPath(), screen_play_wallpaper.get_appID(), screen_play_wallpaper.get_volume(), type, screen_play_wallpaper.get_checkWallpaperVisible())
+	print("Parsing done: ", activeScreensList, 
+		  " ", screen_play_wallpaper.get_projectPath(), 
+		  " ", screen_play_wallpaper.get_appID(),
+		  " ", screen_play_wallpaper.get_volume(),
+		  " ", screen_play_wallpaper.get_projectPackageFile(),
+		  " ", screen_play_wallpaper.get_checkWallpaperVisible())
+
 	return true
+

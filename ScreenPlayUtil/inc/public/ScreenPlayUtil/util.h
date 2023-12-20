@@ -110,7 +110,7 @@ public:
     bool writeFileFromQrc(const QString& qrcPath, const QString& absolutePath);
     bool copyPreviewThumbnail(QJsonObject& obj, const QString& previewThumbnail, const QString& destination);
     QString toString(const QStringList& list) const;
-    std::optional<QVector<int>> parseStringToIntegerList(const QString string) const;
+    std::optional<QVector<int>> parseStringToIntegerList(const QString& string) const;
     float roundDecimalPlaces(const float number) const;
     QString generateRandomString(quint32 length = 32);
     QString executableAppEnding();

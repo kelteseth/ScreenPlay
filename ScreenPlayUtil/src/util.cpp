@@ -461,15 +461,21 @@ QStringList Util::getAvailableFillModes() const
 
 /*!
   \brief parseIntList parses a list of string separated with a comma
-        "1,2,3". IMPORTANT: No trailing comma!
+        "{1,2,3}". IMPORTANT: No trailing comma!
  */
-std::optional<QVector<int>> Util::parseStringToIntegerList(const QString string) const
+std::optional<QVector<int>> Util::parseStringToIntegerList(const QString& string) const
 {
     if (string.isEmpty())
         return {};
 
+    if (!(string.startsWith("{") && string.endsWith("}")))
+        return {};
+
     QVector<int> list;
-    QStringList stringList = string.split(",");
+    QString clean = string;
+    clean = clean.replace("{", "");
+    clean = clean.replace("}", "");
+    QStringList stringList = clean.split(",");
     for (const auto& item : stringList) {
         bool ok = false;
         int val = item.toInt(&ok);

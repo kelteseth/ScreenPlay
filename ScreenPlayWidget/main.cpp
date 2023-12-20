@@ -8,6 +8,7 @@
 #include <QStringList>
 #include <QtWebEngineQuick>
 
+#include "ScreenPlayUtil/contenttypes.h"
 #include "ScreenPlayUtil/logginghandler.h"
 #include "src/widgetwindow.h"
 
@@ -36,62 +37,112 @@ int main(int argc, char* argv[])
     QGuiApplication app(argc, argv);
     std::unique_ptr<const ScreenPlayUtil::LoggingHandler> logging;
 
-    const QStringList argumentList = app.arguments();
+    QStringList argumentList;
 
     // If we start with only one argument (path, appID, type),
     // it means we want to test a single widget
-    if (argumentList.length() == 1) {
+    if (app.arguments().length() == 1) {
         QString exampleContentPath = QString(SCREENPLAY_SOURCE_DIR) + "/Content";
-        QStringList contentFolder = {
-            "/widget_weather", // 0
-            "/widget_system_stats", // 1 (Note: Windows only)
-            "/widget_hello_world", // 2
-            "/widget_year_count_down", // 3
-            "/widget_analog_clock", // 4
-            "/widget_digital_clock", // 5
-            "/widget_rss_hackernews", // 6
-            "/widget_rss_guardian_news", // 7
-            "/widget_xkcd" // 8
+        using namespace ScreenPlay;
+        QList<QPair<QString, ContentTypes::InstalledType>> contentFolder = {
+            { "/widget_weather", ContentTypes::InstalledType::QMLWidget }, // 0
+            { "/widget_system_stats", ContentTypes::InstalledType::QMLWidget }, // 1 (Note: Windows only)
+            { "/widget_hello_world", ContentTypes::InstalledType::QMLWidget }, // 2
+            { "/widget_year_count_down", ContentTypes::InstalledType::QMLWidget }, // 3
+            { "/widget_analog_clock", ContentTypes::InstalledType::QMLWidget }, // 4
+            { "/widget_digital_clock", ContentTypes::InstalledType::QMLWidget }, // 5
+            { "/widget_rss_hackernews", ContentTypes::InstalledType::QMLWidget }, // 6
+            { "/widget_rss_guardian_news", ContentTypes::InstalledType::QMLWidget }, // 7
+            { "/widget_xkcd", ContentTypes::InstalledType::QMLWidget }, // 8
         };
         const int index = 5;
-        QString projectPath = exampleContentPath + contentFolder.at(index);
+        QString projectPath = exampleContentPath + contentFolder.at(index).first;
 
         // Lets center the widget
         const auto* screen = QGuiApplication::screens().at(0);
         const int offset = -200;
-        QPoint center((screen->size().width() / 2) + offset, (screen->size().height() / 2) + offset);
+        const QPoint center((screen->size().width() / 2) + offset, (screen->size().height() / 2) + offset);
+        const QString type = QVariant::fromValue<ContentTypes::InstalledType>(contentFolder.at(index).second).toString();
 
-        WidgetWindow spwmw(projectPath,
-            "appid",
-            "qmlWidget",
-            center,
-            true);
-
-        return app.exec();
+        argumentList.append(
+            QStringList {
+                // Docs: Don't forget that arguments must start with the name of the executable (ignored, though).
+                QGuiApplication::applicationName(),
+                "--path", projectPath,
+                "--appID", "qmz9lq4wglox5DdYaXumVgRSDeZYAUjC",
+                "--type", type,
+                "--posX", QString::number(center.x()),
+                "--posY", QString::number(center.y()),
+                "--debug", "1" });
+    } else {
+        argumentList = app.arguments();
     }
 
-    if (argumentList.length() != 6) {
-        return -3;
+    QCommandLineParser parser;
+    parser.setApplicationDescription("ScreenPlay Widget");
+    parser.addHelpOption();
+    QCommandLineOption pathOption("path", "Project path", "path");
+    QCommandLineOption appIDOption("appID", "Application ID", "appid");
+    QCommandLineOption typeOption("type", "Content type", "type");
+    QCommandLineOption posXOption("posX", "X position", "positionX");
+    QCommandLineOption posYOption("posY", "Y position", "positionY");
+    QCommandLineOption debugOption("debug", "debug enabled", "debug");
+
+    parser.addOption(pathOption);
+    parser.addOption(appIDOption);
+    parser.addOption(typeOption);
+    parser.addOption(posXOption);
+    parser.addOption(posYOption);
+    parser.addOption(debugOption);
+
+    parser.process(argumentList);
+
+    // Check if all required options are provided
+    // debug option is optional
+    if (!parser.isSet(pathOption)
+        || !parser.isSet(appIDOption)
+        || !parser.isSet(typeOption)
+        || !parser.isSet(posXOption)
+        || !parser.isSet(posYOption)) {
+        qCritical() << "Missing required arguments. Please provide all arguments."
+                    << argumentList
+                    << "pathOption" << parser.value(pathOption)
+                    << "appIDOption" << parser.value(appIDOption)
+                    << "typeOption" << parser.value(typeOption)
+                    << "posXOption" << parser.value(posXOption)
+                    << "posYOption" << parser.value(posYOption);
+        return -1;
     }
 
-    bool okPosX = false;
-    int positionX = QVariant(argumentList.at(4)).toInt(&okPosX);
+    bool okPosX = false, okPosY = false;
+    const int positionX = parser.value(posXOption).toInt(&okPosX);
     if (!okPosX) {
-        qWarning() << "Could not parse PositionX value to int: " << argumentList.at(4);
-        positionX = 0;
+        qWarning() << "Could not parse PositionX value to int: " << parser.value(posXOption);
+        return -1;
     }
-    bool okPosY = false;
-    int positionY = QVariant(argumentList.at(5)).toInt(&okPosY);
+
+    const int positionY = parser.value(posYOption).toInt(&okPosY);
     if (!okPosY) {
-        qWarning() << "Could not parse PositionY value to int: " << argumentList.at(5);
-        positionY = 0;
+        qWarning() << "Could not parse PositionY value to int: " << parser.value(posYOption);
+        return -1;
     }
-    const QString appID = argumentList.at(2);
+
+    bool debugOk = false;
+    const int debug = parser.value(debugOption).toInt(&debugOk);
+    if (!debugOk) {
+        qWarning() << "Could not parse debugOk value to bool: " << parser.value(posYOption);
+    }
+
+    QString appID = parser.value(appIDOption);
+    QString projectPath = parser.value(pathOption);
+    QString type = parser.value(typeOption);
+
     WidgetWindow spwmw(
-        argumentList.at(1), // Project path,
-        appID, // AppID
-        argumentList.at(3), // Type
-        QPoint { positionX, positionY });
+        projectPath,
+        appID,
+        type,
+        QPoint { positionX, positionY },
+        debug);
 
 #if defined(Q_OS_MACOS)
     MacUtils::showDockIcon(false);

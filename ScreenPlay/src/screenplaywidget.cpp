@@ -46,11 +46,18 @@ ScreenPlayWidget::ScreenPlayWidget(
         m_projectSettingsListModel.init(type, projectSettingsListModelProperties);
 
     m_appArgumentsList = QStringList {
+        "--path",
         m_absolutePath,
-        QString { "appID=" + m_appID },
+        "--appID",
+        m_appID,
+        "--type",
         QVariant::fromValue(m_type).toString(),
+        "--posX",
         QString::number(m_position.x()),
+        "--posY",
         QString::number(m_position.y()),
+        "--debug",
+        "--false",
     };
 }
 

@@ -150,12 +150,8 @@ def main():
     else:
         raise NotImplementedError("Unknown system: {}".format(system()))
     
-    if vcpkg_path.exists():
-        print(f"Deleting exisitng vcpkg: {vcpkg_path}")
-        shutil.rmtree(str(vcpkg_path))
-        
     print(f"Clone into {vcpkg_path}")
-    execute("git clone --depth 1  https://github.com/microsoft/vcpkg vcpkg",
+    execute("git clone https://github.com/microsoft/vcpkg vcpkg",
             project_source_parent_path, True)
     execute("git fetch", vcpkg_path)
     execute(f"git checkout {defines.VCPKG_VERSION}", vcpkg_path)
