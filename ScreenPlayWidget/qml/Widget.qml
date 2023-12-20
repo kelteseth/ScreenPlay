@@ -76,10 +76,10 @@ Item {
         asynchronous: true
         Component.onCompleted: {
             switch (Widget.type) {
-            case ContentTypes.InstalledType.QMLWidget:
+            case Util.ContentTypes.InstalledType.QMLWidget:
                 loader.source = Qt.resolvedUrl(Widget.projectSourceFileAbsolute);
                 break;
-            case ContentTypes.InstalledType.HTMLWidget:
+            case Util.ContentTypes.InstalledType.HTMLWidget:
                 loader.sourceComponent = webViewComponent;
                 break;
             }

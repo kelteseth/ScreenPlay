@@ -133,6 +133,7 @@ if(${SCREENPLAY_STEAM})
         configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${MACOS_FRAMEWORKS_DIR} COPYONLY)
         configure_file(${STEAM_BIN} ${MACOS_FRAMEWORKS_DIR} COPYONLY)
     else()
+        configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
         configure_file(${STEAM_BIN} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
     endif()
 

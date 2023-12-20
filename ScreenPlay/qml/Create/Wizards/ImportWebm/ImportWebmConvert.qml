@@ -38,44 +38,44 @@ Item {
     Connections {
         function onCreateWallpaperStateChanged(state) {
             switch (state) {
-            case ImportVideoState.AnalyseVideo:
+            case Import.State.AnalyseVideo:
                 txtConvert.text = qsTr("AnalyseVideo...");
                 break;
-            case ImportVideoState.ConvertingPreviewImage:
+            case Import.State.ConvertingPreviewImage:
                 txtConvert.text = qsTr("Generating preview image...");
                 break;
-            case ImportVideoState.ConvertingPreviewThumbnailImage:
+            case Import.State.ConvertingPreviewThumbnailImage:
                 txtConvert.text = qsTr("Generating preview thumbnail image...");
                 break;
-            case ImportVideoState.ConvertingPreviewImageFinished:
+            case Import.State.ConvertingPreviewImageFinished:
                 imgPreview.source = "file:///" + App.create.workingDir + "/preview.jpg";
                 imgPreview.visible = true;
                 break;
-            case ImportVideoState.ConvertingPreviewVideo:
+            case Import.State.ConvertingPreviewVideo:
                 txtConvert.text = qsTr("Generating 5 second preview video...");
                 break;
-            case ImportVideoState.ConvertingPreviewGif:
+            case Import.State.ConvertingPreviewGif:
                 txtConvert.text = qsTr("Generating preview gif...");
                 break;
-            case ImportVideoState.ConvertingPreviewGifFinished:
+            case Import.State.ConvertingPreviewGifFinished:
                 gifPreview.source = "file:///" + App.create.workingDir + "/preview.gif";
                 imgPreview.visible = false;
                 gifPreview.visible = true;
                 gifPreview.playing = true;
                 break;
-            case ImportVideoState.ConvertingAudio:
+            case Import.State.ConvertingAudio:
                 txtConvert.text = qsTr("Converting Audio...");
                 break;
-            case ImportVideoState.ConvertingVideo:
+            case Import.State.ConvertingVideo:
                 txtConvert.text = qsTr("Converting Video... This can take some time!");
                 break;
-            case ImportVideoState.ConvertingVideoError:
+            case Import.State.ConvertingVideoError:
                 txtConvert.text = qsTr("Converting Video ERROR!");
                 break;
-            case ImportVideoState.AnalyseVideoError:
+            case Import.State.AnalyseVideoError:
                 txtConvert.text = qsTr("Analyse Video ERROR!");
                 break;
-            case ImportVideoState.Finished:
+            case Import.State.Finished:
                 txtConvert.text = "";
                 conversionFinishedSuccessful = true;
                 busyIndicator.running = false;

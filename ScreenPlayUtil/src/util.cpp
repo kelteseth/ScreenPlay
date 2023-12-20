@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "ScreenPlayUtil/util.h"
 #include "qguiapplication.h"
+
 #include <QDesktopServices>
 #include <QFile>
 #include <QJsonParseError>
 #include <QRandomGenerator>
 
+#include "core/qcoroprocess.h"
 /*!
     \module ScreenPlayUtil
     \title ScreenPlayUtil
