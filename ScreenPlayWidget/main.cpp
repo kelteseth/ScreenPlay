@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
             QStringList {
                 // Docs: Don't forget that arguments must start with the name of the executable (ignored, though).
                 QGuiApplication::applicationName(),
-                "--path", projectPath,
+                "--projectpath", projectPath,
                 "--appID", "qmz9lq4wglox5DdYaXumVgRSDeZYAUjC",
                 "--type", type,
                 "--posX", QString::number(center.x()),
@@ -81,7 +81,7 @@ int main(int argc, char* argv[])
     QCommandLineParser parser;
     parser.setApplicationDescription("ScreenPlay Widget");
     parser.addHelpOption();
-    QCommandLineOption pathOption("path", "Project path", "path");
+    QCommandLineOption pathOption("projectpath", "Project path", "projectpath");
     QCommandLineOption appIDOption("appID", "Application ID", "appid");
     QCommandLineOption typeOption("type", "Content type", "type");
     QCommandLineOption posXOption("posX", "X position", "positionX");

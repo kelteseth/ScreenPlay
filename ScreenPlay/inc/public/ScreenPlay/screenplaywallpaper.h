@@ -207,9 +207,6 @@ public slots:
     }
 
 private:
-    bool exportGodotProject();
-
-private:
     const std::shared_ptr<GlobalVariables> m_globalVariables;
     std::unique_ptr<SDKConnection> m_connection;
     const std::shared_ptr<Settings> m_settings;
@@ -219,7 +216,7 @@ private:
     QVector<int> m_screenNumber;
     QProcess m_process;
     QString m_previewImage;
-    ContentTypes::InstalledType m_type;
+    ContentTypes::InstalledType m_type { ContentTypes::InstalledType::Unknown };
     Video::FillMode m_fillMode;
     QString m_appID;
     QString m_absolutePath;

@@ -43,7 +43,6 @@ int main(int argc, char* argv[])
     QCoreApplication::setApplicationVersion("1.0");
     std::unique_ptr<const ScreenPlayUtil::LoggingHandler> logging;
     std::unique_ptr<BaseWindow> window;
-    const auto platformName = QGuiApplication::platformName();
 
 #if defined(Q_OS_WIN)
     window = std::make_unique<WinWindow>();
@@ -78,7 +77,7 @@ int main(int argc, char* argv[])
             QStringList {
                 // Docs: Don't forget that arguments must start with the name of the executable (ignored, though).
                 QGuiApplication::applicationName(),
-                "--path", projectPath,
+                "--projectpath", projectPath,
                 "--appID", "qmz9lq4wglox5DdYaXumVgRSDeZYAUjC",
                 "--screens", "{0}",
                 "--volume", "1",
@@ -94,7 +93,7 @@ int main(int argc, char* argv[])
     parser.addHelpOption();
 
     // Define the command line options
-    QCommandLineOption pathOption("path", "Set the project path.", "path");
+    QCommandLineOption pathOption("projectpath", "Set the project path.", "projectpath");
     QCommandLineOption appIDOption("appID", "Set the application ID.", "appID");
     QCommandLineOption screensOption("screens", "Set screens parameter.", "screens");
     QCommandLineOption volumeOption("volume", "Set volume level.", "volume");

@@ -87,7 +87,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
 
     m_appArgumentsList = QStringList {
         "--screens", screens,
-        "--path", m_absolutePath,
+        "--projectpath", m_absolutePath,
         "--appID", m_appID,
         "--volume", QString::number(static_cast<double>(volume)),
         "--fillmode", QVariant::fromValue(fillMode).toString(),
@@ -110,10 +110,6 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
 
 bool ScreenPlayWallpaper::start()
 {
-    if (m_type == ContentTypes::InstalledType::GodotWallpaper) {
-        if (!exportGodotProject())
-            return false;
-    }
 
     m_process.setArguments(m_appArgumentsList);
     if (m_type == ContentTypes::InstalledType::GodotWallpaper) {
@@ -307,80 +303,6 @@ bool ScreenPlayWallpaper::replace(
     const bool success = m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
     emit requestSave();
     return success;
-}
-
-/*!
-    \brief .
-*/
-bool ScreenPlayWallpaper::exportGodotProject()
-{
-    if (!m_projectJson.contains("version"))
-        return false;
-
-    const quint64 version = m_projectJson.value("version").toInt();
-    const QString packageFileName = QString("project-v%1.zip").arg(version);
-    QFileInfo godotPackageFile(m_absolutePath + "/" + packageFileName);
-    // Skip reexport
-    if (godotPackageFile.exists())
-        return true;
-
-    qInfo() << "No suitable version found for Godot package" << packageFileName << " at" << godotPackageFile.absoluteFilePath() << " exporting a new pck as zip.";
-
-    // Prepare the Godot export command
-    const QList<QString>
-        godotCmd
-        = { "--export-pack", "--headless", "Windows Desktop", packageFileName };
-
-    // Create QProcess instance to run the command
-    QProcess process;
-
-    // Set the working directory to the given absolute path
-    process.setWorkingDirectory(m_absolutePath);
-    process.setProgram(m_globalVariables->godotEditorExecutablePath().toString());
-    // Start the Godot export process
-    process.setArguments(godotCmd);
-    process.start();
-
-    // Wait for the process to finish or timeout
-    const int timeoutMilliseconds = 30000;
-    if (!process.waitForFinished(timeoutMilliseconds)) {
-        qCritical() << "Godot export process timed out or failed to start.";
-        return false;
-    }
-
-    // Capture the standard output and error
-    QString stdoutString = process.readAllStandardOutput();
-    QString stderrString = process.readAllStandardError();
-
-    // If you want to print the output to the console:
-    if (!stdoutString.isEmpty())
-        qDebug() << "Output:" << stdoutString;
-    if (!stderrString.isEmpty())
-        qDebug() << "Error:" << stderrString;
-
-    // Check for errors
-    if (process.exitStatus() != QProcess::NormalExit || process.exitCode() != 0) {
-        qCritical() << "Failed to export Godot project. Error:" << process.errorString();
-        return false;
-    }
-
-    // Check if the project.zip file was created
-    QString zipPath = QDir(m_absolutePath).filePath(packageFileName);
-    if (!QFile::exists(zipPath)) {
-        qCritical() << "Expected export file (" << packageFileName << ") was not created.";
-        return false;
-    }
-
-    // Optional: Verify if the .zip file is valid
-    // (A complete verification would involve extracting the file and checking its contents,
-    // but for simplicity, we're just checking its size here)
-    QFileInfo zipInfo(zipPath);
-    if (zipInfo.size() <= 0) {
-        qCritical() << "The exported " << packageFileName << " file seems to be invalid.";
-        return false;
-    }
-
-    return true;
 }
 }
 

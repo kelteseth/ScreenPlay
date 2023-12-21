@@ -123,7 +123,7 @@ private:
     QString m_previewImage;
     QString m_appID;
     QPoint m_position;
-    ContentTypes::InstalledType m_type;
+    ContentTypes::InstalledType m_type { ContentTypes::InstalledType::Unknown };
     QString m_absolutePath;
     QTimer m_pingAliveTimer;
     QStringList m_appArgumentsList;

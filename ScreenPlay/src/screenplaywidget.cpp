@@ -46,7 +46,7 @@ ScreenPlayWidget::ScreenPlayWidget(
         m_projectSettingsListModel.init(type, projectSettingsListModelProperties);
 
     m_appArgumentsList = QStringList {
-        "--path",
+        "--projectpath",
         m_absolutePath,
         "--appID",
         m_appID,

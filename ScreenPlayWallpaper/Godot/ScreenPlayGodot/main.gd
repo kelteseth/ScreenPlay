@@ -94,7 +94,7 @@ func parse_args():
 	
 	# Check if only the default argument is provided
 	if args.size() == 1:
-		args = ["--path", 
+		args = ["--projectpath", 
 				#"C:/Code/cpp/ScreenPlay/ScreenPlay/Content/wallpaper_godot_fjord", 
 				"C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/2023_12_08_205323",
 				"--appID", "qmz9lq4wglox5DdYaXumVgRSDeZYAUjC", 
@@ -124,7 +124,7 @@ func parse_args():
 		i += 1
 
 	# Check for all required arguments
-	var required_args = ["screens", "path", "appID", "volume", "check", "projectPackageFile"]
+	var required_args = ["screens", "projectpath", "appID", "volume", "check", "projectPackageFile"]
 	for req_arg in required_args:
 		if not arg_dict.has(req_arg):
 			print("Missing argument:", req_arg)
@@ -147,7 +147,7 @@ func parse_args():
 		return false
 
 	# Assign the values to the respective properties
-	screen_play_wallpaper.set_projectPath(arg_dict["path"])
+	screen_play_wallpaper.set_projectPath(arg_dict["projectpath"])
 	screen_play_wallpaper.set_appID(arg_dict["appID"])
 	screen_play_wallpaper.set_volume(float(arg_dict["volume"]))
 	screen_play_wallpaper.set_projectPackageFile(arg_dict["projectPackageFile"])
