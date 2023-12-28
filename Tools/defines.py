@@ -30,7 +30,6 @@ VCPKG_VERSION = "2a6371b01420d8820d158b4707e79931feba27aa"
 VCPKG_BASE_PACKAGES =  [
         "curl",
         "openssl",
-        "cpp-httplib",
         "libarchive",
         "fmt",
         "catch2"

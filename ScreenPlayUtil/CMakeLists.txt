@@ -48,7 +48,6 @@ set(SOURCES
     src/archive.cpp
     src/contenttypes.cpp
     src/exitcodes.cpp
-    src/httpfileserver.cpp
     src/logginghandler.cpp
     src/projectfile.cpp
     src/steamenumsgenerated.cpp
@@ -61,7 +60,6 @@ set(HEADER
     inc/public/ScreenPlayUtil/contenttypes.h
     inc/public/ScreenPlayUtil/exitcodes.h
     inc/public/ScreenPlayUtil/HelpersCommon.h
-    inc/public/ScreenPlayUtil/httpfileserver.h
     inc/public/ScreenPlayUtil/ListPropertyHelper.h
     inc/public/ScreenPlayUtil/logginghandler.h
     inc/public/ScreenPlayUtil/projectfile.h
@@ -97,9 +95,6 @@ qt_add_qml_module(
     ${QML}
     RESOURCES
     ${RESOURCES})
-
-find_path(CPP_HTTPLIB_INCLUDE_DIRS "httplib.h")
-target_include_directories(${PROJECT_NAME} PUBLIC ${CPP_HTTPLIB_INCLUDE_DIRS})
 
 target_include_directories(
     ${PROJECT_NAME}
