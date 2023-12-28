@@ -69,12 +69,13 @@ bool ScreenPlayWidget::start()
     QObject::connect(&m_process, &QProcess::errorOccurred, this, [](QProcess::ProcessError error) {
         qDebug() << "error: " << error;
     });
-    const bool success = m_process.startDetached();
+    const bool success = m_process.startDetached(&m_processID);
     qInfo() << "Starting ScreenPlayWidget detached: " << (success ? "success" : "failed!");
     if (!success) {
         emit error(QString("Could not start Widget: " + m_process.errorString()));
         return false;
     }
+    emit processIDChanged(m_processID);
     return success;
 }
 

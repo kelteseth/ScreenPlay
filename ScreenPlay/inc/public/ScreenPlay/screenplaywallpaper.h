@@ -16,6 +16,7 @@
 #include "ScreenPlay/projectsettingslistmodel.h"
 #include "ScreenPlay/sdkconnection.h"
 #include "ScreenPlay/settings.h"
+#include "ScreenPlayUtil/processmanager.h"
 
 namespace ScreenPlay {
 
@@ -35,6 +36,7 @@ class ScreenPlayWallpaper : public QObject {
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
     Q_PROPERTY(Video::FillMode fillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged)
     Q_PROPERTY(ContentTypes::InstalledType type READ type WRITE setType NOTIFY typeChanged)
+    Q_PROPERTY(qint64 processID READ processID WRITE setProcessID NOTIFY processIDChanged FINAL)
 
 public:
     explicit ScreenPlayWallpaper(
@@ -79,6 +81,7 @@ public:
     ProjectSettingsListModel* getProjectSettingsListModel() { return &m_projectSettingsListModel; }
     float playbackRate() const { return m_playbackRate; }
     bool isConnected() const { return m_isConnected; }
+    qint64 processID() const { return m_processID; }
 
 signals:
     void screenNumberChanged(QVector<int> screenNumber);
@@ -92,12 +95,12 @@ signals:
     void volumeChanged(float volume);
     void isLoopingChanged(bool isLooping);
     void playbackRateChanged(float playbackRate);
+    void isConnectedChanged(bool isConnected);
+    void processIDChanged(qint64 processID);
 
     void requestSave();
     void requestClose(const QString& appID);
     void error(const QString& msg);
-
-    void isConnectedChanged(bool isConnected);
 
 public slots:
     void close();
@@ -206,11 +209,20 @@ public slots:
         emit isConnectedChanged(m_isConnected);
     }
 
+    void setProcessID(qint64 processID)
+    {
+        if (m_processID == processID)
+            return;
+        m_processID = processID;
+        emit processIDChanged(m_processID);
+    }
+
 private:
     const std::shared_ptr<GlobalVariables> m_globalVariables;
     std::unique_ptr<SDKConnection> m_connection;
     const std::shared_ptr<Settings> m_settings;
 
+    ProcessManager m_processManager;
     ProjectSettingsListModel m_projectSettingsListModel;
     QJsonObject m_projectJson;
     QVector<int> m_screenNumber;
@@ -230,5 +242,6 @@ private:
     // There are still cases where we can access the current item
     // while exiting. This flag is to ignore all setWallpaperValue calls
     bool m_isExiting { false };
+    qint64 m_processID { 0 };
 };
 }

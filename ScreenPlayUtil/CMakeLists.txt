@@ -43,8 +43,8 @@ set(QML
     qml/TextField.qml)
 
 set(SOURCES
-
     # cmake-format: sort
+    src/processmanager.cpp
     src/archive.cpp
     src/contenttypes.cpp
     src/exitcodes.cpp
@@ -54,8 +54,8 @@ set(SOURCES
     src/util.cpp)
 
 set(HEADER
-
     # cmake-format: sort
+    inc/public/ScreenPlayUtil/processmanager.h
     inc/public/ScreenPlayUtil/archive.h
     inc/public/ScreenPlayUtil/contenttypes.h
     inc/public/ScreenPlayUtil/exitcodes.h

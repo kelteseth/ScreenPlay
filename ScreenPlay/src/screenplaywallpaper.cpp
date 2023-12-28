@@ -110,8 +110,6 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
 
 bool ScreenPlayWallpaper::start()
 {
-
-    m_process.setArguments(m_appArgumentsList);
     if (m_type == ContentTypes::InstalledType::GodotWallpaper) {
         m_process.setProgram(m_globalVariables->godotWallpaperExecutablePath().toString());
     } else {
@@ -121,7 +119,9 @@ bool ScreenPlayWallpaper::start()
     // We must start detatched otherwise we would instantly close the process
     // and would loose the animted fade-out and the background refresh needed
     // to display the original wallpaper.
-    const bool success = m_process.startDetached();
+    m_process.setArguments(m_appArgumentsList);
+    const bool success = m_process.startDetached(&m_processID);
+    emit processIDChanged(m_processID);
     qInfo() << "Starting ScreenPlayWallpaper detached: " << (success ? "success" : "failed!") << m_process.program();
     qInfo() << m_appArgumentsList;
     if (!success) {
@@ -257,6 +257,7 @@ void ScreenPlayWallpaper::setSDKConnection(std::unique_ptr<SDKConnection> connec
         });
         m_pingAliveTimer.start(GlobalVariables::contentPingAliveIntervalMS);
     });
+
     // Check every X seconds if the wallpaper is still alive
     QObject::connect(m_connection.get(), &SDKConnection::pingAliveReceived, this, [this]() {
         m_pingAliveTimer.stop();

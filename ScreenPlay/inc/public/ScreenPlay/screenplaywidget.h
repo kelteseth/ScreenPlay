@@ -13,10 +13,9 @@
 #include "ScreenPlay/globalvariables.h"
 #include "ScreenPlay/projectsettingslistmodel.h"
 #include "ScreenPlay/sdkconnection.h"
-#include "ScreenPlayUtil/util.h"
+#include "ScreenPlayUtil/processmanager.h"
 
 #include <memory>
-#include <utility>
 
 namespace ScreenPlay {
 
@@ -30,6 +29,7 @@ class ScreenPlayWidget : public QObject {
     Q_PROPERTY(QPoint position READ position WRITE setPosition NOTIFY positionChanged)
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
     Q_PROPERTY(ContentTypes::InstalledType type READ type WRITE setType NOTIFY typeChanged)
+    Q_PROPERTY(qint64 processID READ processID WRITE setProcessID NOTIFY processIDChanged FINAL)
 
 public:
     explicit ScreenPlayWidget(
@@ -49,6 +49,7 @@ public:
     QString absolutePath() const { return m_absolutePath; }
     QString appID() const { return m_appID; }
     ContentTypes::InstalledType type() const { return m_type; }
+    qint64 processID() const { return m_processID; }
 
     void setSDKConnection(std::unique_ptr<SDKConnection> connection);
 
@@ -103,6 +104,13 @@ public slots:
         emit absolutePathChanged(m_absolutePath);
     }
 
+    void setProcessID(qint64 processID)
+    {
+        if (m_processID == processID)
+            return;
+        m_processID = processID;
+        emit processIDChanged(m_processID);
+    }
 signals:
     void previewImageChanged(QString previewImage);
     void positionChanged(QPoint position);
@@ -114,11 +122,14 @@ signals:
     void requestClose(const QString& appID);
     void error(const QString& msg);
 
+    void processIDChanged(qint64 processID);
+
 private:
     const std::shared_ptr<GlobalVariables> m_globalVariables;
     std::unique_ptr<SDKConnection> m_connection;
     ProjectSettingsListModel m_projectSettingsListModel;
 
+    ProcessManager m_processManager;
     QProcess m_process;
     QString m_previewImage;
     QString m_appID;
@@ -127,5 +138,6 @@ private:
     QString m_absolutePath;
     QTimer m_pingAliveTimer;
     QStringList m_appArgumentsList;
+    qint64 m_processID { 0 };
 };
 }
