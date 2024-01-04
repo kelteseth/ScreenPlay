@@ -353,8 +353,10 @@ Item {
         modalSource: root.modalSource
         closePolicy: Popup.NoAutoClose
         onOpened: {
-            const success = App.util.exportProject(exportFileDialog.absoluteStoragePath, exportFileDialog.currentFile);
+            const success = archive.exportProject(exportFileDialog.absoluteStoragePath, exportFileDialog.currentFile);
         }
+
+
         onClosed: exportProgressBar.value = 0
         ColumnLayout {
             width: parent.width
@@ -376,7 +378,7 @@ Item {
         }
         Connections {
             id: exportConnections
-            target: App.util
+            target: archive
             function onCompressionProgressChanged(file, proc, total, br, bt) {
                 exportProgressBar.value = (br * 100 / bt);
             }
@@ -394,6 +396,10 @@ Item {
             right: parent.right
             left: parent.left
         }
+    }
+
+    Util.Archive {
+        id:archive
     }
 
     DropArea {
@@ -444,7 +450,7 @@ Item {
             closePolicy: Popup.NoAutoClose
             onClosed: importProgressBar.value = 0
             onOpened: {
-                const success = App.util.importProject(dropArea.filePath, App.globalVariables.localStoragePath);
+                const success = archive.importProject(dropArea.filePath, App.globalVariables.localStoragePath);
                 print("finished", success);
                 dropArea.filePath = "";
             }
@@ -466,7 +472,7 @@ Item {
                 }
                 Connections {
                     id: importConnections
-                    target: App.util
+                    target: archive
                     function onExtractionProgressChanged(file, proc, total, br, bt) {
                         importProgressBar.value = (br * 100 / bt);
                     }
