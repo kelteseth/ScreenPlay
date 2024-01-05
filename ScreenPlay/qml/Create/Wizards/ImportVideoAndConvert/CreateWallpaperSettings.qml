@@ -74,13 +74,14 @@ Item {
 
                     ListElement {
                         value: Video.VideoCodec.VP9
-                        text: qsTr("VP8 (Better for older hardware)")
+                        text: qsTr("VP9 (Better for newer hardware 2018+)")
                     }
 
                     ListElement {
                         value: Video.VideoCodec.VP8
-                        text: qsTr("VP9 (Better for newer hardware 2018+)")
+                        text: qsTr("VP8 (Better for older hardware)")
                     }
+
                 }
             }
         }
