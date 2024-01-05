@@ -64,16 +64,11 @@ set(QML
     qml/Create/Wizards/GodotWallpaper.qml
     qml/Create/Wizards/HTMLWallpaper.qml
     qml/Create/Wizards/HTMLWidget.qml
-    qml/Create/Wizards/Importh264/Importh264.qml
-    qml/Create/Wizards/Importh264/Importh264Convert.qml
-    qml/Create/Wizards/Importh264/Importh264Init.qml
     qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml
-    qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml
+    qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperFileSelect.qml
+    qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperSettings.qml
     qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml
     qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml
-    qml/Create/Wizards/ImportWebm/ImportWebm.qml
-    qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml
-    qml/Create/Wizards/ImportWebm/ImportWebmInit.qml
     qml/Create/Wizards/QMLWallpaper.qml
     qml/Create/Wizards/QMLWidget.qml
     qml/Create/Wizards/WebsiteWallpaper.qml

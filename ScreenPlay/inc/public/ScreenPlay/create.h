@@ -34,7 +34,6 @@ class Create : public QObject {
     Q_OBJECT
     QML_ELEMENT
     QML_UNCREATABLE("")
-    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
 
     Q_PROPERTY(QString workingDir READ workingDir WRITE setWorkingDir NOTIFY workingDirChanged)
     Q_PROPERTY(float progress READ progress WRITE setProgress NOTIFY progressChanged)
@@ -45,13 +44,22 @@ public:
 
     Create();
 
-    enum class VideoCodec {
-        VP8,
-        VP9,
-        AV1,
-        H264
-    };
-    Q_ENUM(VideoCodec)
+    Q_INVOKABLE void cancel();
+
+    Q_INVOKABLE void createWallpaperStart(
+        QString videoPath,
+        ScreenPlay::Video::VideoCodec codec,
+        const int quality = 50);
+
+    Q_INVOKABLE void saveWallpaper(const QString title,
+        const QString description,
+        QString filePath,
+        QString previewImagePath,
+        const QString youtube,
+        const ScreenPlay::Video::VideoCodec codec,
+        const QVector<QString> tags);
+
+    Q_INVOKABLE void abortAndCleanup();
 
     float progress() const { return m_progress; }
     QString workingDir() const { return m_workingDir; }
@@ -68,22 +76,6 @@ signals:
     void finished();
 
 public slots:
-    void cancel();
-
-    void createWallpaperStart(QString videoPath, Create::VideoCodec codec = Create::VideoCodec::VP9, const int quality = 50);
-
-    void importH264(QString videoPath);
-
-    void saveWallpaper(const QString title,
-        const QString description,
-        QString filePath,
-        QString previewImagePath,
-        const QString youtube,
-        const ScreenPlay::Create::VideoCodec codec,
-        const QVector<QString> tags);
-
-    void abortAndCleanup();
-
     void setProgress(float progress)
     {
         if (qFuzzyCompare(m_progress, progress))

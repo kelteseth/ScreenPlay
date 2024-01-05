@@ -19,18 +19,20 @@ Item {
         anchors.fill: parent
         interactive: false
         clip: true
-
-        CreateWallpaperInit {
-            onNext: function (filePath, codec) {
-                startConvert(filePath, codec);
+        CreateWallpaperFileSelect {
+            onNext: function (filePath) {
+                createWallpaperVideoImportConvert.filePath = filePath
+                swipeView.currentIndex = 1
             }
+        }
 
-            function startConvert(filePath, codec) {
-                root.wizardStarted();
-                swipeView.currentIndex = 1;
-                createWallpaperVideoImportConvert.codec = codec;
-                createWallpaperVideoImportConvert.filePath = filePath;
-                App.create.createWallpaperStart(filePath, codec, quality);
+        CreateWallpaperSettings {
+            id: createWallpaperSettings
+            onNext: function (codec,quality) {
+                root.wizardStarted()
+                swipeView.currentIndex = 2
+                createWallpaperVideoImportConvert.codec = codec
+                App.create.createWallpaperStart(createWallpaperVideoImportConvert.filePath, codec, quality)
             }
         }
 
@@ -40,7 +42,6 @@ Item {
             onAbort: root.wizardExited()
         }
 
-        CreateWallpaperResult {
-        }
+        CreateWallpaperResult {}
     }
 }

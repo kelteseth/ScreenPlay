@@ -12,7 +12,7 @@ Item {
     property string iconSource: "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume.svg"
     property alias slider: slider
 
-    height: 70
+    height: 80
 
     Text {
         id: txtHeadline
@@ -40,7 +40,7 @@ Item {
             left: parent.left
         }
 
-        Image {
+        ColorImage {
             id: imgIcon
 
             width: 20

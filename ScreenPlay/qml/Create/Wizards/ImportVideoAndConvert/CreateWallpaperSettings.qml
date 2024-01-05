@@ -14,7 +14,7 @@ Item {
 
     property int quality: sliderQuality.slider.value
 
-    signal next(var filePath, var codec)
+    signal next(var codec, var quality)
 
     ColumnLayout {
         spacing: 40
@@ -29,14 +29,13 @@ Item {
         Util.Headline {
             Layout.alignment: Qt.AlignTop
             Layout.fillWidth: true
-            text: qsTr("Import any video type")
+            text: qsTr("Import Video Wallpaper - Select Codec")
         }
 
         Text {
             id: txtDescription
 
-            text: qsTr("Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper! Supported video formats are: \n
-*.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv")
+            text: qsTr("Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. We skip encoding if the input format matches the ouput format.")
             color: Material.primaryTextColor
             Layout.fillWidth: true
             font.pointSize: 13
@@ -63,11 +62,15 @@ Item {
                 Layout.preferredWidth: 400
                 textRole: "text"
                 valueRole: "value"
-                currentIndex: 1
+                currentIndex: 0
                 font.family: App.settings.font
 
                 model: ListModel {
                     id: model
+                    ListElement {
+                        text: "✨h.264 (Better for all hardware)"
+                        value: Util.Video.VideoCodec.H264
+                    }
 
                     ListElement {
                         text: "VP8 (Better for older hardware)"
@@ -86,7 +89,7 @@ Item {
             id: sliderQuality
 
             iconSource: "qrc:/qml/ScreenPlayApp/assets/icons/icon_settings.svg"
-            headline: qsTr("Quality slider. Lower value means better quality.")
+            headline: qsTr("Set video quality. Lower value means better quality.")
             Layout.preferredWidth: 400
 
             slider {
@@ -107,7 +110,8 @@ Item {
         icon.width: 16
         icon.height: 16
         font.family: App.settings.font
-        onClicked: Qt.openUrlExternally("https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/#performance")
+        onClicked: Qt.openUrlExternally(
+                       "https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/#performance")
 
         anchors {
             bottom: parent.bottom
@@ -116,23 +120,15 @@ Item {
     }
 
     Button {
-        objectName: "createWallpaperInitFileSelectButton"
-        text: qsTr("Select file")
+        objectName: "createWallpaperStartImportButton"
+        text: qsTr("Start import")
         highlighted: true
         font.family: App.settings.font
         onClicked: {
-            fileDialogImportVideo.open();
+            let a = Util.Video.VideoCodec.H264
+            let targetCodec = comboBoxCodec.currentValue
+            root.next(a, sliderQuality.slider.value)
         }
-
-        FileDialog {
-            id: fileDialogImportVideo
-
-            nameFilters: ["Video files (*.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv)"]
-            onAccepted: {
-                root.next(fileDialogImportVideo.currentFile, model.get(comboBoxCodec.currentIndex).value);
-            }
-        }
-
         anchors {
             right: parent.right
             bottom: parent.bottom

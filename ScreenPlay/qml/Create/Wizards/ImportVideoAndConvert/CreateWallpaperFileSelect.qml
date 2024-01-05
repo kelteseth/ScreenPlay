@@ -11,6 +11,7 @@ import "../../"
 
 Item {
     id: root
+    property var allowedVideoFileEndings: ["*.webm", "*.mkv", "*.mp4", "*.mpg", "*.mp2", "*.mpeg", "*.ogv", "*.avi", "*.wmv", "*.m4v", "*.3gp"]
 
     signal next(var filePath)
 
@@ -29,7 +30,7 @@ Item {
 
         Util.Headline {
             Layout.fillWidth: true
-            text: qsTr("Import a .webm video")
+            text: qsTr("Import Video Wallpaper")
         }
 
         RowLayout {
@@ -42,37 +43,37 @@ Item {
                 Layout.fillHeight: true
                 spacing: 40
 
-                Text {
-                    id: txtDescription
-
-                    text: qsTr("When importing webm we can skip the long conversion. When you get unsatisfying results with the ScreenPlay importer from 'ideo import and convert (all types)' you can also convert via the free and open source HandBrake!")
-                    color: Material.primaryTextColor
-                    Layout.fillWidth: true
-                    font.pointSize: 13
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                    font.family: App.settings.font
-                }
-
                 DropArea {
                     id: dropArea
 
                     Layout.fillHeight: true
                     Layout.fillWidth: true
                     onExited: {
-                        bg.color = Qt.darker(Material.backgroundColor);
+                        bg.color = Qt.darker(Material.backgroundColor)
                     }
-                    onEntered: {
-                        bg.color = Qt.darker(Qt.darker(Material.backgroundColor));
-                        drag.accept(Qt.LinkAction);
-                    }
-                    onDropped: {
-                        let file = App.util.toLocal(drop.urls[0]);
-                        bg.color = Qt.darker(Qt.darker(Material.backgroundColor));
-                        if (file.endsWith(".webm"))
-                            root.next(drop.urls[0]);
-                        else
-                            txtFile.text = qsTr("Invalid file type. Must be valid VP8 or VP9 (*.webm)!");
-                    }
+                    onEntered: drag => {
+                                   bg.color = Qt.darker(
+                                       Qt.darker(Material.backgroundColor))
+                                   drag.accept(Qt.LinkAction)
+                               }
+                    onDropped: drop => {
+                                   let file = App.util.toLocal(drop.urls[0])
+                                   bg.color = Qt.darker(
+                                       Qt.darker(Material.backgroundColor))
+                                   let found = false
+                                   for (let ending in root.allowedVideoFileEndings) {
+                                       if (file.endsWith(ending)) {
+                                           found = true
+                                           break
+                                       }
+                                   }
+                                   if (found) {
+                                       root.next(drop.urls[0])
+                                   } else {
+                                       txtFile.text = qsTr(
+                                           "Invalid file type. Must be valid video!")
+                                   }
+                               }
 
                     Rectangle {
                         id: bg
@@ -94,7 +95,8 @@ Item {
                     Text {
                         id: txtFile
 
-                        text: qsTr("Drop a *.webm file here or use 'Select file' below.")
+                        text: qsTr("Drag and drop your video here. Supported video formats are:\n\n%1").arg(
+                                  root.allowedVideoFileEndings.join(" "))
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                         color: Material.primaryTextColor
                         font.pointSize: 13
@@ -123,7 +125,8 @@ Item {
         icon.width: 16
         icon.height: 16
         font.family: App.settings.font
-        onClicked: Qt.openUrlExternally("https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/#performance")
+        onClicked: Qt.openUrlExternally(
+                       "https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/#performance")
 
         anchors {
             bottom: parent.bottom
@@ -137,15 +140,15 @@ Item {
         highlighted: true
         font.family: App.settings.font
         onClicked: {
-            fileDialogImportVideo.open();
+            fileDialogImportVideo.open()
         }
 
         FileDialog {
             id: fileDialogImportVideo
 
-            nameFilters: ["Video files (*.webm)"]
+            nameFilters: ["Video files (*.mp4)"]
             onAccepted: {
-                root.next(fileDialogImportVideo.currentFile);
+                root.next(fileDialogImportVideo.currentFile)
             }
         }
 

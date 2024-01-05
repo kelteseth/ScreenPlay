@@ -5,9 +5,6 @@
 #include <QQmlEngine>
 #include <QtCore/qmetatype.h>
 
-// We must package everything into a class for
-// qml to be able to have typed enums. Making
-// qml enums unscoped as default was a mistake.
 namespace ScreenPlay {
 
 class ContentTypes : public QObject {

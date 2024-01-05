@@ -17,7 +17,7 @@ Rectangle {
     property alias model: listView.model
     property StackView stackView
 
-    width: 380
+    width: 340
     state: expanded ? "" : "inactive"
     layer.enabled: true
     Component.onCompleted: expanded = true
@@ -56,19 +56,7 @@ Rectangle {
             }
 
             ListElement {
-                headline: qsTr("Video Import h264 (.mp4)")
-                source: "qrc:/qml/ScreenPlayApp/qml/Create/Wizards/Importh264/Importh264.qml"
-                category: "Video Wallpaper"
-            }
-
-            ListElement {
-                headline: qsTr("Video Import VP8 & VP9 (.webm)")
-                source: "qrc:/qml/ScreenPlayApp/qml/Create/Wizards/ImportWebm/ImportWebm.qml"
-                category: "Video Wallpaper"
-            }
-
-            ListElement {
-                headline: qsTr("Video import (all types)")
+                headline: qsTr("Import Video")
                 source: "qrc:/qml/ScreenPlayApp/qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml"
                 category: "Video Wallpaper"
                 objectName: "videoImportConvert"
@@ -83,25 +71,25 @@ Rectangle {
             ListElement {
                 headline: qsTr("3D Engine Wallpaper (Godot 4.2)")
                 source: "qrc:/qml/ScreenPlayApp/qml/Create/Wizards/GodotWallpaper.qml"
-                category: "3D Engine & Code Wallpaper"
+                category: "3D Engine & \nCode Wallpaper"
             }
 
             ListElement {
                 headline: qsTr("QML Wallpaper")
                 source: "qrc:/qml/ScreenPlayApp/qml/Create/Wizards/QMLWallpaper.qml"
-                category: "3D Engine & Code Wallpaper"
+                category: "3D Engine & \nCode Wallpaper"
             }
 
             ListElement {
                 headline: qsTr("HTML5 Wallpaper")
                 source: "qrc:/qml/ScreenPlayApp/qml/Create/Wizards/HTMLWallpaper.qml"
-                category: "3D Engine & Code Wallpaper"
+                category: "3D Engine & \nCode Wallpaper"
             }
 
             ListElement {
                 headline: qsTr("Website Wallpaper")
                 source: "qrc:/qml/ScreenPlayApp/qml/Create/Wizards/WebsiteWallpaper.qml"
-                category: "3D Engine & Code Wallpaper"
+                category: "3D Engine & \nCode Wallpaper"
             }
 
             ListElement {
@@ -123,9 +111,10 @@ Rectangle {
         }
 
         section.delegate: Item {
-            height: 60
+            height: headline.contentHeight + 20
 
             Text {
+                id:headline
                 font.pointSize: 18
                 color: Material.primaryTextColor
                 text: section

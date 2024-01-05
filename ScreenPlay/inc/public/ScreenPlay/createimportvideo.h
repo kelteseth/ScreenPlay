@@ -19,6 +19,7 @@
 #include <QtMath>
 
 #include "ScreenPlay/createimportstates.h"
+#include "ScreenPlayUtil/contenttypes.h"
 
 namespace ScreenPlay {
 
@@ -30,8 +31,12 @@ class CreateImportVideo : public QObject {
     Q_PROPERTY(float progress READ progress WRITE setProgress NOTIFY progressChanged)
 
 public:
-    explicit CreateImportVideo(const QString& videoPath, const QString& exportPath, const QString& codec, const int quality, std::atomic<bool>& interrupt);
-    explicit CreateImportVideo(const QString& videoPath, const QString& exportPath, std::atomic<bool>& interrupt);
+    explicit CreateImportVideo(
+        const QString& videoPath,
+        const QString& exportPath,
+        const ScreenPlay::Video::VideoCodec targetCodec,
+        const int quality,
+        std::atomic<bool>& interrupt);
 
     enum class Executable {
         FFMPEG,
@@ -50,7 +55,8 @@ public:
     QString m_videoPath;
     QString m_exportPath;
     QString m_format;
-    QString m_codec;
+    Video::VideoCodec m_targetCodec;
+    Video::VideoCodec m_sourceCodec;
 
     const int m_quality = 50;
     int m_numberOfFrames { 0 };

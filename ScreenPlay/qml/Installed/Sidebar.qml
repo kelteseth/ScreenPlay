@@ -340,9 +340,15 @@ Item {
                     }
                 }
             }
-            MessageDialog {
-                id: errorDialog
-                buttons: MessageDialog.Ok
+
+            Dialog {
+                id: dialog
+                standardButtons: Dialog.Ok
+                title: qsTr("Export Godot project")
+                property alias message: messageText.text
+                Text {
+                    id: messageText
+                }
             }
 
             Button {
@@ -375,21 +381,22 @@ Item {
                                         absoluteStoragePath,
                                         App.globalVariables.godotEditorExecutablePath).then(
                                         result => {
-                                            if(!result.success){
-                                                errorDialog.text = ("Error exporting Godot")
-                                                errorDialog.informativeText   = result.messag
-                                                errorDialog.open()
-                                                return
+                                            if (!result.success) {
+                                                dialog.title = ("Error exporting Godot")
+                                                dialog.message = result.message
+                                                dialog.open()
+                                            } else {
+                                                const screenFile = item.m_file
+                                                let success = App.screenPlayManager.createWallpaper(
+                                                    root.type,
+                                                    cbVideoFillMode.currentValue,
+                                                    absoluteStoragePath,
+                                                    previewImage, screenFile,
+                                                    activeMonitors, volume,
+                                                    1, {}, true)
                                             }
-                                            const screenFile = item.m_file
-                                            let success = App.screenPlayManager.createWallpaper(
-                                                root.type,
-                                                cbVideoFillMode.currentValue,
-                                                absoluteStoragePath,
-                                                previewImage, screenFile,
-                                                activeMonitors, volume,
-                                                1, {}, true)
                                         })
+                            root.state = "inactive"
                             return
                         }
 

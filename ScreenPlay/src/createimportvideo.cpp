@@ -24,7 +24,7 @@ namespace ScreenPlay {
 CreateImportVideo::CreateImportVideo(
     const QString& videoPath,
     const QString& exportPath,
-    const QString& codec,
+    const ScreenPlay::Video::VideoCodec targetCodec,
     const int quality,
     std::atomic<bool>& interrupt)
     : QObject(nullptr)
@@ -33,17 +33,7 @@ CreateImportVideo::CreateImportVideo(
 {
     m_videoPath = videoPath;
     m_exportPath = exportPath;
-    m_codec = codec;
-    setupFFMPEG();
-}
-
-CreateImportVideo::CreateImportVideo(const QString& videoPath, const QString& exportPath, std::atomic<bool>& interrupt)
-    : QObject(nullptr)
-    , m_quality(0)
-    , m_interrupt(interrupt)
-{
-    m_videoPath = videoPath;
-    m_exportPath = exportPath;
+    m_targetCodec = targetCodec;
     setupFFMPEG();
 }
 
@@ -86,10 +76,6 @@ void CreateImportVideo::setupFFMPEG()
  */
 bool CreateImportVideo::createWallpaperInfo()
 {
-    if (m_videoPath.endsWith(".webm") || m_videoPath.endsWith(".mkv")) {
-        m_isWebm = true;
-    }
-
     // Get video info
     QStringList args;
     args.append("-print_format");
@@ -138,12 +124,7 @@ bool CreateImportVideo::createWallpaperInfo()
         emit createWallpaperStateChanged(Import::State::AnalyseVideoError);
         return false;
     }
-
-    if (m_isWebm) {
-        return analyzeWebmReadFrames(obj.value());
-    } else {
-        return analyzeVideo(obj.value());
-    }
+    return analyzeVideo(obj.value());
 }
 
 /*!
@@ -164,6 +145,15 @@ bool CreateImportVideo::analyzeWebmReadFrames(const QJsonObject& obj)
     const QJsonArray streams = obj.value("streams").toArray();
     const QJsonObject firstStream = streams.first().toObject();
     qInfo() << "streams:" << streams;
+
+    for (const auto& stream : streams) {
+        QString codec_type = stream.toObject().value("codec_type").toString();
+        if (codec_type == "audio") {
+            m_skipAudio = false;
+        } else {
+            m_skipAudio = true;
+        }
+    }
 
     bool okParseNumberOfFrames { false };
     int numberOfFrames = firstStream.value("nb_read_frames").toString().toInt(&okParseNumberOfFrames);
@@ -202,6 +192,37 @@ bool CreateImportVideo::analyzeVideo(const QJsonObject& obj)
 {
     // Check for audio and video streams
     const QJsonArray arrayStream = obj.value("streams").toArray();
+    // Get framerate
+    const QJsonArray streams = obj.value("streams").toArray();
+    if (streams.empty()) {
+        qDebug() << "Error container does not have any video streams";
+        emit processOutput("Error container does not have any video streams");
+        return false;
+    }
+
+    const QJsonObject firstStream = streams.first().toObject();
+    const QString codecName = firstStream.value("codec_name").toVariant().toString();
+
+    // It is not that important to check for all codecs,
+    // we just need a check for the important once to skip
+    // import convertion if it is the same codec.
+    if (codecName == "vp8") {
+        m_sourceCodec = Video::VideoCodec::VP8;
+    } else if (codecName == "vp9") {
+        m_sourceCodec = Video::VideoCodec::VP9;
+    } else if (codecName == "av1") {
+        m_sourceCodec = Video::VideoCodec::AV1;
+    } else if (codecName == "h264") {
+        m_sourceCodec = Video::VideoCodec::H264;
+    } else if (codecName == "hevc") {
+        m_sourceCodec = Video::VideoCodec::H265; // HEVC is H.265
+    } else {
+        m_sourceCodec = Video::VideoCodec::Unknown;
+    }
+
+    if (m_sourceCodec == Video::VideoCodec::VP8 || m_sourceCodec == Video::VideoCodec::VP9) {
+        return analyzeWebmReadFrames(obj);
+    }
 
     bool hasAudioStream { false };
     bool hasVideoStream { false };
@@ -256,16 +277,6 @@ bool CreateImportVideo::analyzeVideo(const QJsonObject& obj)
     }
 
     m_length = static_cast<int>(tmpLength);
-
-    // Get framerate
-    const QJsonArray streams = obj.value("streams").toArray();
-    if (streams.empty()) {
-        qDebug() << "Error container does not have any video streams";
-        emit processOutput("Error container does not have any video streams");
-        return false;
-    }
-
-    const QJsonObject firstStream = streams.first().toObject();
 
     // The paramter gets us the exact framerate
     // "avg_frame_rate":"47850000/797509"
@@ -519,6 +530,18 @@ bool CreateImportVideo::createWallpaperImagePreview()
  */
 bool CreateImportVideo::createWallpaperVideo()
 {
+    const QFileInfo sourceFile(m_videoPath);
+
+    if (m_sourceCodec == m_targetCodec) {
+        qInfo() << "Skip video convert because they are the same";
+        if (!QFile::copy(sourceFile.absoluteFilePath(), m_exportPath + "/" + sourceFile.fileName())) {
+            qDebug() << "Could not copy" << sourceFile.absoluteFilePath() << " to " << m_exportPath;
+            return false;
+        }
+        emit createWallpaperStateChanged(Import::State::Finished);
+        return true;
+    }
+
     emit createWallpaperStateChanged(Import::State::ConvertingVideo);
 
     connect(m_process.get(), &QProcess::readyReadStandardOutput, this, [&]() {
@@ -543,6 +566,26 @@ bool CreateImportVideo::createWallpaperVideo()
         emit processOutput(tmpOut);
     });
 
+    QString targetCodec;
+    QString targetFileEnding;
+    if (m_targetCodec == Video::VideoCodec::VP8)
+        targetCodec = "libvpx";
+    targetFileEnding = ".webm";
+    if (m_targetCodec == Video::VideoCodec::VP8)
+        targetCodec = "libvpx";
+    targetFileEnding = ".webm";
+    if (m_targetCodec == Video::VideoCodec::AV1)
+        targetCodec = "libaom-av1";
+    targetFileEnding = ".mkv";
+    if (m_targetCodec == Video::VideoCodec::H264) {
+        targetFileEnding = ".mp4";
+        if (QOperatingSystemVersion::currentType() == QOperatingSystemVersion::Windows) {
+            targetCodec = "h264_mf";
+        } else {
+            targetCodec = "libx264";
+        }
+    }
+
     QStringList args;
     args.append("-hide_banner");
     args.append("-y");
@@ -550,12 +593,7 @@ bool CreateImportVideo::createWallpaperVideo()
     args.append("-i");
     args.append(m_videoPath);
     args.append("-c:v");
-    if (m_codec == "vp8")
-        args.append("libvpx");
-    if (m_codec == "vp9")
-        args.append("libvpx-vp9");
-    if (m_codec == "av1")
-        args.append("libaom-av1");
+    args.append(targetCodec);
     args.append("-b:v");
     args.append("13000k");
     args.append("-threads");
@@ -593,12 +631,7 @@ bool CreateImportVideo::createWallpaperVideo()
     args.append("-i");
     args.append(m_videoPath);
     args.append("-c:v");
-    if (m_codec == "vp8")
-        args.append("libvpx");
-    if (m_codec == "vp9")
-        args.append("libvpx-vp9");
-    if (m_codec == "av1")
-        args.append("libaom-av1");
+    args.append(targetCodec);
     args.append("-b:v");
     args.append("13000k");
     args.append("-threads");
@@ -617,8 +650,7 @@ bool CreateImportVideo::createWallpaperVideo()
     args.append(QString::number(m_quality));
     args.append("-pass");
     args.append("2");
-    const QFileInfo file(m_videoPath);
-    const QString convertedFileAbsolutePath { m_exportPath + "/" + file.completeBaseName() + ".webm" };
+    const QString convertedFileAbsolutePath { m_exportPath + "/" + sourceFile.completeBaseName() + targetFileEnding };
     args.append(convertedFileAbsolutePath);
 
     const QString ffmpegOutput = waitForFinished(args);
@@ -696,7 +728,7 @@ QString CreateImportVideo::waitForFinished(
 {
 
     m_process = std::make_unique<QProcess>();
-    QObject::connect(m_process.get(), &QProcess::errorOccurred, [=, this](QProcess::ProcessError error) {
+    QObject::connect(m_process.get(), &QProcess::errorOccurred, this, [=, this](QProcess::ProcessError error) {
         qDebug() << "error enum val = " << error << m_process->errorString();
         emit createWallpaperStateChanged(Import::State::AnalyseVideoError);
         m_process->terminate();

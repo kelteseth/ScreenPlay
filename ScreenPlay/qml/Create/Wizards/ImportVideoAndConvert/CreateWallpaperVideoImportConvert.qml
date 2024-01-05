@@ -12,7 +12,7 @@ Item {
 
     property bool conversionFinishedSuccessful: false
     property bool canSave: false
-    property var codec: Create.VP8
+    property var codec: Util.Video.VideoCodec.H264
     property string filePath
 
     signal abort
@@ -335,7 +335,14 @@ Item {
                 onClicked: {
                     if (conversionFinishedSuccessful) {
                         btnSave.enabled = false;
-                        App.create.saveWallpaper(textFieldName.text, textFieldDescription.text, root.filePath, previewSelector.imageSource, textFieldYoutubeURL.text, codec, textFieldTags.getTags());
+                        App.create.saveWallpaper(
+                                    textFieldName.text,
+                                    textFieldDescription.text,
+                                    root.filePath,
+                                    previewSelector.imageSource,
+                                    textFieldYoutubeURL.text,
+                                    root.codec,
+                                    textFieldTags.getTags());
                         savePopup.open();
                     }
                 }
