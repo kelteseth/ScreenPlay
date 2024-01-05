@@ -15,7 +15,13 @@ WizardPage {
         property bool ready: tfTitle.text.length >= 1 && root.file.length !== ""
 
         function create() {
-            App.wizards.createGifWallpaper(tfTitle.text, cbLicense.name, cbLicense.licenseFile, tfCreatedBy.text, root.file, tagSelector.getTags());
+            App.wizards.createGifWallpaper(tfTitle.text, cbLicense.name,
+                                           cbLicense.licenseFile,
+                                           tfCreatedBy.text, root.file,
+                                           tagSelector.getTags()).then(
+                        result => {
+                            wizardFinished(result.success, result.message)
+                        })
         }
 
         onReadyChanged: root.ready = ready
@@ -54,15 +60,18 @@ WizardPage {
 
                         anchors.fill: parent
                         onDropped: {
-                            root.file = drop.urls[0];
-                            leftWrapper.color = Qt.darker(Qt.darker(Material.backgroundColor));
+                            root.file = drop.urls[0]
+                            leftWrapper.color = Qt.darker(
+                                        Qt.darker(Material.backgroundColor))
                         }
                         onExited: {
-                            leftWrapper.color = Qt.darker(Material.backgroundColor);
+                            leftWrapper.color = Qt.darker(
+                                        Material.backgroundColor)
                         }
                         onEntered: {
-                            leftWrapper.color = Qt.darker(Qt.darker(Material.backgroundColor));
-                            drag.accept(Qt.LinkAction);
+                            leftWrapper.color = Qt.darker(
+                                        Qt.darker(Material.backgroundColor))
+                            drag.accept(Qt.LinkAction)
                         }
                     }
 
@@ -133,34 +142,34 @@ WizardPage {
                     required: true
                 }
 
-                Util.TextField {
-                    id: tfCreatedBy
+                    Util.TextField {
+                        id: tfCreatedBy
 
-                    Layout.fillWidth: true
-                    placeholderText: qsTr("Created By")
-                }
+                        Layout.fillWidth: true
+                        placeholderText: qsTr("Created By")
+                    }
 
-                Util.LicenseSelector {
-                    id: cbLicense
+                    Util.LicenseSelector {
+                        id: cbLicense
 
-                    Layout.fillWidth: true
-                }
+                        Layout.fillWidth: true
+                    }
 
-                Util.HeadlineSection {
-                    text: qsTr("Tags")
-                }
+                    Util.HeadlineSection {
+                        text: qsTr("Tags")
+                    }
 
-                Util.TagSelector {
-                    id: tagSelector
+                    Util.TagSelector {
+                        id: tagSelector
 
-                    Layout.fillWidth: true
-                }
+                        Layout.fillWidth: true
+                    }
 
-                Item {
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
+                    Item {
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+                    }
                 }
             }
         }
     }
-}

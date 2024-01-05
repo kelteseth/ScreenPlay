@@ -14,7 +14,14 @@ WizardPage {
         id: rightWrapper
 
         function create() {
-            App.wizards.createQMLWallpaper(tfTitle.text, cbLicense.name, cbLicense.licenseFile, tfCreatedBy.text, previewSelector.imageSource, tagSelector.getTags());
+            App.wizards.createQMLWallpaper(tfTitle.text, cbLicense.name,
+                                           cbLicense.licenseFile,
+                                           tfCreatedBy.text,
+                                           previewSelector.imageSource,
+                                           tagSelector.getTags()).then(
+                        result => {
+                            wizardFinished(result.success, result.message)
+                        })
         }
 
         spacing: 10

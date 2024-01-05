@@ -1,11 +1,5 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "ScreenPlay/wizards.h"
-#include "ScreenPlay/CMakeVariables.h"
-#include "ScreenPlayUtil/util.h"
-#include <QFont>
-#include <QLinearGradient>
-#include <QPainter>
-#include <QTextOption>
 
 namespace ScreenPlay {
 /*!
@@ -26,24 +20,21 @@ Wizards::Wizards(const std::shared_ptr<GlobalVariables>& globalVariables, QObjec
 /*!
   \brief Creates a new widget.
 */
-void Wizards::createQMLWidget(const QString& title,
+QCoro::QmlTask Wizards::createQMLWidget(
+    const QString& title,
     const QString& licenseName,
     const QString& licenseFile,
     const QString& createdBy,
     const QString& previewThumbnail,
     const QVector<QString>& tags)
 {
-    if (m_wizardFuture.isRunning()) {
-        qWarning() << "Another wizard is already running! Abort.";
-        return;
-    }
-
-    m_wizardFuture = QtConcurrent::run([=]() {
+    return QCoro::QmlTask([this, title, licenseName, licenseFile, createdBy, previewThumbnail, tags]() -> QCoro::Task<Result> {
         std::optional<QString> folderName = createTemporaryFolder();
 
         if (!folderName.has_value()) {
-            emit widgetCreationFinished(WizardResult::CreateProjectFolderError);
-            return;
+            QString errorMessage = tr("Unable to create temporary folder");
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::CreateProjectFolderError), errorMessage };
         }
 
         const QString workingPath = m_util.toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
@@ -57,21 +48,22 @@ void Wizards::createQMLWidget(const QString& title,
         obj.insert("file", "main.qml");
 
         if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
-            qWarning() << "Could not write " << licenseFile;
-            emit widgetCreationFinished(WizardResult::WriteLicenseFileError);
-            return;
+            QString errorMessage = tr("Could not write %1").arg(licenseFile);
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::WriteLicenseFileError), errorMessage };
         }
 
         if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/QMLWidgetMain.qml", workingPath + "/main.qml")) {
-            qWarning() << "Could not write main.qml";
-            emit widgetCreationFinished(WizardResult::WriteProjectFileError);
-            return;
+            QString errorMessage = tr("Could not write main.qml");
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::WriteFileError), errorMessage };
         }
 
         if (!previewThumbnail.isEmpty()) {
             if (!m_util.copyPreviewThumbnail(obj, previewThumbnail, workingPath)) {
-                emit widgetCreationFinished(WizardResult::CopyPreviewThumbnailError);
-                return;
+                QString errorMessage = tr("Could not copy thumbnail");
+                qCritical() << errorMessage;
+                co_return Result { false, QVariant::fromValue(WizardResult::CopyPreviewThumbnailError), errorMessage };
             }
         } else {
             obj.insert("preview", "preview.png");
@@ -79,35 +71,33 @@ void Wizards::createQMLWidget(const QString& title,
         }
 
         if (!m_util.writeSettings(obj, workingPath + "/project.json")) {
-            emit widgetCreationFinished(WizardResult::WriteProjectFileError);
-            return;
+            QString errorMessage = tr("Could not write project file");
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::WriteProjectFileError), errorMessage };
         }
 
-        emit widgetCreationFinished(WizardResult::Ok, workingPath);
-    });
+        co_return Result { true };
+    }());
 }
 
 /*!
   \brief Creates a new widget.
 */
-void Wizards::createHTMLWidget(const QString& title,
+QCoro::QmlTask Wizards::createHTMLWidget(
+    const QString& title,
     const QString& licenseName,
     const QString& licenseFile,
     const QString& createdBy,
     const QString& previewThumbnail,
     const QVector<QString>& tags)
 {
-    if (m_wizardFuture.isRunning()) {
-        qWarning() << "Another wizard is already running! Abort.";
-        return;
-    }
-
-    m_wizardFuture = QtConcurrent::run([=]() {
+    return QCoro::QmlTask([this, title, licenseName, licenseFile, createdBy, previewThumbnail, tags]() -> QCoro::Task<Result> {
         std::optional<QString> folderName = createTemporaryFolder();
 
         if (!folderName.has_value()) {
-            emit widgetCreationFinished(WizardResult::CreateProjectFolderError);
-            return;
+            QString errorMessage = tr("Unable to create temporary folder");
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::CreateProjectFolderError), errorMessage };
         }
 
         const QString workingPath = m_util.toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
@@ -121,15 +111,15 @@ void Wizards::createHTMLWidget(const QString& title,
         obj.insert("file", "index.html");
 
         if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
-            qWarning() << "Could not write " << licenseFile;
-            emit widgetCreationFinished(WizardResult::WriteLicenseFileError);
-            return;
+            QString errorMessage = tr("Could not write %1").arg(licenseFile);
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::WriteLicenseFileError), errorMessage };
         }
 
         if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/HTMLWidgetMain.html", workingPath + "/index.html")) {
-            qWarning() << "Could not write HTMLWidgetMain.html";
-            emit widgetCreationFinished(WizardResult::WriteProjectFileError);
-            return;
+            QString errorMessage = tr("Could not write index.html");
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::WriteFileError), errorMessage };
         }
 
         QUrl previewThumbnailUrl { previewThumbnail };
@@ -137,8 +127,9 @@ void Wizards::createHTMLWidget(const QString& title,
 
         if (!previewThumbnail.isEmpty()) {
             if (!m_util.copyPreviewThumbnail(obj, previewThumbnail, workingPath)) {
-                emit widgetCreationFinished(WizardResult::CopyPreviewThumbnailError);
-                return;
+                QString errorMessage = tr("Could copy preview thumbnail");
+                qCritical() << errorMessage;
+                co_return Result { false, QVariant::fromValue(WizardResult::CopyPreviewThumbnailError), errorMessage };
             }
         } else {
             obj.insert("preview", "preview.png");
@@ -146,18 +137,19 @@ void Wizards::createHTMLWidget(const QString& title,
         }
 
         if (!m_util.writeSettings(obj, workingPath + "/project.json")) {
-            emit widgetCreationFinished(WizardResult::WriteProjectFileError);
-            return;
+            QString errorMessage = tr("Could not write project file");
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::WriteProjectFileError), errorMessage };
         }
 
-        emit widgetCreationFinished(WizardResult::Ok, workingPath);
-    });
+        co_return Result { true };
+    }());
 }
 
 /*!
   \brief Creates a HTML wallpaper.
 */
-void Wizards::createHTMLWallpaper(
+QCoro::QmlTask Wizards::createHTMLWallpaper(
     const QString& title,
     const QString& licenseName,
     const QString& licenseFile,
@@ -165,17 +157,13 @@ void Wizards::createHTMLWallpaper(
     const QString& previewThumbnail,
     const QVector<QString>& tags)
 {
-    if (m_wizardFuture.isRunning()) {
-        qWarning() << "Another wizard is already running! Abort.";
-        return;
-    }
-
-    m_wizardFuture = QtConcurrent::run([=]() {
+    return QCoro::QmlTask([this, title, licenseName, licenseFile, createdBy, previewThumbnail, tags]() -> QCoro::Task<Result> {
         std::optional<QString> folderName = createTemporaryFolder();
 
         if (!folderName.has_value()) {
-            emit widgetCreationFinished(WizardResult::CreateProjectFolderError);
-            return;
+            QString errorMessage = tr("Unable to create temporary folder");
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::CreateProjectFolderError), errorMessage };
         }
 
         const QString workingPath = m_util.toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
@@ -189,21 +177,22 @@ void Wizards::createHTMLWallpaper(
         obj.insert("file", "index.html");
 
         if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
-            qWarning() << "Could not write " << licenseFile;
-            emit widgetCreationFinished(WizardResult::WriteLicenseFileError);
-            return;
+            QString errorMessage = tr("Could not write %1").arg(licenseFile);
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::WriteLicenseFileError), errorMessage };
         }
 
         if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/HTMLWallpaperMain.html", workingPath + "/index.html")) {
-            qWarning() << "Could not write HTMLWallpaperMain.html";
-            emit widgetCreationFinished(WizardResult::WriteProjectFileError);
-            return;
+            QString errorMessage = tr("Could not write index.html");
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::WriteFileError), errorMessage };
         }
 
         if (!previewThumbnail.isEmpty()) {
             if (!m_util.copyPreviewThumbnail(obj, previewThumbnail, workingPath)) {
-                emit widgetCreationFinished(WizardResult::CopyPreviewThumbnailError);
-                return;
+                QString errorMessage = tr("Could copy preview thumbnail");
+                qCritical() << errorMessage;
+                co_return Result { false, QVariant::fromValue(WizardResult::CopyPreviewThumbnailError), errorMessage };
             }
         } else {
             obj.insert("preview", "preview.png");
@@ -211,18 +200,19 @@ void Wizards::createHTMLWallpaper(
         }
 
         if (!m_util.writeSettings(obj, workingPath + "/project.json")) {
-            emit widgetCreationFinished(WizardResult::WriteProjectFileError);
-            return;
+            QString errorMessage = tr("Could not write project file");
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::WriteProjectFileError), errorMessage };
         }
 
-        emit widgetCreationFinished(WizardResult::Ok, workingPath);
-    });
+        co_return Result { true };
+    }());
 }
 
 /*!
     \brief .
 */
-void Wizards::createQMLWallpaper(
+QCoro::QmlTask Wizards::createQMLWallpaper(
     const QString& title,
     const QString& licenseName,
     const QString& licenseFile,
@@ -230,17 +220,13 @@ void Wizards::createQMLWallpaper(
     const QString& previewThumbnail,
     const QVector<QString>& tags)
 {
-    if (m_wizardFuture.isRunning()) {
-        qWarning() << "Another wizard is already running! Abort.";
-        return;
-    }
-
-    m_wizardFuture = QtConcurrent::run([=]() {
+    return QCoro::QmlTask([this, title, licenseName, licenseFile, createdBy, previewThumbnail, tags]() -> QCoro::Task<Result> {
         std::optional<QString> folderName = createTemporaryFolder();
 
         if (!folderName.has_value()) {
-            emit widgetCreationFinished(WizardResult::CreateProjectFolderError);
-            return;
+            QString errorMessage = tr("Unable to create temporary folder");
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::CreateProjectFolderError), errorMessage };
         }
 
         const QString workingPath = m_util.toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
@@ -255,8 +241,9 @@ void Wizards::createQMLWallpaper(
 
         if (!previewThumbnail.isEmpty()) {
             if (!m_util.copyPreviewThumbnail(obj, previewThumbnail, workingPath)) {
-                emit widgetCreationFinished(WizardResult::CopyPreviewThumbnailError);
-                return;
+                QString errorMessage = tr("Could copy preview thumbnail");
+                qCritical() << errorMessage;
+                co_return Result { false, QVariant::fromValue(WizardResult::CopyPreviewThumbnailError), errorMessage };
             }
         } else {
             obj.insert("preview", "preview.png");
@@ -264,36 +251,37 @@ void Wizards::createQMLWallpaper(
         }
 
         if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
-            qWarning() << "Could not write " << licenseFile;
-            emit widgetCreationFinished(WizardResult::WriteLicenseFileError);
-            return;
+            QString errorMessage = tr("Could not write %1").arg(licenseFile);
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::WriteLicenseFileError), errorMessage };
         }
 
         const QString qmlproject = workingPath + "/" + title + ".qmlproject";
-        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/" + QString("QmlProject.qmlproject"), qmlproject)) {
-            qWarning() << "Could not write " << qmlproject;
-            emit widgetCreationFinished(WizardResult::WriteLicenseFileError);
-            return;
+        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/QmlProject.qmlproject", qmlproject)) {
+            QString errorMessage = tr("Could not write QmlProject.qmlproject");
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::WriteFileError), errorMessage };
         }
 
         if (!m_util.writeSettings(obj, workingPath + "/project.json")) {
-            emit widgetCreationFinished(WizardResult::WriteProjectFileError);
-            return;
+            QString errorMessage = tr("Could not write project file");
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::WriteProjectFileError), errorMessage };
         }
 
         if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/QMLWallpaperMain.qml", workingPath + "/main.qml")) {
-            qWarning() << "Could not write main.qml";
-            return;
+            QString errorMessage = tr("Could not write main.qml");
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::WriteFileError), errorMessage };
         }
-
-        emit widgetCreationFinished(WizardResult::Ok, workingPath);
-    });
+        co_return Result { true };
+    }());
 }
 
 /*!
     \brief .
 */
-void Wizards::createGodotWallpaper(
+QCoro::QmlTask Wizards::createGodotWallpaper(
     const QString& title,
     const QString& licenseName,
     const QString& licenseFile,
@@ -301,17 +289,13 @@ void Wizards::createGodotWallpaper(
     const QString& previewThumbnail,
     const QVector<QString>& tags)
 {
-    if (m_wizardFuture.isRunning()) {
-        qWarning() << "Another wizard is already running! Abort.";
-        return;
-    }
-
-    m_wizardFuture = QtConcurrent::run([=]() {
+    return QCoro::QmlTask([this, title, licenseName, licenseFile, createdBy, previewThumbnail, tags]() -> QCoro::Task<Result> {
         std::optional<QString> folderName = createTemporaryFolder();
 
         if (!folderName.has_value()) {
-            emit widgetCreationFinished(WizardResult::CreateProjectFolderError);
-            return;
+            QString errorMessage = tr("Unable to create temporary folder");
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::CreateProjectFolderError), errorMessage };
         }
 
         const QString workingPath = m_util.toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
@@ -333,8 +317,9 @@ void Wizards::createGodotWallpaper(
 
         if (!previewThumbnail.isEmpty()) {
             if (!m_util.copyPreviewThumbnail(obj, previewThumbnail, workingPath)) {
-                emit widgetCreationFinished(WizardResult::CopyPreviewThumbnailError);
-                return;
+                QString errorMessage = tr("Could copy preview thumbnail");
+                qCritical() << errorMessage;
+                co_return Result { false, QVariant::fromValue(WizardResult::CopyPreviewThumbnailError), errorMessage };
             }
         } else {
             obj.insert("preview", "preview.png");
@@ -342,44 +327,49 @@ void Wizards::createGodotWallpaper(
         }
 
         if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
-            qWarning() << "Could not write " << licenseFile;
-            emit widgetCreationFinished(WizardResult::WriteLicenseFileError);
-            return;
+            QString errorMessage = tr("Could not write %1").arg(licenseFile);
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::WriteLicenseFileError), errorMessage };
         }
 
         if (!m_util.writeSettings(obj, workingPath + "/project.json")) {
-            emit widgetCreationFinished(WizardResult::WriteProjectFileError);
-            return;
+            QString errorMessage = tr("Could not write project file");
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::WriteProjectFileError), errorMessage };
         }
 
         if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/Godot_v5/project.godot", workingPath + "/project.godot")) {
-            qWarning() << "Could not write project.godot";
-            return;
+            QString errorMessage = tr("Could not write project.godot");
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::WriteFileError), errorMessage };
         }
 
         if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/Godot_v5/spinner.gd", workingPath + "/spinner.gd")) {
-            qWarning() << "Could not write spinner.gd";
-            return;
+            QString errorMessage = tr("Could not write spinner.gd");
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::WriteFileError), errorMessage };
         }
 
         if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/Godot_v5/wallpaper.tscn", workingPath + "/wallpaper.tscn")) {
-            qWarning() << "Could not write wallpaper.tscn";
-            return;
+            QString errorMessage = tr("Could not write wallpaper.tscn");
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::WriteFileError), errorMessage };
         }
 
         // This presets file is needed for the export. Because we do only export
         // package files, it does not matter that we hardcode "Windows Desktop" as
         // export preset.
         if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/Godot_v5/export_presets.cfg", workingPath + "/export_presets.cfg")) {
-            qWarning() << "Could not write export_presets.cfg";
-            return;
+            QString errorMessage = tr("Could not write export_presets.cfg");
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::WriteFileError), errorMessage };
         }
 
-        emit widgetCreationFinished(WizardResult::Ok, workingPath);
-    });
+        co_return Result { true };
+    }());
 }
 
-void Wizards::createGifWallpaper(
+QCoro::QmlTask Wizards::createGifWallpaper(
     const QString& title,
     const QString& licenseName,
     const QString& licenseFile,
@@ -387,17 +377,13 @@ void Wizards::createGifWallpaper(
     const QString& file,
     const QVector<QString>& tags)
 {
-    if (m_wizardFuture.isRunning()) {
-        qWarning() << "Another wizard is already running! Abort.";
-        return;
-    }
-
-    m_wizardFuture = QtConcurrent::run([=]() {
+    return QCoro::QmlTask([this, title, licenseName, licenseFile, creator, file, tags]() -> QCoro::Task<Result> {
         std::optional<QString> folderName = createTemporaryFolder();
 
         if (!folderName.has_value()) {
-            emit widgetCreationFinished(WizardResult::CreateProjectFolderError);
-            return;
+            QString errorMessage = tr("Unable to create temporary folder");
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::CreateProjectFolderError), errorMessage };
         }
 
         const QString workingPath = m_util.toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
@@ -413,46 +399,43 @@ void Wizards::createGifWallpaper(
         obj.insert("type", QVariant::fromValue(ContentTypes::InstalledType::GifWallpaper).toString());
 
         if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
-            qWarning() << "Could not write " << licenseFile;
-            emit widgetCreationFinished(WizardResult::WriteLicenseFileError);
-            return;
+            QString errorMessage = tr("Could not write %1").arg(licenseFile);
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::WriteLicenseFileError), errorMessage };
         }
 
         if (!m_util.writeSettings(obj, workingPath + "/project.json")) {
-            emit widgetCreationFinished(WizardResult::WriteProjectFileError);
-            return;
+            QString errorMessage = tr("Could not write project file");
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::WriteProjectFileError), errorMessage };
         }
 
         if (!QFile::copy(m_util.toLocal(file), workingPath + "/" + gifFileName)) {
-            qWarning() << "Could not copy gif " << file << " to: " << workingPath + "/" + gifFileName;
-            emit widgetCreationFinished(WizardResult::CopyFileError);
-            return;
+            QString errorMessage = tr("Could not copy gif");
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::CopyFileError), errorMessage };
         }
 
-        emit widgetCreationFinished(WizardResult::Ok, workingPath);
-    });
+        co_return Result { true };
+    }());
 }
 
 /*!
     \brief .
 */
-void Wizards::createWebsiteWallpaper(
+QCoro::QmlTask Wizards::createWebsiteWallpaper(
     const QString& title,
     const QString& previewThumbnail,
     const QUrl& url,
     const QVector<QString>& tags)
 {
-    if (m_wizardFuture.isRunning()) {
-        qWarning() << "Another wizard is already running! Abort.";
-        return;
-    }
-
-    m_wizardFuture = QtConcurrent::run([=]() {
+    return QCoro::QmlTask([this, title, previewThumbnail, url, tags]() -> QCoro::Task<Result> {
         std::optional<QString> folderName = createTemporaryFolder();
 
         if (!folderName.has_value()) {
-            emit widgetCreationFinished(WizardResult::CreateProjectFolderError);
-            return;
+            QString errorMessage = tr("Unable to create temporary folder");
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::CreateProjectFolderError), errorMessage };
         }
 
         const QString workingPath = m_util.toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
@@ -465,8 +448,9 @@ void Wizards::createWebsiteWallpaper(
 
         if (!previewThumbnail.isEmpty()) {
             if (!m_util.copyPreviewThumbnail(obj, previewThumbnail, workingPath)) {
-                emit widgetCreationFinished(WizardResult::CopyPreviewThumbnailError);
-                return;
+                QString errorMessage = tr("Could copy preview thumbnail");
+                qCritical() << errorMessage;
+                co_return Result { false, QVariant::fromValue(WizardResult::CopyPreviewThumbnailError), errorMessage };
             }
         } else {
             obj.insert("preview", "preview.png");
@@ -474,12 +458,13 @@ void Wizards::createWebsiteWallpaper(
         }
 
         if (!m_util.writeSettings(obj, workingPath + "/project.json")) {
-            emit widgetCreationFinished(WizardResult::WriteProjectFileError);
-            return;
+            QString errorMessage = tr("Could not write project file");
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::WriteProjectFileError), errorMessage };
         }
 
-        emit widgetCreationFinished(WizardResult::Ok, workingPath);
-    });
+        co_return Result { true };
+    }());
 }
 
 /*!

@@ -66,26 +66,26 @@ class Result {
     Q_GADGET
     Q_PROPERTY(bool success READ success WRITE setSuccess)
     Q_PROPERTY(QVariant status READ status WRITE setStatus)
-    Q_PROPERTY(QString messag READ messag WRITE setMessag)
+    Q_PROPERTY(QString message READ message WRITE setMessage)
 
 public:
     explicit Result() { }
-    explicit Result(bool success, const QVariant& status = {}, const QString& messag = "")
+    explicit Result(bool success, const QVariant& status = {}, const QString& message = "")
     {
         m_success = success;
         m_status = status;
-        m_messag = messag;
+        m_message = message;
     }
     bool success() const { return m_success; }
     void setSuccess(bool success) { m_success = success; }
-    QString messag() const { return m_messag; }
-    void setMessag(const QString& messag) { m_messag = messag; }
+    QString message() const { return m_message; }
+    void setMessage(const QString& message) { m_message = message; }
     QVariant status() const { return m_status; }
     void setStatus(const QVariant& status) { m_status = status; }
 
 private:
     bool m_success;
-    QString m_messag;
+    QString m_message;
     QVariant m_status;
 };
 

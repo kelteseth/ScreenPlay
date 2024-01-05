@@ -6,26 +6,33 @@
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
+#include <QFont>
 #include <QFuture>
 #include <QFutureWatcher>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonParseError>
+#include <QLinearGradient>
 #include <QObject>
+#include <QPainter>
 #include <QProcess>
 #include <QQmlEngine>
 #include <QScopedPointer>
 #include <QString>
 #include <QStringList>
+#include <QTextOption>
 #include <QTime>
 #include <QTimer>
 #include <QUrl>
 #include <QtMath>
 
-#include "ScreenPlay/createimportvideo.h"
+#include "ScreenPlay/CMakeVariables.h"
 #include "ScreenPlay/globalvariables.h"
 #include "ScreenPlayUtil/util.h"
+#include "qcorotask.h"
+#include "qml/qcoroqml.h"
+#include "qml/qcoroqmltask.h"
 
 #include <memory>
 #include <optional>
@@ -36,6 +43,8 @@ class Wizards : public QObject {
     Q_OBJECT
     QML_ELEMENT
     QML_UNCREATABLE("CPP ONLY")
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
+
 public:
     explicit Wizards(
         const std::shared_ptr<GlobalVariables>& globalVariables,
@@ -44,6 +53,7 @@ public:
     enum class WizardResult {
         Ok,
         CopyError,
+        WriteFileError,
         WriteProjectFileError,
         WriteLicenseFileError,
         CreateProjectFolderError,
@@ -52,8 +62,7 @@ public:
     };
     Q_ENUM(WizardResult)
 
-public slots:
-    void createQMLWidget(
+    Q_INVOKABLE QCoro::QmlTask createQMLWidget(
         const QString& title,
         const QString& licenseName,
         const QString& licenseFile,
@@ -61,7 +70,7 @@ public slots:
         const QString& previewThumbnail,
         const QVector<QString>& tags);
 
-    void createHTMLWidget(
+    Q_INVOKABLE QCoro::QmlTask createHTMLWidget(
         const QString& title,
         const QString& licenseName,
         const QString& licenseFile,
@@ -69,7 +78,7 @@ public slots:
         const QString& previewThumbnail,
         const QVector<QString>& tags);
 
-    void createHTMLWallpaper(
+    Q_INVOKABLE QCoro::QmlTask createHTMLWallpaper(
         const QString& title,
         const QString& licenseName,
         const QString& licenseFile,
@@ -77,7 +86,7 @@ public slots:
         const QString& previewThumbnail,
         const QVector<QString>& tags);
 
-    void createQMLWallpaper(
+    Q_INVOKABLE QCoro::QmlTask createQMLWallpaper(
         const QString& title,
         const QString& licenseName,
         const QString& licenseFile,
@@ -85,7 +94,7 @@ public slots:
         const QString& previewThumbnail,
         const QVector<QString>& tags);
 
-    void createGodotWallpaper(
+    Q_INVOKABLE QCoro::QmlTask createGodotWallpaper(
         const QString& title,
         const QString& licenseName,
         const QString& licenseFile,
@@ -93,7 +102,7 @@ public slots:
         const QString& previewThumbnail,
         const QVector<QString>& tags);
 
-    void createGifWallpaper(
+    Q_INVOKABLE QCoro::QmlTask createGifWallpaper(
         const QString& title,
         const QString& licenseName,
         const QString& licenseFile,
@@ -101,30 +110,26 @@ public slots:
         const QString& file,
         const QVector<QString>& tags);
 
-    void createWebsiteWallpaper(
+    Q_INVOKABLE QCoro::QmlTask createWebsiteWallpaper(
         const QString& title,
         const QString& previewThumbnail,
         const QUrl& url,
         const QVector<QString>& tags);
 
-signals:
-    void widgetCreationFinished(const Wizards::WizardResult result);
-    void widgetCreationFinished(const Wizards::WizardResult result, const QVariant value);
+private:
+    void createPreviewImage(const QString& name, const QString& targetPath);
 
 private:
     const std::shared_ptr<GlobalVariables> m_globalVariables;
     const std::optional<QString> createTemporaryFolder() const;
-    void createPreviewImage(const QString& name, const QString& targetPath);
-
-private:
     QFuture<void> m_wizardFuture;
-    QVector<QColor> m_gradientColors = {
-        QColor("#B71C1C"),
-        QColor("#1B5E20"),
-        QColor("#0D47A1"),
-        QColor("#FFD600"),
-        QColor("#4A148C")
-    };
     Util m_util;
+    const QVector<QColor> m_gradientColors = {
+        QColor(183, 28, 28), // #B71C1C
+        QColor(27, 94, 32), // #1B5E20
+        QColor(13, 71, 161), // #0D47A1
+        QColor(255, 214, 0), // #FFD600
+        QColor(74, 20, 140) // #4A148C
+    };
 };
 }

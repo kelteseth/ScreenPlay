@@ -14,8 +14,11 @@ FocusScope {
     property alias savePopup: savePopup
     property bool ready: false
 
+    // Signals for the Sidebar
     signal wizardStarted
     signal wizardExited
+    // Show error/success popup
+    signal wizardFinished(bool success, string message)
     signal saveClicked
     signal saveFinished
     signal cancelClicked
@@ -71,15 +74,28 @@ FocusScope {
             Layout.alignment: Qt.AlignRight
             font.family: App.settings.font
             onClicked: {
-                btnSave.enabled = false;
-                root.saveClicked();
-                loader.item.create();
-                savePopup.open();
+                btnSave.enabled = false
+                root.saveClicked()
+                savePopup.open()
+                loader.item.create()
             }
         }
     }
 
-    Popup {
+    Connections {
+        target: root
+        function onWizardFinished(success, message) {
+            if (success) {
+                timerSave.start()
+                return
+            }
+
+            savePopup.title = message
+            savePopup.standardButtons = Dialog.Ok
+        }
+    }
+
+    Dialog {
         id: savePopup
 
         modal: true
@@ -87,32 +103,22 @@ FocusScope {
         width: 250
         height: 200
         anchors.centerIn: Overlay.overlay
-        onOpened: timerSave.start()
+        onAccepted: {
+            savePopup.close()
+            root.wizardExited()
+        }
+        title: qsTr("Saving...")
 
         BusyIndicator {
             anchors.centerIn: parent
             running: true
         }
-
-        Text {
-            text: qsTr("Saving...")
-            color: Material.primaryHighlightedTextColor
-            font.family: App.settings.font
-
-            anchors {
-                horizontalCenter: parent.horizontalCenter
-                bottom: parent.bottom
-                bottomMargin: 30
-            }
-        }
-
         Timer {
             id: timerSave
-
-            interval: 1000 + Math.random() * 1000
+            interval: 200 + Math.random() * 500
             onTriggered: {
-                savePopup.close();
-                root.wizardExited();
+                savePopup.close()
+                root.wizardExited()
             }
         }
     }
