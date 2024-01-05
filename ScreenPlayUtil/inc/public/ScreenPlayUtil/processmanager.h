@@ -15,7 +15,8 @@ namespace ScreenPlay {
 
 class ProcessManager {
 public:
-    std::optional<bool> isRunning(const qint64 pid);
-    bool terminateProcess(const qint64 pid);
+    std::optional<bool> isRunning(const qint64 pid) const;
+    bool terminateProcess(const qint64 pid) const;
+    const qint64 getCurrentPID() const;
 };
 }

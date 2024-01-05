@@ -20,7 +20,8 @@ target_include_directories(${PROJECT_NAME} PUBLIC inc/public/)
 
 target_link_libraries(
     ${PROJECT_NAME}
-    PRIVATE Qt6::Core
+    PUBLIC Qt6::Core
             Qt6::Quick
             Qt6::Gui
-            Qt6::Network)
+            Qt6::Network
+            ScreenPlayUtil)

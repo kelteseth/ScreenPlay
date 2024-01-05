@@ -28,7 +28,6 @@ Q_IMPORT_QML_PLUGIN(ScreenPlayUtilPlugin)
 int main(int argc, char* argv[])
 {
     using namespace ScreenPlay;
-    // Lets keep using it until: https://bugreports.qt.io/browse/QTBUG-109401
     QtWebEngineQuick::initialize();
 
 #if defined(Q_OS_WIN)
@@ -83,7 +82,8 @@ int main(int argc, char* argv[])
                 "--volume", "1",
                 "--fillmode", "Contain",
                 "--type", "VideoWallpaper",
-                "--check", "0" });
+                "--check", "0",
+                "--mainapppid", "1" });
     } else {
         argumentList = app.arguments();
     }
@@ -100,6 +100,7 @@ int main(int argc, char* argv[])
     QCommandLineOption fillmodeOption("fillmode", "Set fill mode.", "fillmode");
     QCommandLineOption typeOption("type", "Set the type.", "type");
     QCommandLineOption checkOption("check", "Set check value.", "check");
+    QCommandLineOption mainAppPidOption("mainapppid", "pid of the main ScreenPlay app. User to check if we are still alive.", "mainapppid");
 
     // Add the options to the parser
     parser.addOption(pathOption);
@@ -109,6 +110,7 @@ int main(int argc, char* argv[])
     parser.addOption(fillmodeOption);
     parser.addOption(typeOption);
     parser.addOption(checkOption);
+    parser.addOption(mainAppPidOption);
 
     // Process the actual command line arguments given by the user
     parser.process(argumentList);
@@ -120,7 +122,8 @@ int main(int argc, char* argv[])
         || !parser.isSet(volumeOption)
         || !parser.isSet(fillmodeOption)
         || !parser.isSet(typeOption)
-        || !parser.isSet(checkOption)) {
+        || !parser.isSet(checkOption)
+        || !parser.isSet(mainAppPidOption)) {
         qCritical() << "Missing required arguments. Please provide all arguments."
                     << argumentList
                     << "pathOption" << parser.value(pathOption)
@@ -129,7 +132,8 @@ int main(int argc, char* argv[])
                     << "volumeOption" << parser.value(volumeOption)
                     << "fillmodeOption" << parser.value(fillmodeOption)
                     << "typeOption" << parser.value(typeOption)
-                    << "checkOption" << parser.value(checkOption);
+                    << "checkOption" << parser.value(checkOption)
+                    << "mainAppPidOption" << parser.value(mainAppPidOption);
         return -1;
     }
 
@@ -140,6 +144,7 @@ int main(int argc, char* argv[])
     QString fillmode = parser.value(fillmodeOption);
     QString type = parser.value(typeOption);
     QString check = parser.value(checkOption);
+    QString pid = parser.value(mainAppPidOption);
 
     ScreenPlay::Util util;
 
@@ -169,6 +174,13 @@ int main(int argc, char* argv[])
         return static_cast<int>(WallpaperExit::Code::Invalid_Volume);
     }
 
+    bool okPid = false;
+    const qint64 mainAppPidInt = pid.toInt(&okPid);
+    if (!okPid) {
+        qCritical("Could not parse mainAppPid");
+        return static_cast<int>(WallpaperExit::Code::Invalid_PID);
+    }
+
     // Set the properties of the window object
     window->setActiveScreensList(activeScreensList.value());
     window->setProjectPath(path);
@@ -178,6 +190,7 @@ int main(int argc, char* argv[])
     window->setType(installedType.value());
     window->setCheckWallpaperVisible(checkWallpaperVisible);
     window->setDebugMode(false);
+    window->setMainAppPID(mainAppPidInt);
 
     const auto setupStatus = window->setup();
     if (setupStatus != WallpaperExit::Code::Ok) {

@@ -64,6 +64,7 @@ WallpaperExit::Code BaseWindow::setup()
     // directly without an running ScreenPlay
     if (!debugMode()) {
         m_sdk = std::make_unique<ScreenPlaySDK>(appID(), QVariant::fromValue(type()).toString());
+        m_sdk->setMainAppPID(m_mainAppPID);
         connect(m_sdk.get(), &ScreenPlaySDK::incommingMessage, this, &BaseWindow::messageReceived);
         connect(m_sdk.get(), &ScreenPlaySDK::replaceWallpaper, this, &BaseWindow::replaceWallpaper);
         sdk()->start();
@@ -240,6 +241,19 @@ void BaseWindow::setVideoCodec(ScreenPlay::Video::VideoCodec newVideoCodec)
         return;
     m_videoCodec = newVideoCodec;
     emit videoCodecChanged(newVideoCodec);
+}
+
+qint64 BaseWindow::mainAppPID() const
+{
+    return m_mainAppPID;
+}
+
+void BaseWindow::setMainAppPID(qint64 mainAppPID)
+{
+    if (m_mainAppPID == mainAppPID)
+        return;
+    m_mainAppPID = mainAppPID;
+    emit mainAppPIDChanged(m_mainAppPID);
 }
 }
 

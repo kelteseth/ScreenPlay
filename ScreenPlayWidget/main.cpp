@@ -9,6 +9,7 @@
 #include <QtWebEngineQuick>
 
 #include "ScreenPlayUtil/contenttypes.h"
+#include "ScreenPlayUtil/exitcodes.h"
 #include "ScreenPlayUtil/logginghandler.h"
 #include "src/widgetwindow.h"
 
@@ -25,6 +26,7 @@ Q_IMPORT_QML_PLUGIN(ScreenPlayUtilPlugin)
 int main(int argc, char* argv[])
 {
 
+    using namespace ScreenPlay;
     // Lets keep using it until: https://bugreports.qt.io/browse/QTBUG-109401
     QtWebEngineQuick::initialize();
 
@@ -73,7 +75,7 @@ int main(int argc, char* argv[])
                 "--type", type,
                 "--posX", QString::number(center.x()),
                 "--posY", QString::number(center.y()),
-                "--debug", "1" });
+                "--mainapppid", "1" });
     } else {
         argumentList = app.arguments();
     }
@@ -86,63 +88,69 @@ int main(int argc, char* argv[])
     QCommandLineOption typeOption("type", "Content type", "type");
     QCommandLineOption posXOption("posX", "X position", "positionX");
     QCommandLineOption posYOption("posY", "Y position", "positionY");
-    QCommandLineOption debugOption("debug", "debug enabled", "debug");
+    QCommandLineOption mainAppPidOption("mainapppid", "pid of the main ScreenPlay app. User to check if we are still alive.", "mainapppid");
 
+    // Add the options to the parser
     parser.addOption(pathOption);
     parser.addOption(appIDOption);
     parser.addOption(typeOption);
     parser.addOption(posXOption);
     parser.addOption(posYOption);
-    parser.addOption(debugOption);
+    parser.addOption(mainAppPidOption);
 
+    // Process the actual command line arguments given by the user
     parser.process(argumentList);
 
     // Check if all required options are provided
-    // debug option is optional
     if (!parser.isSet(pathOption)
         || !parser.isSet(appIDOption)
         || !parser.isSet(typeOption)
         || !parser.isSet(posXOption)
-        || !parser.isSet(posYOption)) {
+        || !parser.isSet(posYOption)
+        || !parser.isSet(mainAppPidOption)) {
         qCritical() << "Missing required arguments. Please provide all arguments."
                     << argumentList
                     << "pathOption" << parser.value(pathOption)
                     << "appIDOption" << parser.value(appIDOption)
                     << "typeOption" << parser.value(typeOption)
                     << "posXOption" << parser.value(posXOption)
-                    << "posYOption" << parser.value(posYOption);
-        return -1;
+                    << "posYOption" << parser.value(posYOption)
+                    << "mainAppPidOption" << parser.value(mainAppPidOption);
+        return static_cast<int>(WidgetExit::Code::Invalid_ArgumentSize);
     }
+
+    QString pid = parser.value(mainAppPidOption);
+    QString appID = parser.value(appIDOption);
+    QString projectPath = parser.value(pathOption);
+    QString type = parser.value(typeOption);
 
     bool okPosX = false, okPosY = false;
     const int positionX = parser.value(posXOption).toInt(&okPosX);
     if (!okPosX) {
         qWarning() << "Could not parse PositionX value to int: " << parser.value(posXOption);
-        return -1;
+        return static_cast<int>(WidgetExit::Code::Invalid_POSX);
     }
 
     const int positionY = parser.value(posYOption).toInt(&okPosY);
     if (!okPosY) {
         qWarning() << "Could not parse PositionY value to int: " << parser.value(posYOption);
-        return -1;
+        return static_cast<int>(WidgetExit::Code::Invalid_POSY);
     }
 
-    bool debugOk = false;
-    const int debug = parser.value(debugOption).toInt(&debugOk);
-    if (!debugOk) {
-        qWarning() << "Could not parse debugOk value to bool: " << parser.value(posYOption);
+    bool okPid = false;
+    const qint64 mainAppPidInt = pid.toInt(&okPid);
+    if (!okPid) {
+        qCritical("Could not parse mainAppPid");
+        return static_cast<int>(WidgetExit::Code::Invalid_PID);
     }
-
-    QString appID = parser.value(appIDOption);
-    QString projectPath = parser.value(pathOption);
-    QString type = parser.value(typeOption);
 
     WidgetWindow spwmw(
         projectPath,
         appID,
         type,
         QPoint { positionX, positionY },
-        debug);
+        mainAppPidInt,
+        false);
 
 #if defined(Q_OS_MACOS)
     MacUtils::showDockIcon(false);

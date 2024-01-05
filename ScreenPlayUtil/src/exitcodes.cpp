@@ -6,4 +6,9 @@ WallpaperExit::WallpaperExit(QObject* parent)
     : QObject(parent)
 {
 }
+
+WidgetExit::WidgetExit(QObject* parent)
+{
+}
+
 }

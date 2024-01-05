@@ -1,7 +1,7 @@
 #include "processmanager.h"
 namespace ScreenPlay {
 
-std::optional<bool> ProcessManager::isRunning(const qint64 pid)
+std::optional<bool> ProcessManager::isRunning(const qint64 pid) const
 {
     if (pid <= 0)
         return std::nullopt;
@@ -25,7 +25,7 @@ std::optional<bool> ProcessManager::isRunning(const qint64 pid)
 #endif
     return std::nullopt;
 }
-bool ProcessManager::terminateProcess(const qint64 pid)
+bool ProcessManager::terminateProcess(const qint64 pid) const
 {
     if (pid <= 0)
         return false;
@@ -53,4 +53,12 @@ bool ProcessManager::terminateProcess(const qint64 pid)
 #endif
 }
 
+const qint64 ProcessManager::getCurrentPID() const
+{
+#if defined(Q_OS_WIN)
+    return static_cast<qint64>(GetCurrentProcessId());
+#elif defined(Q_OS_LINUX) || defined(Q_OS_MAC)
+    return static_cast<qint64>(getpid());
+#endif
+}
 }

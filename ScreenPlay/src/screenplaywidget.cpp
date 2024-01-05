@@ -56,8 +56,7 @@ ScreenPlayWidget::ScreenPlayWidget(
         QString::number(m_position.x()),
         "--posY",
         QString::number(m_position.y()),
-        "--debug",
-        "--false",
+        "--mainapppid", QString::number(m_processManager.getCurrentPID())
     };
 }
 
@@ -113,6 +112,13 @@ void ScreenPlayWidget::setSDKConnection(std::unique_ptr<SDKConnection> connectio
     QObject::connect(m_connection.get(), &SDKConnection::pingAliveReceived, this, [this]() {
         m_pingAliveTimer.stop();
         m_pingAliveTimer.start(GlobalVariables::contentPingAliveIntervalMS);
+        std::optional<bool> running = m_processManager.isRunning(m_processID);
+
+        if (running.has_value()) {
+            qInfo() << "running:" << running.value();
+        } else {
+            qInfo() << "INVALID PID:" << m_processID;
+        }
     });
 
     QObject::connect(&m_pingAliveTimer, &QTimer::timeout, this, [this]() {

@@ -15,6 +15,7 @@
 
 #include "ScreenPlaySDK/screenplaysdk.h"
 #include "ScreenPlayUtil/exitcodes.h"
+#include "ScreenPlayUtil/processmanager.h"
 #include "ScreenPlayUtil/util.h"
 
 #include <memory>
@@ -29,36 +30,29 @@ public:
     virtual WallpaperExit::Code setup() final;
 
     virtual WallpaperExit::Code start() = 0;
-
+    Q_PROPERTY(qint64 mainAppPID READ mainAppPID WRITE setMainAppPID NOTIFY mainAppPIDChanged FINAL)
     Q_PROPERTY(int width READ width WRITE setWidth NOTIFY widthChanged)
     Q_PROPERTY(int height READ height WRITE setHeight NOTIFY heightChanged)
     Q_PROPERTY(QVector<int> activeScreensList READ activeScreensList WRITE setActiveScreensList NOTIFY activeScreensListChanged)
-
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
     Q_PROPERTY(QString fillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged)
-
     Q_PROPERTY(QString projectPath READ projectPath WRITE setProjectPath NOTIFY projectPathChanged)
     Q_PROPERTY(QString projectSourceFile READ projectSourceFile WRITE setProjectSourceFile NOTIFY projectSourceFileChanged)
     Q_PROPERTY(QUrl projectSourceFileAbsolute READ projectSourceFileAbsolute WRITE setProjectSourceFileAbsolute NOTIFY projectSourceFileAbsoluteChanged)
-
     Q_PROPERTY(bool loops READ loops WRITE setLoops NOTIFY loopsChanged)
     Q_PROPERTY(bool isPlaying READ isPlaying WRITE setIsPlaying NOTIFY isPlayingChanged)
     Q_PROPERTY(bool muted READ muted WRITE setMuted NOTIFY mutedChanged)
     Q_PROPERTY(bool canFade READ canFade WRITE setCanFade NOTIFY canFadeChanged)
     Q_PROPERTY(bool debugMode READ debugMode WRITE setDebugMode NOTIFY debugModeChanged)
-
     // Save performance by checking if the wallpaper is visible (video wallpaper only for now)
     Q_PROPERTY(bool checkWallpaperVisible READ checkWallpaperVisible WRITE setCheckWallpaperVisible NOTIFY checkWallpaperVisibleChanged)
     Q_PROPERTY(bool visualsPaused READ visualsPaused WRITE setVisualsPaused NOTIFY visualsPausedChanged)
-
     Q_PROPERTY(float volume READ volume WRITE setVolume NOTIFY volumeChanged)
     Q_PROPERTY(float playbackRate READ playbackRate WRITE setPlaybackRate NOTIFY playbackRateChanged)
     Q_PROPERTY(float currentTime READ currentTime WRITE setCurrentTime NOTIFY currentTimeChanged)
-
     Q_PROPERTY(ScreenPlay::ContentTypes::InstalledType type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(ScreenPlay::Video::VideoCodec videoCodec READ videoCodec WRITE setVideoCodec NOTIFY videoCodecChanged)
     Q_PROPERTY(QString OSVersion READ OSVersion WRITE setOSVersion NOTIFY OSVersionChanged)
-
     Q_PROPERTY(ScreenPlaySDK* sdk READ sdk WRITE setSdk NOTIFY sdkChanged)
 
     bool loops() const { return m_loops; }
@@ -85,6 +79,9 @@ public:
 
     ScreenPlay::Video::VideoCodec videoCodec() const;
     void setVideoCodec(ScreenPlay::Video::VideoCodec newVideoCodec);
+
+    qint64 mainAppPID() const;
+    void setMainAppPID(qint64 mainAppPID);
 
 signals:
     void qmlStart();
@@ -117,6 +114,8 @@ signals:
     void projectSourceFileChanged(const QString& projectSourceFile);
     void projectSourceFileAbsoluteChanged(const QUrl& rojectSourceFileAbsolute);
     void videoCodecChanged(ScreenPlay::Video::VideoCodec codec);
+
+    void mainAppPIDChanged(qint64 mainAppPID);
 
 public slots:
     void requestFadeIn();
@@ -348,7 +347,9 @@ protected:
 
     int m_width { 0 };
     int m_height { 0 };
+    qint64 m_mainAppPID { 0 };
 
+    ProcessManager m_processManager;
     ScreenPlay::ContentTypes::InstalledType m_type = ScreenPlay::ContentTypes::InstalledType::Unknown;
     QVector<int> m_activeScreensList;
     QFileSystemWatcher m_fileSystemWatcher;

@@ -33,7 +33,7 @@ void ScreenPlaySDK::start()
     connect(&m_socket, &QLocalSocket::disconnected, this, &ScreenPlaySDK::disconnected);
     connect(&m_socket, &QLocalSocket::readyRead, this, &ScreenPlaySDK::readyRead);
     connect(&m_socket, &QLocalSocket::errorOccurred, this, [this]() {
-        emit disconnected();
+        disconnected();
     });
 
     m_socket.connectToServer("ScreenPlay");
@@ -59,7 +59,7 @@ void ScreenPlaySDK::connected()
 
     if (m_appID.isEmpty() || m_type.isEmpty()) {
         qCritical() << "Unable to connect with empyt: " << m_appID << m_type;
-        emit disconnected();
+        disconnected();
         return;
     }
 
@@ -169,6 +169,16 @@ void ScreenPlaySDK::pingAlive()
         qInfo() << "Cannot ping to main application. Closing!";
         emit sdkDisconnected();
     }
+
+    // Check if a PID is set first
+    if (m_mainAppPID != 0) {
+        std::optional<bool> running = m_processManager.isRunning(m_mainAppPID);
+        if (running.has_value()) {
+            if (running.value())
+                return;
+        }
+        emit sdkDisconnected();
+    }
 }
 
 void ScreenPlaySDK::ScreenPlaySDK::redirectMessageOutputToMainWindow(QtMsgType type, const QMessageLogContext& context, const QString& msg)
@@ -203,4 +213,17 @@ void ScreenPlaySDK::ScreenPlaySDK::redirectMessageOutputToMainWindow(QtMsgType t
     default:
         break;
     }
+}
+
+qint64 ScreenPlaySDK::mainAppPID() const
+{
+    return m_mainAppPID;
+}
+
+void ScreenPlaySDK::setMainAppPID(qint64 mainAppPID)
+{
+    if (m_mainAppPID == mainAppPID)
+        return;
+    m_mainAppPID = mainAppPID;
+    emit mainAppPIDChanged(m_mainAppPID);
 }

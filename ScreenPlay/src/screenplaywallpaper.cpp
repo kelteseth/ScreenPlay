@@ -92,7 +92,8 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
         "--volume", QString::number(static_cast<double>(volume)),
         "--fillmode", QVariant::fromValue(fillMode).toString(),
         "--type", QVariant::fromValue(type).toString(),
-        "--check", QString::number(m_settings->checkWallpaperVisible())
+        "--check", QString::number(m_settings->checkWallpaperVisible()),
+        "--mainapppid", QString::number(m_processManager.getCurrentPID())
     };
 
     // Fixes issue 84 media key overlay in Qt apps
@@ -262,6 +263,14 @@ void ScreenPlayWallpaper::setSDKConnection(std::unique_ptr<SDKConnection> connec
     QObject::connect(m_connection.get(), &SDKConnection::pingAliveReceived, this, [this]() {
         m_pingAliveTimer.stop();
         m_pingAliveTimer.start(GlobalVariables::contentPingAliveIntervalMS);
+
+        std::optional<bool> running = m_processManager.isRunning(m_processID);
+
+        if (running.has_value()) {
+            qInfo() << "running:" << running.value();
+        } else {
+            qInfo() << "INVALID PID:" << m_processID;
+        }
     });
 }
 

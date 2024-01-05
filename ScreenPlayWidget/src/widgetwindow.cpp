@@ -6,8 +6,10 @@
 #include <QSysInfo>
 
 #include "ScreenPlayUtil/contenttypes.h"
+#include "ScreenPlayUtil/processmanager.h"
 #include "ScreenPlayUtil/util.h"
 
+namespace ScreenPlay {
 /*!
     \module ScreenPlayWidget
     \title ScreenPlayWidget
@@ -25,13 +27,14 @@ WidgetWindow::WidgetWindow(
     const QString& appID,
     const QString& type,
     const QPoint& position,
+    const qint64 mainAppPID,
     const bool debugMode)
     : QObject(nullptr)
     , m_appID { appID }
     , m_position { position }
-    , m_sdk { std::make_unique<ScreenPlaySDK>(appID, type) }
     , m_debugMode { debugMode }
 {
+    setMainAppPID(mainAppPID);
     Qt::WindowFlags flags = m_window.flags();
     if (QSysInfo::productType() == "macos") {
         // Setting it as a SlashScreen causes the window to hide on focus lost
@@ -80,6 +83,8 @@ WidgetWindow::WidgetWindow(
     // Debug mode means we directly start the ScreenPlayWallpaper for easy debugging.
     // This means we do not have a running ScreenPlay instance to connect to.
     if (!m_debugMode) {
+        m_sdk = std::make_unique<ScreenPlaySDK>(appID, type);
+        m_sdk->setMainAppPID(mainAppPID);
         QObject::connect(m_sdk.get(), &ScreenPlaySDK::sdkDisconnected, this, &WidgetWindow::qmlExit);
         QObject::connect(m_sdk.get(), &ScreenPlaySDK::incommingMessage, this, &WidgetWindow::messageReceived);
         sdk()->start();
@@ -217,5 +222,17 @@ void WidgetWindow::setupLiveReloading()
         m_fileSystemWatcher.addPath(projectFilesIter.next());
     }
 }
+qint64 WidgetWindow::mainAppPID() const
+{
+    return m_mainAppPID;
+}
 
+void WidgetWindow::setMainAppPID(qint64 mainAppPID)
+{
+    if (m_mainAppPID == mainAppPID)
+        return;
+    m_mainAppPID = mainAppPID;
+    emit mainAppPIDChanged(m_mainAppPID);
+}
+}
 #include "moc_widgetwindow.cpp"

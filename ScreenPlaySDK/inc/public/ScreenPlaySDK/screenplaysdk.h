@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "ScreenPlayUtil/processmanager.h"
 #include <QByteArray>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -26,10 +27,14 @@ public:
     Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(bool isConnected READ isConnected WRITE setIsConnected NOTIFY isConnectedChanged)
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
+    Q_PROPERTY(qint64 mainAppPID READ mainAppPID WRITE setMainAppPID NOTIFY mainAppPIDChanged FINAL)
 
     QString type() const { return m_type; }
     bool isConnected() const { return m_isConnected; }
     QString appID() const { return m_appID; }
+
+    qint64 mainAppPID() const;
+    void setMainAppPID(qint64 mainAppPID);
 
 public slots:
     void sendMessage(const QJsonObject& obj);
@@ -91,6 +96,8 @@ signals:
         const QString type,
         const bool checkWallpaperVisible);
 
+    void mainAppPIDChanged(qint64 mainAppPID);
+
 private:
     QLocalSocket m_socket;
 
@@ -99,4 +106,6 @@ private:
 
     QString m_appID;
     QTimer m_pingAliveTimer;
+    qint64 m_mainAppPID { 0 };
+    ScreenPlay::ProcessManager m_processManager;
 };

@@ -27,6 +27,7 @@
 #include "ScreenPlayUtil/util.h"
 #include <memory>
 
+namespace ScreenPlay {
 class WidgetWindow : public QObject {
     Q_OBJECT
 
@@ -36,8 +37,10 @@ public:
         const QString& appid,
         const QString& type,
         const QPoint& position,
+        const qint64 mainAppPID,
         const bool debugMode = false);
 
+    Q_PROPERTY(qint64 mainAppPID READ mainAppPID WRITE setMainAppPID NOTIFY mainAppPIDChanged FINAL)
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
     Q_PROPERTY(QString projectPath READ projectPath WRITE setProjectPath NOTIFY projectPathChanged)
     Q_PROPERTY(QString projectSourceFile READ projectSourceFile WRITE setProjectSourceFile NOTIFY projectSourceFileChanged)
@@ -56,6 +59,9 @@ public:
     ScreenPlaySDK* sdk() const { return m_sdk.get(); }
     bool debugMode() const { return m_debugMode; }
 
+    qint64 mainAppPID() const;
+    void setMainAppPID(qint64 mainAppPID);
+
 signals:
     void qmlExit();
     void reloadQML(const ScreenPlay::ContentTypes::InstalledType oldType);
@@ -68,6 +74,8 @@ signals:
     void projectSourceFileAbsoluteChanged(const QUrl& projectSourceFileAbsolute);
     void sdkChanged(ScreenPlaySDK* sdk);
     void debugModeChanged(bool debugMode);
+
+    void mainAppPIDChanged(qint64 mainAppPID);
 
 public slots:
     void setSize(QSize size);
@@ -155,6 +163,7 @@ private:
     void setupLiveReloading();
 
 private:
+    qint64 m_mainAppPID { 0 };
     QString m_appID;
     QString m_projectPath;
     QString m_projectSourceFile;
@@ -174,3 +183,4 @@ private:
 #endif
     bool m_debugMode = false;
 };
+}
