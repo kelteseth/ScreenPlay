@@ -26,16 +26,16 @@ Item {
     height: 180
     onTypeChanged: {
         if (App.util.isWidget(type)) {
-            icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_widgets.svg";
-            return;
+            icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_widgets.svg"
+            return
         }
         if (App.util.isScene(type)) {
-            icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_code.svg";
-            return;
+            icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_code.svg"
+            return
         }
         if (App.util.isVideo(type)) {
-            icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_movie.svg";
-            return;
+            icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_movie.svg"
+            return
         }
     }
 
@@ -43,10 +43,10 @@ Item {
         running: true
         onTriggered: showAnim.start()
         interval: {
-            var itemIndexMax = itemIndex;
+            var itemIndexMax = itemIndex
             if (itemIndex > 30)
-                itemIndexMax = 3;
-            5 * itemIndexMax * Math.random();
+                itemIndexMax = 3
+            5 * itemIndexMax * Math.random()
         }
     }
 
@@ -232,20 +232,20 @@ Item {
                 cursorShape: Qt.PointingHandCursor
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onEntered: {
-                    root.state = "hover";
-                    screenPlayItemImage.state = "hover";
-                    screenPlayItemImage.enter();
+                    root.state = "hover"
+                    screenPlayItemImage.state = "hover"
+                    screenPlayItemImage.enter()
                 }
                 onExited: {
-                    root.state = "";
-                    screenPlayItemImage.state = "loaded";
-                    screenPlayItemImage.exit();
+                    root.state = ""
+                    screenPlayItemImage.state = "loaded"
+                    screenPlayItemImage.exit()
                 }
                 onClicked: function (mouse) {
                     if (mouse.button === Qt.LeftButton)
-                        App.util.setSidebarItem(root.screenId, root.type);
+                        App.util.setSidebarItem(root.screenId, root.type)
                     else if (mouse.button === Qt.RightButton)
-                        root.openContextMenu(Qt.point(mouseX, mouseY));
+                        root.openContextMenu(Qt.point(mouseX, mouseY))
                 }
             }
         }
@@ -258,37 +258,42 @@ Item {
 
             ScaleAnimator {
                 target: screenPlayItemWrapper
-                duration: 80
+                duration: 2000
                 from: 1
                 to: 1.05
+                easing.type: Easing.OutQuart
             }
 
             ScaleAnimator {
                 target: effect
-                duration: 80
+                duration: 2000
                 from: 1
                 to: 1.05
+                easing.type: Easing.OutQuart
             }
 
             OpacityAnimator {
                 target: icnType
-                duration: 80
+                duration: 2000
                 from: 0.25
                 to: 0.8
+                easing.type: Easing.OutQuart
             }
 
             OpacityAnimator {
                 target: icnAudio
-                duration: 80
+                duration: 2000
                 from: 0.25
                 to: 0.8
+                easing.type: Easing.OutQuart
             }
 
             OpacityAnimator {
                 target: effect
-                duration: 80
+                duration: 2000
                 from: 0.6
                 to: 1
+                easing.type: Easing.OutQuart
             }
         },
         Transition {
@@ -297,37 +302,42 @@ Item {
 
             ScaleAnimator {
                 target: screenPlayItemWrapper
-                duration: 80
+                duration: 2000
                 from: 1.05
                 to: 1
+                easing.type: Easing.OutQuart
             }
 
             ScaleAnimator {
                 target: effect
-                duration: 80
+                duration: 2000
                 from: 1.05
                 to: 1
+                easing.type: Easing.OutQuart
             }
 
             OpacityAnimator {
                 target: icnType
-                duration: 80
+                duration: 2000
                 from: 0.8
                 to: 0.25
+                easing.type: Easing.OutQuart
             }
 
             OpacityAnimator {
                 target: icnAudio
-                duration: 80
+                duration: 2000
                 from: 0.8
                 to: 0.25
+                easing.type: Easing.OutQuart
             }
 
             OpacityAnimator {
                 target: effect
-                duration: 80
+                duration: 2000
                 from: 1
                 to: 0.5
+                easing.type: Easing.OutQuart
             }
         }
     ]

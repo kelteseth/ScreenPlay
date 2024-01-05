@@ -181,9 +181,10 @@ Item {
 
                     ScaleAnimator {
                         target: img
-                        duration: 80
+                        duration: 2000
                         from: 1
                         to: 1.05
+                        easing.type: Easing.OutQuart
                     }
                 },
                 Transition {
@@ -192,9 +193,10 @@ Item {
 
                     ScaleAnimator {
                         target: img
-                        duration: 80
+                        duration: 2000
                         from: 1.05
                         to: 1
+                        easing.type: Easing.OutQuart
                     }
                 }
             ]

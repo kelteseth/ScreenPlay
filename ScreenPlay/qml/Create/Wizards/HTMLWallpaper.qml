@@ -69,7 +69,7 @@ WizardPage {
         }
 
         Item {
-            height: 30
+            height: 10
         }
 
         Util.HeadlineSection {

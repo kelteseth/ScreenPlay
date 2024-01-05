@@ -124,20 +124,37 @@ Item {
 
             ScaleAnimator {
                 target: image
-                duration: 80
+                duration: 2000
                 from: 1
-                to: 1.05
+                to: 1.1
+                easing.type: Easing.OutQuart
+            }
+            PropertyAnimation {
+                target: txtText
+                property: "color"
+                from: "white"
+                to: Material.color(Material.Orange)
+                duration: 200
             }
         },
         Transition {
             from: "hover"
             to: ""
 
+            PropertyAnimation {
+                target: txtText
+                property: "color"
+                duration: 200
+                from: Material.color(Material.Orange)
+                to: "white"
+            }
+
             ScaleAnimator {
                 target: image
-                duration: 80
-                from: 1.05
+                duration: 2000
+                from: 1.1
                 to: 1
+                easing.type: Easing.OutQuart
             }
         }
     ]
