@@ -568,16 +568,16 @@ bool CreateImportVideo::createWallpaperVideo()
 
     QString targetCodec;
     QString targetFileEnding;
-    if (m_targetCodec == Video::VideoCodec::VP8)
+    if (m_targetCodec == Video::VideoCodec::VP8) {
         targetCodec = "libvpx";
-    targetFileEnding = ".webm";
-    if (m_targetCodec == Video::VideoCodec::VP8)
-        targetCodec = "libvpx";
-    targetFileEnding = ".webm";
-    if (m_targetCodec == Video::VideoCodec::AV1)
+        targetFileEnding = ".webm";
+    } else if (m_targetCodec == Video::VideoCodec::VP9) {
+        targetCodec = "libvpx-vp9";
+        targetFileEnding = ".webm";
+    } else if (m_targetCodec == Video::VideoCodec::AV1) {
         targetCodec = "libaom-av1";
-    targetFileEnding = ".mkv";
-    if (m_targetCodec == Video::VideoCodec::H264) {
+        targetFileEnding = ".mkv";
+    } else if (m_targetCodec == Video::VideoCodec::H264) {
         targetFileEnding = ".mp4";
         if (QOperatingSystemVersion::currentType() == QOperatingSystemVersion::Windows) {
             targetCodec = "h264_mf";
