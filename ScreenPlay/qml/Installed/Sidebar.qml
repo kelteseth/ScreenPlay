@@ -277,7 +277,7 @@ Item {
                     }
                 }
 
-                Slider {
+                LabelSlider {
                     id: sliderVolume
 
                     Layout.fillWidth: true

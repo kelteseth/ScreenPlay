@@ -29,7 +29,7 @@ ColumnLayout {
         slVolume.slider.value = wallpaper.volume;
     }
 
-    Util.Slider {
+    Util.LabelSlider {
         id: slVolume
 
         headline: qsTr("Volume")
@@ -42,7 +42,7 @@ ColumnLayout {
         }
     }
 
-    Util.Slider {
+    Util.LabelSlider {
         id: slCurrentVideoTime
 
         headline: qsTr("Current Video Time")

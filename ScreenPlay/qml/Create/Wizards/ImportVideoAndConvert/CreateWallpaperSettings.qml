@@ -6,7 +6,7 @@ import QtQuick.Layouts
 import QtQuick.Dialogs
 import ScreenPlayApp
 import ScreenPlay
-import ScreenPlayUtil as Util
+import ScreenPlayUtil
 
 Item {
     id: root
@@ -26,7 +26,7 @@ Item {
             margins: 20
         }
 
-        Util.Headline {
+        Headline {
             Layout.alignment: Qt.AlignTop
             Layout.fillWidth: true
             text: qsTr("Import Video Wallpaper - Select Codec")
@@ -68,24 +68,24 @@ Item {
                 model: ListModel {
                     id: model
                     ListElement {
-                        text: "✨h.264 (Better for all hardware)"
-                        value: Util.Video.VideoCodec.H264
+                        value: Video.VideoCodec.H264
+                        text: qsTr("✨h.264 (Better for all hardware)")
                     }
 
                     ListElement {
-                        text: "VP8 (Better for older hardware)"
-                        value: Util.Video.VideoCodec.VP9
+                        value: Video.VideoCodec.VP9
+                        text: qsTr("VP8 (Better for older hardware)")
                     }
 
                     ListElement {
-                        text: "VP9 (Better for newer hardware 2018+)"
-                        value: Util.Video.VideoCodec.VP8
+                        value: Video.VideoCodec.VP8
+                        text: qsTr("VP9 (Better for newer hardware 2018+)")
                     }
                 }
             }
         }
 
-        Util.Slider {
+        LabelSlider {
             id: sliderQuality
 
             iconSource: "qrc:/qml/ScreenPlayApp/assets/icons/icon_settings.svg"
@@ -125,9 +125,7 @@ Item {
         highlighted: true
         font.family: App.settings.font
         onClicked: {
-            let a = Util.Video.VideoCodec.H264
-            let targetCodec = comboBoxCodec.currentValue
-            root.next(a, sliderQuality.slider.value)
+            root.next(comboBoxCodec.currentValue, sliderQuality.value)
         }
         anchors {
             right: parent.right

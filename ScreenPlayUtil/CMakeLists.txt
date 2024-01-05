@@ -37,7 +37,7 @@ set(QML
     qml/Popup.qml
     qml/RippleEffect.qml
     qml/Shake.qml
-    qml/Slider.qml
+    qml/LabelSlider.qml
     qml/Tag.qml
     qml/TagSelector.qml
     qml/TextField.qml)
