@@ -41,7 +41,12 @@ LoggingHandler::LoggingHandler(const QString& logFileName)
     }
 #endif
 
-    qSetMessagePattern("[%{time dd.MM.yyyy h:mm:ss.zzz} %{if-debug}Debug%{endif}%{if-info}Info%{endif}%{if-warning}Warning%{endif}%{if-critical}Critical%{endif}%{if-fatal}Fatal%{endif}] %{file}:%{line} - %{message}");
+    if (SCREENPLAY_DEPLOY_VERSION) {
+        qSetMessagePattern("[%{time dd.MM.yyyy h:mm:ss.zzz} %{if-debug}Debug%{endif}%{if-info}Info%{endif}%{if-warning}Warning%{endif}%{if-critical}Critical%{endif}%{if-fatal}Fatal%{endif}] %{file}:%{line} - %{message}");
+    } else {
+        qSetMessagePattern("[%{time yy.MM.dd HH:mm:ss.zzz}] %{if-category}%{category}.%{endif}%{type} | %{function} | %{message}\n   Loc: [%{file}:%{line}]");
+    }
+
     qInstallMessageHandler(LoggingHandler::loggingMessageHandler);
     const auto lock = std::lock_guard(logFileMutex());
     m_logFileName = logFileName;
@@ -127,14 +132,15 @@ QFile& LoggingHandler::logFile()
  */
 QString LoggingHandler::logLine(QtMsgType type, const QMessageLogContext& context, const QString& message)
 {
-    const auto now = QLocale().toString(QDateTime::currentDateTime(), QLocale::FormatType::ShortFormat);
+    const auto now = QDateTime::currentDateTime().toString("dd.MM.yy HH:mm:ss.zzz");
     const auto filename = extractFileName(context);
     const auto function = extractFunction(context);
     auto category = QString(context.category);
     if (category == "default")
         category = "";
 
-    return QString("[%1] %2.%3 | %4:%5 | %6 | %7\n").arg(now).arg(category).arg(toString(type)).arg(filename).arg(context.line).arg(function).arg(message);
+    return QString("[%1] %2.%3 | %4:%5 | %6 | %7\n")
+        .arg(now, category, toString(type), filename, QString::number(context.line), function, message);
 }
 
 QString LoggingHandler::toString(QtMsgType type)
@@ -232,13 +238,25 @@ void LoggingHandler::writeToConsole(QtMsgType type, const QMessageLogContext& co
     const auto filename = extractFileName(context);
     const auto function = extractFunction(context);
     const auto line = context.line;
-    fmt::print(
-        "[{}] {} {}:{} - {}\n",
-        fmt::styled(now.toStdString(), fmt::emphasis::bold),
-        fmt::styled(typeIndicator.toStdString(), fg(color)),
-        function.toStdString(), // Replace with context.file when QTCREATORBUG-24353 is fixed
-        line,
-        message.toStdString());
+
+    if (SCREENPLAY_DEPLOY_VERSION) {
+        fmt::print(
+            "[{}] {} {}:{} - {}\n",
+            fmt::styled(now.toStdString(), fmt::emphasis::bold),
+            fmt::styled(typeIndicator.toStdString(), fg(color)),
+            function.toStdString(),
+            line,
+            message.toStdString());
+    } else {
+        // Maky output clickable in QtCreator
+        fmt::print(
+            "[{}] {} - {}\n   Loc: [{}:{}]\n",
+            fmt::styled(now.toStdString(), fmt::emphasis::bold),
+            fmt::styled(typeIndicator.toStdString(), fg(color)),
+            message.toStdString(),
+            context.file,
+            line);
+    }
 }
 
 void LoggingHandler::writeToFile(const QString& line)
