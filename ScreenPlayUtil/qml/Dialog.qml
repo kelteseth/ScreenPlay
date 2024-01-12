@@ -5,7 +5,7 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
 import QtQuick.Controls.Material
 import ScreenPlayApp
-import ScreenPlay
+
 
 Dialog {
     id: root

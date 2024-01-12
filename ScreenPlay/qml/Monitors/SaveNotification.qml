@@ -3,7 +3,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Controls.Material.impl
 import ScreenPlayApp
-import ScreenPlay
+
 
 Rectangle {
     id: root

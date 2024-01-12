@@ -39,7 +39,6 @@ public:
 
     int activeWallpaperCounter() const { return m_activeWallpaperCounter; }
     int activeWidgetsCounter() const { return m_activeWidgetsCounter; }
-    bool isAnotherScreenPlayInstanceRunning() { return m_isAnotherScreenPlayInstanceRunning; }
 
 signals:
     void activeWallpaperCounterChanged(int activeWallpaperCounter);
@@ -77,8 +76,8 @@ public slots:
         const QJsonObject& properties,
         const bool saveToProfilesConfigFile);
 
-    bool removeAllWallpapers();
-    bool removeAllWidgets();
+    bool removeAllWallpapers(bool saveToProfile = false);
+    bool removeAllWidgets(bool saveToProfile = false);
     bool removeWallpaperAt(const int index);
 
     bool requestProjectSettingsAtMonitorIndex(const int index);
@@ -159,7 +158,6 @@ private:
     int m_activeWallpaperCounter { 0 };
     int m_activeWidgetsCounter { 0 };
 
-    bool m_isAnotherScreenPlayInstanceRunning = false;
     QTimer m_saveLimiter;
 
     const quint16 m_webSocketPort = 16395;

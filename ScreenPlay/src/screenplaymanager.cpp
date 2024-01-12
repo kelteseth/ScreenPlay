@@ -23,12 +23,6 @@ ScreenPlayManager::ScreenPlayManager(
     QObject* parent)
     : QObject { parent }
 {
-
-    if (checkIsAnotherScreenPlayInstanceRunning()) {
-        m_isAnotherScreenPlayInstanceRunning = true;
-        return;
-    }
-
     m_server = std::make_unique<QLocalServer>();
 
     QObject::connect(m_server.get(), &QLocalServer::newConnection, this, &ScreenPlayManager::newConnection);
@@ -45,29 +39,6 @@ ScreenPlayManager::ScreenPlayManager(
     QObject::connect(this, &ScreenPlayManager::requestSaveProfiles, this, [this]() {
         m_saveLimiter.start();
     });
-}
-
-/*!
-    \brief Checks if another ScreenPlay instance is running by trying to connect to a pipe
-    with the name ScreenPlay.
-    If successful we send a raise command and quit via m_isAnotherScreenPlayInstanceRunning = true.
-*/
-bool ScreenPlayManager::checkIsAnotherScreenPlayInstanceRunning()
-{
-    QLocalSocket socket;
-    socket.connectToServer("ScreenPlay");
-
-    if (!socket.isOpen()) {
-        socket.close();
-        return false;
-    }
-
-    qInfo("Another ScreenPlay app is already running!");
-    QByteArray msg = "command=requestRaise";
-    socket.write(msg);
-    socket.waitForBytesWritten(500);
-    socket.close();
-    return true;
 }
 
 /*!
@@ -227,11 +198,11 @@ bool ScreenPlayManager::createWidget(
 /*!
     \brief Removes all wallpaper entries in the profiles.json.
 */
-bool ScreenPlayManager::removeAllWallpapers()
+bool ScreenPlayManager::removeAllWallpapers(bool saveToProfile)
 {
 
     if (m_screenPlayWallpapers.empty()) {
-        qWarning() << "Trying to remove all Wallpapers while m_screenPlayWallpapers is not empty. Count: " << m_screenPlayWallpapers.size();
+        qWarning() << "Trying to remove all Wallpapers while m_screenPlayWallpapers is not empty.";
         return false;
     }
 
@@ -247,7 +218,8 @@ bool ScreenPlayManager::removeAllWallpapers()
         }
     }
 
-    emit requestSaveProfiles();
+    if (saveToProfile)
+        emit requestSaveProfiles();
 
     return true;
 }
@@ -255,10 +227,10 @@ bool ScreenPlayManager::removeAllWallpapers()
 /*!
     \brief Removes all widgets and resets the activeWidgetCounter to 0.
 */
-bool ScreenPlayManager::removeAllWidgets()
+bool ScreenPlayManager::removeAllWidgets(bool saveToProfile)
 {
     if (m_screenPlayWidgets.empty()) {
-        qWarning() << "Trying to remove all Widgets while m_screenPlayWidgets is empty. Count: " << m_screenPlayWidgets.size();
+        qWarning() << "Trying to remove all Widgets while m_screenPlayWidgets is empty.";
         return false;
     }
 
@@ -274,7 +246,8 @@ bool ScreenPlayManager::removeAllWidgets()
         }
     }
 
-    emit requestSaveProfiles();
+    if (saveToProfile)
+        emit requestSaveProfiles();
 
     return true;
 }
@@ -557,9 +530,9 @@ bool ScreenPlayManager::loadProfiles()
     }
 
     std::optional<QVersionNumber> version = util.getVersionNumberFromString(configObj->value("version").toString());
-
-    if (version && *version != m_globalVariables->version()) {
-        qWarning() << "Version missmatch fileVersion: " << version->toString() << "m_version: " << m_globalVariables->version().toString();
+    QVersionNumber requiredVersion { 1, 0, 0 };
+    if (version && *version != requiredVersion) {
+        qWarning() << "Version missmatch fileVersion: " << version->toString() << "m_version: " << requiredVersion.toString();
         return false;
     }
 

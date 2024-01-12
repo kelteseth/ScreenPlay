@@ -5,7 +5,7 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Controls.Material.impl
 import ScreenPlayApp
-import ScreenPlay
+
 import ScreenPlayUtil as Util
 
 Util.Popup {
@@ -142,7 +142,7 @@ Util.Popup {
                     font.family: App.settings.font
                     enabled: App.screenPlayManager.activeWallpaperCounter > 0
                     onClicked: {
-                        if (!App.screenPlayManager.removeAllWallpapers())
+                        if (!App.screenPlayManager.removeAllWallpapers(true))
                             print("Unable to close all wallpaper!");
                         root.close();
                     }

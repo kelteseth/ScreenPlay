@@ -13,7 +13,7 @@ namespace ScreenPlay {
 /*!
     \brief Constructs the global variabls.
 */
-ScreenPlay::GlobalVariables::GlobalVariables(QObject* parent)
+GlobalVariables::GlobalVariables(QObject* parent)
     : QObject(parent)
 {
     setLocalSettingsPath(QUrl { QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) });
@@ -71,6 +71,13 @@ void GlobalVariables::setGodotEditorExecutablePath(QUrl godotEditorExecutablePat
     emit godotEditorExecutablePathChanged(m_godotEditorExecutablePath);
 }
 
+void GlobalVariables::setVersion(Version version)
+{
+    if (m_version == version)
+        return;
+    m_version = version;
+    emit versionChanged(m_version);
+}
 }
 
 #include "moc_globalvariables.cpp"

@@ -10,14 +10,18 @@
 #include <QDebug>
 #include <QDir>
 #include <QGuiApplication>
+#include <QQmlApplicationEngine>
 #include <QQuickItem>
+#include <QQuickWindow>
 #include <QtTest>
 
+#include <QQmlEngineExtensionPlugin>
 Q_IMPORT_QML_PLUGIN(ScreenPlayAppPlugin)
 Q_IMPORT_QML_PLUGIN(ScreenPlayUtilPlugin)
 #ifdef SCREENPLAY_STEAM
 Q_IMPORT_QML_PLUGIN(ScreenPlayWorkshopPlugin)
 #endif
+
 class ScreenPlayTest : public QObject {
     Q_OBJECT
 
@@ -26,7 +30,7 @@ private slots:
     {
 
         app.init();
-        m_window = qobject_cast<QQmlApplicationEngine*>(app.mainWindowEngine()->rootObjects().first());
+        // m_window = qobject_cast<QQmlApplicationEngine*>(app.mainWindowEngine()->rootObjects().first());
 
         m_window->addImportPath(QGuiApplication::instance()->applicationDirPath() + "/qml");
         QVERIFY(m_window);

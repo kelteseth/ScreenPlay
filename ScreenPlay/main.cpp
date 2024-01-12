@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
 #include "ScreenPlay/CMakeVariables.h"
-#include "ScreenPlay/app.h"
+#include "ScreenPlay/applicationengine.h"
 #include "ScreenPlayUtil/logginghandler.h"
 #include "qcorotask.h"
 #include "qml/qcoroqml.h"
@@ -18,6 +18,7 @@
 Q_IMPORT_QML_PLUGIN(ScreenPlayWorkshopPlugin)
 #endif
 
+#include <QQmlEngineExtensionPlugin>
 Q_IMPORT_QML_PLUGIN(ScreenPlayAppPlugin)
 Q_IMPORT_QML_PLUGIN(ScreenPlayUtilPlugin)
 Q_IMPORT_QML_PLUGIN(PlausiblePlugin)
@@ -30,14 +31,14 @@ int main(int argc, char* argv[])
 #endif
 
     QGuiApplication qtGuiApp(argc, argv);
-    ScreenPlay::App app;
+    ScreenPlay::ApplicationEngine appEngine;
 
-    if (app.m_isAnotherScreenPlayInstanceRunning) {
+    if (appEngine.isAnotherScreenPlayInstanceRunning()) {
         return 0;
     }
 
     auto logging = std::make_unique<const ScreenPlayUtil::LoggingHandler>("ScreenPlay");
-    app.init();
+    appEngine.init();
     const int status = qtGuiApp.exec();
 #if defined(Q_OS_WIN)
     sentry_shutdown();

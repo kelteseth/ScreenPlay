@@ -7,7 +7,7 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
 import QtCore as QCore
 import ScreenPlayApp
-import ScreenPlay
+
 import ScreenPlayUtil as Util
 
 Item {

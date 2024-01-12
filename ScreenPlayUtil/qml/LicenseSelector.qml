@@ -3,7 +3,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import ScreenPlayApp
-import ScreenPlay
+
 
 ColumnLayout {
     id: root

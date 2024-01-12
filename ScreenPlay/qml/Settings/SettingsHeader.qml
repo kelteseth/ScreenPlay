@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
 import ScreenPlayApp
-import ScreenPlay
+
 
 Item {
     id: settingsHeader

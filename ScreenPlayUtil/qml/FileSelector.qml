@@ -3,7 +3,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Dialogs
 import ScreenPlayApp
-import ScreenPlay
+
 
 /*!
    \qmltype Image Selector

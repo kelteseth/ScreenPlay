@@ -5,7 +5,7 @@ import QtQuick.Controls.Material
 import QtQuick.Window
 import Qt5Compat.GraphicalEffects
 import ScreenPlayApp
-import ScreenPlay
+
 import ScreenPlayUtil as Util
 
 Util.Dialog {

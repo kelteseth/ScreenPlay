@@ -6,7 +6,6 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
 import ScreenPlayApp
-import ScreenPlay
 import ScreenPlayUtil
 
 Item {
@@ -200,7 +199,8 @@ Item {
                                 }
                             }
                             onActivated: {
-                                App.settings.setLanguage(settingsLanguage.comboBox.currentValue);
+                                let language = settingsLanguage.comboBox.currentValue
+                                App.settings.setLanguage(language);
                                 App.settings.retranslateUI();
                             }
                         }

@@ -1,17 +1,23 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
 #include "ScreenPlay/app.h"
+
+#include <QDir>
+#include <QElapsedTimer>
+#include <QGuiApplication>
+#include <QIcon>
+#include <QObject>
+#include <QProcessEnvironment>
+#include <QQuickStyle>
+#include <QStringList>
+#include <QUrl>
+#include <QVersionNumber>
+#include <QtGlobal>
+#include <QtSvg>
+
 #if defined(Q_OS_MACOS)
 #include "ScreenPlayUtil/macutils.h"
 #endif
-
-#include "ScreenPlay/CMakeVariables.h"
-#include "ScreenPlayUtil/steamenumsgenerated.h"
-#include "app.h"
-#include <QGuiApplication>
-#include <QProcessEnvironment>
-#include <QQuickStyle>
-#include <QVersionNumber>
 
 namespace ScreenPlay {
 
@@ -31,25 +37,6 @@ namespace ScreenPlay {
     \inmodule ScreenPlay
     \brief The App class contains all members for ScreenPlay.
 */
-
-/*!
-    \brief Constructor creates and holds all classes used by ScreenPlay via unique_ptr or
-           shared_ptr.
-*/
-App::App()
-    : QObject(nullptr)
-{
-
-    QGuiApplication::setWindowIcon(QIcon(":/qml/ScreenPlayApp/assets/icons/app.ico"));
-    QGuiApplication::setOrganizationName("ScreenPlay");
-    QGuiApplication::setOrganizationDomain("screen-play.app");
-    QGuiApplication::setApplicationName("ScreenPlay");
-    QGuiApplication::setApplicationVersion(QString(SCREENPLAY_VERSION));
-    QGuiApplication::setQuitOnLastWindowClosed(false);
-    // ScreenPlayManager first to check if another ScreenPlay Instace is running
-    m_screenPlayManager = std::make_unique<ScreenPlayManager>();
-    m_isAnotherScreenPlayInstanceRunning = m_screenPlayManager->isAnotherScreenPlayInstanceRunning();
-}
 
 /*!
     \brief Used for initialization after the constructor. The sole purpose is to check if
@@ -77,6 +64,7 @@ void App::init()
 
     using std::make_shared, std::make_unique;
 
+    m_screenPlayManager = make_unique<ScreenPlayManager>();
     m_globalVariables = make_shared<GlobalVariables>();
     m_monitorListModel = make_shared<MonitorListModel>();
     m_util = make_unique<Util>();
@@ -84,7 +72,6 @@ void App::init()
     m_settings = make_shared<Settings>(m_globalVariables);
     m_installedListModel = make_shared<InstalledListModel>(m_globalVariables, m_settings);
     m_installedListFilter = make_shared<InstalledListFilter>(m_installedListModel);
-    m_mainWindowEngine = make_unique<QQmlApplicationEngine>();
 
     // Only create anonymousTelemetry if user did not disallow!
     if (m_settings->anonymousTelemetry()) {
@@ -114,16 +101,13 @@ void App::init()
 
     // When the installed storage path changed
     QObject::connect(m_settings.get(), &Settings::resetInstalledListmodel, m_installedListModel.get(), &InstalledListModel::reset);
-    QObject::connect(m_settings.get(), &Settings::requestRetranslation, m_mainWindowEngine.get(), &QQmlEngine::retranslate);
+    QObject::connect(m_settings.get(), &Settings::requestRetranslation, this, &App::requestRetranslation);
     m_settings->setupLanguage();
 
     QObject::connect(m_globalVariables.get(), &GlobalVariables::localStoragePathChanged, this, [this](QUrl localStoragePath) {
         emit m_settings->resetInstalledListmodel();
         m_settings->setqSetting("ScreenPlayContentPath", localStoragePath.toString());
     });
-
-    // Init after we have the paths from settings
-    m_installedListModel->init();
 
     auto* guiAppInst = dynamic_cast<QGuiApplication*>(QGuiApplication::instance());
 
@@ -133,16 +117,15 @@ void App::init()
         settings()->setSilentStart(true);
     }
 
-    qmlRegisterSingletonInstance("ScreenPlay", 1, 0, "App", this);
-    m_mainWindowEngine->addImportPath(guiAppInst->applicationDirPath() + "/qml");
-    guiAppInst->addLibraryPath(guiAppInst->applicationDirPath() + "/qml");
-
-    QQuickStyle::setStyle("Material");
-    m_mainWindowEngine->load(QUrl(QStringLiteral("qrc:/qml/ScreenPlayApp/main.qml")));
-
     // Must be called last to display a error message on startup by the qml engine
     m_screenPlayManager->init(m_globalVariables, m_monitorListModel, m_settings);
-    QObject::connect(m_monitorListModel.get(), &MonitorListModel::monitorConfigurationChanged, m_screenPlayManager.get(), &ScreenPlayManager::removeAllWallpapers);
+
+    QObject::connect(
+        m_monitorListModel.get(),
+        &MonitorListModel::monitorConfigurationChanged,
+        m_screenPlayManager.get(), [this]() {
+            m_screenPlayManager->removeAllWallpapers(true);
+        });
 }
 
 QString App::version() const
@@ -156,18 +139,13 @@ QString App::version() const
 */
 void App::exit()
 {
-    m_screenPlayManager->removeAllWallpapers();
-    m_screenPlayManager->removeAllWidgets();
+    m_screenPlayManager->removeAllWallpapers(false);
+    m_screenPlayManager->removeAllWidgets(false);
     // Must be called inside a separate event loop otherwise we
     // would kill the qml engine while it is calling this function.
     // A single shot timer is a handy woraround for this.
     QTimer::singleShot(0, this, [this]() {
-        auto* appInst = QGuiApplication::instance();
-        // We must ensure that we kill the qml engine first
-        // before we destory the rest of the app
-        m_mainWindowEngine->clearSingletons();
-        m_mainWindowEngine.reset();
-        appInst->quit();
+        emit requestExit();
     });
 }
 
@@ -304,20 +282,6 @@ void App::setInstalledListFilter(InstalledListFilter* installedListFilter)
     emit installedListFilterChanged(m_installedListFilter.get());
 }
 /*!
-    \property App::mainWindowEngine
-    \brief .
-
-   .
-*/
-void App::setMainWindowEngine(QQmlApplicationEngine* mainWindowEngine)
-{
-    if (m_mainWindowEngine.get() == mainWindowEngine)
-        return;
-
-    m_mainWindowEngine.reset(mainWindowEngine);
-    emit mainWindowEngineChanged(m_mainWindowEngine.get());
-}
-/*!
     \property App::wizards
     \brief .
 
@@ -330,6 +294,24 @@ void App::setWizards(Wizards* wizards)
 
     m_wizards.reset(wizards);
     emit wizardsChanged(m_wizards.get());
+}
+
+QQmlEngine* App::engine() const
+{
+    return m_engine;
+}
+
+void App::setEngine(QQmlEngine* engine)
+{
+    m_engine = engine;
+    if (!m_engine) {
+        qFatal("QQmlEngine not set");
+    }
+    QObject::connect(
+        m_settings.get(),
+        &Settings::requestRetranslation,
+        m_engine,
+        &QQmlEngine::retranslate);
 }
 }
 

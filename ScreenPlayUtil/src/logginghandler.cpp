@@ -254,7 +254,9 @@ void LoggingHandler::writeToConsole(QtMsgType type, const QMessageLogContext& co
             fmt::styled(now.toStdString(), fmt::emphasis::bold),
             fmt::styled(typeIndicator.toStdString(), fg(color)),
             message.toStdString(),
-            context.file,
+            // Using context.file (char*) directly results
+            // in a runtime crash in release
+            QString::fromUtf8(context.file).toStdString(),
             line);
     }
 }

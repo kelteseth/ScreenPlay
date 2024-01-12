@@ -3,7 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material
 import ScreenPlayApp
-import ScreenPlay
+
 import ScreenPlayUtil as Util
 
 Util.Dialog {
