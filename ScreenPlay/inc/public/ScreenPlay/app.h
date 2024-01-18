@@ -28,16 +28,18 @@ class App : public QObject {
     QML_ELEMENT
     QML_SINGLETON
 
-    Q_PROPERTY(GlobalVariables* globalVariables READ globalVariables WRITE setGlobalVariables NOTIFY globalVariablesChanged FINAL)
-    Q_PROPERTY(ScreenPlayManager* screenPlayManager READ screenPlayManager WRITE setScreenPlayManager NOTIFY screenPlayManagerChanged FINAL)
-    Q_PROPERTY(Create* create READ create WRITE setCreate NOTIFY createChanged FINAL)
-    Q_PROPERTY(Wizards* wizards READ wizards WRITE setWizards NOTIFY wizardsChanged FINAL)
-    Q_PROPERTY(Util* util READ util WRITE setUtil NOTIFY utilChanged FINAL)
-    Q_PROPERTY(Settings* settings READ settings WRITE setSettings NOTIFY settingsChanged FINAL)
-    Q_PROPERTY(InstalledListModel* installedListModel READ installedListModel WRITE setInstalledListModel NOTIFY installedListModelChanged FINAL)
-    Q_PROPERTY(InstalledListFilter* installedListFilter READ installedListFilter WRITE setInstalledListFilter NOTIFY installedListFilterChanged FINAL)
-    Q_PROPERTY(MonitorListModel* monitorListModel READ monitorListModel WRITE setMonitorListModel NOTIFY monitorListModelChanged FINAL)
-    Q_PROPERTY(ProfileListModel* profileListModel READ profileListModel WRITE setProfileListModel NOTIFY profileListModelChanged FINAL)
+    // We must add the namespace here to make
+    // it work with QtC autocompletion, see QTCREATORBUG-30197
+    Q_PROPERTY(ScreenPlay::GlobalVariables* globalVariables READ globalVariables WRITE setGlobalVariables NOTIFY globalVariablesChanged FINAL)
+    Q_PROPERTY(ScreenPlay::ScreenPlayManager* screenPlayManager READ screenPlayManager WRITE setScreenPlayManager NOTIFY screenPlayManagerChanged FINAL)
+    Q_PROPERTY(ScreenPlay::Create* create READ create WRITE setCreate NOTIFY createChanged FINAL)
+    Q_PROPERTY(ScreenPlay::Wizards* wizards READ wizards WRITE setWizards NOTIFY wizardsChanged FINAL)
+    Q_PROPERTY(ScreenPlay::Util* util READ util WRITE setUtil NOTIFY utilChanged FINAL)
+    Q_PROPERTY(ScreenPlay::Settings* settings READ settings WRITE setSettings NOTIFY settingsChanged FINAL)
+    Q_PROPERTY(ScreenPlay::InstalledListModel* installedListModel READ installedListModel WRITE setInstalledListModel NOTIFY installedListModelChanged FINAL)
+    Q_PROPERTY(ScreenPlay::InstalledListFilter* installedListFilter READ installedListFilter WRITE setInstalledListFilter NOTIFY installedListFilterChanged FINAL)
+    Q_PROPERTY(ScreenPlay::MonitorListModel* monitorListModel READ monitorListModel WRITE setMonitorListModel NOTIFY monitorListModelChanged FINAL)
+    Q_PROPERTY(ScreenPlay::ProfileListModel* profileListModel READ profileListModel WRITE setProfileListModel NOTIFY profileListModelChanged FINAL)
 
 public:
     // QML callable functions
