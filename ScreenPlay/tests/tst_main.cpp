@@ -1,10 +1,4 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
-
-#include "ScreenPlay/app.h"
-#include "ScreenPlay/create.h"
-
-#include "ScreenPlay/CMakeVariables.h"
-
 #include <QCommandLineParser>
 #include <QCoreApplication>
 #include <QDebug>
@@ -14,6 +8,11 @@
 #include <QQuickItem>
 #include <QQuickWindow>
 #include <QtTest>
+
+#include "ScreenPlay/app.h"
+#include "ScreenPlay/create.h"
+
+#include "ScreenPlay/CMakeVariables.h"
 
 #include <QQmlEngineExtensionPlugin>
 Q_IMPORT_QML_PLUGIN(ScreenPlayAppPlugin)
