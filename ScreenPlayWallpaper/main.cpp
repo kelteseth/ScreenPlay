@@ -46,6 +46,7 @@ int main(int argc, char* argv[])
 #if defined(Q_OS_WIN)
     window = std::make_unique<WinWindow>();
 #elif defined(Q_OS_LINUX)
+    const auto platformName = QGuiApplication::platformName();
     if (platformName == "xcb") {
         window = std::make_unique<LinuxX11Window>();
     } else if (platformName == "wayland") {

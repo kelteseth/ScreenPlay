@@ -44,12 +44,12 @@
             ]
         },
         {
-            "name": "linux-gcc-profile",
-            "binaryDir": "${sourceDir}/../build_ScreenPlay_Gcc_Profile",
+            "name": "linux-gcc-relwithdebinfo",
+            "binaryDir": "${sourceDir}/../build_ScreenPlay_Gcc_RelWithDebInfo",
             "inherits": [
                 "config-develop",
                 "linux-gcc-base",
-                "profile"
+                "relwithdebinfo"
             ]
         },
         {
@@ -80,12 +80,12 @@
             ]
         },
         {
-            "name": "linux-clang-profile",
-            "binaryDir": "${sourceDir}/../build_ScreenPlay_Clang_Profile",
+            "name": "linux-clang-relwithdebinfo",
+            "binaryDir": "${sourceDir}/../build_ScreenPlay_Clang_RelWithDebInfo",
             "inherits": [
                 "config-develop",
                 "linux-clang-base",
-                "profile"
+                "relwithdebinfo"
             ]
         },
         {
