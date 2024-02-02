@@ -1,0 +1,124 @@
+{
+    "version": 4,
+    "cmakeMinimumRequired": {
+        "major": 0,
+        "minor": 27,
+        "patch": 0
+    },
+    "include": [
+        "../Common/CMakePresets.json"
+    ],
+    "configurePresets": [
+        {
+            "name": "windows-base",
+            "hidden": true,
+            "inherits": [
+                "default",
+                "ninja",
+                "host-windows"
+            ],
+            "cacheVariables": {
+                "VCPKG_TARGET_TRIPLET": "x64-windows"
+            },
+            "toolset": {
+                "value": "host=x64",
+                "strategy": "external"
+            },
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+            }
+        },
+        {
+            "name": "windows-base-aqt",
+            "hidden": true,
+            "inherits": [
+                "windows-base"
+            ],
+            "cacheVariables": {
+                "CMAKE_PREFIX_PATH": "${sourceDir}/../aqt/6.6.1/msvc2019_64"
+            }
+        },
+        {
+            "name": "windows-base-qt",
+            "hidden": true,
+            "inherits": [
+                "windows-base"
+            ],
+            "cacheVariables": {
+                "CMAKE_PREFIX_PATH": "C:/Qt/6.7.0/msvc2019_64"
+            }
+        },
+        {
+            "name": "windows-msvc-base",
+            "hidden": true,
+            "inherits": "windows-base-qt",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "cl.exe",
+                "CMAKE_CXX_COMPILER": "cl.exe"
+            }
+        },
+        {
+            "name": "windows-msvc-debug",
+            "binaryDir": "${sourceDir}/../build_ScreenPlay_MSVC_Debug",
+            "inherits": [
+                "config-develop",
+                "windows-msvc-base",
+                "debug"
+            ]
+        },
+        {
+            "name": "windows-msvc-relwithdebinfo",
+            "binaryDir": "${sourceDir}/../build_ScreenPlay_MSVC_RelWithDebInfo",
+            "inherits": [
+                "config-develop",
+                "windows-msvc-base",
+                "relwithdebinfo"
+            ]
+        },
+        {
+            "name": "windows-msvc-release",
+            "binaryDir": "${sourceDir}/../build_ScreenPlay_MSVC_Release",
+            "inherits": [
+                "config-develop",
+                "windows-msvc-base",
+                "release"
+            ]
+        },
+        {
+            "name": "windows-clang-base",
+            "inherits": "windows-base",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "C:/Program Files/LLVM/bin/clang-cl.exe",
+                "CMAKE_CXX_COMPILER": "C:/Program Files/LLVM/bin/clang-cl.exe"
+            }
+        },
+        {
+            "name": "windows-clang-debug",
+            "binaryDir": "${sourceDir}/../build_ScreenPlay_Clang_Debug",
+            "inherits": [
+                "config-develop",
+                "windows-clang-base",
+                "debug"
+            ]
+        },
+        {
+            "name": "windows-clang-profile",
+            "binaryDir": "${sourceDir}/../build_ScreenPlay_Clang_Profile",
+            "inherits": [
+                "config-develop",
+                "windows-clang-base",
+                "profile"
+            ]
+        },
+        {
+            "name": "windows-clang-release",
+            "binaryDir": "${sourceDir}/../build_ScreenPlay_Clang_Release",
+            "inherits": [
+                "config-develop",
+                "windows-clang-base",
+                "release"
+            ]
+        }
+    ]
+}

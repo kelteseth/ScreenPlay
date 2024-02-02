@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QFile>
 #include <QFileSystemWatcher>
+#include <QGuiApplication>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonParseError>
@@ -16,6 +17,7 @@
 #include "ScreenPlaySDK/screenplaysdk.h"
 #include "ScreenPlayUtil/exitcodes.h"
 #include "ScreenPlayUtil/processmanager.h"
+#include "ScreenPlayUtil/projectfile.h"
 #include "ScreenPlayUtil/util.h"
 
 #include <memory>

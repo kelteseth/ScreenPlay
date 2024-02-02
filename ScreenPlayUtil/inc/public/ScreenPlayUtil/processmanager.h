@@ -5,7 +5,7 @@
 #include <optional>
 
 #if defined(Q_OS_WIN)
-#include <Windows.h>
+#include <qt_windows.h>
 #elif defined(Q_OS_LINUX) || defined(Q_OS_MAC)
 #include <signal.h>
 #include <sys/types.h>

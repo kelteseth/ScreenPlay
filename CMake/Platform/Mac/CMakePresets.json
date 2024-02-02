@@ -1,0 +1,63 @@
+{
+    "version": 4,
+    "cmakeMinimumRequired": {
+        "major": 0,
+        "minor": 27,
+        "patch": 0
+    },
+    "include": [
+        "../Common/CMakePresets.json"
+    ],
+    "configurePresets": [
+        {
+            "name": "mac-base",
+            "hidden": true,
+            "inherits": [
+                "default",
+                "ninja",
+                "host-mac"
+            ],
+            "cacheVariables": {
+                "CMAKE_PREFIX_PATH": "${sourceDir}/../aqt/6.6.1/gcc_64",
+                "VCPKG_OSX_ARCHITECTURES": "arm64;x86_64",
+                "VCPKG_TARGET_TRIPLET": "64-osx-universal"
+            }
+        },
+        {
+            "name": "mac-clang-base",
+            "hidden": true,
+            "inherits": "mac-base",
+            "cacheVariables": {
+                "CMAKE_CXX_COMPILER": "clang++",
+                "CMAKE_C_COMPILER": "clang"
+            }
+        },
+        {
+            "name": "mac-clang-debug",
+            "binaryDir": "${sourceDir}/../build_ScreenPlay_Clang_Debug",
+            "inherits": [
+                "config-develop",
+                "mac-clang-base",
+                "debug"
+            ]
+        },
+        {
+            "name": "mac-clang-profile",
+            "binaryDir": "${sourceDir}/../build_ScreenPlay_Clang_Profile",
+            "inherits": [
+                "config-develop",
+                "mac-clang-base",
+                "profile"
+            ]
+        },
+        {
+            "name": "mac-clang-release",
+            "binaryDir": "${sourceDir}/../build_ScreenPlay_Clang_Release",
+            "inherits": [
+                "config-develop",
+                "mac-clang-base",
+                "release"
+            ]
+        }
+    ]
+}

@@ -5,7 +5,8 @@
 #include <QtQml>
 #include <shellscalingapi.h>
 #include <vector>
-#include <windows.h>
+
+#include <qt_windows.h>
 
 /*!
     \class WinWindow

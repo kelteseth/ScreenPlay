@@ -1,0 +1,310 @@
+{
+    "version": 4,
+    "cmakeMinimumRequired": {
+        "major": 0,
+        "minor": 27,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "default",
+            "description": "Placeholder configuration that buildPresets and testPresets can inherit from",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/../vcpkg/scripts/buildsystems/vcpkg.cmake"
+            }
+        },
+        {
+            "name": "debug",
+            "description": "Specifies build type for single-configuration generators: debug",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": {
+                    "type": "STRING",
+                    "value": "Debug"
+                }
+            }
+        },
+        {
+            "name": "relwithdebinfo",
+            "description": "Specifies build type for single-configuration generators: RelWithDebInfo",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": {
+                    "type": "STRING",
+                    "value": "RelWithDebInfo"
+                }
+            }
+        },
+        {
+            "name": "release",
+            "description": "Specifies build type for single-configuration generators: release",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": {
+                    "type": "STRING",
+                    "value": "Release"
+                }
+            }
+        },
+        {
+            "name": "profile",
+            "description": "Specifies build type for single-configuration generators: profile",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": {
+                    "type": "STRING",
+                    "value": "Profile"
+                }
+            }
+        },
+        {
+            "name": "compile-commands-json",
+            "description": "Generate compile_commands.json file when used with a Makefile or Ninja Generator",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_EXPORT_COMPILE_COMMANDS": {
+                    "type": "BOOL",
+                    "value": "ON"
+                }
+            }
+        },
+        {
+            "name": "config-steam-deploy",
+            "description": "CMake flags for the deploy version",
+            "hidden": true,
+            "cacheVariables": {
+                "SCREENPLAY_STEAM": "ON",
+                "SCREENPLAY_DEPLOY": "ON",
+                "SCREENPLAY_INSTALLER": "OFF",
+                "SCREENPLAY_TESTS": "OFF",
+                "SCREENPLAY_GODOT": "OFF"
+            }
+        },
+        {
+            "name": "config-pro-steam-deploy",
+            "description": "CMake flags for the deploy version",
+            "hidden": true,
+            "cacheVariables": {
+                "SCREENPLAY_STEAM": "ON",
+                "SCREENPLAY_DEPLOY": "ON",
+                "SCREENPLAY_INSTALLER": "OFF",
+                "SCREENPLAY_TESTS": "OFF",
+                "SCREENPLAY_GODOT": "ON"
+            }
+        },
+        {
+            "name": "config-develop",
+            "description": "CMake flags for the deploy version",
+            "hidden": true,
+            "cacheVariables": {
+                "SCREENPLAY_STEAM": "ON",
+                "SCREENPLAY_DEPLOY": "OFF",
+                "SCREENPLAY_INSTALLER": "OFF",
+                "SCREENPLAY_TESTS": "ON",
+                "SCREENPLAY_GODOT": "ON"
+            }
+        },
+        {
+            "name": "ninja",
+            "displayName": "Ninja",
+            "description": "Configure using Ninja generator",
+            "binaryDir": "${sourceDir}/../build_ScreenPlay",
+            "hidden": true,
+            "generator": "Ninja",
+            "inherits": [
+                "compile-commands-json"
+            ]
+        },
+        {
+            "name": "ninja-multi-config",
+            "displayName": "Ninja Multi-Config",
+            "description": "Configure using Ninja Multi-Config generator",
+            "binaryDir": "${sourceDir}/../build_ScreenPlay",
+            "hidden": true,
+            "generator": "Ninja Multi-Config",
+            "inherits": [
+                "compile-commands-json"
+            ]
+        },
+        {
+            "name": "host-windows",
+            "displayName": "Host OS - Windows",
+            "description": "Specifies Windows host condition for configure preset",
+            "hidden": true,
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        },
+        {
+            "name": "host-linux",
+            "displayName": "Host OS - Linux",
+            "description": "Specifies Linux host condition for configure preset",
+            "hidden": true,
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            }
+        },
+        {
+            "name": "host-mac",
+            "displayName": "Host OS - Mac",
+            "description": "Specifies Mac host condition for configure preset",
+            "hidden": true,
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Darwin"
+            }
+        },
+        {
+            "name": "host-windows-linux-mac",
+            "displayName": "Host OS - Any",
+            "description": "Allows Windows, Linux or Mac to be used for host condition for configure preset",
+            "hidden": true,
+            "condition": {
+                "type": "inList",
+                "string": "${hostSystemName}",
+                "list": [
+                    "Darwin",
+                    "Linux",
+                    "Windows"
+                ]
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "debug",
+            "description": "configuration: debug",
+            "hidden": true,
+            "configurePreset": "default",
+            "configuration": "debug"
+        },
+        {
+            "name": "release",
+            "description": "configuration: release",
+            "hidden": true,
+            "configurePreset": "default",
+            "configuration": "release"
+        },
+        {
+            "name": "profile",
+            "description": "configuration: profile",
+            "hidden": true,
+            "configurePreset": "default",
+            "configuration": "profile"
+        },
+        {
+            "name": "install",
+            "description": "Builds the dependencies install(Ninja, Make, etc...) or INSTALL(Visual Studio, Xcode) target. Afterwards run the CMake install step to install the build dependencies",
+            "hidden": true,
+            "configurePreset": "default",
+            "inherits": [
+                "profile"
+            ],
+            "targets": "install"
+        },
+        {
+            "name": "test-default",
+            "description": "Builds the smoke and main test suite dependencies",
+            "hidden": true,
+            "configurePreset": "default",
+            "inherits": [
+                "profile"
+            ],
+            "targets": [
+                "TEST_SUITE_main",
+                "TEST_SUITE_smoke"
+            ]
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "test-default",
+            "description": "CTest preset which runs the smoke and main test suites",
+            "hidden": true,
+            "configurePreset": "default",
+            "output": {
+                "outputOnFailure": true,
+                "outputLogFile": "Ctest-${presetName}.log"
+            },
+            "execution": {
+                "noTestsAction": "error"
+            },
+            "filter": {
+                "include": {
+                    "label": "(SUITE_smoke|SUITE_main)"
+                },
+                "exclude": {
+                    "label": "(REQUIRES_gpu)"
+                }
+            }
+        },
+        {
+            "name": "test-default-debug",
+            "description": "Runs the smoke and main test suites using the debug configuration",
+            "hidden": true,
+            "configurePreset": "default",
+            "inherits": [
+                "test-default"
+            ],
+            "configuration": "debug",
+            "output": {
+                "outputLogFile": "Ctest-${presetName}-debug.log"
+            }
+        },
+        {
+            "name": "test-default-profile",
+            "description": "Runs the smoke and main test suites using the profile configuration",
+            "hidden": true,
+            "configurePreset": "default",
+            "inherits": [
+                "test-default"
+            ],
+            "configuration": "profile",
+            "output": {
+                "outputLogFile": "Ctest-${presetName}-profile.log"
+            }
+        },
+        {
+            "name": "host-windows",
+            "displayName": "Host OS - Windows",
+            "description": "Specifies Windows host condition for test preset",
+            "hidden": true,
+            "configurePreset": "default",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        },
+        {
+            "name": "host-linux",
+            "displayName": "Host OS - Linux",
+            "description": "Specifies Linux host condition for test preset",
+            "hidden": true,
+            "configurePreset": "default",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            }
+        },
+        {
+            "name": "host-mac",
+            "displayName": "Host OS - Mac",
+            "description": "Specifies Mac host condition for test preset",
+            "hidden": true,
+            "configurePreset": "default",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Darwin"
+            }
+        }
+    ]
+}

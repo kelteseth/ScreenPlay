@@ -25,8 +25,8 @@ QT_VERSION = "6.6.1"
 QT_BIN_PATH = QT_PATH.joinpath(f"{QT_VERSION}/{QT_PLATFORM}/bin")
 QT_TOOLS_PATH = QT_PATH.joinpath("Tools/")
 QT_IFW_VERSION = "4.6"
-# 8.12.2023 https://github.com/microsoft/vcpkg :
-VCPKG_VERSION = "2a6371b01420d8820d158b4707e79931feba27aa"
+# 01.02.2024 https://github.com/microsoft/vcpkg :
+VCPKG_VERSION = "10e0525"
 VCPKG_BASE_PACKAGES =  [
         "curl",
         "openssl",

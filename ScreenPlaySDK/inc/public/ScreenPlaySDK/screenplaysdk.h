@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "ScreenPlayUtil/processmanager.h"
 #include <QByteArray>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -17,6 +16,8 @@
 #include <QSharedPointer>
 #include <QTimer>
 #include <QtGlobal>
+
+#include "ScreenPlayUtil/processmanager.h"
 
 class ScreenPlaySDK : public QObject {
     Q_OBJECT

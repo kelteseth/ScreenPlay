@@ -1,11 +1,6 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "basewindow.h"
 
-#include "ScreenPlayUtil/projectfile.h"
-#include "ScreenPlayUtil/util.h"
-
-#include <QGuiApplication>
-
 /*!
     \module ScreenPlayWallpaper
     \title ScreenPlayWallpaper

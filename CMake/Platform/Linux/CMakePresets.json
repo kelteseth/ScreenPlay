@@ -1,0 +1,101 @@
+{
+    "version": 4,
+    "cmakeMinimumRequired": {
+        "major": 0,
+        "minor": 27,
+        "patch": 0
+    },
+    "include": [
+        "../Common/CMakePresets.json"
+    ],
+    "configurePresets": [
+        {
+            "name": "linux-base",
+            "hidden": true,
+            "inherits": [
+                "default",
+                "ninja",
+                "host-linux"
+            ],
+            "cacheVariables": {
+                "CMAKE_PREFIX_PATH": "${sourceDir}/../aqt/6.6.1/gcc_64",
+                "VCPKG_TARGET_TRIPLET": "x64-linux"
+            }
+        },
+        {
+            "name": "linux-gcc-base",
+            "hidden": true,
+            "description": "Use gold linker to fix linking",
+            "inherits": "linux-base",
+            "cacheVariables": {
+                "CMAKE_CXX_COMPILER": "g++-13",
+                "CMAKE_C_COMPILER": "gcc-13",
+                "CMAKE_EXE_LINKER_FLAGS": "-fuse-ld=gold",
+                "CMAKE_CXX_FLAGS": "-fuse-ld=gold"
+            }
+        },
+        {
+            "name": "linux-gcc-debug",
+            "binaryDir": "${sourceDir}/../build_ScreenPlay_Gcc_Debug",
+            "inherits": [
+                "config-develop",
+                "linux-gcc-base",
+                "debug"
+            ]
+        },
+        {
+            "name": "linux-gcc-profile",
+            "binaryDir": "${sourceDir}/../build_ScreenPlay_Gcc_Profile",
+            "inherits": [
+                "config-develop",
+                "linux-gcc-base",
+                "profile"
+            ]
+        },
+        {
+            "name": "linux-gcc-release",
+            "binaryDir": "${sourceDir}/../build_ScreenPlay_Gcc_Release",
+            "inherits": [
+                "config-develop",
+                "linux-gcc-base",
+                "release"
+            ]
+        },
+        {
+            "name": "linux-clang-base",
+            "hidden": true,
+            "inherits": "linux-base",
+            "cacheVariables": {
+                "CMAKE_CXX_COMPILER": "clang++-17",
+                "CMAKE_C_COMPILER": "clang-17"
+            }
+        },
+        {
+            "name": "linux-clang-debug",
+            "binaryDir": "${sourceDir}/../build_ScreenPlay_Clang_Debug",
+            "inherits": [
+                "config-develop",
+                "linux-clang-base",
+                "debug"
+            ]
+        },
+        {
+            "name": "linux-clang-profile",
+            "binaryDir": "${sourceDir}/../build_ScreenPlay_Clang_Profile",
+            "inherits": [
+                "config-develop",
+                "linux-clang-base",
+                "profile"
+            ]
+        },
+        {
+            "name": "linux-clang-release",
+            "binaryDir": "${sourceDir}/../build_ScreenPlay_Clang_Release",
+            "inherits": [
+                "config-develop",
+                "linux-clang-base",
+                "release"
+            ]
+        }
+    ]
+}
