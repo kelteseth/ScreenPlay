@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 import QtQuick.Layouts
+import ScreenPlayApp
 
 
 Item {
@@ -11,7 +12,7 @@ Item {
     property Item modalSource
 
     Component.onCompleted: {
-        if (App.settings.steamVersion) {
+        if (App.globalVariables.isSteamVersion()) {
             workshopLoader.setSource("qrc:/qml/ScreenPlayApp/qml/Workshop/SteamWorkshop.qml", {
                     "modalSource": modalSource
                 });

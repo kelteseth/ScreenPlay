@@ -7,8 +7,8 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
 import QtCore as QCore
 import ScreenPlayApp
-
 import ScreenPlayUtil as Util
+import "../Components"
 
 Item {
     id: root
@@ -23,23 +23,21 @@ Item {
 
     function checkIsContentInstalled() {
         if (App.installedListModel.count === 0) {
-            loaderHelp.active = true;
-            gridView.footerItem.isVisible = true;
-            gridView.visible = false;
-            navWrapper.visible = false;
+            gridView.footerItem.isVisible = true
+            gridView.visible = false
+            navWrapper.visible = false
         } else {
-            loaderHelp.active = false;
-            gridView.footerItem.isVisible = false;
-            refresh = false;
-            gridView.contentY = -82;
-            gridView.visible = true;
-            navWrapper.visible = true;
+            gridView.footerItem.isVisible = false
+            refresh = false
+            gridView.contentY = -82
+            gridView.visible = true
+            navWrapper.visible = true
         }
     }
 
     StackView.onActivated: {
-        navWrapper.state = "in";
-        checkIsContentInstalled();
+        navWrapper.state = "in"
+        checkIsContentInstalled()
     }
 
     Action {
@@ -49,27 +47,24 @@ Item {
 
     Connections {
         function onInstalledLoadingFinished() {
-            checkIsContentInstalled();
+            checkIsContentInstalled()
         }
 
         function onCountChanged(count) {
             if (count === 0)
-                checkIsContentInstalled();
+                checkIsContentInstalled()
         }
 
         target: App.installedListModel
     }
 
-    Loader {
-        id: loaderHelp
-        active: false
-        anchors.fill: parent
-        source: "qrc:/qml/ScreenPlayApp/qml/Installed/InstalledWelcomeScreen.qml"
+    ScreenPlayProPopup {
+        id: screenPlayProView
     }
 
     Connections {
         function onSortChanged() {
-            gridView.positionViewAtBeginning();
+            gridView.positionViewAtBeginning()
         }
 
         target: App.installedListFilter
@@ -122,12 +117,12 @@ Item {
         }
         onContentYChanged: {
             if (contentY <= -180)
-                gridView.headerItem.isVisible = true;
+                gridView.headerItem.isVisible = true
             else
-                gridView.headerItem.isVisible = false;
+                gridView.headerItem.isVisible = false
             //Pull to refresh
             if (contentY <= -180 && !refresh && !isDragging)
-                App.installedListModel.reset();
+                App.installedListModel.reset()
         }
 
         anchors {
@@ -144,11 +139,11 @@ Item {
             opacity: 0
             onIsVisibleChanged: {
                 if (isVisible) {
-                    txtHeader.color = Material.accent;
-                    txtHeader.text = qsTr("Refreshing!");
+                    txtHeader.color = Material.accent
+                    txtHeader.text = qsTr("Refreshing!")
                 } else {
-                    txtHeader.color = "gray";
-                    txtHeader.text = qsTr("Pull to refresh!");
+                    txtHeader.color = "gray"
+                    txtHeader.text = qsTr("Pull to refresh!")
                 }
             }
 
@@ -156,7 +151,7 @@ Item {
                 interval: 150
                 running: true
                 onTriggered: {
-                    animFadeIn.start();
+                    animFadeIn.start()
                 }
             }
 
@@ -200,7 +195,7 @@ Item {
                     interval: 400
                     running: true
                     onTriggered: {
-                        animFadeInTxtFooter.start();
+                        animFadeInTxtFooter.start()
                     }
                 }
 
@@ -228,25 +223,30 @@ Item {
             publishedFileID: m_publishedFileID
             itemIndex: index
             isScrolling: gridView.isScrolling
+            onOpenOpenLicensePopup: function () {
+                screenPlayProView.open()
+            }
+
             onOpenContextMenu: function (position) {
                 // Set the menu to the current item informations
-                contextMenu.publishedFileID = delegate.publishedFileID;
-                contextMenu.absoluteStoragePath = delegate.absoluteStoragePath;
-                contextMenu.fileName = delegate.customTitle;
-                contextMenu.type = delegate.type;
-                print(delegate.publishedFileID);
+                contextMenu.publishedFileID = delegate.publishedFileID
+                contextMenu.absoluteStoragePath = delegate.absoluteStoragePath
+                contextMenu.fileName = delegate.customTitle
+                contextMenu.type = delegate.type
+                print(delegate.publishedFileID)
                 if (contextMenu.godotItem)
-                    contextMenu.godotItem.destroy();
-                const pos = delegate.mapToItem(root, position.x, position.y);
+                    contextMenu.godotItem.destroy()
+                const pos = delegate.mapToItem(root, position.x, position.y)
                 // Disable duplicate opening. The can happen if we
                 // call popup when we are in the closing animtion.
                 if (contextMenu.visible || contextMenu.opened)
-                    return;
+                    return
                 if (delegate.type === Util.ContentTypes.InstalledType.GodotWallpaper) {
-                    contextMenu.godotItem = editGodotWallpaperComp.createObject();
-                    contextMenu.insertItem(0, contextMenu.godotItem);
+                    contextMenu.godotItem = editGodotWallpaperComp.createObject(
+                                )
+                    contextMenu.insertItem(0, contextMenu.godotItem)
                 }
-                contextMenu.popup(pos.x, pos.y);
+                contextMenu.popup(pos.x, pos.y)
             }
         }
 
@@ -263,7 +263,9 @@ Item {
             enabled: contextMenu.type === Util.ContentTypes.InstalledType.GodotWallpaper
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_edit.svg"
             onClicked: {
-                App.util.openGodotEditor(contextMenu.absoluteStoragePath, App.globalVariables.godotEditorExecutablePath);
+                App.util.openGodotEditor(
+                            contextMenu.absoluteStoragePath,
+                            App.globalVariables.godotEditorExecutablePath)
             }
         }
     }
@@ -284,7 +286,7 @@ Item {
             objectName: "openFolder"
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_folder_open.svg"
             onClicked: {
-                App.util.openFolderInExplorer(contextMenu.absoluteStoragePath);
+                App.util.openFolderInExplorer(contextMenu.absoluteStoragePath)
             }
         }
 
@@ -293,10 +295,12 @@ Item {
             objectName: enabled ? "removeItem" : "removeWorkshopItem"
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_import_export_.svg"
             onClicked: {
-                exportFileDialog.absoluteStoragePath = contextMenu.absoluteStoragePath;
-                let urlFileName = QCore.StandardPaths.writableLocation(QCore.StandardPaths.DesktopLocation) + "/" + contextMenu.fileName + ".screenplay";
-                exportFileDialog.currentFile = urlFileName;
-                exportFileDialog.open();
+                exportFileDialog.absoluteStoragePath = contextMenu.absoluteStoragePath
+                let urlFileName = QCore.StandardPaths.writableLocation(
+                        QCore.StandardPaths.DesktopLocation) + "/"
+                    + contextMenu.fileName + ".screenplay"
+                exportFileDialog.currentFile = urlFileName
+                exportFileDialog.open()
             }
         }
 
@@ -304,18 +308,21 @@ Item {
             text: enabled ? qsTr("Remove Item") : qsTr("Remove via Workshop")
             objectName: enabled ? "removeItem" : "removeWorkshopItem"
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_delete.svg"
-            enabled: contextMenu.publishedFileID === 0 || !App.settings.steamVersion
+            enabled: contextMenu.publishedFileID === 0
+                     || !App.globalVariables.isSteamVersion()
             onClicked: {
-                deleteDialog.open();
+                deleteDialog.open()
             }
         }
 
         MenuItem {
             text: qsTr("Open Workshop Page")
-            enabled: contextMenu.publishedFileID !== 0 && App.settings.steamVersion
+            enabled: contextMenu.publishedFileID !== 0
+                     && App.globalVariables.isSteamVersion()
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_steam.svg"
             onClicked: {
-                Qt.openUrlExternally("steam://url/CommunityFilePage/" + contextMenu.publishedFileID);
+                Qt.openUrlExternally(
+                            "steam://url/CommunityFilePage/" + contextMenu.publishedFileID)
             }
         }
     }
@@ -328,9 +335,11 @@ Item {
         modalSource: root.modalSource
         anchors.centerIn: Overlay.overlay
         onAccepted: {
-            root.sidebar.clear();
-            if (!App.installedListModel.deinstallItemAt(contextMenu.absoluteStoragePath)) {
-                console.error("Unable to uninstall item", contextMenu.absoluteStoragePath);
+            root.sidebar.clear()
+            if (!App.installedListModel.deinstallItemAt(
+                        contextMenu.absoluteStoragePath)) {
+                console.error("Unable to uninstall item",
+                              contextMenu.absoluteStoragePath)
             }
         }
     }
@@ -340,7 +349,7 @@ Item {
         fileMode: FileDialog.SaveFile
         property string absoluteStoragePath
         onAccepted: {
-            exportFileProgressDialog.open();
+            exportFileProgressDialog.open()
         }
     }
 
@@ -353,9 +362,10 @@ Item {
         modalSource: root.modalSource
         closePolicy: Popup.NoAutoClose
         onOpened: {
-            const success = archive.exportProject(exportFileDialog.absoluteStoragePath, exportFileDialog.currentFile);
+            const success = archive.exportProject(
+                              exportFileDialog.absoluteStoragePath,
+                              exportFileDialog.currentFile)
         }
-
 
         onClosed: exportProgressBar.value = 0
         ColumnLayout {
@@ -380,10 +390,10 @@ Item {
             id: exportConnections
             target: archive
             function onCompressionProgressChanged(file, proc, total, br, bt) {
-                exportProgressBar.value = (br * 100 / bt);
+                exportProgressBar.value = (br * 100 / bt)
             }
             function onCompressionFinished() {
-                exportFileProgressDialog.close();
+                exportFileProgressDialog.close()
             }
         }
     }
@@ -399,7 +409,7 @@ Item {
     }
 
     Util.Archive {
-        id:archive
+        id: archive
     }
 
     DropArea {
@@ -407,29 +417,31 @@ Item {
         anchors.fill: parent
         property string filePath
         onEntered: function (drag) {
-            dropPopup.open();
+            dropPopup.open()
         }
         onDropped: function (drop) {
-            dropPopup.close();
-            dropArea.enabled = false;
+            dropPopup.close()
+            dropArea.enabled = false
             if (drop.urls.length > 1) {
-                importProjectErrorDialog.title = qsTr("We only support adding one item at once.");
-                importProjectErrorDialog.open();
-                return;
+                importProjectErrorDialog.title = qsTr(
+                            "We only support adding one item at once.")
+                importProjectErrorDialog.open()
+                return
             }
-            var file = "";
+            var file = ""
             // Convert url to string
-            file = "" + drop.urls[0];
+            file = "" + drop.urls[0]
             if (!file.endsWith('.screenplay')) {
-                importProjectErrorDialog.title = qsTr("File type not supported. We only support '.screenplay' files.");
-                importProjectErrorDialog.open();
-                return;
+                importProjectErrorDialog.title = qsTr(
+                            "File type not supported. We only support '.screenplay' files.")
+                importProjectErrorDialog.open()
+                return
             }
-            importDialog.open();
-            dropArea.filePath = file;
+            importDialog.open()
+            dropArea.filePath = file
         }
         onExited: {
-            dropPopup.close();
+            dropPopup.close()
         }
 
         Util.Dialog {
@@ -450,9 +462,11 @@ Item {
             closePolicy: Popup.NoAutoClose
             onClosed: importProgressBar.value = 0
             onOpened: {
-                const success = archive.importProject(dropArea.filePath, App.globalVariables.localStoragePath);
-                print("finished", success);
-                dropArea.filePath = "";
+                const success = archive.importProject(
+                                  dropArea.filePath,
+                                  App.globalVariables.localStoragePath)
+                print("finished", success)
+                dropArea.filePath = ""
             }
             ColumnLayout {
                 width: parent.width
@@ -474,10 +488,10 @@ Item {
                     id: importConnections
                     target: archive
                     function onExtractionProgressChanged(file, proc, total, br, bt) {
-                        importProgressBar.value = (br * 100 / bt);
+                        importProgressBar.value = (br * 100 / bt)
                     }
                     function onExtractionFinished() {
-                        importDialog.close();
+                        importDialog.close()
                     }
                 }
             }
@@ -493,8 +507,8 @@ Item {
         modal: true
         onOpened: fileDropAnimation.state = "fileDrop"
         onClosed: {
-            fileDropAnimation.state = "";
-            dropArea.enabled = true;
+            fileDropAnimation.state = ""
+            dropArea.enabled = true
         }
 
         Util.FileDropAnimation {

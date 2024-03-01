@@ -53,8 +53,6 @@ class Settings : public QObject {
     Q_PROPERTY(bool autostart READ autostart WRITE setAutostart NOTIFY autostartChanged)
     Q_PROPERTY(bool highPriorityStart READ highPriorityStart WRITE setHighPriorityStart NOTIFY highPriorityStartChanged)
     Q_PROPERTY(bool checkWallpaperVisible READ checkWallpaperVisible WRITE setCheckWallpaperVisible NOTIFY checkWallpaperVisibleChanged)
-    Q_PROPERTY(bool offlineMode READ offlineMode WRITE setOfflineMode NOTIFY offlineModeChanged)
-    Q_PROPERTY(bool steamVersion READ steamVersion WRITE setSteamVersion NOTIFY steamVersionChanged)
 
     Q_PROPERTY(ScreenPlay::Video::FillMode videoFillMode READ videoFillMode WRITE setVideoFillMode NOTIFY videoFillModeChanged)
     Q_PROPERTY(ScreenPlay::Settings::DesktopEnvironment desktopEnvironment READ desktopEnvironment WRITE setDesktopEnvironment NOTIFY desktopEnvironmentChanged)
@@ -111,8 +109,6 @@ public:
     };
     Q_ENUM(Theme)
 
-    bool offlineMode() const { return m_offlineMode; }
-    bool getOfflineMode() const { return m_offlineMode; }
     bool autostart() const { return m_autostart; }
     bool highPriorityStart() const { return m_highPriorityStart; }
     QString decoder() const { return m_decoder; }
@@ -123,7 +119,6 @@ public:
     ScreenPlay::Settings::Language language() const { return m_language; }
     QString font() const { return m_font; }
     ScreenPlay::Settings::Theme theme() const { return m_theme; }
-    bool steamVersion() const { return m_steamVersion; }
     ScreenPlay::Settings::DesktopEnvironment desktopEnvironment() const { return m_desktopEnvironment; }
     const QString& buildInfos() const { return m_buildInfos; }
     bool showDefaultContent() const { return m_showDefaultContent; }
@@ -161,7 +156,6 @@ public slots:
     void setHighPriorityStart(bool highPriorityStart);
     void setLocalStoragePath(QUrl localStoragePath);
     void setDecoder(QString decoder);
-    void setOfflineMode(bool offlineMode);
     void setSilentStart(bool silentStart);
     void setAnonymousTelemetry(bool anonymousTelemetry);
     void setCheckWallpaperVisible(bool checkWallpaperVisible);
@@ -169,7 +163,6 @@ public slots:
     void setLanguage(ScreenPlay::Settings::Language language);
     void setFont(QString font);
     void setTheme(ScreenPlay::Settings::Theme theme);
-    void setSteamVersion(bool steamVersion);
     void setDesktopEnvironment(ScreenPlay::Settings::DesktopEnvironment desktopEnvironment);
     void setBuildInfos(const QString& buildInfos);
 
@@ -187,7 +180,6 @@ private:
 
     bool m_autostart { true };
     bool m_highPriorityStart { false };
-    bool m_offlineMode { true };
     bool m_checkWallpaperVisible { false };
     bool m_silentStart { false };
     bool m_anonymousTelemetry { true };
@@ -199,7 +191,6 @@ private:
     ScreenPlay::Settings::DesktopEnvironment m_desktopEnvironment { DesktopEnvironment::Unknown };
     QString m_font { "Roboto" };
     QString m_decoder;
-    bool m_steamVersion { false };
     QString m_buildInfos;
 };
 }

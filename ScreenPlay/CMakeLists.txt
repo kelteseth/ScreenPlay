@@ -9,10 +9,9 @@ set(CMAKE_AUTOMOC ON)
 include(GenerateCMakeVariableHeader)
 
 set(SOURCES
-
     # cmake-format: sort
-    src/applicationengine.cpp
     src/app.cpp
+    src/applicationengine.cpp
     src/create.cpp
     src/createimportvideo.cpp
     src/globalvariables.cpp
@@ -29,7 +28,6 @@ set(SOURCES
     src/wizards.cpp)
 
 set(HEADER
-
     # cmake-format: sort
     inc/public/ScreenPlay/app.h
     inc/public/ScreenPlay/applicationengine.h
@@ -51,9 +49,14 @@ set(HEADER
     inc/public/ScreenPlay/wizards.h)
 
 set(QML
-
     # cmake-format: sort
     main.qml
+    qml/Components/TrayIcon.qml
+    qml/Components/LineHandle.qml
+    qml/Components/LineIndicator.qml
+    qml/Components/ScreenPlayProPopup.qml
+    qml/Components/Section.qml
+    qml/Components/Timeline.qml
     qml/Community/CommunityNavItem.qml
     qml/Community/CommunityView.qml
     qml/Community/XMLNewsfeed.qml
@@ -68,8 +71,8 @@ set(QML
     qml/Create/Wizards/HTMLWidget.qml
     qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml
     qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperFileSelect.qml
-    qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperSettings.qml
     qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml
+    qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperSettings.qml
     qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml
     qml/Create/Wizards/QMLWallpaper.qml
     qml/Create/Wizards/QMLWidget.qml
@@ -81,12 +84,14 @@ set(QML
     qml/Installed/ScreenPlayItem.qml
     qml/Installed/ScreenPlayItemImage.qml
     qml/Installed/Sidebar.qml
+    qml/MainApp.qml
     qml/Monitors/DefaultVideoControls.qml
     qml/Monitors/MonitorSelection.qml
     qml/Monitors/MonitorSelectionItem.qml
     qml/Monitors/MonitorsProjectSettingItem.qml
     qml/Monitors/MonitorsView.qml
     qml/Monitors/SaveNotification.qml
+    qml/Monitors/WallpaperTimeline.qml
     qml/Navigation/ExitPopup.qml
     qml/Navigation/Navigation.qml
     qml/Settings/SettingBool.qml
@@ -97,12 +102,9 @@ set(QML
     qml/Settings/SettingsHorizontalSeperator.qml
     qml/Settings/SettingsPage.qml
     qml/Settings/SettingsView.qml
-    qml/TrayIcon.qml
-    qml/Base.qml
     qml/Workshop/WorkshopView.qml)
 
 set(TS_FILES
-
     # cmake-format: sort
     translations/ScreenPlay_.ts
     translations/ScreenPlay_de_DE.ts
@@ -119,7 +121,6 @@ set(TS_FILES
     translations/ScreenPlay_zh_CN.ts)
 
 set(RESOURCES
-
     # cmake-format: sort
     "legal/Font Awesome Free License.txt"
     "legal/Qt LGPLv3.txt"
@@ -130,9 +131,11 @@ set(RESOURCES
     assets/icons/brand_twitch.svg
     assets/icons/brand_twitter.svg
     assets/icons/exclamation-triangle-solid.svg
+    assets/icons/font-awsome/lock-solid.svg
     assets/icons/font-awsome/close.svg
     assets/icons/font-awsome/frown-o.svg
     assets/icons/font-awsome/patreon-brands.svg
+    assets/icons/font-awsome/rotate-right-solid.svg
     assets/icons/icon_arrow_left.svg
     assets/icons/icon_arrow_right.svg
     assets/icons/icon_build.svg
@@ -187,7 +190,8 @@ set(RESOURCES
     assets/icons/item_banner_new.svg
     assets/icons/monitor_setup.svg
     assets/icons/steam_default_avatar.png
-    assets/images/Early_Access.png
+    assets/images/rocket_3d.png
+    assets/images/pro_version.png
     assets/images/Intro.png
     assets/images/Intro_PC.png
     assets/images/Intro_shine.png
@@ -266,15 +270,15 @@ endif()
 find_package(
     Qt6
     COMPONENTS Core
-    Quick
-    QuickControls2
-    Gui
-    Widgets
-    WebSockets
-    Svg
-    Xml
-    LinguistTools
-    Test)
+               Quick
+               QuickControls2
+               Gui
+               Widgets
+               WebSockets
+               Svg
+               Xml
+               LinguistTools
+               Test)
 
 add_library(ScreenPlayApp STATIC)
 
@@ -309,21 +313,20 @@ qt_add_qml_module(
 target_link_libraries(
     ScreenPlayApp
     PUBLIC ScreenPlaySDK
-    LibArchive::LibArchive
-    ScreenPlayUtil
-    ScreenPlayUtilplugin
-    QArchive
-    Plausibleplugin
-    Threads::Threads
-    QCoro6::Qml
-    Qt6::Quick
-    Qt6::Gui
-    Qt6::Widgets
-    Qt6::Core
-    Qt6::WebSockets
-    Qt6::Svg
-    Qt6::QuickControls2
-    Qt6::Xml)
+           LibArchive::LibArchive
+           ScreenPlayUtil
+           ScreenPlayUtilplugin
+           QArchive
+           Threads::Threads
+           QCoro6::Qml
+           Qt6::Quick
+           Qt6::Gui
+           Qt6::Widgets
+           Qt6::Core
+           Qt6::WebSockets
+           Qt6::Svg
+           Qt6::QuickControls2
+           Qt6::Xml)
 
 if(${SCREENPLAY_STEAM})
     target_link_libraries(ScreenPlayApp PUBLIC ScreenPlayWorkshopplugin ScreenPlayWorkshop)
@@ -347,8 +350,8 @@ if(${SCREENPLAY_TESTS})
 endif()
 
 if(WIN32
-    OR UNIX
-    AND NOT APPLE)
+   OR UNIX
+   AND NOT APPLE)
     include(CopyRecursive)
     set(FONTS_OUT_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets/fonts)
     file(MAKE_DIRECTORY ${FONTS_OUT_DIR})
@@ -406,26 +409,26 @@ if(APPLE)
     set_target_properties(
         ${PROJECT_NAME}
         PROPERTIES OUTPUT_NAME ${PROJECT_NAME}
-        MACOSX_BUNDLE TRUE
-        MACOSX_RPATH TRUE
-        MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist
-        MACOSX_FRAMEWORK_IDENTIFIER app.screenplay
-        XCODE_ATTRIBUTE_LD_RUNPATH_SEARCH_PATHS "@loader_path/Libraries"
-        RESOURCE "${RESOURCE_FILES};${APP_ICON_MACOSX}" # Include the icon in the resources
-        XCODE_ATTRIBUTE_ENABLE_HARDENED_RUNTIME TRUE
-        XCODE_ATTRIBUTE_EXECUTABLE_NAME ${PROJECT_NAME})
+                   MACOSX_BUNDLE TRUE
+                   MACOSX_RPATH TRUE
+                   MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist
+                   MACOSX_FRAMEWORK_IDENTIFIER app.screenplay
+                   XCODE_ATTRIBUTE_LD_RUNPATH_SEARCH_PATHS "@loader_path/Libraries"
+                   RESOURCE "${RESOURCE_FILES};${APP_ICON_MACOSX}" # Include the icon in the resources
+                   XCODE_ATTRIBUTE_ENABLE_HARDENED_RUNTIME TRUE
+                   XCODE_ATTRIBUTE_EXECUTABLE_NAME ${PROJECT_NAME})
 
     add_custom_command(
         TARGET ${PROJECT_NAME}
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/ffmpeg"
-        "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
+                "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
 
     add_custom_command(
         TARGET ${PROJECT_NAME}
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/ffprobe"
-        "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
+                "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
 
     # fonts
     include(CopyRecursive)

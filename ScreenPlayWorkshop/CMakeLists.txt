@@ -15,7 +15,6 @@ find_package(
     REQUIRED)
 
 set(QML
-
     # cmake-format: sort
     qml/Background.qml
     qml/Forum.qml
@@ -37,7 +36,6 @@ set(QML
     qml/WorkshopItem.qml)
 
 set(SOURCES
-
     # cmake-format: sort
     src/installedlistmodel.cpp
     src/screenplayworkshop.cpp
@@ -49,7 +47,6 @@ set(SOURCES
     src/steamworkshoplistmodel.cpp)
 
 set(HEADER
-
     # cmake-format: sort
     src/installedlistmodel.h
     src/screenplayworkshop.h
@@ -63,7 +60,6 @@ set(HEADER
     src/workshopitem.h)
 
 set(RESOURCES
-
     # cmake-format: sort
     assets/icons/icon_account_circle.svg
     assets/icons/icon_arrow_left.svg
@@ -103,10 +99,10 @@ target_include_directories(${PROJECT_NAME} PUBLIC src/)
 target_link_libraries(
     ${PROJECT_NAME}
     PUBLIC Qt6::Core
-    Qt6::Quick
-    ${STEAM_LIB}
-    ScreenPlayUtil
-    SteamSDK)
+           Qt6::Quick
+           ${STEAM_LIB}
+           ScreenPlayUtil
+           SteamSDK)
 
 qt_add_qml_module(
     ${PROJECT_NAME}
@@ -142,14 +138,14 @@ if(${SCREENPLAY_STEAM})
         target_link_libraries(
             tst_ScreenPlayWorkshop
             PRIVATE Qt6::Quick
-            Qt6::QuickControls2
-            ${PROJECT_NAME}plugin
-            ScreenPlayUtilplugin
-            SteamSDK)
+                    Qt6::QuickControls2
+                    ${PROJECT_NAME}plugin
+                    ScreenPlayUtilplugin
+                    SteamSDK)
 
         if(APPLE)
             set_target_properties(tst_ScreenPlayWorkshop PROPERTIES RUNTIME_OUTPUT_DIRECTORY
-                "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
+                                                                    "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
         endif()
     endif()
 endif()

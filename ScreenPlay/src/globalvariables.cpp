@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
 #include "ScreenPlay/globalvariables.h"
+#include "ScreenPlay/CMakeVariables.h"
 
 namespace ScreenPlay {
 
@@ -16,7 +17,45 @@ namespace ScreenPlay {
 GlobalVariables::GlobalVariables(QObject* parent)
     : QObject(parent)
 {
+    if (SCREENPLAY_STEAM_VERSION) {
+        setVersion(GlobalVariables::Version::OpenSourceSteam);
+    } else {
+        setVersion(GlobalVariables::Version::OpenSourceStandalone);
+    }
+    setVersion(GlobalVariables::Version::OpenSourceUltraSteam);
     setLocalSettingsPath(QUrl { QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) });
+}
+
+bool GlobalVariables::isBasicVersion() const
+{
+    return (m_version == Version::OpenSourceSteam
+        || m_version == Version::OpenSourceStandalone);
+}
+
+bool GlobalVariables::isSteamVersion() const
+{
+    return (m_version == Version::OpenSourceSteam
+        || m_version == Version::OpenSourceProSteam
+        || m_version == Version::OpenSourceUltraSteam);
+}
+
+bool GlobalVariables::isStandaloneVersion() const
+{
+    return (m_version == Version::OpenSourceStandalone
+        || m_version == Version::OpenSourceProStandalone
+        || m_version == Version::OpenSourceUltraStandalone);
+}
+
+bool GlobalVariables::isProVersion() const
+{
+    return (m_version == Version::OpenSourceProStandalone
+        || m_version == Version::OpenSourceProSteam);
+}
+
+bool GlobalVariables::isUltraVersion() const
+{
+    return (m_version == Version::OpenSourceUltraStandalone
+        || m_version == Version::OpenSourceUltraSteam);
 }
 
 void GlobalVariables::setLocalStoragePath(QUrl localStoragePath)

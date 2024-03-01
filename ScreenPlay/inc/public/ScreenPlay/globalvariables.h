@@ -31,14 +31,21 @@ public:
     explicit GlobalVariables(QObject* parent = nullptr);
 
     enum class Version {
-        OpenSource,
+        OpenSourceStandalone,
         OpenSourceSteam,
-        OpenSourcePlus,
-        OpenSourcePlusSteam
+        OpenSourceProStandalone,
+        OpenSourceProSteam,
+        OpenSourceUltraStandalone,
+        OpenSourceUltraSteam
     };
     Q_ENUM(Version)
+    Q_INVOKABLE bool isBasicVersion() const;
+    Q_INVOKABLE bool isStandaloneVersion() const;
+    Q_INVOKABLE bool isSteamVersion() const;
+    Q_INVOKABLE bool isProVersion() const;
+    Q_INVOKABLE bool isUltraVersion() const;
 
-    Version version() const { return m_version; }
+    ScreenPlay::GlobalVariables::Version version() const { return m_version; }
     QUrl localStoragePath() const { return m_localStoragePath; }
     QUrl localSettingsPath() const { return m_localSettingsPath; }
     QUrl wallpaperExecutablePath() const { return m_wallpaperExecutablePath; }
@@ -78,6 +85,6 @@ private:
     QUrl m_widgetExecutablePath;
     QUrl m_godotWallpaperExecutablePath;
     QUrl m_godotEditorExecutablePath;
-    Version m_version = Version::OpenSource;
+    Version m_version = Version::OpenSourceStandalone;
 };
 }

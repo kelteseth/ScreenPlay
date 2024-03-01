@@ -16,7 +16,6 @@ find_package(
     REQUIRED)
 
 set(QML
-
     # cmake-format: sort
     qml/CloseIcon.qml
     qml/ColorImage.qml
@@ -31,37 +30,37 @@ set(QML
     qml/Headline.qml
     qml/HeadlineSection.qml
     qml/ImageSelector.qml
+    qml/LabelSlider.qml
     qml/LicenseSelector.qml
     qml/ModalBackgroundBlur.qml
     qml/MouseHoverBlocker.qml
     qml/Popup.qml
     qml/RippleEffect.qml
     qml/Shake.qml
-    qml/LabelSlider.qml
     qml/Tag.qml
     qml/TagSelector.qml
     qml/TextField.qml)
 
 set(SOURCES
     # cmake-format: sort
-    src/processmanager.cpp
     src/archive.cpp
     src/contenttypes.cpp
     src/exitcodes.cpp
     src/logginghandler.cpp
+    src/processmanager.cpp
     src/projectfile.cpp
     src/steamenumsgenerated.cpp
     src/util.cpp)
 
 set(HEADER
     # cmake-format: sort
-    inc/public/ScreenPlayUtil/processmanager.h
     inc/public/ScreenPlayUtil/archive.h
     inc/public/ScreenPlayUtil/contenttypes.h
     inc/public/ScreenPlayUtil/exitcodes.h
     inc/public/ScreenPlayUtil/HelpersCommon.h
     inc/public/ScreenPlayUtil/ListPropertyHelper.h
     inc/public/ScreenPlayUtil/logginghandler.h
+    inc/public/ScreenPlayUtil/processmanager.h
     inc/public/ScreenPlayUtil/projectfile.h
     inc/public/ScreenPlayUtil/PropertyHelpers.h
     inc/public/ScreenPlayUtil/steamenumsgenerated.h
@@ -73,7 +72,7 @@ if(APPLE)
 endif()
 
 set(RESOURCES # cmake-format: sort
-    assets/icons/attach_file.svg assets/icons/description.svg assets/icons/folder.svg)
+              assets/icons/attach_file.svg assets/icons/description.svg assets/icons/folder.svg)
 
 qt_add_library(
     ${PROJECT_NAME}
@@ -107,15 +106,14 @@ target_include_directories(${PROJECT_NAME}plugin PUBLIC inc/public/ScreenPlayUti
 
 target_link_libraries(
     ${PROJECT_NAME}
-    PUBLIC
-    Qt6::Core
-    Qt6::Quick
-    Qt6::Gui
-    QCoro6::Core
-    QCoro6::Qml
-    fmt::fmt-header-only
-    LibArchive::LibArchive
-    QArchive)
+    PUBLIC Qt6::Core
+           Qt6::Quick
+           Qt6::Gui
+           QCoro6::Core
+           QCoro6::Qml
+           fmt::fmt-header-only
+           LibArchive::LibArchive
+           QArchive)
 
 if(WIN32)
     # Used for query windows monitor data

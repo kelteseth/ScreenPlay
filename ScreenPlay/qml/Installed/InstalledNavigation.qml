@@ -125,7 +125,6 @@ Item {
                 implicitWidth: height
                 icon.width: height
                 icon.height: height
-                icon.color: Material.iconColor
             }
         }
 

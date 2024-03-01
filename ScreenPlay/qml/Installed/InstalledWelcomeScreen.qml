@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import ScreenPlayApp
-
 import ScreenPlayUtil
 
 Item {
@@ -70,7 +69,7 @@ Item {
         id: txtHeadline
 
         y: 80
-        text: App.settings.steamVersion ? qsTr("Get free Widgets and Wallpaper via the Steam Workshop") : qsTr("Get content via our forum")
+        text: App.globalVariables.isSteamVersion() ? qsTr("Get free Widgets and Wallpaper via the Steam Workshop") : qsTr("Get content via our forum")
         font.family: App.settings.font
         font.capitalization: Font.Capitalize
         wrapMode: Text.WordWrap
@@ -104,7 +103,7 @@ Item {
         id: btnWorkshop
 
         text: {
-            if (App.settings.steamVersion) {
+            if (App.globalVariables.isSteamVersion()) {
                 return qsTr("Browse the Steam Workshop");
             } else {
                 return qsTr("Open the ScreenPlay forum");
@@ -116,7 +115,7 @@ Item {
         width: implicitWidth + 20
         height: implicitHeight + 10
         icon.source: {
-            if (App.settings.steamVersion) {
+            if (App.globalVariables.isSteamVersion()) {
                 return "qrc:/qml/ScreenPlayApp/assets/icons/icon_steam.svg";
             } else {
                 return "qrc:/qml/ScreenPlayApp/assets/icons/icon_community.svg";
@@ -125,7 +124,7 @@ Item {
         icon.width: 18
         icon.height: 18
         onClicked: {
-            if (App.settings.steamVersion) {
+            if (App.globalVariables.isSteamVersion()) {
                 App.util.setNavigation("Workshop");
             } else {
                 Qt.openUrlExternally("https://forum.screen-play.app/");

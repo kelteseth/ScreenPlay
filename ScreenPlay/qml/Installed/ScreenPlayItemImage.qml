@@ -1,4 +1,5 @@
 import QtQuick
+import ScreenPlayUtil as Util
 
 Item {
     id: root
@@ -6,7 +7,7 @@ Item {
     property string absoluteStoragePath
     property string sourceImage
     property string sourceImageGIF
-    property var type: ContentTypes.InstalledType.Unknown
+    property var type: Util.ContentTypes.InstalledType.Unknown
 
     function enter() {
         if (root.sourceImageGIF != "")

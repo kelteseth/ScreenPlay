@@ -55,8 +55,6 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
     const QString isSteamVersion = QString("Is steam version: %1").arg((SCREENPLAY_STEAM_VERSION ? QString("✅ Yes") : QString("❌ No")));
     setBuildInfos(qtVersion + buildType + buildDate + commitHash + isDeployVersion + isSteamVersion);
 
-    setSteamVersion(SCREENPLAY_STEAM_VERSION);
-
 #ifdef Q_OS_WIN
     setDesktopEnvironment(DesktopEnvironment::Windows);
 #endif
@@ -212,7 +210,9 @@ void Settings::initInstalledPath()
     const QString contentPath = m_qSettings.value("ScreenPlayContentPath", "").toString();
 
     // Steamless
-    if (!steamVersion() && contentPath.isEmpty()) {
+    const GlobalVariables::Version version = m_globalVariables->version();
+    const bool steamVersion = version == GlobalVariables::Version::OpenSourceSteam || version == GlobalVariables::Version::OpenSourceProSteam;
+    if (!steamVersion && contentPath.isEmpty()) {
         const QString path = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
         m_qSettings.setValue("ScreenPlayContentPath", QUrl::fromUserInput(path));
         m_qSettings.sync();
@@ -312,7 +312,8 @@ bool Settings::retranslateUI()
         guiAppInst->installTranslator(&m_translator);
         emit requestRetranslation();
 
-        if (language() == Settings::Language::Ko_KR) {
+        const Language lang = language();
+        if (lang == Settings::Language::Ko_KR) {
             setFont("Noto Sans CJK KR Regular");
         } else {
             setFont("Roboto");
@@ -516,14 +517,6 @@ void Settings::setDecoder(QString decoder)
     emit decoderChanged(m_decoder);
 }
 
-void Settings::setOfflineMode(bool offlineMode)
-{
-    if (m_offlineMode == offlineMode)
-        return;
-
-    m_offlineMode = offlineMode;
-    emit offlineModeChanged(m_offlineMode);
-}
 
 void Settings::setSilentStart(bool silentStart)
 {
@@ -598,14 +591,6 @@ void Settings::setTheme(ScreenPlay::Settings::Theme theme)
     emit themeChanged(m_theme);
 }
 
-void Settings::setSteamVersion(bool steamVersion)
-{
-    if (m_steamVersion == steamVersion)
-        return;
-
-    m_steamVersion = steamVersion;
-    emit steamVersionChanged(m_steamVersion);
-}
 
 void Settings::setDesktopEnvironment(DesktopEnvironment desktopEnvironment)
 {

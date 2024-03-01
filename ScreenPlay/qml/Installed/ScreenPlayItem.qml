@@ -3,7 +3,6 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import ScreenPlayApp
-
 import ScreenPlayUtil as Util
 
 Item {
@@ -12,15 +11,25 @@ Item {
     property string customTitle
     property string screenId
     property url absoluteStoragePath
-    property int type: ContentTypes.InstalledType.Unknown
+    property int type: Util.ContentTypes.InstalledType.Unknown
     // Must be var to make it work wit 64bit ints
     property var publishedFileID: 0
     property int itemIndex
     property bool isScrolling: false
     property bool isNew: false
     property bool containsAudio: false
+    property int version: App.globalVariables.version
+    property bool hasLicense: {
+        if ((root.version === GlobalVariables.OpenSourceStandalone
+             || root.version === GlobalVariables.OpenSourceSteam)
+                && root.type === Util.ContentTypes.InstalledType.GodotWallpaper) {
+            return false
+        }
+        return true
+    }
 
     signal openContextMenu(point position)
+    signal openOpenLicensePopup
 
     width: 320
     height: 180
@@ -140,7 +149,7 @@ Item {
                 text: root.customTitle
                 font.family: App.settings.font
                 font.pointSize: 16
-                visible: !screenPlayItemImage.visible
+                visible: !screenPlayItemImage.visible && root.hasLicense
                 color: Material.primaryTextColor
                 anchors.centerIn: parent
                 horizontalAlignment: Text.AlignHCenter
@@ -148,7 +157,7 @@ Item {
 
             ScreenPlayItemImage {
                 id: screenPlayItemImage
-
+                opacity: root.hasLicense ? 1 : 0.3
                 anchors.fill: parent
                 enabled: visible
                 visible: m_preview !== "" || m_previewGIF !== ""
@@ -219,6 +228,20 @@ Item {
                     anchors.centerIn: parent
                 }
             }
+
+            ToolButton {
+                enabled: false
+                visible: !root.hasLicense
+                icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/font-awsome/lock-solid.svg"
+                icon.height: 14
+                icon.width: 11
+                icon.color: "gold"
+                opacity: .5
+                anchors {
+                    top: parent.top
+                    right: parent.right
+                }
+            }
         }
 
         OpacityMask {
@@ -232,6 +255,8 @@ Item {
                 cursorShape: Qt.PointingHandCursor
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onEntered: {
+                    if (!root.hasLicense)
+                        return
                     root.state = "hover"
                     screenPlayItemImage.state = "hover"
                     screenPlayItemImage.enter()
@@ -242,6 +267,11 @@ Item {
                     screenPlayItemImage.exit()
                 }
                 onClicked: function (mouse) {
+                    if (!root.hasLicense) {
+                        root.openOpenLicensePopup()
+                        return
+                    }
+
                     if (mouse.button === Qt.LeftButton)
                         App.util.setSidebarItem(root.screenId, root.type)
                     else if (mouse.button === Qt.RightButton)
@@ -250,7 +280,6 @@ Item {
             }
         }
     }
-
     transitions: [
         Transition {
             from: ""

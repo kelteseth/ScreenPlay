@@ -6,8 +6,8 @@ import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
 import ScreenPlayApp
-
 import ScreenPlayUtil
+import "../Components"
 
 Rectangle {
     id: root
@@ -22,29 +22,29 @@ Rectangle {
     signal changePage(string name)
 
     function setActive(active) {
-        navActive = active;
+        navActive = active
         if (active)
-            root.state = "enabled";
+            root.state = "enabled"
         else
-            root.state = "disabled";
+            root.state = "disabled"
     }
     function setNavigation(name) {
         for (var i = 0; i < navArray.length; i++) {
             if (navArray[i].objectName === name) {
-                navArray[i].state = "active";
-                root.currentNavigationName = name;
-                tabBar.currentIndex = navArray[i].index;
+                navArray[i].state = "active"
+                root.currentNavigationName = name
+                tabBar.currentIndex = navArray[i].index
             } else {
-                navArray[i].state = "inactive";
+                navArray[i].state = "inactive"
             }
         }
     }
 
     function onPageChanged(name) {
         if (!navActive)
-            return;
-        root.changePage(name);
-        setNavigation(name);
+            return
+        root.changePage(name)
+        setNavigation(name)
     }
 
     implicitWidth: 1366
@@ -58,11 +58,11 @@ Rectangle {
 
     Connections {
         function onRequestNavigationActive(isActive) {
-            setActive(isActive);
+            setActive(isActive)
         }
 
         function onRequestNavigation(nav) {
-            onPageChanged(nav);
+            onPageChanged(nav)
         }
 
         target: App.util
@@ -90,19 +90,19 @@ Rectangle {
             objectName: "Create"
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_plus.svg"
             onClicked: {
-                root.onPageChanged("Create");
+                root.onPageChanged("Create")
             }
         }
 
         CustomTabButton {
             id: navWorkshop
             index: 1
-            enabled: App.settings.steamVersion
+            enabled: App.globalVariables.isSteamVersion()
             text: qsTr("Workshop")
             objectName: "Workshop"
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_steam.svg"
             onClicked: {
-                root.onPageChanged("Workshop");
+                root.onPageChanged("Workshop")
             }
         }
 
@@ -113,7 +113,7 @@ Rectangle {
             objectName: "Installed"
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_installed.svg"
             onClicked: {
-                root.onPageChanged("Installed");
+                root.onPageChanged("Installed")
             }
         }
 
@@ -124,7 +124,7 @@ Rectangle {
             objectName: "Community"
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_community.svg"
             onClicked: {
-                root.onPageChanged("Community");
+                root.onPageChanged("Community")
             }
         }
 
@@ -135,7 +135,7 @@ Rectangle {
             objectName: "Settings"
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_settings.svg"
             onClicked: {
-                root.onPageChanged("Settings");
+                root.onPageChanged("Settings")
             }
         }
     }
@@ -147,9 +147,61 @@ Rectangle {
         height: parent.height
         width: implicitWidth
         property int index: 0
-        background: Item {
-        }
+        background: Item {}
         font.capitalization: Font.MixedCase
+    }
+
+    Rectangle {
+        id: premiumBackground
+        anchors.centerIn: premium
+        width: premium.width
+        height: premium.height
+        color: Material.theme === Material.Light ? Material.background : "#242424"
+        border.color: "#44FFD700"
+        border.width: 1
+        radius: 3
+    }
+
+    SwipeView {
+        id:premium
+        clip: true
+        anchors {
+            top: parent.top
+            topMargin: 5
+            right: quickActionRow.left
+            rightMargin: 20
+            bottom: parent.bottom
+            bottomMargin: 5
+        }
+        interactive: false
+
+        currentIndex: {
+            if (App.globalVariables.isBasicVersion())
+                return 0
+            if (App.globalVariables.isProVersion())
+                return 1
+            if (App.globalVariables.isUltraVersion())
+                return 2
+            return 0
+        }
+
+        ScreenPlayProPopup {
+            id:screenPlayProView
+        }
+
+        ToolButton {
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/images/rocket_3d.png"
+            icon.color: "transparent"
+            text: qsTr("Get ScreenPlay Pro 3D Wallpaper and Timelines!")
+            onClicked: screenPlayProView.open()
+        }
+        ToolButton {
+            text: qsTr("ScreenPlay Pro Active")
+
+        }
+        ToolButton {
+            text: qsTr("ScreenPlay ULTRA Active")
+        }
     }
 
     Rectangle {
@@ -158,26 +210,11 @@ Rectangle {
         width: quickActionRow.width + 5
         height: quickActionRow.height - 16
         color: Material.theme === Material.Light ? Material.background : "#242424"
-        border.color: Material.theme === Material.Light ? Material.iconDisabledColor : Qt.darker(Material.background)
+        border.color: Material.theme === Material.Light ? Material.iconDisabledColor : Qt.darker(
+                                                              Material.background)
         border.width: 1
         radius: 3
     }
-
-    RowLayout {
-        anchors {
-            top: parent.top
-            right: quickActionRow.left
-            rightMargin: 20
-            bottom: parent.bottom
-        }
-
-        ToolButton {
-            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/font-awsome/patreon-brands.svg"
-            text: qsTr("Support me on Patreon!")
-            onClicked: Qt.openUrlExternally("https://www.patreon.com/ScreenPlayApp")
-        }
-    }
-
     RowLayout {
         id: quickActionRow
         anchors {
@@ -187,12 +224,13 @@ Rectangle {
             bottom: parent.bottom
         }
 
-        property bool contentActive: App.screenPlayManager.activeWallpaperCounter > 0 || App.screenPlayManager.activeWidgetsCounter > 0
+        property bool contentActive: App.screenPlayManager.activeWallpaperCounter > 0
+                                     || App.screenPlayManager.activeWidgetsCounter > 0
 
         onContentActiveChanged: {
             if (!contentActive) {
-                miMuteAll.soundEnabled = true;
-                miStopAll.isPlaying = true;
+                miMuteAll.soundEnabled = true
+                miStopAll.isPlaying = true
             }
         }
 
@@ -208,11 +246,12 @@ Rectangle {
             property bool soundEnabled: true
             onSoundEnabledChanged: {
                 if (miMuteAll.soundEnabled) {
-                    miMuteAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume.svg";
-                    App.screenPlayManager.setAllWallpaperValue("muted", "false");
+                    miMuteAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume.svg"
+                    App.screenPlayManager.setAllWallpaperValue("muted", "false")
                 } else {
-                    miMuteAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume_mute.svg";
-                    App.screenPlayManager.setAllWallpaperValue("muted", "true");
+                    miMuteAll.icon.source
+                            = "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume_mute.svg"
+                    App.screenPlayManager.setAllWallpaperValue("muted", "true")
                 }
             }
 
@@ -231,18 +270,19 @@ Rectangle {
             property bool isPlaying: true
             onIsPlayingChanged: {
                 if (miStopAll.isPlaying) {
-                    miStopAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_pause.svg";
-                    App.screenPlayManager.setAllWallpaperValue("isPlaying", "true");
+                    miStopAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_pause.svg"
+                    App.screenPlayManager.setAllWallpaperValue("isPlaying",
+                                                               "true")
                 } else {
-                    miStopAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_play.svg";
-                    App.screenPlayManager.setAllWallpaperValue("isPlaying", "false");
+                    miStopAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_play.svg"
+                    App.screenPlayManager.setAllWallpaperValue("isPlaying",
+                                                               "false")
                 }
             }
             hoverEnabled: true
             ToolTip.text: qsTr("Pause/Play all Wallpaper")
             ToolTip.visible: hovered
         }
-
         ToolButton {
             id: miCloseAll
             enabled: quickActionRow.contentActive
@@ -251,19 +291,19 @@ Rectangle {
             icon.width: root.iconWidth
             icon.height: root.iconHeight
             onClicked: {
-                App.screenPlayManager.removeAllWallpapers();
-                App.screenPlayManager.removeAllWidgets();
-                miStopAll.isPlaying = true;
-                miMuteAll.soundEnabled = true;
+                App.screenPlayManager.removeAllWallpapers(true)
+                App.screenPlayManager.removeAllWidgets(true)
+                miStopAll.isPlaying = true
+                miMuteAll.soundEnabled = true
             }
 
             hoverEnabled: true
             ToolTip.text: qsTr("Close All Content")
             ToolTip.visible: hovered
         }
-
         ToolButton {
             id: miConfig
+            enabled: quickActionRow.contentActive
             Layout.alignment: Qt.AlignVCenter
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_video_settings.svg"
             icon.width: root.iconWidth

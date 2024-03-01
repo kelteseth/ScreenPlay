@@ -21,7 +21,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC inc/public/)
 target_link_libraries(
     ${PROJECT_NAME}
     PUBLIC Qt6::Core
-            Qt6::Quick
-            Qt6::Gui
-            Qt6::Network
-            ScreenPlayUtil)
+           Qt6::Quick
+           Qt6::Gui
+           Qt6::Network
+           ScreenPlayUtil)

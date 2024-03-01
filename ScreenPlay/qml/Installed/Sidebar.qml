@@ -365,6 +365,14 @@ Item {
                     const absoluteStoragePath = item.m_absoluteStoragePath
                     const previewImage = item.m_preview
                     if (App.util.isWallpaper(root.type)) {
+                        if (type === ContentTypes.InstalledType.GodotWallpaper){
+                            if(!App.globalVariables.isBasicVersion()) {
+                                root.state = "inactive"
+                                return
+                            }
+                        }
+
+
                         let activeMonitors = monitorSelection.getActiveMonitors(
                                 )
                         // TODO Alert user to choose a monitor

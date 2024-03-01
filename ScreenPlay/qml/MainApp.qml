@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import ScreenPlayUtil as Util
 import ScreenPlayApp 1.0
-
 import "Monitors" as Monitors
 import "Installed" as Installed
 import "Navigation" as Navigation
@@ -96,15 +95,6 @@ Item {
             App.showDockIcon(true);
             root.show();
         }
-
-        function onActiveWidgetsCounterChanged() {
-            plausible.pageView("widget/count/" + App.screenPlayManager.activeWidgetsCounter);
-        }
-
-        function onActiveWallpaperCounterChanged() {
-            plausible.pageView("wallpaper/count/" + App.screenPlayManager.activeWallpaperCounter);
-        }
-
         target: App.screenPlayManager
     }
 

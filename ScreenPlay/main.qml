@@ -3,7 +3,6 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Controls.Material
-import Plausible 1.0
 import ScreenPlayApp 1.0
 import QtCore as QCore
 
@@ -15,7 +14,8 @@ ApplicationWindow {
     visible: false
     width: 1400
     height: 810
-    title: "ScreenPlay - v" + App.version()
+
+
     minimumHeight: 450
     minimumWidth: 1050
     Component.onCompleted: {
@@ -24,13 +24,29 @@ ApplicationWindow {
         // and do _not_ access any other properties before we called init.
         App.init()
 
+
         setTheme(App.settings.theme)
         if (!App.settings.silentStart) {
             App.showDockIcon(true)
             root.show()
         }
-        baseLoader.setSource("qrc:/qml/ScreenPlayApp/qml/Base.qml")
+        baseLoader.setSource("qrc:/qml/ScreenPlayApp/qml/MainApp.qml")
+
+        const isSteamVersion = App.globalVariables.isSteamVersion()
+        let platform = ""
+        if (isSteamVersion)
+            platform = qsTr("Steam")
+        const isProVersion = App.globalVariables.isProVersion()
+        let featureLevel = ""
+        if (isProVersion)
+            featureLevel = qsTr("Pro")
+        const isUltraVersion = App.globalVariables.isUltraVersion()
+        if (isUltraVersion)
+            featureLevel = qsTr("Ultra")
+
+        root.title = "ScreenPlay - v" + App.version() + " " + featureLevel + " " + platform
     }
+
 
     Connections {
         target: App
@@ -83,14 +99,6 @@ ApplicationWindow {
                    }
                    exitDialog.open()
                }
-
-    Plausible {
-        id: plausible
-        screenSize: Qt.size(root.width, root.height)
-        domain: "app.screen-play.app"
-        debug: false
-        enabled: false
-    }
 
     Loader {
         id: baseLoader

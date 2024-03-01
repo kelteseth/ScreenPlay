@@ -21,7 +21,6 @@ Q_IMPORT_QML_PLUGIN(ScreenPlayWorkshopPlugin)
 #include <QQmlEngineExtensionPlugin>
 Q_IMPORT_QML_PLUGIN(ScreenPlayAppPlugin)
 Q_IMPORT_QML_PLUGIN(ScreenPlayUtilPlugin)
-Q_IMPORT_QML_PLUGIN(PlausiblePlugin)
 
 int main(int argc, char* argv[])
 {
