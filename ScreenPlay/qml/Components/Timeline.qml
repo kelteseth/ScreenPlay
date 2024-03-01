@@ -4,7 +4,7 @@ import QtQuick.Layouts
 
 Control {
     id: root
-    height: 250
+    height: 220
     implicitWidth: 800
     topPadding: 40
     leftPadding: 40
@@ -61,8 +61,8 @@ Control {
 
         function createSection(index, stopPosition, section) {
             console.log("Adding at:", index, stopPosition)
-            //console.assert(isFloat(stopPosition))
 
+            //console.assert(isFloat(stopPosition))
             let haComponent = Qt.createComponent("LineHandle.qml")
             if (haComponent.status === Component.Error) {
                 console.assert(haComponent.errorString())
@@ -222,6 +222,35 @@ Control {
             HoverHandler {
                 id: hoverHandler
                 enabled: true
+            }
+
+            RowLayout {
+                anchors.fill: parent
+                Repeater {
+                    model: 24
+                    Item {
+                        width: 20
+                        height: 40
+                        required property int index
+                        Text {
+                            color: "gray"
+                            text: index
+                            anchors {
+                                horizontalCenter: parent.horizontalCenter
+                            }
+                        }
+
+                        Rectangle {
+                            color: "gray"
+                            width: 1
+                            height: 5
+                            anchors {
+                                horizontalCenter: parent.horizontalCenter
+                                bottom: parent.bottom
+                            }
+                        }
+                    }
+                }
             }
 
             ToolButton {

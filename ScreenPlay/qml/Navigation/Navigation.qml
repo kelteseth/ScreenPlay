@@ -303,7 +303,6 @@ Rectangle {
         }
         ToolButton {
             id: miConfig
-            enabled: quickActionRow.contentActive
             Layout.alignment: Qt.AlignVCenter
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_video_settings.svg"
             icon.width: root.iconWidth

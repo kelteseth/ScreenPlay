@@ -11,14 +11,6 @@ Rectangle {
     signal remove(var index)
     signal lineSelected(var index)
 
-    border.width: root.selected ? 2 : 0
-    border.color: "gold"
-    Behavior on color {
-        id: colorBehavior
-        ColorAnimation {
-            duration: 400
-        }
-    }
     Text {
         id: text
         color: "white"
@@ -31,12 +23,17 @@ Rectangle {
     }
 
     Rectangle {
+        color: "gold"
+        anchors.fill: parent
+        visible: root.selected
+
+    }
+
+    Rectangle {
         id: indicatorLineVertical
         width: 5
         height: 30
-        color: parent.color
-        border.width: root.selected ? 2 : 0
-        border.color: "gold"
+        color:  root.selected ?  "gold"  : parent.color
         anchors{
             horizontalCenter: parent.horizontalCenter
             top: parent.bottom

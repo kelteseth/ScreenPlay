@@ -50,14 +50,14 @@ Util.Popup {
             border.width: 1
             radius: 3
             Layout.fillWidth: true
-            Layout.preferredHeight: 280
+            Layout.preferredHeight: 240
 
             ColumnLayout {
-                spacing: 20
+                spacing: 10
 
                 anchors {
                     fill: parent
-                    margins: 40
+                    margins: 20
                 }
 
                 Text {
@@ -66,7 +66,6 @@ Util.Popup {
                     color: Material.primaryTextColor
                     font.family: App.settings.font
                     font.weight: Font.Light
-                    width: 400
                     Layout.fillWidth: true
                     Layout.preferredHeight: 30
                 }
@@ -200,7 +199,6 @@ Util.Popup {
                             if (!App.screenPlayManager.removeAllWallpapers(
                                         true))
                                 print("Unable to close all wallpaper!")
-                            root.close()
                         }
                     }
 
@@ -218,7 +216,6 @@ Util.Popup {
                         onClicked: {
                             if (!App.screenPlayManager.removeAllWidgets())
                                 print("Unable to close all widgets!")
-                            root.close()
                         }
                     }
                 }
