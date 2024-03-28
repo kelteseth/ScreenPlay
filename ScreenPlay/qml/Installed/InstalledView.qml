@@ -335,7 +335,7 @@ Item {
         modalSource: root.modalSource
         anchors.centerIn: Overlay.overlay
         onAccepted: {
-            root.sidebar.clear()
+            root.sidebar.close()
             if (!App.installedListModel.deinstallItemAt(
                         contextMenu.absoluteStoragePath)) {
                 console.error("Unable to uninstall item",

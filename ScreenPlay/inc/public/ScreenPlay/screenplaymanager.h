@@ -13,6 +13,7 @@
 #include "monitorlistmodel.h"
 #include "profilelistmodel.h"
 #include "projectsettingslistmodel.h"
+#include "screenplayprofiles.h"
 #include "screenplaywallpaper.h"
 #include "screenplaywidget.h"
 #include "settings.h"
@@ -20,6 +21,21 @@
 #include <optional>
 
 namespace ScreenPlay {
+
+struct Wallpaper {
+    QString name;
+    QTime startTime;
+    QTime endTime;
+    QString absolutePath;
+    QString previewImage;
+    float playbackRate;
+    float volume;
+    QString file;
+    QJsonObject properties;
+    ContentTypes::InstalledType type;
+    Video::FillMode fillMode;
+    QVector<int> monitors;
+};
 
 class ScreenPlayManager : public QObject {
     Q_OBJECT
@@ -139,11 +155,14 @@ public slots:
 
 private:
     bool loadProfiles();
+    bool loadWidgetConfig(const QJsonObject& widget);
+    bool loadWallpaperConfig(const QJsonObject& wallpaper);
     bool checkIsAnotherScreenPlayInstanceRunning();
     bool removeWallpaper(const QString& appID);
     bool removeWidget(const QString& appID);
 
 private:
+    ScreenPlayProfiles m_screenPlayProfiles;
     std::shared_ptr<GlobalVariables> m_globalVariables;
     std::shared_ptr<MonitorListModel> m_monitorListModel;
     std::shared_ptr<Settings> m_settings;
@@ -161,6 +180,6 @@ private:
     QTimer m_saveLimiter;
 
     const quint16 m_webSocketPort = 16395;
+    bool loadTimelineWallpaperConfig(const QJsonObject& wallpaperObj);
 };
-
 }

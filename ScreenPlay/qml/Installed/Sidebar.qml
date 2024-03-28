@@ -9,11 +9,14 @@ import ScreenPlayApp
 
 import ScreenPlayUtil
 import "../Monitors"
+import "../Components"
 
-Item {
+Drawer {
     id: root
-
-    property real navHeight
+    height: 500
+    modal: false
+    edge: Qt.BottomEdge
+    property bool hasPreviewGif: false
     property var type: ContentTypes.InstalledType.QMLWallpaper
     property string contentFolderName
 
@@ -29,15 +32,13 @@ Item {
     // This is used for removing wallpaper. We need to clear
     // the preview image/gif so we can release the file for deletion.
     function clear() {
+        root.close()
         imagePreview.source = ""
         animatedImagePreview.source = ""
         txtHeadline.text = ""
-        root.state = "inactive"
+        sidebarWrapper.state = "inactive"
     }
 
-    width: 400
-    state: "inactive"
-    property bool hasPreviewGif: false
     onContentFolderNameChanged: {
         const item = App.installedListModel.get(root.contentFolderName)
         txtHeadline.text = item.m_title
@@ -64,97 +65,109 @@ Item {
         function onSetSidebarItem(folderName, type) {
 
             // Toggle sidebar if clicked on the same content twice
-            if (root.contentFolderName === folderName
-                    && root.state !== "inactive") {
-                root.state = "inactive"
+            if (root.contentFolderName === folderName && root.opened) {
+                root.close()
                 return
             }
             root.contentFolderName = folderName
             root.type = type
             if (App.util.isWallpaper(root.type)) {
                 if (type === ContentTypes.InstalledType.VideoWallpaper)
-                    root.state = "activeWallpaper"
+                    sidebarWrapper.state = "wallpaper"
                 else
-                    root.state = "activeScene"
+                    sidebarWrapper.state = "scene"
                 btnLaunchContent.text = qsTr("Set Wallpaper")
             } else {
-                root.state = "activeWidget"
+                sidebarWrapper.state = "widget"
                 btnLaunchContent.text = qsTr("Set Widget")
             }
+            root.open()
         }
 
         target: App.util
     }
 
-    MouseHoverBlocker {}
-
-    Rectangle {
-        anchors.fill: parent
-        color: Material.theme === Material.Light ? "white" : Material.background
-        opacity: 0.95
-        layer.enabled: true
-
-        layer.effect: ElevationEffect {
-            elevation: 4
-        }
-    }
-
-    Item {
+    RowLayout {
         id: sidebarWrapper
+        state: "inactive"
+        spacing: 20
 
         anchors.fill: parent
 
-        Item {
-            id: navBackground
+        ColumnLayout {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.leftMargin: 10
+            spacing: 5
 
-            height: navHeight
+            ColumnLayout {
+                spacing: 5
+                Layout.fillWidth: true
+                Layout.preferredHeight: 160
 
-            anchors {
-                top: parent.top
-                right: parent.right
-                left: parent.left
+                Text {
+                    Layout.leftMargin: 20
+                    text: qsTr("Select the duration your wallpaper should be visible")
+                    font.family: App.settings.font
+                    verticalAlignment: Text.AlignVCenter
+                    font.pointSize: 11
+                    color: Material.secondaryTextColor
+                }
+
+                Timeline {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                }
             }
 
-            Rectangle {
-                anchors.fill: parent
+            RowLayout {
+                spacing: 10
 
-                gradient: Gradient {
-                    GradientStop {
-                        position: 0
-                        color: "transparent"
-                    }
-                    GradientStop {
-                        position: 0.1
-                        color: "#AAffffff"
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    Layout.horizontalStretchFactor: 3
+                    spacing: 10
+
+                    Text {
+                        text: qsTr("Select a Monitor to display the content")
+                        font.family: App.settings.font
+                        verticalAlignment: Text.AlignVCenter
+                        font.pointSize: 11
+                        color: Material.secondaryTextColor
                     }
 
-                    GradientStop {
-                        position: 1
-                        color: "#ffffff"
+                    MonitorSelection {
+                        id: monitorSelection
+                        objectName: "monitorSelection"
+                        height: 200
+                        Layout.fillWidth: true
+                        availableWidth: width
+                        availableHeight: height
+                        fontSize: 11
                     }
+                }
+
+                Item {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    Layout.horizontalStretchFactor: 1
                 }
             }
         }
 
-        Item {
-            id: sidebarBackground
-
-            anchors {
-                top: navBackground.bottom
-                right: parent.right
-                bottom: parent.bottom
-                left: parent.left
-            }
+        ColumnLayout {
+            Layout.preferredWidth: 260
+            Layout.fillHeight: true
+            spacing: 10
 
             Rectangle {
                 id: imageWrapper
-
-                height: 237
                 color: "#2b2b2b"
-                anchors.right: parent.right
-                anchors.rightMargin: 0
-                anchors.left: parent.left
-                anchors.leftMargin: 0
+
+                Layout.preferredHeight: 180
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignTop
 
                 // Do NOT enable async image loading!
                 // Otherwhise it will still hold the file
@@ -220,62 +233,12 @@ Item {
                         left: parent.left
                     }
                 }
-
-                MouseArea {
-                    id: button
-
-                    height: 50
-                    width: 50
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    cursorShape: Qt.PointingHandCursor
-                    onClicked: root.state = "inactive"
-
-                    Image {
-                        id: imgBack
-
-                        source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_arrow_right.svg"
-                        sourceSize: Qt.size(15, 15)
-                        fillMode: Image.PreserveAspectFit
-                        anchors.centerIn: parent
-                    }
-                }
             }
 
             ColumnLayout {
                 spacing: 20
-
-                anchors {
-                    top: imageWrapper.bottom
-                    right: parent.right
-                    left: parent.left
-                    margins: 30
-                }
-
-                ColumnLayout {
-                    Layout.fillWidth: true
-
-                    Text {
-                        id: txtHeadlineMonitor
-
-                        height: 20
-                        text: qsTr("Select a Monitor to display the content")
-                        font.family: App.settings.font
-                        verticalAlignment: Text.AlignVCenter
-                        font.pointSize: 11
-                        color: Material.secondaryTextColor
-                    }
-
-                    MonitorSelection {
-                        id: monitorSelection
-                        objectName: "monitorSelection"
-                        height: 180
-                        Layout.fillWidth: true
-                        availableWidth: width
-                        availableHeight: height
-                        fontSize: 11
-                    }
-                }
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignTop
 
                 LabelSlider {
                     id: sliderVolume
@@ -365,13 +328,12 @@ Item {
                     const absoluteStoragePath = item.m_absoluteStoragePath
                     const previewImage = item.m_preview
                     if (App.util.isWallpaper(root.type)) {
-                        if (type === ContentTypes.InstalledType.GodotWallpaper){
-                            if(!App.globalVariables.isBasicVersion()) {
-                                root.state = "inactive"
+                        if (type === ContentTypes.InstalledType.GodotWallpaper) {
+                            if (App.globalVariables.isBasicVersion()) {
+                                sidebarWrapper.state = "inactive"
                                 return
                             }
                         }
-
 
                         let activeMonitors = monitorSelection.getActiveMonitors(
                                 )
@@ -404,7 +366,7 @@ Item {
                                                     1, {}, true)
                                             }
                                         })
-                            root.state = "inactive"
+                            root.close()
                             return
                         }
 
@@ -420,230 +382,205 @@ Item {
                                                            absoluteStoragePath,
                                                            previewImage, {},
                                                            true)
-                    root.state = "inactive"
+
+                    root.close()
                     monitorSelection.reset()
                 }
 
-                anchors {
-                    bottom: parent.bottom
-                    bottomMargin: 20
-                    horizontalCenter: parent.horizontalCenter
-                }
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
             }
         }
+
+        ToolButton {
+            id: button
+            Layout.alignment: Qt.AlignTop
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_close.svg"
+            icon.width: 15
+            icon.height: 15
+            onClicked: {
+                root.close()
+                sidebarWrapper.state = "inactive"
+            }
+        }
+        states: [
+            State {
+                name: "inactive"
+
+                PropertyChanges {
+                    target: imagePreview
+                    opacity: 0
+                    anchors.topMargin: 20
+                }
+                PropertyChanges {
+                    target: animatedImagePreview
+                    opacity: 0
+                    anchors.topMargin: 20
+                }
+            },
+            State {
+                name: "activeWidget"
+
+                PropertyChanges {
+                    target: sliderVolume
+                    visible: false
+                }
+
+                PropertyChanges {
+                    target: monitorSelection
+                    visible: false
+                    enabled: false
+                }
+
+                PropertyChanges {
+                    target: imagePreview
+                    opacity: 1
+                    anchors.topMargin: 0
+                }
+                PropertyChanges {
+                    target: animatedImagePreview
+                    opacity: 1
+                    anchors.topMargin: 0
+                }
+
+                PropertyChanges {
+                    target: txtHeadlineMonitor
+                    opacity: 0
+                }
+            },
+            State {
+                name: "wallpaper"
+
+                PropertyChanges {
+                    target: imagePreview
+                    opacity: 1
+                    anchors.topMargin: 0
+                }
+                PropertyChanges {
+                    target: animatedImagePreview
+                    opacity: 1
+                    anchors.topMargin: 0
+                }
+
+                PropertyChanges {
+                    target: txtHeadlineMonitor
+                    opacity: 1
+                }
+
+                PropertyChanges {
+                    target: txtComboBoxFillMode
+                    opacity: 1
+                    visible: true
+                }
+
+                PropertyChanges {
+                    target: cbVideoFillMode
+                    opacity: 1
+                    visible: true
+                }
+            },
+            State {
+                name: "scene"
+
+                PropertyChanges {
+                    target: imagePreview
+                    opacity: 1
+                    anchors.topMargin: 0
+                }
+                PropertyChanges {
+                    target: animatedImagePreview
+                    opacity: 1
+                    anchors.topMargin: 0
+                }
+
+                PropertyChanges {
+                    target: txtHeadlineMonitor
+                    opacity: 1
+                }
+
+                PropertyChanges {
+                    target: sliderVolume
+                    opacity: 0
+                    visible: false
+                }
+            }
+        ]
+        transitions: [
+            Transition {
+                to: "inactive"
+                from: "*"
+                reversible: true
+
+                NumberAnimation {
+                    targets: [animatedImagePreview, imagePreview]
+                    property: "opacity"
+                    duration: 200
+                }
+
+                NumberAnimation {
+                    targets: [animatedImagePreview, imagePreview]
+                    property: "anchors.topMargin"
+                    duration: 400
+                }
+            },
+            Transition {
+                to: "widget"
+                from: "*"
+
+                SequentialAnimation {
+                    ParallelAnimation {
+                        NumberAnimation {
+                            targets: [animatedImagePreview, imagePreview]
+                            property: "opacity"
+                            duration: 200
+                        }
+
+                        NumberAnimation {
+                            targets: [animatedImagePreview, imagePreview]
+                            property: "anchors.topMargin"
+                            duration: 100
+                        }
+                    }
+                }
+            },
+            Transition {
+                to: "wallpaper"
+                from: "*"
+
+                SequentialAnimation {
+                    ParallelAnimation {
+                        NumberAnimation {
+                            targets: [animatedImagePreview, imagePreview]
+                            property: "opacity"
+                            duration: 200
+                        }
+
+                        NumberAnimation {
+                            targets: [animatedImagePreview, imagePreview]
+                            property: "anchors.topMargin"
+                            duration: 100
+                        }
+                    }
+                }
+            },
+            Transition {
+                to: "scene"
+
+                SequentialAnimation {
+                    ParallelAnimation {
+                        NumberAnimation {
+                            targets: [animatedImagePreview, imagePreview]
+                            property: "opacity"
+                            duration: 200
+                        }
+
+                        NumberAnimation {
+                            targets: [animatedImagePreview, imagePreview]
+                            property: "anchors.topMargin"
+                            duration: 100
+                        }
+                    }
+                }
+            }
+        ]
     }
-
-    states: [
-        State {
-            name: "inactive"
-
-            PropertyChanges {
-                target: root
-                anchors.rightMargin: -root.width
-            }
-
-            PropertyChanges {
-                target: imagePreview
-                opacity: 0
-                anchors.topMargin: 20
-            }
-            PropertyChanges {
-                target: animatedImagePreview
-                opacity: 0
-                anchors.topMargin: 20
-            }
-        },
-        State {
-            name: "activeWidget"
-
-            PropertyChanges {
-                target: sliderVolume
-                visible: false
-            }
-
-            PropertyChanges {
-                target: monitorSelection
-                visible: false
-                enabled: false
-            }
-
-            PropertyChanges {
-                target: imagePreview
-                opacity: 1
-                anchors.topMargin: 0
-            }
-            PropertyChanges {
-                target: animatedImagePreview
-                opacity: 1
-                anchors.topMargin: 0
-            }
-
-            PropertyChanges {
-                target: txtHeadlineMonitor
-                opacity: 0
-            }
-        },
-        State {
-            name: "activeWallpaper"
-
-            PropertyChanges {
-                target: imagePreview
-                opacity: 1
-                anchors.topMargin: 0
-            }
-            PropertyChanges {
-                target: animatedImagePreview
-                opacity: 1
-                anchors.topMargin: 0
-            }
-
-            PropertyChanges {
-                target: txtHeadlineMonitor
-                opacity: 1
-            }
-
-            PropertyChanges {
-                target: txtComboBoxFillMode
-                opacity: 1
-                visible: true
-            }
-
-            PropertyChanges {
-                target: cbVideoFillMode
-                opacity: 1
-                visible: true
-            }
-        },
-        State {
-            name: "activeScene"
-
-            PropertyChanges {
-                target: imagePreview
-                opacity: 1
-                anchors.topMargin: 0
-            }
-            PropertyChanges {
-                target: animatedImagePreview
-                opacity: 1
-                anchors.topMargin: 0
-            }
-
-            PropertyChanges {
-                target: txtHeadlineMonitor
-                opacity: 1
-            }
-
-            PropertyChanges {
-                target: sliderVolume
-                opacity: 0
-                visible: false
-            }
-        }
-    ]
-    transitions: [
-        Transition {
-            to: "inactive"
-            from: "*"
-            reversible: true
-
-            NumberAnimation {
-                targets: [animatedImagePreview, imagePreview]
-                property: "opacity"
-                duration: 200
-            }
-
-            NumberAnimation {
-                targets: [animatedImagePreview, imagePreview]
-                property: "anchors.topMargin"
-                duration: 400
-            }
-
-            NumberAnimation {
-                target: root
-                properties: "anchors.rightMargin"
-                duration: 250
-                easing.type: Easing.OutQuart
-            }
-        },
-        Transition {
-            to: "activeWidget"
-            from: "*"
-
-            SequentialAnimation {
-                NumberAnimation {
-                    target: root
-                    properties: "anchors.rightMargin"
-                    duration: 250
-                    easing.type: Easing.OutQuart
-                }
-
-                ParallelAnimation {
-                    NumberAnimation {
-                        targets: [animatedImagePreview, imagePreview]
-                        property: "opacity"
-                        duration: 200
-                    }
-
-                    NumberAnimation {
-                        targets: [animatedImagePreview, imagePreview]
-                        property: "anchors.topMargin"
-                        duration: 100
-                    }
-                }
-            }
-        },
-        Transition {
-            to: "activeWallpaper"
-            from: "*"
-
-            SequentialAnimation {
-                NumberAnimation {
-                    target: root
-                    properties: "anchors.rightMargin"
-                    duration: 250
-                    easing.type: Easing.OutQuart
-                }
-
-                ParallelAnimation {
-                    NumberAnimation {
-                        targets: [animatedImagePreview, imagePreview]
-                        property: "opacity"
-                        duration: 200
-                    }
-
-                    NumberAnimation {
-                        targets: [animatedImagePreview, imagePreview]
-                        property: "anchors.topMargin"
-                        duration: 100
-                    }
-                }
-            }
-        },
-        Transition {
-            to: "activeScene"
-
-            SequentialAnimation {
-                NumberAnimation {
-                    target: root
-                    properties: "anchors.rightMargin"
-                    duration: 250
-                    easing.type: Easing.OutQuart
-                }
-
-                ParallelAnimation {
-                    NumberAnimation {
-                        targets: [animatedImagePreview, imagePreview]
-                        property: "opacity"
-                        duration: 200
-                    }
-
-                    NumberAnimation {
-                        targets: [animatedImagePreview, imagePreview]
-                        property: "anchors.topMargin"
-                        duration: 100
-                    }
-                }
-            }
-        }
-    ]
 }

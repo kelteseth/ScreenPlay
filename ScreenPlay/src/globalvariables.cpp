@@ -22,7 +22,7 @@ GlobalVariables::GlobalVariables(QObject* parent)
     } else {
         setVersion(GlobalVariables::Version::OpenSourceStandalone);
     }
-    setVersion(GlobalVariables::Version::OpenSourceUltraSteam);
+    setVersion(GlobalVariables::Version::OpenSourceStandalone);
     setLocalSettingsPath(QUrl { QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) });
 }
 

@@ -14,7 +14,7 @@ Rectangle {
     Text {
         id: text
         color: "white"
-        text: root.index
+        //text: root.index
         anchors{
             horizontalCenter: parent.horizontalCenter
             bottom: parent.bottom

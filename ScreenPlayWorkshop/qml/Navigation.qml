@@ -16,6 +16,11 @@ Rectangle {
     height: 50
     color: Material.theme === Material.Light ? "white" : Material.background
 
+    // Block input to underlying installed item
+    MouseArea {
+        anchors.fill: parent
+    }
+
     Item {
         id: wrapper
 

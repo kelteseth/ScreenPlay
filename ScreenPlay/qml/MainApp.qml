@@ -40,7 +40,7 @@ Item {
                 "modalSource": content
             });
         nav.setNavigation(name);
-        sidebar.state = "inactive";
+        sidebar.close()
     }
 
     Navigation.ExitPopup {
@@ -147,9 +147,9 @@ Item {
     Connections {
         function onSetSidebarActive(active) {
             if (active)
-                sidebar.state = "active";
+                sidebar.open()
             else
-                sidebar.state = "inactive";
+                sidebar.close()
         }
 
         function onSetNavigationItem(pos) {
@@ -166,13 +166,7 @@ Item {
     Installed.Sidebar {
         id: sidebar
         objectName: "installedSidebar"
-        navHeight: nav.height
-
-        anchors {
-            top: parent.top
-            right: parent.right
-            bottom: parent.bottom
-        }
+        width: content.width
     }
 
     Navigation.Navigation {

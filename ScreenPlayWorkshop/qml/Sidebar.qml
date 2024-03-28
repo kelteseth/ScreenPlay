@@ -179,6 +179,7 @@ Drawer {
 
                         Layout.fillWidth: true
                         icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_thumb_up.svg"
+                        icon.color: "transparent"
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("Click here if you like the content")
                         onClicked: {
@@ -193,6 +194,7 @@ Drawer {
 
                         Layout.fillWidth: true
                         icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_thumb_down.svg"
+                        icon.color: "transparent"
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("Click here if you do not like the content")
                         onClicked: {
@@ -322,6 +324,7 @@ Drawer {
 
             font.pointSize: 10
             icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_open_in_new.svg"
+            icon.color: "transparent"
             height: 25
             text: qsTr("Open In Steam")
             onClicked: Qt.openUrlExternally("steam://url/CommunityFilePage/" + root.publishedFileID)

@@ -4,11 +4,11 @@ import QtQuick.Layouts
 
 Control {
     id: root
-    height: 220
+    height: 160
     implicitWidth: 800
-    topPadding: 40
-    leftPadding: 40
-    rightPadding: 40
+    topPadding: 20
+    leftPadding: 20
+    rightPadding: 20
     contentItem: Item {
         id: timeLine
 

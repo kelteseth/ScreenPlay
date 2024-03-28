@@ -69,6 +69,7 @@ Rectangle {
     }
 
     function resize() {
+        print("resize")
         var absoluteDesktopSize = App.monitorListModel.absoluteDesktopSize();
         var isWidthGreaterThanHeight = false;
         var windowsDelta = 0;
@@ -159,6 +160,25 @@ Rectangle {
         ScrollBar.horizontal: ScrollBar {
             policy: ScrollBar.AlwaysOff
             snapMode: ScrollBar.SnapOnRelease
+        }
+    }
+
+    ToolButton {
+        onClicked: App.monitorListModel.reset()
+        icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/font-awsome/rotate-right-solid.svg"
+        icon.width: 14
+        icon.height: 14
+        opacity: hovered ? 1 : .4
+        hoverEnabled: true
+        Behavior on opacity {
+            NumberAnimation {
+                duration: 250
+            }
+        }
+
+        anchors {
+            top: parent.top
+            right: parent.right
         }
     }
 }

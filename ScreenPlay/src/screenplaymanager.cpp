@@ -565,74 +565,22 @@ bool ScreenPlayManager::loadProfiles()
             }
         }
 
-        for (QJsonValueRef wallpaper : wallpaper.toObject().value("wallpaper").toArray()) {
+        // for (QJsonValueRef wallpaper : wallpaper.toObject().value("wallpaper").toArray()) {
+        //     QJsonObject wallpaperObj = wallpaper.toObject();
+        //     if (!loadWallpaperConfig(wallpaperObj))
+        //         containsInvalidData = true;
+        // }
+
+        for (QJsonValueRef timelineWallpaper : wallpaper.toObject().value("timelineWallpaper").toArray()) {
             QJsonObject wallpaperObj = wallpaper.toObject();
-
-            if (wallpaperObj.empty())
-                continue;
-
-            QJsonArray monitorsArray = wallpaper.toObject().value("monitors").toArray();
-
-            QVector<int> monitors;
-            for (const QJsonValueRef monitorNumber : monitorsArray) {
-                int value = monitorNumber.toInt(-1);
-                if (value == -1) {
-                    qWarning() << "Could not parse monitor number to display content at";
-                    return false;
-                }
-
-                if (monitors.contains(value)) {
-                    qWarning() << "The monitor: " << value << " is sharing the config multiple times. ";
-                    return false;
-                }
-                monitors.append(value);
-            }
-
-            float volume = static_cast<float>(wallpaperObj.value("volume").toDouble(-1.0));
-
-            if (volume == -1.0F)
-                volume = 1.0f;
-
-            const QString absolutePath = wallpaperObj.value("absolutePath").toString();
-            const QString fillModeString = wallpaperObj.value("fillMode").toString();
-            const QString previewImage = wallpaperObj.value("previewImage").toString();
-            const float playbackRate = wallpaperObj.value("playbackRate").toDouble(1.0);
-            const QString file = wallpaperObj.value("file").toString();
-            const QString typeString = wallpaperObj.value("type").toString();
-            const QJsonObject properties = wallpaperObj.value("properties").toObject();
-
-            const auto type = QStringToEnum<ContentTypes::InstalledType>(typeString, ContentTypes::InstalledType::VideoWallpaper);
-            const auto fillMode = QStringToEnum<Video::FillMode>(fillModeString, Video::FillMode::Cover);
-
-            const bool success = createWallpaper(type, fillMode, absolutePath, previewImage, file, monitors, volume, playbackRate, properties, false);
-
-            if (!success) {
-                qWarning() << "Unable to start Wallpaper! " << type << fillMode << monitors << absolutePath;
+            if (!loadTimelineWallpaperConfig(wallpaperObj))
                 containsInvalidData = true;
-            }
         }
 
         for (const QJsonValueRef widget : wallpaper.toObject().value("widgets").toArray()) {
             QJsonObject widgetObj = widget.toObject();
-
-            if (widgetObj.empty())
-                continue;
-
-            const QString absolutePath = widgetObj.value("absolutePath").toString();
-            const QString previewImage = widgetObj.value("previewImage").toString();
-            const QString typeString = widgetObj.value("type").toString();
-            const int positionX = widgetObj.value("positionX").toInt(0);
-            const int positionY = widgetObj.value("positionY").toInt(0);
-            const QPoint position { positionX, positionY };
-            const auto type = QStringToEnum<ContentTypes::InstalledType>(typeString, ContentTypes::InstalledType::QMLWidget);
-            const QJsonObject properties = widgetObj.value("properties").toObject();
-
-            const bool success = createWidget(type, position, absolutePath, previewImage, properties, false);
-
-            if (!success) {
-                qWarning() << "Unable to start Widget! " << type << position << absolutePath;
+            if (!loadWidgetConfig(widgetObj))
                 containsInvalidData = true;
-            }
         }
     }
 
@@ -642,6 +590,87 @@ bool ScreenPlayManager::loadProfiles()
     if (containsInvalidData)
         saveProfiles();
 
+    return true;
+}
+
+bool ScreenPlayManager::loadTimelineWallpaperConfig(const QJsonObject& wallpaperObj)
+{
+    const QString name = wallpaperObj.value("name").toString();
+    const QString timeFormat = "hh:mm::ss";
+    const QTime startTime = QTime::fromString(wallpaperObj.value("startTime").toString(), timeFormat);
+    const QTime endTime = QTime::fromString(wallpaperObj.value("endTime").toString(), timeFormat);
+    if (!loadWallpaperConfig(wallpaperObj))
+        return false;
+    return true;
+}
+
+bool ScreenPlayManager::loadWallpaperConfig(const QJsonObject& wallpaperObj)
+{
+    if (wallpaperObj.empty())
+        return false;
+
+    QJsonArray monitorsArray = wallpaperObj.value("monitors").toArray();
+
+    QVector<int> monitors;
+    for (const QJsonValueRef monitorNumber : monitorsArray) {
+        int value = monitorNumber.toInt(-1);
+        if (value == -1) {
+            qWarning() << "Could not parse monitor number to display content at";
+            return false;
+        }
+
+        if (monitors.contains(value)) {
+            qWarning() << "The monitor: " << value << " is sharing the config multiple times. ";
+            return false;
+        }
+        monitors.append(value);
+    }
+
+    float volume = static_cast<float>(wallpaperObj.value("volume").toDouble(-1.0));
+
+    if (volume == -1.0F)
+        volume = 1.0f;
+
+    const QString absolutePath = wallpaperObj.value("absolutePath").toString();
+    const QString fillModeString = wallpaperObj.value("fillMode").toString();
+    const QString previewImage = wallpaperObj.value("previewImage").toString();
+    const float playbackRate = wallpaperObj.value("playbackRate").toDouble(1.0);
+    const QString file = wallpaperObj.value("file").toString();
+    const QString typeString = wallpaperObj.value("type").toString();
+    const QJsonObject properties = wallpaperObj.value("properties").toObject();
+
+    const auto type = QStringToEnum<ContentTypes::InstalledType>(typeString, ContentTypes::InstalledType::VideoWallpaper);
+    const auto fillMode = QStringToEnum<Video::FillMode>(fillModeString, Video::FillMode::Cover);
+
+    const bool success = createWallpaper(type, fillMode, absolutePath, previewImage, file, monitors, volume, playbackRate, properties, false);
+
+    if (!success) {
+        qWarning() << "Unable to start Wallpaper! " << type << fillMode << monitors << absolutePath;
+        return false;
+    }
+    return true;
+}
+
+bool ScreenPlayManager::loadWidgetConfig(const QJsonObject& widgetObj)
+{
+    if (widgetObj.empty())
+        return false;
+
+    const QString absolutePath = widgetObj.value("absolutePath").toString();
+    const QString previewImage = widgetObj.value("previewImage").toString();
+    const QString typeString = widgetObj.value("type").toString();
+    const int positionX = widgetObj.value("positionX").toInt(0);
+    const int positionY = widgetObj.value("positionY").toInt(0);
+    const QPoint position { positionX, positionY };
+    const auto type = QStringToEnum<ContentTypes::InstalledType>(typeString, ContentTypes::InstalledType::QMLWidget);
+    const QJsonObject properties = widgetObj.value("properties").toObject();
+
+    const bool success = createWidget(type, position, absolutePath, previewImage, properties, false);
+
+    if (!success) {
+        qWarning() << "Unable to start Widget! " << type << position << absolutePath;
+        return false;
+    }
     return true;
 }
 }

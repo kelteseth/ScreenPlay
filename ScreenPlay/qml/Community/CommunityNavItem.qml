@@ -17,7 +17,7 @@ TabButton {
 
         ToolButton {
             icon.source: control.icon.source
-            icon.color: control.checked ? Material.accentColor : Material.secondaryTextColor
+            icon.color: control.checked ? Material.accentColor : "transparent"
             hoverEnabled: false
             icon.width: 16
             icon.height: 16
@@ -49,6 +49,7 @@ TabButton {
             opacity: 0.6
             width: parent.width * 0.2
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_open_in_new.svg"
+            icon.color: "transparent"
             icon.width: 16
             icon.height: 16
             onClicked: Qt.openUrlExternally(control.openLink)

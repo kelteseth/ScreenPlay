@@ -168,6 +168,7 @@ Item {
                             ToolButton {
                                 onClicked: Qt.openUrlExternally("steam://url/CommunityFilePage/" + banner.bannerPublishedFileID)
                                 icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_open_in_new.svg"
+                                icon.color: "transparent"
                             }
                         }
                     }
@@ -339,6 +340,7 @@ Item {
                         ToolButton {
                             property bool hasContent: tiSearch.text.length > 0
                             icon.source: hasContent ? "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_close.svg" : "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_search.svg"
+                            icon.color: "transparent"
                             onClicked: {
                                 if (hasContent) {
                                     root.state = "searching";

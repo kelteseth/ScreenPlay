@@ -34,8 +34,8 @@ Item {
         Rotation {
             id: rt
 
-            origin.x: width * 0.5
-            origin.y: height * 0.5
+            origin.x: screenPlayItem.width * 0.5
+            origin.y: screenPlayItem.height * 0.5
             angle: 0
 
             axis {
@@ -50,15 +50,15 @@ Item {
         Scale {
             id: sc
 
-            origin.x: width * 0.5
-            origin.y: height * 0.5
+            origin.x: screenPlayItem.width * 0.5
+            origin.y: screenPlayItem.height * 0.5
         }
     ]
 
     Timer {
         id: timerAnim
 
-        interval: 40 * itemIndex * Math.random()
+        interval: 40 * screenPlayItem.itemIndex * Math.random()
         running: true
         repeat: false
         onTriggered: showAnim.start()
@@ -151,7 +151,7 @@ Item {
                 id: screenPlayItemImage
 
                 anchors.fill: parent
-                sourceImage: Qt.resolvedUrl(screenPlayItem.absoluteStoragePath + "/" + screenPreview)
+                sourceImage: Qt.resolvedUrl(screenPlayItem.absoluteStoragePath + "/" + screenPlayItem.screenPreview)
             }
 
             Image {
@@ -193,17 +193,17 @@ Item {
                 cursorShape: Qt.PointingHandCursor
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onEntered: {
-                    if (!hasMenuOpen)
+                    if (!screenPlayItem.hasMenuOpen)
                         screenPlayItem.state = "hover";
                 }
                 onExited: {
-                    if (!hasMenuOpen)
+                    if (!screenPlayItem.hasMenuOpen)
                         screenPlayItem.state = "visible";
                 }
-                onClicked: {
+                onClicked: function(mouse) {
                     checkBox.toggle();
                     if (mouse.button === Qt.LeftButton)
-                        itemClicked(screenId, type, checkBox.checkState === Qt.Checked);
+                        itemClicked(screenPlayItem.folderName, type, checkBox.checkState === Qt.Checked);
                 }
             }
         }
@@ -213,9 +213,9 @@ Item {
 
             onCheckStateChanged: {
                 if (checkState == Qt.Checked)
-                    isSelected = true;
+                    screenPlayItem.isSelected = true;
                 else
-                    isSelected = false;
+                    screenPlayItem.isSelected = false;
             }
 
             anchors {
