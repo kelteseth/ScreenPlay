@@ -18,7 +18,7 @@
                 "host-linux"
             ],
             "cacheVariables": {
-                "CMAKE_PREFIX_PATH": "${sourceDir}/../aqt/6.6.1/gcc_64",
+                "CMAKE_PREFIX_PATH": "${sourceDir}/../aqt/6.7.0/gcc_64",
                 "VCPKG_TARGET_TRIPLET": "x64-linux"
             }
         },

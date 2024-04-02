@@ -36,23 +36,13 @@
                 "windows-base"
             ],
             "cacheVariables": {
-                "CMAKE_PREFIX_PATH": "${sourceDir}/../aqt/6.6.1/msvc2019_64"
-            }
-        },
-        {
-            "name": "windows-base-qt",
-            "hidden": true,
-            "inherits": [
-                "windows-base"
-            ],
-            "cacheVariables": {
-                "CMAKE_PREFIX_PATH": "C:/Qt/6.7.0/msvc2019_64"
+                "CMAKE_PREFIX_PATH": "${sourceDir}/../aqt/6.7.10/msvc2019_64"
             }
         },
         {
             "name": "windows-msvc-base",
             "hidden": true,
-            "inherits": "windows-base-qt",
+            "inherits": "windows-base-aqt",
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "cl.exe",
                 "CMAKE_CXX_COMPILER": "cl.exe"

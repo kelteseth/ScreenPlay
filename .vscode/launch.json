@@ -17,7 +17,7 @@
             "environment": [
                 {
                     "name": "Path",
-                    "value": "${env:Path};${workspaceFolder}\\..\\aqt\\6.6.1\\msvc2019_64\\bin\\;${workspaceFolder}\\..\\aqt\\6.6.1\\msvc2019_64\\modules\\;${workspaceFolder}\\..\\aqt\\6.6.1\\msvc2019_64\\qml\\;${workspaceFolder}\\..\\vcpkg\\installed\\x64-windows\\debug\\bin;"
+                    "value": "${env:Path};${workspaceFolder}\\..\\aqt\\6.7.0\\msvc2019_64\\bin\\;${workspaceFolder}\\..\\aqt\\6.7.0\\msvc2019_64\\modules\\;${workspaceFolder}\\..\\aqt\\6.7.0\\msvc2019_64\\qml\\;${workspaceFolder}\\..\\vcpkg\\installed\\x64-windows\\debug\\bin;"
                 }
             ],
             "visualizerFile": "${workspaceFolder}/.vscode/qt.natvis.xml"

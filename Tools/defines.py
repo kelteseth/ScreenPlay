@@ -21,12 +21,12 @@ elif sys.platform == "linux":
 REPO_PATH =  Path(__file__, "../../").resolve()
 THIRDPATH_PATH =  Path(REPO_PATH, "ThirdParty").resolve()
 QT_PATH = path = Path(REPO_PATH, "../aqt").resolve()
-QT_VERSION = "6.6.1"
+QT_VERSION = "6.7.0"
 QT_BIN_PATH = QT_PATH.joinpath(f"{QT_VERSION}/{QT_PLATFORM}/bin")
 QT_TOOLS_PATH = QT_PATH.joinpath("Tools/")
 QT_IFW_VERSION = "4.6"
-# 01.02.2024 https://github.com/microsoft/vcpkg :
-VCPKG_VERSION = "10e0525"
+# 01.04.2024 https://github.com/microsoft/vcpkg :
+VCPKG_VERSION = "ce19164"
 VCPKG_BASE_PACKAGES =  [
         "curl",
         "openssl",
