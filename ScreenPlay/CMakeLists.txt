@@ -236,7 +236,6 @@ set(RESOURCES
     assets/wizards/License_CC_Attribution-ShareAlike_4.0.txt
     assets/wizards/License_CC_Attribution_4.0.txt
     assets/wizards/License_GPL_3.0.txt
-    assets/WorkshopPreview.html
     legal/DataProtection.txt
     legal/gpl-3.0.txt
     legal/lgpl-2.1.txt
