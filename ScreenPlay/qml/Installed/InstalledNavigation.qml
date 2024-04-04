@@ -14,6 +14,8 @@ Item {
     state: "out"
     height: 52
 
+    property InstalledDrawer installedDrawer
+
     Rectangle {
         id: nav
 
@@ -61,7 +63,7 @@ Item {
                 text: qsTr("All")
                 icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_installed.svg"
                 onClicked: {
-                    setSidebarActive(false);
+                    root.installedDrawer.close()
                     App.installedListFilter.sortBySearchType(Util.ContentTypes.SearchType.All);
                 }
             }
@@ -70,7 +72,7 @@ Item {
                 text: qsTr("Scenes")
                 icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_code.svg"
                 onClicked: {
-                    setSidebarActive(false);
+                    root.installedDrawer.close()
                     App.installedListFilter.sortBySearchType(Util.ContentTypes.SearchType.Scene);
                 }
             }
@@ -79,7 +81,7 @@ Item {
                 text: qsTr("Videos")
                 icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_movie.svg"
                 onClicked: {
-                    setSidebarActive(false);
+                    root.installedDrawer.close()
                     App.installedListFilter.sortBySearchType(Util.ContentTypes.SearchType.Wallpaper);
                 }
             }
@@ -88,7 +90,7 @@ Item {
                 text: qsTr("Widgets")
                 icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_widgets.svg"
                 onClicked: {
-                    setSidebarActive(false);
+                    root.installedDrawer.close()
                     App.installedListFilter.sortBySearchType(Util.ContentTypes.SearchType.Widget);
                 }
             }

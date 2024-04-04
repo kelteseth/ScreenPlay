@@ -28,8 +28,9 @@ Item {
         return true
     }
 
-    signal openContextMenu(point position)
-    signal openOpenLicensePopup
+    signal clicked(var screenId, var type)
+    signal openContextMenu(var point)
+    signal openOpenLicensePopup()
 
     width: 320
     height: 180
@@ -273,7 +274,7 @@ Item {
                     }
 
                     if (mouse.button === Qt.LeftButton)
-                        App.util.setSidebarItem(root.screenId, root.type)
+                        root.clicked(root.screenId, root.type)
                     else if (mouse.button === Qt.RightButton)
                         root.openContextMenu(Qt.point(mouseX, mouseY))
                 }

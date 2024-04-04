@@ -13,7 +13,7 @@ Item {
     Component.onCompleted: {
         stackView.push(
                     "qrc:/qml/ScreenPlayApp/qml/Installed/InstalledView.qml", {
-                        "sidebar": sidebar
+                        "installedDrawer": installedDrawer
                     })
         startTimer.start()
     }
@@ -32,7 +32,7 @@ Item {
         }
         if (name === "Installed") {
             stackView.replace("qrc:/qml/ScreenPlayApp/qml/Installed/InstalledView.qml", {
-                    "sidebar": sidebar
+                    "installedDrawer": installedDrawer
                 });
             return;
         }
@@ -40,7 +40,7 @@ Item {
                 "modalSource": content
             });
         nav.setNavigation(name);
-        sidebar.close()
+        installedDrawer.close()
     }
 
     Navigation.ExitPopup {
@@ -144,27 +144,8 @@ Item {
         }
     }
 
-    Connections {
-        function onSetSidebarActive(active) {
-            if (active)
-                sidebar.open()
-            else
-                sidebar.close()
-        }
-
-        function onSetNavigationItem(pos) {
-            if (pos === 0)
-                nav.onPageChanged("Create");
-            else
-                nav.onPageChanged("Workshop");
-        }
-
-        target: stackView.currentItem
-        ignoreUnknownSignals: true
-    }
-
-    Installed.Sidebar {
-        id: sidebar
+    Installed.InstalledDrawer {
+        id: installedDrawer
         objectName: "installedSidebar"
         width: content.width
     }

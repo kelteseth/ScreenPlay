@@ -19,6 +19,31 @@ Drawer {
     property bool hasPreviewGif: false
     property var type: ContentTypes.InstalledType.QMLWallpaper
     property string contentFolderName
+    onClosed: {
+        root.contentFolderName = ""
+        root.type = ContentTypes.InstalledType.Unknown
+    }
+
+    function setInstalledDrawerItem(folderName, type) {
+
+        // Toggle sidebar if clicked on the same content twice
+        if (root.contentFolderName === folderName)
+            return
+
+        root.contentFolderName = folderName
+        root.type = type
+        if (App.util.isWallpaper(root.type)) {
+            if (type === ContentTypes.InstalledType.VideoWallpaper)
+                installedDrawerWrapper.state = "wallpaper"
+            else
+                installedDrawerWrapper.state = "scene"
+            btnLaunchContent.text = qsTr("Set Wallpaper")
+        } else {
+            installedDrawerWrapper.state = "widget"
+            btnLaunchContent.text = qsTr("Set Widget")
+        }
+        root.open()
+    }
 
     function indexOfValue(model, value) {
         for (var i = 0; i < model.length; i++) {
@@ -36,12 +61,12 @@ Drawer {
         imagePreview.source = ""
         animatedImagePreview.source = ""
         txtHeadline.text = ""
-        sidebarWrapper.state = "inactive"
+        installedDrawerWrapper.state = "inactive"
     }
 
     onContentFolderNameChanged: {
         const item = App.installedListModel.get(root.contentFolderName)
-        txtHeadline.text = item.m_title
+        //txtHeadline.text = item.m_title
         const previewGiFilePath = Qt.resolvedUrl(
                                     item.m_absoluteStoragePath + "/" + item.m_previewGIF)
         const previewImageFilePath = Qt.resolvedUrl(
@@ -61,34 +86,8 @@ Drawer {
         btnLaunchContent.enabled = false
     }
 
-    Connections {
-        function onSetSidebarItem(folderName, type) {
-
-            // Toggle sidebar if clicked on the same content twice
-            if (root.contentFolderName === folderName && root.opened) {
-                root.close()
-                return
-            }
-            root.contentFolderName = folderName
-            root.type = type
-            if (App.util.isWallpaper(root.type)) {
-                if (type === ContentTypes.InstalledType.VideoWallpaper)
-                    sidebarWrapper.state = "wallpaper"
-                else
-                    sidebarWrapper.state = "scene"
-                btnLaunchContent.text = qsTr("Set Wallpaper")
-            } else {
-                sidebarWrapper.state = "widget"
-                btnLaunchContent.text = qsTr("Set Widget")
-            }
-            root.open()
-        }
-
-        target: App.util
-    }
-
     RowLayout {
-        id: sidebarWrapper
+        id: installedDrawerWrapper
         state: "inactive"
         spacing: 20
 
@@ -330,7 +329,7 @@ Drawer {
                     if (App.util.isWallpaper(root.type)) {
                         if (type === ContentTypes.InstalledType.GodotWallpaper) {
                             if (App.globalVariables.isBasicVersion()) {
-                                sidebarWrapper.state = "inactive"
+                                installedDrawerWrapper.state = "inactive"
                                 return
                             }
                         }
@@ -399,7 +398,7 @@ Drawer {
             icon.height: 15
             onClicked: {
                 root.close()
-                sidebarWrapper.state = "inactive"
+                installedDrawerWrapper.state = "inactive"
             }
         }
         states: [
@@ -442,10 +441,6 @@ Drawer {
                     anchors.topMargin: 0
                 }
 
-                PropertyChanges {
-                    target: txtHeadlineMonitor
-                    opacity: 0
-                }
             },
             State {
                 name: "wallpaper"
@@ -461,10 +456,6 @@ Drawer {
                     anchors.topMargin: 0
                 }
 
-                PropertyChanges {
-                    target: txtHeadlineMonitor
-                    opacity: 1
-                }
 
                 PropertyChanges {
                     target: txtComboBoxFillMode
@@ -490,11 +481,6 @@ Drawer {
                     target: animatedImagePreview
                     opacity: 1
                     anchors.topMargin: 0
-                }
-
-                PropertyChanges {
-                    target: txtHeadlineMonitor
-                    opacity: 1
                 }
 
                 PropertyChanges {

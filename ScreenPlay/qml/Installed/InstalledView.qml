@@ -16,10 +16,9 @@ Item {
     property bool refresh: false
     property bool enabled: true
 
-    property Sidebar sidebar
+    property InstalledDrawer installedDrawer
     property Item modalSource
     signal setNavigationItem(var pos)
-    signal setSidebarActive(bool active)
 
     function checkIsContentInstalled() {
         if (App.installedListModel.count === 0) {
@@ -223,6 +222,10 @@ Item {
             publishedFileID: m_publishedFileID
             itemIndex: index
             isScrolling: gridView.isScrolling
+            onClicked: function(folderName, type){
+                root.installedDrawer.setInstalledDrawerItem( folderName, type)
+            }
+
             onOpenOpenLicensePopup: function () {
                 screenPlayProView.open()
             }
@@ -335,7 +338,7 @@ Item {
         modalSource: root.modalSource
         anchors.centerIn: Overlay.overlay
         onAccepted: {
-            root.sidebar.close()
+            root.installedDrawer.close()
             if (!App.installedListModel.deinstallItemAt(
                         contextMenu.absoluteStoragePath)) {
                 console.error("Unable to uninstall item",
@@ -400,6 +403,7 @@ Item {
 
     InstalledNavigation {
         id: navWrapper
+        installedDrawer: root.installedDrawer
 
         anchors {
             top: parent.top

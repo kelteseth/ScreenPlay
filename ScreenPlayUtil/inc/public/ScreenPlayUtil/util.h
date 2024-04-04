@@ -160,7 +160,6 @@ signals:
     void requestNavigation(QString nav);
     void requestNavigationActive(bool isActive);
     void requestToggleWallpaperConfiguration();
-    void setSidebarItem(QString folderName, ScreenPlay::ContentTypes::InstalledType type);
     void allLicenseLoaded(QString licensesText);
     void allDataProtectionLoaded(QString dataProtectionText);
 

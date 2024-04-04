@@ -83,7 +83,7 @@ set(QML
     qml/Installed/InstalledWelcomeScreen.qml
     qml/Installed/ScreenPlayItem.qml
     qml/Installed/ScreenPlayItemImage.qml
-    qml/Installed/Sidebar.qml
+    qml/Installed/InstalledDrawer.qml
     qml/MainApp.qml
     qml/Monitors/DefaultVideoControls.qml
     qml/Monitors/MonitorSelection.qml
