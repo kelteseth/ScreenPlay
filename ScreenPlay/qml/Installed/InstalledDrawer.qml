@@ -114,8 +114,20 @@ Drawer {
                 }
 
                 Timeline {
+                    id: timeline
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+                }
+
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    Layout.horizontalStretchFactor: 1
+
+                    Button {
+                        text: qsTr("Remove all timeline ranges")
+                        onClicked: timeline.removeAll()
+                    }
                 }
             }
 

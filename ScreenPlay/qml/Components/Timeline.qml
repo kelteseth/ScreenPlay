@@ -9,6 +9,10 @@ Control {
     topPadding: 20
     leftPadding: 20
     rightPadding: 20
+
+    function removeAll(){
+        timeLine.removeAll()
+    }
     contentItem: Item {
         id: timeLine
 
@@ -17,8 +21,29 @@ Control {
         onWidthChanged: timeLine.updatePositions()
 
         Component.onCompleted: {
+            init()
+        }
+
+        function init(){
             const initialStopPositions = [1]
             createAllSections(initialStopPositions)
+        }
+
+        function removeAll(){
+            print("removeAll",timeLine.sectionsList.length)
+
+
+            for (let i = 0; i < timeLine.sectionsList.length; i++) {
+                // ORDER is important here! Destory the children first
+                print("remove index ", i)
+                let section = timeLine.sectionsList[i]
+                section.lineHandle.destroy()
+                section.lineIndicator.destroy()
+                section.destroy()
+            }
+            timeLine.sectionsList = []
+
+            init()
         }
 
         function createAllSections(initialStopPositions) {
@@ -100,7 +125,7 @@ Control {
         }
 
         function lineIndicatorSelected(selectedIndicatorindex) {
-            for (var i = 0; i < timeLine.sectionsList.length; i++) {
+            for (let i = 0; i < timeLine.sectionsList.length; i++) {
                 if (i === selectedIndicatorindex) {
                     timeLine.sectionsList[i].lineIndicator.selected = true
                     continue
@@ -111,7 +136,7 @@ Control {
 
         // We must update all indexes when removing/adding an element
         function updateIndicatorIndexes() {
-            for (var i = 0; i < timeLine.sectionsList.length; i++) {
+            for (let i = 0; i < timeLine.sectionsList.length; i++) {
                 timeLine.sectionsList[i].index = i
                 timeLine.sectionsList[i].lineIndicator.index = i
             }
@@ -137,7 +162,7 @@ Control {
 
         function updatePositions() {
             // Iterate through each handle in the 'sectionList' array
-            for (var i = 0; i < timeLine.sectionsList.length; i++) {
+            for (let i = 0; i < timeLine.sectionsList.length; i++) {
                 let handle = timeLine.sectionsList[i].lineHandle
 
                 // Determine the minimum position for the current handle
@@ -180,14 +205,14 @@ Control {
         }
 
         function updateIndicatorColor() {
-            for (var i = 0; i < timeLine.sectionsList.length; i++) {
+            for (let i = 0; i < timeLine.sectionsList.length; i++) {
                 let lineIndicator = timeLine.sectionsList[i].lineIndicator
                 lineIndicator.color = getColorAtIndex(i)
             }
         }
 
         function updateLastHandle() {
-            for (var i = 0; i < timeLine.sectionsList.length; i++) {
+            for (let i = 0; i < timeLine.sectionsList.length; i++) {
                 timeLine.sectionsList[i].lineHandle.isLast = i === timeLine.sectionsList.length - 1
                 timeLine.sectionsList[i].lineIndicator.isLast = i
                         === timeLine.sectionsList.length - 1
@@ -195,7 +220,7 @@ Control {
         }
 
         function updateIndicatorPositions() {
-            for (var i = 0; i < timeLine.sectionsList.length; i++) {
+            for (let i = 0; i < timeLine.sectionsList.length; i++) {
                 const lineIndicator = timeLine.sectionsList[i].lineIndicator
                 print(i, lineIndicator.x, lineIndicator.width)
                 const handle = timeLine.sectionsList[i].lineHandle
