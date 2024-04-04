@@ -16,7 +16,6 @@ Item {
     property bool refresh: false
     property bool enabled: true
 
-    property InstalledDrawer installedDrawer
     property Item modalSource
     signal setNavigationItem(var pos)
 
@@ -33,6 +32,13 @@ Item {
             navWrapper.visible = true
         }
     }
+
+    InstalledDrawer {
+        id: installedDrawer
+        objectName: "installedSidebar"
+        width: root.width
+    }
+
 
     StackView.onActivated: {
         navWrapper.state = "in"
@@ -223,7 +229,7 @@ Item {
             itemIndex: index
             isScrolling: gridView.isScrolling
             onClicked: function(folderName, type){
-                root.installedDrawer.setInstalledDrawerItem( folderName, type)
+                installedDrawer.setInstalledDrawerItem( folderName, type)
             }
 
             onOpenOpenLicensePopup: function () {
@@ -338,7 +344,7 @@ Item {
         modalSource: root.modalSource
         anchors.centerIn: Overlay.overlay
         onAccepted: {
-            root.installedDrawer.close()
+            installedDrawer.close()
             if (!App.installedListModel.deinstallItemAt(
                         contextMenu.absoluteStoragePath)) {
                 console.error("Unable to uninstall item",
@@ -403,7 +409,7 @@ Item {
 
     InstalledNavigation {
         id: navWrapper
-        installedDrawer: root.installedDrawer
+        installedDrawer: installedDrawer
 
         anchors {
             top: parent.top

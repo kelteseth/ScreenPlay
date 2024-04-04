@@ -12,9 +12,7 @@ Item {
     anchors.fill: parent
     Component.onCompleted: {
         stackView.push(
-                    "qrc:/qml/ScreenPlayApp/qml/Installed/InstalledView.qml", {
-                        "installedDrawer": installedDrawer
-                    })
+                    "qrc:/qml/ScreenPlayApp/qml/Installed/InstalledView.qml")
         startTimer.start()
     }
     Timer {
@@ -30,17 +28,10 @@ Item {
             if (name === "Installed")
                 App.installedListModel.reset();
         }
-        if (name === "Installed") {
-            stackView.replace("qrc:/qml/ScreenPlayApp/qml/Installed/InstalledView.qml", {
-                    "installedDrawer": installedDrawer
-                });
-            return;
-        }
         stackView.replace("qrc:/qml/ScreenPlayApp/qml/" + name + "/" + name + "View.qml", {
                 "modalSource": content
             });
         nav.setNavigation(name);
-        installedDrawer.close()
     }
 
     Navigation.ExitPopup {
@@ -143,13 +134,6 @@ Item {
             }
         }
     }
-
-    Installed.InstalledDrawer {
-        id: installedDrawer
-        objectName: "installedSidebar"
-        width: content.width
-    }
-
     Navigation.Navigation {
         id: nav
         modalSource: content
