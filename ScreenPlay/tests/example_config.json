@@ -42,8 +42,8 @@
                 },
                 {
                     "name": "test",
-                    "startTime": "12:01",
-                    "endTime": "24:00",
+                    "startTime": "12:01:00",
+                    "endTime": "24:00:00",
                     "wallpaper": [
                         {
                             "absolutePath": "C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/05012024134225",

@@ -13,7 +13,6 @@
 #include "monitorlistmodel.h"
 #include "profilelistmodel.h"
 #include "projectsettingslistmodel.h"
-#include "screenplayprofiles.h"
 #include "screenplaywallpaper.h"
 #include "screenplaywidget.h"
 #include "settings.h"
@@ -22,20 +21,6 @@
 
 namespace ScreenPlay {
 
-struct Wallpaper {
-    QString name;
-    QTime startTime;
-    QTime endTime;
-    QString absolutePath;
-    QString previewImage;
-    float playbackRate;
-    float volume;
-    QString file;
-    QJsonObject properties;
-    ContentTypes::InstalledType type;
-    Video::FillMode fillMode;
-    QVector<int> monitors;
-};
 
 class ScreenPlayManager : public QObject {
     Q_OBJECT
@@ -56,6 +41,42 @@ public:
     int activeWallpaperCounter() const { return m_activeWallpaperCounter; }
     int activeWidgetsCounter() const { return m_activeWidgetsCounter; }
 
+    bool createWallpaper(
+        WallpaperData wallpaperData,
+        const bool saveToProfilesConfigFile);
+
+    Q_INVOKABLE bool removeAllWallpapers(bool saveToProfile = false);
+    Q_INVOKABLE bool removeAllWidgets(bool saveToProfile = false);
+    Q_INVOKABLE bool removeWallpaperAt(const int index);
+
+    Q_INVOKABLE ScreenPlayWallpaper* getWallpaperByAppID(const QString& appID) const;
+    Q_INVOKABLE bool createWallpaper(
+        const ScreenPlay::ContentTypes::InstalledType type,
+        const ScreenPlay::Video::FillMode fillMode,
+        const QString& absolutePath,
+        const QString& previewImage,
+        const QString& file,
+        const QVector<int>& monitorIndex,
+        const float volume,
+        const float playbackRate,
+        const QJsonObject& properties,
+        const bool saveToProfilesConfigFile);
+
+    Q_INVOKABLE bool createWidget(
+        // moc needs full enum namespace info see QTBUG-58454
+        const ScreenPlay::ContentTypes::InstalledType type,
+        const QPoint& position,
+        const QString& absoluteStoragePath,
+        const QString& previewImage,
+        const QJsonObject& properties,
+        const bool saveToProfilesConfigFile);
+
+    Q_INVOKABLE bool requestProjectSettingsAtMonitorIndex(const int index);
+    Q_INVOKABLE bool setWallpaperValueAtMonitorIndex(const int index, const QString& key, const QString& value);
+    Q_INVOKABLE bool setWallpaperFillModeAtMonitorIndex(const int index, const int fillmode);
+    Q_INVOKABLE bool setAllWallpaperValue(const QString& key, const QString& value);
+    Q_INVOKABLE bool setWallpaperValue(const QString& appID, const QString& key, const QString& value);
+
 signals:
     void activeWallpaperCounterChanged(int activeWallpaperCounter);
     void activeWidgetsCounterChanged(int activeWidgetsCounter);
@@ -69,41 +90,10 @@ signals:
 
 private slots:
     bool saveProfiles();
+    void updateContent();
+    void newConnection();
 
 public slots:
-    // moc needs full enum namespace info see QTBUG-58454
-    bool createWallpaper(
-        const ScreenPlay::ContentTypes::InstalledType type,
-        const ScreenPlay::Video::FillMode fillMode,
-        const QString& absoluteStoragePath,
-        const QString& previewImage,
-        const QString& file,
-        const QVector<int>& monitorIndex,
-        const float volume,
-        const float playbackRate,
-        const QJsonObject& properties,
-        const bool saveToProfilesConfigFile);
-
-    bool createWidget(
-        const ScreenPlay::ContentTypes::InstalledType type,
-        const QPoint& position,
-        const QString& absoluteStoragePath,
-        const QString& previewImage,
-        const QJsonObject& properties,
-        const bool saveToProfilesConfigFile);
-
-    bool removeAllWallpapers(bool saveToProfile = false);
-    bool removeAllWidgets(bool saveToProfile = false);
-    bool removeWallpaperAt(const int index);
-
-    bool requestProjectSettingsAtMonitorIndex(const int index);
-    bool setWallpaperValueAtMonitorIndex(const int index, const QString& key, const QString& value);
-    bool setWallpaperFillModeAtMonitorIndex(const int index, const int fillmode);
-    bool setAllWallpaperValue(const QString& key, const QString& value);
-    bool setWallpaperValue(const QString& appID, const QString& key, const QString& value);
-    ScreenPlayWallpaper* getWallpaperByAppID(const QString& appID) const;
-
-    void newConnection();
 
     void setActiveWallpaperCounter(int activeWallpaperCounter)
     {
@@ -156,19 +146,19 @@ public slots:
 private:
     bool loadProfiles();
     bool loadWidgetConfig(const QJsonObject& widget);
-    bool loadWallpaperConfig(const QJsonObject& wallpaper);
+    std::optional<WallpaperData> loadWallpaperConfig(const QJsonObject& wallpaper);
     bool checkIsAnotherScreenPlayInstanceRunning();
     bool removeWallpaper(const QString& appID);
     bool removeWidget(const QString& appID);
 
 private:
-    ScreenPlayProfiles m_screenPlayProfiles;
     std::shared_ptr<GlobalVariables> m_globalVariables;
     std::shared_ptr<MonitorListModel> m_monitorListModel;
     std::shared_ptr<Settings> m_settings;
     std::unique_ptr<QLocalServer> m_server;
     std::unique_ptr<QWebSocketServer> m_websocketServer;
     QVector<QWebSocket*> m_connections;
+    QVector<WallpaperData> m_wallpaperDataList;
 
     QVector<std::shared_ptr<ScreenPlayWallpaper>> m_screenPlayWallpapers;
     QVector<std::shared_ptr<ScreenPlayWidget>> m_screenPlayWidgets;
@@ -178,8 +168,9 @@ private:
     int m_activeWidgetsCounter { 0 };
 
     QTimer m_saveLimiter;
+    QTimer m_contentTimer;
 
     const quint16 m_webSocketPort = 16395;
-    bool loadTimelineWallpaperConfig(const QJsonObject& wallpaperObj);
+    std::optional<WallpaperData> loadTimelineWallpaperConfig(const QJsonObject& wallpaperObj);
 };
 }

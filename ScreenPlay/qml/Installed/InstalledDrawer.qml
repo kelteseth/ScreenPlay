@@ -452,7 +452,6 @@ Drawer {
                     opacity: 1
                     anchors.topMargin: 0
                 }
-
             },
             State {
                 name: "wallpaper"
@@ -467,7 +466,6 @@ Drawer {
                     opacity: 1
                     anchors.topMargin: 0
                 }
-
 
                 PropertyChanges {
                     target: txtComboBoxFillMode

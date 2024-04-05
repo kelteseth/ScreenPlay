@@ -19,6 +19,22 @@
 #include "ScreenPlayUtil/processmanager.h"
 
 namespace ScreenPlay {
+struct WallpaperData {
+    QString name;
+    QTime startTime;
+    QTime endTime;
+    bool isTimelineWallpaper = false;
+    bool isLooping = false;
+    QString absolutePath;
+    QString previewImage;
+    float playbackRate = {};
+    float volume = {};
+    QString file;
+    QJsonObject properties;
+    ContentTypes::InstalledType type = ContentTypes::InstalledType::Unknown;
+    Video::FillMode fillMode = Video::FillMode::Fill;
+    QVector<int> monitors;
+};
 
 class ScreenPlayWallpaper : public QObject {
     Q_OBJECT
@@ -26,7 +42,7 @@ class ScreenPlayWallpaper : public QObject {
     QML_UNCREATABLE("")
 
     Q_PROPERTY(bool isConnected READ isConnected WRITE setIsConnected NOTIFY isConnectedChanged)
-    Q_PROPERTY(QVector<int> screenNumber READ screenNumber WRITE setScreenNumber NOTIFY screenNumberChanged)
+    Q_PROPERTY(QVector<int> monitors READ monitors WRITE setMonitors NOTIFY monitorsChanged)
     Q_PROPERTY(float volume READ volume WRITE setVolume NOTIFY volumeChanged)
     Q_PROPERTY(float playbackRate READ playbackRate WRITE setPlaybackRate NOTIFY playbackRateChanged)
     Q_PROPERTY(bool isLooping READ isLooping WRITE setIsLooping NOTIFY isLoopingChanged)
@@ -40,51 +56,40 @@ class ScreenPlayWallpaper : public QObject {
 
 public:
     explicit ScreenPlayWallpaper(
-        const QVector<int>& screenNumber,
         const std::shared_ptr<GlobalVariables>& globalVariables,
         const QString& appID,
-        const QString& absolutePath,
-        const QString& previewImage,
-        const QString& file,
-        const float volume,
-        const float playbackRate,
-        const Video::FillMode fillMode,
-        const ContentTypes::InstalledType type,
-        const QJsonObject& properties,
+        const WallpaperData wallpaperData,
         const std::shared_ptr<Settings>& settings,
         QObject* parent = nullptr);
 
     bool start();
 
     bool replace(
-        const QString& absolutePath,
-        const QString& previewImage,
-        const QString& file,
-        const float volume,
-        const Video::FillMode fillMode,
-        const ContentTypes::InstalledType type,
+        const WallpaperData wallpaperData,
         const bool checkWallpaperVisible);
 
     void setSDKConnection(std::unique_ptr<SDKConnection> connection);
 
     QJsonObject getActiveSettingsJson();
 
-    QVector<int> screenNumber() const { return m_screenNumber; }
-    QString previewImage() const { return m_previewImage; }
+    QVector<int> monitors() const { return m_wallpaperData.monitors; }
+    QString previewImage() const { return m_wallpaperData.previewImage; }
     QString appID() const { return m_appID; }
-    ContentTypes::InstalledType type() const { return m_type; }
-    QString file() const { return m_file; }
-    Video::FillMode fillMode() const { return m_fillMode; }
-    QString absolutePath() const { return m_absolutePath; }
-    float volume() const { return m_volume; }
-    bool isLooping() const { return m_isLooping; }
+    ContentTypes::InstalledType type() const { return m_wallpaperData.type; }
+    QString file() const { return m_wallpaperData.file; }
+    Video::FillMode fillMode() const { return m_wallpaperData.fillMode; }
+    QString absolutePath() const { return m_wallpaperData.absolutePath; }
+    float volume() const { return m_wallpaperData.volume; }
+    bool isLooping() const { return m_wallpaperData.isLooping; }
     ProjectSettingsListModel* getProjectSettingsListModel() { return &m_projectSettingsListModel; }
-    float playbackRate() const { return m_playbackRate; }
+    float playbackRate() const { return m_wallpaperData.playbackRate; }
     bool isConnected() const { return m_isConnected; }
     qint64 processID() const { return m_processID; }
 
+    const WallpaperData& wallpaperData();
+
 signals:
-    void screenNumberChanged(QVector<int> screenNumber);
+    void monitorsChanged(QVector<int> monitors);
     void previewImageChanged(QString previewImage);
     void appIDChanged(QString appID);
     void typeChanged(ContentTypes::InstalledType type);
@@ -108,22 +113,22 @@ public slots:
     void processError(QProcess::ProcessError error);
     bool setWallpaperValue(const QString& key, const QString& value, const bool save = false);
 
-    void setScreenNumber(QVector<int> screenNumber)
+    void setMonitors(QVector<int> monitors)
     {
-        if (m_screenNumber == screenNumber)
+        if (m_wallpaperData.monitors == monitors)
             return;
 
-        m_screenNumber = screenNumber;
-        emit screenNumberChanged(m_screenNumber);
+        m_wallpaperData.monitors = monitors;
+        emit monitorsChanged(m_wallpaperData.monitors);
     }
 
     void setPreviewImage(QString previewImage)
     {
-        if (m_previewImage == previewImage)
+        if (m_wallpaperData.previewImage == previewImage)
             return;
 
-        m_previewImage = previewImage;
-        emit previewImageChanged(m_previewImage);
+        m_wallpaperData.previewImage = previewImage;
+        emit previewImageChanged(m_wallpaperData.previewImage);
     }
 
     void setAppID(QString appID)
@@ -137,38 +142,38 @@ public slots:
 
     void setType(ContentTypes::InstalledType type)
     {
-        if (m_type == type)
+        if (m_wallpaperData.type == type)
             return;
 
-        m_type = type;
-        emit typeChanged(m_type);
+        m_wallpaperData.type = type;
+        emit typeChanged(m_wallpaperData.type);
     }
 
     void setFile(QString file)
     {
-        if (m_file == file)
+        if (m_wallpaperData.file == file)
             return;
 
-        m_file = file;
-        emit fileChanged(m_file);
+        m_wallpaperData.file = file;
+        emit fileChanged(m_wallpaperData.file);
     }
 
     void setFillMode(Video::FillMode fillMode)
     {
-        if (m_fillMode == fillMode)
+        if (m_wallpaperData.fillMode == fillMode)
             return;
 
-        m_fillMode = fillMode;
-        emit fillModeChanged(m_fillMode);
+        m_wallpaperData.fillMode = fillMode;
+        emit fillModeChanged(m_wallpaperData.fillMode);
     }
 
     void setAbsolutePath(QString absolutePath)
     {
-        if (m_absolutePath == absolutePath)
+        if (m_wallpaperData.absolutePath == absolutePath)
             return;
 
-        m_absolutePath = absolutePath;
-        emit absolutePathChanged(m_absolutePath);
+        m_wallpaperData.absolutePath = absolutePath;
+        emit absolutePathChanged(m_wallpaperData.absolutePath);
     }
 
     void setVolume(float volume)
@@ -176,20 +181,20 @@ public slots:
         if (volume < 0.0f || volume > 1.0f)
             return;
 
-        if (qFuzzyCompare(m_volume, volume))
+        if (qFuzzyCompare(m_wallpaperData.volume, volume))
             return;
 
-        m_volume = volume;
-        emit volumeChanged(m_volume);
+        m_wallpaperData.volume = volume;
+        emit volumeChanged(m_wallpaperData.volume);
     }
 
     void setIsLooping(bool isLooping)
     {
-        if (m_isLooping == isLooping)
+        if (m_wallpaperData.isLooping == isLooping)
             return;
 
-        m_isLooping = isLooping;
-        emit isLoopingChanged(m_isLooping);
+        m_wallpaperData.isLooping = isLooping;
+        emit isLoopingChanged(m_wallpaperData.isLooping);
     }
 
     void setPlaybackRate(float playbackRate)
@@ -197,8 +202,8 @@ public slots:
         if (playbackRate < 0.0f || playbackRate > 1.0f)
             return;
 
-        m_playbackRate = playbackRate;
-        emit playbackRateChanged(m_playbackRate);
+        m_wallpaperData.playbackRate = playbackRate;
+        emit playbackRateChanged(m_wallpaperData.playbackRate);
     }
 
     void setIsConnected(bool isConnected)
@@ -225,17 +230,11 @@ private:
     ProcessManager m_processManager;
     ProjectSettingsListModel m_projectSettingsListModel;
     QJsonObject m_projectJson;
-    QVector<int> m_screenNumber;
     QProcess m_process;
-    QString m_previewImage;
-    ContentTypes::InstalledType m_type { ContentTypes::InstalledType::Unknown };
-    Video::FillMode m_fillMode;
     QString m_appID;
-    QString m_absolutePath;
-    QString m_file;
-    float m_volume { 1.0f };
-    bool m_isLooping { true };
-    float m_playbackRate { 1.0f };
+
+    WallpaperData m_wallpaperData;
+
     QTimer m_pingAliveTimer;
     QStringList m_appArgumentsList;
     bool m_isConnected { false };
