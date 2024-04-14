@@ -41,7 +41,7 @@ public:
     int activeWallpaperCounter() const { return m_activeWallpaperCounter; }
     int activeWidgetsCounter() const { return m_activeWidgetsCounter; }
 
-    bool createWallpaper(
+    std::shared_ptr<ScreenPlayWallpaper> startWallpaper(
         WallpaperData wallpaperData,
         const bool saveToProfilesConfigFile);
 
@@ -49,8 +49,8 @@ public:
     Q_INVOKABLE bool removeAllWidgets(bool saveToProfile = false);
     Q_INVOKABLE bool removeWallpaperAt(const int index);
 
-    Q_INVOKABLE ScreenPlayWallpaper* getWallpaperByAppID(const QString& appID) const;
-    Q_INVOKABLE bool createWallpaper(
+    Q_INVOKABLE ScreenPlayWallpaper* getWallpaperByAppID(const QString& appID) ;
+    Q_INVOKABLE bool addWallpaperAtTimelineIndex(
         const ScreenPlay::ContentTypes::InstalledType type,
         const ScreenPlay::Video::FillMode fillMode,
         const QString& absolutePath,
@@ -60,6 +60,9 @@ public:
         const float volume,
         const float playbackRate,
         const QJsonObject& properties,
+        const int timelineIndex,
+        const QString& startTimeString,
+        const QString& endTimeString,
         const bool saveToProfilesConfigFile);
 
     Q_INVOKABLE bool createWidget(
@@ -77,6 +80,7 @@ public:
     Q_INVOKABLE bool setAllWallpaperValue(const QString& key, const QString& value);
     Q_INVOKABLE bool setWallpaperValue(const QString& appID, const QString& key, const QString& value);
 
+    bool removeWallpaperAtTimelineIndex(const int timelineIndex, const int monitorIndex);
 signals:
     void activeWallpaperCounterChanged(int activeWallpaperCounter);
     void activeWidgetsCounterChanged(int activeWidgetsCounter);
@@ -90,7 +94,7 @@ signals:
 
 private slots:
     bool saveProfiles();
-    void updateContent();
+    void checkActiveWallpaperTimeline();
     void newConnection();
 
 public slots:
@@ -150,6 +154,8 @@ private:
     bool checkIsAnotherScreenPlayInstanceRunning();
     bool removeWallpaper(const QString& appID);
     bool removeWidget(const QString& appID);
+    std::optional<std::shared_ptr<WallpaperTimelineSection>>  loadTimelineWallpaperConfig(const QJsonObject& wallpaperObj);
+    std::shared_ptr<WallpaperTimelineSection> findActiveSection();
 
 private:
     std::shared_ptr<GlobalVariables> m_globalVariables;
@@ -158,9 +164,9 @@ private:
     std::unique_ptr<QLocalServer> m_server;
     std::unique_ptr<QWebSocketServer> m_websocketServer;
     QVector<QWebSocket*> m_connections;
-    QVector<WallpaperData> m_wallpaperDataList;
 
-    QVector<std::shared_ptr<ScreenPlayWallpaper>> m_screenPlayWallpapers;
+    std::shared_ptr<WallpaperTimelineSection> m_activeWallpaperTimeline;
+    QVector<std::shared_ptr<WallpaperTimelineSection>> m_wallpaperTimelineSectionsList;
     QVector<std::shared_ptr<ScreenPlayWidget>> m_screenPlayWidgets;
     std::vector<std::unique_ptr<SDKConnection>> m_unconnectedClients;
 
@@ -170,7 +176,8 @@ private:
     QTimer m_saveLimiter;
     QTimer m_contentTimer;
 
+    // We use a 24 hour system
+    const QString m_timelineTimeFormat = "hh:mm:ss";
     const quint16 m_webSocketPort = 16395;
-    std::optional<WallpaperData> loadTimelineWallpaperConfig(const QJsonObject& wallpaperObj);
 };
 }

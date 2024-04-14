@@ -19,11 +19,10 @@
 #include "ScreenPlayUtil/processmanager.h"
 
 namespace ScreenPlay {
+
+
+
 struct WallpaperData {
-    QString name;
-    QTime startTime;
-    QTime endTime;
-    bool isTimelineWallpaper = false;
     bool isLooping = false;
     QString absolutePath;
     QString previewImage;
@@ -35,6 +34,37 @@ struct WallpaperData {
     Video::FillMode fillMode = Video::FillMode::Fill;
     QVector<int> monitors;
 };
+
+
+class ScreenPlayWallpaper;
+// Represents one line in the UI. ScreenPlayManager has a list of
+// WallpaperTimeline. Only the active timeline section has
+// a filled vector of ScreenPlayWallpaper
+
+
+struct WallpaperTimelineSection {
+    bool active = false;
+
+    int index = 0; // Needed to check
+    QTime startTime;
+    QTime endTime;
+    // Data from the profiles.json that we need when we
+    // enable this section of the pipeline
+    std::vector<WallpaperData> wallpaperData;
+    // All active wallpaper.
+    std::vector<std::shared_ptr<ScreenPlayWallpaper>> activeWallpaperList;
+
+    // Check if currentTime falls within the timeline section
+    bool containsTime(const QTime& time) const {
+        if (endTime < startTime) { // Timeline spans midnight
+            return (time >= startTime || time < endTime);
+        } else {
+            return (time >= startTime && time < endTime);
+        }
+    }
+};
+
+
 
 class ScreenPlayWallpaper : public QObject {
     Q_OBJECT

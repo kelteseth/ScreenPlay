@@ -382,10 +382,19 @@ Drawer {
                         }
 
                         const screenFile = item.m_file
-                        let success = App.screenPlayManager.createWallpaper(
+                        const playbackRate = 1
+                        const jsonProperties = {}
+                        const timelineIndex = 0
+                        const startTimeString = 0
+                        const endTimeString = 0
+                        let success = App.screenPlayManager.addWallpaperAtTimelineIndex(
                                 root.type, cbVideoFillMode.currentValue,
                                 absoluteStoragePath, previewImage, screenFile,
-                                activeMonitors, volume, 1, {}, true)
+                                activeMonitors, volume, playbackRate, jsonProperties,
+                                timelineIndex,
+                                startTimeString,
+                                endTimeString,
+                                true)
                     }
                     if (App.util.isWidget(root.type))
                         App.screenPlayManager.createWidget(type,
