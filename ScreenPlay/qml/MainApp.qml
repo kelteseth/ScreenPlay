@@ -15,6 +15,11 @@ Item {
                     "qrc:/qml/ScreenPlayApp/qml/Installed/InstalledView.qml")
         startTimer.start()
     }
+
+    function openExitDialog(){
+        exitDialog.open()
+    }
+
     Timer {
         id: startTimer
         interval: 10

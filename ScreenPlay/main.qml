@@ -97,7 +97,7 @@ ApplicationWindow {
                        App.showDockIcon(false)
                        return
                    }
-                   exitDialog.open()
+                   baseLoader.item.openExitDialog()
                }
 
     Loader {
