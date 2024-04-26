@@ -1,6 +1,8 @@
+pragma ValueTypeBehavior: Addressable
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import ScreenPlayApp
 
 Control {
     id: root
@@ -10,14 +12,38 @@ Control {
     leftPadding: 20
     rightPadding: 20
 
+
     function removeAll(){
         timeLine.removeAll()
     }
+
+    function generateRandomString(length) {
+         var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+         var result = '';
+         for (var i = 0; i < length; i++) {
+             var index = Math.floor(Math.random() * characters.length);
+             result += characters.charAt(index);
+         }
+         return result;
+     }
+
+    Component {
+        id: sectionComp
+        QtObject {
+            property string id
+            property int index: 0
+            property real relativeLinePosition:  lineHandle.linePosition
+            onRelativeLinePositionChanged: print("relativelinepos: ", relativeLinePosition)
+            property LineHandle lineHandle
+            property LineIndicator lineIndicator
+        }
+    }
+
     contentItem: Item {
         id: timeLine
 
         property var sectionsList: []
-        property var lineColors: ["#E53935", "#D81B60", "#8E24AA", "#5E35B1", "#3949AB", "#1E88E5", "#00897B", "#43A047", "#C0CA33", "#FFB300", "#FB8C00", "#F4511E"]
+        property var lineColors: [ "#FFB300", "#FB8C00", "#F4511E","#E53935", "#D81B60", "#8E24AA", "#5E35B1", "#3949AB", "#1E88E5", "#00897B", "#43A047", "#C0CA33"]
         onWidthChanged: timeLine.updatePositions()
 
         Component.onCompleted: {
@@ -25,7 +51,7 @@ Control {
         }
 
         function init(){
-            const initialStopPositions = [1]
+            const initialStopPositions = [.1,1]
             createAllSections(initialStopPositions)
         }
 
@@ -64,12 +90,8 @@ Control {
                 return
             }
 
-            let sectionComponent = Qt.createComponent("Section.qml")
-            if (sectionComponent.status === Component.Error) {
-                console.error(sectionComponent.errorString())
-                return
-            }
-            let sectionObject = sectionComponent.createObject(timeLine, {
+            let sectionObject = sectionComp.createObject(timeLine, {
+                                                                  "id" : root.generateRandomString(8),
                                                                   "relativeLinePosition": fixedStopPosition
                                                               })
             timeLine.sectionsList.push(sectionObject)
@@ -102,7 +124,7 @@ Control {
             // Will be set later
             section.lineHandle.lineMinimum = timeLine.x
             section.lineHandle.lineMaximum = timeLine.x
-            section.lineHandle.handleMoved.connect(timeLine.updatePositions)
+            section.lineHandle.handleMoved.connect(timeLine.onHandleMoved)
 
             let liComponent = Qt.createComponent("LineIndicator.qml")
             if (liComponent.status === Component.Error) {
@@ -122,6 +144,12 @@ Control {
             section.lineIndicator.remove.connect(timeLine.removeSection)
             section.lineIndicator.lineSelected.connect(
                         timeLine.lineIndicatorSelected)
+        }
+
+        function onHandleMoved(handle){
+            updatePositions()
+
+            App.screenPlayManager.moveTimelineAt(handle.linePosition, handle.timeString)
         }
 
         function lineIndicatorSelected(selectedIndicatorindex) {
@@ -188,11 +216,20 @@ Control {
                 // Set the determined minimum and maximum positions for the current handle
                 handle.lineMinimum = prevPos
                 handle.lineMaximum = nextPos
+
+
+                //timeLine.sectionsList[i].relativeLinePosition =prevPos / timeLine.width
+                print("sections: ", i, "prev minimum ",prevPos,"next maximum", nextPos,  timeLine.sectionsList[i].relativeLinePosition)
+            }
+            for (let i = 0; i < timeLine.sectionsList.length; i++) {
+                let section = timeLine.sectionsList[i]
+                section.relativeLinePosition = section.lineHandle.linePosition
             }
             updateIndicatorIndexes()
             updateIndicatorPositions()
             updateLastHandle()
             updateIndicatorColor()
+
         }
 
         function getColorAtIndex(index) {
@@ -222,7 +259,7 @@ Control {
         function updateIndicatorPositions() {
             for (let i = 0; i < timeLine.sectionsList.length; i++) {
                 const lineIndicator = timeLine.sectionsList[i].lineIndicator
-                print(i, lineIndicator.x, lineIndicator.width)
+                print(i, lineIndicator.x, lineIndicator.width, timeLine.sectionsList[i].relativeLinePosition)
                 const handle = timeLine.sectionsList[i].lineHandle
                 lineIndicator.x = handle.dragHandler.xAxis.minimum
                 lineIndicator.width = (handle.linePosition * handle.lineWidth).toFixed(

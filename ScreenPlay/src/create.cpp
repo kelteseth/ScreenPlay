@@ -139,7 +139,6 @@ void Create::createWallpaperStart(QString videoPath, ScreenPlay::Video::VideoCod
     m_createImportFutureWatcher.setFuture(m_createImportFuture);
 }
 
-
 /*!
     \brief When converting of the wallpaper steps where successful.
 */

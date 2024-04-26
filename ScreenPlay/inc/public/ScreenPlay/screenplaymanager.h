@@ -21,7 +21,6 @@
 
 namespace ScreenPlay {
 
-
 class ScreenPlayManager : public QObject {
     Q_OBJECT
     QML_ELEMENT
@@ -41,6 +40,8 @@ public:
     int activeWallpaperCounter() const { return m_activeWallpaperCounter; }
     int activeWidgetsCounter() const { return m_activeWidgetsCounter; }
 
+
+
     std::shared_ptr<ScreenPlayWallpaper> startWallpaper(
         WallpaperData wallpaperData,
         const bool saveToProfilesConfigFile);
@@ -49,8 +50,119 @@ public:
     Q_INVOKABLE bool removeAllWidgets(bool saveToProfile = false);
     Q_INVOKABLE bool removeWallpaperAt(const int index);
 
-    Q_INVOKABLE ScreenPlayWallpaper* getWallpaperByAppID(const QString& appID) ;
-    Q_INVOKABLE bool addWallpaperAtTimelineIndex(
+
+    // Timeline wallpaper updates:
+    // 1. Disable timeline updates
+    // Optional: 1.1 Insert new timeline
+    // 2. Call setWallpaperAtTimelineIndex
+
+    Q_INVOKABLE ScreenPlayWallpaper* getWallpaperByAppID(const QString& appID);
+
+    void updateTimelineStartTime(const int index){
+
+    }
+    void updateTimelineEndTime(const int index){
+
+    }
+
+    // We always handle the endTimeString, because it is the handle for the
+    // timeline. The last, default, timeline does not have a handle.
+    Q_INVOKABLE bool moveTimelineAt(
+        const int index,
+        QString endTimeString){
+        m_contentTimer.stop();
+        auto updateTimer = qScopeGuard([this] {  m_contentTimer.start(); });
+
+        auto& wallpapterTimelineSection = m_wallpaperTimelineSectionsList.at(index);
+        QTime endTime = QTime::fromString(endTimeString, m_timelineTimeFormat);
+        if (!endTime.isValid()){
+            return false;
+        }
+        wallpapterTimelineSection->endTime = endTime;
+        const auto timelineCount = m_wallpaperTimelineSectionsList.size();
+        // Only update the next timeline startTime
+        // if we are not end last wallpaper, that always
+        // must end at 24:00
+        if(index <= timelineCount){
+            auto& wallpapterTimelineSectionNext = m_wallpaperTimelineSectionsList.at(index + 1);
+            wallpapterTimelineSectionNext->startTime =endTime;
+        }
+        return true;
+    }
+
+    Q_INVOKABLE bool addTimelineAt(
+        const int index,
+        QString startTimeString,
+        QString endTimeString,
+        QString identitfier) {
+        m_contentTimer.stop();
+        auto updateTimer = qScopeGuard([this] {  m_contentTimer.start(); });
+
+        QTime startTime = QTime::fromString(startTimeString, m_timelineTimeFormat);
+        if (!startTime.isValid()){
+            return false;
+        }
+        QTime endTime = QTime::fromString(endTimeString, m_timelineTimeFormat);
+        if (!endTime.isValid()){
+            return false;
+        }
+        auto timelineSection = std::make_shared<WallpaperTimelineSection>();
+        timelineSection->index = index;
+        timelineSection->startTime = startTime;
+        timelineSection->endTime = endTime;
+        m_wallpaperTimelineSectionsList.append(timelineSection);
+
+        const auto timelineCount = m_wallpaperTimelineSectionsList.size();
+        // Only update the next timeline startTime
+        // if we are not end last wallpaper, that always
+        // must end at 24:00
+        if(index <= timelineCount){
+            auto& wallpapterTimelineSectionNext = m_wallpaperTimelineSectionsList.at(index + 1);
+            wallpapterTimelineSectionNext->startTime =endTime;
+        }
+
+        // Only update the next timeline startTime
+        // if we are not end last wallpaper, that always
+        // must end at 24:00
+        if(index > 0){
+            auto& wallpapterTimelineSectionBefore = m_wallpaperTimelineSectionsList.at(index - 1);
+            wallpapterTimelineSectionBefore->endTime =startTime;
+        }
+
+        return true;
+    }
+
+    Q_INVOKABLE bool removeTimelineAt(const int index){
+        m_contentTimer.stop();
+        auto updateTimer = qScopeGuard([this] {  m_contentTimer.start(); });
+
+        auto& wallpapterTimelineSection = m_wallpaperTimelineSectionsList.at(index);
+        const auto timelineCount = m_wallpaperTimelineSectionsList.size();
+        if(timelineCount  > 1){
+            m_wallpaperTimelineSectionsList.at(timelineCount - 1)->endTime = m_wallpaperTimelineSectionsList.at(timelineCount  + 1)->startTime;
+        }
+        // Only update the next timeline startTime
+        // if we are not end last wallpaper, that always
+        // must end at 24:00
+        // if(index <= timelineCount){
+        //     auto& wallpapterTimelineSectionNext = m_wallpaperTimelineSectionsList.at(index + 1);
+        //     wallpapterTimelineSectionNext->startTime = endTime;
+        // }
+
+        //        // Only update the next timeline startTime
+        //        // if we are not end last wallpaper, that always
+        //        // must end at 24:00
+        // if(index > 0){
+        //     auto& wallpapterTimelineSectionBefore = m_wallpaperTimelineSectionsList.at(index - 1);
+        //     wallpapterTimelineSectionBefore->endTime =startTime;
+        // }
+        // First update the new times and then remove the old
+        // timeline
+        m_wallpaperTimelineSectionsList.removeAt(index);
+        return true;
+
+    }
+    Q_INVOKABLE bool setWallpaperAtTimelineIndex(
         const ScreenPlay::ContentTypes::InstalledType type,
         const ScreenPlay::Video::FillMode fillMode,
         const QString& absolutePath,
@@ -154,7 +266,7 @@ private:
     bool checkIsAnotherScreenPlayInstanceRunning();
     bool removeWallpaper(const QString& appID);
     bool removeWidget(const QString& appID);
-    std::optional<std::shared_ptr<WallpaperTimelineSection>>  loadTimelineWallpaperConfig(const QJsonObject& wallpaperObj);
+    std::optional<std::shared_ptr<WallpaperTimelineSection>> loadTimelineWallpaperConfig(const QJsonObject& timelineObj);
     std::shared_ptr<WallpaperTimelineSection> findActiveSection();
 
 private:

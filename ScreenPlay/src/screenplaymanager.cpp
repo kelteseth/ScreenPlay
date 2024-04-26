@@ -46,10 +46,11 @@ ScreenPlayManager::ScreenPlayManager(
     QObject::connect(&m_contentTimer, &QTimer::timeout, this, &ScreenPlayManager::checkActiveWallpaperTimeline);
 }
 
-std::shared_ptr<WallpaperTimelineSection>  ScreenPlayManager::findActiveSection() {
+std::shared_ptr<WallpaperTimelineSection> ScreenPlayManager::findActiveSection()
+{
     const QTime currentTime = QTime::currentTime();
     for (const auto& section : m_wallpaperTimelineSectionsList) {
-        if (section->active && section->containsTime(currentTime)) {
+        if (section->containsTime(currentTime)) {
             return section;
         }
     }
@@ -60,27 +61,27 @@ std::shared_ptr<WallpaperTimelineSection>  ScreenPlayManager::findActiveSection(
 */
 void ScreenPlayManager::checkActiveWallpaperTimeline()
 {
-    auto activeTimelineSection= findActiveSection();
-    if(!activeTimelineSection){
-        qCritical() << "There must always be (lightning) an active timline";
+    auto activeTimelineSection = findActiveSection();
+    if (!activeTimelineSection) {
+        //qCritical() << "There must always be (lightning) an active timline";
         return;
     }
 
-   // This should happen most of the time, where we are
-   // during an active wallpaper section
-    if(activeTimelineSection == m_activeWallpaperTimeline){
+    // This should happen most of the time, where we are
+    // during an active wallpaper section
+    if (activeTimelineSection == m_activeWallpaperTimeline) {
         return;
     }
-
-
 
     // This means the timeline section has never been active
     // and we must create new wallpaper
-   // if(!activeTimelineSection->active){
-    for (const auto& wallpaper : activeTimelineSection->wallpaperData){
+    // if(!activeTimelineSection->active){
+    for (const auto& wallpaper : activeTimelineSection->wallpaperData) {
         auto activeWallpaper = startWallpaper(wallpaper, false);
-        if(activeWallpaper){
+        if (activeWallpaper) {
             activeTimelineSection->activeWallpaperList.push_back(activeWallpaper);
+            // Set a reference as the current for easy comparison above
+            m_activeWallpaperTimeline = activeTimelineSection;
         }
     }
     return;
@@ -89,14 +90,15 @@ void ScreenPlayManager::checkActiveWallpaperTimeline()
     // TODO: Check if we can reuse some active wallpaper
 }
 
-bool ScreenPlayManager::removeWallpaperAtTimelineIndex(const int timelineIndex, const int monitorIndex){
+bool ScreenPlayManager::removeWallpaperAtTimelineIndex(const int timelineIndex, const int monitorIndex)
+{
     return {};
 }
 
 /*!
     \brief Qml function, because we cannot create the WallpaperData in qml.
 */
-bool ScreenPlayManager::addWallpaperAtTimelineIndex(
+bool ScreenPlayManager::setWallpaperAtTimelineIndex(
     const ContentTypes::InstalledType type,
     const Video::FillMode fillMode,
     const QString& absolutePath,
@@ -125,7 +127,7 @@ bool ScreenPlayManager::addWallpaperAtTimelineIndex(
     const QTime startTime = QTime::fromString(startTimeString, m_timelineTimeFormat);
     const QTime endTime = QTime::fromString(startTimeString, m_timelineTimeFormat);
 
-    if(!startTime.isValid() || !endTime.isValid()){
+    if (!startTime.isValid() || !endTime.isValid()) {
         qWarning() << "Invalid time, startTime: " << startTime << " endTime " << endTime;
         return false;
     }
@@ -136,7 +138,6 @@ bool ScreenPlayManager::addWallpaperAtTimelineIndex(
     // TODO
     return true;
 }
-
 
 /*!
     \brief Inits this class instead of init in the constructor. This is because we need to check
@@ -214,7 +215,6 @@ std::shared_ptr<ScreenPlayWallpaper> ScreenPlayManager::startWallpaper(
         wallpaperData,
         m_settings);
 
-
     QObject::connect(wallpaper.get(), &ScreenPlayWallpaper::requestSave, this, &ScreenPlayManager::requestSaveProfiles);
     QObject::connect(wallpaper.get(), &ScreenPlayWallpaper::requestClose, this, &ScreenPlayManager::removeWallpaper);
     QObject::connect(wallpaper.get(), &ScreenPlayWallpaper::error, this, &ScreenPlayManager::displayErrorPopup);
@@ -285,10 +285,10 @@ bool ScreenPlayManager::removeAllWallpapers(bool saveToProfile)
 
     QStringList appIDs;
     auto activeTimelineSection = findActiveSection();
-    if(!activeTimelineSection){
+    if (!activeTimelineSection) {
         return false;
     }
-      // Do not remove items from the vector you iterate on.
+    // Do not remove items from the vector you iterate on.
     for (auto& client : activeTimelineSection->activeWallpaperList) {
         appIDs.append(client->appID());
     }
@@ -358,7 +358,7 @@ bool ScreenPlayManager::removeWallpaperAt(int index)
 bool ScreenPlayManager::requestProjectSettingsAtMonitorIndex(const int index)
 {
     auto activeTimelineSection = findActiveSection();
-    if(!activeTimelineSection){
+    if (!activeTimelineSection) {
         return false;
     }
     for (const auto& wallpaper : std::as_const(activeTimelineSection->activeWallpaperList)) {
@@ -407,7 +407,7 @@ bool ScreenPlayManager::setWallpaperFillModeAtMonitorIndex(const int index, cons
 bool ScreenPlayManager::setAllWallpaperValue(const QString& key, const QString& value)
 {
     auto activeTimelineSection = findActiveSection();
-    if(!activeTimelineSection){
+    if (!activeTimelineSection) {
         return false;
     }
     for (auto& wallpaper : activeTimelineSection->activeWallpaperList) {
@@ -425,7 +425,7 @@ ScreenPlayWallpaper* ScreenPlayManager::getWallpaperByAppID(const QString& appID
 {
 
     auto activeTimelineSection = findActiveSection();
-    if(!activeTimelineSection){
+    if (!activeTimelineSection) {
         return nullptr;
     }
     for (auto& wallpaper : activeTimelineSection->activeWallpaperList) {
@@ -467,8 +467,8 @@ void ScreenPlayManager::newConnection()
         }
 
         auto activeTimelineSection = findActiveSection();
-        if(!activeTimelineSection){
-            return ;
+        if (!activeTimelineSection) {
+            return;
         }
         auto& activeWallpaperList = activeTimelineSection->activeWallpaperList;
 
@@ -503,7 +503,7 @@ bool ScreenPlayManager::removeWallpaper(const QString& appID)
 {
 
     auto activeTimelineSection = findActiveSection();
-    if(!activeTimelineSection){
+    if (!activeTimelineSection) {
         return false;
     }
     activeTimelineSection->activeWallpaperList.erase(
@@ -657,21 +657,21 @@ bool ScreenPlayManager::loadProfiles()
 
         // Dry run to check if the config is outdated. This is when a wallpaper is configured
         // but no longer available.
-        for (QJsonValueRef wallpaper : wallpaper.toObject().value("wallpaper").toArray()) {
-            QJsonObject wallpaperObj = wallpaper.toObject();
+        // for (QJsonValueRef wallpaper : wallpaper.toObject().value("timelineWallpaper").toArray()) {
+        //     QJsonObject wallpaperObj = wallpaper.toObject();
 
-            if (wallpaperObj.empty())
-                continue;
+        //     if (wallpaperObj.empty())
+        //         continue;
 
-            const QString absolutePath = wallpaperObj.value("absolutePath").toString();
-            if (!QFile(absolutePath).exists()) {
-                qWarning() << "Specified file does not exist! This means the profiles.json is no longer valid.";
-                return false;
-            }
-        }
+        //     const QString absolutePath = wallpaperObj.value("absolutePath").toString();
+        //     if (!QFile(absolutePath).exists()) {
+        //         qWarning() << "Specified file does not exist! This means the profiles.json is no longer valid.";
+        //         return false;
+        //     }
+        // }
 
         for (QJsonValueRef timelineWallpaper : wallpaper.toObject().value("timelineWallpaper").toArray()) {
-            QJsonObject wallpaperObj = wallpaper.toObject();
+            QJsonObject wallpaperObj = timelineWallpaper.toObject();
             auto wallpaperDataOpt = loadTimelineWallpaperConfig(wallpaperObj);
             if (!wallpaperDataOpt.has_value()) {
                 containsInvalidData = true;
@@ -699,26 +699,28 @@ bool ScreenPlayManager::loadProfiles()
     return true;
 }
 
-std::optional<std::shared_ptr<WallpaperTimelineSection>> ScreenPlayManager::loadTimelineWallpaperConfig(const QJsonObject& wallpaperObj)
+std::optional<std::shared_ptr<WallpaperTimelineSection>> ScreenPlayManager::loadTimelineWallpaperConfig(const QJsonObject& timelineObj)
 {
-    const QString name = wallpaperObj.value("name").toString();
+    const QString name = timelineObj.value("name").toString();
 
-    const QTime startTime = QTime::fromString(wallpaperObj.value("startTime").toString(), m_timelineTimeFormat);
-    const QTime endTime = QTime::fromString(wallpaperObj.value("endTime").toString(), m_timelineTimeFormat);
-    if (endTime > startTime) {
-        qCritical() << "Invalid time, start time is greater then end time: " << startTime << endTime;
+    const QTime startTime = QTime::fromString(timelineObj.value("startTime").toString(), m_timelineTimeFormat);
+    const QTime endTime = QTime::fromString(timelineObj.value("endTime").toString(), m_timelineTimeFormat);
+    if (startTime > endTime) {
+        qCritical() << "Invalid time, start time is later than end time: " << startTime.toString() << endTime.toString();
         return std::nullopt;
     }
-    std::optional<WallpaperData> wallpaperDataOpt = loadWallpaperConfig(wallpaperObj);
-    if (!wallpaperDataOpt.has_value())
-        return std::nullopt;
 
     // TODO check license
-
     auto timelineSection = std::make_shared<WallpaperTimelineSection>();
     timelineSection->startTime = startTime;
     timelineSection->endTime = endTime;
-    timelineSection->wallpaperData.push_back(wallpaperDataOpt.value());
+    const auto wallpaperList = timelineObj.value("wallpaper").toArray();
+    for (auto& wallpaper : wallpaperList) {
+        std::optional<WallpaperData> wallpaperDataOpt = loadWallpaperConfig(wallpaper.toObject());
+        if (!wallpaperDataOpt.has_value())
+            return std::nullopt;
+        timelineSection->wallpaperData.push_back(wallpaperDataOpt.value());
+    }
     return timelineSection;
 }
 
@@ -750,6 +752,7 @@ std::optional<WallpaperData> ScreenPlayManager::loadWallpaperConfig(const QJsonO
         volume = 1.0f;
 
     WallpaperData wallpaperData;
+    wallpaperData.monitors = monitors;
     wallpaperData.volume = volume;
     wallpaperData.absolutePath = wallpaperObj.value("absolutePath").toString();
     wallpaperData.previewImage = wallpaperObj.value("previewImage").toString();

@@ -3,22 +3,6 @@
         {
             "appdrawer": [],
             "name": "default",
-            "wallpaper": [
-                {
-                    "name": "default",
-                    "absolutePath": "C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/05012024134225",
-                    "file": "2_15488489005711.mp4",
-                    "fillMode": "Contain",
-                    "isLooping": true,
-                    "monitors": [
-                        0
-                    ],
-                    "playbackRate": 1,
-                    "previewImage": "previewThumbnail.jpg",
-                    "type": "VideoWallpaper",
-                    "volume": 0.6299999952316284
-                }
-            ],
             "timelineWallpaper": [
                 {
                     "name": "test",
@@ -26,7 +10,7 @@
                     "endTime": "12:00:00",
                     "wallpaper": [
                         {
-                            "absolutePath": "C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/05012024134225",
+                            "absolutePath": "C:/Code/Cpp/ScreenPlay/672870/31032023101249",
                             "file": "2_15488489005711.mp4",
                             "fillMode": "Contain",
                             "isLooping": true,
@@ -42,11 +26,11 @@
                 },
                 {
                     "name": "test",
-                    "startTime": "12:01:00",
-                    "endTime": "24:00:00",
+                    "startTime": "12:00:00",
+                    "endTime": "23:59:59",
                     "wallpaper": [
                         {
-                            "absolutePath": "C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/05012024134225",
+                            "absolutePath": "C:/Code/Cpp/ScreenPlay/672870/3037829915",
                             "file": "2_15488489005711.mp4",
                             "fillMode": "Contain",
                             "isLooping": true,

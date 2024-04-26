@@ -517,7 +517,6 @@ void Settings::setDecoder(QString decoder)
     emit decoderChanged(m_decoder);
 }
 
-
 void Settings::setSilentStart(bool silentStart)
 {
     if (m_silentStart == silentStart)
@@ -590,7 +589,6 @@ void Settings::setTheme(ScreenPlay::Settings::Theme theme)
     m_theme = theme;
     emit themeChanged(m_theme);
 }
-
 
 void Settings::setDesktopEnvironment(DesktopEnvironment desktopEnvironment)
 {
