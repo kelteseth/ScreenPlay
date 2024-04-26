@@ -47,13 +47,10 @@ Control {
         onWidthChanged: timeLine.updatePositions()
 
         Component.onCompleted: {
-            init()
-        }
-
-        function init(){
-            const initialStopPositions = [.1,1]
+          const initialStopPositions =  App.screenPlayManager.getRelativeSectionPositions()
             createAllSections(initialStopPositions)
         }
+
 
         function removeAll(){
             print("removeAll",timeLine.sectionsList.length)

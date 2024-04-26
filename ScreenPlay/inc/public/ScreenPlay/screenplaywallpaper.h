@@ -69,6 +69,7 @@ struct WallpaperTimelineSection {
     // Timeline timeline;
     QString m_identifier;
     int index = 0; // Needed to check
+    float relativePosition = 0.0f;
     QTime startTime;
     QTime endTime;
     // Data from the profiles.json that we need when we

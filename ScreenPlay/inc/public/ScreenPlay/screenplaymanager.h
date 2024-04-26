@@ -192,6 +192,14 @@ public:
     Q_INVOKABLE bool setAllWallpaperValue(const QString& key, const QString& value);
     Q_INVOKABLE bool setWallpaperValue(const QString& appID, const QString& key, const QString& value);
 
+    Q_INVOKABLE QVector<float> getRelativeSectionPositions(){
+        QVector<float> sectionPositions;
+        for (const auto &timelineSection : m_wallpaperTimelineSectionsList) {
+            sectionPositions.append(timelineSection->relativePosition);
+        }
+        return sectionPositions;
+    }
+
     bool removeWallpaperAtTimelineIndex(const int timelineIndex, const int monitorIndex);
 signals:
     void activeWallpaperCounterChanged(int activeWallpaperCounter);
