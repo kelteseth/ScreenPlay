@@ -183,6 +183,7 @@ Control {
             timeLine.sectionsList.splice(index, 1)
 
             updatePositions()
+            App.screenPlayManager.removeTimelineAt(index)
         }
 
         function updatePositions() {

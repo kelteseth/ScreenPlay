@@ -74,7 +74,7 @@ public:
         auto updateTimer = qScopeGuard([this] {  m_contentTimer.start(); });
 
         auto& wallpapterTimelineSection = m_wallpaperTimelineSectionsList.at(index);
-        QTime endTime = QTime::fromString(endTimeString, m_timelineTimeFormat);
+        QTime endTime = QTime::fromString(endTimeString, "hh:mm");
         if (!endTime.isValid()){
             return false;
         }
@@ -128,39 +128,74 @@ public:
             auto& wallpapterTimelineSectionBefore = m_wallpaperTimelineSectionsList.at(index - 1);
             wallpapterTimelineSectionBefore->endTime =startTime;
         }
-
+        printTimelines();
         return true;
     }
 
     Q_INVOKABLE bool removeTimelineAt(const int index){
+        printTimelines();
+        const auto timelineCount = m_wallpaperTimelineSectionsList.size();
+        if(timelineCount == 0){
+            qCritical()<< "Timeline empty";
+            return false;
+        }
+        if(timelineCount == 1){
+            qCritical()<< "Timeline must always have at least one element, that span across the whole timeline from 00:00:00 to 23:59:59.";
+            return false;
+        }
         m_contentTimer.stop();
         auto updateTimer = qScopeGuard([this] {  m_contentTimer.start(); });
 
         auto& wallpapterTimelineSection = m_wallpaperTimelineSectionsList.at(index);
-        const auto timelineCount = m_wallpaperTimelineSectionsList.size();
-        if(timelineCount  > 1){
-            m_wallpaperTimelineSectionsList.at(timelineCount - 1)->endTime = m_wallpaperTimelineSectionsList.at(timelineCount  + 1)->startTime;
-        }
-        // Only update the next timeline startTime
-        // if we are not end last wallpaper, that always
-        // must end at 24:00
-        // if(index <= timelineCount){
-        //     auto& wallpapterTimelineSectionNext = m_wallpaperTimelineSectionsList.at(index + 1);
-        //     wallpapterTimelineSectionNext->startTime = endTime;
-        // }
 
-        //        // Only update the next timeline startTime
-        //        // if we are not end last wallpaper, that always
-        //        // must end at 24:00
-        // if(index > 0){
-        //     auto& wallpapterTimelineSectionBefore = m_wallpaperTimelineSectionsList.at(index - 1);
-        //     wallpapterTimelineSectionBefore->endTime =startTime;
-        // }
-        // First update the new times and then remove the old
-        // timeline
-        m_wallpaperTimelineSectionsList.removeAt(index);
+        // When we have two timelines, we know that only the first
+        // timeline can be removed and the second one will then span
+        // across the whole timeline
+        //    remove     <- expand
+        // |-----------|-----------|
+        //       0          1
+        if (timelineCount == 2){
+            if(index != 0){
+                qCritical()<< "Removing the last timeline is not allowed. This must always span the whole timeline";
+                return false;
+            }
+            m_wallpaperTimelineSectionsList.removeAt(index);
+            m_wallpaperTimelineSectionsList.first()->startTime = QTime::fromString("00:00:00",m_timelineTimeFormat);
+            return true;
+        }
+        // Now handle all states where we have more than two wallpaper
+        // If we are the frist wallpaper, then the next in line
+        // wallpaper gets the remainging time
+        //    remove     <- expand
+        // |-----------|-----------|-----------|
+        //       0          1           2
+        if(index == 0){
+
+        }
+        if(timelineCount  > 2){
+            auto timelineBefore = m_wallpaperTimelineSectionsList.at(index - 1);
+            auto timelineAfter = m_wallpaperTimelineSectionsList.at(index + 1);
+            //    before      remove     <- expand
+            // |-----------|-----------|-----------|
+            //       0          1           2
+            // Now when removing timeline at index 1, the next (after)
+            // wallpaper gets the remaining space
+            timelineAfter->startTime = timelineBefore->endTime;
+            m_wallpaperTimelineSectionsList.removeAt(index);
+            return true;
+        }
+        printTimelines();
         return true;
 
+
+
+    }
+
+    void printTimelines(){
+        qInfo() << "# Timlines:";
+        for (auto&timeline : m_wallpaperTimelineSectionsList) {
+            std::cout <<  timeline->index  << "/" << m_wallpaperTimelineSectionsList.length() <<" start: " << timeline->startTime.toString().toStdString() << " end: "<<timeline->endTime.toString().toStdString() << std::endl ;
+        }
     }
     Q_INVOKABLE bool setWallpaperAtTimelineIndex(
         const ScreenPlay::ContentTypes::InstalledType type,

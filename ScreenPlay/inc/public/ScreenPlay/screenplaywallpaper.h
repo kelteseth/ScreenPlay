@@ -37,36 +37,9 @@ class ScreenPlayWallpaper;
 // Represents one line in the UI. ScreenPlayManager has a list of
 // WallpaperTimeline. Only the active timeline section has
 // a filled vector of ScreenPlayWallpaper
-class Timeline {
-    Q_GADGET
-    QML_VALUE_TYPE(timeline)
-    QML_STRUCTURED_VALUE
-    Q_PROPERTY(int index READ index WRITE setIndex)
-    Q_PROPERTY(QTime startTime READ startTime WRITE setStartTime)
-    Q_PROPERTY(QTime endTime READ endTime WRITE setEndTime)
-    Q_PROPERTY(QString identifier READ identifier WRITE setIdentifier)
-
-public:
-    int index() const { return m_index; }
-    void setIndex(int newIndex) { m_index = newIndex; }
-    QTime endTime() const { return m_endTime; }
-    void setEndTime(const QTime& newEndTime) { m_endTime = newEndTime; }
-    QString identifier() const { return m_identifier; }
-    void setIdentifier(const QString& newIdentifier) { m_identifier = newIdentifier; }
-    QTime startTime() const { return m_startTime; }
-    void setStartTime(const QTime& newStartTime) { m_startTime = newStartTime; }
-
-private:
-    int m_index;
-    QTime m_startTime;
-    QTime m_endTime;
-    QString m_identifier;
-};
-
 struct WallpaperTimelineSection {
     bool active = false;
 
-    // Timeline timeline;
     QString m_identifier;
     int index = 0; // Needed to check
     float relativePosition = 0.0f;
@@ -87,13 +60,6 @@ struct WallpaperTimelineSection {
             return (time >= startTime && time < endTime);
         }
     }
-    // bool containsTime(const QTime& time) const {
-    //     if (timeline.endTime() < timeline.startTime()) { // Timeline spans midnight
-    //         return (time >= timeline.startTime() || time < timeline.endTime());
-    //     } else {
-    //         return (time >= timeline.startTime() && time < timeline.endTime());
-    //     }
-    // }
 };
 
 class ScreenPlayWallpaper : public QObject {
