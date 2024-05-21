@@ -63,7 +63,7 @@ void ScreenPlayManager::checkActiveWallpaperTimeline()
 {
     auto activeTimelineSection = findActiveSection();
     if (!activeTimelineSection) {
-        //qCritical() << "There must always be (lightning) an active timline";
+        // qCritical() << "There must always be (lightning) an active timline";
         return;
     }
 
@@ -72,6 +72,8 @@ void ScreenPlayManager::checkActiveWallpaperTimeline()
     if (activeTimelineSection == m_activeWallpaperTimeline) {
         return;
     }
+    // TODO
+    return;
 
     // This means the timeline section has never been active
     // and we must create new wallpaper
@@ -677,6 +679,13 @@ bool ScreenPlayManager::loadProfiles()
                 containsInvalidData = true;
                 break;
             }
+            wallpaperDataOpt.value()->index = m_wallpaperTimelineSectionsList.length();
+            wallpaperDataOpt.value()->identifier = util.generateRandomString(4);
+
+            qInfo() << wallpaperDataOpt.value()->index
+                    << wallpaperDataOpt.value()->startTime
+                    << wallpaperDataOpt.value()->endTime;
+
             m_wallpaperTimelineSectionsList.append(wallpaperDataOpt.value());
         }
 
@@ -693,7 +702,6 @@ bool ScreenPlayManager::loadProfiles()
     if (containsInvalidData)
         saveProfiles();
 
-
     checkActiveWallpaperTimeline();
     m_contentTimer.start();
 
@@ -709,20 +717,21 @@ bool ScreenPlayManager::loadProfiles()
  * \param endTime The time for which to calculate the relative position.
  * \return A float representing the normalized relative position of endTime, rounded to four decimal places.
  */
-float calculateRelativePosition(const QTime& endTime) {
-    QTime startTime(0, 0, 0);  // Start of the day
+float calculateRelativePosition(const QTime& endTime)
+{
+    QTime startTime(0, 0, 0); // Start of the day
     QTime maxTime(23, 59, 59); // End of the day range
 
-           // Total number of seconds from startTime to maxTime
+    // Total number of seconds from startTime to maxTime
     int totalSeconds = startTime.secsTo(maxTime);
 
-           // Seconds from startTime to the given endTime
+    // Seconds from startTime to the given endTime
     int endTimeSeconds = startTime.secsTo(endTime);
 
-           // Calculate the relative position
+    // Calculate the relative position
     float relativePosition = static_cast<float>(endTimeSeconds) / totalSeconds;
 
-           // Round to four decimal places
+    // Round to four decimal places
     return qRound(relativePosition * 10000.0) / 10000.0;
 }
 std::optional<std::shared_ptr<WallpaperTimelineSection>> ScreenPlayManager::loadTimelineWallpaperConfig(const QJsonObject& timelineObj)

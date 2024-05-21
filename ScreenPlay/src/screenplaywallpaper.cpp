@@ -257,7 +257,7 @@ void ScreenPlayWallpaper::setSDKConnection(std::unique_ptr<SDKConnection> connec
         std::optional<bool> running = m_processManager.isRunning(m_processID);
 
         if (running.has_value()) {
-            qInfo() << "running:" << running.value();
+            // qInfo() << "running:" << running.value();
         } else {
             qInfo() << "INVALID PID:" << m_processID;
         }
@@ -295,6 +295,7 @@ bool ScreenPlayWallpaper::replace(
     emit requestSave();
     return success;
 }
+
 }
 
 #include "moc_screenplaywallpaper.cpp"

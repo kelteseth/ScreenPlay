@@ -21,8 +21,10 @@ Item {
             hours = 0;
         }
 
-        return hours + ":"  + minutes.toString().padStart(2, '0')
+        // Format hours and minutes to always have two digits
+        return hours.toString().padStart(2, '0') + ":" + minutes.toString().padStart(2, '0');
     }
+
 
     property real lineMinimum: .5
     property real lineMaximum: .5

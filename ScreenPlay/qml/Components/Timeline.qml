@@ -3,6 +3,8 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import ScreenPlayApp
+import ScreenPlayUtil
+
 
 Control {
     id: root
@@ -17,23 +19,13 @@ Control {
         timeLine.removeAll()
     }
 
-    function generateRandomString(length) {
-         var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-         var result = '';
-         for (var i = 0; i < length; i++) {
-             var index = Math.floor(Math.random() * characters.length);
-             result += characters.charAt(index);
-         }
-         return result;
-     }
-
     Component {
         id: sectionComp
         QtObject {
-            property string id
+            property string identifier
             property int index: 0
             property real relativeLinePosition:  lineHandle.linePosition
-            onRelativeLinePositionChanged: print("relativelinepos: ", relativeLinePosition)
+            //onRelativeLinePositionChanged: print("relativelinepos: ", relativeLinePosition)
             property LineHandle lineHandle
             property LineIndicator lineIndicator
         }
@@ -47,7 +39,7 @@ Control {
         onWidthChanged: timeLine.updatePositions()
 
         Component.onCompleted: {
-          const initialStopPositions =  App.screenPlayManager.getRelativeSectionPositions()
+          const initialStopPositions =  App.screenPlayManager.initialStopPositions()
             createAllSections(initialStopPositions)
         }
 
@@ -70,15 +62,20 @@ Control {
         }
 
         function createAllSections(initialStopPositions) {
-            for (let index in initialStopPositions) {
-                addSection(initialStopPositions[Number(index)])
+            for (let identifier in initialStopPositions) {
+                let stopPosition = initialStopPositions[identifier];
+                addSection(identifier, stopPosition);
             }
         }
 
-        function addSection(stopPosition) {
+        // IMPORTANT: The new element is always on the left. The first
+        // handle always persists  because the
+        // user can never delete it. It only gets "pushed" further
+        // to the right, by increasing the size.
+        function addSection(identifier, stopPosition) {
             print("stopPosition", stopPosition)
-            //if (!isFloat(stopPosition))
-            //    console.error(typeof (stopPosition), stopPosition)
+
+
             // Make sure to limit float precision
             const fixedStopPosition = stopPosition
             print("addSection at: ", fixedStopPosition)
@@ -86,9 +83,8 @@ Control {
                 console.error("Invalid position:", fixedStopPosition)
                 return
             }
-
             let sectionObject = sectionComp.createObject(timeLine, {
-                                                                  "id" : root.generateRandomString(8),
+                                                                  "identifier" : identifier,
                                                                   "relativeLinePosition": fixedStopPosition
                                                               })
             timeLine.sectionsList.push(sectionObject)
@@ -98,13 +94,14 @@ Control {
             })
             const index = timeLine.sectionsList.indexOf(sectionObject)
             console.log("Addsection:", index)
-            createSection(index, fixedStopPosition, sectionObject)
+            createSection(index, fixedStopPosition, sectionObject,identifier)
 
             updatePositions()
+            return sectionObject
         }
 
-        function createSection(index, stopPosition, section) {
-            console.log("Adding at:", index, stopPosition)
+        function createSection(index, stopPosition, section,identifier) {
+            console.log("Adding at:", index, stopPosition, identifier)
 
             //console.assert(isFloat(stopPosition))
             let haComponent = Qt.createComponent("LineHandle.qml")
@@ -137,16 +134,32 @@ Control {
                         lineIndicatorWrapper, lineIndicatorProperties)
             section.lineIndicator.height = lineIndicatorWrapper.height
             section.lineIndicator.index = index
+            section.lineIndicator.identifier = identifier
             section.lineIndicator.color = getColorAtIndex(index)
             section.lineIndicator.remove.connect(timeLine.removeSection)
             section.lineIndicator.lineSelected.connect(
                         timeLine.lineIndicatorSelected)
         }
 
-        function onHandleMoved(handle){
+        function sectionFromHandle(lineHandle){
+            for (let i = 0; i < timeLine.sectionsList.length; i++) {
+                if(timeLine.sectionsList[i].lineHandle === lineHandle)
+                    return timeLine.sectionsList[i]
+            }
+            return null
+        }
+
+        function onHandleMoved(lineHandle){
             updatePositions()
 
-            App.screenPlayManager.moveTimelineAt(handle.linePosition, handle.timeString)
+            const section = sectionFromHandle(lineHandle)
+            if (section === null){
+                print(lineHandle.linePosition)
+                console.error("Unable to match handle to section list")
+                return
+            }
+
+            App.screenPlayManager.moveTimelineAt(section.index, section.identifier, lineHandle.linePosition, lineHandle.timeString)
         }
 
         function lineIndicatorSelected(selectedIndicatorindex) {
@@ -161,9 +174,15 @@ Control {
 
         // We must update all indexes when removing/adding an element
         function updateIndicatorIndexes() {
+            if(timeLine.sectionsList === null || timeLine.sectionsList === undefined)
+                return
+            timeLine.sectionsList.sort(function (a, b) {
+                return a.relativeLinePosition - b.relativeLinePosition
+            })
             for (let i = 0; i < timeLine.sectionsList.length; i++) {
                 timeLine.sectionsList[i].index = i
                 timeLine.sectionsList[i].lineIndicator.index = i
+                //print("updateIndicatorIndexes:", timeLine.sectionsList[i].index, timeLine.sectionsList[i].relativeLinePosition)
             }
         }
 
@@ -217,16 +236,16 @@ Control {
 
 
                 //timeLine.sectionsList[i].relativeLinePosition =prevPos / timeLine.width
-                print("sections: ", i, "prev minimum ",prevPos,"next maximum", nextPos,  timeLine.sectionsList[i].relativeLinePosition)
+                //print("sections: ", i, "prev minimum ",prevPos,"next maximum", nextPos,  timeLine.sectionsList[i].relativeLinePosition)
             }
             for (let i = 0; i < timeLine.sectionsList.length; i++) {
                 let section = timeLine.sectionsList[i]
                 section.relativeLinePosition = section.lineHandle.linePosition
             }
-            updateIndicatorIndexes()
             updateIndicatorPositions()
             updateLastHandle()
             updateIndicatorColor()
+            updateIndicatorIndexes()
 
         }
 
@@ -257,7 +276,7 @@ Control {
         function updateIndicatorPositions() {
             for (let i = 0; i < timeLine.sectionsList.length; i++) {
                 const lineIndicator = timeLine.sectionsList[i].lineIndicator
-                print(i, lineIndicator.x, lineIndicator.width, timeLine.sectionsList[i].relativeLinePosition)
+                //print(i, lineIndicator.x, lineIndicator.width, timeLine.sectionsList[i].relativeLinePosition)
                 const handle = timeLine.sectionsList[i].lineHandle
                 lineIndicator.x = handle.dragHandler.xAxis.minimum
                 lineIndicator.width = (handle.linePosition * handle.lineWidth).toFixed(
@@ -318,7 +337,12 @@ Control {
                 onClicked: {
                     const p = this.x / timeLine.width
                     const position = p.toFixed(2)
-                    timeLine.addSection(position)
+                    const identifier = App.util.generateRandomString(4);
+                    const sectionObject = timeLine.addSection(identifier,position)
+                    App.screenPlayManager.addTimelineAt(
+                        sectionObject.index,
+                        sectionObject.relativeLinePosition,
+                        sectionObject.identifier)
                 }
 
                 x: hoverHandler.point.position.x - width * .5

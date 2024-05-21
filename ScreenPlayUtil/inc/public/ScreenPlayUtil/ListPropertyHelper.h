@@ -17,11 +17,11 @@ public:
 
     explicit QQmlSmartListWrapper(QObject* object, const int reserve = 0)
         : QmlListPropertyType(object,
-            &m_items,
-            &SmartListWrapperType::callbackAppend,
-            &SmartListWrapperType::callbackCount,
-            &SmartListWrapperType::callbackAt,
-            &SmartListWrapperType::callbackClear)
+              &m_items,
+              &SmartListWrapperType::callbackAppend,
+              &SmartListWrapperType::callbackCount,
+              &SmartListWrapperType::callbackAt,
+              &SmartListWrapperType::callbackClear)
     {
         if (reserve > 0) {
             m_items.reserve(reserve);

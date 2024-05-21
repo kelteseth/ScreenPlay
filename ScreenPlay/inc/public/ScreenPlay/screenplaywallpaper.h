@@ -40,7 +40,7 @@ class ScreenPlayWallpaper;
 struct WallpaperTimelineSection {
     bool active = false;
 
-    QString m_identifier;
+    QString identifier;
     int index = 0; // Needed to check
     float relativePosition = 0.0f;
     QTime startTime;

@@ -4,6 +4,7 @@ import QtQuick.Controls
 Rectangle {
     id: root
     property int index: 0
+    property string identifier
     property bool selected: false
     property bool isLast: false
     property alias text: text.text
@@ -60,6 +61,10 @@ Rectangle {
             onClicked:{
                 root.lineSelected(root.index)
             }
+        }
+        Text {
+            anchors.centerIn: parent
+            text: root.index + " - "+ root.identifier
         }
     }
     ToolButton {
