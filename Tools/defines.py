@@ -21,7 +21,7 @@ elif sys.platform == "linux":
 REPO_PATH =  Path(__file__, "../../").resolve()
 THIRDPATH_PATH =  Path(REPO_PATH, "ThirdParty").resolve()
 QT_PATH = path = Path(REPO_PATH, "../aqt").resolve()
-QT_VERSION = "6.7.0"
+QT_VERSION = "6.7.1"
 QT_BIN_PATH = QT_PATH.joinpath(f"{QT_VERSION}/{QT_PLATFORM}/bin")
 QT_TOOLS_PATH = QT_PATH.joinpath("Tools/")
 QT_IFW_VERSION = "4.6"
@@ -35,7 +35,8 @@ VCPKG_BASE_PACKAGES =  [
         "catch2"
     ]
 PYTHON_EXECUTABLE = "python" if sys.platform == "win32" else "python3"
-FFMPEG_VERSION = "6.1"
+FFMPEG_VERSION_MAC = "6.1.1"
+FFMPEG_VERSION_WIN = "7.0"
 GODOT_VERSION = "4.2.1"
 GODOT_RELEASE_TYPE = "stable"
 GODOT_DOWNLOAD_SERVER = "https://github.com/godotengine/godot-builds/releases/download"

@@ -36,7 +36,7 @@
                 "windows-base"
             ],
             "cacheVariables": {
-                "CMAKE_PREFIX_PATH": "${sourceDir}/../aqt/6.7.0/msvc2019_64"
+                "CMAKE_PREFIX_PATH": "${sourceDir}/../aqt/6.7.1/msvc2019_64"
             }
         },
         {
@@ -77,7 +77,7 @@
         },
         {
             "name": "windows-clang-base",
-            "inherits": "windows-base",
+            "inherits": "windows-base-aqt",
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "C:/Program Files/LLVM/bin/clang-cl.exe",
                 "CMAKE_CXX_COMPILER": "C:/Program Files/LLVM/bin/clang-cl.exe"

@@ -11,7 +11,7 @@ import defines
 from shutil import move, rmtree
 from util import cd_repo_root_path
 from sys import stdout
-from defines import FFMPEG_VERSION
+from defines import FFMPEG_VERSION_MAC, FFMPEG_VERSION_WIN
 
 stdout.reconfigure(encoding='utf-8')
 
@@ -78,8 +78,8 @@ def extract_zip_executables(extraction_path, path_and_filename):
 def download_prebuild_ffmpeg_mac(extraction_path: str):
 
     print("Setup ffmpeg mac")
-    ffmpeg_zip_name = f'ffmpeg-{defines.FFMPEG_VERSION}.zip'
-    ffprobe_zip_name = f'ffprobe-{defines.FFMPEG_VERSION}.zip'
+    ffmpeg_zip_name = f'ffmpeg-{defines.FFMPEG_VERSION_MAC}.zip'
+    ffprobe_zip_name = f'ffprobe-{defines.FFMPEG_VERSION_MAC}.zip'
     download_server_base_url = 'https://evermeet.cx/ffmpeg/'
 
     ffmpeg_path_and_filename = download(
@@ -118,9 +118,16 @@ def execute() ->bool:
         version_line = next((line for line in output.split('\n') if 'ffmpeg version' in line), None)
         if version_line:
             installed_version = version_line.split(' ')[2].split('-')[0]
-            if installed_version == FFMPEG_VERSION:
-                print(f"FFmpeg version {installed_version} is already installed.")
-                return True
+            
+            if sys.platform == "win32":
+                if installed_version == FFMPEG_VERSION_WIN:
+                    print(f"FFmpeg version {installed_version} is already installed.")
+                    return True
+            elif platform.system() == "Darwin":
+                if installed_version == FFMPEG_VERSION_MAC:
+                    print(f"FFmpeg version {installed_version} is already installed.")
+                    return True
+                
             else:
                 print(f"FFmpeg version {installed_version} found, but version {FFMPEG_VERSION} is required.")
 
