@@ -14,6 +14,11 @@ Control {
     leftPadding: 20
     rightPadding: 20
 
+    property int activeTimelineIndex: 0
+
+    function getActiveTimeline(){
+        return timeLine.sectionsList[root.activeTimelineIndex]
+    }
 
     function removeAll(){
         timeLine.removeAll()
@@ -162,14 +167,15 @@ Control {
             App.screenPlayManager.moveTimelineAt(section.index, section.identifier, lineHandle.linePosition, lineHandle.timeString)
         }
 
-        function lineIndicatorSelected(selectedIndicatorindex) {
+        function lineIndicatorSelected(activeTimelineIndex) {
             for (let i = 0; i < timeLine.sectionsList.length; i++) {
-                if (i === selectedIndicatorindex) {
+                if (i === activeTimelineIndex) {
                     timeLine.sectionsList[i].lineIndicator.selected = true
                     continue
                 }
                 timeLine.sectionsList[i].lineIndicator.selected = false
             }
+            root.activeTimelineIndex = activeTimelineIndex
         }
 
         // We must update all indexes when removing/adding an element

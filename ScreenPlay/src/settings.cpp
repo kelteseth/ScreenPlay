@@ -98,43 +98,73 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
 
     setAnonymousTelemetry(m_qSettings.value("AnonymousTelemetry", true).toBool());
 
-    // Wallpaper and Widgets config
-    QFile profilesFile(m_globalVariables->localSettingsPath().toString() + "/profiles.json");
-    if (!profilesFile.exists()) {
-        qInfo("No profiles.json found, creating default profiles.json");
-        writeJsonFileFromResource("profiles");
-    }
+
+
+    initProfilesSettings();
 
     initInstalledPath();
     setupWidgetAndWindowPaths();
 }
 
 /*!
-  \brief Writes the default JsonFile from the resources and the given \a filename. Currently we have two default json files:
-   \list
-    \li profiles.json
-    \li settings.json
-   \endlist
+  \brief Writes the default profiles json if we do not have any or we do have a major
+         version bump. We delete the old config for now.
 */
-void Settings::writeJsonFileFromResource(const QString& filename)
+void Settings::initProfilesSettings()
 {
-    QFile file(m_globalVariables->localSettingsPath().toString() + "/" + filename + ".json");
+    const QString defaultProfilesFilePath = m_globalVariables->localSettingsPath().toString() + "/profiles.json";
+    // Wallpaper and Widgets config
+    QFile profilesFile(defaultProfilesFilePath);
+    if (!profilesFile.exists()) {
+        qInfo("No profiles.json found, creating default profiles.json");
+        return writeDefaultProfiles();
+    }
+    profilesFile.close();
+
+    // TODO version check
+    const auto jsonObjOpt = Util().openJsonFileToObject(defaultProfilesFilePath);
+    if (jsonObjOpt.has_value()) {
+        const QJsonObject  profilesSettings = jsonObjOpt.value();
+        if(!profilesSettings.contains("version"))
+            return writeDefaultProfiles();
+
+        const auto profilesSettingsVersion = QVersionNumber::fromString(profilesSettings.value("version").toString());
+
+        if(profilesSettingsVersion.isNull())
+            return writeDefaultProfiles();
+
+        if(profilesSettingsVersion < m_profilesVersion)
+            return writeDefaultProfiles();
+    }
+
+}
+
+void Settings::writeDefaultProfiles(){
+    QFileInfo fileInfo(m_globalVariables->localSettingsPath().toString() + "/profiles.json");
+    QFile profilesFile(fileInfo.absoluteFilePath());
+
+    qInfo() << "Writing default profiles config to: " << fileInfo.absoluteFilePath();
     QDir directory(m_globalVariables->localSettingsPath().toString());
     if (!directory.exists()) {
         directory.mkpath(directory.path());
     }
-    QFile defaultSettings(":/qml/ScreenPlayApp/" + filename + ".json");
+    QFile defaultProfileFile(":/qml/ScreenPlayApp/profiles.json");
 
-    file.open(QIODevice::WriteOnly | QIODevice::Text);
-    defaultSettings.open(QIODevice::ReadOnly | QIODevice::Text);
+    profilesFile.open(QIODevice::WriteOnly | QIODevice::Text);
+    defaultProfileFile.open(QIODevice::ReadOnly | QIODevice::Text);
 
-    QTextStream out(&file);
-    QTextStream defaultOut(&defaultSettings);
+    QTextStream out(&profilesFile);
+    QTextStream defaultOut(&defaultProfileFile);
 
     out << defaultOut.readAll();
 
-    file.close();
-    defaultSettings.close();
+    profilesFile.close();
+    defaultProfileFile.close();
+}
+
+QVersionNumber Settings::getProfilesVersion() const
+{
+    return m_profilesVersion;
 }
 
 /*!
@@ -188,21 +218,6 @@ void Settings::setupWidgetAndWindowPaths()
         qInfo() << "wallpaperExecutablePath:" << m_globalVariables->wallpaperExecutablePath();
         qCritical("wallpaper executable not found!");
     }
-}
-
-/*!
-  \brief When no default language is set in the registry we check the system set language. If there is no
-  matching translation is available we set it to english. This function gets called from the UI when
-  the user manually changes the language.
-*/
-void Settings::restoreDefault(const QString& appConfigLocation, const QString& settingsFileType)
-{
-    QString fullSettingsPath { appConfigLocation + "/" + settingsFileType + ".json" };
-    qWarning() << "Unable to load config from " << fullSettingsPath
-               << ". Restoring default!";
-    QFile file { fullSettingsPath };
-    file.remove();
-    writeJsonFileFromResource(settingsFileType);
 }
 
 void Settings::initInstalledPath()

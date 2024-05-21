@@ -37,7 +37,7 @@ namespace ScreenPlay {
 */
 
 /*!
-  \brief Constructor when loading properties from settings.json
+  \brief Constructor when loading properties from profiles.json
   We need to _flatten_ the json to make it work with a flat list model!
   See \sa getActiveSettingsJson to make the flat list to a hierarchical json object
 */

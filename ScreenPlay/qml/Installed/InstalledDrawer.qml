@@ -6,7 +6,6 @@ import QtQuick.Dialogs
 import QtQuick.Controls.Material
 import QtQuick.Controls.Material.impl
 import ScreenPlayApp
-
 import ScreenPlayUtil
 import "../Monitors"
 import "../Components"
@@ -381,19 +380,16 @@ Drawer {
                             return
                         }
 
+                        const activeTimeline = timeline.getActiveTimeline()
                         const screenFile = item.m_file
                         const playbackRate = 1
                         const jsonProperties = {}
-                        const timelineIndex = 0
-                        const startTimeString = 0
-                        const endTimeString = 0
-                        let success = App.screenPlayManager.addWallpaperAtTimelineIndex(
+                        let success = App.screenPlayManager.setWallpaperAtTimelineIndex(
                                 root.type, cbVideoFillMode.currentValue,
                                 absoluteStoragePath, previewImage, screenFile,
                                 activeMonitors, volume, playbackRate, jsonProperties,
-                                timelineIndex,
-                                startTimeString,
-                                endTimeString,
+                                activeTimeline.activeTimelineIndex,
+                                activeTimeline.identifier,
                                 true)
                     }
                     if (App.util.isWidget(root.type))

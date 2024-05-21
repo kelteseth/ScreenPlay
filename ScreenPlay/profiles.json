@@ -1,16 +1,19 @@
 {
-  "version":"1.0.0",
-  "profilesWallpaper":[
-
- ],
- "profilesWidgets":[
-    {
-
-    }
- ],
- "profilesAppDrawer":[
-    {
-
-    }
- ]
+   "profiles": [
+       {
+           "appdrawer": [],
+           "name": "default",
+           "timelineWallpaper": [
+               {
+                   "name": "default",
+                   "startTime": "00:00:00",
+                   "endTime": "23:59:59",
+                   "wallpaper": [
+                   ]
+               }
+           ],
+           "widgets": []
+       }
+   ],
+   "version": "2.0.0"
 }

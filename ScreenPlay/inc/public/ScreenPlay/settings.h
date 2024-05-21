@@ -122,6 +122,9 @@ public:
     ScreenPlay::Settings::DesktopEnvironment desktopEnvironment() const { return m_desktopEnvironment; }
     const QString& buildInfos() const { return m_buildInfos; }
     bool showDefaultContent() const { return m_showDefaultContent; }
+    void writeDefaultProfiles();
+
+    QVersionNumber getProfilesVersion() const;
 
 signals:
     void requestRetranslation();
@@ -146,7 +149,7 @@ signals:
 
 public slots:
     void setupLanguage();
-    void writeJsonFileFromResource(const QString& filename);
+    void initProfilesSettings();
     void setupWidgetAndWindowPaths();
     bool retranslateUI();
 
@@ -167,7 +170,6 @@ public slots:
     void setBuildInfos(const QString& buildInfos);
 
 private:
-    void restoreDefault(const QString& appConfigLocation, const QString& settingsFileType);
     void initInstalledPath();
     void initSteamInstalledPath();
     QString fixLanguageCode(const QString& languageCode);
@@ -192,5 +194,7 @@ private:
     QString m_font { "Roboto" };
     QString m_decoder;
     QString m_buildInfos;
+
+    QVersionNumber m_profilesVersion { 2, 0, 0 };
 };
 }
