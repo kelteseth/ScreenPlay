@@ -174,7 +174,7 @@ private:
     bool removeWallpaper(const QString& appID);
     bool removeWidget(const QString& appID);
     std::optional<std::shared_ptr<WallpaperTimelineSection>> loadTimelineWallpaperConfig(const QJsonObject& timelineObj);
-    std::shared_ptr<WallpaperTimelineSection> findActiveSection();
+    std::shared_ptr<WallpaperTimelineSection> findActiveWallpaperTimelineSection();
 
 private:
     std::shared_ptr<GlobalVariables> m_globalVariables;
@@ -182,7 +182,6 @@ private:
     std::shared_ptr<Settings> m_settings;
     std::unique_ptr<QLocalServer> m_server;
 
-    std::shared_ptr<WallpaperTimelineSection> m_activeWallpaperTimeline;
     QVector<std::shared_ptr<WallpaperTimelineSection>> m_wallpaperTimelineSectionsList;
     QVector<std::shared_ptr<ScreenPlayWidget>> m_screenPlayWidgets;
     std::vector<std::unique_ptr<SDKConnection>> m_unconnectedClients;

@@ -98,8 +98,6 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
 
     setAnonymousTelemetry(m_qSettings.value("AnonymousTelemetry", true).toBool());
 
-
-
     initProfilesSettings();
 
     initInstalledPath();
@@ -124,22 +122,22 @@ void Settings::initProfilesSettings()
     // TODO version check
     const auto jsonObjOpt = Util().openJsonFileToObject(defaultProfilesFilePath);
     if (jsonObjOpt.has_value()) {
-        const QJsonObject  profilesSettings = jsonObjOpt.value();
-        if(!profilesSettings.contains("version"))
+        const QJsonObject profilesSettings = jsonObjOpt.value();
+        if (!profilesSettings.contains("version"))
             return writeDefaultProfiles();
 
         const auto profilesSettingsVersion = QVersionNumber::fromString(profilesSettings.value("version").toString());
 
-        if(profilesSettingsVersion.isNull())
+        if (profilesSettingsVersion.isNull())
             return writeDefaultProfiles();
 
-        if(profilesSettingsVersion < m_profilesVersion)
+        if (profilesSettingsVersion < m_profilesVersion)
             return writeDefaultProfiles();
     }
-
 }
 
-void Settings::writeDefaultProfiles(){
+void Settings::writeDefaultProfiles()
+{
     QFileInfo fileInfo(m_globalVariables->localSettingsPath().toString() + "/profiles.json");
     QFile profilesFile(fileInfo.absoluteFilePath());
 

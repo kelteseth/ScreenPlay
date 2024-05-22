@@ -31,6 +31,27 @@ struct WallpaperData {
     ContentTypes::InstalledType type = ContentTypes::InstalledType::Unknown;
     Video::FillMode fillMode = Video::FillMode::Fill;
     QVector<int> monitors;
+    QJsonObject serialize() const {
+        QJsonObject data;
+        data.insert("isLooping", isLooping);
+        data.insert("absolutePath", absolutePath);
+        data.insert("previewImage", previewImage);
+        data.insert("playbackRate", playbackRate);
+        data.insert("volume", volume);
+        data.insert("file", file);
+        data.insert("properties", properties);
+        data.insert("type",  QVariant::fromValue(type).toString() );
+        data.insert("fillMode",  QVariant::fromValue(fillMode).toString());
+
+        // Serialize QVector<int> monitors
+        QJsonArray monitorArray;
+        for (int monitor : monitors) {
+            monitorArray.append(monitor);
+        }
+        data.insert("monitors", monitorArray);
+
+        return data;
+    }
 };
 
 class ScreenPlayWallpaper;
@@ -38,7 +59,7 @@ class ScreenPlayWallpaper;
 // WallpaperTimeline. Only the active timeline section has
 // a filled vector of ScreenPlayWallpaper
 struct WallpaperTimelineSection {
-    bool active = false;
+    bool isActive = false;
 
     QString identifier;
     int index = 0; // Needed to check
