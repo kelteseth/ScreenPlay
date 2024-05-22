@@ -4,9 +4,8 @@
 
 #include <QObject>
 #include <QPoint>
-#include <QVariantMap>
 #include <QProcess>
-#include <QtWebSockets/QWebSocket>
+#include <QVariantMap>
 
 #include "ScreenPlayUtil/projectfile.h"
 #include "ScreenPlayUtil/util.h"
@@ -51,7 +50,6 @@ public:
     Q_INVOKABLE bool removeAllWidgets(bool saveToProfile = false);
     Q_INVOKABLE bool removeWallpaperAt(const int index);
 
-
     Q_INVOKABLE ScreenPlayWallpaper* getWallpaperByAppID(const QString& appID);
 
     Q_INVOKABLE bool moveTimelineAt(
@@ -62,12 +60,11 @@ public:
 
     Q_INVOKABLE QString getTimeString(double relativeLinePosition);
 
-
     Q_INVOKABLE bool addTimelineAt(
         const int index,
         const float reltiaveLinePosition,
         QString identifier);
-
+    Q_INVOKABLE void removeAllTimlineSections();
     Q_INVOKABLE bool removeTimelineAt(const int index);
     Q_INVOKABLE QVariantMap initialStopPositions();
     Q_INVOKABLE bool setWallpaperAtTimelineIndex(
@@ -184,8 +181,6 @@ private:
     std::shared_ptr<MonitorListModel> m_monitorListModel;
     std::shared_ptr<Settings> m_settings;
     std::unique_ptr<QLocalServer> m_server;
-    std::unique_ptr<QWebSocketServer> m_websocketServer;
-    QVector<QWebSocket*> m_connections;
 
     std::shared_ptr<WallpaperTimelineSection> m_activeWallpaperTimeline;
     QVector<std::shared_ptr<WallpaperTimelineSection>> m_wallpaperTimelineSectionsList;
@@ -201,6 +196,5 @@ private:
     // We use a 24 hour system
     const QString m_timelineTimeFormat = "hh:mm:ss";
     const quint16 m_webSocketPort = 16395;
-
 };
 }

@@ -63,7 +63,15 @@ Control {
             }
             timeLine.sectionsList = []
 
-            init()
+            App.screenPlayManager.removeAllTimlineSections()
+
+            const position = 1.0
+            const identifier = App.util.generateRandomString(4);
+            const sectionObject = timeLine.addSection(identifier,position)
+            App.screenPlayManager.addTimelineAt(
+                sectionObject.index,
+                sectionObject.relativeLinePosition,
+                sectionObject.identifier)
         }
 
         function createAllSections(initialStopPositions) {
@@ -242,11 +250,13 @@ Control {
 
 
                 //timeLine.sectionsList[i].relativeLinePosition =prevPos / timeLine.width
-                //print("sections: ", i, "prev minimum ",prevPos,"next maximum", nextPos,  timeLine.sectionsList[i].relativeLinePosition)
+                print("sections: ", i, "prev minimum ",prevPos,"next maximum", nextPos,  timeLine.sectionsList[i].relativeLinePosition)
             }
+            print("++++++++++++++++++")
             for (let i = 0; i < timeLine.sectionsList.length; i++) {
                 let section = timeLine.sectionsList[i]
                 section.relativeLinePosition = section.lineHandle.linePosition
+                // print(section.relativeLinePosition, section.lineHandle.lineMinimum, section.lineHandle.lineMaximum)
             }
             updateIndicatorPositions()
             updateLastHandle()
@@ -342,7 +352,7 @@ Control {
                 text: "➕"
                 onClicked: {
                     const p = this.x / timeLine.width
-                    const position = p.toFixed(2)
+                    const position = p.toFixed(4)
                     const identifier = App.util.generateRandomString(4);
                     const sectionObject = timeLine.addSection(identifier,position)
                     App.screenPlayManager.addTimelineAt(

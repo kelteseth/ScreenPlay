@@ -93,7 +93,6 @@ void ScreenPlayManager::checkActiveWallpaperTimeline()
     // TODO: Check if we can reuse some active wallpaper
 }
 
-
 /*!
     \brief Qml function, because we cannot create the WallpaperData in qml.
 */
@@ -125,12 +124,12 @@ bool ScreenPlayManager::setWallpaperAtTimelineIndex(
     for (auto& timelineSection : m_wallpaperTimelineSectionsList) {
         const bool sameIndex = timelineSection->index == timelineIndex;
         const bool sameIdentifier = timelineSection->identifier == identifier;
-        if(sameIndex && sameIdentifier){
+        if (sameIndex && sameIdentifier) {
             // TODO vec
-            timelineSection->wallpaperData = {wallpaperData};
+            timelineSection->wallpaperData = { wallpaperData };
             break;
-        }  else if(sameIdentifier || sameIdentifier){
-            qCritical()<< "Invalid";
+        } else if (sameIdentifier || sameIdentifier) {
+            qCritical() << "Invalid";
         }
     }
 
@@ -281,13 +280,13 @@ bool ScreenPlayManager::removeAllWallpapers(bool saveToProfile)
 {
 
     if (m_wallpaperTimelineSectionsList.empty()) {
-        qWarning() << "Trying to remove all Wallpapers while m_screenPlayWallpapers is not empty.";
         return false;
     }
 
     QStringList appIDs;
     auto activeTimelineSection = findActiveSection();
     if (!activeTimelineSection) {
+        qWarning() << "Trying to remove all Wallpapers while findActiveSection is empty.";
         return false;
     }
     // Do not remove items from the vector you iterate on.
@@ -313,7 +312,6 @@ bool ScreenPlayManager::removeAllWallpapers(bool saveToProfile)
 bool ScreenPlayManager::removeAllWidgets(bool saveToProfile)
 {
     if (m_screenPlayWidgets.empty()) {
-        qWarning() << "Trying to remove all Widgets while m_screenPlayWidgets is empty.";
         return false;
     }
 
@@ -438,8 +436,8 @@ ScreenPlayWallpaper* ScreenPlayManager::getWallpaperByAppID(const QString& appID
     return nullptr;
 }
 
-       // We always handle the endTimeString, because it is the handle for the
-       // timeline. The last, default, timeline does not have a handle.
+// We always handle the endTimeString, because it is the handle for the
+// timeline. The last, default, timeline does not have a handle.
 bool ScreenPlayManager::moveTimelineAt(const int index, const QString identifier, const float relativePosition, QString positionTimeString)
 {
     m_contentTimer.stop();
@@ -466,11 +464,16 @@ bool ScreenPlayManager::moveTimelineAt(const int index, const QString identifier
         wallpapterTimelineSectionNext->startTime = newPositionTime;
     }
     printTimelines();
+    emit requestSaveProfiles();
     return true;
 }
 
 QString ScreenPlayManager::getTimeString(double relativeLinePosition)
 {
+    if (relativeLinePosition == 1.0) {
+        // We overwrite the endTime here
+        return "23:59:59";
+    }
     const double totalHours = relativeLinePosition * 24;
     int hours = static_cast<int>(std::floor(totalHours)); // Gets the whole hour part
     double fractionalHours = totalHours - hours;
@@ -545,21 +548,49 @@ bool ScreenPlayManager::addTimelineAt(const int index, const float reltiaveLineP
     newTimelineSection->index = index;
     newTimelineSection->identifier = identifier;
     newTimelineSection->endTime = newStopPositionTime;
-    // We can use the given index here, because it points
-    // the the current item at that index, and we have not yet
-    // added our new timelineSection to our list.
-    newTimelineSection->startTime = m_wallpaperTimelineSectionsList.at(index)->startTime;
+    // In case we do a full reset, we must set the start time manually
+    if (m_wallpaperTimelineSectionsList.empty()) {
+        newTimelineSection->startTime = QTime::fromString("00:00:00", m_timelineTimeFormat);
+    } else {
+
+        // We can use the given index here, because it points
+        // the the current item at that index, and we have not yet
+        // added our new timelineSection to our list.
+        newTimelineSection->startTime = m_wallpaperTimelineSectionsList.at(index)->startTime;
+    }
 
     const bool isLast = (m_wallpaperTimelineSectionsList.length() - 1) == index;
-    if(isLast){
-        m_wallpaperTimelineSectionsList.last()->startTime =  newTimelineSection->endTime;
+    if (isLast) {
+        m_wallpaperTimelineSectionsList.last()->startTime = newTimelineSection->endTime;
     }
 
     m_wallpaperTimelineSectionsList.append(newTimelineSection);
 
     updateIndices();
     printTimelines();
+    emit requestSaveProfiles();
     return true;
+}
+
+void ScreenPlayManager::removeAllTimlineSections()
+{
+    m_contentTimer.stop();
+    auto updateTimer = qScopeGuard([this] { m_contentTimer.start(); });
+
+    // First check if there is any active wallpaper that we save in
+    // this shared ptr. We can have many timlines, but the current timeline
+    // can have no active wallpaper
+    if (m_activeWallpaperTimeline) {
+        // Close the localsocket
+        for (auto& activeWallpaper : m_activeWallpaperTimeline->activeWallpaperList) {
+            activeWallpaper->close();
+        }
+        // Reset all active wallpaper
+        m_activeWallpaperTimeline->activeWallpaperList.clear();
+        m_activeWallpaperTimeline.reset();
+    }
+
+    m_wallpaperTimelineSectionsList.clear();
 }
 
 bool ScreenPlayManager::removeTimelineAt(const int index)
@@ -603,9 +634,9 @@ bool ScreenPlayManager::removeTimelineAt(const int index)
     // check for the timelineAfter, because the last timeline
     // cannot be deleted
     QTime endTime;
-    if(index == 0){
+    if (index == 0) {
         endTime = QTime::fromString("00:00:00", m_timelineTimeFormat);
-    }else {
+    } else {
         endTime = m_wallpaperTimelineSectionsList.at(index - 1)->endTime;
     }
     auto timelineAfter = m_wallpaperTimelineSectionsList.at(index + 1);
@@ -618,9 +649,8 @@ bool ScreenPlayManager::removeTimelineAt(const int index)
     m_wallpaperTimelineSectionsList.removeAt(index);
     updateIndices();
     printTimelines();
-    return true;
 
-    printTimelines();
+    emit requestSaveProfiles();
     return true;
 }
 
@@ -628,7 +658,7 @@ void ScreenPlayManager::printTimelines()
 {
     std::cout << "#############################\n";
     for (auto& timeline : m_wallpaperTimelineSectionsList) {
-        std::cout <<timeline->index << ": " << timeline->identifier.toStdString() <<  "\t" << timeline->relativePosition << " start: " << timeline->startTime.toString().toStdString() << " end: " << timeline->endTime.toString().toStdString() << std::endl;
+        std::cout << timeline->index << ": " << timeline->identifier.toStdString() << "\t" << timeline->relativePosition << " start: " << timeline->startTime.toString().toStdString() << " end: " << timeline->endTime.toString().toStdString() << std::endl;
     }
 }
 
@@ -636,7 +666,7 @@ QVariantMap ScreenPlayManager::initialStopPositions()
 {
     QVariantMap sectionPositions;
     for (const auto& timelineSection : m_wallpaperTimelineSectionsList) {
-        sectionPositions.insert({timelineSection->identifier},{timelineSection->relativePosition});
+        sectionPositions.insert({ timelineSection->identifier }, { timelineSection->relativePosition });
     }
     return sectionPositions;
 }
@@ -796,30 +826,39 @@ bool ScreenPlayManager::saveProfiles()
 {
     m_saveLimiter.stop();
 
-    // QJsonArray wallpaper {};
-    // for (const auto& activeWallpaper : std::as_const(m_screenPlayWallpapers)) {
-    //     wallpaper.append(activeWallpaper->getActiveSettingsJson());
-    // }
+    QJsonArray timelineWallpaperList {};
+    for (const auto& activeTimelineWallpaper : std::as_const(m_wallpaperTimelineSectionsList)) {
+        QJsonObject timelineWallpaper;
+        timelineWallpaper.insert("startTime", activeTimelineWallpaper->startTime.toString());
+        timelineWallpaper.insert("endTime", activeTimelineWallpaper->endTime.toString());
+        QJsonArray wallpaper;
+        for (const auto& activeWallpaper : activeTimelineWallpaper->activeWallpaperList) {
+            wallpaper.append(activeWallpaper->getActiveSettingsJson());
+        }
+        timelineWallpaper.insert("wallpaper", wallpaper);
 
-    QJsonArray widgets {};
+        timelineWallpaperList.append(timelineWallpaper);
+    }
+
+    QJsonArray widgetList {};
     for (const auto& activeWidget : std::as_const(m_screenPlayWidgets)) {
-        widgets.append(activeWidget->getActiveSettingsJson());
+        widgetList.append(activeWidget->getActiveSettingsJson());
     }
 
     QJsonObject profileDefault;
-    profileDefault.insert("appdrawer", QJsonArray {});
-    profileDefault.insert("widgets", widgets);
-    // profileDefault.insert("wallpaper", wallpaper);
+    profileDefault.insert("widgets", widgetList);
+    profileDefault.insert("timelineWallpaper", timelineWallpaperList);
     profileDefault.insert("name", "default");
 
     QJsonArray activeProfileList;
     activeProfileList.append(profileDefault);
 
     QJsonObject profile;
-    profile.insert("version", "1.0.0");
+    profile.insert("version", m_settings->getProfilesVersion().toString());
     profile.insert("profiles", activeProfileList);
 
-    if (Util().writeJsonObjectToFile({ m_globalVariables->localSettingsPath().toString() + "/profiles.json" }, profile)) {
+    Util util;
+    if (util.writeJsonObjectToFile({ m_globalVariables->localSettingsPath().toString() + "/profiles.json" }, profile)) {
         emit profilesSaved();
         return true;
     }

@@ -46,7 +46,8 @@ struct WallpaperTimelineSection {
     QTime startTime;
     QTime endTime;
     // Data from the profiles.json that we need when we
-    // enable this section of the pipeline
+    // enable this section of the pipeline. We keep a copy
+    // here when this timeline needs to become active
     std::vector<WallpaperData> wallpaperData;
     // All active wallpaper.
     std::vector<std::shared_ptr<ScreenPlayWallpaper>> activeWallpaperList;

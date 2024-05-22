@@ -112,7 +112,7 @@ public:
     QString toString(const QStringList& list) const;
     std::optional<QVector<int>> parseStringToIntegerList(const QString& string) const;
     float roundDecimalPlaces(const float number) const;
-   Q_INVOKABLE QString generateRandomString(quint32 length = 32);
+    Q_INVOKABLE QString generateRandomString(quint32 length = 32);
     QString executableAppEnding();
     QString executableBinEnding();
     QStringList getAvailableWallpaper() const;
