@@ -41,6 +41,13 @@ Item {
         color: dragHandler.active ? "orange" : "white"
         anchors.fill: parent
     }
+    MouseArea {
+        hoverEnabled: true
+        propagateComposedEvents: false
+        anchors.centerIn: parent
+        width: 50
+        height: 50
+    }
 
     Text {
         id: txt
