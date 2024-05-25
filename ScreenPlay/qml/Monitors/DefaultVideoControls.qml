@@ -79,22 +79,28 @@ ColumnLayout {
             textRole: "text"
             valueRole: "value"
             currentIndex: root.indexOfValue(settingsComboBox.model, App.settings.videoFillMode)
-            model: [{
+            model: [
+                {
                     "value": Util.Video.FillMode.Stretch,
                     "text": qsTr("Stretch")
-                }, {
+                },
+                {
                     "value": Util.Video.FillMode.Fill,
                     "text": qsTr("Fill")
-                }, {
+                },
+                {
                     "value": Util.Video.FillMode.Contain,
                     "text": qsTr("Contain")
-                }, {
+                },
+                {
                     "value": Util.Video.FillMode.Cover,
                     "text": qsTr("Cover")
-                }, {
+                },
+                {
                     "value": Util.Video.FillMode.Scale_Down,
                     "text": qsTr("Scale_Down")
-                }]
+                }
+            ]
             onActivated: {
                 App.screenPlayManager.setWallpaperFillModeAtMonitorIndex(activeMonitorIndex, settingsComboBox.currentValue);
             }

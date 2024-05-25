@@ -54,8 +54,8 @@ Drawer {
             if (tags.length > 1) {
                 for (var i in tags) {
                     tagListModel.append({
-                            "name": tags[i]
-                        });
+                        "name": tags[i]
+                    });
                 }
                 rpTagList.model = tagListModel;
             } else {
@@ -284,7 +284,7 @@ Drawer {
             Rectangle {
                 Layout.fillWidth: true
                 Layout.minimumHeight: 150
-                Layout.fillHeight: true //txtDescription.paintedHeight > 100
+                //txtDescription.paintedHeight > 100
                 color: Material.backgroundColor
                 radius: 3
 

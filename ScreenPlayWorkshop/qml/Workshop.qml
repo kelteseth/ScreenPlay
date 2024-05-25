@@ -5,7 +5,6 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Layouts
 import ScreenPlayApp
 
-
 Item {
     id: root
 
@@ -14,8 +13,8 @@ Item {
     Component.onCompleted: {
         if (App.globalVariables.isSteamVersion()) {
             workshopLoader.setSource("qrc:/qml/ScreenPlayApp/qml/Workshop/SteamWorkshop.qml", {
-                    "modalSource": modalSource
-                });
+                "modalSource": modalSource
+            });
         } else {
             workshopLoader.setSource("qrc:/qml/ScreenPlayApp/qml/Workshop/Forum.qml");
         }

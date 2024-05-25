@@ -48,8 +48,7 @@ Rectangle {
         onPositionChanged: {
             setPosition();
         }
-        onClicked: {
-        }
+        onClicked: {}
     }
 
     Rectangle {
@@ -213,8 +212,8 @@ Rectangle {
             text: "Exit"
             onClicked: {
                 Qt.callLater(function () {
-                        Wallpaper.terminate();
-                    });
+                    Wallpaper.terminate();
+                });
             }
         }
     }

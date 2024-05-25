@@ -81,7 +81,6 @@ Item {
                         value: Video.VideoCodec.VP8
                         text: qsTr("VP8 (Better for older hardware)")
                     }
-
                 }
             }
         }
@@ -111,8 +110,7 @@ Item {
         icon.width: 16
         icon.height: 16
         font.family: App.settings.font
-        onClicked: Qt.openUrlExternally(
-                       "https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/#performance")
+        onClicked: Qt.openUrlExternally("https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/#performance")
 
         anchors {
             bottom: parent.bottom
@@ -126,7 +124,7 @@ Item {
         highlighted: true
         font.family: App.settings.font
         onClicked: {
-            root.next(comboBoxCodec.currentValue, sliderQuality.value)
+            root.next(comboBoxCodec.currentValue, sliderQuality.value);
         }
         anchors {
             right: parent.right

@@ -10,25 +10,19 @@ import ScreenPlayUtil as Util
 WizardPage {
     id: root
     function isValidURL(string) {
-        var res = string.match(
-                    /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g)
-        return (res !== null)
+        var res = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+        return (res !== null);
     }
     sourceComponent: ColumnLayout {
         id: layout
         function validate() {
-            root.ready = tfTitle.text.length >= 1 && root.isValidURL(tfUrl.text)
+            root.ready = tfTitle.text.length >= 1 && root.isValidURL(tfUrl.text);
         }
 
         function create() {
-            App.wizards.createWebsiteWallpaper(tfTitle.text,
-                                               previewSelector.imageSource,
-                                               tfUrl.text, tagSelector.getTags(
-                                                   )).then(result => {
-                                                               wizardFinished(
-                                                                   result.success,
-                                                                   result.message)
-                                                           })
+            App.wizards.createWebsiteWallpaper(tfTitle.text, previewSelector.imageSource, tfUrl.text, tagSelector.getTags()).then(result => {
+                wizardFinished(result.success, result.message);
+            });
         }
 
         spacing: 10

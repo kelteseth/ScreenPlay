@@ -6,7 +6,6 @@ import QtQuick.Layouts
 import QtQml.XmlListModel
 import ScreenPlayApp
 
-
 Item {
     id: root
 

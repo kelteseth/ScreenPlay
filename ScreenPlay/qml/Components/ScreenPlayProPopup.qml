@@ -83,7 +83,7 @@ Dialog {
             id: txtHeadline
 
             y: 80
-            text:  qsTr("✅ 3D Wallpaper\n✅ Wallpaper Timeline")
+            text: qsTr("✅ 3D Wallpaper\n✅ Wallpaper Timeline")
             font.family: App.settings.font
             font.capitalization: Font.Capitalize
             wrapMode: Text.WordWrap
@@ -122,14 +122,14 @@ Dialog {
             font.pointSize: 16
             width: implicitWidth + 20
             height: implicitHeight + 10
-            icon.source:  "qrc:/qml/ScreenPlayApp/assets/icons/icon_community.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_community.svg"
             icon.width: 18
             icon.height: 18
             onClicked: {
                 if (App.globalVariables.isSteamVersion()) {
-                    Qt.openUrlExternally("https://forum.screen-play.app/")
+                    Qt.openUrlExternally("https://forum.screen-play.app/");
                 } else {
-                    Qt.openUrlExternally("https://forum.screen-play.app/")
+                    Qt.openUrlExternally("https://forum.screen-play.app/");
                 }
             }
 
@@ -306,7 +306,6 @@ Dialog {
                         duration: 1500
                         easing.type: Easing.OutBack
                     }
-
                 }
             }
         ]

@@ -16,7 +16,7 @@ Rectangle {
         id: text
         color: "white"
         //text: root.index
-        anchors{
+        anchors {
             horizontalCenter: parent.horizontalCenter
             bottom: parent.bottom
             bottomMargin: 10
@@ -27,15 +27,14 @@ Rectangle {
         color: "gold"
         anchors.fill: parent
         visible: root.selected
-
     }
 
     Rectangle {
         id: indicatorLineVertical
         width: 5
         height: 30
-        color:  root.selected ?  "gold"  : parent.color
-        anchors{
+        color: root.selected ? "gold" : parent.color
+        anchors {
             horizontalCenter: parent.horizontalCenter
             top: parent.bottom
             topMargin: 0
@@ -50,7 +49,7 @@ Rectangle {
         border.width: root.selected ? 2 : 0
         border.color: "gold"
         color: parent.color
-        anchors{
+        anchors {
             horizontalCenter: parent.horizontalCenter
             top: indicatorLineVertical.bottom
             topMargin: -1
@@ -58,27 +57,26 @@ Rectangle {
         MouseArea {
             anchors.fill: parent
             hoverEnabled: true
-            onClicked:{
-                root.lineSelected(root.index)
+            onClicked: {
+                root.lineSelected(root.index);
             }
         }
         Text {
             anchors.centerIn: parent
-            text: root.index + " - "+ root.identifier
+            text: root.index + " - " + root.identifier
         }
     }
     ToolButton {
-        text:"❌"
+        text: "❌"
         visible: !root.isLast
         enabled: visible
         onClicked: root.remove(root.index)
         font.pointSize: 10
 
-
-        anchors{
+        anchors {
             left: background.right
             bottom: background.top
-            margins: - 20
+            margins: -20
         }
     }
 }

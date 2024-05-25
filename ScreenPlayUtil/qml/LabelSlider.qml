@@ -4,7 +4,6 @@ import QtQuick.Layouts
 import QtQuick.Controls as QQC
 import ScreenPlayApp
 
-
 Item {
     id: root
 

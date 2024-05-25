@@ -3,7 +3,6 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import ScreenPlayApp
 
-
 Item {
     id: tag
 

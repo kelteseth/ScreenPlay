@@ -36,13 +36,13 @@ Rectangle {
             id: loaderConnections
 
             function onWizardStarted() {
-                root.expanded = false
+                root.expanded = false;
             }
 
             function onWizardExited() {
-                root.expanded = true
-                App.util.setNavigation("Installed")
-                App.util.setNavigationActive(true)
+                root.expanded = true;
+                App.util.setNavigation("Installed");
+                App.util.setNavigationActive(true);
             }
 
             ignoreUnknownSignals: true
@@ -145,15 +145,14 @@ Rectangle {
             text: headline
             onClicked: {
                 if (proFeature && App.globalVariables.isBasicVersion())
-                    return screenPlayProView.open()
-
-                listView.currentIndex = index
-                const item = stackView.push(source)
-                loaderConnections.target = item
+                    return screenPlayProView.open();
+                listView.currentIndex = index;
+                const item = stackView.push(source);
+                loaderConnections.target = item;
             }
             ToolButton {
                 enabled: false
-                visible: proFeature  && App.globalVariables.isBasicVersion()
+                visible: proFeature && App.globalVariables.isBasicVersion()
                 icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/font-awsome/lock-solid.svg"
                 icon.width: 10
                 icon.height: 10

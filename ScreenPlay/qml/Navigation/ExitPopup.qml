@@ -19,8 +19,7 @@ Util.Popup {
     id: root
     property ApplicationWindow applicationWindow
     contentItem: Pane {
-        background: Item {
-        }
+        background: Item {}
         padding: 20
         bottomPadding: 10
         ColumnLayout {

@@ -4,7 +4,6 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material
 import ScreenPlayApp
 
-
 Rectangle {
     id: root
 
@@ -69,7 +68,7 @@ Rectangle {
     }
 
     function resize() {
-        print("resize")
+        print("resize");
         var absoluteDesktopSize = App.monitorListModel.absoluteDesktopSize();
         var isWidthGreaterThanHeight = false;
         var windowsDelta = 0;

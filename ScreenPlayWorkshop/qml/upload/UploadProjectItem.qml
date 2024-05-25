@@ -497,8 +497,7 @@ Page {
             State {
                 name: "uploading"
 
-                PropertyChanges {
-                }
+                PropertyChanges {}
             },
             State {
                 name: "uploadComplete"

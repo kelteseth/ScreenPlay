@@ -25,7 +25,6 @@ Item {
         return hours.toString().padStart(2, '0') + ":" + minutes.toString().padStart(2, '0');
     }
 
-
     property real lineMinimum: .5
     property real lineMaximum: .5
     property bool isLast: false
@@ -54,7 +53,7 @@ Item {
         text: root.timeString
         color: "white"
         visible: !root.isLast
-        anchors{
+        anchors {
             horizontalCenter: parent.horizontalCenter
             bottom: parent.bottom
             bottomMargin: -20
@@ -71,8 +70,8 @@ Item {
             minimum: root.lineMinimum
             maximum: root.lineMaximum
             onActiveValueChanged: delta => {
-                                      root.handleMoved(root)
-                                  }
+                root.handleMoved(root);
+            }
         }
     }
 }

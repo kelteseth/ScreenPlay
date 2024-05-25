@@ -6,7 +6,6 @@ import QtQuick.Dialogs
 import Qt5Compat.GraphicalEffects
 import ScreenPlayApp
 
-
 Item {
     id: root
 

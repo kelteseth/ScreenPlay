@@ -33,21 +33,21 @@ Rectangle {
             break;
         case ContentTypes.InstalledType.HTMLWallpaper:
             loader.setSource("qrc:/qml/ScreenPlayWallpaper/qml/WebsiteWallpaper.qml", {
-                    "url": Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute)
-                });
+                "url": Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute)
+            });
             break;
         case ContentTypes.InstalledType.QMLWallpaper:
             loader.source = Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute);
             break;
         case ContentTypes.InstalledType.WebsiteWallpaper:
             loader.setSource("qrc:/qml/ScreenPlayWallpaper/qml/WebsiteWallpaper.qml", {
-                    "url": Wallpaper.projectSourceFileAbsolute
-                });
+                "url": Wallpaper.projectSourceFileAbsolute
+            });
             break;
         case ContentTypes.InstalledType.GifWallpaper:
             loader.setSource("qrc:/qml/ScreenPlayWallpaper/qml/GifWallpaper.qml", {
-                    "source": Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute)
-                });
+                "source": Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute)
+            });
             break;
         }
     }
@@ -193,11 +193,11 @@ Rectangle {
                 // Must be callLater so we do not kill on startup
                 // See  emit window.qmlStart();
                 Qt.callLater(function () {
-                        loader.source = "";
-                        Qt.callLater(function () {
-                                Wallpaper.terminate();
-                            });
+                    loader.source = "";
+                    Qt.callLater(function () {
+                        Wallpaper.terminate();
                     });
+                });
             }
         }
     }

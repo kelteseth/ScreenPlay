@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls.Material
 import ScreenPlayApp
 
-
 Item {
     id: root
 

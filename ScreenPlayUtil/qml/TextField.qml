@@ -5,7 +5,6 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import ScreenPlayApp
 
-
 ColumnLayout {
     id: root
 

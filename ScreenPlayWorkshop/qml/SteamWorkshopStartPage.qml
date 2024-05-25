@@ -252,10 +252,10 @@ Item {
                         icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_account_circle.svg"
                         onClicked: {
                             stackView.push("qrc:/qml/ScreenPlayWorkshop/qml/SteamProfile.qml", {
-                                    "screenPlayWorkshop": root.screenPlayWorkshop,
-                                    "steamWorkshop": root.steamWorkshop,
-                                    "stackView": root.stackView
-                                });
+                                "screenPlayWorkshop": root.screenPlayWorkshop,
+                                "steamWorkshop": root.steamWorkshop,
+                                "stackView": root.stackView
+                            });
                         }
                     }
 
@@ -272,10 +272,10 @@ Item {
                         icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_file_upload.svg"
                         onClicked: {
                             stackView.push("qrc:/qml/ScreenPlayWorkshop/qml/upload/UploadProject.qml", {
-                                    "screenPlayWorkshop": root.screenPlayWorkshop,
-                                    "steamWorkshop": root.steamWorkshop,
-                                    "stackView": root.stackView
-                                });
+                                "screenPlayWorkshop": root.screenPlayWorkshop,
+                                "steamWorkshop": root.steamWorkshop,
+                                "stackView": root.stackView
+                            });
                         }
                     }
 
@@ -320,13 +320,13 @@ Item {
                                 print("EDITING FINISHED", root.state);
                                 if (tiSearch.text === "") {
                                     Qt.callLater(function () {
-                                            root.steamWorkshop.searchWorkshop(Util.Steam.EUGCQuery.K_EUGCQuery_RankedByTrend);
-                                        });
+                                        root.steamWorkshop.searchWorkshop(Util.Steam.EUGCQuery.K_EUGCQuery_RankedByTrend);
+                                    });
                                     return;
                                 }
                                 Qt.callLater(function () {
-                                        root.steamWorkshop.searchWorkshopByText(tiSearch.text);
-                                    });
+                                    root.steamWorkshop.searchWorkshopByText(tiSearch.text);
+                                });
                             }
 
                             anchors {
@@ -346,14 +346,14 @@ Item {
                                     root.state = "searching";
                                     tiSearch.clear();
                                     Qt.callLater(function () {
-                                            root.steamWorkshop.searchWorkshop(Util.Steam.EUGCQuery.K_EUGCQuery_RankedByTrend);
-                                        });
+                                        root.steamWorkshop.searchWorkshop(Util.Steam.EUGCQuery.K_EUGCQuery_RankedByTrend);
+                                    });
                                     return;
                                 }
                                 root.state = "searching";
                                 Qt.callLater(function () {
-                                        root.steamWorkshop.searchWorkshopByText(tiSearch.text);
-                                    });
+                                    root.steamWorkshop.searchWorkshopByText(tiSearch.text);
+                                });
                             }
                             icon.width: 20
                             icon.height: 20
@@ -401,37 +401,48 @@ Item {
                         valueRole: "value"
                         currentIndex: 2
                         Layout.preferredHeight: searchWrapper.height
-                        model: [{
+                        model: [
+                            {
                                 "value": Util.Steam.EUGCQuery.K_EUGCQuery_RankedByVote,
                                 "text": qsTr("Ranked By Vote")
-                            }, {
+                            },
+                            {
                                 "value": Util.Steam.EUGCQuery.K_EUGCQuery_RankedByPublicationDate,
                                 "text": qsTr("Publication Date")
-                            }, {
+                            },
+                            {
                                 "value": Util.Steam.EUGCQuery.K_EUGCQuery_RankedByTrend,
                                 "text": qsTr("Ranked By Trend")
-                            }, {
+                            },
+                            {
                                 "value": Util.Steam.EUGCQuery.K_EUGCQuery_FavoritedByFriendsRankedByPublicationDate,
                                 "text": qsTr("Favorited By Friends")
-                            }, {
+                            },
+                            {
                                 "value": Util.Steam.EUGCQuery.K_EUGCQuery_CreatedByFriendsRankedByPublicationDate,
                                 "text": qsTr("Created By Friends")
-                            }, {
+                            },
+                            {
                                 "value": Util.Steam.EUGCQuery.K_EUGCQuery_CreatedByFollowedUsersRankedByPublicationDate,
                                 "text": qsTr("Created By Followed Users")
-                            }, {
+                            },
+                            {
                                 "value": Util.Steam.EUGCQuery.K_EUGCQuery_NotYetRated,
                                 "text": qsTr("Not Yet Rated")
-                            }, {
+                            },
+                            {
                                 "value": Util.Steam.EUGCQuery.K_EUGCQuery_RankedByTotalVotesAsc,
                                 "text": qsTr("Total VotesAsc")
-                            }, {
+                            },
+                            {
                                 "value": Util.Steam.EUGCQuery.K_EUGCQuery_RankedByVotesUp,
                                 "text": qsTr("Votes Up")
-                            }, {
+                            },
+                            {
                                 "value": Util.Steam.EUGCQuery.K_EUGCQuery_RankedByTotalUniqueSubscriptions,
                                 "text": qsTr("Total Unique Subscriptions")
-                            }]
+                            }
+                        ]
                         onActivated: {
                             root.state = "searching";
                             root.steamWorkshop.searchWorkshop(cbQuerySort.currentValue);

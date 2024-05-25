@@ -4,7 +4,6 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material
 import ScreenPlayApp
 
-
 Item {
     id: root
 
@@ -154,8 +153,8 @@ Item {
             onClicked: {
                 if (root.state === "add") {
                     listModel.append({
-                            "_name": textField.text
-                        });
+                        "_name": textField.text
+                    });
                     textField.clear();
                     root.state = "";
                 } else {

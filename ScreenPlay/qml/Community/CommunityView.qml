@@ -5,7 +5,6 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Layouts
 import ScreenPlayApp
 
-
 Item {
     id: root
 

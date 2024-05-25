@@ -13,8 +13,8 @@ Item {
     Component.onCompleted: {
         if (App.globalVariables.isSteamVersion()) {
             workshopLoader.setSource("qrc:/qml/ScreenPlayWorkshop/qml/SteamWorkshop.qml", {
-                    "modalSource": modalSource
-                });
+                "modalSource": modalSource
+            });
         } else {
             workshopLoader.setSource("qrc:/qml/ScreenPlayWorkshop/qml/Forum.qml");
         }

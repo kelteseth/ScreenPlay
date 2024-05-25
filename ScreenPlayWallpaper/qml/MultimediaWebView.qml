@@ -45,8 +45,8 @@ Item {
         onLoadProgressChanged: {
             if (loadProgress === 100) {
                 webView.runJavaScript(root.getSetVideoCommand(), function (result) {
-                        Wallpaper.requestFadeIn();
-                    });
+                    Wallpaper.requestFadeIn();
+                });
             }
         }
     }

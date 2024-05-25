@@ -4,7 +4,6 @@ import QtQuick.Controls.Material
 import QtQuick.Dialogs
 import ScreenPlayApp
 
-
 /*!
    \qmltype Image Selector
    \brief A image selector with popup preview.

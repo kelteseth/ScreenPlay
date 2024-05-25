@@ -17,11 +17,11 @@ Item {
         Component.onCompleted: {
             if (screenPlayWorkshop.init()) {
                 stackView.push("qrc:/qml/ScreenPlayWorkshop/qml/SteamWorkshopStartPage.qml", {
-                        "stackView": stackView,
-                        "screenPlayWorkshop": screenPlayWorkshop,
-                        "steamWorkshop": screenPlayWorkshop.steamWorkshop,
-                        "background": background
-                    });
+                    "stackView": stackView,
+                    "screenPlayWorkshop": screenPlayWorkshop,
+                    "steamWorkshop": screenPlayWorkshop.steamWorkshop,
+                    "background": background
+                });
             } else {
                 popupOffline.open();
             }

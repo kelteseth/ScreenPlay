@@ -3,7 +3,6 @@ import QtQuick.Window
 import Qt.labs.platform
 import ScreenPlayApp
 
-
 SystemTrayIcon {
     id: root
 

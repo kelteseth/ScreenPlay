@@ -6,12 +6,16 @@ Pane {
 
     Component.onCompleted: {
         // Add the second handle at 100% after the component is fully created
-        sliderHandles.append({"position": sliderLine.width});
+        sliderHandles.append({
+            "position": sliderLine.width
+        });
     }
 
     ListModel {
         id: sliderHandles
-        ListElement { position: 0 } // Initial handle at 0%
+        ListElement {
+            position: 0
+        } // Initial handle at 0%
     }
 
     Rectangle {
@@ -25,7 +29,9 @@ Pane {
             anchors.fill: parent
             onClicked: {
                 var newHandlePosition = Math.max(0, Math.min(mouseX, sliderLine.width));
-                sliderHandles.append({"position": newHandlePosition});
+                sliderHandles.append({
+                    "position": newHandlePosition
+                });
                 // Sort handles after adding a new one
                 sortHandles();
             }
@@ -51,7 +57,9 @@ Pane {
                 drag.maximumX: getMaximumX(index)
 
                 onReleased: {
-                    sliderHandles.set(index, {"position": handle.x + width / 2});
+                    sliderHandles.set(index, {
+                        "position": handle.x + width / 2
+                    });
                 }
             }
         }
@@ -66,9 +74,8 @@ Pane {
     }
 
     function sortHandles() {
-        sliderHandles.sort(function(a, b) {
+        sliderHandles.sort(function (a, b) {
             return a.position - b.position;
         });
     }
-
 }

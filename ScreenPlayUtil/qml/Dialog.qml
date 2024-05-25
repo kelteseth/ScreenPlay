@@ -6,7 +6,6 @@ import QtQuick.Controls.Material.impl
 import QtQuick.Controls.Material
 import ScreenPlayApp
 
-
 Dialog {
     id: root
     property Item modalSource

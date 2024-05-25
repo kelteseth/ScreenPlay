@@ -17,10 +17,10 @@ Item {
 
     function trigger() {
         var wave = ripple.createObject(container, {
-                "startX": root.width * 0.5,
-                "startY": root.height * 0.5,
-                "maxRadius": furthestDistance(root.width * 0.5, root.height * 0.5)
-            });
+            "startX": root.width * 0.5,
+            "startY": root.height * 0.5,
+            "maxRadius": furthestDistance(root.width * 0.5, root.height * 0.5)
+        });
     }
 
     function distance(x1, y1, x2, y2) {

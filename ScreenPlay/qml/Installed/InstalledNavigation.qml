@@ -34,8 +34,7 @@ Item {
         }
     }
 
-    Util.MouseHoverBlocker {
-    }
+    Util.MouseHoverBlocker {}
 
     Item {
         height: nav.height
@@ -49,8 +48,7 @@ Item {
         TabBar {
             height: parent.height
 
-            background: Item {
-            }
+            background: Item {}
             anchors {
                 top: parent.top
                 topMargin: 5
@@ -63,7 +61,7 @@ Item {
                 text: qsTr("All")
                 icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_installed.svg"
                 onClicked: {
-                    root.installedDrawer.close()
+                    root.installedDrawer.close();
                     App.installedListFilter.sortBySearchType(Util.ContentTypes.SearchType.All);
                 }
             }
@@ -72,7 +70,7 @@ Item {
                 text: qsTr("Scenes")
                 icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_code.svg"
                 onClicked: {
-                    root.installedDrawer.close()
+                    root.installedDrawer.close();
                     App.installedListFilter.sortBySearchType(Util.ContentTypes.SearchType.Scene);
                 }
             }
@@ -81,7 +79,7 @@ Item {
                 text: qsTr("Videos")
                 icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_movie.svg"
                 onClicked: {
-                    root.installedDrawer.close()
+                    root.installedDrawer.close();
                     App.installedListFilter.sortBySearchType(Util.ContentTypes.SearchType.Wallpaper);
                 }
             }
@@ -90,7 +88,7 @@ Item {
                 text: qsTr("Widgets")
                 icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_widgets.svg"
                 onClicked: {
-                    root.installedDrawer.close()
+                    root.installedDrawer.close();
                     App.installedListFilter.sortBySearchType(Util.ContentTypes.SearchType.Widget);
                 }
             }
@@ -162,8 +160,7 @@ Item {
         icon.width: 16
         height: parent.height
         width: implicitWidth
-        background: Item {
-        }
+        background: Item {}
         font.capitalization: Font.MixedCase
     }
 

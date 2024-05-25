@@ -200,7 +200,7 @@ Item {
                     if (!screenPlayItem.hasMenuOpen)
                         screenPlayItem.state = "visible";
                 }
-                onClicked: function(mouse) {
+                onClicked: function (mouse) {
                     checkBox.toggle();
                     if (mouse.button === Qt.LeftButton)
                         itemClicked(screenPlayItem.folderName, type, checkBox.checkState === Qt.Checked);

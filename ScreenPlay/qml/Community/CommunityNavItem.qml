@@ -3,7 +3,6 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import ScreenPlayApp
 
-
 TabButton {
     id: control
 
@@ -66,6 +65,5 @@ TabButton {
         }
     }
 
-    background: Item {
-    }
+    background: Item {}
 }

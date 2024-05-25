@@ -335,14 +335,7 @@ Item {
                 onClicked: {
                     if (conversionFinishedSuccessful) {
                         btnSave.enabled = false;
-                        App.create.saveWallpaper(
-                                    textFieldName.text,
-                                    textFieldDescription.text,
-                                    root.filePath,
-                                    previewSelector.imageSource,
-                                    textFieldYoutubeURL.text,
-                                    root.codec,
-                                    textFieldTags.getTags());
+                        App.create.saveWallpaper(textFieldName.text, textFieldDescription.text, root.filePath, previewSelector.imageSource, textFieldYoutubeURL.text, root.codec, textFieldTags.getTags());
                         savePopup.open();
                     }
                 }

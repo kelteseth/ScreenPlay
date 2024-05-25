@@ -11,31 +11,28 @@ Item {
     id: content
     anchors.fill: parent
     Component.onCompleted: {
-        stackView.push(
-                    "qrc:/qml/ScreenPlayApp/qml/Installed/InstalledView.qml")
-        startTimer.start()
+        stackView.push("qrc:/qml/ScreenPlayApp/qml/Installed/InstalledView.qml");
+        startTimer.start();
     }
 
-    function openExitDialog(){
-        exitDialog.open()
+    function openExitDialog() {
+        exitDialog.open();
     }
 
     Timer {
         id: startTimer
         interval: 10
-        onTriggered:  App.installedListModel.reset()
+        onTriggered: App.installedListModel.reset()
     }
 
-
     function switchPage(name) {
-
         if (nav.currentNavigationName === name) {
             if (name === "Installed")
                 App.installedListModel.reset();
         }
         stackView.replace("qrc:/qml/ScreenPlayApp/qml/" + name + "/" + name + "View.qml", {
-                "modalSource": content
-            });
+            "modalSource": content
+        });
         nav.setNavigation(name);
     }
 
@@ -93,7 +90,6 @@ Item {
         }
         target: App.screenPlayManager
     }
-
 
     StackView {
         id: stackView

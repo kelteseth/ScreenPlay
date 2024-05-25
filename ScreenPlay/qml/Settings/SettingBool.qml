@@ -4,7 +4,6 @@ import QtQuick.Layouts
 import QtQuick.Controls.Material
 import ScreenPlayApp
 
-
 Item {
     id: settingsBool
 

@@ -75,8 +75,7 @@ Item {
                     //     }
                     // }
 
-                    SettingsHorizontalSeperator {
-                    }
+                    SettingsHorizontalSeperator {}
 
                     SettingBool {
                         height: 70
@@ -88,8 +87,7 @@ Item {
                         }
                     }
 
-                    SettingsHorizontalSeperator {
-                    }
+                    SettingsHorizontalSeperator {}
 
                     SettingsButton {
                         headline: qsTr("Set save location")
@@ -133,8 +131,7 @@ Item {
                         }
                     }
 
-                    SettingsHorizontalSeperator {
-                    }
+                    SettingsHorizontalSeperator {}
 
                     SettingsComboBox {
                         id: settingsLanguage
@@ -199,15 +196,14 @@ Item {
                                 }
                             }
                             onActivated: {
-                                let language = settingsLanguage.comboBox.currentValue
+                                let language = settingsLanguage.comboBox.currentValue;
                                 App.settings.setLanguage(language);
                                 App.settings.retranslateUI();
                             }
                         }
                     }
 
-                    SettingsHorizontalSeperator {
-                    }
+                    SettingsHorizontalSeperator {}
 
                     SettingsComboBox {
                         id: settingsTheme
@@ -261,8 +257,7 @@ Item {
                         }
                     }
 
-                    SettingsHorizontalSeperator {
-                    }
+                    SettingsHorizontalSeperator {}
 
                     SettingsComboBox {
                         id: cbVideoFillMode
@@ -446,8 +441,7 @@ Item {
                         }
                     }
 
-                    SettingsHorizontalSeperator {
-                    }
+                    SettingsHorizontalSeperator {}
 
                     SettingsButton {
                         icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_launch.svg"
@@ -457,8 +451,7 @@ Item {
                         onButtonPressed: Qt.openUrlExternally("https://gitlab.com/kelteseth/ScreenPlay/-/releases")
                     }
 
-                    SettingsHorizontalSeperator {
-                    }
+                    SettingsHorizontalSeperator {}
 
                     SettingsButton {
                         headline: qsTr("Third Party Software")
@@ -482,8 +475,7 @@ Item {
                         }
                     }
 
-                    SettingsHorizontalSeperator {
-                    }
+                    SettingsHorizontalSeperator {}
 
                     SettingsButton {
                         headline: qsTr("Logs")
@@ -495,8 +487,7 @@ Item {
                         }
                     }
 
-                    SettingsHorizontalSeperator {
-                    }
+                    SettingsHorizontalSeperator {}
 
                     SettingsButton {
                         headline: qsTr("Data Protection")
