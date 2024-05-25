@@ -31,7 +31,8 @@ struct WallpaperData {
     ContentTypes::InstalledType type = ContentTypes::InstalledType::Unknown;
     Video::FillMode fillMode = Video::FillMode::Fill;
     QVector<int> monitors;
-    QJsonObject serialize() const {
+    QJsonObject serialize() const
+    {
         QJsonObject data;
         data.insert("isLooping", isLooping);
         data.insert("absolutePath", absolutePath);
@@ -40,8 +41,8 @@ struct WallpaperData {
         data.insert("volume", volume);
         data.insert("file", file);
         data.insert("properties", properties);
-        data.insert("type",  QVariant::fromValue(type).toString() );
-        data.insert("fillMode",  QVariant::fromValue(fillMode).toString());
+        data.insert("type", QVariant::fromValue(type).toString());
+        data.insert("fillMode", QVariant::fromValue(fillMode).toString());
 
         // Serialize QVector<int> monitors
         QJsonArray monitorArray;

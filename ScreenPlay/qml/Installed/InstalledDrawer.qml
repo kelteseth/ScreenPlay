@@ -116,6 +116,12 @@ Drawer {
                     id: timeline
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+                    Connections {
+                        target: App.screenPlayManager
+                        function onPrintQmlTimeline(){
+                            timeline.printTimelines()
+                        }
+                    }
                 }
 
                 ColumnLayout {
@@ -130,13 +136,9 @@ Drawer {
                 }
             }
 
-            RowLayout {
-                spacing: 10
-
                 ColumnLayout {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    Layout.horizontalStretchFactor: 3
                     spacing: 10
 
                     Text {
@@ -157,13 +159,6 @@ Drawer {
                         fontSize: 11
                     }
                 }
-
-                Item {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    Layout.horizontalStretchFactor: 1
-                }
-            }
         }
 
         ColumnLayout {
@@ -393,7 +388,7 @@ Drawer {
                                 true)
                     }
                     if (App.util.isWidget(root.type))
-                        App.screenPlayManager.createWidget(type,
+                        App.screenPlayManager.startWidget(type,
                                                            Qt.point(0, 0),
                                                            absoluteStoragePath,
                                                            previewImage, {},

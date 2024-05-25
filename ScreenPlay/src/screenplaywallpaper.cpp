@@ -153,6 +153,7 @@ QJsonObject ScreenPlayWallpaper::getActiveSettingsJson()
 */
 void ScreenPlayWallpaper::close()
 {
+    qInfo() << "Close wallpaper with appID:" << m_appID;
     // When the wallpaper never connected, this is invalid
     if (!m_connection) {
         qCritical() << "Cannot request quit, wallpaper never connected!";
@@ -165,6 +166,7 @@ void ScreenPlayWallpaper::close()
     }
     m_isExiting = true;
 }
+
 /*!
     \brief Prints the exit code if != 0.
 */

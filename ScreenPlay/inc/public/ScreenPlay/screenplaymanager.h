@@ -81,7 +81,7 @@ public:
         const QString& identifier,
         const bool saveToProfilesConfigFile);
 
-    Q_INVOKABLE bool createWidget(
+    Q_INVOKABLE bool startWidget(
         // moc needs full enum namespace info see QTBUG-58454
         const ScreenPlay::ContentTypes::InstalledType type,
         const QPoint& position,
@@ -106,6 +106,7 @@ signals:
     void requestSaveProfiles();
     void requestRaise();
     void profilesSaved();
+    void printQmlTimeline();
     void displayErrorPopup(const QString& msg);
 
 private slots:
@@ -175,6 +176,8 @@ private:
     bool removeWidget(const QString& appID);
     std::optional<std::shared_ptr<WallpaperTimelineSection>> loadTimelineWallpaperConfig(const QJsonObject& timelineObj);
     std::shared_ptr<WallpaperTimelineSection> findActiveWallpaperTimelineSection();
+    std::shared_ptr<WallpaperTimelineSection> getCurrentTimeline();
+    void activateNewTimeline();
 
 private:
     std::shared_ptr<GlobalVariables> m_globalVariables;

@@ -24,6 +24,18 @@ Control {
         timeLine.removeAll()
     }
 
+    function printTimelines(){
+        print("################# qml:")
+        for (let i = 0; i < timeLine.sectionsList.length; i++) {
+            print(
+
+                  timeLine.sectionsList[i].index,
+                  timeLine.sectionsList[i].identifier,
+                  timeLine.sectionsList[i].relativeLinePosition)
+        }
+
+    }
+
     Component {
         id: sectionComp
         QtObject {
@@ -48,6 +60,12 @@ Control {
             createAllSections(initialStopPositions)
         }
 
+        function createAllSections(initialStopPositions) {
+            for (let identifier in initialStopPositions) {
+                let stopPosition = initialStopPositions[identifier];
+                addSection(identifier, stopPosition);
+            }
+        }
 
         function removeAll(){
             print("removeAll",timeLine.sectionsList.length)
@@ -74,12 +92,6 @@ Control {
                 sectionObject.identifier)
         }
 
-        function createAllSections(initialStopPositions) {
-            for (let identifier in initialStopPositions) {
-                let stopPosition = initialStopPositions[identifier];
-                addSection(identifier, stopPosition);
-            }
-        }
 
         // IMPORTANT: The new element is always on the left. The first
         // handle always persists  because the
@@ -250,9 +262,8 @@ Control {
 
 
                 //timeLine.sectionsList[i].relativeLinePosition =prevPos / timeLine.width
-                print("sections: ", i, "prev minimum ",prevPos,"next maximum", nextPos,  timeLine.sectionsList[i].relativeLinePosition)
+                // print("sections: ", i, "prev minimum ",prevPos,"next maximum", nextPos,  timeLine.sectionsList[i].relativeLinePosition)
             }
-            print("++++++++++++++++++")
             for (let i = 0; i < timeLine.sectionsList.length; i++) {
                 let section = timeLine.sectionsList[i]
                 section.relativeLinePosition = section.lineHandle.linePosition
@@ -319,13 +330,51 @@ Control {
                 enabled: true
             }
 
+
+            // Current time indicator
+            Rectangle {
+                id: currentTimeIndicator
+                color: Material.color(Material.BlueGrey)
+                width: 2
+                height: 30
+                y: (addHandleWrapper.height - height) / 2 // Vertically center within addHandleWrapper
+
+                property int totalSeconds: 86400 // Total seconds in a day
+                property int currentSeconds: (new Date().getHours() * 3600) + (new Date().getMinutes() * 60) + new Date().getSeconds()
+
+                x: addHandleWrapper.width * (currentSeconds / totalSeconds)
+
+                Timer {
+                    interval: 1000
+                    repeat: true
+                    running: true
+                    onTriggered: {
+                        currentTimeIndicator.currentSeconds = (new Date().getHours() * 3600) + (new Date().getMinutes() * 60) + new Date().getSeconds();
+                        currentTimeIndicator.x = addHandleWrapper.width * (currentTimeIndicator.currentSeconds / currentTimeIndicator.totalSeconds);
+                        currentTimeText.text = Qt.formatTime(new Date(), "hh:mm:ss");
+                    }
+                }
+            }
+
+            Text {
+                id: currentTimeText
+                color: Material.color(Material.Grey)
+                text: Qt.formatTime(new Date(), "hh:mm:ss")
+                font.pointSize: 12
+                anchors {
+                    bottom: addHandleWrapper.top
+                    horizontalCenter: currentTimeIndicator.horizontalCenter
+                }
+            }
+
+
             RowLayout {
                 anchors.fill: parent
                 Repeater {
                     model: 24
                     Item {
                         width: 20
-                        height: 40
+                        height: 60
                         required property int index
                         Text {
                             color: "gray"
