@@ -56,6 +56,7 @@ SystemTrayIcon {
 
         MenuItem {
             text: qsTr("Browse Workshop")
+            enabled: App.globalVariables.isSteamVersion()
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_steam.svg"
             onTriggered: {
                 root.open();

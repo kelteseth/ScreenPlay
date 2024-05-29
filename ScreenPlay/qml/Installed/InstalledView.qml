@@ -223,7 +223,7 @@ Item {
             type: m_type
             isNew: m_isNew
             containsAudio: m_containsAudio
-            screenId: m_folderName
+            folderName: m_folderName
             absoluteStoragePath: m_absoluteStoragePath
             publishedFileID: m_publishedFileID
             itemIndex: index

@@ -61,6 +61,9 @@ std::shared_ptr<WallpaperTimelineSection> ScreenPlayManager::findActiveWallpaper
     return nullptr;
 }
 
+/*!
+  \brief Returns the current active timline. There must always be an active timeline!
+*/
 std::shared_ptr<WallpaperTimelineSection> ScreenPlayManager::getCurrentTimeline()
 {
     const QTime currentTime = QTime::currentTime();
@@ -69,6 +72,7 @@ std::shared_ptr<WallpaperTimelineSection> ScreenPlayManager::getCurrentTimeline(
             return section;
         }
     }
+    qCritical() << "No active timeline";
     return nullptr;
 }
 
@@ -109,6 +113,10 @@ void ScreenPlayManager::checkActiveWallpaperTimeline()
     }
 }
 
+/*!
+  \brief Change active timeline. We need an extra flags to know if our
+         timeline is active and out of time range.
+*/
 void ScreenPlayManager::activateNewTimeline()
 {
     // Remove old timeline content
@@ -150,29 +158,21 @@ void ScreenPlayManager::activateNewTimeline()
     \brief Sets the wallpaper at a spesific timeline.
 */
 bool ScreenPlayManager::setWallpaperAtTimelineIndex(
-    const ContentTypes::InstalledType type,
-    const Video::FillMode fillMode,
+    const ScreenPlay::ContentTypes::InstalledType type,
     const QString& absolutePath,
     const QString& previewImage,
     const QString& file,
     const QVector<int>& monitorIndex,
-    const float volume,
-    const float playbackRate,
-    const QJsonObject& properties,
     const int timelineIndex,
     const QString& identifier,
     const bool saveToProfilesConfigFile)
 {
     WallpaperData wallpaperData;
     wallpaperData.type = type;
-    wallpaperData.fillMode = fillMode;
     wallpaperData.absolutePath = absolutePath;
     wallpaperData.previewImage = previewImage;
     wallpaperData.file = file;
     wallpaperData.monitors = monitorIndex;
-    wallpaperData.volume = volume;
-    wallpaperData.playbackRate = playbackRate;
-    wallpaperData.properties = properties;
     bool ok = false;
     for (auto& timelineSection : m_wallpaperTimelineSectionsList) {
         const bool sameIndex = timelineSection->index == timelineIndex;
@@ -251,6 +251,7 @@ std::shared_ptr<ScreenPlayWallpaper> ScreenPlayManager::startWallpaper(
     // Remove file:///
     wallpaperData.absolutePath = QUrl::fromUserInput(wallpaperData.absolutePath).toLocalFile();
     const QString appID = Util().generateRandomString();
+    qInfo() << "Start wallpaper" << wallpaperData.absolutePath  << appID;
 
     // Only support remove wallpaper that spans over 1 monitor
     // if (wallpaperData.monitors.length() == 1) {
@@ -281,7 +282,6 @@ std::shared_ptr<ScreenPlayWallpaper> ScreenPlayManager::startWallpaper(
         return nullptr;
     }
     m_monitorListModel->setWallpaperMonitor(wallpaper, wallpaperData.monitors);
-    increaseActiveWallpaperCounter();
     return wallpaper;
 }
 
@@ -326,7 +326,7 @@ bool ScreenPlayManager::startWidget(
     if (!widget->start()) {
         return false;
     }
-    increaseActiveWidgetsCounter();
+    setActiveWidgetsCounter(activeWidgetsCounter() + 1);
     m_screenPlayWidgets.append(widget);
     return true;
 }
@@ -495,8 +495,10 @@ ScreenPlayWallpaper* ScreenPlayManager::getWallpaperByAppID(const QString& appID
     return nullptr;
 }
 
-// We always handle the endTimeString, because it is the handle for the
-// timeline. The last, default, timeline does not have a handle.
+/*!
+  \brief We always handle the endTimeString, because it is the handle for the
+         timeline. The last, default, timeline does not have a handle.
+*/
 bool ScreenPlayManager::moveTimelineAt(const int index, const QString identifier, const float relativePosition, QString positionTimeString)
 {
     m_contentTimer.stop();
@@ -528,6 +530,9 @@ bool ScreenPlayManager::moveTimelineAt(const int index, const QString identifier
     return true;
 }
 
+/*!
+  \brief Converts a range from 0.0f - 1.0f to 00:00:00 0 23:59:59
+*/
 QString ScreenPlayManager::getTimeString(double relativeLinePosition)
 {
     if (relativeLinePosition == 1.0) {
@@ -562,6 +567,9 @@ QString ScreenPlayManager::getTimeString(double relativeLinePosition)
     return QString("%1:%2:%3").arg(hours, 2, 10, QChar('0')).arg(minutes, 2, 10, QChar('0')).arg(seconds, 2, 10, QChar('0'));
 }
 
+/*!
+  \brief Update m_wallpaperTimelineSectionsList index based on the startTime;
+*/
 void ScreenPlayManager::updateIndices()
 {
     // Sort the vector based on startTime
@@ -576,6 +584,12 @@ void ScreenPlayManager::updateIndices()
     }
 }
 
+/*!
+  \brief Adds a new timeline at relative position. We always shrink the timeline at the input
+         position and append the new one to the left. There must always (lightning) an active
+         timeline section.
+
+*/
 bool ScreenPlayManager::addTimelineAt(const int index, const float reltiaveLinePosition, QString identifier)
 {
 
@@ -632,7 +646,10 @@ bool ScreenPlayManager::addTimelineAt(const int index, const float reltiaveLineP
     return true;
 }
 
-// Gets called from qml
+/*!
+  \brief Qml function that removes all Timeline sections. Qml then creates
+         a new default section.
+*/
 void ScreenPlayManager::removeAllTimlineSections()
 {
     m_contentTimer.stop();
@@ -665,6 +682,10 @@ void ScreenPlayManager::removeAllTimlineSections()
     // the default timeline after this function
 }
 
+/*!
+  \brief Removes a timeline at a given index. Expands the timeline next to it
+         to fill the space.
+*/
 bool ScreenPlayManager::removeTimelineAt(const int index)
 {
     printTimelines();
@@ -726,6 +747,9 @@ bool ScreenPlayManager::removeTimelineAt(const int index)
     return true;
 }
 
+/*!
+  \brief Print to check if our qml data matches our c++.
+*/
 void ScreenPlayManager::printTimelines()
 {
     std::cout << "#############################\n";
@@ -734,6 +758,9 @@ void ScreenPlayManager::printTimelines()
     }
 }
 
+/*!
+  \brief Qml function to build our timeline on creation in qml.
+*/
 QVariantMap ScreenPlayManager::initialStopPositions()
 {
     QVariantMap sectionPositions;
@@ -803,6 +830,24 @@ void ScreenPlayManager::newConnection()
     m_unconnectedClients.push_back(std::move(connection));
 }
 
+void ScreenPlayManager::setActiveWallpaperCounter(int activeWallpaperCounter)
+{
+    if (m_activeWallpaperCounter == activeWallpaperCounter)
+        return;
+
+    m_activeWallpaperCounter = activeWallpaperCounter;
+    emit activeWallpaperCounterChanged(m_activeWallpaperCounter);
+}
+
+void ScreenPlayManager::setActiveWidgetsCounter(int activeWidgetsCounter)
+{
+    if (m_activeWidgetsCounter == activeWidgetsCounter)
+        return;
+
+    m_activeWidgetsCounter = activeWidgetsCounter;
+    emit activeWidgetsCounterChanged(m_activeWidgetsCounter);
+}
+
 /*!
     \brief Removes a wallpaper from the given appID. Returns true on success.
 */
@@ -814,10 +859,9 @@ bool ScreenPlayManager::removeWallpaper(const QString& appID)
         qCritical() << "No timeline found.";
         return false;
     }
-    if (activeTimelineSection->activeWallpaperList.empty()) {
-        qCritical() << "No activeWallpaperList is empty for the current active timeline.";
-        return false;
-    }
+
+    if(activeTimelineSection->activeWallpaperList.empty())
+        return true;
 
     activeTimelineSection->activeWallpaperList.erase(
         std::remove_if(
@@ -835,8 +879,6 @@ bool ScreenPlayManager::removeWallpaper(const QString& appID)
                 m_monitorListModel->setWallpaperMonitor({}, wallpaper->monitors());
 
                 wallpaper->close();
-
-                decreaseActiveWallpaperCounter();
 
                 return true;
             }));
@@ -869,7 +911,8 @@ bool ScreenPlayManager::removeWidget(const QString& appID)
 
                 qInfo() << "Remove widget " << appID;
 
-                decreaseActiveWidgetsCounter();
+                setActiveWidgetsCounter(activeWidgetsCounter() - 1);
+
 
                 return true;
             }),
@@ -889,11 +932,18 @@ bool ScreenPlayManager::removeWidget(const QString& appID)
 */
 bool ScreenPlayManager::setWallpaperValue(const QString& appID, const QString& key, const QString& value)
 {
-    // for (auto& wallpaper : m_screenPlayWallpapers) {
-    //     if (wallpaper->appID() == appID) {
-    //         return wallpaper->setWallpaperValue(key, value, true);
-    //     }
-    // }
+    std::shared_ptr<WallpaperTimelineSection> activeTimelineSection = findActiveWallpaperTimelineSection();
+    if(!activeTimelineSection){
+        qCritical() << "setWallpaperValue failed, because no active timeline section was found";
+        return false;
+    }
+
+    for (auto& wallpaper : activeTimelineSection->activeWallpaperList) {
+        if (wallpaper->appID() == appID) {
+            return wallpaper->setWallpaperValue(key, value, true);
+        }
+    }
+    qCritical() << "No wallpaper with matching appID was found";
     return false;
 }
 
@@ -937,8 +987,8 @@ bool ScreenPlayManager::saveProfiles()
     profile.insert("version", m_settings->getProfilesVersion().toString());
     profile.insert("profiles", activeProfileList);
 
-    Util util;
-    if (util.writeJsonObjectToFile({ m_globalVariables->localSettingsPath().toString() + "/profiles.json" }, profile)) {
+
+    if (m_util.writeJsonObjectToFile({ m_globalVariables->localSettingsPath().toString() + "/profiles.json" }, profile)) {
         emit profilesSaved();
         return true;
     }
@@ -946,19 +996,20 @@ bool ScreenPlayManager::saveProfiles()
 }
 
 /*!
- \brief Loads all wallpaper from profiles.json when the version number matches and starts the available wallpaper
+ \brief Loads all wallpaper from C:\Users\XXX\AppData\Local\ScreenPlay\ScreenPlay\profiles.json
+        when the version number matches and starts the available wallpaper
 */
 bool ScreenPlayManager::loadProfiles()
 {
-    Util util;
-    const auto configObj = util.openJsonFileToObject(m_globalVariables->localSettingsPath().toString() + "/profiles.json");
+
+    const auto configObj = m_util.openJsonFileToObject(m_globalVariables->localSettingsPath().toString() + "/profiles.json");
 
     if (!configObj) {
         qWarning() << "Could not load active profiles at path: " << m_globalVariables->localSettingsPath().toString() + "/profiles.json";
         return false;
     }
 
-    std::optional<QVersionNumber> version = util.getVersionNumberFromString(configObj->value("version").toString());
+    std::optional<QVersionNumber> version = m_util.getVersionNumberFromString(configObj->value("version").toString());
     QVersionNumber requiredVersion = m_settings->getProfilesVersion();
     if (version && *version != requiredVersion) {
         qWarning() << "Version missmatch fileVersion: " << version->toString() << "m_version: " << requiredVersion.toString();
@@ -989,7 +1040,7 @@ bool ScreenPlayManager::loadProfiles()
 
             std::shared_ptr<WallpaperTimelineSection> wallpaperData = wallpaperDataOpt.value();
             wallpaperData->index = m_wallpaperTimelineSectionsList.length();
-            wallpaperData->identifier = util.generateRandomString(4);
+            wallpaperData->identifier = m_util.generateRandomString(4);
 
             qInfo() << wallpaperData->index
                     << wallpaperData->startTime
@@ -1016,6 +1067,7 @@ bool ScreenPlayManager::loadProfiles()
 
     return true;
 }
+
 /*!
  * \brief Calculates the relative position of a given time within a day.
  *
@@ -1044,6 +1096,18 @@ float calculateRelativePosition(const QTime& endTime)
     return qRound(relativePosition * 10000.0) / 10000.0;
 }
 
+/*!
+  \brief Parses one timeline wallpaper:
+
+         "timelineWallpaper": [
+             {
+                 "endTime": "08:32:00",
+                 "startTime": "00:00:00",
+                 "wallpaper": [
+                     [...]
+                 ]
+             },
+*/
 std::optional<std::shared_ptr<WallpaperTimelineSection>> ScreenPlayManager::loadTimelineWallpaperConfig(const QJsonObject& timelineObj)
 {
     const QTime startTime = QTime::fromString(timelineObj.value("startTime").toString(), m_timelineTimeFormat);
@@ -1068,6 +1132,32 @@ std::optional<std::shared_ptr<WallpaperTimelineSection>> ScreenPlayManager::load
     return timelineSection;
 }
 
+/*!
+  \brief Loads the wallpaper object in the wallpaper array:
+
+      "timelineWallpaper": [
+          {
+              "endTime": "08:32:00",
+              "startTime": "00:00:00",
+              "wallpaper": [
+                  {
+                      "absolutePath": "file:///C:/Code/Cpp/ScreenPlay/672870/1234567",
+                      "file": "AAA.webm",
+                      "fillMode": "Cover",
+                      "isLooping": false,
+                      "monitors": [
+                          0
+                      ],
+                      "playbackRate": 1,
+                      "previewImage": "previewThumbnail.jpg",
+                      "properties": {
+                      },
+                      "type": "VideoWallpaper",
+                      "volume": 1
+                  }
+              ]
+          },
+*/
 std::optional<WallpaperData> ScreenPlayManager::loadWallpaperConfig(const QJsonObject& wallpaperObj)
 {
     if (wallpaperObj.empty())
@@ -1111,6 +1201,9 @@ std::optional<WallpaperData> ScreenPlayManager::loadWallpaperConfig(const QJsonO
     return wallpaperData;
 }
 
+/*!
+  \brief Loads a widget from C:\Users\XXX\AppData\Local\ScreenPlay\ScreenPlay\profiles.json
+*/
 bool ScreenPlayManager::loadWidgetConfig(const QJsonObject& widgetObj)
 {
     if (widgetObj.empty())

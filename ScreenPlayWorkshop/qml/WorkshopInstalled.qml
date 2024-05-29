@@ -9,7 +9,7 @@ Item {
     property bool refresh: false
     property bool enabled: true
 
-    signal setSidebaractiveItem(var screenId, var type)
+    signal setSidebaractiveItem(var folderName, var type)
     signal setNavigationItem(var pos)
     signal setSidebarActive(var active)
 

@@ -69,14 +69,10 @@ public:
     Q_INVOKABLE QVariantMap initialStopPositions();
     Q_INVOKABLE bool setWallpaperAtTimelineIndex(
         const ScreenPlay::ContentTypes::InstalledType type,
-        const ScreenPlay::Video::FillMode fillMode,
         const QString& absolutePath,
         const QString& previewImage,
         const QString& file,
         const QVector<int>& monitorIndex,
-        const float volume,
-        const float playbackRate,
-        const QJsonObject& properties,
         const int timelineIndex,
         const QString& identifier,
         const bool saveToProfilesConfigFile);
@@ -95,7 +91,7 @@ public:
     Q_INVOKABLE bool setWallpaperFillModeAtMonitorIndex(const int index, const int fillmode);
     Q_INVOKABLE bool setAllWallpaperValue(const QString& key, const QString& value);
     Q_INVOKABLE bool setWallpaperValue(const QString& appID, const QString& key, const QString& value);
-    QVersionNumber getProfilesVersion() const;
+
 
 signals:
     void activeWallpaperCounterChanged(int activeWallpaperCounter);
@@ -113,56 +109,9 @@ private slots:
     bool saveProfiles();
     void checkActiveWallpaperTimeline();
     void newConnection();
+    void setActiveWallpaperCounter(int activeWallpaperCounter);
+    void setActiveWidgetsCounter(int activeWidgetsCounter);
 
-public slots:
-
-    void setActiveWallpaperCounter(int activeWallpaperCounter)
-    {
-        if (m_activeWallpaperCounter == activeWallpaperCounter)
-            return;
-
-        m_activeWallpaperCounter = activeWallpaperCounter;
-        emit activeWallpaperCounterChanged(m_activeWallpaperCounter);
-    }
-
-    void setActiveWidgetsCounter(int activeWidgetsCounter)
-    {
-        if (m_activeWidgetsCounter == activeWidgetsCounter)
-            return;
-
-        m_activeWidgetsCounter = activeWidgetsCounter;
-        emit activeWidgetsCounterChanged(m_activeWidgetsCounter);
-    }
-
-    void increaseActiveWidgetsCounter()
-    {
-        m_activeWidgetsCounter++;
-        emit activeWidgetsCounterChanged(m_activeWidgetsCounter);
-    }
-
-    void decreaseActiveWidgetsCounter()
-    {
-        if (m_activeWidgetsCounter <= 0) {
-            return;
-        }
-        m_activeWidgetsCounter--;
-        emit activeWidgetsCounterChanged(m_activeWidgetsCounter);
-    }
-
-    void increaseActiveWallpaperCounter()
-    {
-        m_activeWallpaperCounter++;
-        emit activeWallpaperCounterChanged(m_activeWallpaperCounter);
-    }
-
-    void decreaseActiveWallpaperCounter()
-    {
-        if (m_activeWallpaperCounter <= 0) {
-            return;
-        }
-        m_activeWallpaperCounter--;
-        emit activeWallpaperCounterChanged(m_activeWallpaperCounter);
-    }
 
 private:
     void printTimelines();
@@ -194,6 +143,8 @@ private:
 
     QTimer m_saveLimiter;
     QTimer m_contentTimer;
+
+    Util m_util;
 
     // We use a 24 hour system
     const QString m_timelineTimeFormat = "hh:mm:ss";

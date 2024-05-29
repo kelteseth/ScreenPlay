@@ -13,7 +13,8 @@ Control {
     leftPadding: 20
     rightPadding: 20
 
-    property int activeTimelineIndex: 0
+    property int activeTimelineIndex: -1
+    property int length: timeLine.sectionsList.length
 
     function getActiveTimeline() {
         return timeLine.sectionsList[root.activeTimelineIndex];

@@ -28,7 +28,6 @@ int main(int argc, char* argv[])
 #if !defined(Q_OS_LINUX)
     qputenv("QT_MEDIA_BACKEND", "ffmpeg");
 #endif
-
     QGuiApplication qtGuiApp(argc, argv);
     ScreenPlay::ApplicationEngine appEngine;
 

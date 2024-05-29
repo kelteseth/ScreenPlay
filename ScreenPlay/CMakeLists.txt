@@ -51,6 +51,7 @@ set(HEADER
 set(QML
     # cmake-format: sort
     main.qml
+    qml/MainApp.qml
     qml/Components/TrayIcon.qml
     qml/Components/LineHandle.qml
     qml/Components/LineIndicator.qml
@@ -84,14 +85,12 @@ set(QML
     qml/Installed/ScreenPlayItem.qml
     qml/Installed/ScreenPlayItemImage.qml
     qml/Installed/InstalledDrawer.qml
-    qml/MainApp.qml
-    qml/Monitors/DefaultVideoControls.qml
-    qml/Monitors/MonitorSelection.qml
-    qml/Monitors/MonitorSelectionItem.qml
-    qml/Monitors/MonitorsProjectSettingItem.qml
-    qml/Monitors/MonitorsView.qml
-    qml/Monitors/SaveNotification.qml
-    qml/Monitors/WallpaperTimeline.qml
+    qml/ContentSettings/DefaultVideoControls.qml
+    qml/ContentSettings/MonitorSelection.qml
+    qml/ContentSettings/MonitorSelectionItem.qml
+    qml/ContentSettings/MonitorsProjectSettingItem.qml
+    qml/ContentSettings/ContentSettingsView.qml
+    qml/ContentSettings/SaveNotification.qml
     qml/Navigation/ExitPopup.qml
     qml/Navigation/Navigation.qml
     qml/Settings/SettingBool.qml

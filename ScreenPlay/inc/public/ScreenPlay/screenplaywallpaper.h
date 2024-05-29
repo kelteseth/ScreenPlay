@@ -60,6 +60,10 @@ class ScreenPlayWallpaper;
 // WallpaperTimeline. Only the active timeline section has
 // a filled vector of ScreenPlayWallpaper
 struct WallpaperTimelineSection {
+    // Is active is needed as an additional flag during switching.
+    // When timeline A is no longer in the time range, then we can
+    // use this flag to know that it was the last active timeline and
+    // remove all active wallpaper.
     bool isActive = false;
 
     QString identifier;

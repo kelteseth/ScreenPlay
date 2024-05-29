@@ -14,14 +14,14 @@ Item {
     property bool isSelected: false
     property string customTitle: "name here"
     property string absoluteStoragePath: ""
-    property string screenId: ""
+    property string folderName: ""
     property string preview: ""
     property var type
     property bool hasMenuOpen: false
     property var publishedFileID: 0
     property int itemIndex
 
-    signal itemClicked(var screenId, var type, var isActive)
+    signal itemClicked(var folderName, var type, var isActive)
 
     height: 250
     onTypeChanged: {
@@ -140,7 +140,7 @@ Item {
                     isSelected = true;
                 else
                     isSelected = false;
-                itemClicked(screenId, type, isSelected);
+                root.itemClicked(folderName, type, isSelected);
             }
 
             anchors {

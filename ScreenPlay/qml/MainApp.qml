@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import ScreenPlayUtil as Util
 import ScreenPlayApp 1.0
-import "Monitors" as Monitors
+import "ContentSettings" as ContentSettings
 import "Installed" as Installed
 import "Navigation" as Navigation
 import "Community" as Community
@@ -58,8 +58,8 @@ Item {
             modalSource: content
         }
 
-        Monitors.MonitorsView {
-            id: monitors
+        ContentSettings.ContentSettingsView {
+            id: contentSettingsView
             modalSource: content
         }
         TrayIcon {
@@ -145,7 +145,9 @@ Item {
         }
 
         onChangePage: function (name) {
-            monitors.close();
+            // Close in case the user clicks
+            // on the tray icon
+            contentSettingsView.close();
             switchPage(name);
         }
     }

@@ -295,16 +295,41 @@ Rectangle {
             ToolTip.text: qsTr("Close All Content")
             ToolTip.visible: hovered
         }
-        ToolButton {
-            id: miConfig
-            Layout.alignment: Qt.AlignVCenter
-            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_video_settings.svg"
-            icon.width: root.iconWidth
-            icon.height: root.iconHeight
-            onClicked: App.util.setToggleWallpaperConfiguration()
-            hoverEnabled: true
-            ToolTip.text: qsTr("Configure Wallpaper")
-            ToolTip.visible: hovered
+    }
+
+    Button {
+        id: miConfig
+        icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_video_settings.svg"
+        icon.width: root.iconWidth
+        icon.height: root.iconHeight
+        onClicked: App.util.setToggleWallpaperConfiguration()
+        hoverEnabled: true
+        text: contentActive ? qsTr("Configure Content") : qsTr("No Active Content")
+        bottomInset: 10
+        topInset: 10
+        anchors {
+            top: parent.top
+            right: parent.right
+            rightMargin: 10
+            bottom: parent.bottom
+        }
+        Material.accent:  contentActive ? "gold" : Material.secondaryTextColor
+         property bool contentActive: App.screenPlayManager.activeWallpaperCounter > 0
+
+        background: Rectangle {
+            color: Material.theme === Material.Light ? Material.background : "#242424"
+            border.color: {
+                if(contentActive){
+                    return "gold"
+                } else {
+                    Material.theme === Material.Light ? Material.iconDisabledColor : Qt.darker(
+                                                                       Material.background)
+                }
+
+            }
+
+            border.width: 1
+            radius: 3
         }
     }
 
