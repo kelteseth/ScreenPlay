@@ -35,7 +35,7 @@ Item {
 
     InstalledDrawer {
         id: installedDrawer
-        objectName: "installedSidebar"
+        objectName: "installedDrawer"
         width: root.width
     }
 

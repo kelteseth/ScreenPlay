@@ -1,4 +1,5 @@
-pragma ValueTypeBehavior: Addressable
+pragma ValueTypeBehavior
+
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -8,7 +9,7 @@ import ScreenPlayUtil
 Control {
     id: root
     height: 160
-    implicitWidth: 800
+    implicitWidth: 600
     topPadding: 20
     leftPadding: 20
     rightPadding: 20
@@ -26,7 +27,7 @@ Control {
 
     function printTimelines() {
         print("################# qml:");
-        for (let i = 0; i < timeLine.sectionsList.length; i++) {
+        for (var i = 0; i < timeLine.sectionsList.length; i++) {
             print(timeLine.sectionsList[i].index, timeLine.sectionsList[i].identifier, timeLine.sectionsList[i].relativeLinePosition);
         }
     }
@@ -37,7 +38,7 @@ Control {
             property string identifier
             property int index: 0
             property real relativeLinePosition: lineHandle.linePosition
-            //onRelativeLinePositionChanged: print("relativelinepos: ", relativeLinePosition)
+            onRelativeLinePositionChanged: print("relativelinepos: ", relativeLinePosition)
             property LineHandle lineHandle
             property LineIndicator lineIndicator
         }
@@ -47,24 +48,26 @@ Control {
         id: timeLine
 
         property var sectionsList: []
-        property var lineColors: ["#FFB300", "#FB8C00", "#F4511E", "#E53935", "#D81B60", "#8E24AA", "#5E35B1", "#3949AB", "#1E88E5", "#00897B", "#43A047", "#C0CA33"]
+        property var lineColors: ["#1E88E5", "#00897B", "#43A047", "#C0CA33", "#FFB300", "#FB8C00", "#F4511E", "#E53935", "#D81B60", "#8E24AA", "#5E35B1", "#3949AB"]
         onWidthChanged: timeLine.updatePositions()
-
+        property var initialSectionsList: []
         Component.onCompleted: {
-            const initialStopPositions = App.screenPlayManager.initialStopPositions();
-            createAllSections(initialStopPositions);
-        }
-
-        function createAllSections(initialStopPositions) {
-            for (let identifier in initialStopPositions) {
-                let stopPosition = initialStopPositions[identifier];
-                addSection(identifier, stopPosition);
+            let sectionObects = App.screenPlayManager.initialSectionsList();
+            for (let sectionObject in sectionObects) {
+                initialSectionsList.push(sectionObects[sectionObject]);
+            }
+            initialSectionsList.sort(function (a, b) {
+                return b.index - a.index;
+            });
+            for (let index in initialSectionsList) {
+                let section = initialSectionsList[index];
+                addSection(section.identifier, section.relativePosition);
             }
         }
 
         function removeAll() {
             print("removeAll", timeLine.sectionsList.length);
-            for (let i = 0; i < timeLine.sectionsList.length; i++) {
+            for (var i = 0; i < timeLine.sectionsList.length; i++) {
                 // ORDER is important here! Destory the children first
                 print("remove index ", i);
                 let section = timeLine.sectionsList[i];
@@ -83,7 +86,7 @@ Control {
         // IMPORTANT: The new element is always on the left. The first
         // handle always persists  because the
         // user can never delete it. It only gets "pushed" further
-        // to the right, by increasing the size.
+        // to the right, by decreasing its size.
         function addSection(identifier, stopPosition) {
             print("stopPosition", stopPosition);
 
@@ -146,7 +149,7 @@ Control {
         }
 
         function sectionFromHandle(lineHandle) {
-            for (let i = 0; i < timeLine.sectionsList.length; i++) {
+            for (var i = 0; i < timeLine.sectionsList.length; i++) {
                 if (timeLine.sectionsList[i].lineHandle === lineHandle)
                     return timeLine.sectionsList[i];
             }
@@ -165,7 +168,7 @@ Control {
         }
 
         function lineIndicatorSelected(activeTimelineIndex) {
-            for (let i = 0; i < timeLine.sectionsList.length; i++) {
+            for (var i = 0; i < timeLine.sectionsList.length; i++) {
                 if (i === activeTimelineIndex) {
                     timeLine.sectionsList[i].lineIndicator.selected = true;
                     continue;
@@ -182,7 +185,7 @@ Control {
             timeLine.sectionsList.sort(function (a, b) {
                 return a.relativeLinePosition - b.relativeLinePosition;
             });
-            for (let i = 0; i < timeLine.sectionsList.length; i++) {
+            for (var i = 0; i < timeLine.sectionsList.length; i++) {
                 timeLine.sectionsList[i].index = i;
                 timeLine.sectionsList[i].lineIndicator.index = i;
                 //print("updateIndicatorIndexes:", timeLine.sectionsList[i].index, timeLine.sectionsList[i].relativeLinePosition)
@@ -208,7 +211,7 @@ Control {
 
         function updatePositions() {
             // Iterate through each handle in the 'sectionList' array
-            for (let i = 0; i < timeLine.sectionsList.length; i++) {
+            for (var i = 0; i < timeLine.sectionsList.length; i++) {
                 let handle = timeLine.sectionsList[i].lineHandle;
 
                 // Determine the minimum position for the current handle
@@ -238,7 +241,7 @@ Control {
                 //timeLine.sectionsList[i].relativeLinePosition =prevPos / timeLine.width
                 // print("sections: ", i, "prev minimum ",prevPos,"next maximum", nextPos,  timeLine.sectionsList[i].relativeLinePosition)
             }
-            for (let i = 0; i < timeLine.sectionsList.length; i++) {
+            for (var i = 0; i < timeLine.sectionsList.length; i++) {
                 let section = timeLine.sectionsList[i];
                 section.relativeLinePosition = section.lineHandle.linePosition;
                 // print(section.relativeLinePosition, section.lineHandle.lineMinimum, section.lineHandle.lineMaximum)
@@ -259,21 +262,21 @@ Control {
         }
 
         function updateIndicatorColor() {
-            for (let i = 0; i < timeLine.sectionsList.length; i++) {
+            for (var i = 0; i < timeLine.sectionsList.length; i++) {
                 let lineIndicator = timeLine.sectionsList[i].lineIndicator;
                 lineIndicator.color = getColorAtIndex(i);
             }
         }
 
         function updateLastHandle() {
-            for (let i = 0; i < timeLine.sectionsList.length; i++) {
+            for (var i = 0; i < timeLine.sectionsList.length; i++) {
                 timeLine.sectionsList[i].lineHandle.isLast = i === timeLine.sectionsList.length - 1;
                 timeLine.sectionsList[i].lineIndicator.isLast = i === timeLine.sectionsList.length - 1;
             }
         }
 
         function updateIndicatorPositions() {
-            for (let i = 0; i < timeLine.sectionsList.length; i++) {
+            for (var i = 0; i < timeLine.sectionsList.length; i++) {
                 const lineIndicator = timeLine.sectionsList[i].lineIndicator;
                 //print(i, lineIndicator.x, lineIndicator.width, timeLine.sectionsList[i].relativeLinePosition)
                 const handle = timeLine.sectionsList[i].lineHandle;

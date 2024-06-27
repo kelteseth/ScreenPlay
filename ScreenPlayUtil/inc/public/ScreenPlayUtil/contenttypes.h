@@ -28,7 +28,6 @@ public:
         \brief When changing the enum, one also needs to change:
              GlobalVariables::getAvailableWallpaper
              GlobalVariables::getAvailableWidgets
-             Common/Util.js isWallpaper() and isWidget()
              ScreenPlayWallpaper: BaseWindow::parseWallpaperType()
     */
     enum class InstalledType {
@@ -71,7 +70,6 @@ public:
         \brief When changing the enum, one also needs to change:
              GlobalVariables::getAvailableWallpaper
              GlobalVariables::getAvailableWidgets
-             Common/Util.js isWallpaper() and isWidget()
              ScreenPlayWallpaper: BaseWindow::parseWallpaperType()
     */
 

@@ -21,12 +21,10 @@ Item {
     property bool containsAudio: false
     property int version: App.globalVariables.version
     property bool hasLicense: {
-        if ((root.version === GlobalVariables.OpenSourceStandalone
-             || root.version === GlobalVariables.OpenSourceSteam)
-                && root.type === Util.ContentTypes.InstalledType.GodotWallpaper) {
-            return false
+        if ((root.version === GlobalVariables.OpenSourceStandalone || root.version === GlobalVariables.OpenSourceSteam) && root.type === Util.ContentTypes.InstalledType.GodotWallpaper) {
+            return false;
         }
-        return true
+        return true;
     }
 
     signal clicked(var folderName, var type)
@@ -37,16 +35,16 @@ Item {
     height: 180
     onTypeChanged: {
         if (App.util.isWidget(type)) {
-            icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_widgets.svg"
-            return
+            icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_widgets.svg";
+            return;
         }
         if (App.util.isScene(type)) {
-            icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_code.svg"
-            return
+            icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_code.svg";
+            return;
         }
         if (App.util.isVideo(type)) {
-            icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_movie.svg"
-            return
+            icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_movie.svg";
+            return;
         }
     }
 
@@ -54,10 +52,10 @@ Item {
         running: true
         onTriggered: showAnim.start()
         interval: {
-            var itemIndexMax = itemIndex
+            var itemIndexMax = itemIndex;
             if (itemIndex > 30)
-                itemIndexMax = 3
-            5 * itemIndexMax * Math.random()
+                itemIndexMax = 3;
+            5 * itemIndexMax * Math.random();
         }
     }
 
@@ -261,31 +259,29 @@ Item {
                 onExited: handleMouseExit()
                 onClicked: function (mouse) {
                     if (!root.hasLicense) {
-                        root.openOpenLicensePopup()
-                        return
+                        root.openOpenLicensePopup();
+                        return;
                     }
                     if (App.util.isWidget(root.type))
-                        return
+                        return;
                     if (mouse.button === Qt.LeftButton)
-                        root.clicked(root.folderName, root.type)
+                        root.clicked(root.folderName, root.type);
                     else if (mouse.button === Qt.RightButton)
-                        root.openContextMenu(Qt.point(mouseX, mouseY))
+                        root.openContextMenu(Qt.point(mouseX, mouseY));
                 }
-                function handleMouseEnter(){
-
+                function handleMouseEnter() {
                     if (!root.hasLicense)
-                        return
-                    root.state = "hover"
-                    screenPlayItemImage.state = "hover"
-                    screenPlayItemImage.enter()
+                        return;
+                    root.state = "hover";
+                    screenPlayItemImage.state = "hover";
+                    screenPlayItemImage.enter();
                 }
-                function handleMouseExit(){
-                    if(widgetStartButton.enabled && widgetStartButton.hovered)
-                        return
-                    root.state = ""
-                    screenPlayItemImage.state = "loaded"
-                    screenPlayItemImage.exit()
-
+                function handleMouseExit() {
+                    if (widgetStartButton.enabled && widgetStartButton.hovered)
+                        return;
+                    root.state = "";
+                    screenPlayItemImage.state = "loaded";
+                    screenPlayItemImage.exit();
                 }
             }
 
@@ -296,18 +292,13 @@ Item {
                 text: qsTr("Start")
                 opacity: enabled && (widgetStartButton.hovered || hoverArea.containsMouse) ? 1 : 0
                 onClicked: {
-                    App.screenPlayManager.startWidget(
-                                root.type, Qt.point(0, 0),
-                                root.absoluteStoragePath,
-                                m_preview, {}, true)
+                    App.screenPlayManager.startWidget(root.type, Qt.point(0, 0), root.absoluteStoragePath, m_preview, {}, true);
                 }
                 onHoveredChanged: {
-                    print(hovered)
-                    if(hovered)
-                        hoverArea.handleMouseEnter()
+                    if (hovered)
+                        hoverArea.handleMouseEnter();
                     else
-                        hoverArea.handleMouseExit()
-
+                        hoverArea.handleMouseExit();
                 }
 
                 anchors {
@@ -368,7 +359,6 @@ Item {
                 to: 1
                 easing.type: Easing.OutQuart
             }
-
         },
         Transition {
             from: "hover"

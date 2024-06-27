@@ -264,6 +264,10 @@ void InstalledListModel::loadInstalledContent()
 */
 QVariantMap InstalledListModel::get(const QString& folderName) const
 {
+    if (folderName.isEmpty()) {
+        qCritical() << "Invalid (empty) folder name";
+        return {};
+    }
 
     if (m_screenPlayFiles.count() == 0)
         return {};
@@ -284,6 +288,8 @@ QVariantMap InstalledListModel::get(const QString& folderName) const
             return map;
         }
     }
+
+    qWarning() << "Installed item not found for: " << folderName;
 
     return {};
 }

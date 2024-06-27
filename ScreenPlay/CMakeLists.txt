@@ -10,6 +10,9 @@ include(GenerateCMakeVariableHeader)
 
 set(SOURCES
     # cmake-format: sort
+    src/wallpaperdata.cpp
+    src/wallpapertimelinesection.cpp
+    src/screenplaytimeline.cpp
     src/app.cpp
     src/applicationengine.cpp
     src/create.cpp
@@ -29,6 +32,9 @@ set(SOURCES
 
 set(HEADER
     # cmake-format: sort
+    inc/public/ScreenPlay/wallpaperdata.h
+    inc/public/ScreenPlay/wallpapertimelinesection.h
+    inc/public/ScreenPlay/screenplaytimeline.h
     inc/public/ScreenPlay/app.h
     inc/public/ScreenPlay/applicationengine.h
     inc/public/ScreenPlay/create.h
@@ -56,7 +62,6 @@ set(QML
     qml/Components/LineHandle.qml
     qml/Components/LineIndicator.qml
     qml/Components/ScreenPlayProPopup.qml
-    qml/Components/Section.qml
     qml/Components/Timeline.qml
     qml/Community/CommunityNavItem.qml
     qml/Community/CommunityView.qml

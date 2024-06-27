@@ -217,7 +217,7 @@ Rectangle {
         id: quickActionRow
         anchors {
             top: parent.top
-            right: parent.right
+            right: miConfig.left
             rightMargin: 10
             bottom: parent.bottom
         }
@@ -313,19 +313,17 @@ Rectangle {
             rightMargin: 10
             bottom: parent.bottom
         }
-        Material.accent:  contentActive ? "gold" : Material.secondaryTextColor
-         property bool contentActive: App.screenPlayManager.activeWallpaperCounter > 0
+        Material.accent: contentActive ? "gold" : Material.secondaryTextColor
+        property bool contentActive: App.screenPlayManager.activeWallpaperCounter > 0
 
         background: Rectangle {
             color: Material.theme === Material.Light ? Material.background : "#242424"
             border.color: {
-                if(contentActive){
-                    return "gold"
+                if (miConfig.contentActive) {
+                    return "gold";
                 } else {
-                    Material.theme === Material.Light ? Material.iconDisabledColor : Qt.darker(
-                                                                       Material.background)
+                    Material.theme === Material.Light ? Material.iconDisabledColor : Qt.darker(Material.background);
                 }
-
             }
 
             border.width: 1

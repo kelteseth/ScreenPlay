@@ -12,7 +12,7 @@ import "../Components"
 
 Drawer {
     id: root
-    height: 250
+    height: 300
     modal: false
     edge: Qt.BottomEdge
     background: Rectangle {
@@ -22,70 +22,57 @@ Drawer {
     property bool hasPreviewGif: false
     property var type: ContentTypes.InstalledType.QMLWallpaper
     property string contentFolderName
-    onClosed: {
-        root.contentFolderName = ""
-        root.type = ContentTypes.InstalledType.Unknown
-    }
 
     function setInstalledDrawerItem(folderName, type) {
 
         // Toggle sidebar if clicked on the same content twice
         if (root.contentFolderName === folderName)
-            return
-
-        if (!App.util.isWallpaper(root.type)){
-            return
+            return;
+        if (!App.util.isWallpaper(type)) {
+            return;
         }
-
-        root.contentFolderName = folderName
-        root.type = type
+        root.contentFolderName = folderName;
+        root.type = type;
+        print("setInstalledDrawerItem", folderName,typeof(folderName), type);
         if (type === ContentTypes.InstalledType.VideoWallpaper)
-            installedDrawerWrapper.state = "wallpaper"
+            installedDrawerWrapper.state = "wallpaper";
         else
-            installedDrawerWrapper.state = "scene"
-        btnLaunchContent.text = qsTr("Set Wallpaper")
-        root.open()
-    }
+            installedDrawerWrapper.state = "scene";
 
-    function indexOfValue(model, value) {
-        for (var i = 0; i < model.length; i++) {
-            let ourValue = model[i].value
-            if (value === ourValue)
-                return i
-        }
-        return -1
+        root.open();
     }
 
     // This is used for removing wallpaper. We need to clear
     // the preview image/gif so we can release the file for deletion.
     function clear() {
-        root.close()
-        imagePreview.source = ""
-        animatedImagePreview.source = ""
-        txtHeadline.text = ""
-        installedDrawerWrapper.state = "inactive"
+
+        root.close();
+        root.contentFolderName = "";
+        root.type = ContentTypes.InstalledType.Unknown;
+        imagePreview.source = "";
+        animatedImagePreview.source = "";
+        txtHeadline.text = "";
+        installedDrawerWrapper.state = "inactive";
     }
 
     onContentFolderNameChanged: {
-        const item = App.installedListModel.get(root.contentFolderName)
-        //txtHeadline.text = item.m_title
-        const previewGiFilePath = Qt.resolvedUrl(
-                                    item.m_absoluteStoragePath + "/" + item.m_previewGIF)
-        const previewImageFilePath = Qt.resolvedUrl(
-                                       item.m_absoluteStoragePath + "/" + item.m_preview)
-        root.hasPreviewGif = App.util.fileExists(previewGiFilePath)
-        if (hasPreviewGif) {
-            animatedImagePreview.source = previewGiFilePath
-            animatedImagePreview.playing = true
-        } else {
-            imagePreview.source = previewImageFilePath
-        }
-        if (App.util.isWidget(root.type)
-                || (monitorSelection.activeMonitors.length > 0)) {
-            btnLaunchContent.enabled = true
+        if (root.contentFolderName === ""){
+            console.error("empty folder name")
             return
         }
-        btnLaunchContent.enabled = false
+
+        const item = App.installedListModel.get(root.contentFolderName);
+        print(root.contentFolderName);
+        txtHeadline.text = item.m_title;
+        const previewGiFilePath = Qt.resolvedUrl(item.m_absoluteStoragePath + "/" + item.m_previewGIF);
+        const previewImageFilePath = Qt.resolvedUrl(item.m_absoluteStoragePath + "/" + item.m_preview);
+        root.hasPreviewGif = App.util.fileExists(previewGiFilePath);
+        if (hasPreviewGif) {
+            animatedImagePreview.source = previewGiFilePath;
+            animatedImagePreview.playing = true;
+        } else {
+            imagePreview.source = previewImageFilePath;
+        }
     }
 
     Item {
@@ -94,7 +81,7 @@ Drawer {
         RowLayout {
             id: installedDrawerWrapper
             state: "inactive"
-            spacing: 30
+            spacing: 20
 
             anchors {
                 margins: 10
@@ -105,7 +92,7 @@ Drawer {
                 spacing: 5
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                Layout.horizontalStretchFactor: 3
+                Layout.horizontalStretchFactor: 4
 
                 Text {
                     Layout.leftMargin: 20
@@ -118,18 +105,19 @@ Drawer {
 
                 Timeline {
                     id: timeline
+                    Layout.topMargin: 50
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     Connections {
                         target: App.screenPlayManager
                         function onPrintQmlTimeline() {
-                            timeline.printTimelines()
+                            timeline.printTimelines();
                         }
                     }
 
                     ToolButton {
                         text: "❌" //qsTr("Remove all timeline ranges")
-                        enabled: timeline.length > 1
+                        // enabled: timeline.length > 1
                         onClicked: timeline.removeAll()
                         anchors {
                             right: parent.right
@@ -140,7 +128,7 @@ Drawer {
             }
 
             ColumnLayout {
-                Layout.horizontalStretchFactor: 2
+                Layout.horizontalStretchFactor: 4
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 spacing: 10
@@ -166,7 +154,7 @@ Drawer {
             }
 
             ColumnLayout {
-                Layout.horizontalStretchFactor: 1
+                Layout.horizontalStretchFactor: 3
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 spacing: 10
@@ -175,7 +163,7 @@ Drawer {
                     id: imageWrapper
                     color: "#2b2b2b"
 
-                    Layout.preferredHeight: 100
+                    Layout.preferredHeight: 160
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignTop
                     Layout.topMargin: 20
@@ -261,62 +249,44 @@ Drawer {
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
                     objectName: "btnLaunchContent"
-                    enabled: App.util.isWidget(root.type) && activeMonitors.length > 0 ? true : monitorSelection.isSelected
+                    text: qsTr("Set Wallpaper");
+                    // enabled: App.util.isWidget(root.type) && activeMonitors.length > 0 ? true : monitorSelection.isSelected
                     icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_plus.svg"
                     icon.color: "white"
                     font.pointSize: 12
                     onClicked: {
-                        const item = App.installedListModel.get(
-                                       root.contentFolderName)
-                        const absoluteStoragePath = item.m_absoluteStoragePath
-                        const previewImage = item.m_preview
+                        const item = App.installedListModel.get(root.contentFolderName);
+                        const absoluteStoragePath = item.m_absoluteStoragePath;
+                        const previewImage = item.m_preview;
                         if (App.util.isWallpaper(root.type)) {
                             if (type === ContentTypes.InstalledType.GodotWallpaper) {
                                 if (App.globalVariables.isBasicVersion()) {
-                                    installedDrawerWrapper.state = "inactive"
-                                    return
+                                    installedDrawerWrapper.state = "inactive";
+                                    return;
                                 }
                             }
-                            let activeMonitors = monitorSelection.getActiveMonitors()
+                            let activeMonitors = monitorSelection.getActiveMonitors();
                             if (type === ContentTypes.InstalledType.GodotWallpaper) {
-                                App.util.exportGodotProject(
-                                            absoluteStoragePath,
-                                            App.globalVariables.godotEditorExecutablePath).then(
-                                            result => {
-                                                if (!result.success) {
-                                                    dialog.title = ("Error exporting Godot")
-                                                    dialog.message = result.message
-                                                    dialog.open()
-                                                } else {
-                                                    const screenFile = item.m_file
-                                                     let volume = 1
-                                                    let success = App.screenPlayManager.createWallpaper(
-                                                        root.type,
-                                                        cbVideoFillMode.currentValue,
-                                                        absoluteStoragePath,
-                                                        previewImage,
-                                                        screenFile,
-                                                        activeMonitors,
-                                                        volume,
-                                                        1, {}, true)
-                                                }
-                                            })
-                                root.close()
-                                return
+                                App.util.exportGodotProject(absoluteStoragePath, App.globalVariables.godotEditorExecutablePath).then(result => {
+                                    if (!result.success) {
+                                        dialog.title = ("Error exporting Godot");
+                                        dialog.message = result.message;
+                                        dialog.open();
+                                    } else {
+                                        const screenFile = item.m_file;
+                                        let volume = 1;
+                                        let success = App.screenPlayManager.createWallpaper(root.type, cbVideoFillMode.currentValue, absoluteStoragePath, previewImage, screenFile, activeMonitors, volume, 1, {}, true);
+                                    }
+                                });
+                                root.close();
+                                return;
                             }
-                            const activeTimeline = timeline.getActiveTimeline()
-                            const file = item.m_file
-                            let success = App.screenPlayManager.setWallpaperAtTimelineIndex(
-                                    root.type,
-                                    absoluteStoragePath,
-                                    previewImage,
-                                    file,
-                                    activeMonitors,
-                                    timeline.activeTimelineIndex,
-                                    activeTimeline.identifier, true)
+                            const activeTimeline = timeline.getActiveTimeline();
+                            const file = item.m_file;
+                            let success = App.screenPlayManager.setWallpaperAtTimelineIndex(root.type, absoluteStoragePath, previewImage, file, activeMonitors, timeline.activeTimelineIndex, activeTimeline.identifier, true);
                         }
-                        root.close()
-                        monitorSelection.reset()
+                        root.close();
+                        monitorSelection.reset();
                     }
                 }
             }
@@ -383,7 +353,6 @@ Drawer {
                         opacity: 1
                         anchors.topMargin: 0
                     }
-
                 }
             ]
             transitions: [
@@ -478,8 +447,8 @@ Drawer {
             icon.width: 15
             icon.height: 15
             onClicked: {
-                root.close()
-                installedDrawerWrapper.state = "inactive"
+                root.close();
+                installedDrawerWrapper.state = "inactive";
             }
         }
     }

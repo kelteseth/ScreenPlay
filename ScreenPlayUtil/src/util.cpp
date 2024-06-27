@@ -408,14 +408,14 @@ QStringList Util::getAvailableTypes() const
 */
 bool Util::isWallpaper(const ScreenPlay::ContentTypes::InstalledType type) const
 {
-
     using namespace ScreenPlay;
-    return (type == ContentTypes::InstalledType::VideoWallpaper
-        || type == ContentTypes::InstalledType::QMLWallpaper
-        || type == ContentTypes::InstalledType::HTMLWallpaper
-        || type == ContentTypes::InstalledType::GifWallpaper
-        || type == ContentTypes::InstalledType::WebsiteWallpaper
-        || type == ContentTypes::InstalledType::GodotWallpaper);
+    using enum ContentTypes::InstalledType;
+    return (type == VideoWallpaper
+        || type == QMLWallpaper
+        || type == HTMLWallpaper
+        || type == GifWallpaper
+        || type == WebsiteWallpaper
+        || type == GodotWallpaper);
 }
 
 /*!
@@ -424,8 +424,8 @@ bool Util::isWallpaper(const ScreenPlay::ContentTypes::InstalledType type) const
 bool Util::isWidget(const ScreenPlay::ContentTypes::InstalledType type) const
 {
     using namespace ScreenPlay;
-
-    return (type == ContentTypes::InstalledType::QMLWidget || type == ContentTypes::InstalledType::HTMLWidget);
+    using enum ContentTypes::InstalledType;
+    return (type == QMLWidget || type == HTMLWidget);
 }
 /*!
     \brief Returns true of the given type is a isScene.
@@ -433,11 +433,11 @@ bool Util::isWidget(const ScreenPlay::ContentTypes::InstalledType type) const
 bool Util::isScene(const ScreenPlay::ContentTypes::InstalledType type) const
 {
     using namespace ScreenPlay;
-
-    return (type == ContentTypes::InstalledType::HTMLWallpaper
-        || type == ContentTypes::InstalledType::QMLWallpaper
-        || type == ContentTypes::InstalledType::WebsiteWallpaper
-        || type == ContentTypes::InstalledType::GodotWallpaper);
+    using enum ContentTypes::InstalledType;
+    return (type == HTMLWallpaper
+        || type == QMLWallpaper
+        || type == WebsiteWallpaper
+        || type == GodotWallpaper);
 }
 /*!
     \brief Returns true of the given type is a isVideo.
@@ -445,9 +445,9 @@ bool Util::isScene(const ScreenPlay::ContentTypes::InstalledType type) const
 bool Util::isVideo(const ScreenPlay::ContentTypes::InstalledType type) const
 {
     using namespace ScreenPlay;
-
-    return (type == ContentTypes::InstalledType::VideoWallpaper
-        || type == ContentTypes::InstalledType::GifWallpaper);
+    using enum ContentTypes::InstalledType;
+    return (type == VideoWallpaper
+        || type == GifWallpaper);
 }
 
 /*!

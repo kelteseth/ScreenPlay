@@ -12,6 +12,7 @@
 #include <QVector>
 
 #include "ScreenPlay/screenplaywallpaper.h"
+#include "ScreenPlay/wallpapertimelinesection.h"
 
 #ifdef Q_OS_WIN
 #include <qt_windows.h>
@@ -33,7 +34,6 @@ struct Monitor {
 
     int m_index { 0 };
     QRect m_geometry;
-    std::shared_ptr<ScreenPlayWallpaper> m_activeWallpaper { nullptr };
 };
 
 class MonitorListModel : public QAbstractListModel {
@@ -56,24 +56,21 @@ public:
 
     QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
-    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
+     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 
-    void setWallpaperMonitor(
-        const std::shared_ptr<ScreenPlayWallpaper>& wallpaper,
+    void setWallpaperMonitor(const std::shared_ptr<WallpaperTimelineSection>& timelineSection,
         const QVector<int> monitors);
 
     std::optional<QString> getAppIDByMonitorIndex(const int index) const;
+    Q_INVOKABLE void reset();
+    Q_INVOKABLE QRect absoluteDesktopSize() const;
 
 signals:
     void monitorReloadCompleted();
     void setNewActiveMonitor(int index, QString path);
     void monitorConfigurationChanged();
 
-public slots:
-    void reset();
-    void clearActiveWallpaper();
-    void closeWallpaper(const QString& appID);
-    QRect absoluteDesktopSize() const;
+private slots:
 
     void screenAdded(QScreen* screen)
     {
@@ -91,6 +88,7 @@ private:
 
 private:
     QVector<Monitor> m_monitorList;
+    std::shared_ptr<WallpaperTimelineSection> m_activeTimelineSection;
 };
 
 }

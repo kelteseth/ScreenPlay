@@ -17,77 +17,12 @@
 #include "ScreenPlay/sdkconnection.h"
 #include "ScreenPlay/settings.h"
 #include "ScreenPlayUtil/processmanager.h"
+#include "ScreenPlay/wallpaperdata.h"
+#include "ScreenPlay/wallpapertimelinesection.h"
+
 
 namespace ScreenPlay {
 
-struct WallpaperData {
-    bool isLooping = false;
-    QString absolutePath;
-    QString previewImage;
-    float playbackRate = {};
-    float volume = {};
-    QString file;
-    QJsonObject properties;
-    ContentTypes::InstalledType type = ContentTypes::InstalledType::Unknown;
-    Video::FillMode fillMode = Video::FillMode::Fill;
-    QVector<int> monitors;
-    QJsonObject serialize() const
-    {
-        QJsonObject data;
-        data.insert("isLooping", isLooping);
-        data.insert("absolutePath", absolutePath);
-        data.insert("previewImage", previewImage);
-        data.insert("playbackRate", playbackRate);
-        data.insert("volume", volume);
-        data.insert("file", file);
-        data.insert("properties", properties);
-        data.insert("type", QVariant::fromValue(type).toString());
-        data.insert("fillMode", QVariant::fromValue(fillMode).toString());
-
-        // Serialize QVector<int> monitors
-        QJsonArray monitorArray;
-        for (int monitor : monitors) {
-            monitorArray.append(monitor);
-        }
-        data.insert("monitors", monitorArray);
-
-        return data;
-    }
-};
-
-class ScreenPlayWallpaper;
-// Represents one line in the UI. ScreenPlayManager has a list of
-// WallpaperTimeline. Only the active timeline section has
-// a filled vector of ScreenPlayWallpaper
-struct WallpaperTimelineSection {
-    // Is active is needed as an additional flag during switching.
-    // When timeline A is no longer in the time range, then we can
-    // use this flag to know that it was the last active timeline and
-    // remove all active wallpaper.
-    bool isActive = false;
-
-    QString identifier;
-    int index = 0; // Needed to check
-    float relativePosition = 0.0f;
-    QTime startTime;
-    QTime endTime;
-    // Data from the profiles.json that we need when we
-    // enable this section of the pipeline. We keep a copy
-    // here when this timeline needs to become active
-    std::vector<WallpaperData> wallpaperData;
-    // All active wallpaper.
-    std::vector<std::shared_ptr<ScreenPlayWallpaper>> activeWallpaperList;
-
-    // Check if currentTime falls within the timeline section
-    bool containsTime(const QTime& time) const
-    {
-        if (endTime < startTime) { // Timeline spans midnight
-            return (time >= startTime || time < endTime);
-        } else {
-            return (time >= startTime && time < endTime);
-        }
-    }
-};
 
 class ScreenPlayWallpaper : public QObject {
     Q_OBJECT
@@ -295,5 +230,8 @@ private:
     // while exiting. This flag is to ignore all setWallpaperValue calls
     bool m_isExiting { false };
     qint64 m_processID { 0 };
+    qint64 m_pingAliveTimerMissedPings = 0;
+    const qint64 m_pingAliveTimerMaxAllowedMissedPings = 3;
 };
+
 }

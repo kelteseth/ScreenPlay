@@ -3,6 +3,7 @@ import QtQuick.Controls
 
 Rectangle {
     id: root
+    z: selected ? 99 : 0
     property int index: 0
     property string identifier
     property bool selected: false
@@ -24,9 +25,14 @@ Rectangle {
     }
 
     Rectangle {
-        color: "gold"
-        anchors.fill: parent
         visible: root.selected
+        color: "gold"
+        height: 3
+        anchors {
+            right: parent.right
+            left: parent.left
+            top: parent.bottom
+        }
     }
 
     Rectangle {

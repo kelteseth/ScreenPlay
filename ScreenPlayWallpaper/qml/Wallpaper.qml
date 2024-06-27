@@ -57,6 +57,12 @@ Rectangle {
             root.canFadeByWallpaperFillMode = false;
             return;
         }
+        // For example if background is a solid color
+        if(Wallpaper.windowsDesktopProperties.wallpaperPath === ""){
+            root.canFadeByWallpaperFillMode = false;
+            return;
+        }
+
         imgCover.source = Qt.resolvedUrl("file:///" + Wallpaper.windowsDesktopProperties.wallpaperPath);
         switch (Wallpaper.windowsDesktopProperties.wallpaperStyle) {
         case 10:

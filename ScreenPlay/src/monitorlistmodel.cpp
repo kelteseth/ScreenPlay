@@ -74,34 +74,39 @@ QVariant MonitorListModel::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 
+
+
     auto roleEnum = static_cast<MonitorRole>(role);
 
-    if (row < rowCount())
-        switch (roleEnum) {
-        case MonitorRole::AppID:
-            if (m_monitorList.at(row).m_activeWallpaper) {
-                return m_monitorList.at(row).m_activeWallpaper->appID();
-            } else {
-                return QVariant("");
-            }
-        case MonitorRole::Index:
-            return m_monitorList.at(row).m_index;
-        case MonitorRole::Geometry:
-            return m_monitorList.at(row).m_geometry;
-        case MonitorRole::InstalledType:
-            if (m_monitorList.at(row).m_activeWallpaper) {
-                return static_cast<int>(m_monitorList.at(row).m_activeWallpaper->type());
-            } else {
-                return { "" };
-            }
-        case MonitorRole::PreviewImage:
-            if (m_monitorList.at(row).m_activeWallpaper) {
-                QString absolutePath = m_monitorList.at(row).m_activeWallpaper->absolutePath();
-                return absolutePath + "/" + m_monitorList.at(row).m_activeWallpaper->previewImage();
-            } else {
-                return QVariant("");
-            }
-        }
+    if (row > rowCount())
+        return {};
+
+    switch (roleEnum) {
+    case MonitorRole::AppID:
+        return 1;
+        // if (m_monitorList.at(row).m_activeWallpaper) {
+        //     return m_monitorList.at(row).m_activeWallpaper->appID();
+        // } else {
+        //     return QVariant("");
+        // }
+    case MonitorRole::Index:
+        return m_monitorList.at(row).m_index;
+    case MonitorRole::Geometry:
+        return m_monitorList.at(row).m_geometry;
+    case MonitorRole::InstalledType:
+        // if (m_monitorList.at(row).m_activeWallpaper) {
+        //     return static_cast<int>(m_monitorList.at(row).m_activeWallpaper->type());
+        // } else {
+            return { "" };
+        // }
+    case MonitorRole::PreviewImage:
+        // if (m_monitorList.at(row).m_activeWallpaper) {
+        //     QString absolutePath = m_monitorList.at(row).m_activeWallpaper->absolutePath();
+        //     return absolutePath + "/" + m_monitorList.at(row).m_activeWallpaper->previewImage();
+        // } else {
+            return QVariant("");
+         }
+
 
     return QVariant();
 }
@@ -178,48 +183,6 @@ void MonitorListModel::loadMonitors()
 }
 
 /*!
-  \brief Clears the listmodel.
-*/
-void MonitorListModel::clearActiveWallpaper()
-{
-    int i { 0 };
-    for (Monitor& monitor : m_monitorList) {
-        monitor.m_activeWallpaper = nullptr;
-        emit dataChanged(
-            index(i, 0),
-            index(i, 0),
-            QVector<int> {
-                static_cast<int>(MonitorRole::PreviewImage),
-                static_cast<int>(MonitorRole::InstalledType),
-                static_cast<int>(MonitorRole::AppID) });
-        ++i;
-    }
-}
-
-/*!
-  \brief Removes the preview image and appID inside an monitor item.
-*/
-void MonitorListModel::closeWallpaper(const QString& appID)
-{
-    int i {};
-    for (auto& item : m_monitorList) {
-        if (item.m_activeWallpaper) {
-            if (item.m_activeWallpaper->appID() == appID) {
-                item.m_activeWallpaper = nullptr;
-                emit dataChanged(
-                    index(i, 0),
-                    index(i, 0),
-                    QVector<int> {
-                        static_cast<int>(MonitorRole::PreviewImage),
-                        static_cast<int>(MonitorRole::InstalledType),
-                        static_cast<int>(MonitorRole::AppID) });
-            }
-        }
-        ++i;
-    }
-}
-
-/*!
  * \brief MonitorListModel::getAbsoluteDesktopSize
  * \return
  */
@@ -233,11 +196,12 @@ QRect MonitorListModel::absoluteDesktopSize() const
   \brief Sets a shared_ptr to the monitor list. This should be used to set and
          remove the shared_ptr.
 */
-void MonitorListModel::setWallpaperMonitor(const std::shared_ptr<ScreenPlayWallpaper>& wallpaper, const QVector<int> monitors)
+void MonitorListModel::setWallpaperMonitor(
+    const std::shared_ptr<WallpaperTimelineSection>& timelineSection, const QVector<int> monitors)
 {
-
+    m_activeTimelineSection = timelineSection;
     for (const int monitor : monitors) {
-        m_monitorList[monitor].m_activeWallpaper = wallpaper;
+        // m_monitorList[monitor].m_activeWallpaper = wallpaper;
 
         emit dataChanged(
             index(monitor, 0),
@@ -254,11 +218,11 @@ void MonitorListModel::setWallpaperMonitor(const std::shared_ptr<ScreenPlayWallp
 */
 std::optional<QString> MonitorListModel::getAppIDByMonitorIndex(const int index) const
 {
-    for (auto& monitor : m_monitorList) {
-        if (monitor.m_index == index && monitor.m_activeWallpaper) {
-            return { monitor.m_activeWallpaper->appID() };
-        }
-    }
+    // for (auto& monitor : m_monitorList) {
+    //     if (monitor.m_index == index && monitor.m_activeWallpaper) {
+    //         return { monitor.m_activeWallpaper->appID() };
+    //     }
+    // }
     return std::nullopt;
 }
 
