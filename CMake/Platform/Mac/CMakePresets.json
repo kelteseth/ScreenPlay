@@ -1,7 +1,7 @@
 {
     "version": 4,
     "cmakeMinimumRequired": {
-        "major": 0,
+        "major": 3,
         "minor": 27,
         "patch": 0
     },
