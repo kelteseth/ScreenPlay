@@ -64,7 +64,7 @@ void LoggingHandler::start()
     Q_ASSERT(!m_logFileName.isEmpty());
 
     QDir directory;
-    QString cacheDir = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
+    QString cacheDir = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
     directory = QDir(cacheDir + "/ScreenPlay/Logs");
     if (!directory.exists()) {
         if (!directory.mkpath(directory.path())) {
