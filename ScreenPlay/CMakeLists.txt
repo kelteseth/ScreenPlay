@@ -12,7 +12,7 @@ set(SOURCES
     # cmake-format: sort
     src/wallpaperdata.cpp
     src/wallpapertimelinesection.cpp
-    src/screenplaytimeline.cpp
+    src/screenplaytimelinemanager.cpp
     src/app.cpp
     src/applicationengine.cpp
     src/create.cpp
@@ -34,7 +34,7 @@ set(HEADER
     # cmake-format: sort
     inc/public/ScreenPlay/wallpaperdata.h
     inc/public/ScreenPlay/wallpapertimelinesection.h
-    inc/public/ScreenPlay/screenplaytimeline.h
+    inc/public/ScreenPlay/screenplaytimelinemanager.h
     inc/public/ScreenPlay/app.h
     inc/public/ScreenPlay/applicationengine.h
     inc/public/ScreenPlay/create.h

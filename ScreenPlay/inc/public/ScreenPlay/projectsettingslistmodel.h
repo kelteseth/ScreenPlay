@@ -1,17 +1,10 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
 #pragma once
-
+#include "ScreenPlayUtil/contenttypes.h"
 #include <QAbstractListModel>
-#include <QDebug>
-#include <QDir>
-#include <QFile>
-#include <QJsonArray>
-#include <QJsonDocument>
 #include <QJsonObject>
 #include <QVector>
-
-#include "ScreenPlayUtil/util.h"
 
 namespace ScreenPlay {
 

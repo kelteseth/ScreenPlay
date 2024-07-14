@@ -2,20 +2,18 @@
 
 #pragma once
 
-#include <QCoreApplication>
-#include <QDebug>
 #include <QJsonObject>
 #include <QLocalSocket>
 #include <QObject>
 #include <QPoint>
 #include <QProcess>
+#include <QTimer>
+#include <memory>
 
 #include "ScreenPlay/globalvariables.h"
 #include "ScreenPlay/projectsettingslistmodel.h"
 #include "ScreenPlay/sdkconnection.h"
 #include "ScreenPlayUtil/processmanager.h"
-
-#include <memory>
 
 namespace ScreenPlay {
 

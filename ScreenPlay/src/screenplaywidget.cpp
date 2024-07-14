@@ -1,5 +1,9 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "ScreenPlay/screenplaywidget.h"
+#include "ScreenPlayUtil/util.h"
+
+#include <QCoreApplication>
+#include <QDebug>
 
 namespace ScreenPlay {
 
@@ -115,7 +119,7 @@ void ScreenPlayWidget::setSDKConnection(std::unique_ptr<SDKConnection> connectio
         std::optional<bool> running = m_processManager.isRunning(m_processID);
 
         if (running.has_value()) {
-            qInfo() << "running:" << running.value();
+            // qInfo() << "running:" << running.value();
         } else {
             qInfo() << "INVALID PID:" << m_processID;
         }

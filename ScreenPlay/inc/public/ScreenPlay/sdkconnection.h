@@ -2,21 +2,11 @@
 
 #pragma once
 
-#include <QJsonDocument>
 #include <QJsonObject>
-#include <QJsonValue>
-#include <QLocalServer>
 #include <QLocalSocket>
 #include <QObject>
 #include <QString>
-#include <QTimer>
 #include <QVector>
-#include <QWebSocketServer>
-
-#include "ScreenPlay/globalvariables.h"
-#include "ScreenPlayUtil/util.h"
-
-#include <memory>
 
 namespace ScreenPlay {
 

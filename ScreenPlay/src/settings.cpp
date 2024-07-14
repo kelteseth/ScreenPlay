@@ -1,10 +1,33 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "ScreenPlay/settings.h"
-#include "ScreenPlayUtil/util.h"
-#include <QFileInfo>
-#include <QSysInfo>
-
 #include "ScreenPlay/CMakeVariables.h"
+#include "ScreenPlayUtil/util.h"
+
+#include <QDebug>
+#include <QDir>
+#include <QDomDocument>
+#include <QDomElement>
+#include <QDomNodeList>
+#include <QFile>
+#include <QFileInfo>
+#include <QFontDatabase>
+#include <QGuiApplication>
+#include <QIODevice>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QPair>
+#include <QProcess>
+#include <QProcessEnvironment>
+#include <QQmlPropertyMap>
+#include <QStandardPaths>
+#include <QSysInfo>
+#include <QTextStream>
+#include <QThread>
+#include <QUrl>
+#include <QVector>
+#include <QtConcurrent/QtConcurrent>
+#include <QtGlobal>
 
 #ifdef Q_OS_WIN
 #include <qt_windows.h>

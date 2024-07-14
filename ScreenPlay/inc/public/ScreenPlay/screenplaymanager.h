@@ -2,20 +2,19 @@
 
 #pragma once
 
+#include <QLocalServer>
 #include <QObject>
 #include <QPoint>
-#include <QProcess>
-#include <QVariantMap>
-
-#include "ScreenPlay/screenplaytimeline.h"
-#include "ScreenPlayUtil/util.h"
-#include "globalvariables.h"
-#include "monitorlistmodel.h"
-#include "projectsettingslistmodel.h"
-#include "screenplaywallpaper.h"
-#include "screenplaywidget.h"
-#include "settings.h"
 #include <memory>
+
+#include "ScreenPlay/globalvariables.h"
+#include "ScreenPlay/monitorlistmodel.h"
+#include "ScreenPlay/projectsettingslistmodel.h"
+#include "ScreenPlay/screenplaytimelinemanager.h"
+#include "ScreenPlay/screenplaywallpaper.h"
+#include "ScreenPlay/screenplaywidget.h"
+#include "ScreenPlay/settings.h"
+#include "ScreenPlayUtil/util.h"
 
 namespace ScreenPlay {
 
@@ -37,9 +36,6 @@ public:
         const std::shared_ptr<MonitorListModel>& mlm,
         const std::shared_ptr<Settings>& settings);
 
-    int activeWallpaperCounter() const { return m_activeWallpaperCounter; }
-    int activeWidgetsCounter() const { return m_activeWidgetsCounter; }
-
     std::shared_ptr<ScreenPlayWallpaper> startWallpaper(
         WallpaperData wallpaperData,
         const bool saveToProfilesConfigFile);
@@ -55,14 +51,11 @@ public:
         const QString identifier,
         const float relativePosition,
         QString positionTimeString);
-
-    Q_INVOKABLE QString getTimeString(double relativeLinePosition);
-
     Q_INVOKABLE bool addTimelineAt(
         const int index,
         const float reltiaveLinePosition,
         QString identifier);
-    Q_INVOKABLE void removeAllTimlineSections();
+    Q_INVOKABLE QCoro::QmlTask removeAllTimlineSections();
     Q_INVOKABLE bool removeTimelineAt(const int index);
     Q_INVOKABLE QJsonArray initialSectionsList();
     Q_INVOKABLE bool setWallpaperAtTimelineIndex(
@@ -89,7 +82,11 @@ public:
     Q_INVOKABLE bool setWallpaperFillModeAtMonitorIndex(const int index, const int fillmode);
     Q_INVOKABLE bool setAllWallpaperValue(const QString& key, const QString& value);
     Q_INVOKABLE bool setWallpaperValue(const QString& appID, const QString& key, const QString& value);
- signals:
+
+    int activeWallpaperCounter() const { return m_activeWallpaperCounter; }
+    int activeWidgetsCounter() const { return m_activeWidgetsCounter; }
+
+signals:
     void activeWallpaperCounterChanged(int activeWallpaperCounter);
     void activeWidgetsCounterChanged(int activeWidgetsCounter);
     void monitorConfigurationChanged();
@@ -103,21 +100,16 @@ public:
 
 private slots:
     bool saveProfiles();
-    void checkActiveWallpaperTimeline();
     void newConnection();
     void setActiveWallpaperCounter(int activeWallpaperCounter);
     void setActiveWidgetsCounter(int activeWidgetsCounter);
 
 private:
-    void printTimelines();
     bool loadProfiles();
-    void updateQmlTimelines();
 
-    void updateIndices();
     bool checkIsAnotherScreenPlayInstanceRunning();
     bool removeWallpaper(const QString& appID);
     bool removeWidget(const QString& appID);
-    void activateNewTimeline();
 
     bool loadWidgetConfig(const QJsonObject& widget);
     std::shared_ptr<GlobalVariables> m_globalVariables;
@@ -126,13 +118,12 @@ private:
     std::unique_ptr<QLocalServer> m_server;
     QVector<std::shared_ptr<ScreenPlayWidget>> m_screenPlayWidgets;
     std::vector<std::unique_ptr<SDKConnection>> m_unconnectedClients;
-    ScreenPlayTimeline m_screenPlayTimeline;
+    ScreenPlayTimelineManager m_screenPlayTimelineManager;
 
     int m_activeWallpaperCounter { 0 };
     int m_activeWidgetsCounter { 0 };
 
     QTimer m_saveLimiter;
-    QTimer m_contentTimer;
 
     Util m_util;
 

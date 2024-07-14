@@ -2,14 +2,9 @@
 
 #pragma once
 
-#include <QMetaType>
 #include <QObject>
 #include <QQmlEngine>
-#include <QStandardPaths>
 #include <QUrl>
-#include <QVersionNumber>
-
-#include <QQmlEngine>
 
 namespace ScreenPlay {
 

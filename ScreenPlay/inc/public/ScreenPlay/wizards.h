@@ -2,40 +2,23 @@
 
 #pragma once
 
-#include <QColor>
-#include <QDir>
-#include <QFile>
-#include <QFileInfo>
-#include <QFont>
-#include <QFuture>
-#include <QFutureWatcher>
-#include <QJsonArray>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonParseError>
-#include <QLinearGradient>
-#include <QObject>
-#include <QPainter>
-#include <QProcess>
-#include <QQmlEngine>
-#include <QScopedPointer>
-#include <QString>
-#include <QStringList>
-#include <QTextOption>
-#include <QTime>
-#include <QTimer>
-#include <QUrl>
-#include <QtMath>
-
-#include "ScreenPlay/CMakeVariables.h"
 #include "ScreenPlay/globalvariables.h"
 #include "ScreenPlayUtil/util.h"
+
+#include <QColor>
+#include <QFuture>
+#include <QObject>
+#include <QProcess>
+#include <QQmlEngine>
+#include <QString>
+#include <QStringList>
+#include <QUrl>
+#include <memory>
+#include <optional>
+
 #include "qcorotask.h"
 #include "qml/qcoroqml.h"
 #include "qml/qcoroqmltask.h"
-
-#include <memory>
-#include <optional>
 
 namespace ScreenPlay {
 

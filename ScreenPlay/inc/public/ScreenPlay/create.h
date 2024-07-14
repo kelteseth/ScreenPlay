@@ -2,31 +2,16 @@
 
 #pragma once
 
-#include <QDir>
-#include <QFile>
-#include <QFileInfo>
 #include <QFuture>
 #include <QFutureWatcher>
-#include <QJsonArray>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonParseError>
 #include <QObject>
-#include <QProcess>
 #include <QQmlEngine>
-#include <QScopedPointer>
 #include <QString>
-#include <QStringList>
-#include <QTime>
-#include <QTimer>
-#include <QUrl>
-#include <QtMath>
-
 #include <memory>
 
 #include "ScreenPlay/createimportstates.h"
-#include "ScreenPlay/createimportvideo.h"
 #include "ScreenPlay/globalvariables.h"
+#include "ScreenPlayUtil/contenttypes.h"
 
 namespace ScreenPlay {
 
@@ -40,9 +25,9 @@ class Create : public QObject {
     Q_PROPERTY(QString ffmpegOutput READ ffmpegOutput WRITE appendFfmpegOutput NOTIFY ffmpegOutputChanged)
 
 public:
-    explicit Create(const std::shared_ptr<GlobalVariables>& globalVariables);
+    explicit Create(const std::shared_ptr<GlobalVariables>& globalVariables, QObject* parent = nullptr);
 
-    Create();
+    Create(QObject* parent = nullptr);
 
     Q_INVOKABLE void cancel();
 

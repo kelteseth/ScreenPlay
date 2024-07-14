@@ -608,6 +608,58 @@ bool Util::fileExists(const QString& filePath) const
     return file.isFile();
 }
 
+float Util::calculateRelativePosition(const QTime& endTime) const
+{
+    QTime startTime(0, 0, 0); // Start of the day
+    QTime maxTime(23, 59, 59); // End of the day range
+
+    // Total number of seconds from startTime to maxTime
+    int totalSeconds = startTime.secsTo(maxTime);
+
+    // Seconds from startTime to the given endTime
+    int endTimeSeconds = startTime.secsTo(endTime);
+
+    // Calculate the relative position
+    float relativePosition = static_cast<float>(endTimeSeconds) / totalSeconds;
+
+    // Round to four decimal places
+    return qRound(relativePosition * 10000.0) / 10000.0;
+}
+
+QString Util::getTimeString(double relativeLinePosition)
+{
+    if (relativeLinePosition == 1.0) {
+        // We overwrite the endTime here
+        return "23:59:59";
+    }
+    const double totalHours = relativeLinePosition * 24;
+    int hours = static_cast<int>(std::floor(totalHours)); // Gets the whole hour part
+    double fractionalHours = totalHours - hours;
+    int minutes = static_cast<int>(std::floor(fractionalHours * 60)); // Calculates the minutes
+    double fractionalMinutes = fractionalHours * 60 - minutes;
+    int seconds = static_cast<int>(std::round(fractionalMinutes * 60)); // Calculates the seconds
+
+    // Adjust minutes and seconds if seconds rolled over to 60
+    if (seconds == 60) {
+        seconds = 0;
+        minutes += 1;
+    }
+
+    // Adjust hours and minutes if minutes rolled over to 60
+    if (minutes == 60) {
+        minutes = 0;
+        hours += 1;
+    }
+
+    // Ensure hours wrap correctly at 24
+    if (hours == 24) {
+        hours = 0;
+    }
+
+    // Format the output to "HH:MM:SS"
+    return QString("%1:%2:%3").arg(hours, 2, 10, QChar('0')).arg(minutes, 2, 10, QChar('0')).arg(seconds, 2, 10, QChar('0'));
+}
+
 /*!
   \brief Takes reference to \a obj. If the copy of the thumbnail is successful,
   it adds the corresponding settings entry to the json object reference.

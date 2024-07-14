@@ -134,6 +134,7 @@ public:
     Q_INVOKABLE void requestAllLicenses();
     Q_INVOKABLE void requestDataProtection();
     Q_INVOKABLE bool fileExists(const QString& filePath) const;
+    Q_INVOKABLE float calculateRelativePosition(const QTime& endTime) const;
 
     Q_INVOKABLE void setNavigation(QString nav)
     {
@@ -150,6 +151,11 @@ public:
     {
         emit requestToggleWallpaperConfiguration();
     }
+
+    /*!
+      \brief Converts a range from 0.0f - 1.0f to 00:00:00 0 23:59:59
+    */
+    Q_INVOKABLE QString getTimeString(double relativeLinePosition);
 
 signals:
     void extractionProgressChanged(QString file, int proc, int total, qint64 br, qint64 bt);

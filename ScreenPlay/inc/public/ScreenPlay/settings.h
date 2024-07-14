@@ -2,41 +2,16 @@
 
 #pragma once
 
-#include <QDebug>
-#include <QDir>
-#include <QDomDocument>
-#include <QDomElement>
-#include <QDomNodeList>
-#include <QFile>
-#include <QFontDatabase>
-#include <QGuiApplication>
-#include <QIODevice>
-#include <QJsonArray>
-#include <QJsonDocument>
-#include <QJsonObject>
 #include <QObject>
-#include <QPair>
-#include <QProcess>
-#include <QProcessEnvironment>
-#include <QQmlPropertyMap>
 #include <QSettings>
-#include <QStandardPaths>
 #include <QString>
-#include <QSysInfo>
-#include <QTextStream>
-#include <QThread>
-#include <QUrl>
+#include <QTranslator>
 #include <QVariant>
-#include <QVector>
 #include <QVersionNumber>
-#include <QtConcurrent/QtConcurrent>
-#include <QtGlobal>
 
 #include "ScreenPlay/globalvariables.h"
-#include "ScreenPlayUtil/util.h"
-
+#include "ScreenPlayUtil/contenttypes.h"
 #include <memory>
-#include <optional>
 
 namespace ScreenPlay {
 class ActiveProfile;

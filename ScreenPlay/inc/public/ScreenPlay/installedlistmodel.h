@@ -4,29 +4,17 @@
 
 #include <QAbstractListModel>
 #include <QByteArray>
-#include <QDateTime>
-#include <QDebug>
 #include <QDir>
 #include <QDirIterator>
-#include <QFile>
 #include <QFileSystemWatcher>
-#include <QFuture>
-#include <QFutureWatcher>
 #include <QHash>
-#include <QJsonArray>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QStandardPaths>
 #include <QString>
-#include <QUrl>
 #include <QVector>
-#include <QtConcurrent/QtConcurrent>
+#include <memory>
 
 #include "ScreenPlay/globalvariables.h"
 #include "ScreenPlay/settings.h"
 #include "ScreenPlayUtil/projectfile.h"
-
-#include <memory>
 
 namespace ScreenPlay {
 
@@ -67,9 +55,9 @@ public:
     {
         return m_count;
     }
+    Q_INVOKABLE QVariantMap get(const QString& folderName) const;
 
 public slots:
-    QVariantMap get(const QString& folderName) const;
 
     void loadInstalledContent();
     void append(const QString& projectJsonFilePath);

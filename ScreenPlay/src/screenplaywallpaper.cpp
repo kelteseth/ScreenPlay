@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "ScreenPlay/screenplaywallpaper.h"
+#include "ScreenPlayUtil/util.h"
 
-#include "util.h"
+#include <QDebug>
+#include <QDir>
+#include <QFileInfoList>
 
 namespace ScreenPlay {
 
@@ -259,7 +262,7 @@ void ScreenPlayWallpaper::setSDKConnection(std::unique_ptr<SDKConnection> connec
         std::optional<bool> running = m_processManager.isRunning(m_processID);
 
         if (running.has_value()) {
-            // qInfo() << "running:" << running.value();
+            qInfo() << "running:" << running.value();
         } else {
             qInfo() << "INVALID PID:" << m_processID;
         }

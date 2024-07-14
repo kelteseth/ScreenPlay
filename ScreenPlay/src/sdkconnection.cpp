@@ -1,5 +1,13 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "ScreenPlay/sdkconnection.h"
+#include "ScreenPlay/globalvariables.h"
+#include "ScreenPlayUtil/util.h"
+
+#include <QJsonDocument>
+#include <QJsonValue>
+#include <QLocalServer>
+#include <QTimer>
+#include <QWebSocketServer>
 
 namespace ScreenPlay {
 
@@ -90,7 +98,7 @@ void ScreenPlay::SDKConnection::readyRead()
             emit jsonMessageReceived(doc.object());
 
         } else {
-            qInfo() << "### Message from: " << m_appID << ": " << msg;
+            // qInfo() << "### Message from: " << m_appID << ": " << msg;
         }
     }
 }

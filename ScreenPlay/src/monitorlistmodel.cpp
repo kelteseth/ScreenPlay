@@ -1,10 +1,15 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
 #include "ScreenPlay/monitorlistmodel.h"
+#include "ScreenPlay/screenplaywallpaper.h"
+
 #ifdef Q_OS_WIN
 #include "windowsintegration.h"
 #endif
 #include <QGuiApplication>
+
+#include <QDebug>
+
 namespace ScreenPlay {
 
 /*!

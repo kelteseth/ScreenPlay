@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
 #include "ScreenPlay/installedlistfilter.h"
+#include "ScreenPlay/globalvariables.h"
+#include <QRegularExpression>
 
 namespace ScreenPlay {
 

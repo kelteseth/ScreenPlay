@@ -2,14 +2,12 @@
 
 #pragma once
 
-#include <QDebug>
-#include <QDir>
-#include <QFileInfoList>
 #include <QJsonObject>
 #include <QObject>
 #include <QProcess>
 #include <QString>
 #include <QStringList>
+#include <QTimer>
 #include <memory>
 
 #include "ScreenPlay/globalvariables.h"

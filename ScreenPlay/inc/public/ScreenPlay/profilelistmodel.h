@@ -3,18 +3,12 @@
 #pragma once
 
 #include <QAbstractListModel>
-#include <QDebug>
-#include <QDir>
-#include <QFile>
-#include <QStandardPaths>
 #include <QString>
-#include <QUrl>
 #include <QVector>
+#include <memory>
 
 #include "ScreenPlay/globalvariables.h"
 #include "ScreenPlay/profile.h"
-
-#include <memory>
 
 namespace ScreenPlay {
 

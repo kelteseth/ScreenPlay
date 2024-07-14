@@ -1,5 +1,23 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "ScreenPlay/wizards.h"
+#include "ScreenPlay/CMakeVariables.h"
+#include "ScreenPlayUtil/util.h"
+
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
+#include <QFont>
+#include <QFutureWatcher>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonParseError>
+#include <QLinearGradient>
+#include <QPainter>
+#include <QTextOption>
+#include <QTime>
+#include <QTimer>
+#include <QtMath>
 
 namespace ScreenPlay {
 /*!

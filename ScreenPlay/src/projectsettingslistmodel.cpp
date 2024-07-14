@@ -2,6 +2,13 @@
 
 #include "ScreenPlay/projectsettingslistmodel.h"
 
+#include <QDebug>
+#include <QDir>
+#include <QFile>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+
 namespace ScreenPlay {
 
 /*!

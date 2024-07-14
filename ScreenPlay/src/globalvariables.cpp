@@ -2,6 +2,8 @@
 
 #include "ScreenPlay/globalvariables.h"
 #include "ScreenPlay/CMakeVariables.h"
+#include <QMetaType>
+#include <QStandardPaths>
 
 namespace ScreenPlay {
 

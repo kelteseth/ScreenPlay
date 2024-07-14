@@ -2,11 +2,9 @@
 
 #pragma once
 
-#include <QRegularExpression>
 #include <QSortFilterProxyModel>
 #include <memory>
 
-#include "ScreenPlay/globalvariables.h"
 #include "ScreenPlay/installedlistmodel.h"
 
 namespace ScreenPlay {

@@ -2,11 +2,16 @@
 
 #include "ScreenPlay/profilelistmodel.h"
 
+#include <QDebug>
+#include <QDir>
 #include <QDirIterator>
+#include <QFile>
 #include <QFileInfoList>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QPair>
+#include <QStandardPaths>
+#include <QUrl>
 
 namespace ScreenPlay {
 

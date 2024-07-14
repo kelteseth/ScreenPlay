@@ -2,8 +2,17 @@
 
 #include "ScreenPlay/installedlistmodel.h"
 #include "ScreenPlay/CMakeVariables.h"
+#include <QDateTime>
 #include <QDebug>
+#include <QFile>
 #include <QGuiApplication>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QStandardPaths>
+#include <QtConcurrent/QtConcurrent>
+
+#include <QUrl>
 
 namespace ScreenPlay {
 

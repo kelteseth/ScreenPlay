@@ -4,21 +4,15 @@
 
 #include <QAbstractListModel>
 
-#include <QDebug>
 #include <QRect>
 #include <QScreen>
 #include <QSize>
 #include <QString>
 #include <QVector>
-
-#include "ScreenPlay/screenplaywallpaper.h"
-#include "ScreenPlay/wallpapertimelinesection.h"
-
-#ifdef Q_OS_WIN
-#include <qt_windows.h>
-#endif
 #include <memory>
 #include <optional>
+
+#include "ScreenPlay/wallpapertimelinesection.h"
 
 namespace ScreenPlay {
 

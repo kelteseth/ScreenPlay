@@ -1,8 +1,22 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
 #include "ScreenPlay/create.h"
+#include "ScreenPlay/createimportvideo.h"
 #include "ScreenPlayUtil/util.h"
-#include "qguiapplication.h"
+
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
+#include <QGuiApplication>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonParseError>
+#include <QStringList>
+#include <QTime>
+#include <QTimer>
+#include <QUrl>
+#include <QtMath>
 
 namespace ScreenPlay {
 
@@ -19,8 +33,8 @@ namespace ScreenPlay {
 /*!
   Constructor.
 */
-Create::Create(const std::shared_ptr<GlobalVariables>& globalVariables)
-    : QObject(nullptr)
+Create::Create(const std::shared_ptr<GlobalVariables>& globalVariables, QObject* parent)
+    : QObject(parent)
     , m_globalVariables(globalVariables)
 {
 }
@@ -28,8 +42,8 @@ Create::Create(const std::shared_ptr<GlobalVariables>& globalVariables)
 /*!
   Constructor for the QMLEngine.
 */
-Create::Create()
-    : QObject(nullptr)
+Create::Create(QObject* parent)
+    : QObject(parent)
 {
 }
 
