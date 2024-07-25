@@ -19,6 +19,7 @@ Util.Popup {
     height: 768
     onOpened: {
         monitorSelection.selectMonitorAt(0);
+        timeline.reset();
     }
     background: Rectangle {
         anchors.fill: parent
@@ -72,6 +73,7 @@ Util.Popup {
                 }
 
                 Timeline {
+                    id: timeline
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                 }
@@ -123,8 +125,6 @@ Util.Popup {
                     width: parent.width * 0.9
                     multipleMonitorsSelectable: false
                     monitorWithoutContentSelectable: false
-                    availableWidth: width - 20
-                    availableHeight: 150
                     onRequestProjectSettings: function (index, installedType, appID) {
                         if (installedType === Util.ContentTypes.InstalledType.VideoWallpaper) {
                             videoControlWrapper.state = "visible";

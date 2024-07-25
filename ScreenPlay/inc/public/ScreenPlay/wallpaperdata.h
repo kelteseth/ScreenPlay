@@ -2,17 +2,17 @@
 
 #pragma once
 
+#include "ScreenPlayUtil/contenttypes.h"
 #include <QDebug>
 #include <QDir>
 #include <QFileInfoList>
-#include <QJsonObject>
 #include <QJsonArray>
+#include <QJsonObject>
 #include <QObject>
 #include <QProcess>
 #include <QString>
 #include <QStringList>
-
-#include "ScreenPlayUtil/contenttypes.h"
+#include <QUuid>
 
 namespace ScreenPlay {
 
@@ -30,6 +30,5 @@ struct WallpaperData {
     QJsonObject serialize() const;
 
     static std::optional<WallpaperData> loadWallpaperConfig(const QJsonObject& wallpaperObj);
-
 };
 }

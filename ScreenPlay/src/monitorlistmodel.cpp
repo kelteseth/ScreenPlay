@@ -9,6 +9,7 @@
 #include <QGuiApplication>
 
 #include <QDebug>
+#include <QRandomGenerator>
 
 namespace ScreenPlay {
 
@@ -33,11 +34,33 @@ namespace ScreenPlay {
 MonitorListModel::MonitorListModel(QObject* parent)
     : QAbstractListModel(parent)
 {
-    loadMonitors();
 
     auto* guiAppInst = dynamic_cast<QGuiApplication*>(QGuiApplication::instance());
     connect(guiAppInst, &QGuiApplication::screenAdded, this, &MonitorListModel::screenAdded);
     connect(guiAppInst, &QGuiApplication::screenRemoved, this, &MonitorListModel::screenRemoved);
+
+    // Setup 1: Two Full HD monitors
+    m_mockMonitorList.append({ Monitor(0, QRect(0, 0, 1920, 1080)),
+        Monitor(1, QRect(1920, 0, 1920, 1080)) });
+
+    // Setup 2: One 4K monitor and one Full HD above
+    m_mockMonitorList.append({ Monitor(0, QRect(0, 0, 3840, 2160)),
+        Monitor(1, QRect((-3840 / 2), 3840, 1920, 1080)) });
+
+    // Setup 3: One WQHD and one Full HD
+    m_mockMonitorList.append({ Monitor(0, QRect(0, 0, 2560, 1440)),
+        Monitor(1, QRect(2560, 0, 1920, 1080)) });
+
+    // Setup 4: Three Full HD monitors (two horizontal, one vertical)
+    m_mockMonitorList.append({ Monitor(0, QRect(0, 0, 1920, 1080)),
+        Monitor(1, QRect(1920, 0, 1920, 1080)),
+        Monitor(2, QRect(3840, 0, 1080, 1920)) });
+
+    // Setup 5: One ultrawide and one regular monitor
+    m_mockMonitorList.append({ Monitor(0, QRect(0, 0, 3440, 1440)),
+        Monitor(1, QRect(3440, 0, 1920, 1080)) });
+
+    loadMonitors();
 }
 
 /*!
@@ -79,40 +102,23 @@ QVariant MonitorListModel::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 
-
-
     auto roleEnum = static_cast<MonitorRole>(role);
 
     if (row > rowCount())
-        return {};
+        return QVariant();
 
     switch (roleEnum) {
     case MonitorRole::AppID:
-        return 1;
-        // if (m_monitorList.at(row).m_activeWallpaper) {
-        //     return m_monitorList.at(row).m_activeWallpaper->appID();
-        // } else {
-        //     return QVariant("");
-        // }
+        return m_monitorList.at(row).m_appID;
     case MonitorRole::Index:
         return m_monitorList.at(row).m_index;
     case MonitorRole::Geometry:
         return m_monitorList.at(row).m_geometry;
     case MonitorRole::InstalledType:
-        // if (m_monitorList.at(row).m_activeWallpaper) {
-        //     return static_cast<int>(m_monitorList.at(row).m_activeWallpaper->type());
-        // } else {
-            return { "" };
-        // }
+        return QVariant::fromValue(m_monitorList.at(row).m_installedType);
     case MonitorRole::PreviewImage:
-        // if (m_monitorList.at(row).m_activeWallpaper) {
-        //     QString absolutePath = m_monitorList.at(row).m_activeWallpaper->absolutePath();
-        //     return absolutePath + "/" + m_monitorList.at(row).m_activeWallpaper->previewImage();
-        // } else {
-            return QVariant("");
-         }
-
-
+        return m_monitorList.at(row).m_wallpaperPreviewImage;
+    }
     return QVariant();
 }
 
@@ -121,9 +127,27 @@ QVariant MonitorListModel::data(const QModelIndex& index, int role) const
 */
 void MonitorListModel::loadMonitors()
 {
+    if (m_useMockMonitors) {
+
+        // Generate a random index
+        const int selectedMockIndex = QRandomGenerator::global()->bounded(m_mockMonitorList.size());
+        const auto& mockMonitorList = m_mockMonitorList[selectedMockIndex];
+        qDebug() << "Using mock" << selectedMockIndex
+                 << "of" << m_mockMonitorList.size()
+                 << " with monitor count:" << mockMonitorList.count();
+        beginInsertRows(index(rowCount()), rowCount(), rowCount() + mockMonitorList.count() - 1);
+        // Use the randomly selected mock monitor setup
+        for (const auto& monitor : mockMonitorList) {
+            m_monitorList.append(monitor);
+            qDebug() << "Adding mock monitor: " << monitor.m_index << monitor.m_geometry;
+        }
+        endInsertRows();
+
+        emit monitorReloadCompleted();
+        return;
+    }
 
 #ifdef Q_OS_WIN
-    QModelIndex index;
     auto monitors = WindowsIntegration().getAllMonitors();
 
     // This offset lets us center the monitor selection view in the center
@@ -151,13 +175,12 @@ void MonitorListModel::loadMonitors()
             y + offsetY,
             width,
             height);
-        beginInsertRows(index, m_monitorList.size(), m_monitorList.size());
+        beginInsertRows(index(rowCount()), m_monitorList.size(), m_monitorList.size());
         m_monitorList.append(Monitor { i, geometry });
         endInsertRows();
         i++;
     }
 #else
-    QModelIndex index;
     int offsetX = 0;
     int offsetY = 0;
 
@@ -178,7 +201,7 @@ void MonitorListModel::loadMonitors()
         if (screen->geometry().width() == 0 || screen->geometry().height() == 0)
             continue;
 
-        beginInsertRows(index, m_monitorList.size(), m_monitorList.size());
+        beginInsertRows(index(rowCount()), m_monitorList.size(), m_monitorList.size());
         m_monitorList.append(Monitor { i, screen->geometry() });
         endInsertRows();
     }
@@ -191,31 +214,22 @@ void MonitorListModel::loadMonitors()
  * \brief MonitorListModel::getAbsoluteDesktopSize
  * \return
  */
-QRect MonitorListModel::absoluteDesktopSize() const
+QSize MonitorListModel::totalDesktopSize() const
 {
-    auto* guiAppInst = dynamic_cast<QGuiApplication*>(QGuiApplication::instance());
-    return guiAppInst->screens().at(0)->availableVirtualGeometry();
+    QRect totalRect;
+    for (const auto& monitor : m_monitorList) {
+        totalRect = totalRect.united(monitor.m_geometry);
+    }
+    return totalRect.size();
 }
 
-/*!
-  \brief Sets a shared_ptr to the monitor list. This should be used to set and
-         remove the shared_ptr.
-*/
-void MonitorListModel::setWallpaperMonitor(
-    const std::shared_ptr<WallpaperTimelineSection>& timelineSection, const QVector<int> monitors)
+QRect MonitorListModel::absoluteDesktopSize() const
 {
-    m_activeTimelineSection = timelineSection;
-    for (const int monitor : monitors) {
-        // m_monitorList[monitor].m_activeWallpaper = wallpaper;
-
-        emit dataChanged(
-            index(monitor, 0),
-            index(monitor, 0),
-            QVector<int> {
-                static_cast<int>(MonitorRole::PreviewImage),
-                static_cast<int>(MonitorRole::InstalledType),
-                static_cast<int>(MonitorRole::AppID) });
+    QRect totalRect;
+    for (const auto& monitor : m_monitorList) {
+        totalRect = totalRect.united(monitor.m_geometry);
     }
+    return totalRect;
 }
 
 /*!
@@ -243,6 +257,22 @@ void MonitorListModel::reset()
     loadMonitors();
 }
 
+bool MonitorListModel::setData(const QModelIndex& index, const QVariant& value, int role)
+{
+    if (role == static_cast<int>(MonitorRole::PreviewImage)) {
+        m_monitorList[index.column()].m_wallpaperPreviewImage = value.toString();
+        emit dataChanged(index, index, { role });
+    }
+    if (role == static_cast<int>(MonitorRole::AppID)) {
+        m_monitorList[index.column()].m_appID = value.toString();
+        emit dataChanged(index, index, { role });
+    }
+    if (role == static_cast<int>(MonitorRole::InstalledType)) {
+        m_monitorList[index.column()].m_installedType = static_cast<ContentTypes::InstalledType>(value.toInt());
+        emit dataChanged(index, index, { role });
+    }
+    return true;
+}
 }
 
 #include "moc_monitorlistmodel.cpp"

@@ -45,15 +45,22 @@ public:
 
     std::shared_ptr<GlobalVariables> globalVariables;
     std::shared_ptr<Settings> settings;
+
+public:
     // Check if currentTime falls within the timeline section
     bool containsTime(const QTime& time) const;
-
     QJsonObject serialize() const;
-
     bool activateTimeline();
-    QCoro::Task<bool> deactivateTimeline();
 
+    QCoro::Task<bool> deactivateTimeline();
+    QCoro::Task<bool> removeWallpaper(const int monitorIndex);
+private slots:
+    void updateActiveWallpaperCounter();
+
+private:
+    std::optional<std::shared_ptr<ScreenPlayWallpaper>> wallpaperByMonitorIndex(const int index);
 signals:
     void requestSaveProfiles();
+    void activeWallpaperCountChanged(const int count);
 };
 }

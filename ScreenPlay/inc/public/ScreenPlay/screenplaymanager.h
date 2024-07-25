@@ -19,7 +19,6 @@
 namespace ScreenPlay {
 
 
-
 class ScreenPlayManager : public QObject {
     Q_OBJECT
     QML_ELEMENT
@@ -36,13 +35,9 @@ public:
         const std::shared_ptr<MonitorListModel>& mlm,
         const std::shared_ptr<Settings>& settings);
 
-    std::shared_ptr<ScreenPlayWallpaper> startWallpaper(
-        WallpaperData wallpaperData,
-        const bool saveToProfilesConfigFile);
-
-    Q_INVOKABLE bool removeAllWallpapers(bool saveToProfile = false);
+    Q_INVOKABLE QCoro::QmlTask removeAllWallpapers(bool saveToProfile = false);
     Q_INVOKABLE bool removeAllWidgets(bool saveToProfile = false);
-    Q_INVOKABLE bool removeWallpaperAt(const int index);
+    Q_INVOKABLE QCoro::QmlTask removeWallpaperAt(const int timelineIndex, const QString timelineIdentifier, const int monitorIndex);
 
     Q_INVOKABLE ScreenPlayWallpaper* getWallpaperByAppID(const QString& appID);
 
@@ -58,7 +53,7 @@ public:
     Q_INVOKABLE QCoro::QmlTask removeAllTimlineSections();
     Q_INVOKABLE bool removeTimelineAt(const int index);
     Q_INVOKABLE QJsonArray initialSectionsList();
-    Q_INVOKABLE bool setWallpaperAtTimelineIndex(
+    Q_INVOKABLE QCoro::QmlTask setWallpaperAtTimelineIndex(
         const ScreenPlay::ContentTypes::InstalledType type,
         const QString& absolutePath,
         const QString& previewImage,
@@ -77,12 +72,14 @@ public:
         const QJsonObject& properties,
         const bool saveToProfilesConfigFile);
 
+    Q_INVOKABLE void setSelectedTimelineIndex(const int selectedTimelineIndex);
+
     Q_INVOKABLE bool requestProjectSettingsAtMonitorIndex(const int index);
     Q_INVOKABLE bool setWallpaperValueAtMonitorIndex(const int index, const QString& key, const QString& value);
     Q_INVOKABLE bool setWallpaperFillModeAtMonitorIndex(const int index, const int fillmode);
     Q_INVOKABLE bool setAllWallpaperValue(const QString& key, const QString& value);
     Q_INVOKABLE bool setWallpaperValue(const QString& appID, const QString& key, const QString& value);
-
+    Q_INVOKABLE int activeTimelineIndex();
     int activeWallpaperCounter() const { return m_activeWallpaperCounter; }
     int activeWidgetsCounter() const { return m_activeWidgetsCounter; }
 

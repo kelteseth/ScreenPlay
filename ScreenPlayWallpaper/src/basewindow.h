@@ -356,7 +356,6 @@ protected:
     QVector<int> m_activeScreensList;
     QFileSystemWatcher m_fileSystemWatcher;
     QTimer m_liveReloadLimiter;
-    QSysInfo m_sysinfo;
     std::unique_ptr<ScreenPlaySDK> m_sdk;
     QUrl m_projectSourceFileAbsolute;
     ScreenPlay::Video::VideoCodec m_videoCodec = ScreenPlay::Video::VideoCodec::Unknown;

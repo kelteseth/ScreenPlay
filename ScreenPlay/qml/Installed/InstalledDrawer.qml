@@ -18,6 +18,9 @@ Drawer {
     background: Rectangle {
         color: Material.color(Material.Grey, Material.Shade900)
     }
+    onOpened: {
+        timeline.reset();
+    }
 
     property bool hasPreviewGif: false
     property var type: ContentTypes.InstalledType.QMLWallpaper
@@ -25,27 +28,29 @@ Drawer {
 
     function setInstalledDrawerItem(folderName, type) {
 
-        // Toggle sidebar if clicked on the same content twice
-        if (root.contentFolderName === folderName)
-            return;
+        // Toggle drawer if clicked on the same content twice
+        if (root.contentFolderName === folderName) {
+            if (root.visible) {
+                root.close();
+                return;
+            }
+        }
         if (!App.util.isWallpaper(type)) {
             return;
         }
+        print("setInstalledDrawerItem", root.contentFolderName, folderName, typeof (folderName), type);
         root.contentFolderName = folderName;
         root.type = type;
-        print("setInstalledDrawerItem", folderName,typeof(folderName), type);
         if (type === ContentTypes.InstalledType.VideoWallpaper)
             installedDrawerWrapper.state = "wallpaper";
         else
             installedDrawerWrapper.state = "scene";
-
         root.open();
     }
 
     // This is used for removing wallpaper. We need to clear
     // the preview image/gif so we can release the file for deletion.
     function clear() {
-
         root.close();
         root.contentFolderName = "";
         root.type = ContentTypes.InstalledType.Unknown;
@@ -56,11 +61,10 @@ Drawer {
     }
 
     onContentFolderNameChanged: {
-        if (root.contentFolderName === ""){
-            console.error("empty folder name")
-            return
+        if (root.contentFolderName === "") {
+            console.error("empty folder name");
+            return;
         }
-
         const item = App.installedListModel.get(root.contentFolderName);
         print(root.contentFolderName);
         txtHeadline.text = item.m_title;
@@ -108,22 +112,6 @@ Drawer {
                     Layout.topMargin: 50
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    Connections {
-                        target: App.screenPlayManager
-                        function onPrintQmlTimeline() {
-                            timeline.printTimelines();
-                        }
-                    }
-
-                    ToolButton {
-                        text: "❌" //qsTr("Remove all timeline ranges")
-                        // enabled: timeline.length > 1
-                        onClicked: timeline.removeAll()
-                        anchors {
-                            right: parent.right
-                            top: parent.top
-                        }
-                    }
                 }
             }
 
@@ -144,11 +132,8 @@ Drawer {
                 MonitorSelection {
                     id: monitorSelection
                     objectName: "monitorSelection"
-                    height: 180
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    availableWidth: width
-                    availableHeight: height - 20
                     fontSize: 11
                 }
             }
@@ -249,8 +234,8 @@ Drawer {
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
                     objectName: "btnLaunchContent"
-                    text: qsTr("Set Wallpaper");
-                    // enabled: App.util.isWidget(root.type) && activeMonitors.length > 0 ? true : monitorSelection.isSelected
+                    text: qsTr("Set Wallpaper")
+                    enabled: monitorSelection.isSelected && timeline.selectedTimelineIndex > -1
                     icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_plus.svg"
                     icon.color: "white"
                     font.pointSize: 12
@@ -281,9 +266,18 @@ Drawer {
                                 root.close();
                                 return;
                             }
-                            const activeTimeline = timeline.getActiveTimeline();
+                            const selectedTimeline = timeline.selectedTimeline;
+                            if (selectedTimeline === undefined) {
+                                console.error("No active timeline");
+                                return;
+                            }
                             const file = item.m_file;
-                            let success = App.screenPlayManager.setWallpaperAtTimelineIndex(root.type, absoluteStoragePath, previewImage, file, activeMonitors, timeline.activeTimelineIndex, activeTimeline.identifier, true);
+                            let success = App.screenPlayManager.setWallpaperAtTimelineIndex(root.type, absoluteStoragePath, previewImage, file, activeMonitors, selectedTimeline.index, selectedTimeline.identifier, true).then(result => {
+                                if (!result.success) {
+                                    console.error("setWallpaperAtTimelineIndex failed");
+                                    return;
+                                }
+                            });
                         }
                         root.close();
                         monitorSelection.reset();

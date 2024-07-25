@@ -31,8 +31,8 @@ Rectangle {
             text: "Exit"
             onClicked: {
                 Qt.callLater(function () {
-                        Wallpaper.terminate();
-                    });
+                    Wallpaper.terminate();
+                });
             }
         }
     }

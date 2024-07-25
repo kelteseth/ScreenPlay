@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
 #pragma once
-#include <QString>
-
 #include "ScreenPlay/create.h"
 #include "ScreenPlay/globalvariables.h"
 #include "ScreenPlay/installedlistfilter.h"
@@ -13,8 +11,9 @@
 #include "ScreenPlay/settings.h"
 #include "ScreenPlay/wizards.h"
 #include "ScreenPlayUtil/util.h"
-#include <QQmlEngine>
 
+#include <QQmlEngine>
+#include <QString>
 #include <memory>
 
 #if defined(Q_OS_WIN)

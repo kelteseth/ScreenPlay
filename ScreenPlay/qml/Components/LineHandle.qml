@@ -6,10 +6,13 @@ Item {
     property real lineWidth: 1
     property real linePosition: (root.x / lineWidth).toFixed(4)
     property string timeString: {
-        const normalized = root.x / root.lineWidth; // Your existing normalization
+        const normalized = root.x / root.lineWidth;
+        // Your existing normalization
         let totalHours = normalized * 24;
-        let hours = Math.floor(totalHours); // Gets the whole hour part
-        let minutes = Math.round((totalHours - hours) * 60); // Calculates the minutes
+        let hours = Math.floor(totalHours);
+        // Gets the whole hour part
+        let minutes = Math.round((totalHours - hours) * 60);
+        // Calculates the minutes
         // Check if minutes rolled over to 60, adjust hours and minutes accordingly
         if (minutes === 60) {
             hours += 1; // Increment hours by 1
@@ -35,15 +38,18 @@ Item {
     width: 20
     height: width
     Rectangle {
+        id: handleCircle
         visible: !root.isLast
         radius: width
         color: dragHandler.active ? "orange" : "white"
-        anchors.fill: parent
+        width: 20
+        height: width
     }
+
+    // To block ➕
     MouseArea {
         hoverEnabled: true
         propagateComposedEvents: false
-        anchors.centerIn: parent
         width: 50
         height: 50
     }
@@ -54,7 +60,7 @@ Item {
         color: "white"
         visible: !root.isLast
         anchors {
-            horizontalCenter: parent.horizontalCenter
+            horizontalCenter: handleCircle.horizontalCenter
             bottom: parent.bottom
             bottomMargin: -20
         }

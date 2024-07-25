@@ -6,7 +6,8 @@ Rectangle {
     z: selected ? 99 : 0
     property int index: 0
     property string identifier
-    property bool selected: false
+    property bool selected: false // User selected
+    property bool isActive: false // Active based on time
     property bool isLast: false
     property alias text: text.text
 
@@ -21,6 +22,22 @@ Rectangle {
             horizontalCenter: parent.horizontalCenter
             bottom: parent.bottom
             bottomMargin: 10
+        }
+    }
+
+    Rectangle {
+        opacity: root.isActive ? 1 : 0
+        color: "gold"
+        height: root.height
+        anchors {
+            right: parent.right
+            left: parent.left
+            bottom: parent.bottom
+        }
+        Behavior on opacity {
+            NumberAnimation {
+                duration: 200
+            }
         }
     }
 
@@ -45,10 +62,17 @@ Rectangle {
             top: parent.bottom
             topMargin: 0
         }
+
+        Behavior on color {
+
+            ColorAnimation {
+                duration: 200
+            }
+        }
     }
 
     Rectangle {
-        id: background
+        id: monitorBackground
         width: 70
         height: 48
         radius: 5
@@ -59,6 +83,13 @@ Rectangle {
             horizontalCenter: parent.horizontalCenter
             top: indicatorLineVertical.bottom
             topMargin: -1
+        }
+
+        Behavior on color {
+
+            ColorAnimation {
+                duration: 200
+            }
         }
         MouseArea {
             anchors.fill: parent
@@ -80,8 +111,8 @@ Rectangle {
         font.pointSize: 10
 
         anchors {
-            left: background.right
-            bottom: background.top
+            left: monitorBackground.right
+            bottom: monitorBackground.top
             margins: -20
         }
     }

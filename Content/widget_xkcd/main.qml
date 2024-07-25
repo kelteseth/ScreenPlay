@@ -27,14 +27,14 @@ Item {
 
     Component.onCompleted: {
         request("http://xkcd.com/info.0.json", function (o) {
-                if (o.status === 200) {
-                    var d = eval('new Object(' + o.responseText + ')');
-                    console.log(o.responseText);
-                    img.source = d.img;
-                } else {
-                    console.log("Some error has occurred");
-                }
-            });
+            if (o.status === 200) {
+                var d = eval('new Object(' + o.responseText + ')');
+                console.log(o.responseText);
+                img.source = d.img;
+            } else {
+                console.log("Some error has occurred");
+            }
+        });
     }
 
     Image {

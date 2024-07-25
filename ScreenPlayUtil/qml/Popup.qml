@@ -1,11 +1,11 @@
 import QtQuick
-import QtQuick.Controls
+import QtQuick.Controls as QQC
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import ScreenPlayUtil
 
-Popup {
+QQC.Popup {
     id: root
     property Item modalSource
     // Workaround for missing animation on hide

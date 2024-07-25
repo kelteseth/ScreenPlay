@@ -26,6 +26,7 @@ Item {
     property bool isSelected: false
 
     signal monitorSelected(var index)
+    signal remoteWallpaper(var index)
 
     onIsSelectedChanged: root.state = isSelected ? "selected" : "default"
     onPreviewImageChanged: {
@@ -81,11 +82,23 @@ Item {
             cursorShape: Qt.PointingHandCursor
             onClicked: {
                 if (monitorWithoutContentSelectable) {
-                    monitorSelected(index);
+                    root.monitorSelected(index);
                     return;
                 }
                 if (root.hasContent && !root.monitorWithoutContentSelectable)
-                    monitorSelected(index);
+                    root.monitorSelected(index);
+            }
+        }
+
+        ToolButton {
+            text: "❌"
+            enabled: root.hasContent && !root.monitorWithoutContentSelectable
+            visible: enabled
+            onClicked: root.remoteWallpaper(index)
+
+            anchors {
+                top: parent.top
+                right: parent.right
             }
         }
     }

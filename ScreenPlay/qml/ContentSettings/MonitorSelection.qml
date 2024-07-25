@@ -13,7 +13,6 @@ Rectangle {
     property bool monitorWithoutContentSelectable: true
     property bool multipleMonitorsSelectable: false
     property bool isSelected: false
-    // We preselect the main monitor
     property var activeMonitors: []
     property alias background: root.color
     property alias bgRadius: root.radius
@@ -21,6 +20,11 @@ Rectangle {
     Component.onCompleted: {
         resize();
         selectOnly(0);
+    }
+    LoggingCategory {
+        id: logger
+        name: "MonitorSelection"
+        defaultLogLevel: LoggingCategory.Debug
     }
 
     signal requestProjectSettings(var index, var installedType, var appID)
@@ -50,8 +54,6 @@ Rectangle {
             if (rp.itemAt(i).isSelected)
                 root.activeMonitors.push(rp.itemAt(i).index);
         }
-        // Must be called manually. When QML properties are getting altered in js the
-        // property binding breaks
         root.activeMonitorsChanged();
         root.isSelected = root.activeMonitors.length > 0;
         return root.activeMonitors;
@@ -68,42 +70,45 @@ Rectangle {
     }
 
     function resize() {
-        print("resize");
-        var absoluteDesktopSize = App.monitorListModel.absoluteDesktopSize();
-        var isWidthGreaterThanHeight = false;
-        var windowsDelta = 0;
-        if (absoluteDesktopSize.width < absoluteDesktopSize.height) {
-            windowsDelta = absoluteDesktopSize.width / absoluteDesktopSize.height;
-            isWidthGreaterThanHeight = false;
-        } else {
-            windowsDelta = absoluteDesktopSize.height / absoluteDesktopSize.width;
-            isWidthGreaterThanHeight = true;
-        }
-        if (rp.count === 1)
-            availableWidth = availableWidth * 0.66;
-        var dynamicHeight = availableWidth * windowsDelta;
-        var dynamicWidth = availableHeight * windowsDelta;
-        // Delta (height/width)
-        var monitorHeightRationDelta = 0;
-        var monitorWidthRationDelta = 0;
-        if (isWidthGreaterThanHeight) {
-            monitorHeightRationDelta = dynamicHeight / absoluteDesktopSize.height;
-            monitorWidthRationDelta = availableWidth / absoluteDesktopSize.width;
-        } else {
-            monitorHeightRationDelta = availableHeight / absoluteDesktopSize.height;
-            monitorWidthRationDelta = dynamicWidth / absoluteDesktopSize.width;
-        }
+        console.debug(logger, "MonitorSelection resize started");
+
+        // 1. Get the total desktop size
+        let totalDesktopSize = App.monitorListModel.totalDesktopSize();
+        console.debug(logger, "Total desktop size:", totalDesktopSize.width, "x", totalDesktopSize.height);
+
+        // 2. Get root item dimensions
+        let rootWidth = root.width;
+        let rootHeight = root.height;
+        console.debug(logger, "Root dimensions:", rootWidth, "x", rootHeight);
+
+        // 3. Calculate scaling factor
+        let margin = 10;
+        let availableWidth = rootWidth - 2 * margin;
+        let availableHeight = rootHeight - 2 * margin;
+        let scaleX = availableWidth / totalDesktopSize.width;
+        let scaleY = availableHeight / totalDesktopSize.height;
+        let scaleFactor = Math.min(scaleX, scaleY, 1);
+
+        // Ensure we don't scale up
+        console.debug(logger, "Scale factor:", scaleFactor);
+
+        // 4. Resize and position repeater items
+        let scaledWidth = totalDesktopSize.width * scaleFactor;
+        let scaledHeight = totalDesktopSize.height * scaleFactor;
         for (var i = 0; i < rp.count; i++) {
-            rp.itemAt(i).index = i;
-            rp.itemAt(i).height = rp.itemAt(i).height * monitorHeightRationDelta;
-            rp.itemAt(i).width = rp.itemAt(i).width * monitorWidthRationDelta;
-            rp.itemAt(i).x = rp.itemAt(i).x * monitorWidthRationDelta;
-            rp.itemAt(i).y = rp.itemAt(i).y * monitorHeightRationDelta;
-            rp.contentWidth += rp.itemAt(i).width;
-            rp.contentHeight += rp.itemAt(i).height;
+            let item = rp.itemAt(i);
+            if (item) {
+                item.width = item.geometry.width * scaleFactor;
+                item.height = item.geometry.height * scaleFactor;
+                item.x = item.geometry.x * scaleFactor;
+                item.y = item.geometry.y * scaleFactor;
+            }
         }
-        rp.contentWidth += 200;
-        rp.contentHeight += 200;
+
+        // 6. Center content within Flickable
+        flickable.contentWidth = scaledWidth;
+        flickable.contentHeight = scaledHeight;
+        console.debug(logger, "MonitorSelection resize completed", flickable.contentWidth, flickable.contentHeight);
     }
 
     color: Material.theme === Material.Light ? Material.background : Qt.darker(Material.background)
@@ -148,17 +153,10 @@ Rectangle {
                 onMonitorSelected: function (index) {
                     root.selectMonitorAt(index);
                 }
+                // onRemoveWallpaper: function(index) {
+
+                // }
             }
-        }
-
-        ScrollBar.vertical: ScrollBar {
-            policy: ScrollBar.AlwaysOff
-            snapMode: ScrollBar.SnapOnRelease
-        }
-
-        ScrollBar.horizontal: ScrollBar {
-            policy: ScrollBar.AlwaysOff
-            snapMode: ScrollBar.SnapOnRelease
         }
     }
 

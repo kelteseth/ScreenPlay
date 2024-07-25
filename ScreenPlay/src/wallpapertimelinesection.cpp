@@ -71,22 +71,6 @@ bool WallpaperTimelineSection::activateTimeline()
         const QString appID = Util().generateRandomString();
         qInfo() << "Start wallpaper" << wallpaperData.absolutePath << appID;
 
-        // Only support remove wallpaper that spans over 1 monitor
-        // if (wallpaper.monitors.length() == 1) {
-        //     int i = 0;
-        //     for (auto& wallpaper : m_screenPlayWallpapers) {
-        //         if (wallpaper->monitors().length() == 1) {
-        //             if (monitors.at(0) == wallpaper->monitors().at(0)) {
-        //                 return wallpaper->replace(
-        //                     wallpaper,
-        //                     settings->checkWallpaperVisible());
-        //                 m_monitorListModel->setWallpaperMonitor(wallpaper, wallpaper.monitors);
-        //             }
-        //         }
-        //         i++;
-        //     }
-        // }
-
         auto screenPlayWallpaper = std::make_shared<ScreenPlayWallpaper>(
             globalVariables,
             appID,
@@ -100,6 +84,7 @@ bool WallpaperTimelineSection::activateTimeline()
         QObject::connect(screenPlayWallpaper.get(), &ScreenPlayWallpaper::requestClose, this, []() {
             // , &ScreenPlayManager::removeWallpaper);
         });
+        QObject::connect(screenPlayWallpaper.get(), &ScreenPlayWallpaper::isConnectedChanged, this, &WallpaperTimelineSection::updateActiveWallpaperCounter);
 
         // QObject::connect(screenPlayWallpaper.get(), &ScreenPlayWallpaper::error, this, this, []() {
         //     // , &ScreenPlayManager::displayErrorPopup);
@@ -144,4 +129,44 @@ QCoro::Task<bool> WallpaperTimelineSection::deactivateTimeline()
     co_return false;
 }
 
+QCoro::Task<bool> WallpaperTimelineSection::removeWallpaper(const int monitorIndex)
+{
+    auto wallpaperOpt = wallpaperByMonitorIndex(monitorIndex);
+    if (!wallpaperOpt.has_value()) {
+        qCritical() << "No wallpaper found for monitor index:" << monitorIndex;
+        co_return false;
+    }
+
+    QTimer timer;
+    timer.start(250);
+    const int maxRetries = 30;
+    wallpaperOpt.value()->close();
+    for (int i = 1; i <= maxRetries; ++i) {
+        // Wait for the timer to tick
+        co_await timer;
+        if (!wallpaperOpt.value()->isConnected()) {
+            co_return true;
+        }
+    }
+    co_return false;
+}
+
+void WallpaperTimelineSection::updateActiveWallpaperCounter()
+{
+    quint64 activeWallpaperCount = 0;
+    for (const auto& screenPlayWallpaper : activeWallpaperList) {
+        if (screenPlayWallpaper->isConnected())
+            activeWallpaperCount++;
+    }
+    emit activeWallpaperCountChanged(activeWallpaperCount);
+}
+
+std::optional<std::shared_ptr<ScreenPlayWallpaper>> WallpaperTimelineSection::wallpaperByMonitorIndex(const int monitorIndex)
+{
+    for (const auto& screenPlayWallpaper : activeWallpaperList) {
+        if (screenPlayWallpaper->monitors().contains(monitorIndex))
+            return screenPlayWallpaper;
+    }
+    return std::nullopt;
+}
 }
