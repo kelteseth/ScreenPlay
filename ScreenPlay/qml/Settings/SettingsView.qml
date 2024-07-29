@@ -482,7 +482,7 @@ Item {
                         description: qsTr("If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.")
                         buttonText: qsTr("Show Logs")
                         onButtonPressed: {
-                            const logsPath = QCore.StandardPaths.writableLocation(QCore.StandardPaths.GenericDataLocation) + "/ScreenPlay/Logs";
+                            const logsPath = QCore.StandardPaths.writableLocation(QCore.StandardPaths.TempLocation) + "/ScreenPlay/Logs";
                             App.util.openFolderInExplorer(logsPath);
                         }
                     }
