@@ -12,7 +12,7 @@ import argparse
 def main():
     # Parse build folder as arugment
 
-    parser = argparse.ArgumentParser(description='Build K3000Map to the bin build folder: D:/Backup/Code/Qt/build_ScreenPlay_Qt_6.7.1_MSVC_Debug/bin')
+    parser = argparse.ArgumentParser(description='Build K3000Map to the bin build folder: D:/Backup/Code/Qt/build_ScreenPlay_Qt_6.7.2_MSVC_Debug/bin')
     parser.add_argument('--build_path', dest="build_path", type=str,  help='Build folder')
     parser.add_argument('--skip_if_exists', dest="skip_if_exists", default=False, action="store_true",   help='Skips the build if the index.html file exists. This is used for faster CMake configure')
  
@@ -20,7 +20,7 @@ def main():
 
     if not args.build_path:
         print("ERROR: Please specify the build folder")
-        print("py build_godot.py --build_path D:/Backup/Code/Qt/build_ScreenPlay_Qt_6.7.1_MSVC_Debug/bin/")
+        print("py build_godot.py --build_path D:/Backup/Code/Qt/build_ScreenPlay_Qt_6.7.2_MSVC_Debug/bin/")
         exit()
 
     # if build path exists and contains a index.html file, skip the build

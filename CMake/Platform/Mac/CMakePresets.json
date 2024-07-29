@@ -18,7 +18,7 @@
                 "host-mac"
             ],
             "cacheVariables": {
-                "CMAKE_PREFIX_PATH": "${sourceDir}/../aqt/6.7.1/macos",
+                "CMAKE_PREFIX_PATH": "${sourceDir}/../aqt/6.7.2/macos",
                 "VCPKG_OSX_ARCHITECTURES": "arm64;x86_64",
                 "VCPKG_TARGET_TRIPLET": "64-osx-universal"
             }
