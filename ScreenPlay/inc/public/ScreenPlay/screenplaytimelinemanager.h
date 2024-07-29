@@ -24,7 +24,7 @@ public:
     void startup();
     bool addTimelineFromSettings(const QJsonObject& timelineObj);
     bool deactivateCurrentTimeline();
-    bool moveTimelineAt(const int index, const QString identifier, const float relativePosition, QString positionTimeString);
+    bool moveTimelineAt(const int index, const QString identifier, const float relativeLinePosition, QString positionTimeString);
     bool startTimeline();
     bool addTimelineAt(const int index, const float reltiaveLinePosition, QString identifier);
     bool removeTimelineAt(const int index);

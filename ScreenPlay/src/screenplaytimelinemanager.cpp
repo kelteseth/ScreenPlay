@@ -296,10 +296,10 @@ void ScreenPlayTimelineManager::updateIndices()
          timeline section.
 
  */
-bool ScreenPlayTimelineManager::addTimelineAt(const int index, const float reltiaveLinePosition, QString identifier)
+bool ScreenPlayTimelineManager::addTimelineAt(const int index, const float relativeLinePosition, QString identifier)
 {
     // We always get the new endTime
-    const QString newStopPosition = Util().getTimeString(reltiaveLinePosition);
+    const QString newStopPosition = Util().getTimeString(relativeLinePosition);
     QTime newStopPositionTime = QTime::fromString(newStopPosition, m_timelineTimeFormat);
     if (!newStopPositionTime.isValid()) {
         return false;
@@ -326,6 +326,7 @@ bool ScreenPlayTimelineManager::addTimelineAt(const int index, const float relti
     newTimelineSection->settings = m_settings;
     newTimelineSection->globalVariables = m_globalVariables;
     newTimelineSection->index = index;
+    newTimelineSection->relativePosition = relativeLinePosition;
     newTimelineSection->identifier = identifier;
     newTimelineSection->endTime = newStopPositionTime;
     // In case we do a full reset, we must set the start time manually
