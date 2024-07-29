@@ -35,8 +35,8 @@ public:
         const std::shared_ptr<MonitorListModel>& mlm,
         const std::shared_ptr<Settings>& settings);
 
-    Q_INVOKABLE QCoro::QmlTask removeAllWallpapers(bool saveToProfile = false);
-    Q_INVOKABLE bool removeAllWidgets(bool saveToProfile = false);
+    Q_INVOKABLE QCoro::QmlTask removeAllRunningWallpapers(bool saveToProfile = false);
+    Q_INVOKABLE bool removeAllRunningWidgets(bool saveToProfile = false);
     Q_INVOKABLE QCoro::QmlTask removeWallpaperAt(const int timelineIndex, const QString timelineIdentifier, const int monitorIndex);
 
     Q_INVOKABLE ScreenPlayWallpaper* getWallpaperByAppID(const QString& appID);

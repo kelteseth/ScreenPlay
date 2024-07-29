@@ -189,7 +189,7 @@ Util.Popup {
                         font.family: App.settings.font
                         enabled: App.screenPlayManager.activeWallpaperCounter > 0
                         onClicked: {
-                            if (!App.screenPlayManager.removeAllWallpapers(true))
+                            if (!App.screenPlayManager.removeAllRunningWallpapers(true))
                                 print("Unable to close all wallpaper!");
                         }
                     }
@@ -204,7 +204,7 @@ Util.Popup {
                         font.family: App.settings.font
                         enabled: App.screenPlayManager.activeWidgetsCounter > 0
                         onClicked: {
-                            if (!App.screenPlayManager.removeAllWidgets())
+                            if (!App.screenPlayManager.removeAllRunningWidgets())
                                 print("Unable to close all widgets!");
                         }
                     }

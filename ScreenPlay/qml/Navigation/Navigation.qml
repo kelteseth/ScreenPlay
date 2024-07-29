@@ -285,14 +285,15 @@ Rectangle {
             icon.width: root.iconWidth
             icon.height: root.iconHeight
             onClicked: {
-                App.screenPlayManager.removeAllWallpapers(true);
-                App.screenPlayManager.removeAllWidgets(true);
+                App.screenPlayManager.removeAllRunningWidgets(false);
+                // Saves profiles.json
+                App.screenPlayManager.removeAllRunningWallpapers(true);
                 miStopAll.isPlaying = true;
                 miMuteAll.soundEnabled = true;
             }
 
             hoverEnabled: true
-            ToolTip.text: qsTr("Close All Content")
+            ToolTip.text: qsTr("Stop All Running Content")
             ToolTip.visible: hovered
         }
     }

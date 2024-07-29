@@ -165,13 +165,14 @@ void ScreenPlayManager::setSelectedTimelineIndex(const int selectedTimelineIndex
 /*!
     \brief Removes all wallpaper entries in the profiles.json.
 */
-QCoro::QmlTask ScreenPlayManager::removeAllWallpapers(bool saveToProfile)
+QCoro::QmlTask ScreenPlayManager::removeAllRunningWallpapers(bool saveToProfile)
 {
-    return QCoro::QmlTask([this]() -> QCoro::Task<Result> {
+    return QCoro::QmlTask([this, saveToProfile]() -> QCoro::Task<Result> {
         // call with coro
         const bool success = co_await m_screenPlayTimelineManager.removeAllWallpaperFromActiveTimlineSections();
         qDebug() << "Task: removeAllWallpaperFromActiveTimlineSections" << success;
-        // emit requestSaveProfiles();
+        if (saveToProfile)
+            emit requestSaveProfiles();
         co_return Result { success };
     }());
 }
@@ -179,7 +180,7 @@ QCoro::QmlTask ScreenPlayManager::removeAllWallpapers(bool saveToProfile)
 /*!
     \brief Removes all widgets and resets the activeWidgetCounter to 0.
 */
-bool ScreenPlayManager::removeAllWidgets(bool saveToProfile)
+bool ScreenPlayManager::removeAllRunningWidgets(bool saveToProfile)
 {
     if (m_screenPlayWidgets.empty()) {
         return false;
@@ -229,6 +230,7 @@ bool ScreenPlayManager::requestProjectSettingsAtMonitorIndex(const int index)
     if (!activeTimelineSection) {
         return false;
     }
+
     // TODO CHANGE TO WP SECTION
     for (const auto& wallpaper : std::as_const(activeTimelineSection->activeWallpaperList)) {
         if (wallpaper->monitors()[0] == index) {
@@ -328,7 +330,7 @@ QCoro::QmlTask ScreenPlayManager::removeAllTimlineSections()
         const bool success = co_await m_screenPlayTimelineManager.removeAllTimlineSections();
         qDebug() << "Task: removeAllTimlineSections" << success;
         // emit requestSaveProfiles();
-        // removeAllWallpapers();
+        // removeAllRunningWallpapers();
         co_return Result { success };
     }());
 }

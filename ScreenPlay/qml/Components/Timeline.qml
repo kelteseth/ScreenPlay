@@ -470,23 +470,37 @@ Control {
         }
 
         ToolButton {
-            text: "❌ Reset" //qsTr("Remove all timeline ranges")
+            id: btnReset
+            text: resetting ? qsTr("Reseting...") : qsTr("❌ Reset")
+            property bool resetting: false
+            enabled: !resetting
             z: 99
             anchors {
                 right: parent.right
                 top: parent.top
             }
             onClicked: {
-                timeline.removeAll();
-                App.screenPlayManager.removeAllTimlineSections().then(result => {
+                console.log("resetting", btnReset.resetting);
+                btnReset.resetting = true;
+                App.screenPlayManager.removeAllRunningWallpapers().then(result => {
                     if (!result.success) {
                         console.error("removeAllTimlineSections failed");
+                        btnReset.resetting = false;
                         return;
                     }
-                    const position = 1.0;
-                    const identifier = App.util.generateRandomString(4);
-                    const sectionObject = timeline.addSection(identifier, position);
-                    App.screenPlayManager.addTimelineAt(sectionObject.index, sectionObject.relativeLinePosition, sectionObject.identifier);
+                    App.screenPlayManager.removeAllTimlineSections().then(result => {
+                        if (!result.success) {
+                            console.error("removeAllTimlineSections failed");
+                            btnReset.resetting = false;
+                            return;
+                        }
+                        timeline.removeAll();
+                        const position = 1.0;
+                        const identifier = App.util.generateRandomString(4);
+                        const sectionObject = timeline.addSection(identifier, position);
+                        App.screenPlayManager.addTimelineAt(sectionObject.index, sectionObject.relativeLinePosition, sectionObject.identifier);
+                        btnReset.resetting = false;
+                    });
                 });
             }
             anchors {

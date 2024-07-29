@@ -100,7 +100,9 @@ bool WallpaperTimelineSection::activateTimeline()
 
 QCoro::Task<bool> WallpaperTimelineSection::deactivateTimeline()
 {
-
+    if (activeWallpaperList.empty()) {
+        co_return true;
+    }
     status = Status::Closing;
     for (auto& activeWallpaper : activeWallpaperList) {
         activeWallpaper->close();

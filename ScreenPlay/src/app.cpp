@@ -125,7 +125,7 @@ void App::init()
     //     m_monitorListModel.get(),
     //     &MonitorListModel::monitorConfigurationChanged,
     //     m_screenPlayManager.get(), [this]() {
-    //         m_screenPlayManager->removeAllWallpapers(true);
+    //         m_screenPlayManager->removeAllRunningWallpapers(true);
     //     });
 }
 
@@ -140,8 +140,8 @@ QString App::version() const
 */
 void App::exit()
 {
-    m_screenPlayManager->removeAllWallpapers(false);
-    m_screenPlayManager->removeAllWidgets(false);
+    m_screenPlayManager->removeAllRunningWallpapers(false);
+    m_screenPlayManager->removeAllRunningWidgets(false);
     // Must be called inside a separate event loop otherwise we
     // would kill the qml engine while it is calling this function.
     // A single shot timer is a handy woraround for this.
