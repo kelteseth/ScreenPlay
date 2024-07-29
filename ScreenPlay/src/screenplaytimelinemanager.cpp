@@ -509,10 +509,11 @@ QCoro::Task<bool> ScreenPlayTimelineManager::setWallpaperAtTimelineIndex(
                 co_await timelineSection->deactivateTimeline();
                 timelineSection->activateTimeline();
             } else {
-                // Append the new wallpaper data
+                // IMPORTANT: Append the new wallpaper data,
+                // but do not start it! The selected timelineSection
+                // is not always be the currently running.
+                // Besides for this we have m_contentTimer checkActiveWallpaperTimeline()
                 timelineSection->wallpaperDataList.push_back(wallpaperData);
-                // Start all wallpaper
-                timelineSection->activateTimeline();
             }
 
             break;
