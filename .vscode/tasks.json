@@ -33,7 +33,7 @@
         },
         {
             "type": "process",
-            "label": "⚙️ Build Godot Wallpaper",
+            "label": "⚙️ Build Godot Wallpaper plugin",
             "command": "python3",
             "windows": {
                 "command": "python"

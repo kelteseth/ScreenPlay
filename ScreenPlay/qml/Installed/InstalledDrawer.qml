@@ -274,9 +274,10 @@ Drawer {
                                         dialog.message = result.message;
                                         dialog.open();
                                     } else {
-                                        const screenFile = item.m_file;
+                                        const file = item.m_file;
                                         let volume = 1;
-                                        let success = App.screenPlayManager.createWallpaper(root.type, cbVideoFillMode.currentValue, absoluteStoragePath, previewImage, screenFile, activeMonitors, volume, 1, {}, true);
+                                        const selectedTimeline = timeline.getSelectedTimeline();
+                                        let success = App.screenPlayManager.setWallpaperAtTimelineIndex(root.type, absoluteStoragePath, previewImage, file, activeMonitors, selectedTimeline.index, selectedTimeline.identifier, true);
                                     }
                                 });
                                 root.close();

@@ -37,8 +37,9 @@ VCPKG_BASE_PACKAGES =  [
 PYTHON_EXECUTABLE = "python" if sys.platform == "win32" else "python3"
 FFMPEG_VERSION_MAC = "6.1.1"
 FFMPEG_VERSION_WIN = "7.0"
-GODOT_VERSION = "4.2.1"
-GODOT_RELEASE_TYPE = "stable"
+# None stable version omit patch: 4.3-rc1
+GODOT_VERSION = "4.3"
+GODOT_RELEASE_TYPE = "rc1"
 GODOT_DOWNLOAD_SERVER = "https://github.com/godotengine/godot-builds/releases/download"
 if sys.platform == "win32":
     SCREENPLAYWALLPAPER_GODOT_EXECUTABLE = "ScreenPlayWallpaperGodot.exe"
