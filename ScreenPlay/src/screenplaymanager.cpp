@@ -216,7 +216,7 @@ QCoro::QmlTask ScreenPlayManager::removeWallpaperAt(int timelineIndex, QString t
         // call with coro
         const bool success = co_await m_screenPlayTimelineManager.removeWallpaperAt(timelineIndex, timelineIdentifier, monitorIndex);
         qDebug() << "Task: removeAllWallpaperFromActiveTimlineSections" << success;
-        //  crash? mit requestSaveProfiles();
+        emit requestSaveProfiles();
         co_return Result { success };
     }());
 }

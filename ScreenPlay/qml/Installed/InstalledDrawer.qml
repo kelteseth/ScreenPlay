@@ -139,9 +139,12 @@ Drawer {
                             return;
                         }
                         monitorSelection.enabled = false;
-                        App.screenPlayManager.removeWallpaperAt(selectedTimeline.index, selectedTimeline.identifier,monitorIndex ).then(result => {
+                        App.screenPlayManager.removeWallpaperAt(selectedTimeline.index, selectedTimeline.identifier, monitorIndex).then(result => {
                             monitorSelection.enabled = true;
-                            if (!result.success) {} else {}
+                            if (result.success) {
+                                // Reset to update the wallpaper preview image
+                                timeline.reset();
+                            }
                         });
                     }
 

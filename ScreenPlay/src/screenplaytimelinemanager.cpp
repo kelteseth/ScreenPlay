@@ -184,7 +184,7 @@ void ScreenPlayTimelineManager::checkActiveWallpaperTimeline()
     }
 }
 
-std::optional<std::shared_ptr<WallpaperTimelineSection>> ScreenPlayTimelineManager::activeWallpaperSection(const int timelineIndex, const QString timelineIdentifier)
+std::optional<std::shared_ptr<WallpaperTimelineSection>> ScreenPlayTimelineManager::wallpaperSection(const int timelineIndex, const QString timelineIdentifier)
 {
     for (const auto& section : m_wallpaperTimelineSectionsList) {
         const bool indexMatches = section->index == timelineIndex;
@@ -226,33 +226,33 @@ void ScreenPlayTimelineManager::updateMonitorListModelData(const int selectedTim
     // Clear current list model. This is needed to make sure
     // that we do not show any old active wallpaper
 
-    if (!selectedTimeline.empty()) {
-        std::shared_ptr<WallpaperTimelineSection>& timeline = selectedTimeline.front();
+    if (selectedTimeline.empty()) {
+        qCritical() << "No selectedTimelineIndex found" << selectedTimelineIndex;
+        return;
+    }
+    std::shared_ptr<WallpaperTimelineSection>& timeline = selectedTimeline.front();
 
-        m_monitorListModel->reset();
+    m_monitorListModel->reset();
 
-        for (int i = 0; i < m_monitorListModel->rowCount(); ++i) {
-            // One wallpaper can span across multiple monitors
-            bool ok;
-            const int monitorIndex = m_monitorListModel->data(m_monitorListModel->index(i), (int)MonitorListModel::MonitorRole::Index).toInt(&ok);
-            if (!ok) {
-                qCritical() << "Invalid monitor index at: " << i;
-                return;
-            }
-            for (const auto& wallpaper : timeline->activeWallpaperList) {
-                if (wallpaper->monitors().contains(monitorIndex)) {
-                    const auto previewImg = wallpaper->absolutePath() + "/" + wallpaper->previewImage();
-                    const auto mondelIndex = m_monitorListModel->index(0, monitorIndex);
-                    m_monitorListModel->setData(mondelIndex, previewImg, (int)MonitorListModel::MonitorRole::PreviewImage);
-                    m_monitorListModel->setData(mondelIndex, wallpaper->appID(), (int)MonitorListModel::MonitorRole::AppID);
-                    m_monitorListModel->setData(mondelIndex, (int)wallpaper->type(), (int)MonitorListModel::MonitorRole::InstalledType);
-                    break;
-                }
+    for (int i = 0; i < m_monitorListModel->rowCount(); ++i) {
+        // One wallpaper can span across multiple monitors
+        bool ok;
+        const int monitorIndex = m_monitorListModel->data(m_monitorListModel->index(i), (int)MonitorListModel::MonitorRole::Index).toInt(&ok);
+        if (!ok) {
+            qCritical() << "Invalid monitor index at: " << i;
+            return;
+        }
+        for (const auto& wallpaper : timeline->wallpaperDataList) {
+            if (wallpaper.monitors.contains(monitorIndex)) {
+                const auto previewImg = wallpaper.absolutePath + "/" + wallpaper.previewImage;
+                const auto mondelIndex = m_monitorListModel->index(0, monitorIndex);
+                m_monitorListModel->setData(mondelIndex, previewImg, (int)MonitorListModel::MonitorRole::PreviewImage);
+                //  TODO
+                m_monitorListModel->setData(mondelIndex, "dummy", (int)MonitorListModel::MonitorRole::AppID);
+                m_monitorListModel->setData(mondelIndex, (int)wallpaper.type, (int)MonitorListModel::MonitorRole::InstalledType);
+                break;
             }
         }
-
-    } else {
-        qCritical() << "No selectedTimelineIndex found" << selectedTimelineIndex;
     }
 }
 
@@ -416,9 +416,11 @@ QCoro::Task<bool> ScreenPlayTimelineManager::removeAllWallpaperFromActiveTimline
 QCoro::Task<bool> ScreenPlayTimelineManager::removeWallpaperAt(const int timelineIndex, const QString timelineIdentifier, const int monitorIndex)
 {
     m_contentTimer.stop();
-    auto updateTimer = qScopeGuard([this] { m_contentTimer.start(); });
+    auto updateTimer = qScopeGuard([this] {
+        m_contentTimer.start();
+    });
 
-    std::optional<std::shared_ptr<WallpaperTimelineSection>> sectionOpt = activeWallpaperSection(timelineIndex, timelineIdentifier);
+    std::optional<std::shared_ptr<WallpaperTimelineSection>> sectionOpt = wallpaperSection(timelineIndex, timelineIdentifier);
     if (!sectionOpt)
         co_return false;
 

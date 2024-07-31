@@ -55,7 +55,7 @@ signals:
     void activeWallpaperCountChanged(const int count);
 
 private:
-    std::optional<std::shared_ptr<WallpaperTimelineSection>> activeWallpaperSection(const int timelineIndex, const QString timelineIdentifier);
+    std::optional<std::shared_ptr<WallpaperTimelineSection>> wallpaperSection(const int timelineIndex, const QString timelineIdentifier);
 
 private:
     QVector<std::shared_ptr<WallpaperTimelineSection>> m_wallpaperTimelineSectionsList;

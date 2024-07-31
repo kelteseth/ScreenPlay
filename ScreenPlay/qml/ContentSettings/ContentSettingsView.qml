@@ -193,7 +193,7 @@ Util.Popup {
                     }
 
                     Button {
-                        id: btnRemoveAllWallpape
+                        id: btnRemoveAllWallpaper
 
                         text: qsTr("Remove all ") + App.screenPlayManager.activeWallpaperCounter + " " + qsTr("Wallpapers")
                         Material.background: Material.accent

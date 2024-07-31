@@ -145,22 +145,45 @@ QCoro::Task<bool> WallpaperTimelineSection::deactivateTimeline()
     co_return false;
 }
 
+// Remove the running wallpaper and the corresponding
+// WallpaperData!
 QCoro::Task<bool> WallpaperTimelineSection::removeWallpaper(const int monitorIndex)
 {
-    auto wallpaperOpt = wallpaperByMonitorIndex(monitorIndex);
-    if (!wallpaperOpt.has_value()) {
-        qCritical() << "No wallpaper found for monitor index:" << monitorIndex;
+
+    size_t removedCount = std::erase_if(wallpaperDataList, [monitorIndex](const auto& wallpaperData) {
+        return wallpaperData.monitors.contains(monitorIndex);
+    });
+
+    if (removedCount == 0) {
+        qCritical() << "No wallpaper data found for monitor index:" << monitorIndex;
         co_return false;
+    }
+
+    std::shared_ptr<ScreenPlayWallpaper> runningScreenPlayWallpaper;
+    bool found = false;
+    for (const auto& screenPlayWallpaper : activeWallpaperList) {
+        if (screenPlayWallpaper->monitors().contains(monitorIndex)) {
+            runningScreenPlayWallpaper = screenPlayWallpaper;
+            found = true;
+            break;
+        }
+    }
+    // The user always can select a not running timeline section
+    // and remove the wallpaper there. This means that it is
+    // fine to just return here.
+    if (!found) {
+        qDebug() << "No running wallpaper found for monitor index:" << monitorIndex;
+        co_return true;
     }
 
     QTimer timer;
     timer.start(250);
     const int maxRetries = 30;
-    wallpaperOpt.value()->close();
+    runningScreenPlayWallpaper->close();
     for (int i = 1; i <= maxRetries; ++i) {
         // Wait for the timer to tick
         co_await timer;
-        if (!wallpaperOpt.value()->isConnected()) {
+        if (!runningScreenPlayWallpaper->isConnected()) {
             co_return true;
         }
     }

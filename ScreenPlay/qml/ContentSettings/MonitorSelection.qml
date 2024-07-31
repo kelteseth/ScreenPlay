@@ -32,9 +32,8 @@ Rectangle {
     signal requestProjectSettings(int index, var installedType, string appID)
     signal requestRemoveWallpaper(int index)
 
-
-    function getActiveMonitors(){
-        return root.activeMonitors
+    function getActiveMonitors() {
+        return root.activeMonitors;
     }
 
     function selectOnly(index) {

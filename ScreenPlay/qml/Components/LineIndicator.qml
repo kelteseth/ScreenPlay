@@ -12,8 +12,8 @@ Rectangle {
     property alias text: text.text
     property alias wallpaperPreviewImage: imgWallpaper.source
 
-    signal remove(var index)
-    signal lineSelected(var index)
+    signal remove(int index)
+    signal lineSelected(int index)
 
     Text {
         id: text
