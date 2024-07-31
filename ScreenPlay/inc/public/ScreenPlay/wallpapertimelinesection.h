@@ -23,14 +23,14 @@ class WallpaperTimelineSection : public QObject {
     QML_UNCREATABLE("")
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
 public:
-    enum class Status {
+    enum class State {
         Inactive,
         Starting,
         Closing,
         Active,
     };
-    Q_ENUM(Status)
-    Status status = Status::Inactive;
+    Q_ENUM(State)
+    State state = State::Inactive;
     QString identifier;
     int index = 0; // Needed to check
     float relativePosition = 0.0f;
@@ -51,7 +51,6 @@ public:
     bool containsTime(const QTime& time) const;
     QJsonObject serialize() const;
     bool activateTimeline();
-
     QCoro::Task<bool> deactivateTimeline();
     QCoro::Task<bool> removeWallpaper(const int monitorIndex);
 private slots:
@@ -59,6 +58,7 @@ private slots:
 
 private:
     std::optional<std::shared_ptr<ScreenPlayWallpaper>> wallpaperByMonitorIndex(const int index);
+
 signals:
     void requestSaveProfiles();
     void activeWallpaperCountChanged(const int count);

@@ -58,7 +58,6 @@ public:
 
     std::optional<QString> getAppIDByMonitorIndex(const int index) const;
     Q_INVOKABLE void reset();
-
     Q_INVOKABLE QRect absoluteDesktopSize() const;
     Q_INVOKABLE QSize totalDesktopSize() const;
 

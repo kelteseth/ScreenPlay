@@ -15,9 +15,14 @@ Control {
     rightPadding: 20
 
     // User selected
-    property int selectedTimelineIndex: -1
+    property int selectedTimelineIndex: 0
+    // Do not use this directly, see https://bugreports.qt.io/browse/QTBUG-127633
     property var selectedTimeline: timeline.sectionsList[root.selectedTimelineIndex]
     property int length: timeline.sectionsList.length
+
+    function getSelectedTimeline() {
+        return timeline.sectionsList[root.selectedTimelineIndex];
+    }
 
     function removeAll() {
         timeline.removeAll();
@@ -26,6 +31,7 @@ Control {
     function reset() {
         timeline.reset();
     }
+
     LoggingCategory {
         id: timelineLogging
         name: "timeline"
@@ -83,7 +89,7 @@ Control {
 
         function reset() {
             removeAll();
-            let initialSectionsList = App.screenPlayManager.initialSectionsList();
+            let initialSectionsList = App.screenPlayManager.timelineSections();
             if (App.globalVariables.isBasicVersion()) {
                 if (initialSectionsList.length > 1) {
                     console.error(timelineLogging, "Invalid section list count for basic version");
@@ -99,6 +105,24 @@ Control {
                 let section = initialSectionsList[index];
                 addSection(section.identifier, section.relativePosition);
             }
+            const activeTimelineIndex = App.screenPlayManager.activeTimelineIndex();
+            if (activeTimelineIndex === -1) {
+                return;
+            }
+            lineIndicatorSelected(activeTimelineIndex);
+            setActiveWallpaperPreviewImage();
+        }
+
+        function setActiveWallpaperPreviewImage() {
+            let timelineSectionList = App.screenPlayManager.timelineSections();
+            for (var i = 0; i < timelineSectionList.length; i++) {
+                let timelineSection = timelineSectionList[i];
+                let lineIndicator = timeline.sectionsList[i].lineIndicator;
+                if (timelineSection.wallpaperData.length === 0)
+                    continue;
+                let firstWallpaper = timelineSection.wallpaperData[0];
+                lineIndicator.wallpaperPreviewImage = Qt.resolvedUrl("file:///" + firstWallpaper.absolutePath + "/" + firstWallpaper.previewImage);
+            }
         }
 
         function removeAll() {
@@ -112,7 +136,8 @@ Control {
                 section.destroy();
             }
             timeline.sectionsList = [];
-            root.selectedTimelineIndex = -1;
+            // Default to the first timeline
+            root.selectedTimelineIndex = 0;
         }
 
         // IMPORTANT: The new element is always on the left. The first

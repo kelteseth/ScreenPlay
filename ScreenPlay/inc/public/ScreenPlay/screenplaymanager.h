@@ -18,7 +18,6 @@
 
 namespace ScreenPlay {
 
-
 class ScreenPlayManager : public QObject {
     Q_OBJECT
     QML_ELEMENT
@@ -52,7 +51,7 @@ public:
         QString identifier);
     Q_INVOKABLE QCoro::QmlTask removeAllTimlineSections();
     Q_INVOKABLE bool removeTimelineAt(const int index);
-    Q_INVOKABLE QJsonArray initialSectionsList();
+    Q_INVOKABLE QJsonArray timelineSections();
     Q_INVOKABLE QCoro::QmlTask setWallpaperAtTimelineIndex(
         const ScreenPlay::ContentTypes::InstalledType type,
         const QString& absolutePath,

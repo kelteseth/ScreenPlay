@@ -40,7 +40,7 @@ public:
         WallpaperData wallpaperData,
         const int timelineIndex,
         const QString& identifier);
-    QJsonArray initialSectionsList();
+    QJsonArray timelineSections();
     QJsonArray timelineWallpaperList();
     void setGlobalVariables(const std::shared_ptr<GlobalVariables>& globalVariables);
     void setSettings(const std::shared_ptr<Settings>& settings);

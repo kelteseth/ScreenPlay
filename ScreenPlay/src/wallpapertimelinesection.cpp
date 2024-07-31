@@ -28,21 +28,12 @@ QJsonObject WallpaperTimelineSection::serialize() const
     data.insert("startTime", startTime.toString());
     data.insert("endTime", endTime.toString());
 
-    // Serialize vector<WallpaperData>
     QJsonArray wallpaperDataArray;
     for (const auto& wallpaper : wallpaperDataList) {
-        QJsonObject wallpaperObject = wallpaper.serialize(); // Assuming WallpaperData has a serialize method
+        QJsonObject wallpaperObject = wallpaper.serialize();
         wallpaperDataArray.append(wallpaperObject);
     }
     data.insert("wallpaperData", wallpaperDataArray);
-
-    // Serialize vector<std::shared_ptr<ScreenPlayWallpaper>>
-    // QJsonArray activeWallpaperArray;
-    // for (const auto& wallpaper : activeWallpaperList) {
-    //     QJsonObject wallpaperObject = wallpaper->serialize();  // Assuming ScreenPlayWallpaper has a serialize method
-    //     activeWallpaperArray.append(wallpaperObject);
-    // }
-    // data.insert("activeWallpaperList", activeWallpaperArray);
 
     return data;
 }
@@ -50,9 +41,17 @@ QJsonObject WallpaperTimelineSection::serialize() const
 // Start all ScreenPlayWallpaper processes of this current timeline
 bool WallpaperTimelineSection::activateTimeline()
 {
-    status = Status::Active;
-    // TODO: this can be called if the timeline is already active.
-    // Add a check to only launch new
+    if (state == State::Active) {
+        qCritical() << " timeline:" << index << identifier << "is already active with state: " << state;
+        return false;
+    }
+
+    state = WallpaperTimelineSection::State::Starting;
+    qDebug() << "Activate timeline:" << index
+             << identifier
+             << relativePosition
+             << wallpaperDataList.size();
+
     for (auto& wallpaperData : wallpaperDataList) {
 
         const int screenCount = QGuiApplication::screens().count();
@@ -81,29 +80,31 @@ bool WallpaperTimelineSection::activateTimeline()
             // &ScreenPlayManager::requestSaveProfiles
             emit requestSaveProfiles();
         });
-        QObject::connect(screenPlayWallpaper.get(), &ScreenPlayWallpaper::requestClose, this, []() {
+        QObject::connect(screenPlayWallpaper.get(), &ScreenPlayWallpaper::requestClose, this, [this]() {
             // , &ScreenPlayManager::removeWallpaper);
         });
-        QObject::connect(screenPlayWallpaper.get(), &ScreenPlayWallpaper::isConnectedChanged, this, &WallpaperTimelineSection::updateActiveWallpaperCounter);
-
+        QObject::connect(screenPlayWallpaper.get(), &ScreenPlayWallpaper::isConnectedChanged, this, [this]() {
+            updateActiveWallpaperCounter();
+        });
         // QObject::connect(screenPlayWallpaper.get(), &ScreenPlayWallpaper::error, this, this, []() {
         //     // , &ScreenPlayManager::displayErrorPopup);
         // });
         if (!screenPlayWallpaper->start()) {
             return false;
         }
-        // m_monitorListModel->setWallpaperMonitor(wallpaper, wallpaperData.monitors);
         activeWallpaperList.push_back(screenPlayWallpaper);
     }
+    state = WallpaperTimelineSection::State::Active;
     return true;
 }
 
 QCoro::Task<bool> WallpaperTimelineSection::deactivateTimeline()
 {
+    state = WallpaperTimelineSection::State::Closing;
     if (activeWallpaperList.empty()) {
+        state = State::Inactive;
         co_return true;
     }
-    status = Status::Closing;
     for (auto& activeWallpaper : activeWallpaperList) {
         activeWallpaper->close();
     }
@@ -114,20 +115,33 @@ QCoro::Task<bool> WallpaperTimelineSection::deactivateTimeline()
         // Wait for the timer to tick
         co_await timer;
         bool wallpaperStillActive = false;
-        for (auto& activeWallpaper : activeWallpaperList) {
+
+        // Check again after the co_await!
+        if (activeWallpaperList.empty()) {
+            state = State::Inactive;
+            co_return true;
+        }
+
+        for (std::shared_ptr<ScreenPlayWallpaper>& activeWallpaper : activeWallpaperList) {
+            if (!activeWallpaper.get()) {
+                Q_ASSERT(!activeWallpaper.get());
+                state = State::Inactive;
+                co_return false;
+            }
             if (activeWallpaper->isConnected()) {
                 wallpaperStillActive = true;
                 break;
             }
         }
         if (!wallpaperStillActive) {
-            status = Status::Inactive;
             // Clear all active wallpaper connections, but do not
             // clear WallpaperData in case we need it again later
             activeWallpaperList.clear();
+            state = State::Inactive;
             co_return true;
         }
     }
+    state = State::Inactive;
     co_return false;
 }
 

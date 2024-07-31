@@ -3,7 +3,6 @@
 
 namespace ScreenPlay {
 
-
 /*!
   \brief Loads the wallpaper object in the wallpaper array:
 
@@ -53,7 +52,7 @@ QJsonObject WallpaperData::serialize() const
     return data;
 }
 
-std::optional<ScreenPlay::WallpaperData> ScreenPlay::WallpaperData::loadWallpaperConfig(const QJsonObject &wallpaperObj)
+std::optional<ScreenPlay::WallpaperData> ScreenPlay::WallpaperData::loadWallpaperConfig(const QJsonObject& wallpaperObj)
 {
     if (wallpaperObj.empty())
         return std::nullopt;

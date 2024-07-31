@@ -2,20 +2,10 @@ import QtQuick
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material
 import ScreenPlayApp
-
 import ScreenPlayUtil
 
 Item {
     id: root
-
-    property rect geometry
-    onGeometryChanged: {
-        root.width = geometry.width;
-        root.height = geometry.height;
-        root.x = geometry.x;
-        root.y = geometry.y;
-    }
-
     property string previewImage
     property string appID
     property var installedType: ContentTypes.InstalledType.QMLWallpaper
@@ -25,16 +15,24 @@ Item {
     property int index
     property bool isSelected: false
 
-    signal monitorSelected(var index)
-    signal remoteWallpaper(var index)
+    property rect geometry
+    onGeometryChanged: {
+        root.width = geometry.width;
+        root.height = geometry.height;
+        root.x = geometry.x;
+        root.y = geometry.y;
+    }
+
+    signal monitorSelected(int index)
+    signal removeWallpaper(int index)
 
     onIsSelectedChanged: root.state = isSelected ? "selected" : "default"
     onPreviewImageChanged: {
         if (previewImage === "") {
-            imgPreview.opacity = 0;
+            imgPreview.hasPreview = false;
         } else {
             imgPreview.source = Qt.resolvedUrl("file:///" + previewImage);
-            imgPreview.opacity = 1;
+            imgPreview.hasPreview = true;
         }
     }
 
@@ -70,7 +68,19 @@ Item {
 
             sourceSize: Qt.size(parent.width, parent.height)
             anchors.margins: 3
-            opacity: 0
+            property bool hasPreview: false
+            opacity: {
+                if (hasPreview && root.enabled)
+                    return 1;
+                else
+                    return .5;
+            }
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: 250
+                }
+            }
+
             anchors.fill: parent
             asynchronous: true
             fillMode: Image.PreserveAspectCrop
@@ -79,23 +89,24 @@ Item {
         MouseArea {
             anchors.fill: parent
             hoverEnabled: true
+            enabled: root.enabled
             cursorShape: Qt.PointingHandCursor
             onClicked: {
                 if (monitorWithoutContentSelectable) {
-                    root.monitorSelected(index);
+                    root.monitorSelected(root.index);
                     return;
                 }
                 if (root.hasContent && !root.monitorWithoutContentSelectable)
-                    root.monitorSelected(index);
+                    root.monitorSelected(root.index);
             }
         }
 
         ToolButton {
             text: "❌"
-            enabled: root.hasContent && !root.monitorWithoutContentSelectable
+            enabled: root.hasContent && root.enabled
             visible: enabled
-            onClicked: root.remoteWallpaper(index)
-
+            onClicked: root.removeWallpaper(root.index)
+            z: 99
             anchors {
                 top: parent.top
                 right: parent.right

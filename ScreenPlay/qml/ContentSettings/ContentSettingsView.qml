@@ -140,6 +140,18 @@ Util.Popup {
                         }
                         activeMonitorIndex = index;
                     }
+                    onRequestRemoveWallpaper: index => {
+                        const selectedTimeline = timeline.getSelectedTimeline();
+                        if (selectedTimeline === undefined) {
+                            console.error("No active timeline to remove wallpaper ", index);
+                            return;
+                        }
+                        monitorSelection.enabled = false;
+                        App.screenPlayManager.removeWallpaperAt(index, selectedTimeline.identifier, selectedTimeline.index).then(result => {
+                            monitorSelection.enabled = true;
+                            if (!result.success) {} else {}
+                        });
+                    }
 
                     anchors {
                         top: txtHeadline.bottom

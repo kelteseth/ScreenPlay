@@ -13,6 +13,8 @@ Rectangle {
     property bool monitorWithoutContentSelectable: true
     property bool multipleMonitorsSelectable: false
     property bool isSelected: false
+    // Do not access it directly until
+    // QTBUG-127633 is fixed!
     property var activeMonitors: []
     property alias background: root.color
     property alias bgRadius: root.radius
@@ -27,9 +29,16 @@ Rectangle {
         defaultLogLevel: LoggingCategory.Debug
     }
 
-    signal requestProjectSettings(var index, var installedType, var appID)
+    signal requestProjectSettings(int index, var installedType, string appID)
+    signal requestRemoveWallpaper(int index)
+
+
+    function getActiveMonitors(){
+        return root.activeMonitors
+    }
 
     function selectOnly(index) {
+        console.debug(logger, "selectOnly:", index);
         for (var i = 0; i < rp.count; i++) {
             if (i === index) {
                 rp.itemAt(i).isSelected = true;
@@ -37,24 +46,34 @@ Rectangle {
             }
             rp.itemAt(i).isSelected = false;
         }
-        getActiveMonitors();
+        updateActiveMonitors();
+    }
+
+    function getSelectedMonitorIndex() {
+        for (var i = 0; i < rp.count; i++) {
+            let a = rp.itemAt(i).isSelected;
+            let b = rp.itemAt(i).geometry;
+            if (rp.itemAt(i).isSelected)
+                return i;
+        }
+        return -1;
     }
 
     function reset() {
+        console.debug(logger, "MonitorSelection reset");
         for (var i = 0; i < rp.count; i++) {
             rp.itemAt(i).isSelected = false;
         }
         rp.itemAt(0).isSelected = true;
-        getActiveMonitors();
+        updateActiveMonitors();
     }
 
-    function getActiveMonitors() {
+    function updateActiveMonitors() {
         root.activeMonitors = [];
         for (var i = 0; i < rp.count; i++) {
             if (rp.itemAt(i).isSelected)
                 root.activeMonitors.push(rp.itemAt(i).index);
         }
-        root.activeMonitorsChanged();
         root.isSelected = root.activeMonitors.length > 0;
         return root.activeMonitors;
     }
@@ -64,7 +83,7 @@ Rectangle {
             selectOnly(index);
         else
             rp.itemAt(index).isSelected = !rp.itemAt(index).isSelected;
-        getActiveMonitors();
+        updateActiveMonitors();
         if (rp.itemAt(index).hasContent)
             root.requestProjectSettings(index, rp.itemAt(index).installedType, rp.itemAt(index).appID);
     }
@@ -119,7 +138,12 @@ Rectangle {
 
     Connections {
         function onMonitorReloadCompleted() {
-            resize();
+            let currentSelectedIndex = getSelectedMonitorIndex();
+            root.resize();
+            // Restore selection if not
+            if (currentSelectedIndex < 0)
+                currentSelectedIndex = 0;
+            root.selectOnly(currentSelectedIndex);
         }
 
         target: App.monitorListModel
@@ -142,6 +166,7 @@ Rectangle {
 
             delegate: MonitorSelectionItem {
                 id: delegate
+                enabled: root.enabled
 
                 appID: m_appID
                 geometry: m_geometry
@@ -153,9 +178,9 @@ Rectangle {
                 onMonitorSelected: function (index) {
                     root.selectMonitorAt(index);
                 }
-                // onRemoveWallpaper: function(index) {
-
-                // }
+                onRemoveWallpaper: function (index) {
+                    root.requestRemoveWallpaper(index);
+                }
             }
         }
     }

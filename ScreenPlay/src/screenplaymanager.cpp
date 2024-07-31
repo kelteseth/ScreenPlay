@@ -344,11 +344,10 @@ bool ScreenPlayManager::removeTimelineAt(const int index)
 /*!
   \brief Qml function to build our timeline on creation in qml.
 */
-QJsonArray ScreenPlayManager::initialSectionsList()
+QJsonArray ScreenPlayManager::timelineSections()
 {
-    return m_screenPlayTimelineManager.initialSectionsList();
+    return m_screenPlayTimelineManager.timelineSections();
 }
-
 /*!
     \brief Appends a new SDKConnection object shared_ptr to the m_clients list.
 */
@@ -438,7 +437,7 @@ bool ScreenPlayManager::removeWallpaper(const QString& appID)
         qCritical() << "No wallpaper found.";
         return false;
     }
-    if(!wallpaperSectionOpt.value()) {
+    if (!wallpaperSectionOpt.value()) {
         qCritical() << "No wallpaperSectionOpt invalid.";
         return false;
     }

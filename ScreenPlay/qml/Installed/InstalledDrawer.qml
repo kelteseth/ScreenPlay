@@ -132,6 +132,19 @@ Drawer {
                 MonitorSelection {
                     id: monitorSelection
                     objectName: "monitorSelection"
+                    onRequestRemoveWallpaper: monitorIndex => {
+                        const selectedTimeline = timeline.getSelectedTimeline();
+                        if (selectedTimeline === undefined) {
+                            console.error("No active timeline to remove wallpaper ", index);
+                            return;
+                        }
+                        monitorSelection.enabled = false;
+                        App.screenPlayManager.removeWallpaperAt(selectedTimeline.index, selectedTimeline.identifier,monitorIndex ).then(result => {
+                            monitorSelection.enabled = true;
+                            if (!result.success) {} else {}
+                        });
+                    }
+
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     fontSize: 11
@@ -266,11 +279,7 @@ Drawer {
                                 root.close();
                                 return;
                             }
-                            const selectedTimeline = timeline.selectedTimeline;
-                            if (selectedTimeline === undefined) {
-                                console.error("No active timeline");
-                                return;
-                            }
+                            const selectedTimeline = timeline.getSelectedTimeline();
                             const file = item.m_file;
                             let success = App.screenPlayManager.setWallpaperAtTimelineIndex(root.type, absoluteStoragePath, previewImage, file, activeMonitors, selectedTimeline.index, selectedTimeline.identifier, true).then(result => {
                                 if (!result.success) {
