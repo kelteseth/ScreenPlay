@@ -10,9 +10,6 @@ include(GenerateCMakeVariableHeader)
 
 set(SOURCES
     # cmake-format: sort
-    src/wallpaperdata.cpp
-    src/wallpapertimelinesection.cpp
-    src/screenplaytimelinemanager.cpp
     src/app.cpp
     src/applicationengine.cpp
     src/create.cpp
@@ -24,17 +21,17 @@ set(SOURCES
     src/profilelistmodel.cpp
     src/projectsettingslistmodel.cpp
     src/screenplaymanager.cpp
+    src/screenplaytimelinemanager.cpp
     src/screenplaywallpaper.cpp
     src/screenplaywidget.cpp
     src/sdkconnection.cpp
     src/settings.cpp
+    src/wallpaperdata.cpp
+    src/wallpapertimelinesection.cpp
     src/wizards.cpp)
 
 set(HEADER
     # cmake-format: sort
-    inc/public/ScreenPlay/wallpaperdata.h
-    inc/public/ScreenPlay/wallpapertimelinesection.h
-    inc/public/ScreenPlay/screenplaytimelinemanager.h
     inc/public/ScreenPlay/app.h
     inc/public/ScreenPlay/applicationengine.h
     inc/public/ScreenPlay/create.h
@@ -48,24 +45,32 @@ set(HEADER
     inc/public/ScreenPlay/profilelistmodel.h
     inc/public/ScreenPlay/projectsettingslistmodel.h
     inc/public/ScreenPlay/screenplaymanager.h
+    inc/public/ScreenPlay/screenplaytimelinemanager.h
     inc/public/ScreenPlay/screenplaywallpaper.h
     inc/public/ScreenPlay/screenplaywidget.h
     inc/public/ScreenPlay/sdkconnection.h
     inc/public/ScreenPlay/settings.h
+    inc/public/ScreenPlay/wallpaperdata.h
+    inc/public/ScreenPlay/wallpapertimelinesection.h
     inc/public/ScreenPlay/wizards.h)
 
 set(QML
     # cmake-format: sort
     main.qml
-    qml/MainApp.qml
-    qml/Components/TrayIcon.qml
+    qml/Community/CommunityNavItem.qml
+    qml/Community/CommunityView.qml
+    qml/Community/XMLNewsfeed.qml
     qml/Components/LineHandle.qml
     qml/Components/LineIndicator.qml
     qml/Components/ScreenPlayProPopup.qml
     qml/Components/Timeline.qml
-    qml/Community/CommunityNavItem.qml
-    qml/Community/CommunityView.qml
-    qml/Community/XMLNewsfeed.qml
+    qml/Components/TrayIcon.qml
+    qml/ContentSettings/ContentSettingsView.qml
+    qml/ContentSettings/DefaultVideoControls.qml
+    qml/ContentSettings/MonitorSelection.qml
+    qml/ContentSettings/MonitorSelectionItem.qml
+    qml/ContentSettings/MonitorsProjectSettingItem.qml
+    qml/ContentSettings/SaveNotification.qml
     qml/Create/CreateSidebar.qml
     qml/Create/CreateView.qml
     qml/Create/StartInfo.qml
@@ -84,18 +89,13 @@ set(QML
     qml/Create/Wizards/QMLWidget.qml
     qml/Create/Wizards/WebsiteWallpaper.qml
     qml/Create/Wizards/WizardPage.qml
+    qml/Installed/InstalledDrawer.qml
+    qml/Installed/InstalledItem.qml
+    qml/Installed/InstalledItemImage.qml
     qml/Installed/InstalledNavigation.qml
     qml/Installed/InstalledView.qml
     qml/Installed/InstalledWelcomeScreen.qml
-    qml/Installed/ScreenPlayItem.qml
-    qml/Installed/ScreenPlayItemImage.qml
-    qml/Installed/InstalledDrawer.qml
-    qml/ContentSettings/DefaultVideoControls.qml
-    qml/ContentSettings/MonitorSelection.qml
-    qml/ContentSettings/MonitorSelectionItem.qml
-    qml/ContentSettings/MonitorsProjectSettingItem.qml
-    qml/ContentSettings/ContentSettingsView.qml
-    qml/ContentSettings/SaveNotification.qml
+    qml/MainApp.qml
     qml/Navigation/ExitPopup.qml
     qml/Navigation/Navigation.qml
     qml/Settings/SettingBool.qml
@@ -135,9 +135,9 @@ set(RESOURCES
     assets/icons/brand_twitch.svg
     assets/icons/brand_twitter.svg
     assets/icons/exclamation-triangle-solid.svg
-    assets/icons/font-awsome/lock-solid.svg
     assets/icons/font-awsome/close.svg
     assets/icons/font-awsome/frown-o.svg
+    assets/icons/font-awsome/lock-solid.svg
     assets/icons/font-awsome/patreon-brands.svg
     assets/icons/font-awsome/rotate-right-solid.svg
     assets/icons/icon_arrow_left.svg
@@ -194,8 +194,6 @@ set(RESOURCES
     assets/icons/item_banner_new.svg
     assets/icons/monitor_setup.svg
     assets/icons/steam_default_avatar.png
-    assets/images/rocket_3d.png
-    assets/images/pro_version.png
     assets/images/Intro.png
     assets/images/Intro_PC.png
     assets/images/Intro_shine.png
@@ -204,6 +202,8 @@ set(RESOURCES
     assets/images/missingPreview.png
     assets/images/noisy-texture-3.png
     assets/images/noisy-texture.png
+    assets/images/pro_version.png
+    assets/images/rocket_3d.png
     assets/images/scale_window_indicator.png
     assets/images/steam_offline.png
     assets/images/trayIcon_osx.png

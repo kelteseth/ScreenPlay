@@ -13,6 +13,7 @@ namespace ScreenPlay {
 
 class ScreenPlayTimelineManager : public QObject {
     Q_OBJECT
+    Q_PROPERTY(int selectedTimelineIndex READ selectedTimelineIndex WRITE setSelectedTimelineIndex NOTIFY selectedTimelineIndexChanged FINAL)
 
 public:
     explicit ScreenPlayTimelineManager(QObject* parent = nullptr);
@@ -45,6 +46,11 @@ public:
     void setGlobalVariables(const std::shared_ptr<GlobalVariables>& globalVariables);
     void setSettings(const std::shared_ptr<Settings>& settings);
     void setMonitorListModel(const std::shared_ptr<MonitorListModel>& monitorListModel);
+
+    int selectedTimelineIndex() const;
+    void setSelectedTimelineIndex(int selectedTimelineIndex);
+
+public slots:
     void updateMonitorListModelData(const int selectedTimelineIndex);
 
 private slots:
@@ -53,9 +59,12 @@ private slots:
 signals:
     void requestSaveProfiles();
     void activeWallpaperCountChanged(const int count);
+    void selectedTimelineIndexChanged(int selectedTimelineIndex);
 
 private:
-    std::optional<std::shared_ptr<WallpaperTimelineSection>> wallpaperSection(const int timelineIndex, const QString timelineIdentifier);
+    std::optional<std::shared_ptr<WallpaperTimelineSection>> wallpaperSection(
+        const int timelineIndex,
+        const QString timelineIdentifier);
 
 private:
     QVector<std::shared_ptr<WallpaperTimelineSection>> m_wallpaperTimelineSectionsList;
@@ -66,5 +75,6 @@ private:
     QTimer m_contentTimer;
     std::shared_ptr<GlobalVariables> m_globalVariables;
     std::shared_ptr<Settings> m_settings;
+    int m_selectedTimelineIndex { 0 };
 };
 }

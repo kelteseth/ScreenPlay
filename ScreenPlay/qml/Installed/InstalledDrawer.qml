@@ -7,6 +7,7 @@ import QtQuick.Controls.Material
 import QtQuick.Controls.Material.impl
 import ScreenPlayApp
 import ScreenPlayUtil
+import "../../../ScreenPlayUtil/qml/InstantPopup.js" as InstantPopup
 import "../ContentSettings"
 import "../Components"
 
@@ -135,7 +136,7 @@ Drawer {
                     onRequestRemoveWallpaper: monitorIndex => {
                         const selectedTimeline = timeline.getSelectedTimeline();
                         if (selectedTimeline === undefined) {
-                            console.error("No active timeline to remove wallpaper ", index);
+                            InstantPopup.openErrorPopup(timeline, qsTr("No active timeline to remove wallpaper"));
                             return;
                         }
                         monitorSelection.enabled = false;
@@ -144,6 +145,9 @@ Drawer {
                             if (result.success) {
                                 // Reset to update the wallpaper preview image
                                 timeline.reset();
+                                App.screenPlayManager.requestSaveProfiles();
+                            } else {
+                                InstantPopup.openErrorPopup(timeline, result.message);
                             }
                         });
                     }
@@ -235,16 +239,6 @@ Drawer {
                     }
                 }
 
-                Dialog {
-                    id: dialog
-                    standardButtons: Dialog.Ok
-                    title: qsTr("Export Godot project")
-                    property alias message: messageText.text
-                    Text {
-                        id: messageText
-                    }
-                }
-
                 Button {
                     id: btnLaunchContent
                     Layout.fillWidth: true
@@ -256,12 +250,14 @@ Drawer {
                     icon.color: "white"
                     font.pointSize: 12
                     onClicked: {
+                        btnLaunchContent.enabled = false;
                         const item = App.installedListModel.get(root.contentFolderName);
                         const absoluteStoragePath = item.m_absoluteStoragePath;
                         const previewImage = item.m_preview;
                         if (App.util.isWallpaper(root.type)) {
                             if (type === ContentTypes.InstalledType.GodotWallpaper) {
                                 if (App.globalVariables.isBasicVersion()) {
+                                    InstantPopup.openErrorPopup(timeline, qsTr("You are not allowed to do that!"));
                                     installedDrawerWrapper.state = "inactive";
                                     return;
                                 }
@@ -270,14 +266,19 @@ Drawer {
                             if (type === ContentTypes.InstalledType.GodotWallpaper) {
                                 App.util.exportGodotProject(absoluteStoragePath, App.globalVariables.godotEditorExecutablePath).then(result => {
                                     if (!result.success) {
-                                        dialog.title = ("Error exporting Godot");
-                                        dialog.message = result.message;
-                                        dialog.open();
+                                        btnLaunchContent.enabled = true;
+                                        InstantPopup.openErrorPopup(timeline, result.message);
                                     } else {
                                         const file = item.m_file;
                                         let volume = 1;
                                         const selectedTimeline = timeline.getSelectedTimeline();
-                                        let success = App.screenPlayManager.setWallpaperAtTimelineIndex(root.type, absoluteStoragePath, previewImage, file, activeMonitors, selectedTimeline.index, selectedTimeline.identifier, true);
+                                        App.screenPlayManager.setWallpaperAtTimelineIndex(root.type, absoluteStoragePath, previewImage, file, activeMonitors, selectedTimeline.index, selectedTimeline.identifier, true).then(result => {
+                                            btnLaunchContent.enabled = true;
+                                            if (!result.success) {
+                                                InstantPopup.openErrorPopup(timeline, result.message);
+                                                return;
+                                            }
+                                        });
                                     }
                                 });
                                 root.close();
@@ -285,15 +286,17 @@ Drawer {
                             }
                             const selectedTimeline = timeline.getSelectedTimeline();
                             const file = item.m_file;
-                            let success = App.screenPlayManager.setWallpaperAtTimelineIndex(root.type, absoluteStoragePath, previewImage, file, activeMonitors, selectedTimeline.index, selectedTimeline.identifier, true).then(result => {
+                            App.screenPlayManager.setWallpaperAtTimelineIndex(root.type, absoluteStoragePath, previewImage, file, activeMonitors, selectedTimeline.index, selectedTimeline.identifier, true).then(result => {
+                                btnLaunchContent.enabled = true;
                                 if (!result.success) {
-                                    console.error("setWallpaperAtTimelineIndex failed");
+                                    InstantPopup.openErrorPopup(timeline, result.message);
                                     return;
                                 }
                             });
                         }
+                        btnLaunchContent.enabled = true;
                         root.close();
-                        monitorSelection.reset();
+                        // monitorSelection.reset()
                     }
                 }
             }

@@ -23,8 +23,9 @@ class ScreenPlayManager : public QObject {
     QML_ELEMENT
     QML_UNCREATABLE("")
 
-    Q_PROPERTY(int activeWallpaperCounter READ activeWallpaperCounter WRITE setActiveWallpaperCounter NOTIFY activeWallpaperCounterChanged)
-    Q_PROPERTY(int activeWidgetsCounter READ activeWidgetsCounter WRITE setActiveWidgetsCounter NOTIFY activeWidgetsCounterChanged)
+    Q_PROPERTY(int activeWallpaperCounter READ activeWallpaperCounter WRITE setActiveWallpaperCounter NOTIFY activeWallpaperCounterChanged FINAL)
+    Q_PROPERTY(int activeWidgetsCounter READ activeWidgetsCounter WRITE setActiveWidgetsCounter NOTIFY activeWidgetsCounterChanged FINAL)
+    Q_PROPERTY(int selectedTimelineIndex READ selectedTimelineIndex WRITE setSelectedTimelineIndex NOTIFY selectedTimelineIndexChanged FINAL)
 
 public:
     explicit ScreenPlayManager(QObject* parent = nullptr);
@@ -37,7 +38,6 @@ public:
     Q_INVOKABLE QCoro::QmlTask removeAllRunningWallpapers(bool saveToProfile = false);
     Q_INVOKABLE bool removeAllRunningWidgets(bool saveToProfile = false);
     Q_INVOKABLE QCoro::QmlTask removeWallpaperAt(const int timelineIndex, const QString timelineIdentifier, const int monitorIndex);
-
     Q_INVOKABLE ScreenPlayWallpaper* getWallpaperByAppID(const QString& appID);
 
     Q_INVOKABLE bool moveTimelineAt(
@@ -49,9 +49,10 @@ public:
         const int index,
         const float reltiaveLinePosition,
         QString identifier);
-    Q_INVOKABLE QCoro::QmlTask removeAllTimlineSections();
     Q_INVOKABLE bool removeTimelineAt(const int index);
     Q_INVOKABLE QJsonArray timelineSections();
+    Q_INVOKABLE QCoro::QmlTask removeAllTimlineSections();
+
     Q_INVOKABLE QCoro::QmlTask setWallpaperAtTimelineIndex(
         const ScreenPlay::ContentTypes::InstalledType type,
         const QString& absolutePath,
@@ -71,28 +72,31 @@ public:
         const QJsonObject& properties,
         const bool saveToProfilesConfigFile);
 
-    Q_INVOKABLE void setSelectedTimelineIndex(const int selectedTimelineIndex);
-
     Q_INVOKABLE bool requestProjectSettingsAtMonitorIndex(const int index);
     Q_INVOKABLE bool setWallpaperValueAtMonitorIndex(const int index, const QString& key, const QString& value);
     Q_INVOKABLE bool setWallpaperFillModeAtMonitorIndex(const int index, const int fillmode);
     Q_INVOKABLE bool setAllWallpaperValue(const QString& key, const QString& value);
     Q_INVOKABLE bool setWallpaperValue(const QString& appID, const QString& key, const QString& value);
     Q_INVOKABLE int activeTimelineIndex();
+    Q_INVOKABLE void requestSaveProfiles();
     int activeWallpaperCounter() const { return m_activeWallpaperCounter; }
     int activeWidgetsCounter() const { return m_activeWidgetsCounter; }
+    int selectedTimelineIndex() const { return m_selectedTimelineIndex; }
+
+public slots:
+    void setSelectedTimelineIndex(int selectedTimelineIndex);
 
 signals:
     void activeWallpaperCounterChanged(int activeWallpaperCounter);
     void activeWidgetsCounterChanged(int activeWidgetsCounter);
     void monitorConfigurationChanged();
-
     void projectSettingsListModelResult(ScreenPlay::ProjectSettingsListModel* li = nullptr);
-    void requestSaveProfiles();
+
     void requestRaise();
     void profilesSaved();
     void printQmlTimeline();
     void displayErrorPopup(const QString& msg);
+    void selectedTimelineIndexChanged(int selectedTimelineIndex);
 
 private slots:
     bool saveProfiles();
@@ -102,12 +106,11 @@ private slots:
 
 private:
     bool loadProfiles();
-
     bool checkIsAnotherScreenPlayInstanceRunning();
-    bool removeWallpaper(const QString& appID);
     bool removeWidget(const QString& appID);
-
     bool loadWidgetConfig(const QJsonObject& widget);
+
+private:
     std::shared_ptr<GlobalVariables> m_globalVariables;
     std::shared_ptr<MonitorListModel> m_monitorListModel;
     std::shared_ptr<Settings> m_settings;
@@ -116,14 +119,12 @@ private:
     std::vector<std::unique_ptr<SDKConnection>> m_unconnectedClients;
     ScreenPlayTimelineManager m_screenPlayTimelineManager;
 
-    int m_activeWallpaperCounter { 0 };
-    int m_activeWidgetsCounter { 0 };
-
     QTimer m_saveLimiter;
-
     Util m_util;
 
+    int m_activeWallpaperCounter { 0 };
+    int m_activeWidgetsCounter { 0 };
+    int m_selectedTimelineIndex { 0 };
     const quint16 m_webSocketPort = 16395;
 };
-
 }

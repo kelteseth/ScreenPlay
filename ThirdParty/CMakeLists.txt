@@ -8,7 +8,6 @@ FetchContent_Populate(
     # https://bugreports.qt.io/browse/QTCREATORBUG-27083
     SOURCE_DIR ${THIRD_PARTY_PATH}/QArchive)
 
-
 FetchContent_Populate(
     qcoro
     GIT_REPOSITORY https://github.com/danvratil/qcoro.git

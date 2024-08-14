@@ -38,7 +38,7 @@ void ScreenPlaySDK::start()
 
     m_socket.connectToServer("ScreenPlay");
     if (!m_socket.waitForConnected(1000)) {
-        emit disconnected();
+        disconnected();
     }
 }
 

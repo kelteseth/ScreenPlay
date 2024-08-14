@@ -6,7 +6,7 @@ import QtQuick.Layouts
 import QtQuick.Controls.Material.impl
 import ScreenPlayApp
 import ScreenPlayUtil as Util
-
+import "../../../ScreenPlayUtil/qml/InstantPopup.js" as InstantPopup
 import "../Components"
 
 Util.Popup {
@@ -149,7 +149,12 @@ Util.Popup {
                         monitorSelection.enabled = false;
                         App.screenPlayManager.removeWallpaperAt(index, selectedTimeline.identifier, selectedTimeline.index).then(result => {
                             monitorSelection.enabled = true;
-                            if (!result.success) {} else {}
+                            if (result.success) {
+                                App.screenPlayManager.requestSaveProfiles();
+                            } else {
+                                if (!success)
+                                    InstantPopup.openErrorPopup(this, result);
+                            }
                         });
                     }
 
@@ -169,7 +174,7 @@ Util.Popup {
                     }
                 }
 
-                ColumnLayout {
+                RowLayout {
                     spacing: 5
 
                     anchors {
@@ -180,22 +185,9 @@ Util.Popup {
                     }
 
                     Button {
-                        id: btnRemoveSelectedWallpaper
-                        Material.background: Material.accent
-                        highlighted: true
-                        text: qsTr("Remove selected")
-                        font.family: App.settings.font
-                        enabled: monitorSelection.activeMonitors.length == 1 && App.screenPlayManager.activeWallpaperCounter > 0
-                        onClicked: {
-                            if (!App.screenPlayManager.removeWallpaperAt(monitorSelection.activeMonitors[0]))
-                                print("Unable to close singel wallpaper");
-                        }
-                    }
-
-                    Button {
                         id: btnRemoveAllWallpaper
 
-                        text: qsTr("Remove all ") + App.screenPlayManager.activeWallpaperCounter + " " + qsTr("Wallpapers")
+                        text: qsTr("Remove all running") + App.screenPlayManager.activeWallpaperCounter + " " + qsTr("Wallpapers")
                         Material.background: Material.accent
                         highlighted: true
                         font.family: App.settings.font
@@ -209,7 +201,7 @@ Util.Popup {
                     Button {
                         id: btnRemoveAllWidgets
 
-                        text: qsTr("Remove all ") + App.screenPlayManager.activeWidgetsCounter + " " + qsTr("Widgets")
+                        text: qsTr("Remove all running") + App.screenPlayManager.activeWidgetsCounter + " " + qsTr("Widgets")
                         Material.background: Material.accent
                         Material.foreground: Material.primaryTextColor
                         highlighted: true

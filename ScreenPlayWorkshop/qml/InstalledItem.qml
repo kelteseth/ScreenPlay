@@ -147,7 +147,7 @@ Item {
             anchors.fill: parent
             visible: false
 
-            ScreenPlayItemImage {
+            InstalledItemImage {
                 id: screenPlayItemImage
 
                 anchors.fill: parent

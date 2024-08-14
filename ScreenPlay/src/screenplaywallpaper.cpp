@@ -156,27 +156,36 @@ QJsonObject ScreenPlayWallpaper::getActiveSettingsJson()
 */
 void ScreenPlayWallpaper::close()
 {
+    setState(ScreenPlayEnums::AppState::Closing);
     qInfo() << "Close wallpaper with appID:" << m_appID;
+
+    m_pingAliveTimer.stop(); // Stop the timer when closing
+
     // When the wallpaper never connected, this is invalid
     if (!m_connection) {
         qCritical() << "Cannot request quit, wallpaper never connected!";
+        setState(ScreenPlayEnums::AppState::Inactive);
         return;
     }
 
     if (!m_connection->close()) {
         qCritical() << "Cannot close wallpaper!";
+        setState(ScreenPlayEnums::AppState::Inactive);
         return;
     }
-    m_isExiting = true;
+    // The state will be set to Inactive in the disconnected callback
 }
-
 /*!
     \brief Prints the exit code if != 0.
 */
 void ScreenPlayWallpaper::processExit(int exitCode, QProcess::ExitStatus exitStatus)
 {
-    if (exitCode != 0)
-        qWarning() << "WARNING EXIT CODE: " << exitCode << exitStatus;
+    setState(ScreenPlay::ScreenPlayEnums::AppState::Inactive);
+    if (exitCode != 0) {
+        qCritical() << "ERROR: Wallpaper closed with appID: " << m_appID << " EXIT CODE: " << exitCode << exitStatus;
+        return;
+    }
+    qDebug() << "Wallpaper closed with appID: " << m_appID;
 }
 
 /*!
@@ -184,6 +193,7 @@ void ScreenPlayWallpaper::processExit(int exitCode, QProcess::ExitStatus exitSta
 */
 void ScreenPlayWallpaper::processError(QProcess::ProcessError error)
 {
+    setState(ScreenPlay::ScreenPlayEnums::AppState::Inactive);
     qWarning() << "EX: " << error;
 }
 
@@ -192,10 +202,13 @@ void ScreenPlayWallpaper::processError(QProcess::ProcessError error)
         playbackRate or fillMode. Otherwise it is a simple key, value json pair.
 
 */
+
 bool ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QString& value, const bool save)
 {
-    if (m_isExiting)
+    if (state() != ScreenPlayEnums::AppState::Active) {
+        qWarning() << "Cannot set value for inactive or closing wallpaper!";
         return false;
+    }
 
     if (!m_connection) {
         qWarning() << "Cannot set value for unconnected wallpaper!";
@@ -223,6 +236,16 @@ bool ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QString& v
     return success;
 }
 
+ScreenPlay::ScreenPlayEnums::AppState ScreenPlayWallpaper::state() const
+{
+    return m_state;
+}
+
+void ScreenPlayWallpaper::setState(ScreenPlay::ScreenPlayEnums::AppState state)
+{
+    m_state = state;
+}
+
 const WallpaperData& ScreenPlayWallpaper::wallpaperData()
 {
     return m_wallpaperData;
@@ -237,11 +260,15 @@ void ScreenPlayWallpaper::setSDKConnection(std::unique_ptr<SDKConnection> connec
     m_connection = std::move(connection);
     qInfo() << "[4/4] SDKConnection (Wallpaper) saved!";
     setIsConnected(true);
+    setState(ScreenPlayEnums::AppState::Active);
 
     QObject::connect(m_connection.get(), &SDKConnection::disconnected, this, [this]() {
         setIsConnected(false);
+        setState(ScreenPlayEnums::AppState::Inactive);
+        m_pingAliveTimer.stop(); // Stop the timer when disconnected
         qInfo() << "Wallpaper:" << m_connection->appID() << "disconnected";
     });
+
     QTimer::singleShot(1000, this, [this]() {
         if (playbackRate() != 1.0) {
             setWallpaperValue("playbackRate", QString::number(playbackRate()), false);
@@ -249,6 +276,7 @@ void ScreenPlayWallpaper::setSDKConnection(std::unique_ptr<SDKConnection> connec
 
         QObject::connect(&m_pingAliveTimer, &QTimer::timeout, this, [this]() {
             qInfo() << "For " << m_pingAliveTimer.interval() << "ms no alive signal received. This means the Wallpaper is dead and likely crashed!";
+            setState(ScreenPlayEnums::AppState::Closing);
             emit requestClose(m_appID);
         });
         m_pingAliveTimer.start(GlobalVariables::contentPingAliveIntervalMS);
@@ -256,15 +284,17 @@ void ScreenPlayWallpaper::setSDKConnection(std::unique_ptr<SDKConnection> connec
 
     // Check every X seconds if the wallpaper is still alive
     QObject::connect(m_connection.get(), &SDKConnection::pingAliveReceived, this, [this]() {
-        m_pingAliveTimer.stop();
-        m_pingAliveTimer.start(GlobalVariables::contentPingAliveIntervalMS);
+        if (state() == ScreenPlayEnums::AppState::Active) {
+            m_pingAliveTimer.stop();
+            m_pingAliveTimer.start(GlobalVariables::contentPingAliveIntervalMS);
 
-        std::optional<bool> running = m_processManager.isRunning(m_processID);
+            std::optional<bool> running = m_processManager.isRunning(m_processID);
 
-        if (running.has_value()) {
-            qInfo() << "running:" << running.value();
-        } else {
-            qInfo() << "INVALID PID:" << m_processID;
+            if (running.has_value()) {
+                // qInfo() << "running:" << running.value();
+            } else {
+                qInfo() << "INVALID PID:" << m_processID;
+            }
         }
     });
 }
@@ -276,9 +306,10 @@ bool ScreenPlayWallpaper::replace(
     const WallpaperData wallpaperData,
     const bool checkWallpaperVisible)
 {
-
-    if (m_isExiting)
+    if (state() != ScreenPlayEnums::AppState::Active) {
+        qWarning() << "Cannot replace inactive or closing wallpaper!";
         return false;
+    }
 
     if (!m_connection) {
         qWarning() << "Cannot replace for unconnected wallpaper!";
@@ -300,7 +331,6 @@ bool ScreenPlayWallpaper::replace(
     emit requestSave();
     return success;
 }
-
 }
 
 #include "moc_screenplaywallpaper.cpp"

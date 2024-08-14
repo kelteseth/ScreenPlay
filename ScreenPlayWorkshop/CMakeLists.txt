@@ -18,10 +18,10 @@ set(QML
     # cmake-format: sort
     qml/Background.qml
     qml/Forum.qml
+    qml/InstalledItem.qml
+    qml/InstalledItemImage.qml
     qml/Navigation.qml
     qml/PopupOffline.qml
-    qml/ScreenPlayItem.qml
-    qml/ScreenPlayItemImage.qml
     qml/Sidebar.qml
     qml/SteamProfile.qml
     qml/SteamWorkshop.qml

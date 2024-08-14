@@ -5,6 +5,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import ScreenPlayApp
 import ScreenPlayUtil
+import "../../../ScreenPlayUtil/qml/InstantPopup.js" as InstantPopup
 
 Control {
     id: root
@@ -121,7 +122,7 @@ Control {
                 if (timelineSection.wallpaperData.length === 0)
                     continue;
                 let firstWallpaper = timelineSection.wallpaperData[0];
-                lineIndicator.wallpaperPreviewImage = Qt.resolvedUrl("file:///" + firstWallpaper.absolutePath + "/" + firstWallpaper.previewImage);
+                lineIndicator.wallpaperPreviewImage = "file:///" + firstWallpaper.absolutePath + "/" + firstWallpaper.previewImage;
             }
         }
 
@@ -509,7 +510,7 @@ Control {
                 btnReset.resetting = true;
                 App.screenPlayManager.removeAllRunningWallpapers().then(result => {
                     if (!result.success) {
-                        console.error("removeAllTimlineSections failed");
+                        InstantPopup.openErrorPopup(timeline, result.message);
                         btnReset.resetting = false;
                         return;
                     }
@@ -523,7 +524,9 @@ Control {
                         const position = 1.0;
                         const identifier = App.util.generateRandomString(4);
                         const sectionObject = timeline.addSection(identifier, position);
-                        App.screenPlayManager.addTimelineAt(sectionObject.index, sectionObject.relativeLinePosition, sectionObject.identifier);
+                        const success = App.screenPlayManager.addTimelineAt(sectionObject.index, sectionObject.relativeLinePosition, sectionObject.identifier);
+                        if (!success)
+                            InstantPopup.openErrorPopup(timeline, qsTr("Unable to add Timeline"));
                         btnReset.resetting = false;
                     });
                 });

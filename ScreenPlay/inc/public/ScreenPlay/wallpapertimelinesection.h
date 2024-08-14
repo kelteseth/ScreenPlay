@@ -23,6 +23,7 @@ class WallpaperTimelineSection : public QObject {
     QML_UNCREATABLE("")
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
 public:
+    // TODO: replace with wallpaper state?
     enum class State {
         Inactive,
         Starting,
@@ -46,6 +47,11 @@ public:
     std::shared_ptr<GlobalVariables> globalVariables;
     std::shared_ptr<Settings> settings;
 
+signals:
+    void requestSaveProfiles();
+    void requestUpdateMonitorListModel();
+    void activeWallpaperCountChanged(const int count);
+
 public:
     // Check if currentTime falls within the timeline section
     bool containsTime(const QTime& time) const;
@@ -58,9 +64,5 @@ private slots:
 
 private:
     std::optional<std::shared_ptr<ScreenPlayWallpaper>> wallpaperByMonitorIndex(const int index);
-
-signals:
-    void requestSaveProfiles();
-    void activeWallpaperCountChanged(const int count);
 };
 }

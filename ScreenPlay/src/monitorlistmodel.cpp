@@ -11,6 +11,9 @@
 #include <QDebug>
 #include <QRandomGenerator>
 
+#include "ScreenPlay/CMakeVariables.h"
+#include <type_traits>
+
 namespace ScreenPlay {
 
 /*!
@@ -34,6 +37,8 @@ namespace ScreenPlay {
 MonitorListModel::MonitorListModel(QObject* parent)
     : QAbstractListModel(parent)
 {
+    static_assert(SCREENPLAY_DEPLOY_VERSION == 0 || !std::is_same_v<decltype(m_useMockMonitors), bool>,
+        "Mock monitors should not be available in deploy version");
 
     auto* guiAppInst = dynamic_cast<QGuiApplication*>(QGuiApplication::instance());
     connect(guiAppInst, &QGuiApplication::screenAdded, this, &MonitorListModel::screenAdded);
@@ -70,6 +75,7 @@ QHash<int, QByteArray> MonitorListModel::roleNames() const
 {
     static const QHash<int, QByteArray> roles {
         { static_cast<int>(MonitorRole::AppID), "m_appID" },
+        { static_cast<int>(MonitorRole::AppState), "m_appState" },
         { static_cast<int>(MonitorRole::Index), "m_index" },
         { static_cast<int>(MonitorRole::Geometry), "m_geometry" },
         { static_cast<int>(MonitorRole::PreviewImage), "m_previewImage" },
@@ -110,6 +116,8 @@ QVariant MonitorListModel::data(const QModelIndex& index, int role) const
     switch (roleEnum) {
     case MonitorRole::AppID:
         return m_monitorList.at(row).m_appID;
+    case MonitorRole::AppState:
+        return QVariant::fromValue(m_monitorList.at(row).m_appState);
     case MonitorRole::Index:
         return m_monitorList.at(row).m_index;
     case MonitorRole::Geometry:
@@ -265,6 +273,10 @@ bool MonitorListModel::setData(const QModelIndex& index, const QVariant& value, 
     }
     if (role == static_cast<int>(MonitorRole::AppID)) {
         m_monitorList[index.column()].m_appID = value.toString();
+        emit dataChanged(index, index, { role });
+    }
+    if (role == static_cast<int>(MonitorRole::AppState)) {
+        m_monitorList[index.column()].m_appState = static_cast<ScreenPlayEnums::AppState>(value.toInt());
         emit dataChanged(index, index, { role });
     }
     if (role == static_cast<int>(MonitorRole::InstalledType)) {

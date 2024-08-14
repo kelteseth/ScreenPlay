@@ -9,6 +9,7 @@ Item {
     property string previewImage
     property string appID
     property var installedType: ContentTypes.InstalledType.QMLWallpaper
+    property var appState: ScreenPlayEnums.AppState.Inactive
     property bool monitorWithoutContentSelectable: true
     property bool hasContent: appID !== ""
     property int fontSize: 10
@@ -84,6 +85,25 @@ Item {
             anchors.fill: parent
             asynchronous: true
             fillMode: Image.PreserveAspectCrop
+        }
+        Text {
+            anchors.fill: parent
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            text: {
+                switch (root.appState) {
+                case ScreenPlayEnums.AppState.Inactive:
+                    return qsTr("Inactive");
+                case ScreenPlayEnums.AppState.Starting:
+                    return qsTr("Starting");
+                case ScreenPlayEnums.AppState.Closing:
+                    return qsTr("Closing");
+                case ScreenPlayEnums.AppState.Active:
+                    return qsTr("Active");
+                default:
+                    console.error("Invalid state");
+                }
+            }
         }
 
         MouseArea {

@@ -141,7 +141,7 @@ Item {
                 margins: 5
             }
 
-            ScreenPlayItemImage {
+            InstalledItemImage {
                 id: screenPlayItemImage
 
                 anchors.fill: parent

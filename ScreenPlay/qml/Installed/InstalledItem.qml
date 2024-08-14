@@ -155,7 +155,7 @@ Item {
                 horizontalAlignment: Text.AlignHCenter
             }
 
-            ScreenPlayItemImage {
+            InstalledItemImage {
                 id: screenPlayItemImage
                 opacity: root.hasLicense ? 1 : 0.3
                 anchors.fill: parent

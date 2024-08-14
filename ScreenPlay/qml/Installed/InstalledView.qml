@@ -215,7 +215,7 @@ Item {
             }
         }
 
-        delegate: ScreenPlayItem {
+        delegate: InstalledItem {
             id: delegate
             objectName: "installedItem" + index
             focus: true

@@ -2,6 +2,7 @@
 
 #include "ScreenPlay/screenplaymanager.h"
 #include "ScreenPlayUtil/util.h"
+#include "core/qcorothread.h"
 
 #include <QScopeGuard>
 namespace ScreenPlay {
@@ -27,6 +28,10 @@ ScreenPlayManager::ScreenPlayManager(
     QObject::connect(m_server.get(), &QLocalServer::newConnection, this, &ScreenPlayManager::newConnection);
     QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::requestSaveProfiles, this, &ScreenPlayManager::requestSaveProfiles);
     QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::activeWallpaperCountChanged, this, &ScreenPlayManager::setActiveWallpaperCounter);
+
+    QObject::connect(this, &ScreenPlayManager::selectedTimelineIndexChanged, &m_screenPlayTimelineManager, &ScreenPlayTimelineManager::setSelectedTimelineIndex);
+    QObject::connect(this, &ScreenPlayManager::selectedTimelineIndexChanged, &m_screenPlayTimelineManager, &ScreenPlayTimelineManager::updateMonitorListModelData);
+
     m_server->setSocketOptions(QLocalServer::WorldAccessOption);
     if (!m_server->listen("ScreenPlay")) {
         qCritical("Could not open Local Socket with the name ScreenPlay!");
@@ -37,9 +42,6 @@ ScreenPlayManager::ScreenPlayManager(
     // we limit ourself to m_saveLimiters interval below:
     m_saveLimiter.setInterval(1000);
     QObject::connect(&m_saveLimiter, &QTimer::timeout, this, &ScreenPlayManager::saveProfiles);
-    QObject::connect(this, &ScreenPlayManager::requestSaveProfiles, this, [this]() {
-        m_saveLimiter.start();
-    });
 }
 
 /*!
@@ -90,23 +92,29 @@ QCoro::QmlTask ScreenPlayManager::setWallpaperAtTimelineIndex(
 
     return QCoro::QmlTask([this, wallpaperData, timelineIndex, identifier]() -> QCoro::Task<Result> {
         if (timelineIndex < 0 || identifier.isEmpty()) {
-
-            co_return Result { false };
+            const QString msg = QString("Invalid timeline index %1 identifier %2").arg(QString::number(timelineIndex), identifier);
+            Result result;
+            result.setSuccess(false);
+            result.setMessage(msg);
+            co_return result;
         }
 
         const bool success = co_await m_screenPlayTimelineManager.setWallpaperAtTimelineIndex(wallpaperData, timelineIndex, identifier);
 
         if (!success) {
-            qCritical() << "Invalid timeline index or identifier: " << timelineIndex << identifier;
+            const QString msg = QString("Unable to setWallpaperAtTimelineIndex");
             m_screenPlayTimelineManager.printTimelines();
             emit printQmlTimeline();
-            co_return Result { success };
+            Result result;
+            result.setSuccess(false);
+            result.setMessage(msg);
+            co_return result;
         }
 
         // We do not start the wallpaper here, but let
         // ScreenPlayTimelineManager::checkActiveWallpaperTimeline decide
         // if the wallpaper
-        emit requestSaveProfiles();
+        // QMetaObject::invokeMethod(this, &ScreenPlayManager::requestSaveProfiles, Qt::QueuedConnection);
         co_return Result { success };
     }());
 }
@@ -125,7 +133,7 @@ bool ScreenPlayManager::startWidget(
     auto saveToProfile = qScopeGuard([=, this] {
         // Do not save on app start
         if (saveToProfilesConfigFile) {
-            emit requestSaveProfiles();
+            requestSaveProfiles();
         }
     });
 
@@ -157,11 +165,6 @@ bool ScreenPlayManager::startWidget(
     return true;
 }
 
-void ScreenPlayManager::setSelectedTimelineIndex(const int selectedTimelineIndex)
-{
-    m_screenPlayTimelineManager.updateMonitorListModelData(selectedTimelineIndex);
-}
-
 /*!
     \brief Removes all wallpaper entries in the profiles.json.
 */
@@ -172,7 +175,8 @@ QCoro::QmlTask ScreenPlayManager::removeAllRunningWallpapers(bool saveToProfile)
         const bool success = co_await m_screenPlayTimelineManager.removeAllWallpaperFromActiveTimlineSections();
         qDebug() << "Task: removeAllWallpaperFromActiveTimlineSections" << success;
         if (saveToProfile)
-            emit requestSaveProfiles();
+            // QMetaObject::invokeMethod(this, &ScreenPlayManager::requestSaveProfiles, Qt::QueuedConnection);
+            m_screenPlayTimelineManager.updateMonitorListModelData(selectedTimelineIndex());
         co_return Result { success };
     }());
 }
@@ -199,7 +203,7 @@ bool ScreenPlayManager::removeAllRunningWidgets(bool saveToProfile)
     }
 
     if (saveToProfile)
-        emit requestSaveProfiles();
+        requestSaveProfiles();
 
     return true;
 }
@@ -211,12 +215,16 @@ bool ScreenPlayManager::removeAllRunningWidgets(bool saveToProfile)
 */
 QCoro::QmlTask ScreenPlayManager::removeWallpaperAt(int timelineIndex, QString timelineIdentifier, int monitorIndex)
 {
-
+    qInfo() << "this: " << this;
     return QCoro::QmlTask([this, timelineIndex, timelineIdentifier, monitorIndex]() -> QCoro::Task<Result> {
-        // call with coro
         const bool success = co_await m_screenPlayTimelineManager.removeWallpaperAt(timelineIndex, timelineIdentifier, monitorIndex);
         qDebug() << "Task: removeAllWallpaperFromActiveTimlineSections" << success;
-        emit requestSaveProfiles();
+
+        // Use QMetaObject::invokeMethod to call requestSaveProfiles on the main thread
+        QMetaObject::invokeMethod(nullptr, "requestSaveProfiles", Qt::QueuedConnection);
+
+        m_screenPlayTimelineManager.updateMonitorListModelData(selectedTimelineIndex());
+
         co_return Result { success };
     }());
 }
@@ -331,6 +339,7 @@ QCoro::QmlTask ScreenPlayManager::removeAllTimlineSections()
         qDebug() << "Task: removeAllTimlineSections" << success;
         // emit requestSaveProfiles();
         // removeAllRunningWallpapers();
+        // QMetaObject::invokeMethod(this, &ScreenPlayManager::requestSaveProfiles, Qt::QueuedConnection);
         co_return Result { success };
     }());
 }
@@ -338,7 +347,7 @@ QCoro::QmlTask ScreenPlayManager::removeAllTimlineSections()
 bool ScreenPlayManager::removeTimelineAt(const int index)
 {
     const bool success = m_screenPlayTimelineManager.removeTimelineAt(index);
-    emit requestSaveProfiles();
+    requestSaveProfiles();
     return success;
 }
 /*!
@@ -427,52 +436,6 @@ void ScreenPlayManager::setActiveWidgetsCounter(int activeWidgetsCounter)
 }
 
 /*!
-    \brief Removes a wallpaper from the given appID. Returns true on success.
-*/
-bool ScreenPlayManager::removeWallpaper(const QString& appID)
-{
-
-    auto wallpaperSectionOpt = m_screenPlayTimelineManager.activeWallpaperSectionByAppID(appID);
-    if (!wallpaperSectionOpt.has_value()) {
-        qCritical() << "No wallpaper found.";
-        return false;
-    }
-    if (!wallpaperSectionOpt.value()) {
-        qCritical() << "No wallpaperSectionOpt invalid.";
-        return false;
-    }
-    auto& wallpaperSection = wallpaperSectionOpt.value();
-
-    wallpaperSection->activeWallpaperList.erase(
-        std::remove_if(
-            wallpaperSection->activeWallpaperList.begin(),
-            wallpaperSection->activeWallpaperList.end(),
-            [this, appID](std::shared_ptr<ScreenPlayWallpaper>& wallpaper) {
-                if (wallpaper->appID() != appID) {
-                    return false;
-                }
-
-                qInfo() << "Remove wallpaper " << wallpaper->file() << "at monitor " << wallpaper->monitors();
-
-                // The MonitorListModel contains a shared_ptr of this object that needs to be removed
-                // for shared_ptr to release the object.
-                // m_monitorListModel->setWallpaperMonitor({}, wallpaper->monitors());
-
-                wallpaper->close();
-
-                return true;
-            }));
-
-    if (activeWallpaperCounter() != wallpaperSection->activeWallpaperList.size()) {
-        qWarning() << "activeWallpaperCounter value: " << activeWallpaperCounter()
-                   << "does not match m_screenPlayWallpapers length:" << wallpaperSection->activeWallpaperList.size();
-        return false;
-    }
-
-    return true;
-}
-
-/*!
     \brief Removes a Widget from the given appID. Returns true on success.
 */
 bool ScreenPlayManager::removeWidget(const QString& appID)
@@ -534,6 +497,11 @@ int ScreenPlayManager::activeTimelineIndex()
         return -1;
     }
     return activeTimelineSection->index;
+}
+
+void ScreenPlayManager::requestSaveProfiles()
+{
+    m_saveLimiter.start();
 }
 
 /*!
@@ -657,6 +625,14 @@ bool ScreenPlayManager::loadWidgetConfig(const QJsonObject& widgetObj)
         return false;
     }
     return true;
+}
+
+void ScreenPlayManager::setSelectedTimelineIndex(int selectedTimelineIndex)
+{
+    // if (m_selectedTimelineIndex == selectedTimelineIndex)
+    //     return;
+    m_selectedTimelineIndex = selectedTimelineIndex;
+    emit selectedTimelineIndexChanged(m_selectedTimelineIndex);
 }
 }
 

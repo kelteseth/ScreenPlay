@@ -23,6 +23,7 @@ set(QML
     qml/Dialogs/CriticalError.qml
     qml/Dialogs/MonitorConfiguration.qml
     qml/Dialogs/SteamNotAvailable.qml
+    qml/ErrorPopup.qml
     qml/FileDropAnimation.qml
     qml/FileSelector.qml
     qml/Grow.qml
@@ -30,11 +31,13 @@ set(QML
     qml/Headline.qml
     qml/HeadlineSection.qml
     qml/ImageSelector.qml
+    qml/InstantPopup.js
     qml/LabelSlider.qml
     qml/LicenseSelector.qml
     qml/ModalBackgroundBlur.qml
     qml/MouseHoverBlocker.qml
     qml/Popup.qml
+    qml/RainbowGradient.qml
     qml/RippleEffect.qml
     qml/Shake.qml
     qml/Tag.qml
@@ -57,6 +60,7 @@ set(HEADER
     inc/public/ScreenPlayUtil/archive.h
     inc/public/ScreenPlayUtil/contenttypes.h
     inc/public/ScreenPlayUtil/exitcodes.h
+    inc/public/ScreenPlayUtil/globalenums.h
     inc/public/ScreenPlayUtil/HelpersCommon.h
     inc/public/ScreenPlayUtil/ListPropertyHelper.h
     inc/public/ScreenPlayUtil/logginghandler.h

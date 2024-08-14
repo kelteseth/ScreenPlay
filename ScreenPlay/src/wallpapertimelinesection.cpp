@@ -41,7 +41,7 @@ QJsonObject WallpaperTimelineSection::serialize() const
 // Start all ScreenPlayWallpaper processes of this current timeline
 bool WallpaperTimelineSection::activateTimeline()
 {
-    if (state == State::Active) {
+    if (state != State::Inactive) {
         qCritical() << " timeline:" << index << identifier << "is already active with state: " << state;
         return false;
     }
@@ -80,6 +80,7 @@ bool WallpaperTimelineSection::activateTimeline()
             // &ScreenPlayManager::requestSaveProfiles
             emit requestSaveProfiles();
         });
+        QObject::connect(screenPlayWallpaper.get(), &ScreenPlayWallpaper::stateChanged, this, &WallpaperTimelineSection::requestUpdateMonitorListModel);
         QObject::connect(screenPlayWallpaper.get(), &ScreenPlayWallpaper::requestClose, this, [this]() {
             // , &ScreenPlayManager::removeWallpaper);
         });
@@ -100,6 +101,11 @@ bool WallpaperTimelineSection::activateTimeline()
 
 QCoro::Task<bool> WallpaperTimelineSection::deactivateTimeline()
 {
+    if (state != State::Active) {
+        qCritical() << " timeline:" << index << identifier << "is already active with state: " << state;
+        co_return false;
+    }
+
     state = WallpaperTimelineSection::State::Closing;
     if (activeWallpaperList.empty()) {
         state = State::Inactive;
@@ -149,33 +155,30 @@ QCoro::Task<bool> WallpaperTimelineSection::deactivateTimeline()
 // WallpaperData!
 QCoro::Task<bool> WallpaperTimelineSection::removeWallpaper(const int monitorIndex)
 {
-
+    // Remove WallpaperData first
     size_t removedCount = std::erase_if(wallpaperDataList, [monitorIndex](const auto& wallpaperData) {
         return wallpaperData.monitors.contains(monitorIndex);
     });
-
     if (removedCount == 0) {
         qCritical() << "No wallpaper data found for monitor index:" << monitorIndex;
         co_return false;
     }
 
     std::shared_ptr<ScreenPlayWallpaper> runningScreenPlayWallpaper;
-    bool found = false;
-    for (const auto& screenPlayWallpaper : activeWallpaperList) {
-        if (screenPlayWallpaper->monitors().contains(monitorIndex)) {
-            runningScreenPlayWallpaper = screenPlayWallpaper;
-            found = true;
-            break;
-        }
-    }
+    auto it = std::find_if(activeWallpaperList.begin(), activeWallpaperList.end(),
+        [monitorIndex](const auto& screenPlayWallpaper) {
+            return screenPlayWallpaper->monitors().contains(monitorIndex);
+        });
+
     // The user always can select a not running timeline section
     // and remove the wallpaper there. This means that it is
     // fine to just return here.
-    if (!found) {
+    if (it == activeWallpaperList.end()) {
         qDebug() << "No running wallpaper found for monitor index:" << monitorIndex;
         co_return true;
     }
 
+    runningScreenPlayWallpaper = *it;
     QTimer timer;
     timer.start(250);
     const int maxRetries = 30;
@@ -184,9 +187,14 @@ QCoro::Task<bool> WallpaperTimelineSection::removeWallpaper(const int monitorInd
         // Wait for the timer to tick
         co_await timer;
         if (!runningScreenPlayWallpaper->isConnected()) {
+            // Remove the wallpaper from the activeWallpaperList
+            activeWallpaperList.erase(it);
+            updateActiveWallpaperCounter();
             co_return true;
         }
     }
+
+    qCritical() << "Failed to close wallpaper for monitor index:" << monitorIndex;
     co_return false;
 }
 

@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import ScreenPlayUtil as Util
 
 Rectangle {
     id: root
@@ -26,9 +27,8 @@ Rectangle {
         }
     }
 
-    Rectangle {
+    Util.RainbowGradient {
         opacity: root.isActive ? 1 : 0
-        color: "gold"
         height: root.height
         anchors {
             right: parent.right
@@ -43,25 +43,19 @@ Rectangle {
     }
 
     Rectangle {
-        visible: root.selected
-        color: "gold"
-        height: 3
-        anchors {
-            right: parent.right
-            left: parent.left
-            top: parent.bottom
-        }
-    }
-
-    Rectangle {
         id: indicatorLineVertical
         width: 5
-        height: 30
+        height: root.selected ? 40 : 30
         color: root.selected ? "gold" : parent.color
         anchors {
             horizontalCenter: parent.horizontalCenter
             top: parent.bottom
             topMargin: 0
+        }
+        Behavior on height {
+            NumberAnimation {
+                duration: 200
+            }
         }
 
         Behavior on color {
@@ -94,6 +88,7 @@ Rectangle {
             radius: 5
             clip: true
             color: Qt.darker(monitorBackground.color)
+
             Image {
                 id: imgWallpaper
                 opacity: imgWallpaper.status === Image.Ready ? 1 : 0
@@ -115,6 +110,7 @@ Rectangle {
         MouseArea {
             anchors.fill: parent
             hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
             onClicked: {
                 root.lineSelected(root.index);
             }

@@ -14,6 +14,7 @@
 
 #include "ScreenPlay/wallpapertimelinesection.h"
 #include "ScreenPlayUtil/contenttypes.h"
+#include "ScreenPlayUtil/globalenums.h"
 
 namespace ScreenPlay {
 
@@ -31,6 +32,7 @@ struct Monitor {
     QRect m_geometry;
     QString m_wallpaperPreviewImage;
     QString m_appID;
+    ScreenPlayEnums::AppState m_appState = ScreenPlayEnums::AppState::Inactive;
     ContentTypes::InstalledType m_installedType = ContentTypes::InstalledType::Unknown;
 };
 
@@ -45,6 +47,7 @@ public:
 
     enum class MonitorRole {
         AppID = Qt::UserRole,
+        AppState,
         Index,
         Geometry,
         PreviewImage,

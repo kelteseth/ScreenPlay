@@ -314,6 +314,7 @@ Rectangle {
             rightMargin: 10
             bottom: parent.bottom
         }
+
         Material.accent: contentActive ? "gold" : Material.secondaryTextColor
         property bool contentActive: App.screenPlayManager.activeWallpaperCounter > 0
 

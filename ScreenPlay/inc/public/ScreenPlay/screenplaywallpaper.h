@@ -14,18 +14,18 @@
 #include "ScreenPlay/projectsettingslistmodel.h"
 #include "ScreenPlay/sdkconnection.h"
 #include "ScreenPlay/settings.h"
-#include "ScreenPlayUtil/processmanager.h"
 #include "ScreenPlay/wallpaperdata.h"
 #include "ScreenPlay/wallpapertimelinesection.h"
-
+#include "ScreenPlayUtil/globalenums.h"
+#include "ScreenPlayUtil/processmanager.h"
 
 namespace ScreenPlay {
-
 
 class ScreenPlayWallpaper : public QObject {
     Q_OBJECT
     QML_ELEMENT
     QML_UNCREATABLE("")
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
 
     Q_PROPERTY(bool isConnected READ isConnected WRITE setIsConnected NOTIFY isConnectedChanged)
     Q_PROPERTY(QVector<int> monitors READ monitors WRITE setMonitors NOTIFY monitorsChanged)
@@ -36,9 +36,10 @@ class ScreenPlayWallpaper : public QObject {
     Q_PROPERTY(QString absolutePath READ absolutePath WRITE setAbsolutePath NOTIFY absolutePathChanged)
     Q_PROPERTY(QString previewImage READ previewImage WRITE setPreviewImage NOTIFY previewImageChanged)
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
-    Q_PROPERTY(Video::FillMode fillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged)
-    Q_PROPERTY(ContentTypes::InstalledType type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(qint64 processID READ processID WRITE setProcessID NOTIFY processIDChanged FINAL)
+    Q_PROPERTY(ScreenPlay::Video::FillMode fillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged)
+    Q_PROPERTY(ScreenPlay::ContentTypes::InstalledType type READ type WRITE setType NOTIFY typeChanged)
+    Q_PROPERTY(ScreenPlay::ScreenPlayEnums::AppState state READ state WRITE setState NOTIFY stateChanged FINAL)
 
 public:
     explicit ScreenPlayWallpaper(
@@ -74,6 +75,9 @@ public:
 
     const WallpaperData& wallpaperData();
 
+    ScreenPlay::ScreenPlayEnums::AppState state() const;
+    void setState(ScreenPlay::ScreenPlayEnums::AppState state);
+
 signals:
     void monitorsChanged(QVector<int> monitors);
     void previewImageChanged(QString previewImage);
@@ -92,6 +96,8 @@ signals:
     void requestSave();
     void requestClose(const QString& appID);
     void error(const QString& msg);
+
+    void stateChanged(ScreenPlay::ScreenPlayEnums::AppState state);
 
 public slots:
     void close();
@@ -126,7 +132,7 @@ public slots:
         emit appIDChanged(m_appID);
     }
 
-    void setType(ContentTypes::InstalledType type)
+    void setType(ScreenPlay::ContentTypes::InstalledType type)
     {
         if (m_wallpaperData.type == type)
             return;
@@ -144,7 +150,7 @@ public slots:
         emit fileChanged(m_wallpaperData.file);
     }
 
-    void setFillMode(Video::FillMode fillMode)
+    void setFillMode(ScreenPlay::Video::FillMode fillMode)
     {
         if (m_wallpaperData.fillMode == fillMode)
             return;
@@ -218,6 +224,7 @@ private:
     QJsonObject m_projectJson;
     QProcess m_process;
     QString m_appID;
+    ScreenPlay::ScreenPlayEnums::AppState m_state = ScreenPlay::ScreenPlayEnums::AppState::Inactive;
 
     WallpaperData m_wallpaperData;
 
