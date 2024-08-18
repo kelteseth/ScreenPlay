@@ -35,8 +35,8 @@ public:
         const int timelineIndex,
         const QString timelineIdentifier,
         const int monitorIndex);
-    void updateIndices();
-    void printTimelines();
+    void sortAndUpdateIndices();
+    void printTimelines() const;
     QCoro::Task<bool> setWallpaperAtTimelineIndex(
         WallpaperData wallpaperData,
         const int timelineIndex,
@@ -65,6 +65,7 @@ private:
     std::optional<std::shared_ptr<WallpaperTimelineSection>> wallpaperSection(
         const int timelineIndex,
         const QString timelineIdentifier);
+    void validateTimelineSections() const;
 
 private:
     QVector<std::shared_ptr<WallpaperTimelineSection>> m_wallpaperTimelineSectionsList;

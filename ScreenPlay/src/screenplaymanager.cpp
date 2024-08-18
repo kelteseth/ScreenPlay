@@ -99,23 +99,25 @@ QCoro::QmlTask ScreenPlayManager::setWallpaperAtTimelineIndex(
             co_return result;
         }
 
-        const bool success = co_await m_screenPlayTimelineManager.setWallpaperAtTimelineIndex(wallpaperData, timelineIndex, identifier);
+        auto result = co_await m_screenPlayTimelineManager.setWallpaperAtTimelineIndex(wallpaperData, timelineIndex, identifier)
+                          .then([this](bool success) -> QCoro::Task<Result> {
+                              if (!success) {
+                                  const QString msg = QString("Unable to setWallpaperAtTimelineIndex");
+                                  m_screenPlayTimelineManager.printTimelines();
+                                  emit printQmlTimeline();
+                                  Result result;
+                                  result.setSuccess(false);
+                                  result.setMessage(msg);
+                                  co_return result;
+                              }
 
-        if (!success) {
-            const QString msg = QString("Unable to setWallpaperAtTimelineIndex");
-            m_screenPlayTimelineManager.printTimelines();
-            emit printQmlTimeline();
-            Result result;
-            result.setSuccess(false);
-            result.setMessage(msg);
-            co_return result;
-        }
-
-        // We do not start the wallpaper here, but let
-        // ScreenPlayTimelineManager::checkActiveWallpaperTimeline decide
-        // if the wallpaper
-        // QMetaObject::invokeMethod(this, &ScreenPlayManager::requestSaveProfiles, Qt::QueuedConnection);
-        co_return Result { success };
+                              // We do not start the wallpaper here, but let
+                              // ScreenPlayTimelineManager::checkActiveWallpaperTimeline decide
+                              // if the wallpaper
+                              requestSaveProfiles();
+                              co_return Result { success };
+                          });
+        co_return result;
     }());
 }
 
@@ -171,13 +173,14 @@ bool ScreenPlayManager::startWidget(
 QCoro::QmlTask ScreenPlayManager::removeAllRunningWallpapers(bool saveToProfile)
 {
     return QCoro::QmlTask([this, saveToProfile]() -> QCoro::Task<Result> {
-        // call with coro
-        const bool success = co_await m_screenPlayTimelineManager.removeAllWallpaperFromActiveTimlineSections();
-        qDebug() << "Task: removeAllWallpaperFromActiveTimlineSections" << success;
-        if (saveToProfile)
-            // QMetaObject::invokeMethod(this, &ScreenPlayManager::requestSaveProfiles, Qt::QueuedConnection);
-            m_screenPlayTimelineManager.updateMonitorListModelData(selectedTimelineIndex());
-        co_return Result { success };
+        auto result = co_await m_screenPlayTimelineManager.removeAllWallpaperFromActiveTimlineSections()
+                          .then([this, saveToProfile](bool success) -> QCoro::Task<Result> {
+                              qDebug() << "Task: removeAllWallpaperFromActiveTimlineSections" << success;
+                              if (saveToProfile)
+                                  m_screenPlayTimelineManager.updateMonitorListModelData(selectedTimelineIndex());
+                              co_return Result { success };
+                          });
+        co_return result;
     }());
 }
 
@@ -217,15 +220,14 @@ QCoro::QmlTask ScreenPlayManager::removeWallpaperAt(int timelineIndex, QString t
 {
     qInfo() << "this: " << this;
     return QCoro::QmlTask([this, timelineIndex, timelineIdentifier, monitorIndex]() -> QCoro::Task<Result> {
-        const bool success = co_await m_screenPlayTimelineManager.removeWallpaperAt(timelineIndex, timelineIdentifier, monitorIndex);
-        qDebug() << "Task: removeAllWallpaperFromActiveTimlineSections" << success;
-
-        // Use QMetaObject::invokeMethod to call requestSaveProfiles on the main thread
-        QMetaObject::invokeMethod(nullptr, "requestSaveProfiles", Qt::QueuedConnection);
-
-        m_screenPlayTimelineManager.updateMonitorListModelData(selectedTimelineIndex());
-
-        co_return Result { success };
+        auto result = co_await m_screenPlayTimelineManager.removeWallpaperAt(timelineIndex, timelineIdentifier, monitorIndex)
+                          .then([this](bool success) -> QCoro::Task<Result> {
+                              qDebug() << "Task: removeAllWallpaperFromActiveTimlineSections" << success;
+                              m_screenPlayTimelineManager.updateMonitorListModelData(selectedTimelineIndex());
+                              requestSaveProfiles();
+                              co_return Result { success };
+                          });
+        co_return result;
     }());
 }
 
@@ -335,12 +337,15 @@ QCoro::QmlTask ScreenPlayManager::removeAllTimlineSections()
 {
     return QCoro::QmlTask([this]() -> QCoro::Task<Result> {
         // call with coro
-        const bool success = co_await m_screenPlayTimelineManager.removeAllTimlineSections();
-        qDebug() << "Task: removeAllTimlineSections" << success;
-        // emit requestSaveProfiles();
-        // removeAllRunningWallpapers();
-        // QMetaObject::invokeMethod(this, &ScreenPlayManager::requestSaveProfiles, Qt::QueuedConnection);
-        co_return Result { success };
+        auto result = co_await m_screenPlayTimelineManager.removeAllTimlineSections()
+                          .then([this](bool success) -> QCoro::Task<Result> {
+                              qDebug() << "Task: removeAllTimlineSections" << success;
+                              if (success)
+                                  requestSaveProfiles();
+                              co_return Result { success };
+                          });
+
+        co_return result;
     }());
 }
 

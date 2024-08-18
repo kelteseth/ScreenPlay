@@ -149,11 +149,8 @@ Util.Popup {
                         monitorSelection.enabled = false;
                         App.screenPlayManager.removeWallpaperAt(index, selectedTimeline.identifier, selectedTimeline.index).then(result => {
                             monitorSelection.enabled = true;
-                            if (result.success) {
-                                App.screenPlayManager.requestSaveProfiles();
-                            } else {
-                                if (!success)
-                                    InstantPopup.openErrorPopup(this, result);
+                            if (!result.success) {
+                                InstantPopup.openErrorPopup(this, result);
                             }
                         });
                     }

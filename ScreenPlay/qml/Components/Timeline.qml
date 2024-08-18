@@ -439,16 +439,17 @@ Control {
 
             ToolButton {
                 text: "➕"
+                enabled: !App.globalVariables.isBasicVersion()
                 onClicked: {
-                    if (App.globalVariables.isBasicVersion()) {
-                        screenPlayProView.open();
-                        return;
-                    }
                     const p = this.x / timeline.width;
                     const position = p.toFixed(4);
                     const identifier = App.util.generateRandomString(4);
                     const sectionObject = timeline.addSection(identifier, position);
-                    App.screenPlayManager.addTimelineAt(sectionObject.index, sectionObject.relativeLinePosition, sectionObject.identifier);
+                    const addTimelineAtSuccess = App.screenPlayManager.addTimelineAt(sectionObject.index, sectionObject.relativeLinePosition, sectionObject.identifier);
+                    if (!addTimelineAtSuccess) {
+                        InstantPopup.openErrorPopup(timeline, qsTr("Unable to add Timeline"));
+                        return;
+                    }
                 }
                 ScreenPlayProPopup {
                     id: screenPlayProView
@@ -524,10 +525,12 @@ Control {
                         const position = 1.0;
                         const identifier = App.util.generateRandomString(4);
                         const sectionObject = timeline.addSection(identifier, position);
-                        const success = App.screenPlayManager.addTimelineAt(sectionObject.index, sectionObject.relativeLinePosition, sectionObject.identifier);
-                        if (!success)
-                            InstantPopup.openErrorPopup(timeline, qsTr("Unable to add Timeline"));
+                        const addTimelineAtSuccess = App.screenPlayManager.addTimelineAt(sectionObject.index, sectionObject.relativeLinePosition, sectionObject.identifier);
                         btnReset.resetting = false;
+                        if (!addTimelineAtSuccess) {
+                            InstantPopup.openErrorPopup(timeline, qsTr("Unable to add Timeline"));
+                            return;
+                        }
                     });
                 });
             }

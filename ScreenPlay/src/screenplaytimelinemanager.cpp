@@ -2,9 +2,9 @@
 #include "ScreenPlay/screenplaywallpaper.h"
 #include "ScreenPlay/wallpaperdata.h"
 #include "ScreenPlayUtil/util.h"
-
 #include <QString>
 #include <QStringList>
+#include <QtGlobal>
 #include <iostream>
 #include <ranges>
 #include <unordered_set>
@@ -171,6 +171,9 @@ void ScreenPlayTimelineManager::checkActiveWallpaperTimeline()
 
     if (!activeTimeline) {
         std::shared_ptr<WallpaperTimelineSection> currentTimeline = findTimelineForCurrentTime();
+        if (!currentTimeline) {
+            qCritical() << "No current timeline found. There must always be an active timeline.";
+        }
         currentTimeline->activateTimeline();
         return;
     }
@@ -204,6 +207,66 @@ std::optional<std::shared_ptr<WallpaperTimelineSection>> ScreenPlayTimelineManag
     qCritical() << "No matching timeline for index:" << timelineIndex << "timelineIdentifier: " << timelineIdentifier;
 
     return std::nullopt;
+}
+
+void ScreenPlayTimelineManager::validateTimelineSections() const
+{
+    if (m_wallpaperTimelineSectionsList.empty()) {
+        return; // Nothing to validate if the list is empty
+    }
+
+    // Check if the first section starts at 00:00:00
+    if (m_wallpaperTimelineSectionsList.front()->startTime != QTime(0, 0, 0)) {
+        printTimelines();
+        Q_ASSERT_X(false, "validateTimelineSections", "First timeline section must start at 00:00:00");
+    }
+
+    for (size_t i = 0; i < m_wallpaperTimelineSectionsList.size() - 1; ++i) {
+        const auto& current = m_wallpaperTimelineSectionsList[i];
+        const auto& next = m_wallpaperTimelineSectionsList[i + 1];
+
+        // Check that start time is before end time for each section
+        if (!(current->startTime < current->endTime)) {
+            printTimelines();
+            Q_ASSERT_X(false, "validateTimelineSections", "Start time must be before end time");
+        }
+
+        // Check that end time of current section matches start time of next section
+        if (current->endTime != next->startTime) {
+            printTimelines();
+            Q_ASSERT_X(false, "validateTimelineSections", "End time of current section must match start time of next section");
+        }
+
+        // Check that indices are consecutive and match their position in the list
+        if (current->index != static_cast<int>(i)) {
+            printTimelines();
+            Q_ASSERT_X(false, "validateTimelineSections", "Timeline section index must match its position in the list");
+        }
+
+        // Check that relative positions are in ascending order
+        if (!(current->relativePosition < next->relativePosition)) {
+            printTimelines();
+            Q_ASSERT_X(false, "validateTimelineSections", "Relative positions must be in ascending order");
+        }
+    }
+
+    // Check the last section
+    const auto& last = m_wallpaperTimelineSectionsList.back();
+    if (!(last->startTime < last->endTime)) {
+        printTimelines();
+        Q_ASSERT_X(false, "validateTimelineSections", "Start time must be before end time for the last section");
+    }
+
+    if (last->index != static_cast<int>(m_wallpaperTimelineSectionsList.size() - 1)) {
+        printTimelines();
+        Q_ASSERT_X(false, "validateTimelineSections", "Last timeline section index must match its position");
+    }
+
+    // Check that the last section ends at 23:59:59
+    if (last->endTime != QTime(23, 59, 59)) {
+        printTimelines();
+        Q_ASSERT_X(false, "validateTimelineSections", "Last timeline section must end at 23:59:59");
+    }
 }
 
 void ScreenPlayTimelineManager::setSettings(const std::shared_ptr<Settings>& settings)
@@ -280,6 +343,7 @@ void ScreenPlayTimelineManager::updateMonitorListModelData(const int selectedTim
         }
     }
 }
+
 void ScreenPlayTimelineManager::setGlobalVariables(const std::shared_ptr<GlobalVariables>& globalVariables)
 {
     m_globalVariables = globalVariables;
@@ -301,13 +365,12 @@ bool ScreenPlayTimelineManager::deactivateCurrentTimeline()
 */
 bool ScreenPlayTimelineManager::startTimeline()
 {
-
-    std::shared_ptr<WallpaperTimelineSection> newTimelineSection = findTimelineForCurrentTime();
-    if (!newTimelineSection) {
+    std::shared_ptr<WallpaperTimelineSection> currentTimeline = findTimelineForCurrentTime();
+    if (!currentTimeline) {
         qCritical() << "No new timeline found. There must always be an active timeline.";
         return false;
     }
-    if (!newTimelineSection->activateTimeline()) {
+    if (!currentTimeline->activateTimeline()) {
         qCritical() << "Unable activate timeline.";
         return false;
     }
@@ -319,7 +382,7 @@ bool ScreenPlayTimelineManager::startTimeline()
 /*!
   \brief Update m_wallpaperTimelineSectionsList index based on the startTime;
 */
-void ScreenPlayTimelineManager::updateIndices()
+void ScreenPlayTimelineManager::sortAndUpdateIndices()
 {
     // Sort the vector based on startTime
     std::sort(m_wallpaperTimelineSectionsList.begin(), m_wallpaperTimelineSectionsList.end(),
@@ -331,6 +394,7 @@ void ScreenPlayTimelineManager::updateIndices()
     for (int i = 0; i < m_wallpaperTimelineSectionsList.size(); ++i) {
         m_wallpaperTimelineSectionsList[i]->index = i;
     }
+    validateTimelineSections();
 }
 
 /*!
@@ -372,27 +436,72 @@ bool ScreenPlayTimelineManager::addTimelineAt(const int index, const float relat
     newTimelineSection->relativePosition = relativeLinePosition;
     newTimelineSection->identifier = identifier;
     newTimelineSection->endTime = newStopPositionTime;
-    // In case we do a full reset, we must set the start time manually
+
     if (m_wallpaperTimelineSectionsList.empty()) {
         newTimelineSection->startTime = QTime::fromString("00:00:00", m_timelineTimeFormat);
+        m_wallpaperTimelineSectionsList.push_back(newTimelineSection);
     } else {
+        // Find the correct position to insert the new section using C++23 ranges
+        auto insertPosition = std::ranges::find_if(m_wallpaperTimelineSectionsList, [&](const auto& section) {
+            return section->relativePosition > relativeLinePosition;
+        });
 
-        // We can use the given index here, because it points
-        // the the current item at that index, and we have not yet
-        // added our new timelineSection to our list.
-        newTimelineSection->startTime = m_wallpaperTimelineSectionsList.at(index)->startTime;
+        // Set the start time of the new section
+        newTimelineSection->startTime = [&]() {
+            if (insertPosition != m_wallpaperTimelineSectionsList.begin()) {
+                return std::prev(insertPosition)->get()->endTime;
+            }
+            return QTime::fromString("00:00:00", m_timelineTimeFormat);
+        }();
+
+        // Adjust the start time of the next section (if it exists)
+        if (insertPosition != m_wallpaperTimelineSectionsList.end()) {
+            (*insertPosition)->startTime = newTimelineSection->endTime;
+        }
+
+        // Insert the new section at the correct position
+        m_wallpaperTimelineSectionsList.insert(insertPosition, newTimelineSection);
+
+        /* ASCII representation of the insertion process:
+         *          * Case 1: Inserting at the beginning
+         * Before:   |----A----|----B----|----C----|
+         *           ^
+         *        insertPosition
+         *
+         * After:    |--New--|----A----|----B----|----C----|
+         *           ^       ^
+         *           |       A.startTime = New.endTime
+         *           New.startTime = 00:00:00
+         *          * Case 2: Inserting in the middle
+         * Before:   |----A----|----B----|----C----|
+         *                     ^
+         *                  insertPosition
+         *
+         * After:    |----A----|--New--|----B----|----C----|
+         *                     ^       ^
+         *                     |       B.startTime = New.endTime
+         *                     New.startTime = A.endTime
+         *          * Case 3: Inserting at the end
+         * Before:   |----A----|----B----|----C----|
+         *                                         ^
+         *                                      insertPosition (end())
+         *
+         * After:    |----A----|----B----|----C----|--New--|
+         *                                         ^
+         *                                         New.startTime = C.endTime
+         *          * Legend:
+         * |     : Represents the start/end of a timeline section
+         * ----  : Represents the duration of a timeline section
+         * A,B,C : Existing timeline sections
+         * New   : Newly inserted timeline section
+         * ^     : Indicates the insertPosition
+         * -->   : Indicates time adjustment
+         */
     }
 
-    const bool isLast = (m_wallpaperTimelineSectionsList.length() - 1) == index;
-    if (isLast) {
-        m_wallpaperTimelineSectionsList.last()->startTime = newTimelineSection->endTime;
-    }
-
-    m_wallpaperTimelineSectionsList.append(newTimelineSection);
-
-    updateIndices();
+    sortAndUpdateIndices();
     printTimelines();
-    // emit requestSaveProfiles();
+    emit requestSaveProfiles();
     return true;
 }
 
@@ -487,7 +596,7 @@ bool ScreenPlayTimelineManager::removeTimelineAt(const int index)
         }
         m_wallpaperTimelineSectionsList.removeAt(index);
         m_wallpaperTimelineSectionsList.first()->startTime = QTime::fromString("00:00:00", m_timelineTimeFormat);
-        updateIndices();
+        sortAndUpdateIndices();
         printTimelines();
         return true;
     }
@@ -511,16 +620,16 @@ bool ScreenPlayTimelineManager::removeTimelineAt(const int index)
     // wallpaper gets the remaining space
     timelineAfter->startTime = endTime;
     m_wallpaperTimelineSectionsList.removeAt(index);
-    updateIndices();
+    sortAndUpdateIndices();
     printTimelines();
 
     return true;
 }
 
-void ScreenPlayTimelineManager::printTimelines()
+void ScreenPlayTimelineManager::printTimelines() const
 {
     std::cout << "#############################\n";
-    for (std::shared_ptr<WallpaperTimelineSection>& timeline : m_wallpaperTimelineSectionsList) {
+    for (const std::shared_ptr<WallpaperTimelineSection>& timeline : m_wallpaperTimelineSectionsList) {
         std::cout << timeline->index << ": " << timeline->identifier.toStdString() << "\t"
                   << timeline->relativePosition
                   << " start: " << timeline->startTime.toString().toStdString()

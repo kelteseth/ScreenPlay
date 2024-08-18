@@ -145,7 +145,6 @@ Drawer {
                             if (result.success) {
                                 // Reset to update the wallpaper preview image
                                 timeline.reset();
-                                App.screenPlayManager.requestSaveProfiles();
                             } else {
                                 InstantPopup.openErrorPopup(timeline, result.message);
                             }
