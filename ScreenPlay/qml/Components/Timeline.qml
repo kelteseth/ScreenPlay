@@ -367,7 +367,7 @@ Control {
             // Current time indicator
             Rectangle {
                 id: currentTimeIndicator
-                color: Material.color(Material.BlueGrey)
+                color:  Qt.alpha(Material.color(Material.BlueGrey), 0.5)
                 width: 2
                 height: 30
                 y: (addHandleWrapper.height - height) / 2 // Vertically center within addHandleWrapper
@@ -400,36 +400,58 @@ Control {
                 }
             }
 
-            RowLayout {
+            Item {
+                id: timelineIndicatorWrapper
                 height: 30
-                uniformCellSizes: true
+                // spacing: 0
                 anchors {
                     top: parent.top
                     right: parent.right
                     left: parent.left
-                    leftMargin: -5
+                }
+                Text {
+                    color: "gray"
+                    text: "0"
+                    anchors {
+                        horizontalCenter: zeroIndicator.horizontalCenter
+                    }
+                }
+
+                Rectangle {
+                    id: zeroIndicator
+                    color: "gray"
+                    width: 1
+                    height: 10
+                    anchors {
+                        right: timelineIndicatorWrapper.left
+                        bottom: timelineIndicatorWrapper.bottom
+                    }
                 }
                 Repeater {
-                    model: 25
+                    id: timelineIndicator
+                    model: 24
                     Item {
-                        width: 20
+                        id: timelineIndicatorItem
+                        width: timelineIndicatorWrapper.width / timelineIndicator.count
                         height: 30
                         required property int index
+                        x: timelineIndicatorItem.index * width
                         Text {
                             id: txtHours
                             color: "gray"
-                            text: index
+                            text: timelineIndicatorItem.index + 1
                             anchors {
-                                horizontalCenter: parent.horizontalCenter
+                                horizontalCenter: indicator.horizontalCenter
                             }
                         }
 
                         Rectangle {
+                            id: indicator
                             color: "gray"
                             width: 1
                             height: 10
                             anchors {
-                                horizontalCenter: txtHours.horizontalCenter
+                                right: parent.right
                                 bottom: parent.bottom
                             }
                         }
@@ -441,8 +463,8 @@ Control {
                 text: "➕"
                 enabled: !App.globalVariables.isBasicVersion()
                 onClicked: {
-                    const p = this.x / timeline.width;
-                    const position = p.toFixed(4);
+                    const absTimelinePosX = this.x - width *.5// todo
+                    const position  = Number(absTimelinePosX / timeline.width).toFixed(6);
                     const identifier = App.util.generateRandomString(4);
                     const sectionObject = timeline.addSection(identifier, position);
                     const addTimelineAtSuccess = App.screenPlayManager.addTimelineAt(sectionObject.index, sectionObject.relativeLinePosition, sectionObject.identifier);
@@ -478,18 +500,18 @@ Control {
             }
         }
         Rectangle {
-            height: 18
-            color: "#757575"
-            width: 2
+            height: 20
+            color: "gray"
+            width: 1
             anchors {
                 right: parent.left
                 verticalCenter: lineIndicatorWrapper.verticalCenter
             }
         }
         Rectangle {
-            height: 18
-            width: 2
-            color: "#757575"
+            height: 20
+            width: 1
+            color: "gray"
             anchors {
                 right: parent.right
                 verticalCenter: lineIndicatorWrapper.verticalCenter

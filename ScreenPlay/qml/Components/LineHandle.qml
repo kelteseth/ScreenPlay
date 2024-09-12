@@ -1,31 +1,14 @@
 import QtQuick
 import QtQuick.Controls
+import ScreenPlayApp
 
 Item {
     id: root
     property real lineWidth: 1
-    property real linePosition: (root.x / lineWidth).toFixed(4)
+    property real linePosition: Number((root.x / lineWidth).toFixed(6))
     property string timeString: {
         const normalized = root.x / root.lineWidth;
-        // Your existing normalization
-        let totalHours = normalized * 24;
-        let hours = Math.floor(totalHours);
-        // Gets the whole hour part
-        let minutes = Math.round((totalHours - hours) * 60);
-        // Calculates the minutes
-        // Check if minutes rolled over to 60, adjust hours and minutes accordingly
-        if (minutes === 60) {
-            hours += 1; // Increment hours by 1
-            minutes = 0; // Reset minutes to 0
-        }
-
-        // Ensure hours wrap correctly at 24
-        if (hours === 24) {
-            hours = 0;
-        }
-
-        // Format hours and minutes to always have two digits
-        return hours.toString().padStart(2, '0') + ":" + minutes.toString().padStart(2, '0');
+        return App.util.getTimeString(normalized)
     }
 
     property real lineMinimum: .5
