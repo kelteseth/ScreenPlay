@@ -217,16 +217,6 @@ Item {
 
         delegate: InstalledItem {
             id: delegate
-            objectName: "installedItem" + index
-            focus: true
-            customTitle: m_title
-            type: m_type
-            isNew: m_isNew
-            containsAudio: m_containsAudio
-            folderName: m_folderName
-            absoluteStoragePath: m_absoluteStoragePath
-            publishedFileID: m_publishedFileID
-            itemIndex: index
             isScrolling: gridView.isScrolling
             onClicked: function (folderName, type) {
                 installedDrawer.setInstalledDrawerItem(folderName, type);
@@ -240,7 +230,7 @@ Item {
                 // Set the menu to the current item informations
                 contextMenu.publishedFileID = delegate.publishedFileID;
                 contextMenu.absoluteStoragePath = delegate.absoluteStoragePath;
-                contextMenu.fileName = delegate.customTitle;
+                contextMenu.fileName = delegate.title;
                 contextMenu.type = delegate.type;
                 print(delegate.publishedFileID);
                 if (contextMenu.godotItem)

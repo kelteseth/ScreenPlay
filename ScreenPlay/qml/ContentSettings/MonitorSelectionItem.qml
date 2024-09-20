@@ -6,17 +6,19 @@ import ScreenPlayUtil
 
 Item {
     id: root
-    property string previewImage
-    property string appID
-    property var installedType: ContentTypes.InstalledType.QMLWallpaper
-    property var appState: ScreenPlayEnums.AppState.Inactive
-    property bool monitorWithoutContentSelectable: true
-    property bool hasContent: appID !== ""
-    property int fontSize: 10
-    property int index
+
+    required property int fontSize
+    required property bool monitorWithoutContentSelectable
+    // Model
+    required property string appID
+    required property rect geometry
+    required property string previewImage
+    required property var installedType
+    required property var appState
+    required property int monitorIndex
+
     property bool isSelected: false
 
-    property rect geometry
     onGeometryChanged: {
         root.width = geometry.width;
         root.height = geometry.height;
@@ -24,21 +26,23 @@ Item {
         root.y = geometry.y;
     }
 
-    signal monitorSelected(int index)
-    signal removeWallpaper(int index)
+    signal monitorSelected(int monitorIndex)
+    signal removeWallpaper(int monitorIndex)
 
     onIsSelectedChanged: root.state = isSelected ? "selected" : "default"
+    property bool hasContent: false
     onPreviewImageChanged: {
+        console.debug("xxx previewImage", previewImage, Qt.resolvedUrl(previewImage));
         if (previewImage === "") {
-            imgPreview.hasPreview = false;
+            root.hasContent = false;
         } else {
             imgPreview.source = Qt.resolvedUrl("file:///" + previewImage);
-            imgPreview.hasPreview = true;
+            root.hasContent = true;
         }
     }
 
     Text {
-        text: geometry.width + "x" + geometry.height
+        text: root.geometry.width + "x" + geometry.height
         color: Material.foreground
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
@@ -69,13 +73,7 @@ Item {
 
             sourceSize: Qt.size(parent.width, parent.height)
             anchors.margins: 3
-            property bool hasPreview: false
-            opacity: {
-                if (hasPreview && root.enabled)
-                    return 1;
-                else
-                    return .5;
-            }
+            opacity: root.hasContent ? 1 : 0
             Behavior on opacity {
                 NumberAnimation {
                     duration: 250
@@ -87,7 +85,12 @@ Item {
             fillMode: Image.PreserveAspectCrop
         }
         Text {
-            anchors.fill: parent
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+                bottom: parent.bottom
+                bottomMargin: 5
+            }
+            visible: false
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             text: {
@@ -112,20 +115,20 @@ Item {
             enabled: root.enabled
             cursorShape: Qt.PointingHandCursor
             onClicked: {
-                if (monitorWithoutContentSelectable) {
-                    root.monitorSelected(root.index);
+                if (root.monitorWithoutContentSelectable) {
+                    root.monitorSelected(root.monitorIndex);
                     return;
                 }
-                if (root.hasContent && !root.monitorWithoutContentSelectable)
-                    root.monitorSelected(root.index);
+                if (root.enabled && !root.monitorWithoutContentSelectable)
+                    root.monitorSelected(root.monitorIndex);
             }
         }
 
         ToolButton {
             text: "❌"
-            enabled: root.hasContent && root.enabled
+            enabled: root.hasContent
             visible: enabled
-            onClicked: root.removeWallpaper(root.index)
+            onClicked: root.removeWallpaper(root.monitorIndex)
             z: 99
             anchors {
                 top: parent.top

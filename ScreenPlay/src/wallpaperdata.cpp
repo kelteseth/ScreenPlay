@@ -12,7 +12,7 @@ namespace ScreenPlay {
         "startTime": "00:00:00",
         "wallpaper": [
             {
-                "absolutePath": "file:///C:/Code/Cpp/ScreenPlay/672870/1234567",
+                "absolutePath": "C:/Code/Cpp/ScreenPlay/672870/1234567",
                 "file": "AAA.webm",
                 "fillMode": "Cover",
                 "isLooping": false,
@@ -52,7 +52,7 @@ QJsonObject WallpaperData::serialize() const
     return data;
 }
 
-std::optional<ScreenPlay::WallpaperData> ScreenPlay::WallpaperData::loadWallpaperConfig(const QJsonObject& wallpaperObj)
+std::optional<ScreenPlay::WallpaperData> ScreenPlay::WallpaperData::loadTimelineWallpaperConfig(const QJsonObject& wallpaperObj)
 {
     if (wallpaperObj.empty())
         return std::nullopt;

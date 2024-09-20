@@ -20,6 +20,7 @@ public:
         Starting,
         Closing,
         Active,
+        Timeout,
     };
     Q_ENUM(AppState)
 };

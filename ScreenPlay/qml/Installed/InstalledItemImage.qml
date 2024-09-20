@@ -7,7 +7,7 @@ Item {
     property string absoluteStoragePath
     property string sourceImage
     property string sourceImageGIF
-    property var type: Util.ContentTypes.InstalledType.Unknown
+    property int type
 
     function enter() {
         if (root.sourceImageGIF != "")
@@ -33,7 +33,7 @@ Item {
         source: {
             if (root.sourceImage === "")
                 return "qrc:/qml/ScreenPlayApp/assets/images/missingPreview.png";
-            return root.screenPreview === "" ? "qrc:/qml/ScreenPlayApp/assets/images/missingPreview.png" : Qt.resolvedUrl(absoluteStoragePath + "/" + root.sourceImage);
+            return root.absoluteStoragePath + "/" + root.sourceImage;
         }
         onStatusChanged: {
             if (image.status === Image.Ready) {
@@ -53,7 +53,7 @@ Item {
 
             asynchronous: true
             playing: true
-            source: root.sourceImageGIF === "" ? "qrc:/qml/ScreenPlayApp/assets/images/missingPreview.png" : Qt.resolvedUrl(absoluteStoragePath + "/" + root.sourceImageGIF)
+            // source: root.sourceImageGIF === "" ? "qrc:/qml/ScreenPlayApp/assets/images/missingPreview.png" : Qt.resolvedUrl(root.absoluteStoragePath + "/" + root.sourceImageGIF)
             fillMode: Image.PreserveAspectCrop
         }
     }

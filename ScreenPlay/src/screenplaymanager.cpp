@@ -84,7 +84,7 @@ QCoro::QmlTask ScreenPlayManager::setWallpaperAtTimelineIndex(
 {
     WallpaperData wallpaperData;
     wallpaperData.type = type;
-    wallpaperData.absolutePath = absolutePath;
+    wallpaperData.absolutePath = QUrl::fromUserInput(absolutePath).toLocalFile(); // Remove file:///
     wallpaperData.previewImage = previewImage;
     wallpaperData.file = file;
     wallpaperData.monitors = monitorIndex;

@@ -8,7 +8,7 @@ Item {
     property real linePosition: Number((root.x / lineWidth).toFixed(6))
     property string timeString: {
         const normalized = root.x / root.lineWidth;
-        return App.util.getTimeString(normalized)
+        return App.util.getTimeString(normalized);
     }
 
     property real lineMinimum: .5

@@ -190,19 +190,19 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
 QHash<int, QByteArray> InstalledListModel::roleNames() const
 {
     return {
-        { static_cast<int>(ScreenPlayItem::Title), "m_title" },
-        { static_cast<int>(ScreenPlayItem::Type), "m_type" },
-        { static_cast<int>(ScreenPlayItem::Preview), "m_preview" },
-        { static_cast<int>(ScreenPlayItem::PreviewGIF), "m_previewGIF" },
-        { static_cast<int>(ScreenPlayItem::FolderName), "m_folderName" },
-        { static_cast<int>(ScreenPlayItem::FileId), "m_file" },
-        { static_cast<int>(ScreenPlayItem::AbsoluteStoragePath), "m_absoluteStoragePath" },
-        { static_cast<int>(ScreenPlayItem::PublishedFileID), "m_publishedFileID" },
-        { static_cast<int>(ScreenPlayItem::Tags), "m_tags" },
-        { static_cast<int>(ScreenPlayItem::SearchType), "m_searchType" },
-        { static_cast<int>(ScreenPlayItem::IsNew), "m_isNew" },
-        { static_cast<int>(ScreenPlayItem::ContainsAudio), "m_containsAudio" },
-        { static_cast<int>(ScreenPlayItem::LastModified), "m_lastModified" }
+        { static_cast<int>(ScreenPlayItem::Title), "title" },
+        { static_cast<int>(ScreenPlayItem::Type), "type" },
+        { static_cast<int>(ScreenPlayItem::Preview), "preview" },
+        { static_cast<int>(ScreenPlayItem::PreviewGIF), "previewGIF" },
+        { static_cast<int>(ScreenPlayItem::FolderName), "folderName" },
+        { static_cast<int>(ScreenPlayItem::FileId), "file" },
+        { static_cast<int>(ScreenPlayItem::AbsoluteStoragePath), "absoluteStoragePath" },
+        { static_cast<int>(ScreenPlayItem::PublishedFileID), "publishedFileID" },
+        { static_cast<int>(ScreenPlayItem::Tags), "tags" },
+        { static_cast<int>(ScreenPlayItem::SearchType), "searchType" },
+        { static_cast<int>(ScreenPlayItem::IsNew), "isNew" },
+        { static_cast<int>(ScreenPlayItem::ContainsAudio), "containsAudio" },
+        { static_cast<int>(ScreenPlayItem::LastModified), "lastModified" }
     };
 }
 
@@ -215,7 +215,7 @@ void InstalledListModel::append(const QString& projectJsonFilePath)
     ProjectFile projectFile;
     projectFile.projectJsonFilePath = QFileInfo(projectJsonFilePath);
     if (!projectFile.init()) {
-        qWarning() << "Invalid project at " << projectJsonFilePath;
+        // qWarning() << "Invalid project at " << projectJsonFilePath;
         return;
     }
     m_screenPlayFiles.append(std::move(projectFile));
@@ -284,16 +284,16 @@ QVariantMap InstalledListModel::get(const QString& folderName) const
     for (const auto& item : m_screenPlayFiles) {
         if (item.folderName == folderName) {
             QVariantMap map;
-            map.insert("m_title", item.title);
-            map.insert("m_preview", item.preview);
-            map.insert("m_previewGIF", item.previewGIF);
-            map.insert("m_file", item.file);
-            map.insert("m_type", QVariant::fromValue(item.type));
-            map.insert("m_absoluteStoragePath", QUrl::fromLocalFile(item.projectJsonFilePath.dir().path()).toString());
-            map.insert("m_publishedFileID", item.publishedFileID);
-            map.insert("m_isNew", item.isNew);
-            map.insert("m_containsAudio", item.containsAudio);
-            map.insert("m_lastModified", item.lastModified);
+            map.insert("title", item.title);
+            map.insert("preview", item.preview);
+            map.insert("previewGIF", item.previewGIF);
+            map.insert("file", item.file);
+            map.insert("type", QVariant::fromValue(item.type));
+            map.insert("absoluteStoragePath", QUrl::fromLocalFile(item.projectJsonFilePath.dir().path()).toString());
+            map.insert("publishedFileID", item.publishedFileID);
+            map.insert("isNew", item.isNew);
+            map.insert("containsAudio", item.containsAudio);
+            map.insert("lastModified", item.lastModified);
             return map;
         }
     }

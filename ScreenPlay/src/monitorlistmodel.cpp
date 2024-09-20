@@ -74,12 +74,12 @@ MonitorListModel::MonitorListModel(QObject* parent)
 QHash<int, QByteArray> MonitorListModel::roleNames() const
 {
     static const QHash<int, QByteArray> roles {
-        { static_cast<int>(MonitorRole::AppID), "m_appID" },
-        { static_cast<int>(MonitorRole::AppState), "m_appState" },
-        { static_cast<int>(MonitorRole::Index), "m_index" },
-        { static_cast<int>(MonitorRole::Geometry), "m_geometry" },
-        { static_cast<int>(MonitorRole::PreviewImage), "m_previewImage" },
-        { static_cast<int>(MonitorRole::InstalledType), "m_installedType" },
+        { static_cast<int>(MonitorRole::AppID), "appID" },
+        { static_cast<int>(MonitorRole::AppState), "appState" },
+        { static_cast<int>(MonitorRole::MonitorIndex), "monitorIndex" },
+        { static_cast<int>(MonitorRole::Geometry), "geometry" },
+        { static_cast<int>(MonitorRole::PreviewImage), "previewImage" },
+        { static_cast<int>(MonitorRole::InstalledType), "installedType" },
     };
     return roles;
 }
@@ -118,8 +118,8 @@ QVariant MonitorListModel::data(const QModelIndex& index, int role) const
         return m_monitorList.at(row).m_appID;
     case MonitorRole::AppState:
         return QVariant::fromValue(m_monitorList.at(row).m_appState);
-    case MonitorRole::Index:
-        return m_monitorList.at(row).m_index;
+    case MonitorRole::MonitorIndex:
+        return m_monitorList.at(row).m_monitorIndex;
     case MonitorRole::Geometry:
         return m_monitorList.at(row).m_geometry;
     case MonitorRole::InstalledType:
@@ -147,7 +147,7 @@ void MonitorListModel::loadMonitors()
         // Use the randomly selected mock monitor setup
         for (const auto& monitor : mockMonitorList) {
             m_monitorList.append(monitor);
-            qDebug() << "Adding mock monitor: " << monitor.m_index << monitor.m_geometry;
+            qDebug() << "Adding mock monitor: " << monitor.m_monitorIndex << monitor.m_geometry;
         }
         endInsertRows();
 

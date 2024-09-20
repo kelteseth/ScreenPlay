@@ -68,9 +68,9 @@ Drawer {
         }
         const item = App.installedListModel.get(root.contentFolderName);
         print(root.contentFolderName);
-        txtHeadline.text = item.m_title;
-        const previewGiFilePath = Qt.resolvedUrl(item.m_absoluteStoragePath + "/" + item.m_previewGIF);
-        const previewImageFilePath = Qt.resolvedUrl(item.m_absoluteStoragePath + "/" + item.m_preview);
+        txtHeadline.text = item.title;
+        const previewGiFilePath = Qt.resolvedUrl(item.absoluteStoragePath + "/" + item.previewGIF);
+        const previewImageFilePath = Qt.resolvedUrl(item.absoluteStoragePath + "/" + item.preview);
         root.hasPreviewGif = App.util.fileExists(previewGiFilePath);
         if (hasPreviewGif) {
             animatedImagePreview.source = previewGiFilePath;
@@ -249,10 +249,13 @@ Drawer {
                     icon.color: "white"
                     font.pointSize: 12
                     onClicked: {
+                        // Close only the basic version, where the user only can select
+                        // one wallpaper anyway...
+                        const isBasicVersion = App.globalVariables.isBasicVersion();
                         btnLaunchContent.enabled = false;
                         const item = App.installedListModel.get(root.contentFolderName);
-                        const absoluteStoragePath = item.m_absoluteStoragePath;
-                        const previewImage = item.m_preview;
+                        const absoluteStoragePath = item.absoluteStoragePath;
+                        const previewImage = item.preview;
                         if (App.util.isWallpaper(root.type)) {
                             if (type === ContentTypes.InstalledType.GodotWallpaper) {
                                 if (App.globalVariables.isBasicVersion()) {
@@ -268,7 +271,7 @@ Drawer {
                                         btnLaunchContent.enabled = true;
                                         InstantPopup.openErrorPopup(timeline, result.message);
                                     } else {
-                                        const file = item.m_file;
+                                        const file = item.file;
                                         let volume = 1;
                                         const selectedTimeline = timeline.getSelectedTimeline();
                                         App.screenPlayManager.setWallpaperAtTimelineIndex(root.type, absoluteStoragePath, previewImage, file, activeMonitors, selectedTimeline.index, selectedTimeline.identifier, true).then(result => {
@@ -280,11 +283,13 @@ Drawer {
                                         });
                                     }
                                 });
-                                root.close();
+                                if (isBasicVersion) {
+                                    root.close();
+                                }
                                 return;
                             }
                             const selectedTimeline = timeline.getSelectedTimeline();
-                            const file = item.m_file;
+                            const file = item.file;
                             App.screenPlayManager.setWallpaperAtTimelineIndex(root.type, absoluteStoragePath, previewImage, file, activeMonitors, selectedTimeline.index, selectedTimeline.identifier, true).then(result => {
                                 btnLaunchContent.enabled = true;
                                 if (!result.success) {
@@ -294,8 +299,9 @@ Drawer {
                             });
                         }
                         btnLaunchContent.enabled = true;
-                        root.close();
-                        // monitorSelection.reset()
+                        if (isBasicVersion) {
+                            root.close();
+                        }
                     }
                 }
             }

@@ -29,6 +29,6 @@ struct WallpaperData {
     QVector<int> monitors;
     QJsonObject serialize() const;
 
-    static std::optional<WallpaperData> loadWallpaperConfig(const QJsonObject& wallpaperObj);
+    static std::optional<WallpaperData> loadTimelineWallpaperConfig(const QJsonObject& wallpaperObj);
 };
 }

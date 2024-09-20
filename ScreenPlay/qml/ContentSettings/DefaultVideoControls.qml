@@ -4,7 +4,6 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import ScreenPlayApp
-
 import ScreenPlayUtil as Util
 
 ColumnLayout {

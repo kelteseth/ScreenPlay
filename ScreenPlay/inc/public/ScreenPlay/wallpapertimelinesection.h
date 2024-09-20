@@ -25,10 +25,10 @@ class WallpaperTimelineSection : public QObject {
 public:
     // TODO: replace with wallpaper state?
     enum class State {
-        Inactive,
+        Inactive, // Inactive means the current time is outside of startTime and endTime
         Starting,
         Closing,
-        Active,
+        Active, // Aka running
     };
     Q_ENUM(State)
     State state = State::Inactive;

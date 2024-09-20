@@ -11,7 +11,7 @@ Rectangle {
     property bool isActive: false // Active based on time
     property bool isLast: false
     property alias text: text.text
-    property alias wallpaperPreviewImage: imgWallpaper.source
+    property string wallpaperPreviewImage
 
     signal remove(int index)
     signal lineSelected(int index)
@@ -83,7 +83,7 @@ Rectangle {
         Rectangle {
             anchors.fill: parent
             // hardcode instead monitorBackground.border.width
-            // so it does not jump
+            // so it does not jump on highlight
             anchors.margins: 2
             radius: 5
             clip: true
@@ -91,18 +91,25 @@ Rectangle {
 
             Image {
                 id: imgWallpaper
-                opacity: imgWallpaper.status === Image.Ready ? 1 : 0
                 anchors.fill: parent
-                Behavior on opacity {
-                    NumberAnimation {
-                        duration: 200
+                asynchronous: true
+                source: {
+                    let imgSource = root.wallpaperPreviewImage;
+                    if (imgSource === "") {
+                        print("empty");
+                        return "";
                     }
+                    return imgSource;
+                }
+
+                onStatusChanged: {
+                    if (status === Image.Error)
+                        print(Qt.resolvedUrl(root.wallpaperPreviewImage));
                 }
             }
         }
 
         Behavior on color {
-
             ColorAnimation {
                 duration: 200
             }

@@ -7,7 +7,6 @@
 #include <QtGlobal>
 #include <iostream>
 #include <ranges>
-#include <unordered_set>
 
 namespace ScreenPlay {
 
@@ -107,7 +106,7 @@ bool ScreenPlayTimelineManager::addTimelineFromSettings(const QJsonObject& timel
     newTimelineSection->relativePosition = Util().calculateRelativePosition(endTime);
     const auto wallpaperList = timelineObj.value("wallpaper").toArray();
     for (auto& wallpaper : wallpaperList) {
-        std::optional<WallpaperData> wallpaperDataOpt = WallpaperData::loadWallpaperConfig(wallpaper.toObject());
+        std::optional<WallpaperData> wallpaperDataOpt = WallpaperData::loadTimelineWallpaperConfig(wallpaper.toObject());
         if (!wallpaperDataOpt.has_value())
             return false;
         newTimelineSection->wallpaperDataList.push_back(wallpaperDataOpt.value());
@@ -132,13 +131,16 @@ bool ScreenPlayTimelineManager::addTimelineFromSettings(const QJsonObject& timel
 */
 bool ScreenPlayTimelineManager::moveTimelineAt(const int index, const QString identifier, const float relativePosition, QString positionTimeString)
 {
+    // Q_ASSERT(Util().getTimeString(relativePosition) == positionTimeString);
+    qDebug() << "Calculated time:" << Util().getTimeString(relativePosition) << "Provided time:" << positionTimeString << relativePosition;
+
     m_contentTimer.stop();
     auto updateTimer = qScopeGuard([this] { m_contentTimer.start(); });
 
     auto& wallpapterTimelineSection = m_wallpaperTimelineSectionsList.at(index);
-    QTime newPositionTime = QTime::fromString(positionTimeString, "hh:mm");
+    const QTime newPositionTime = QTime::fromString(positionTimeString, "hh:mm:ss");
     if (!newPositionTime.isValid()) {
-        qWarning() << "Unable to move with invalid time:" << positionTimeString;
+        qCritical() << "Unable to move with invalid time:" << positionTimeString;
         return false;
     }
     wallpapterTimelineSection->endTime = newPositionTime;
@@ -302,44 +304,55 @@ void ScreenPlayTimelineManager::updateMonitorListModelData(const int selectedTim
         qCritical() << "No selectedTimelineIndex found" << selectedTimelineIndex;
         return;
     }
-    std::shared_ptr<WallpaperTimelineSection>& timeline = selectedTimeline.front();
+    const auto& timeline = m_wallpaperTimelineSectionsList[selectedTimelineIndex];
+    const bool isTimelineActive = !timeline->activeWallpaperList.empty();
 
-    // Create a set of monitor indices that have active wallpapers
-    std::unordered_set<int> activeMonitors;
-    for (const auto& activeWallpaper : timeline->activeWallpaperList) {
-        for (const auto& monitorIndex : activeWallpaper->monitors()) {
-            activeMonitors.insert(monitorIndex);
+    auto updateActiveMonitor = [&](int monitorIndex, const QModelIndex& modelIndex) -> bool {
+        for (const auto& wallpaper : timeline->activeWallpaperList) {
+            if (wallpaper->monitors().contains(monitorIndex)) {
+                const auto& wallpaperData = wallpaper->wallpaperData();
+                const auto previewImg = wallpaperData.absolutePath + "/" + wallpaperData.previewImage;
+                m_monitorListModel->setData(modelIndex, wallpaper->appID(), (int)MonitorListModel::MonitorRole::AppID);
+                m_monitorListModel->setData(modelIndex, (int)wallpaper->state(), (int)MonitorListModel::MonitorRole::AppState);
+                m_monitorListModel->setData(modelIndex, previewImg, (int)MonitorListModel::MonitorRole::PreviewImage);
+                m_monitorListModel->setData(modelIndex, (int)wallpaperData.type, (int)MonitorListModel::MonitorRole::InstalledType);
+                return true;
+            }
         }
-    }
+        return false;
+    };
+
+    auto updatePlannedMonitor = [&](int monitorIndex, const QModelIndex& modelIndex) -> bool {
+        for (const auto& wallpaperData : timeline->wallpaperDataList) {
+            if (wallpaperData.monitors.contains(monitorIndex)) {
+                const auto previewImg = wallpaperData.absolutePath + "/" + wallpaperData.previewImage;
+                m_monitorListModel->setData(modelIndex, wallpaperData.file, (int)MonitorListModel::MonitorRole::AppID);
+                m_monitorListModel->setData(modelIndex, (int)timeline->state, (int)MonitorListModel::MonitorRole::AppState);
+                m_monitorListModel->setData(modelIndex, previewImg, (int)MonitorListModel::MonitorRole::PreviewImage);
+                m_monitorListModel->setData(modelIndex, (int)wallpaperData.type, (int)MonitorListModel::MonitorRole::InstalledType);
+                return true;
+            }
+        }
+        return false;
+    };
+
+    auto resetMonitorData = [&](const QModelIndex& modelIndex) {
+        m_monitorListModel->setData(modelIndex, "", (int)MonitorListModel::MonitorRole::AppID);
+        m_monitorListModel->setData(modelIndex, 0, (int)MonitorListModel::MonitorRole::AppState);
+        m_monitorListModel->setData(modelIndex, "", (int)MonitorListModel::MonitorRole::PreviewImage);
+        m_monitorListModel->setData(modelIndex, 0, (int)MonitorListModel::MonitorRole::InstalledType);
+    };
 
     for (int i = 0; i < m_monitorListModel->rowCount(); ++i) {
-        bool ok;
-        const int monitorIndex = m_monitorListModel->data(m_monitorListModel->index(i), (int)MonitorListModel::MonitorRole::Index).toInt(&ok);
-        if (!ok) {
-            qCritical() << "Invalid monitor index at: " << i;
-            return;
-        }
+        const int monitorIndex = m_monitorListModel->data(m_monitorListModel->index(i), (int)MonitorListModel::MonitorRole::MonitorIndex).toInt();
+        const auto modelIndex = m_monitorListModel->index(i, 0);
 
-        const auto modelIndex = m_monitorListModel->index(0, monitorIndex);
+        bool updated = isTimelineActive
+            ? updateActiveMonitor(monitorIndex, modelIndex)
+            : updatePlannedMonitor(monitorIndex, modelIndex);
 
-        if (activeMonitors.find(monitorIndex) != activeMonitors.end()) {
-            // Monitor has an active wallpaper
-            for (const auto& activeWallpaper : timeline->activeWallpaperList) {
-                if (activeWallpaper->monitors().contains(monitorIndex)) {
-                    const auto previewImg = activeWallpaper->absolutePath() + "/" + activeWallpaper->previewImage();
-                    m_monitorListModel->setData(modelIndex, activeWallpaper->appID(), (int)MonitorListModel::MonitorRole::AppID);
-                    m_monitorListModel->setData(modelIndex, (int)activeWallpaper->state(), (int)MonitorListModel::MonitorRole::AppState);
-                    m_monitorListModel->setData(modelIndex, previewImg, (int)MonitorListModel::MonitorRole::PreviewImage);
-                    m_monitorListModel->setData(modelIndex, (int)activeWallpaper->type(), (int)MonitorListModel::MonitorRole::InstalledType);
-                    break;
-                }
-            }
-        } else {
-            // Reset monitor data to empty values
-            m_monitorListModel->setData(modelIndex, "", (int)MonitorListModel::MonitorRole::AppID);
-            m_monitorListModel->setData(modelIndex, 0, (int)MonitorListModel::MonitorRole::AppState);
-            m_monitorListModel->setData(modelIndex, "", (int)MonitorListModel::MonitorRole::PreviewImage);
-            m_monitorListModel->setData(modelIndex, 0, (int)MonitorListModel::MonitorRole::InstalledType);
+        if (!updated) {
+            resetMonitorData(modelIndex);
         }
     }
 }

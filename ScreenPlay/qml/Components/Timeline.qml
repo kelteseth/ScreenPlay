@@ -2,7 +2,7 @@ pragma ValueTypeBehavior
 
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Layouts
+import QtQuick.Controls.Material
 import ScreenPlayApp
 import ScreenPlayUtil
 import "../../../ScreenPlayUtil/qml/InstantPopup.js" as InstantPopup
@@ -122,7 +122,7 @@ Control {
                 if (timelineSection.wallpaperData.length === 0)
                     continue;
                 let firstWallpaper = timelineSection.wallpaperData[0];
-                lineIndicator.wallpaperPreviewImage = "file:///" + firstWallpaper.absolutePath + "/" + firstWallpaper.previewImage;
+                lineIndicator.wallpaperPreviewImage = Qt.resolvedUrl("file:///" + firstWallpaper.absolutePath + "/" + firstWallpaper.previewImage);
             }
         }
 
@@ -228,11 +228,8 @@ Control {
         function lineIndicatorSelected(selectedTimelineIndex) {
             console.debug(timelineLogging, "selectedTimelineIndex:", selectedTimelineIndex, "section cout: ", timeline.sectionsList.length);
             for (var i = 0; i < timeline.sectionsList.length; i++) {
-                if (i === selectedTimelineIndex) {
-                    timeline.sectionsList[i].lineIndicator.selected = true;
-                    continue;
-                }
-                timeline.sectionsList[i].lineIndicator.selected = false;
+                const enableTimeline = (i === selectedTimelineIndex);
+                timeline.sectionsList[i].lineIndicator.selected = enableTimeline;
             }
             root.selectedTimelineIndex = selectedTimelineIndex;
             App.screenPlayManager.setSelectedTimelineIndex(selectedTimelineIndex);
@@ -403,7 +400,6 @@ Control {
             Item {
                 id: timelineIndicatorWrapper
                 height: 30
-                // spacing: 0
                 anchors {
                     top: parent.top
                     right: parent.right

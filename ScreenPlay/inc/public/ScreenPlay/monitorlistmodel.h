@@ -21,14 +21,14 @@ namespace ScreenPlay {
 struct Monitor {
 
     Monitor(
-        const int index,
+        const int monitorIndex,
         const QRect& geometry)
     {
-        m_index = index;
+        m_monitorIndex = monitorIndex;
         m_geometry = geometry;
     }
 
-    int m_index { 0 };
+    int m_monitorIndex { 0 };
     QRect m_geometry;
     QString m_wallpaperPreviewImage;
     QString m_appID;
@@ -48,7 +48,9 @@ public:
     enum class MonitorRole {
         AppID = Qt::UserRole,
         AppState,
-        Index,
+        // Explicit _Monitor_Index so we do not
+        // accidentally use a list model index!
+        MonitorIndex,
         Geometry,
         PreviewImage,
         InstalledType,

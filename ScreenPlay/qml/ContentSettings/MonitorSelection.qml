@@ -166,14 +166,7 @@ Rectangle {
             delegate: MonitorSelectionItem {
                 id: delegate
                 enabled: root.enabled
-
-                appID: m_appID
-                geometry: m_geometry
                 fontSize: root.fontSize
-                index: m_index
-                previewImage: m_previewImage
-                installedType: m_installedType
-                appState: m_appState
                 monitorWithoutContentSelectable: root.monitorWithoutContentSelectable
                 onMonitorSelected: function (index) {
                     root.selectMonitorAt(index);

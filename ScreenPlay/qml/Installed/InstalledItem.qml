@@ -9,16 +9,18 @@ import QtQuick.Window
 Item {
     id: root
 
-    property string customTitle
-    property string folderName
-    property url absoluteStoragePath
-    property int type: Util.ContentTypes.InstalledType.Unknown
+    required property string title
+    required property string folderName
+    required property string absoluteStoragePath
+    required property int type
     // Must be var to make it work wit 64bit ints
-    property var publishedFileID: 0
-    property int itemIndex
-    property bool isScrolling: false
-    property bool isNew: false
-    property bool containsAudio: false
+    required property var publishedFileID
+    required property bool isScrolling
+    required property bool isNew
+    required property bool containsAudio
+    required property string previewGIF
+    required property string preview
+    required property int index
     property int version: App.globalVariables.version
     property bool hasLicense: {
         if ((root.version === GlobalVariables.OpenSourceStandalone || root.version === GlobalVariables.OpenSourceSteam) && root.type === Util.ContentTypes.InstalledType.GodotWallpaper) {
@@ -52,8 +54,8 @@ Item {
         running: true
         onTriggered: showAnim.start()
         interval: {
-            var itemIndexMax = itemIndex;
-            if (itemIndex > 30)
+            var itemIndexMax = root.index;
+            if (root.index > 30)
                 itemIndexMax = 3;
             5 * itemIndexMax * Math.random();
         }
@@ -146,7 +148,7 @@ Item {
             }
 
             Text {
-                text: root.customTitle
+                text: root.title
                 font.family: App.settings.font
                 font.pointSize: 16
                 visible: !screenPlayItemImage.visible && root.hasLicense
@@ -160,11 +162,11 @@ Item {
                 opacity: root.hasLicense ? 1 : 0.3
                 anchors.fill: parent
                 enabled: visible
-                visible: m_preview !== "" || m_previewGIF !== ""
-                sourceImage: m_preview
-                sourceImageGIF: m_previewGIF
+                visible: root.preview !== "" || root.previewGIF !== ""
+                sourceImage: root.preview
+                sourceImageGIF: root.previewGIF
                 type: root.type
-                absoluteStoragePath: m_absoluteStoragePath
+                absoluteStoragePath: root.absoluteStoragePath
             }
 
             Image {
@@ -292,7 +294,7 @@ Item {
                 text: qsTr("Start")
                 opacity: enabled && (widgetStartButton.hovered || hoverArea.containsMouse) ? 1 : 0
                 onClicked: {
-                    App.screenPlayManager.startWidget(root.type, Qt.point(0, 0), root.absoluteStoragePath, m_preview, {}, true);
+                    App.screenPlayManager.startWidget(root.type, Qt.point(0, 0), root.absoluteStoragePath, root.preview, {}, true);
                 }
                 onHoveredChanged: {
                     if (hovered)
