@@ -364,7 +364,7 @@ Control {
             // Current time indicator
             Rectangle {
                 id: currentTimeIndicator
-                color:  Qt.alpha(Material.color(Material.BlueGrey), 0.5)
+                color: Qt.alpha(Material.color(Material.BlueGrey), 0.5)
                 width: 2
                 height: 30
                 y: (addHandleWrapper.height - height) / 2 // Vertically center within addHandleWrapper
@@ -456,11 +456,12 @@ Control {
             }
 
             ToolButton {
+                id: btnAdd
                 text: "➕"
                 enabled: !App.globalVariables.isBasicVersion()
                 onClicked: {
-                    const absTimelinePosX = this.x - width *.5// todo
-                    const position  = Number(absTimelinePosX / timeline.width).toFixed(6);
+                    const absTimelinePosX = btnAdd.x + width * .5;
+                    const position = Number(absTimelinePosX / timeline.width).toFixed(6);
                     const identifier = App.util.generateRandomString(4);
                     const sectionObject = timeline.addSection(identifier, position);
                     const addTimelineAtSuccess = App.screenPlayManager.addTimelineAt(sectionObject.index, sectionObject.relativeLinePosition, sectionObject.identifier);
@@ -469,6 +470,7 @@ Control {
                         return;
                     }
                 }
+
                 ScreenPlayProPopup {
                     id: screenPlayProView
                 }
