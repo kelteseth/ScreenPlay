@@ -74,13 +74,13 @@ void ScreenPlayManager::init(
 */
 QCoro::QmlTask ScreenPlayManager::setWallpaperAtTimelineIndex(
     const ScreenPlay::ContentTypes::InstalledType type,
-    const QString &absolutePath,
-    const QString &previewImage,
-    const QString &file,
-    const QString &title,
-    const QVector<int> &monitorIndex,
+    const QString& absolutePath,
+    const QString& previewImage,
+    const QString& file,
+    const QString& title,
+    const QVector<int>& monitorIndex,
     const int timelineIndex,
-    const QString &identifier,
+    const QString& identifier,
     const bool saveToProfilesConfigFile)
 {
     WallpaperData wallpaperData;
@@ -130,7 +130,7 @@ QCoro::QmlTask ScreenPlayManager::setWallpaperAtTimelineIndex(
                               // ScreenPlayTimelineManager::checkActiveWallpaperTimeline decide
                               // if the wallpaper
                               requestSaveProfiles();
-                              co_return Result{success};
+                              co_return Result { success };
                           });
         co_return result;
     }());
@@ -282,10 +282,10 @@ QCoro::QmlTask ScreenPlayManager::setValueAtMonitorTimelineIndex(
         [this, monitorIndex, timelineIndex, sectionIdentifier, key, value]() -> QCoro::Task<Result> {
             auto result = co_await m_screenPlayTimelineManager
                               .setValueAtMonitorTimelineIndex(monitorIndex,
-                                                              timelineIndex,
-                                                              sectionIdentifier,
-                                                              key,
-                                                              value)
+                                  timelineIndex,
+                                  sectionIdentifier,
+                                  key,
+                                  value)
                               .then([this](bool success) -> QCoro::Task<Result> {
                                   qDebug() << "Task: setValueAtMonitorTimelineIndex" << success;
                                   if (success) {
@@ -293,7 +293,7 @@ QCoro::QmlTask ScreenPlayManager::setValueAtMonitorTimelineIndex(
                                           selectedTimelineIndex());
                                       emit requestSaveProfiles();
                                   }
-                                  co_return Result{success};
+                                  co_return Result { success };
                               });
             co_return result;
         }());
@@ -318,10 +318,10 @@ QCoro::QmlTask ScreenPlayManager::setWallpaperFillModeAtMonitorIndex(
         [this, monitorIndex, timelineIndex, sectionIdentifier, key, value]() -> QCoro::Task<Result> {
             auto result = co_await m_screenPlayTimelineManager
                               .setValueAtMonitorTimelineIndex(monitorIndex,
-                                                              timelineIndex,
-                                                              sectionIdentifier,
-                                                              key,
-                                                              value)
+                                  timelineIndex,
+                                  sectionIdentifier,
+                                  key,
+                                  value)
                               .then([this](bool success) -> QCoro::Task<Result> {
                                   qDebug() << "Task: setValueAtMonitorTimelineIndex" << success;
                                   if (success) {
@@ -329,7 +329,7 @@ QCoro::QmlTask ScreenPlayManager::setWallpaperFillModeAtMonitorIndex(
                                           selectedTimelineIndex());
                                       emit requestSaveProfiles();
                                   }
-                                  co_return Result{success};
+                                  co_return Result { success };
                               });
             co_return result;
         }());
@@ -356,16 +356,16 @@ bool ScreenPlayManager::setAllWallpaperValue(const QString& key, const QString& 
          This function is only used in QML.
 */
 WallpaperData ScreenPlayManager::getWallpaperData(const int monitorIndex,
-                                                  const int timelineIndex,
-                                                  const QString sectionIdentifier)
+    const int timelineIndex,
+    const QString sectionIdentifier)
 {
     auto timelineSection = m_screenPlayTimelineManager.findTimelineSection(monitorIndex,
-                                                                           timelineIndex,
-                                                                           sectionIdentifier);
+        timelineIndex,
+        sectionIdentifier);
     if (!timelineSection) {
         return {};
     }
-    for (auto &wallpaperData : timelineSection->wallpaperDataList) {
+    for (auto& wallpaperData : timelineSection->wallpaperDataList) {
         if (wallpaperData.monitors().first() == monitorIndex) {
             // TODO COPY?
             return wallpaperData;

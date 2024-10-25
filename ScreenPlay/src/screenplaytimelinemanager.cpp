@@ -69,7 +69,7 @@ ScreenPlayTimelineManager::findTimelineSectionForCurrentTime()
 std::shared_ptr<WallpaperTimelineSection> ScreenPlayTimelineManager::findTimelineSection(
     const int monitorIndex, const int timelineIndex, const QString sectionIdentifier)
 {
-    for (const auto &section : m_wallpaperTimelineSectionsList) {
+    for (const auto& section : m_wallpaperTimelineSectionsList) {
         if (section->identifier == sectionIdentifier && section->index == timelineIndex) {
             return section;
         }
@@ -196,13 +196,13 @@ void ScreenPlayTimelineManager::checkActiveWallpaperTimeline()
     }
 }
 
-std::optional<std::shared_ptr<WallpaperTimelineSection>> ScreenPlayTimelineManager::wallpaperSection(const int timelineIndex, const QString &sectionIdentifier)
+std::optional<std::shared_ptr<WallpaperTimelineSection>> ScreenPlayTimelineManager::wallpaperSection(const int timelineIndex, const QString& sectionIdentifier)
 {
     for (const auto& section : m_wallpaperTimelineSectionsList) {
         const bool indexMatches = section->index == timelineIndex;
         const bool sectionIdentifierMatches = section->identifier == sectionIdentifier;
         if (indexMatches && sectionIdentifierMatches) {
-            return {section};
+            return { section };
         }
     }
     qCritical() << "No matching timeline for index:" << timelineIndex << "sectionIdentifier: " << sectionIdentifier;
@@ -311,13 +311,13 @@ void ScreenPlayTimelineManager::updateMonitorListModelData(const int selectedTim
             if (wallpaper->monitors().contains(monitorIndex)) {
                 const auto& wallpaperData = wallpaper->wallpaperData();
                 const auto previewImg = wallpaperData.absolutePath() + "/"
-                                        + wallpaperData.previewImage();
+                    + wallpaperData.previewImage();
                 m_monitorListModel->setData(modelIndex, wallpaper->appID(), (int)MonitorListModel::MonitorRole::AppID);
                 m_monitorListModel->setData(modelIndex, (int)wallpaper->state(), (int)MonitorListModel::MonitorRole::AppState);
                 m_monitorListModel->setData(modelIndex, previewImg, (int)MonitorListModel::MonitorRole::PreviewImage);
                 m_monitorListModel->setData(modelIndex,
-                                            (int) wallpaperData.type(),
-                                            (int) MonitorListModel::MonitorRole::InstalledType);
+                    (int)wallpaperData.type(),
+                    (int)MonitorListModel::MonitorRole::InstalledType);
                 return true;
             }
         }
@@ -328,15 +328,15 @@ void ScreenPlayTimelineManager::updateMonitorListModelData(const int selectedTim
         for (const auto& wallpaperData : timeline->wallpaperDataList) {
             if (wallpaperData.monitors().contains(monitorIndex)) {
                 const auto previewImg = wallpaperData.absolutePath() + "/"
-                                        + wallpaperData.previewImage();
+                    + wallpaperData.previewImage();
                 m_monitorListModel->setData(modelIndex,
-                                            wallpaperData.file(),
-                                            (int) MonitorListModel::MonitorRole::AppID);
+                    wallpaperData.file(),
+                    (int)MonitorListModel::MonitorRole::AppID);
                 m_monitorListModel->setData(modelIndex, (int)timeline->state, (int)MonitorListModel::MonitorRole::AppState);
                 m_monitorListModel->setData(modelIndex, previewImg, (int)MonitorListModel::MonitorRole::PreviewImage);
                 m_monitorListModel->setData(modelIndex,
-                                            (int) wallpaperData.type(),
-                                            (int) MonitorListModel::MonitorRole::InstalledType);
+                    (int)wallpaperData.type(),
+                    (int)MonitorListModel::MonitorRole::InstalledType);
                 return true;
             }
         }
@@ -659,19 +659,19 @@ void ScreenPlayTimelineManager::printTimelines() const
 
 /*!
  * \brief ScreenPlayTimelineManager::setValueAtMonitorTimelineIndex
- *        sets the given key, value at the selected wallpaper. 
- *        Note: 
- * \return 
+ *        sets the given key, value at the selected wallpaper.
+ *        Note:
+ * \return
  */
 QCoro::Task<bool> ScreenPlayTimelineManager::setValueAtMonitorTimelineIndex(
     const int monitorIndex,
     const int timelineIndex,
     const QString sectionIdentifier,
-    const QString &key,
-    const QString &value)
+    const QString& key,
+    const QString& value)
 {
     auto wallpaperSectionOpt = wallpaperSection(timelineIndex, sectionIdentifier);
-    if(!wallpaperSectionOpt.has_value())
+    if (!wallpaperSectionOpt.has_value())
         co_return false;
 
     auto wallpaperSection = wallpaperSectionOpt.value();
@@ -693,15 +693,15 @@ QCoro::Task<bool> ScreenPlayTimelineManager::setValueAtMonitorTimelineIndex(
     }
 
     // Skip when the values was changed on an not running wallpaper
-    if(!found){
+    if (!found) {
         co_return true;
     }
 
     // Now set the value in the ScreenPlayWallpaper class so it does
     // get propagated to the running wallpaper.
-    for (auto &activeWallpaper : wallpaperSection->activeWallpaperList) {
-        if(activeWallpaper->monitors().contains(monitorIndex)){
-            activeWallpaper->setWallpaperValue(key,value);
+    for (auto& activeWallpaper : wallpaperSection->activeWallpaperList) {
+        if (activeWallpaper->monitors().contains(monitorIndex)) {
+            activeWallpaper->setWallpaperValue(key, value);
         }
     }
 
@@ -722,15 +722,15 @@ QCoro::Task<bool> ScreenPlayTimelineManager::setWallpaperAtTimelineIndex(
 
             // Check if we already have a wallpaper at the same position or on one or more of the specified monitors
             auto it = std::find_if(timelineSection->wallpaperDataList.begin(),
-                                   timelineSection->wallpaperDataList.end(),
-                                   [&wallpaperData](const WallpaperData &existingWallpaper) {
-                                       return std::any_of(wallpaperData.monitors().begin(),
-                                                          wallpaperData.monitors().end(),
-                                                          [&existingWallpaper](int monitor) {
-                                                              return existingWallpaper.monitors()
-                                                                  .contains(monitor);
-                                                          });
-                                   });
+                timelineSection->wallpaperDataList.end(),
+                [&wallpaperData](const WallpaperData& existingWallpaper) {
+                    return std::any_of(wallpaperData.monitors().begin(),
+                        wallpaperData.monitors().end(),
+                        [&existingWallpaper](int monitor) {
+                            return existingWallpaper.monitors()
+                                .contains(monitor);
+                        });
+                });
 
             if (it != timelineSection->wallpaperDataList.end()) {
                 // TODO

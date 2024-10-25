@@ -33,7 +33,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
 {
     Util util;
     std::optional<QJsonObject> projectOpt = util.openJsonFileToObject(m_wallpaperData.absolutePath()
-                                                                      + "/project.json");
+        + "/project.json");
     if (projectOpt.has_value()) {
         m_projectJson = projectOpt.value();
     }
@@ -44,7 +44,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
     } else {
         if (m_wallpaperData.properties().isEmpty()) {
             if (auto obj = util.openJsonFileToObject(m_wallpaperData.absolutePath()
-                                                     + "/project.json")) {
+                    + "/project.json")) {
                 if (obj->contains("properties"))
                     projectSettingsListModelProperties = obj->value("properties").toObject();
             }
@@ -75,22 +75,22 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
 
     const QString screens = "{" + tmpScreenNumber + "}";
 
-    m_appArgumentsList = QStringList{"--screens",
-                                     screens,
-                                     "--projectpath",
-                                     m_wallpaperData.absolutePath(),
-                                     "--appID",
-                                     m_appID,
-                                     "--volume",
-                                     QString::number(static_cast<double>(m_wallpaperData.volume())),
-                                     "--fillmode",
-                                     QVariant::fromValue(m_wallpaperData.fillMode()).toString(),
-                                     "--type",
-                                     QVariant::fromValue(m_wallpaperData.type()).toString(),
-                                     "--check",
-                                     QString::number(m_settings->checkWallpaperVisible()),
-                                     "--mainapppid",
-                                     QString::number(m_processManager.getCurrentPID())};
+    m_appArgumentsList = QStringList { "--screens",
+        screens,
+        "--projectpath",
+        m_wallpaperData.absolutePath(),
+        "--appID",
+        m_appID,
+        "--volume",
+        QString::number(static_cast<double>(m_wallpaperData.volume())),
+        "--fillmode",
+        QVariant::fromValue(m_wallpaperData.fillMode()).toString(),
+        "--type",
+        QVariant::fromValue(m_wallpaperData.type()).toString(),
+        "--check",
+        QString::number(m_settings->checkWallpaperVisible()),
+        "--mainapppid",
+        QString::number(m_processManager.getCurrentPID()) };
 
     // Fixes issue 84 media key overlay in Qt apps
     if (m_wallpaperData.type() != ContentTypes::InstalledType::GodotWallpaper) {

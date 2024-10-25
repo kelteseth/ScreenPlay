@@ -16,13 +16,13 @@ class ScreenPlayTimelineManager : public QObject {
     Q_PROPERTY(int selectedTimelineIndex READ selectedTimelineIndex WRITE setSelectedTimelineIndex NOTIFY selectedTimelineIndexChanged FINAL)
 
 public:
-    explicit ScreenPlayTimelineManager(QObject *parent = nullptr);
+    explicit ScreenPlayTimelineManager(QObject* parent = nullptr);
 
     std::shared_ptr<WallpaperTimelineSection> findActiveWallpaperTimelineSection();
     std::shared_ptr<WallpaperTimelineSection> findTimelineSectionForCurrentTime();
     std::shared_ptr<WallpaperTimelineSection> findTimelineSection(const int monitorIndex,
-                                                                  const int timelineIndex,
-                                                                  const QString sectionIdentifier);
+        const int timelineIndex,
+        const QString sectionIdentifier);
 
     void startup();
     bool addTimelineFromSettings(const QJsonObject& timelineObj);
@@ -44,10 +44,10 @@ public:
         const int timelineIndex,
         const QString& sectionIdentifier);
     QCoro::Task<bool> setValueAtMonitorTimelineIndex(const int monitorIndex,
-                                                     const int timelineIndex,
-                                                     const QString sectionIdentifier,
-                                                     const QString &key,
-                                                     const QString &value);
+        const int timelineIndex,
+        const QString sectionIdentifier,
+        const QString& key,
+        const QString& value);
     QJsonArray timelineSections();
     QJsonArray timelineWallpaperList();
     void setGlobalVariables(const std::shared_ptr<GlobalVariables>& globalVariables);

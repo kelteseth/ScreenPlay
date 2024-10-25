@@ -240,8 +240,6 @@ QRect MonitorListModel::absoluteDesktopSize() const
     return totalRect;
 }
 
-
-
 /*!
   \brief Removes all items and loads them vida loadMonitors() again.
 */

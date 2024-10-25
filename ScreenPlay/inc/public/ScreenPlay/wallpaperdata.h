@@ -47,16 +47,16 @@ public:
 
     // Setters
     void setIsLooping(bool value) { m_isLooping = value; }
-    void setAbsolutePath(const QString &value) { m_absolutePath = value; }
-    void setPreviewImage(const QString &value) { m_previewImage = value; }
+    void setAbsolutePath(const QString& value) { m_absolutePath = value; }
+    void setPreviewImage(const QString& value) { m_previewImage = value; }
     void setPlaybackRate(float value) { m_playbackRate = value; }
     void setVolume(float value) { m_volume = value; }
-    void setFile(const QString &value) { m_file = value; }
-    void setProperties(const QJsonObject &value) { m_properties = value; }
+    void setFile(const QString& value) { m_file = value; }
+    void setProperties(const QJsonObject& value) { m_properties = value; }
     void setType(ContentTypes::InstalledType value) { m_type = value; }
     void setFillMode(Video::FillMode value) { m_fillMode = value; }
-    void setMonitors(const QVector<int> &value) { m_monitors = value; }
-    void setTitle(const QString &title) { m_title = title; }
+    void setMonitors(const QVector<int>& value) { m_monitors = value; }
+    void setTitle(const QString& title) { m_title = title; }
 
     Q_INVOKABLE QString toString() const;
 

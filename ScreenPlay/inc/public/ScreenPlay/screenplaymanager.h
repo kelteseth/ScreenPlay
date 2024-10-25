@@ -39,8 +39,8 @@ public:
     Q_INVOKABLE bool removeAllRunningWidgets(bool saveToProfile = false);
     Q_INVOKABLE QCoro::QmlTask removeWallpaperAt(const int timelineIndex, const QString sectionIdentifier, const int monitorIndex);
     Q_INVOKABLE WallpaperData getWallpaperData(const int monitorIndex,
-                                               const int timelineIndex,
-                                               const QString sectionIdentifier);
+        const int timelineIndex,
+        const QString sectionIdentifier);
 
     Q_INVOKABLE bool moveTimelineAt(
         const int timelineIndex,
@@ -57,13 +57,13 @@ public:
 
     Q_INVOKABLE QCoro::QmlTask setWallpaperAtTimelineIndex(
         const ScreenPlay::ContentTypes::InstalledType type,
-        const QString &absolutePath,
-        const QString &previewImage,
-        const QString &file,
-        const QString &title,
-        const QVector<int> &monitorIndex,
+        const QString& absolutePath,
+        const QString& previewImage,
+        const QString& file,
+        const QString& title,
+        const QVector<int>& monitorIndex,
         const int timelineIndex,
-        const QString &identifier,
+        const QString& identifier,
         const bool saveToProfilesConfigFile);
 
     Q_INVOKABLE bool startWidget(
@@ -76,7 +76,7 @@ public:
         const bool saveToProfilesConfigFile);
 
     Q_INVOKABLE bool requestProjectSettingsAtMonitorIndex(const int index);
-    Q_INVOKABLE QCoro::QmlTask  setValueAtMonitorTimelineIndex(
+    Q_INVOKABLE QCoro::QmlTask setValueAtMonitorTimelineIndex(
         const int monitorIndex,
         const int timelineIndex,
         const QString sectionIdentifier,

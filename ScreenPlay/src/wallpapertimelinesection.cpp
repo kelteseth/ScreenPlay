@@ -158,9 +158,9 @@ QCoro::Task<bool> WallpaperTimelineSection::removeWallpaper(const int monitorInd
 {
     // Remove WallpaperData first
     size_t removedCount = std::erase_if(wallpaperDataList,
-                                        [monitorIndex](const auto &wallpaperData) {
-                                            return wallpaperData.monitors().contains(monitorIndex);
-                                        });
+        [monitorIndex](const auto& wallpaperData) {
+            return wallpaperData.monitors().contains(monitorIndex);
+        });
     if (removedCount == 0) {
         qCritical() << "No wallpaper data found for monitor index:" << monitorIndex;
         co_return false;

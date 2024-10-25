@@ -133,7 +133,7 @@ std::optional<ScreenPlay::WallpaperData> ScreenPlay::WallpaperData::loadTimeline
 
     wallpaperData.setType(
         QStringToEnum<ContentTypes::InstalledType>(typeString,
-                                                   ContentTypes::InstalledType::VideoWallpaper));
+            ContentTypes::InstalledType::VideoWallpaper));
     wallpaperData.setFillMode(
         QStringToEnum<Video::FillMode>(fillModeString, Video::FillMode::Cover));
 
