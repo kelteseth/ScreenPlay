@@ -22,7 +22,7 @@ Item {
         interval: root.debounceInterval
         repeat: false
         onTriggered: {
-            valueEditingFinished(qqcSlider.value)
+            valueEditingFinished(qqcSlider.value);
         }
     }
 
@@ -75,13 +75,13 @@ Item {
 
             // Reset and start timer when value changes from user interaction
             onMoved: {
-                debounceTimer.restart()
+                debounceTimer.restart();
             }
 
             // Also handle the case when user releases the slider
             onPressedChanged: {
                 if (!pressed) {
-                    debounceTimer.restart()
+                    debounceTimer.restart();
                 }
             }
         }

@@ -32,7 +32,6 @@ Item {
     onIsSelectedChanged: root.state = isSelected ? "selected" : "default"
     property bool hasContent: false
     onPreviewImageChanged: {
-        console.debug("xxx previewImage", previewImage, Qt.resolvedUrl(previewImage));
         if (previewImage === "") {
             root.hasContent = false;
         } else {

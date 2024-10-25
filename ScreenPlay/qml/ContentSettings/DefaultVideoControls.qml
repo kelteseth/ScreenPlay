@@ -14,8 +14,9 @@ ColumnLayout {
     property string sectionIdentifier
     property var wallpaperData
     onWallpaperDataChanged: {
-        console.error("root.wallpaperData.title", root.wallpaperData.title)
-        slVolume.slider.value = wallpaperData.volume.toFixed(2)
+        if (!wallpaperData)
+            return;
+        slVolume.slider.value = wallpaperData.volume.toFixed(2);
     }
 
     spacing: 10
@@ -30,7 +31,7 @@ ColumnLayout {
         wrapMode: Text.WrapAnywhere
         elide: Text.ElideRight
         color: root.timelineActive ? Material.primaryTextColor : Material.secondaryTextColor
-        text: root.wallpaperData.title
+        text: root.wallpaperData ? root.wallpaperData.title : ""
     }
 
     LabelSlider {
@@ -45,28 +46,20 @@ ColumnLayout {
         Layout.rightMargin: 10
         property bool settingValue: false
         onValueEditingFinished: {
-            console.log(root.timelineActive, root.monitorIndex,
-                        root.timelineIndex, root.sectionIdentifier)
+            console.log(root.timelineActive, root.monitorIndex, root.timelineIndex, root.sectionIdentifier);
             if (settingValue) {
-                console.error("Setting settingValue to fast")
-
-                return
+                console.error("Setting settingValue to fast");
+                return;
             }
-
-            settingValue = true
-            App.screenPlayManager.setValueAtMonitorTimelineIndex(
-                        root.monitorIndex, root.timelineIndex,
-                        root.sectionIdentifier, "volume",
-                        slVolume.slider.value.toFixed(2)).then(result => {
-                                                                   settingValue = false
-                                                                   if (!result.success) {
-                                                                       console.error(
-                                                                           "setValueAtMonitorTimelineIndex failed")
-                                                                       return
-                                                                   }
-                                                                   console.debug(
-                                                                       "OK setValueAtMonitorTimelineIndex ")
-                                                               })
+            settingValue = true;
+            App.screenPlayManager.setValueAtMonitorTimelineIndex(root.monitorIndex, root.timelineIndex, root.sectionIdentifier, "volume", slVolume.slider.value.toFixed(2)).then(result => {
+                settingValue = false;
+                if (!result.success) {
+                    console.error("setValueAtMonitorTimelineIndex failed");
+                    return;
+                }
+                console.debug("OK setValueAtMonitorTimelineIndex ");
+            });
         }
     }
 
@@ -76,10 +69,7 @@ ColumnLayout {
 
         headline: qsTr("Current Video Time")
         slider.onValueChanged: {
-            App.screenPlayManager.setValueAtMonitorTimelineIndex(
-                        root.monitorIndex, root.timelineIndex,
-                        root.sectionIdentifier, "currentTime",
-                        slCurrentVideoTime.slider.value.toFixed(2))
+            App.screenPlayManager.setValueAtMonitorTimelineIndex(root.monitorIndex, root.timelineIndex, root.sectionIdentifier, "currentTime", slCurrentVideoTime.slider.value.toFixed(2));
         }
         Layout.fillWidth: true
         slider.stepSize: 0.1
@@ -114,8 +104,7 @@ ColumnLayout {
             textRole: "text"
             valueRole: "value"
             Component.onCompleted: {
-                settingsComboBox.currentIndex = settingsComboBox.indexOfValue(
-                            App.settings.videoFillMode)
+                settingsComboBox.currentIndex = settingsComboBox.indexOfValue(App.settings.videoFillMode);
             }
 
             model: ListModel {
@@ -144,10 +133,7 @@ ColumnLayout {
                 }
             }
             onActivated: {
-                App.screenPlayManager.setWallpaperFillModeAtMonitorIndex(
-                            root.monitorIndex, root.timelineIndex,
-                            root.sectionIdentifier,
-                            settingsComboBox.currentValue)
+                App.screenPlayManager.setWallpaperFillModeAtMonitorIndex(root.monitorIndex, root.timelineIndex, root.sectionIdentifier, settingsComboBox.currentValue);
             }
         }
 

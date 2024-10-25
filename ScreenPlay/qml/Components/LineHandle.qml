@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls.Material
 import ScreenPlayApp
 
-
 Item {
     id: root
     property bool selected: dragHandler.active // User selected
@@ -40,18 +39,17 @@ Item {
     }`);
     }
 
-
     Rectangle {
         id: handleCircle
         visible: !root.isLast
         radius: width
         color: dragHandler.active ? "orange" : "white"
-        x: - (width *.5)
+        x: -(width * .5)
         width: 20
         height: width
         opacity: !root.isLast && dragHandler.active ? 1 : 0.25
         Behavior on opacity {
-            NumberAnimation{}
+            NumberAnimation {}
         }
     }
 
@@ -61,7 +59,7 @@ Item {
         propagateComposedEvents: false
         width: 50
         height: 50
-        x: handleCircle.x - (width *.5)
+        x: handleCircle.x - (width * .5)
         y: handleCircle.y
     }
 

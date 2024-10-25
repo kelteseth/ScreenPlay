@@ -15,7 +15,7 @@ Control {
     leftPadding: 20
     rightPadding: 20
 
-    signal ready()
+    signal ready
 
     // User selected
     property int selectedTimelineIndex: 0
@@ -62,7 +62,6 @@ Control {
             property LineHandle lineHandle
             property LineIndicator lineIndicator
 
-
             function toString() {
                 console.log(`TimelineEntry {
                 index: ${index}
@@ -86,12 +85,12 @@ Control {
         // a nasty bug where the initial lineHandle.lineWidth was set to
         // the implicitWidth of 600, but the actual timeine width was 608 causing
         // issues with handle movement dragging across boundries.
-        onWidthChanged:{
-            timeline.reset()
+        onWidthChanged: {
+            timeline.reset();
             for (var i = 0; i < sectionsList.length; i++) {
-                sectionsList[i].lineHandle.lineWidth = width
+                sectionsList[i].lineHandle.lineWidth = width;
             }
-            timeline.updatePositions()
+            timeline.updatePositions();
         }
         Component.onCompleted: reset()
 
@@ -198,12 +197,12 @@ Control {
         function setActiveHandle(identifier, active) {
             for (let i = 0; i < timeline.sectionsList.length; i++) {
                 let lineHandle = timeline.sectionsList[i].lineHandle;
-                if(active){
+                if (active) {
                     if (lineHandle.identifier !== identifier) {
-                        lineHandle.otherLineHandleActive = true
+                        lineHandle.otherLineHandleActive = true;
                     }
                 } else {
-                    lineHandle.otherLineHandleActive = false
+                    lineHandle.otherLineHandleActive = false;
                 }
             }
         }
@@ -221,7 +220,7 @@ Control {
             section.lineHandle.lineWidth = timeline.width;
             section.lineHandle.x = Math.round(handleWrapper.width * timeline.sectionsList[index].relativeLinePosition);
             // Add vertical offset to make moving easier in the LineHandle.qml
-            section.lineHandle.y = 10
+            section.lineHandle.y = 10;
             // Will be set later
             section.lineHandle.lineMinimum = timeline.x;
             section.lineHandle.lineMaximum = timeline.x;

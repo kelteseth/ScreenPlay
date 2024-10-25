@@ -12,8 +12,8 @@ import "../Components"
 Util.Popup {
     id: root
 
-    property string activeMonitorName: ""
-    property int activeMonitorIndex
+    property int selectedTimelineIndex
+    property int selectedMonitorIndex
 
     width: 1366
     height: 768
@@ -74,6 +74,7 @@ Util.Popup {
 
                 Timeline {
                     id: timeline
+                    onSelectedTimelineIndexChanged: defaultVideoControls.update()
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                 }
@@ -125,20 +126,20 @@ Util.Popup {
                     width: parent.width * 0.9
                     multipleMonitorsSelectable: false
                     monitorWithoutContentSelectable: false
+
                     onRequestProjectSettings: function (index, installedType, appID) {
                         if (installedType === Util.ContentTypes.InstalledType.VideoWallpaper) {
-                            videoControlWrapper.state = "visible";
+                            defaultVideoControls.state = "visible";
                             customPropertiesGridView.visible = false;
-                            const wallpaper = App.screenPlayManager.getWallpaperByAppID(appID);
-                            videoControlWrapper.wallpaper = wallpaper;
+                            defaultVideoControls.update();
                         } else {
-                            videoControlWrapper.state = "hidden";
+                            defaultVideoControls.state = "hidden";
                             customPropertiesGridView.visible = true;
                             if (!App.screenPlayManager.requestProjectSettingsAtMonitorIndex(index)) {
                                 console.warn("Unable to get requested settings from index: ", index);
                             }
                         }
-                        activeMonitorIndex = index;
+                        root.selectedMonitorIndex = index;
                     }
                     onRequestRemoveWallpaper: index => {
                         const selectedTimeline = timeline.getSelectedTimeline();
@@ -184,7 +185,14 @@ Util.Popup {
                     Button {
                         id: btnRemoveAllWallpaper
 
-                        text: qsTr("Remove all running") + App.screenPlayManager.activeWallpaperCounter + " " + qsTr("Wallpapers")
+                        text: {
+                            const count = App.screenPlayManager.activeWallpaperCounter;
+                            if (count === 0) {
+                                qsTr("No active Wallpaper");
+                            } else {
+                                return qsTr("Remove all") + " " + App.screenPlayManager.activeWallpaperCounter + " " + qsTr("running Wallpaper");
+                            }
+                        }
                         Material.background: Material.accent
                         highlighted: true
                         font.family: App.settings.font
@@ -198,7 +206,15 @@ Util.Popup {
                     Button {
                         id: btnRemoveAllWidgets
 
-                        text: qsTr("Remove all running") + App.screenPlayManager.activeWidgetsCounter + " " + qsTr("Widgets")
+                        text: {
+                            const count = App.screenPlayManager.activeWidgetsCounter;
+                            if (count === 0) {
+                                qsTr("No active Widgets");
+                            } else {
+                                return qsTr("Remove all") + " " + App.screenPlayManager.activeWidgetsCounter + " " + qsTr("running Widgets");
+                            }
+                        }
+
                         Material.background: Material.accent
                         Material.foreground: Material.primaryTextColor
                         highlighted: true
@@ -208,6 +224,10 @@ Util.Popup {
                             if (!App.screenPlayManager.removeAllRunningWidgets())
                                 print("Unable to close all widgets!");
                         }
+                    }
+                    Item {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
                     }
                 }
             }
@@ -228,12 +248,29 @@ Util.Popup {
                 }
 
                 DefaultVideoControls {
-                    id: videoControlWrapper
-
-                    activeMonitorIndex: root.activeMonitorIndex
+                    id: defaultVideoControls
                     state: "hidden"
                     anchors.fill: parent
                     anchors.margins: 10
+
+                    function update() {
+                        // TODO
+                        // 1. load video control values from WallpaperData
+                        // 2. Update onRequestProjectSettings
+                        print("updateVideoControlsWallpaper");
+                        const selectedTimeline = timeline.getSelectedTimeline();
+                        if (selectedTimeline === undefined) {
+                            print("Invalid selected timeline");
+                            return;
+                        }
+                        const wallpaperData = App.screenPlayManager.getWallpaperData(root.selectedMonitorIndex, selectedTimeline.index, selectedTimeline.identifier);
+                        defaultVideoControls.wallpaperData = wallpaperData;
+                        defaultVideoControls.monitorIndex = root.selectedMonitorIndex;
+                        defaultVideoControls.timelineActive = selectedTimeline.lineIndicator.isActive;
+                        defaultVideoControls.timelineIndex = selectedTimeline.index;
+                        defaultVideoControls.sectionIdentifier = selectedTimeline.identifier;
+                        defaultVideoControls.state = "visible";
+                    }
                 }
 
                 GridView {
@@ -255,13 +292,8 @@ Util.Popup {
 
                     delegate: MonitorsProjectSettingItem {
                         id: delegate
-
                         width: parent.width - 40
-                        selectedMonitor: activeMonitorIndex
-                        name: m_name
-                        isHeadline: m_isHeadline
-                        value: m_value
-                        itemIndex: index
+                        selectedMonitor: root.selectedMonitorIndex
                         projectSettingsListmodelRef: customPropertiesGridView.projectSettingsListmodelRef
                     }
 

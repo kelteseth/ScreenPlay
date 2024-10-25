@@ -186,17 +186,17 @@ Rectangle {
                 anchors.margins: -3
                 asynchronous: true
                 source: {
-                    let imgSource = root.wallpaperPreviewImage
+                    let imgSource = root.wallpaperPreviewImage;
                     if (imgSource === "") {
-                        print("empty")
-                        return ""
+                        print("empty");
+                        return "";
                     }
-                    return imgSource
+                    return imgSource;
                 }
 
                 onStatusChanged: {
                     if (status === Image.Error)
-                        print(Qt.resolvedUrl(root.wallpaperPreviewImage))
+                        print(Qt.resolvedUrl(root.wallpaperPreviewImage));
                 }
             }
         }
@@ -211,7 +211,7 @@ Rectangle {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             onClicked: {
-                root.lineSelected(root.index)
+                root.lineSelected(root.index);
             }
             ToolTip.visible: containsMouse
             ToolTip.delay: 500

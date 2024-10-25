@@ -202,7 +202,7 @@ Item {
                     stepSize: root.stepSize
                     live: false
                     onValueChanged: {
-                        const value = slider.value.toFixed(2)
+                        const value = slider.value.toFixed(2);
                         txtSliderValue.text = value;
                         let obj = {
                             "from": root.from,
