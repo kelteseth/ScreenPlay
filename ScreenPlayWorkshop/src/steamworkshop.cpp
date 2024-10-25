@@ -208,7 +208,7 @@ void SteamWorkshop::subscribeItem(const QVariant publishedFileID)
     m_steamAccount->loadAmountSubscribedItems();
 }
 
-bool SteamWorkshop::searchWorkshop(const ScreenPlay::Steam::EUGCQuery enumEUGCQuery)
+bool SteamWorkshop::searchWorkshop(const ScreenPlayWorkshop::Steam::EUGCQuery enumEUGCQuery)
 {
     qInfo() << "searchWorkshop";
 
@@ -339,7 +339,7 @@ bool SteamWorkshop::queryWorkshopItemFromHandle(SteamWorkshopListModel* listMode
     return true;
 }
 
-void SteamWorkshop::searchWorkshopByText(const QString text, const ScreenPlay::Steam::EUGCQuery rankedBy)
+void SteamWorkshop::searchWorkshopByText(const QString text, const ScreenPlayWorkshop::Steam::EUGCQuery rankedBy)
 {
 
     qInfo() << "searchWorkshopByText" << text;

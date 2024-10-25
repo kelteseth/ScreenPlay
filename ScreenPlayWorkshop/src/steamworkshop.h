@@ -185,14 +185,14 @@ signals:
     void steamAccountChanged(SteamAccount* steamAccount);
 
     void requestItemDetailReturned(const QString& title,
-                                   const QStringList& tags,
-                                   const qulonglong steamIDOwner,
-                                   const QString& description,
-                                   const quint64 votesUp,
-                                   const quint64 votesDown,
-                                   const QString& url,
-                                   const QVariant fileSize,
-                                   const QVariant publishedFileId);
+        const QStringList& tags,
+        const qulonglong steamIDOwner,
+        const QString& description,
+        const quint64 votesUp,
+        const quint64 votesDown,
+        const QString& url,
+        const QVariant fileSize,
+        const QVariant publishedFileId);
 
     void workshopProfileListModelChanged(SteamWorkshopListModel*);
 

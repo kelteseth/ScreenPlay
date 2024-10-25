@@ -96,9 +96,9 @@ public slots:
         auto item = std::make_unique<SteamWorkshopItem>(name, path, appID);
 
         const auto roles = QVector<int> { static_cast<int>(UploadListModelRole::UploadProgressRole),
-                                          static_cast<int>(UploadListModelRole::NameRole),
-                                          static_cast<int>(UploadListModelRole::AbsolutePreviewImagePath),
-                                          static_cast<int>(UploadListModelRole::Status) };
+            static_cast<int>(UploadListModelRole::NameRole),
+            static_cast<int>(UploadListModelRole::AbsolutePreviewImagePath),
+            static_cast<int>(UploadListModelRole::Status) };
 
         const auto onDataChanged = [&]() { emit this->dataChanged(index(0, 0), index(rowCount() - 1, 0), roles); };
 

@@ -107,8 +107,8 @@ void SteamWorkshopItem::uploadItemToWorkshop(CreateItemResult_t* pCallback, bool
         qInfo() << previewGifFile.size();
         if (previewGifFile.exists() && previewGifFile.size() <= (1000 * 1000))
             SteamUGC()->AddItemPreviewFile(m_UGCUpdateHandle,
-                                           QByteArray(QString { absoluteContentPath + "/" + previewGIF }.toUtf8()).data(),
-                                           EItemPreviewType::k_EItemPreviewType_Image);
+                QByteArray(QString { absoluteContentPath + "/" + previewGIF }.toUtf8()).data(),
+                EItemPreviewType::k_EItemPreviewType_Image);
     }
 
     if (absoluteContentdir.exists("previewWEBM")) {
@@ -117,8 +117,8 @@ void SteamWorkshopItem::uploadItemToWorkshop(CreateItemResult_t* pCallback, bool
         qInfo() << previewWEBMFile.size();
         if (previewWEBMFile.exists() && previewWEBMFile.size() <= (1000 * 1000))
             SteamUGC()->AddItemPreviewFile(m_UGCUpdateHandle,
-                                           QByteArray(QString { absoluteContentPath + "/preview.webm" }.toUtf8()).data(),
-                                           EItemPreviewType::k_EItemPreviewType_Image);
+                QByteArray(QString { absoluteContentPath + "/preview.webm" }.toUtf8()).data(),
+                EItemPreviewType::k_EItemPreviewType_Image);
     }
 
     QStringList tags;
