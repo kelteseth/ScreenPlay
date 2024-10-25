@@ -15,10 +15,7 @@ class UploadListModel : public QAbstractListModel {
     Q_OBJECT
 
 public:
-    UploadListModel()
-    {
-        QObject::connect(this, &UploadListModel::uploadCompleted, this, &UploadListModel::clearWhenFinished);
-    }
+    UploadListModel() { QObject::connect(this, &UploadListModel::uploadCompleted, this, &UploadListModel::clearWhenFinished); }
 
     enum class UploadListModelRole {
         NameRole = Qt::UserRole + 1,
@@ -98,30 +95,24 @@ public slots:
     {
         auto item = std::make_unique<SteamWorkshopItem>(name, path, appID);
 
-        const auto roles = QVector<int> {
-            static_cast<int>(UploadListModelRole::UploadProgressRole),
-            static_cast<int>(UploadListModelRole::NameRole),
-            static_cast<int>(UploadListModelRole::AbsolutePreviewImagePath),
-            static_cast<int>(UploadListModelRole::Status)
-        };
+        const auto roles = QVector<int> { static_cast<int>(UploadListModelRole::UploadProgressRole),
+                                          static_cast<int>(UploadListModelRole::NameRole),
+                                          static_cast<int>(UploadListModelRole::AbsolutePreviewImagePath),
+                                          static_cast<int>(UploadListModelRole::Status) };
 
-        const auto onDataChanged = [&]() {
-            emit this->dataChanged(index(0, 0), index(rowCount() - 1, 0), roles);
-        };
+        const auto onDataChanged = [&]() { emit this->dataChanged(index(0, 0), index(rowCount() - 1, 0), roles); };
 
         QObject::connect(item.get(), &SteamWorkshopItem::userNeedsToAcceptWorkshopLegalAgreement, this, &UploadListModel::userNeedsToAcceptWorkshopLegalAgreement);
         QObject::connect(item.get(), &SteamWorkshopItem::uploadProgressChanged, this, onDataChanged);
         QObject::connect(item.get(), &SteamWorkshopItem::nameChanged, this, onDataChanged);
         QObject::connect(item.get(), &SteamWorkshopItem::absolutePreviewImagePathChanged, this, onDataChanged);
-        QObject::connect(item.get(), &SteamWorkshopItem::uploadComplete, this, [=](bool successful) {
-            onDataChanged();
-        });
-        QObject::connect(item.get(), &SteamWorkshopItem::statusChanged, this, [=](ScreenPlay::Steam::EResult status) {
+        QObject::connect(item.get(), &SteamWorkshopItem::uploadComplete, this, [=](bool successful) { onDataChanged(); });
+        QObject::connect(item.get(), &SteamWorkshopItem::statusChanged, this, [=](ScreenPlayWorkshop::Steam::EResult status) {
             onDataChanged();
 
             bool allItemsUploaded = std::all_of(m_uploadListModelItems.cbegin(), m_uploadListModelItems.cend(), [](const auto& item) {
                 const auto status = item->status();
-                return status == ScreenPlay::Steam::EResult::K_EResultOK || status == ScreenPlay::Steam::EResult::K_EResultFail;
+                return status == ScreenPlayWorkshop::Steam::EResult::K_EResultOK || status == ScreenPlayWorkshop::Steam::EResult::K_EResultFail;
             });
 
             if (allItemsUploaded) {

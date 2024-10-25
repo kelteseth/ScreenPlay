@@ -106,7 +106,9 @@ void SteamWorkshopItem::uploadItemToWorkshop(CreateItemResult_t* pCallback, bool
         QFile previewGifFile { absoluteContentdir.path() + "/" + previewGIF };
         qInfo() << previewGifFile.size();
         if (previewGifFile.exists() && previewGifFile.size() <= (1000 * 1000))
-            SteamUGC()->AddItemPreviewFile(m_UGCUpdateHandle, QByteArray(QString { absoluteContentPath + "/" + previewGIF }.toUtf8()).data(), EItemPreviewType::k_EItemPreviewType_Image);
+            SteamUGC()->AddItemPreviewFile(m_UGCUpdateHandle,
+                                           QByteArray(QString { absoluteContentPath + "/" + previewGIF }.toUtf8()).data(),
+                                           EItemPreviewType::k_EItemPreviewType_Image);
     }
 
     if (absoluteContentdir.exists("previewWEBM")) {
@@ -114,7 +116,9 @@ void SteamWorkshopItem::uploadItemToWorkshop(CreateItemResult_t* pCallback, bool
         QFile previewWEBMFile { absoluteContentdir.path() + "/" + previewWEBM };
         qInfo() << previewWEBMFile.size();
         if (previewWEBMFile.exists() && previewWEBMFile.size() <= (1000 * 1000))
-            SteamUGC()->AddItemPreviewFile(m_UGCUpdateHandle, QByteArray(QString { absoluteContentPath + "/preview.webm" }.toUtf8()).data(), EItemPreviewType::k_EItemPreviewType_Image);
+            SteamUGC()->AddItemPreviewFile(m_UGCUpdateHandle,
+                                           QByteArray(QString { absoluteContentPath + "/preview.webm" }.toUtf8()).data(),
+                                           EItemPreviewType::k_EItemPreviewType_Image);
     }
 
     QStringList tags;
@@ -180,14 +184,12 @@ void SteamWorkshopItem::submitItemUpdateStatus(SubmitItemUpdateResult_t* pCallba
         return;
     }
 
-    qDebug() << pCallback->m_bUserNeedsToAcceptWorkshopLegalAgreement
-             << pCallback->m_eResult
-             << pCallback->m_nPublishedFileId;
+    qDebug() << pCallback->m_bUserNeedsToAcceptWorkshopLegalAgreement << pCallback->m_eResult << pCallback->m_nPublishedFileId;
 
     if (pCallback->m_bUserNeedsToAcceptWorkshopLegalAgreement)
         emit userNeedsToAcceptWorkshopLegalAgreement();
 
-    setStatus(static_cast<ScreenPlay::Steam::EResult>(pCallback->m_eResult));
+    setStatus(static_cast<ScreenPlayWorkshop::Steam::EResult>(pCallback->m_eResult));
 
     switch (pCallback->m_eResult) {
     case EResult::k_EResultOK: {

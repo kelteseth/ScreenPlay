@@ -25,7 +25,7 @@ namespace ScreenPlay {
 class WinWindow : public BaseWindow {
     Q_OBJECT
 
-    Q_PROPERTY(WindowsDesktopProperties* windowsDesktopProperties READ windowsDesktopProperties WRITE setWindowsDesktopProperties NOTIFY windowsDesktopPropertiesChanged)
+    Q_PROPERTY(ScreenPlay::WindowsDesktopProperties* windowsDesktopProperties READ windowsDesktopProperties WRITE setWindowsDesktopProperties NOTIFY windowsDesktopPropertiesChanged)
 
 public:
     WindowsDesktopProperties* windowsDesktopProperties() const { return m_windowsDesktopProperties.get(); }

@@ -14,7 +14,7 @@ class GlobalVariables : public QObject {
     QML_UNCREATABLE("")
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
 
-    Q_PROPERTY(Version version READ version WRITE setVersion NOTIFY versionChanged FINAL)
+    Q_PROPERTY(ScreenPlay::GlobalVariables::Version version READ version WRITE setVersion NOTIFY versionChanged FINAL)
     Q_PROPERTY(QUrl localStoragePath READ localStoragePath WRITE setLocalStoragePath NOTIFY localStoragePathChanged FINAL)
     Q_PROPERTY(QUrl localSettingsPath READ localSettingsPath WRITE setLocalSettingsPath NOTIFY localSettingsPathChanged FINAL)
     Q_PROPERTY(QUrl wallpaperExecutablePath READ wallpaperExecutablePath WRITE setWallpaperExecutablePath NOTIFY wallpaperExecutablePathChanged FINAL)

@@ -32,20 +32,17 @@ class SteamWorkshopItem : public QObject {
     Q_PROPERTY(QUrl absolutePath READ absolutePath WRITE setAbsolutePath NOTIFY absolutePathChanged)
     Q_PROPERTY(int uploadProgress READ uploadProgress WRITE setUploadProgress NOTIFY uploadProgressChanged)
     Q_PROPERTY(QUrl absolutePreviewImagePath READ absolutePreviewImagePath WRITE setAbsolutePreviewImagePath NOTIFY absolutePreviewImagePathChanged)
-    Q_PROPERTY(ScreenPlay::Steam::EResult status READ status WRITE setStatus NOTIFY statusChanged)
+    Q_PROPERTY(ScreenPlayWorkshop::Steam::EResult status READ status WRITE setStatus NOTIFY statusChanged)
     Q_PROPERTY(QVariant publishedFileId READ publishedFileId WRITE setPublishedFileId NOTIFY publishedFileIdChanged)
 
 public:
-    SteamWorkshopItem(
-        const QString& name,
-        const QUrl& absolutePath,
-        const quint64 appID);
+    SteamWorkshopItem(const QString& name, const QUrl& absolutePath, const quint64 appID);
 
     QString name() const { return m_name; }
     QUrl absolutePath() const { return m_absolutePath; }
     int uploadProgress() const { return m_uploadProgress; }
     QUrl absolutePreviewImagePath() const { return m_absolutePreviewImagePath; }
-    ScreenPlay::Steam::EResult status() const { return m_status; }
+    ScreenPlayWorkshop::Steam::EResult status() const { return m_status; }
     QVariant publishedFileId() const { return m_publishedFileId; }
 
 public slots:
@@ -90,7 +87,7 @@ public slots:
         emit absolutePreviewImagePathChanged(m_absolutePreviewImagePath);
     }
 
-    void setStatus(ScreenPlay::Steam::EResult status)
+    void setStatus(ScreenPlayWorkshop::Steam::EResult status)
     {
         if (m_status == status)
             return;
@@ -115,7 +112,7 @@ signals:
     void removeThis(SteamWorkshopItem* item);
     void absolutePreviewImagePathChanged(QUrl absolutePreviewImagePath);
     void uploadComplete(bool successful);
-    void statusChanged(ScreenPlay::Steam::EResult status);
+    void statusChanged(ScreenPlayWorkshop::Steam::EResult status);
     void uploadFailed(const quint64 m_PublishedFileId);
     void userNeedsToAcceptWorkshopLegalAgreement();
     void publishedFileIdChanged(QVariant publishedFileId);
@@ -136,7 +133,7 @@ private:
     quint64 m_appID { 0 };
     const int m_updateTimerInterval { 500 };
     int m_uploadProgress { 0 }; // 0 - 100
-    ScreenPlay::Steam::EResult m_status { ScreenPlay::Steam::EResult::K_EResultNone };
+    ScreenPlayWorkshop::Steam::EResult m_status { ScreenPlayWorkshop::Steam::EResult::K_EResultNone };
     UGCUpdateHandle_t m_UGCUpdateHandle { 0 };
     SubmitItemUpdateResult_t m_submitItemUpdateResultHanlde;
     QTimer m_updateTimer;

@@ -27,10 +27,7 @@
 namespace ScreenPlayWorkshop {
 
 struct SteamItemUpdate {
-    SteamItemUpdate(QString absoluteStoragePath)
-    {
-        this->absoluteStoragePath = absoluteStoragePath;
-    }
+    SteamItemUpdate(QString absoluteStoragePath) { this->absoluteStoragePath = absoluteStoragePath; }
     QString absoluteStoragePath;
     UGCUpdateHandle_t steamUGCUpdateHandle = 0;
     quint64 itemProcessed = 0;
@@ -46,10 +43,10 @@ class SteamWorkshop : public QObject {
     Q_PROPERTY(quint64 itemProcessed READ itemProcessed WRITE setItemProcessed NOTIFY itemProcessedChanged)
     Q_PROPERTY(quint64 bytesTotal READ bytesTotal WRITE setBytesTotal NOTIFY bytesTotalChanged)
     Q_PROPERTY(quint64 appID READ appID)
-    Q_PROPERTY(SteamWorkshopListModel* workshopListModel READ workshopListModel WRITE setWorkshopListModel NOTIFY workshopListModelChanged)
-    Q_PROPERTY(SteamWorkshopListModel* workshopProfileListModel READ workshopProfileListModel WRITE setWorkshopProfileListModel NOTIFY workshopProfileListModelChanged)
-    Q_PROPERTY(UploadListModel* uploadListModel READ uploadListModel NOTIFY uploadListModelChanged)
-    Q_PROPERTY(SteamAccount* steamAccount READ steamAccount WRITE setSteamAccount NOTIFY steamAccountChanged)
+    Q_PROPERTY(ScreenPlayWorkshop::SteamWorkshopListModel* workshopListModel READ workshopListModel WRITE setWorkshopListModel NOTIFY workshopListModelChanged)
+    Q_PROPERTY(ScreenPlayWorkshop::SteamWorkshopListModel* workshopProfileListModel READ workshopProfileListModel WRITE setWorkshopProfileListModel NOTIFY workshopProfileListModelChanged)
+    Q_PROPERTY(ScreenPlayWorkshop::UploadListModel* uploadListModel READ uploadListModel NOTIFY uploadListModelChanged)
+    Q_PROPERTY(ScreenPlayWorkshop::SteamAccount* steamAccount READ steamAccount WRITE setSteamAccount NOTIFY steamAccountChanged)
     Q_PROPERTY(bool steamErrorRestart READ steamErrorRestart WRITE setSteamErrorRestart RESET resetSteamErrorRestart NOTIFY steamErrorRestartChanged)
     Q_PROPERTY(bool steamErrorAPIInit READ steamErrorAPIInit WRITE setSteamErrorAPIInit RESET resetSteamErrorAPIInit NOTIFY steamErrorAPIInitChanged)
 
@@ -87,9 +84,8 @@ public slots:
     void requestWorkshopItemDetails(const QVariant publishedFileID);
     void vote(const QVariant publishedFileID, const bool voteUp);
     void subscribeItem(const QVariant publishedFileID);
-    bool searchWorkshop(const ScreenPlay::Steam::EUGCQuery enumEUGCQuery);
-    void searchWorkshopByText(const QString text,
-        const ScreenPlay::Steam::EUGCQuery rankedBy = ScreenPlay::Steam::EUGCQuery::K_EUGCQuery_RankedByTrend);
+    bool searchWorkshop(const ScreenPlayWorkshop::Steam::EUGCQuery enumEUGCQuery);
+    void searchWorkshopByText(const QString text, const ScreenPlayWorkshop::Steam::EUGCQuery rankedBy = ScreenPlayWorkshop::Steam::EUGCQuery::K_EUGCQuery_RankedByTrend);
 
     bool checkAndSetQueryActive()
     {
@@ -176,10 +172,7 @@ public slots:
 signals:
     void workshopSearchCompleted(const int itemCount);
     void workshopBannerCompleted();
-    void workshopItemCreatedSuccessful(
-        bool userNeedsToAcceptWorkshopLegalAgreement,
-        int eResult,
-        QVariant publishedFileId);
+    void workshopItemCreatedSuccessful(bool userNeedsToAcceptWorkshopLegalAgreement, int eResult, QVariant publishedFileId);
 
     void workshopItemInstalled(int appID, QVariant publishedFileID);
 
@@ -191,16 +184,15 @@ signals:
     void workshopListModelChanged(SteamWorkshopListModel* workshopListModel);
     void steamAccountChanged(SteamAccount* steamAccount);
 
-    void requestItemDetailReturned(
-        const QString& title,
-        const QStringList& tags,
-        const qulonglong steamIDOwner,
-        const QString& description,
-        const quint64 votesUp,
-        const quint64 votesDown,
-        const QString& url,
-        const QVariant fileSize,
-        const QVariant publishedFileId);
+    void requestItemDetailReturned(const QString& title,
+                                   const QStringList& tags,
+                                   const qulonglong steamIDOwner,
+                                   const QString& description,
+                                   const quint64 votesUp,
+                                   const quint64 votesDown,
+                                   const QString& url,
+                                   const QVariant fileSize,
+                                   const QVariant publishedFileId);
 
     void workshopProfileListModelChanged(SteamWorkshopListModel*);
 

@@ -35,7 +35,7 @@ if __name__ == '__main__':
 #include <QObject>
 #include <QQmlEngine>
 
-namespace ScreenPlay {
+namespace ScreenPlayWorkshop {
 
 class Steam : public QObject {
     Q_OBJECT

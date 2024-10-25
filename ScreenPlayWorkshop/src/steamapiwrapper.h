@@ -6,20 +6,20 @@
 #include "ScreenPlayUtil/steamenumsgenerated.h"
 #include "steam/steamtypes.h"
 
-namespace ScreenPlay {
+namespace ScreenPlayWorkshop {
 struct ItemUpdateData {
     QString m_title;
     QString m_description;
     QString m_updateLanguage;
     QString m_metadata;
-    ScreenPlay::Steam::ERemoteStoragePublishedFileVisibility visibility;
+    ScreenPlayWorkshop::Steam::ERemoteStoragePublishedFileVisibility visibility;
     QStringList m_tags;
     QString m_content; // update item content from this local folder
     QString m_preview;
     QMap<QString, QString> m_keyValueTag; // add new key-value tags for the item. Note that there can be multiple values for a tag.
     QString m_changeNote;
-    QPair<QString, ScreenPlay::Steam::EItemPreviewType> m_previewFile;
-    QPair<QString, ScreenPlay::Steam::EItemPreviewType> m_previewVideo;
+    QPair<QString, ScreenPlayWorkshop::Steam::EItemPreviewType> m_previewFile;
+    QPair<QString, ScreenPlayWorkshop::Steam::EItemPreviewType> m_previewVideo;
 
     const char* title() const { return m_title.toUtf8().data(); }
     const char* description() const { return m_description.toUtf8().data(); }

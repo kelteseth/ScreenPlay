@@ -13,9 +13,9 @@ namespace ScreenPlayWorkshop {
 class ScreenPlayWorkshop : public QObject {
     Q_OBJECT
     QML_ELEMENT
-
-    Q_PROPERTY(InstalledListModel* installedListModel READ installedListModel NOTIFY installedListModelChanged)
-    Q_PROPERTY(SteamWorkshop* steamWorkshop READ steamWorkshop NOTIFY steamWorkshopChanged)
+    // Prefix :: to tell the compiler its a namespace
+    Q_PROPERTY(::ScreenPlayWorkshop::InstalledListModel* installedListModel READ installedListModel NOTIFY installedListModelChanged)
+    Q_PROPERTY(::ScreenPlayWorkshop::SteamWorkshop* steamWorkshop READ steamWorkshop NOTIFY steamWorkshopChanged)
 
 public:
     explicit ScreenPlayWorkshop();

@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "ScreenPlayUtil/contenttypes.h"
 #include <QDebug>
 #include <QDir>
 #include <QFileInfoList>
@@ -13,12 +14,10 @@
 #include <QString>
 #include <QStringList>
 #include <QUuid>
-#include "ScreenPlayUtil/contenttypes.h"
 
 namespace ScreenPlay {
 
-class WallpaperData
-{
+class WallpaperData {
     Q_GADGET
     QML_ANONYMOUS
     Q_PROPERTY(bool isLooping READ isLooping WRITE setIsLooping)
@@ -29,8 +28,8 @@ class WallpaperData
     Q_PROPERTY(float volume READ volume WRITE setVolume)
     Q_PROPERTY(QString file READ file WRITE setFile)
     Q_PROPERTY(QJsonObject properties READ properties WRITE setProperties)
-    Q_PROPERTY(ContentTypes::InstalledType type READ type WRITE setType)
-    Q_PROPERTY(Video::FillMode fillMode READ fillMode WRITE setFillMode)
+    Q_PROPERTY(ScreenPlay::ContentTypes::InstalledType type READ type WRITE setType)
+    Q_PROPERTY(ScreenPlay::Video::FillMode fillMode READ fillMode WRITE setFillMode)
     Q_PROPERTY(QVector<int> monitors READ monitors WRITE setMonitors)
 public:
     // Getters

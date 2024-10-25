@@ -26,7 +26,8 @@ class ScreenPlayWidget : public QObject {
     Q_PROPERTY(QString previewImage READ previewImage WRITE setPreviewImage NOTIFY previewImageChanged)
     Q_PROPERTY(QPoint position READ position WRITE setPosition NOTIFY positionChanged)
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
-    Q_PROPERTY(ContentTypes::InstalledType type READ type WRITE setType NOTIFY typeChanged)
+    Q_PROPERTY(
+        ScreenPlay::ContentTypes::InstalledType type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(qint64 processID READ processID WRITE setProcessID NOTIFY processIDChanged FINAL)
 
 public:

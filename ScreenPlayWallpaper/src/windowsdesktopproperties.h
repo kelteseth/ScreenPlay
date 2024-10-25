@@ -13,6 +13,7 @@
 #include <qqml.h>
 #include <qt_windows.h>
 
+namespace ScreenPlay {
 class WindowsDesktopProperties : public QObject {
     Q_OBJECT
 
@@ -123,3 +124,4 @@ private:
     int m_windowsVersion;
     QSize m_defaultWallpaperSize;
 };
+}

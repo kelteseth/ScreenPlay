@@ -1,12 +1,12 @@
 // GENERATED FILE DO NOT EDIT
 // TO REGENERATE run ScreenPlayInternal\SteamSDK
-// > python.exe updateEnums.py
+// > python.exe generate_qt_enums.py
 
 #pragma once
 #include <QObject>
 #include <QQmlEngine>
 
-namespace ScreenPlay {
+namespace ScreenPlayWorkshop {
 
 class Steam : public QObject {
     Q_OBJECT
