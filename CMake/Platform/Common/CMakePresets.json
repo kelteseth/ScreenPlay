@@ -12,6 +12,7 @@
             "hidden": true,
             "cacheVariables": {
                 "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/../vcpkg/scripts/buildsystems/vcpkg.cmake",
+                "QT_QML_GENERATE_QMLLS_INI": "ON",
                 "QCORO_BUILD_EXAMPLES": "OFF",
                 "BUILD_TESTING": "OFF"
             }
@@ -21,6 +22,7 @@
             "description": "Specifies build type for single-configuration generators: debug",
             "hidden": true,
             "cacheVariables": {
+                "QT_QML_DEBUG": "ON",
                 "CMAKE_BUILD_TYPE": {
                     "type": "STRING",
                     "value": "Debug"
@@ -32,6 +34,7 @@
             "description": "Specifies build type for single-configuration generators: RelWithDebInfo",
             "hidden": true,
             "cacheVariables": {
+                "QT_QML_DEBUG": "ON",
                 "CMAKE_BUILD_TYPE": {
                     "type": "STRING",
                     "value": "RelWithDebInfo"
@@ -43,6 +46,7 @@
             "description": "Specifies build type for single-configuration generators: release",
             "hidden": true,
             "cacheVariables": {
+                "QT_QML_DEBUG": "OFF",
                 "CMAKE_BUILD_TYPE": {
                     "type": "STRING",
                     "value": "Release"
@@ -54,6 +58,7 @@
             "description": "Specifies build type for single-configuration generators: profile",
             "hidden": true,
             "cacheVariables": {
+                "QT_QML_DEBUG": "OFF",
                 "CMAKE_BUILD_TYPE": {
                     "type": "STRING",
                     "value": "Profile"

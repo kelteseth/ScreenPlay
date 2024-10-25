@@ -21,12 +21,12 @@ elif sys.platform == "linux":
 REPO_PATH =  Path(__file__, "../../").resolve()
 THIRDPATH_PATH =  Path(REPO_PATH, "ThirdParty").resolve()
 QT_PATH = path = Path(REPO_PATH, "../aqt").resolve()
-QT_VERSION = "6.7.2"
+QT_VERSION = "6.7.3"
 QT_BIN_PATH = QT_PATH.joinpath(f"{QT_VERSION}/{QT_PLATFORM}/bin")
 QT_TOOLS_PATH = QT_PATH.joinpath("Tools/")
-QT_IFW_VERSION = "4.6"
-# 04.07.2024 https://github.com/microsoft/vcpkg :
-VCPKG_VERSION = "0dab813"
+QT_IFW_VERSION = "4.8.1"
+# 25.10.2024 https://github.com/microsoft/vcpkg :
+VCPKG_VERSION = "cff6ed4"
 VCPKG_BASE_PACKAGES =  [
         "curl",
         "openssl",
@@ -35,11 +35,11 @@ VCPKG_BASE_PACKAGES =  [
         "catch2"
     ]
 PYTHON_EXECUTABLE = "python" if sys.platform == "win32" else "python3"
-FFMPEG_VERSION_MAC = "6.1.1"
-FFMPEG_VERSION_WIN = "7.0"
-# None stable version omit patch: 4.3-rc1
+FFMPEG_VERSION_MAC = "7.1"
+FFMPEG_VERSION_WIN = "7.1"
+# None stable version omit patch: 4.3-rc2 or stable
 GODOT_VERSION = "4.3"
-GODOT_RELEASE_TYPE = "rc1"
+GODOT_RELEASE_TYPE = "stable"
 GODOT_DOWNLOAD_SERVER = "https://github.com/godotengine/godot-builds/releases/download"
 if sys.platform == "win32":
     SCREENPLAYWALLPAPER_GODOT_EXECUTABLE = "ScreenPlayWallpaperGodot.exe"

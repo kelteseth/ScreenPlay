@@ -35,7 +35,7 @@
     - cd ..
     - git clone https://invent.kde.org/plasma/layer-shell-qt.git
     - cd layer-shell-qt
-    - cmake configure . -DCMAKE_PREFIX_PATH="./../../../aqt/6.7.2/gcc_64"
+    - cmake configure . -DCMAKE_PREFIX_PATH="./../../../aqt/6.7.3/gcc_64"
     - make
     - make install
     - cd ..
