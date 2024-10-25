@@ -1,51 +1,86 @@
 import QtQuick
 import QtQuick.Controls
-import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import ScreenPlayApp
-import ScreenPlayUtil as Util
+import ScreenPlayUtil
 
 ColumnLayout {
     id: root
 
-    property int activeMonitorIndex
-    property ScreenPlayWallpaper wallpaper
-
-    function indexOfValue(model, value) {
-        for (var i = 0; i < model.length; i++) {
-            let ourValue = model[i].value;
-            if (value === ourValue)
-                return i;
-        }
-        return -1;
+    property bool timelineActive
+    property int monitorIndex
+    property int timelineIndex
+    property string sectionIdentifier
+    property var wallpaperData
+    onWallpaperDataChanged: {
+        console.error("root.wallpaperData.title", root.wallpaperData.title)
+        slVolume.slider.value = wallpaperData.volume.toFixed(2)
     }
 
     spacing: 10
     state: "hidden"
     clip: true
-    onWallpaperChanged: {
-        slVolume.slider.value = wallpaper.volume;
+
+    Label {
+        Layout.fillWidth: true
+        Layout.preferredHeight: 30
+        Layout.leftMargin: 10
+        font.pointSize: 14
+        wrapMode: Text.WrapAnywhere
+        elide: Text.ElideRight
+        color: root.timelineActive ? Material.primaryTextColor : Material.secondaryTextColor
+        text: root.wallpaperData.title
     }
 
-    Util.LabelSlider {
+    LabelSlider {
         id: slVolume
 
         headline: qsTr("Volume")
+        iconSource: "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume.svg"
         slider.stepSize: 0.1
         Layout.fillWidth: true
+        Layout.topMargin: 20
         Layout.leftMargin: 10
         Layout.rightMargin: 10
-        slider.onValueChanged: {
-            App.screenPlayManager.setWallpaperValueAtMonitorIndex(activeMonitorIndex, "volume", (Math.round(slVolume.slider.value * 100) / 100));
+        property bool settingValue: false
+        onValueEditingFinished: {
+            console.log(root.timelineActive, root.monitorIndex,
+                        root.timelineIndex, root.sectionIdentifier)
+            if (settingValue) {
+                console.error("Setting settingValue to fast")
+
+                return
+            }
+
+            settingValue = true
+            App.screenPlayManager.setValueAtMonitorTimelineIndex(
+                        root.monitorIndex, root.timelineIndex,
+                        root.sectionIdentifier, "volume",
+                        slVolume.slider.value.toFixed(2)).then(result => {
+                                                                   settingValue = false
+                                                                   if (!result.success) {
+                                                                       console.error(
+                                                                           "setValueAtMonitorTimelineIndex failed")
+                                                                       return
+                                                                   }
+                                                                   console.debug(
+                                                                       "OK setValueAtMonitorTimelineIndex ")
+                                                               })
         }
     }
 
-    Util.LabelSlider {
+    LabelSlider {
         id: slCurrentVideoTime
+        iconSource: "qrc:/qml/ScreenPlayApp/assets/icons/icon_schedule.svg"
 
         headline: qsTr("Current Video Time")
-        slider.onValueChanged: App.screenPlayManager.setWallpaperValueAtMonitorIndex(activeMonitorIndex, "currentTime", (Math.round(slCurrentVideoTime.slider.value * 100) / 100))
+        slider.onValueChanged: {
+            App.screenPlayManager.setValueAtMonitorTimelineIndex(
+                        root.monitorIndex, root.timelineIndex,
+                        root.sectionIdentifier, "currentTime",
+                        slCurrentVideoTime.slider.value.toFixed(2))
+        }
         Layout.fillWidth: true
         slider.stepSize: 0.1
         Layout.leftMargin: 10
@@ -53,55 +88,66 @@ ColumnLayout {
     }
 
     ColumnLayout {
-        height: 50
+        implicitHeight: 50
+        spacing: 15
         Layout.fillWidth: true
-        Layout.margins: 10
-        spacing: 5
+        Layout.leftMargin: 10
+        Layout.rightMargin: 10
 
         Text {
             id: txtComboBoxFillMode
+            height: 20
+            font.pointSize: 14
 
             text: qsTr("Fill Mode")
-            font.family: App.settings.font
             verticalAlignment: Text.AlignVCenter
-            font.pointSize: 10
-            color: "#626262"
+            font.family: App.settings.font
+            color: Material.primaryTextColor
             wrapMode: Text.WrapAnywhere
             Layout.fillWidth: true
         }
 
         ComboBox {
             id: settingsComboBox
-
             Layout.fillWidth: true
             Layout.leftMargin: 10
             textRole: "text"
             valueRole: "value"
-            currentIndex: root.indexOfValue(settingsComboBox.model, App.settings.videoFillMode)
-            model: [
-                {
-                    "value": Util.Video.FillMode.Stretch,
-                    "text": qsTr("Stretch")
-                },
-                {
-                    "value": Util.Video.FillMode.Fill,
-                    "text": qsTr("Fill")
-                },
-                {
-                    "value": Util.Video.FillMode.Contain,
-                    "text": qsTr("Contain")
-                },
-                {
-                    "value": Util.Video.FillMode.Cover,
-                    "text": qsTr("Cover")
-                },
-                {
-                    "value": Util.Video.FillMode.Scale_Down,
-                    "text": qsTr("Scale_Down")
+            Component.onCompleted: {
+                settingsComboBox.currentIndex = settingsComboBox.indexOfValue(
+                            App.settings.videoFillMode)
+            }
+
+            model: ListModel {
+                id: model
+                ListElement {
+                    value: Video.FillMode.Stretch
+                    text: qsTr("Stretch")
                 }
-            ]
+
+                ListElement {
+                    value: Video.FillMode.Fill
+                    text: qsTr("Fill")
+                }
+
+                ListElement {
+                    value: Video.FillMode.Contain
+                    text: qsTr("Contain")
+                }
+                ListElement {
+                    value: Video.FillMode.Cover
+                    text: qsTr("Cover")
+                }
+                ListElement {
+                    value: Video.FillMode.Scale_Down
+                    text: qsTr("Scale Down")
+                }
+            }
             onActivated: {
-                App.screenPlayManager.setWallpaperFillModeAtMonitorIndex(activeMonitorIndex, settingsComboBox.currentValue);
+                App.screenPlayManager.setWallpaperFillModeAtMonitorIndex(
+                            root.monitorIndex, root.timelineIndex,
+                            root.sectionIdentifier,
+                            settingsComboBox.currentValue)
             }
         }
 
@@ -110,7 +156,6 @@ ColumnLayout {
             Layout.fillWidth: true
         }
     }
-
     states: [
         State {
             name: "visible"

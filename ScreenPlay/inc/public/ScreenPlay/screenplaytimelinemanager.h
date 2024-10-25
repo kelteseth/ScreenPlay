@@ -16,11 +16,13 @@ class ScreenPlayTimelineManager : public QObject {
     Q_PROPERTY(int selectedTimelineIndex READ selectedTimelineIndex WRITE setSelectedTimelineIndex NOTIFY selectedTimelineIndexChanged FINAL)
 
 public:
-    explicit ScreenPlayTimelineManager(QObject* parent = nullptr);
+    explicit ScreenPlayTimelineManager(QObject *parent = nullptr);
 
-    std::optional<std::shared_ptr<WallpaperTimelineSection>> activeWallpaperSectionByAppID(const QString& appID);
     std::shared_ptr<WallpaperTimelineSection> findActiveWallpaperTimelineSection();
-    std::shared_ptr<WallpaperTimelineSection> findTimelineForCurrentTime();
+    std::shared_ptr<WallpaperTimelineSection> findTimelineSectionForCurrentTime();
+    std::shared_ptr<WallpaperTimelineSection> findTimelineSection(const int monitorIndex,
+                                                                  const int timelineIndex,
+                                                                  const QString sectionIdentifier);
 
     void startup();
     bool addTimelineFromSettings(const QJsonObject& timelineObj);
@@ -33,14 +35,19 @@ public:
     QCoro::Task<bool> removeAllWallpaperFromActiveTimlineSections();
     QCoro::Task<bool> removeWallpaperAt(
         const int timelineIndex,
-        const QString timelineIdentifier,
+        const QString sectionIdentifier,
         const int monitorIndex);
     void sortAndUpdateIndices();
     void printTimelines() const;
     QCoro::Task<bool> setWallpaperAtTimelineIndex(
         WallpaperData wallpaperData,
         const int timelineIndex,
-        const QString& identifier);
+        const QString& sectionIdentifier);
+    QCoro::Task<bool> setValueAtMonitorTimelineIndex(const int monitorIndex,
+                                                     const int timelineIndex,
+                                                     const QString sectionIdentifier,
+                                                     const QString &key,
+                                                     const QString &value);
     QJsonArray timelineSections();
     QJsonArray timelineWallpaperList();
     void setGlobalVariables(const std::shared_ptr<GlobalVariables>& globalVariables);
@@ -64,7 +71,7 @@ signals:
 private:
     std::optional<std::shared_ptr<WallpaperTimelineSection>> wallpaperSection(
         const int timelineIndex,
-        const QString timelineIdentifier);
+        const QString& sectionIdentifier);
     void validateTimelineSections() const;
 
 private:

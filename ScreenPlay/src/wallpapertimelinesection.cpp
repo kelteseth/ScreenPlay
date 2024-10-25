@@ -57,7 +57,7 @@ bool WallpaperTimelineSection::activateTimeline()
         const int screenCount = QGuiApplication::screens().count();
 
         QJsonArray monitors;
-        for (const int index : wallpaperData.monitors) {
+        for (const int index : wallpaperData.monitors()) {
             monitors.append(index);
             if (index > screenCount - 1) {
                 qWarning() << "Configuration contains invalid monitor with index: " << index << " screen count: " << screenCount;
@@ -66,9 +66,10 @@ bool WallpaperTimelineSection::activateTimeline()
         }
 
         // Remove file:///
-        wallpaperData.absolutePath = QUrl::fromUserInput(wallpaperData.absolutePath).toLocalFile();
+        wallpaperData.setAbsolutePath(
+            QUrl::fromUserInput(wallpaperData.absolutePath()).toLocalFile());
         const QString appID = Util().generateRandomString();
-        qInfo() << "Start wallpaper" << wallpaperData.absolutePath << appID;
+        qInfo() << "Start wallpaper" << wallpaperData.absolutePath() << appID;
 
         auto screenPlayWallpaper = std::make_shared<ScreenPlayWallpaper>(
             globalVariables,
@@ -156,9 +157,10 @@ QCoro::Task<bool> WallpaperTimelineSection::deactivateTimeline()
 QCoro::Task<bool> WallpaperTimelineSection::removeWallpaper(const int monitorIndex)
 {
     // Remove WallpaperData first
-    size_t removedCount = std::erase_if(wallpaperDataList, [monitorIndex](const auto& wallpaperData) {
-        return wallpaperData.monitors.contains(monitorIndex);
-    });
+    size_t removedCount = std::erase_if(wallpaperDataList,
+                                        [monitorIndex](const auto &wallpaperData) {
+                                            return wallpaperData.monitors().contains(monitorIndex);
+                                        });
     if (removedCount == 0) {
         qCritical() << "No wallpaper data found for monitor index:" << monitorIndex;
         co_return false;

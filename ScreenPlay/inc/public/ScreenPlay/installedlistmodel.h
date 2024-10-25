@@ -20,13 +20,15 @@ namespace ScreenPlay {
 
 class InstalledListModel : public QAbstractListModel {
     Q_OBJECT
+    QML_ELEMENT
     QML_UNCREATABLE("")
 
     Q_PROPERTY(int count READ count WRITE setCount NOTIFY countChanged)
 
 public:
-    explicit InstalledListModel(
-        const std::shared_ptr<GlobalVariables>& globalVariables,
+    InstalledListModel(QObject* parent = nullptr);
+    InstalledListModel(
+        std::shared_ptr<GlobalVariables> globalVariables,
         std::shared_ptr<Settings> settings,
         QObject* parent = nullptr);
 
@@ -85,7 +87,7 @@ private:
     QTimer m_reloadLimiter;
     std::atomic_bool m_isLoading { false };
 
-    const std::shared_ptr<GlobalVariables>& m_globalVariables;
+    std::shared_ptr<GlobalVariables> m_globalVariables;
     std::shared_ptr<Settings> m_settings;
 };
 }

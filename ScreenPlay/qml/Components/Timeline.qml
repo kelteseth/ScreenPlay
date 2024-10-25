@@ -15,6 +15,8 @@ Control {
     leftPadding: 20
     rightPadding: 20
 
+    signal ready()
+
     // User selected
     property int selectedTimelineIndex: 0
     // Do not use this directly, see https://bugreports.qt.io/browse/QTBUG-127633
@@ -31,6 +33,7 @@ Control {
 
     function reset() {
         timeline.reset();
+        root.ready();
     }
 
     LoggingCategory {
@@ -58,6 +61,15 @@ Control {
             onRelativeLinePositionChanged: console.debug("relativelinepos: ", relativeLinePosition)
             property LineHandle lineHandle
             property LineIndicator lineIndicator
+
+
+            function toString() {
+                console.log(`TimelineEntry {
+                index: ${index}
+                identifier: ${identifier}
+                relativeLinePosition: ${relativeLinePosition.toFixed(6)}
+            }`);
+            }
         }
     }
 
@@ -69,7 +81,18 @@ Control {
         property var sectionsList: []
         property var lineColors: ["#1E88E5", "#00897B", "#43A047", "#C0CA33", "#FFB300", "#FB8C00", "#F4511E", "#E53935", "#D81B60", "#8E24AA", "#5E35B1", "#3949AB"]
 
-        onWidthChanged: timeline.updatePositions()
+        // ⚠️ Note: We need to update the lineWidth of every handle, because
+        // at startup the timeline.width gets updated multiple time. This caused
+        // a nasty bug where the initial lineHandle.lineWidth was set to
+        // the implicitWidth of 600, but the actual timeine width was 608 causing
+        // issues with handle movement dragging across boundries.
+        onWidthChanged:{
+            timeline.reset()
+            for (var i = 0; i < sectionsList.length; i++) {
+                sectionsList[i].lineHandle.lineWidth = width
+            }
+            timeline.updatePositions()
+        }
         Component.onCompleted: reset()
 
         Timer {
@@ -170,6 +193,21 @@ Control {
             return sectionObject;
         }
 
+        // Disables all other LineHandles if one is in use. Enables
+        // all after the user released the LineHandle
+        function setActiveHandle(identifier, active) {
+            for (let i = 0; i < timeline.sectionsList.length; i++) {
+                let lineHandle = timeline.sectionsList[i].lineHandle;
+                if(active){
+                    if (lineHandle.identifier !== identifier) {
+                        lineHandle.otherLineHandleActive = true
+                    }
+                } else {
+                    lineHandle.otherLineHandleActive = false
+                }
+            }
+        }
+
         function createSection(index, stopPosition, section, identifier) {
             console.debug(timelineLogging, "Adding at:", index, stopPosition, identifier);
 
@@ -182,11 +220,14 @@ Control {
             section.lineHandle = haComponent.createObject(handleWrapper);
             section.lineHandle.lineWidth = timeline.width;
             section.lineHandle.x = Math.round(handleWrapper.width * timeline.sectionsList[index].relativeLinePosition);
-            section.lineHandle.y = -section.lineHandle.height / 2;
+            // Add vertical offset to make moving easier in the LineHandle.qml
+            section.lineHandle.y = 10
             // Will be set later
             section.lineHandle.lineMinimum = timeline.x;
             section.lineHandle.lineMaximum = timeline.x;
+            section.lineHandle.identifier = identifier;
             section.lineHandle.handleMoved.connect(timeline.onHandleMoved);
+            section.lineHandle.activated.connect(timeline.setActiveHandle); // Connect the new signal
             let liComponent = Qt.createComponent("LineIndicator.qml");
             if (liComponent.status === Component.Error) {
                 console.assert(timelineLogging, liComponent.errorString());
@@ -294,14 +335,6 @@ Control {
                 // Set the determined minimum and maximum positions for the current handle
                 handle.lineMinimum = prevPos;
                 handle.lineMaximum = nextPos;
-
-                //timeline.sectionsList[i].relativeLinePosition =prevPos / timeline.width
-                // console.debug("sections: ", i, "prev minimum ",prevPos,"next maximum", nextPos,  timeline.sectionsList[i].relativeLinePosition)
-            }
-            for (var j = 0; j < timeline.sectionsList.length; j++) {
-                let section = timeline.sectionsList[j];
-                section.relativeLinePosition = section.lineHandle.linePosition;
-                // console.debug(section.relativeLinePosition, section.lineHandle.lineMinimum, section.lineHandle.lineMaximum)
             }
             updateIndicatorPositions();
             updateLastHandle();

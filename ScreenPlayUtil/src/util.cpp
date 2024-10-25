@@ -21,6 +21,12 @@
 
 namespace ScreenPlay {
 
+Util::Util(
+    QObject* parent)
+    : QObject { parent }
+{
+}
+
 /*!
   \brief Opens a json file (absolute path) and tries to convert it to a QJsonObject.
   Returns std::nullopt when not successful.

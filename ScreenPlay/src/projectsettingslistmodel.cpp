@@ -203,9 +203,9 @@ QVariant ProjectSettingsListModel::data(const QModelIndex& index, int role) cons
 QHash<int, QByteArray> ProjectSettingsListModel::roleNames() const
 {
     static const QHash<int, QByteArray> roles {
-        { NameRole, "m_name" },
-        { IsHeadlineRole, "m_isHeadline" },
-        { ValueRole, "m_value" },
+        { NameRole, "name" },
+        { IsHeadlineRole, "isHeadline" },
+        { ValueRole, "value" },
     };
     return roles;
 }

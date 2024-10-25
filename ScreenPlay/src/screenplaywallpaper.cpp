@@ -32,63 +32,71 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
     , m_appID { appID }
 {
     Util util;
-    std::optional<QJsonObject> projectOpt = util.openJsonFileToObject(m_wallpaperData.absolutePath + "/project.json");
+    std::optional<QJsonObject> projectOpt = util.openJsonFileToObject(m_wallpaperData.absolutePath()
+                                                                      + "/project.json");
     if (projectOpt.has_value()) {
         m_projectJson = projectOpt.value();
     }
     QJsonObject projectSettingsListModelProperties;
-    if (m_wallpaperData.type == ContentTypes::InstalledType::VideoWallpaper) {
-        projectSettingsListModelProperties.insert("volume", m_wallpaperData.volume);
-        projectSettingsListModelProperties.insert("playbackRate", m_wallpaperData.playbackRate);
+    if (m_wallpaperData.type() == ContentTypes::InstalledType::VideoWallpaper) {
+        projectSettingsListModelProperties.insert("volume", m_wallpaperData.volume());
+        projectSettingsListModelProperties.insert("playbackRate", m_wallpaperData.playbackRate());
     } else {
-        if (m_wallpaperData.properties.isEmpty()) {
-            if (auto obj = util.openJsonFileToObject(m_wallpaperData.absolutePath + "/project.json")) {
+        if (m_wallpaperData.properties().isEmpty()) {
+            if (auto obj = util.openJsonFileToObject(m_wallpaperData.absolutePath()
+                                                     + "/project.json")) {
                 if (obj->contains("properties"))
                     projectSettingsListModelProperties = obj->value("properties").toObject();
             }
         } else {
-            projectSettingsListModelProperties = m_wallpaperData.properties;
+            projectSettingsListModelProperties = m_wallpaperData.properties();
         }
     }
 
     if (!projectSettingsListModelProperties.isEmpty())
-        m_projectSettingsListModel.init(m_wallpaperData.type, projectSettingsListModelProperties);
+        m_projectSettingsListModel.init(m_wallpaperData.type(), projectSettingsListModelProperties);
 
     QObject::connect(&m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &ScreenPlayWallpaper::processExit);
     QObject::connect(&m_process, &QProcess::errorOccurred, this, &ScreenPlayWallpaper::processError);
 
     QString tmpScreenNumber;
-    if (m_wallpaperData.monitors.length() > 1) {
-        for (const int number : std::as_const(m_wallpaperData.monitors)) {
+    if (m_wallpaperData.monitors().length() > 1) {
+        for (const int number : m_wallpaperData.monitors()) {
             // IMPORTANT: NO TRAILING COMMA!
-            if (number == m_wallpaperData.monitors.back()) {
+            if (number == m_wallpaperData.monitors().back()) {
                 tmpScreenNumber += QString::number(number);
             } else {
                 tmpScreenNumber += QString::number(number) + ",";
             }
         }
     } else {
-        tmpScreenNumber = QString::number(m_wallpaperData.monitors.first());
+        tmpScreenNumber = QString::number(m_wallpaperData.monitors().first());
     }
 
     const QString screens = "{" + tmpScreenNumber + "}";
 
-    m_appArgumentsList = QStringList {
-        "--screens", screens,
-        "--projectpath", m_wallpaperData.absolutePath,
-        "--appID", m_appID,
-        "--volume", QString::number(static_cast<double>(m_wallpaperData.volume)),
-        "--fillmode", QVariant::fromValue(m_wallpaperData.fillMode).toString(),
-        "--type", QVariant::fromValue(m_wallpaperData.type).toString(),
-        "--check", QString::number(m_settings->checkWallpaperVisible()),
-        "--mainapppid", QString::number(m_processManager.getCurrentPID())
-    };
+    m_appArgumentsList = QStringList{"--screens",
+                                     screens,
+                                     "--projectpath",
+                                     m_wallpaperData.absolutePath(),
+                                     "--appID",
+                                     m_appID,
+                                     "--volume",
+                                     QString::number(static_cast<double>(m_wallpaperData.volume())),
+                                     "--fillmode",
+                                     QVariant::fromValue(m_wallpaperData.fillMode()).toString(),
+                                     "--type",
+                                     QVariant::fromValue(m_wallpaperData.type()).toString(),
+                                     "--check",
+                                     QString::number(m_settings->checkWallpaperVisible()),
+                                     "--mainapppid",
+                                     QString::number(m_processManager.getCurrentPID())};
 
     // Fixes issue 84 media key overlay in Qt apps
-    if (m_wallpaperData.type != ContentTypes::InstalledType::GodotWallpaper) {
+    if (m_wallpaperData.type() != ContentTypes::InstalledType::GodotWallpaper) {
         m_appArgumentsList.append(" --disable-features=HardwareMediaKeyHandling");
     }
-    if (m_wallpaperData.type == ContentTypes::InstalledType::GodotWallpaper) {
+    if (m_wallpaperData.type() == ContentTypes::InstalledType::GodotWallpaper) {
         if (m_projectJson.contains("version")) {
             const quint64 version = m_projectJson.value("version").toInt();
             const QString packageFileName = QString("project-v%1.zip").arg(version);
@@ -99,7 +107,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
 
 bool ScreenPlayWallpaper::start()
 {
-    if (m_wallpaperData.type == ContentTypes::InstalledType::GodotWallpaper) {
+    if (m_wallpaperData.type() == ContentTypes::InstalledType::GodotWallpaper) {
         m_process.setProgram(m_globalVariables->godotWallpaperExecutablePath().toString());
     } else {
         m_process.setProgram(m_globalVariables->wallpaperExecutablePath().toString());
@@ -127,27 +135,30 @@ bool ScreenPlayWallpaper::start()
 QJsonObject ScreenPlayWallpaper::getActiveSettingsJson()
 {
     QJsonArray screenNumber;
-    for (const int i : std::as_const(m_wallpaperData.monitors)) {
+    for (const int i : m_wallpaperData.monitors()) {
         screenNumber.append(i);
     }
 
     QJsonObject obj;
-    QJsonObject properties;
-    if (m_wallpaperData.type == ContentTypes::InstalledType::VideoWallpaper) {
-        obj.insert("fillMode", QVariant::fromValue(m_wallpaperData.fillMode).toString());
-        obj.insert("isLooping", m_wallpaperData.isLooping);
-        obj.insert("volume", m_wallpaperData.volume);
-        obj.insert("playbackRate", m_wallpaperData.playbackRate);
+
+    if (m_wallpaperData.type() == ContentTypes::InstalledType::VideoWallpaper) {
+        obj.insert("fillMode", QVariant::fromValue(m_wallpaperData.fillMode()).toString());
+        obj.insert("isLooping", m_wallpaperData.isLooping());
+        obj.insert("volume", m_wallpaperData.volume());
+        obj.insert("playbackRate", m_wallpaperData.playbackRate());
     } else {
         QJsonObject properties = m_projectSettingsListModel.getActiveSettingsJson();
-        if (!properties.isEmpty())
+        if (!properties.isEmpty()) {
             obj.insert("properties", properties);
+        }
     }
-    obj.insert("file", m_wallpaperData.file);
-    obj.insert("absolutePath", m_wallpaperData.absolutePath);
+
+    obj.insert("file", m_wallpaperData.file());
+    obj.insert("absolutePath", m_wallpaperData.absolutePath());
     obj.insert("monitors", screenNumber);
-    obj.insert("previewImage", m_wallpaperData.previewImage);
-    obj.insert("type", QVariant::fromValue(m_wallpaperData.type).toString());
+    obj.insert("previewImage", m_wallpaperData.previewImage());
+    obj.insert("type", QVariant::fromValue(m_wallpaperData.type()).toString());
+
     return obj;
 }
 
@@ -231,7 +242,7 @@ bool ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QString& v
     const bool success = m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
 
     if (save && success)
-        emit requestSave();
+        emit requestSave(); // TODO REMOVE
 
     return success;
 }
@@ -320,11 +331,11 @@ bool ScreenPlayWallpaper::replace(
 
     QJsonObject obj;
     obj.insert("command", "replace");
-    obj.insert("type", QVariant::fromValue(m_wallpaperData.type).toString());
-    obj.insert("fillMode", QVariant::fromValue(m_wallpaperData.fillMode).toString());
-    obj.insert("volume", std::floor(m_wallpaperData.volume * 100.0F) / 100.0f);
-    obj.insert("absolutePath", m_wallpaperData.absolutePath);
-    obj.insert("file", m_wallpaperData.file);
+    obj.insert("type", QVariant::fromValue(m_wallpaperData.type()).toString());
+    obj.insert("fillMode", QVariant::fromValue(m_wallpaperData.fillMode()).toString());
+    obj.insert("volume", std::floor(m_wallpaperData.volume() * 100.0F) / 100.0f);
+    obj.insert("absolutePath", m_wallpaperData.absolutePath());
+    obj.insert("file", m_wallpaperData.file());
     obj.insert("checkWallpaperVisible", checkWallpaperVisible);
 
     const bool success = m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));

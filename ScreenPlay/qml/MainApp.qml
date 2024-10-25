@@ -1,16 +1,15 @@
 import QtQuick
 import QtQuick.Controls
-import ScreenPlayUtil as Util
+import ScreenPlayUtil
 import ScreenPlayApp 1.0
 import "ContentSettings" as ContentSettings
-import "Installed" as Installed
 import "Navigation" as Navigation
-import "Community" as Community
 
 Item {
     id: content
     anchors.fill: parent
     Component.onCompleted: {
+        setTheme(App.settings.theme);
         stackView.push("qrc:/qml/ScreenPlayApp/qml/Installed/InstalledView.qml");
         startTimer.start();
     }
@@ -44,16 +43,16 @@ Item {
 
     Item {
         id: noneContentItems
-        Util.SteamNotAvailable {
+        SteamNotAvailable {
             id: dialogSteam
             modalSource: content
         }
 
-        Util.MonitorConfiguration {
+        MonitorConfiguration {
             modalSource: content
         }
 
-        Util.CriticalError {
+        CriticalError {
             window: root
             modalSource: content
         }
@@ -67,9 +66,23 @@ Item {
         }
     }
 
+    function setTheme(theme) {
+        switch (theme) {
+        case Settings.Theme.System:
+            root.Material.theme = Material.System;
+            break;
+        case Settings.Theme.Dark:
+            root.Material.theme = Material.Dark;
+            break;
+        case Settings.Theme.Light:
+            root.Material.theme = Material.Light;
+            break;
+        }
+    }
+
     Connections {
         function onThemeChanged(theme) {
-            setTheme(theme);
+            content.setTheme(theme);
         }
 
         target: App.settings
@@ -77,7 +90,7 @@ Item {
 
     Connections {
         function onRequestNavigation(nav) {
-            switchPage(nav);
+            content.switchPage(nav);
         }
 
         target: App.util
@@ -86,7 +99,7 @@ Item {
     Connections {
         function onRequestRaise() {
             App.showDockIcon(true);
-            root.show();
+            window.show();
         }
         target: App.screenPlayManager
     }

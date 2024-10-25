@@ -167,11 +167,11 @@ Rectangle {
         clip: true
         anchors {
             top: parent.top
-            topMargin: 5
+            topMargin: 9
             right: quickActionRow.left
-            rightMargin: 20
+            rightMargin: 10
             bottom: parent.bottom
-            bottomMargin: 5
+            bottomMargin: 9
         }
         interactive: false
 

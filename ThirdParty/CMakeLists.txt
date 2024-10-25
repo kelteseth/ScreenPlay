@@ -11,7 +11,7 @@ FetchContent_Populate(
 FetchContent_Populate(
     qcoro
     GIT_REPOSITORY https://github.com/danvratil/qcoro.git
-    GIT_TAG 12c052e
+    GIT_TAG 3a6efdb
     # Workaround because: 1. QtCreator cannot handle QML_ELEMENT stuff when it is in bin folder
     # https://bugreports.qt.io/browse/QTCREATORBUG-27083
     SOURCE_DIR ${THIRD_PARTY_PATH}/qqcoro)

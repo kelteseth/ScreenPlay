@@ -59,17 +59,17 @@ public:
 
     QJsonObject getActiveSettingsJson();
 
-    QVector<int> monitors() const { return m_wallpaperData.monitors; }
-    QString previewImage() const { return m_wallpaperData.previewImage; }
+    QVector<int> monitors() const { return m_wallpaperData.monitors(); }
+    QString previewImage() const { return m_wallpaperData.previewImage(); }
     QString appID() const { return m_appID; }
-    ContentTypes::InstalledType type() const { return m_wallpaperData.type; }
-    QString file() const { return m_wallpaperData.file; }
-    Video::FillMode fillMode() const { return m_wallpaperData.fillMode; }
-    QString absolutePath() const { return m_wallpaperData.absolutePath; }
-    float volume() const { return m_wallpaperData.volume; }
-    bool isLooping() const { return m_wallpaperData.isLooping; }
+    ContentTypes::InstalledType type() const { return m_wallpaperData.type(); }
+    QString file() const { return m_wallpaperData.file(); }
+    Video::FillMode fillMode() const { return m_wallpaperData.fillMode(); }
+    QString absolutePath() const { return m_wallpaperData.absolutePath(); }
+    float volume() const { return m_wallpaperData.volume(); }
+    bool isLooping() const { return m_wallpaperData.isLooping(); }
     ProjectSettingsListModel* getProjectSettingsListModel() { return &m_projectSettingsListModel; }
-    float playbackRate() const { return m_wallpaperData.playbackRate; }
+    float playbackRate() const { return m_wallpaperData.playbackRate(); }
     bool isConnected() const { return m_isConnected; }
     qint64 processID() const { return m_processID; }
 
@@ -107,97 +107,85 @@ public slots:
 
     void setMonitors(QVector<int> monitors)
     {
-        if (m_wallpaperData.monitors == monitors)
+        if (m_wallpaperData.monitors() == monitors)
             return;
-
-        m_wallpaperData.monitors = monitors;
-        emit monitorsChanged(m_wallpaperData.monitors);
+        m_wallpaperData.setMonitors(monitors);
+        emit monitorsChanged(m_wallpaperData.monitors());
     }
 
     void setPreviewImage(QString previewImage)
     {
-        if (m_wallpaperData.previewImage == previewImage)
+        if (m_wallpaperData.previewImage() == previewImage)
             return;
-
-        m_wallpaperData.previewImage = previewImage;
-        emit previewImageChanged(m_wallpaperData.previewImage);
+        m_wallpaperData.setPreviewImage(previewImage);
+        emit previewImageChanged(m_wallpaperData.previewImage());
     }
 
     void setAppID(QString appID)
     {
         if (m_appID == appID)
             return;
-
         m_appID = appID;
         emit appIDChanged(m_appID);
     }
 
     void setType(ScreenPlay::ContentTypes::InstalledType type)
     {
-        if (m_wallpaperData.type == type)
+        if (m_wallpaperData.type() == type)
             return;
-
-        m_wallpaperData.type = type;
-        emit typeChanged(m_wallpaperData.type);
+        m_wallpaperData.setType(type);
+        emit typeChanged(m_wallpaperData.type());
     }
 
     void setFile(QString file)
     {
-        if (m_wallpaperData.file == file)
+        if (m_wallpaperData.file() == file)
             return;
-
-        m_wallpaperData.file = file;
-        emit fileChanged(m_wallpaperData.file);
+        m_wallpaperData.setFile(file);
+        emit fileChanged(m_wallpaperData.file());
     }
 
     void setFillMode(ScreenPlay::Video::FillMode fillMode)
     {
-        if (m_wallpaperData.fillMode == fillMode)
+        if (m_wallpaperData.fillMode() == fillMode)
             return;
-
-        m_wallpaperData.fillMode = fillMode;
-        emit fillModeChanged(m_wallpaperData.fillMode);
+        m_wallpaperData.setFillMode(fillMode);
+        emit fillModeChanged(m_wallpaperData.fillMode());
     }
 
     void setAbsolutePath(QString absolutePath)
     {
-        if (m_wallpaperData.absolutePath == absolutePath)
+        if (m_wallpaperData.absolutePath() == absolutePath)
             return;
-
-        m_wallpaperData.absolutePath = absolutePath;
-        emit absolutePathChanged(m_wallpaperData.absolutePath);
+        m_wallpaperData.setAbsolutePath(absolutePath);
+        emit absolutePathChanged(m_wallpaperData.absolutePath());
     }
 
     void setVolume(float volume)
     {
         if (volume < 0.0f || volume > 1.0f)
             return;
-
-        if (qFuzzyCompare(m_wallpaperData.volume, volume))
+        if (qFuzzyCompare(m_wallpaperData.volume(), volume))
             return;
-
-        m_wallpaperData.volume = volume;
-        emit volumeChanged(m_wallpaperData.volume);
+        m_wallpaperData.setVolume(volume);
+        emit volumeChanged(m_wallpaperData.volume());
     }
 
     void setIsLooping(bool isLooping)
     {
-        if (m_wallpaperData.isLooping == isLooping)
+        if (m_wallpaperData.isLooping() == isLooping)
             return;
-
-        m_wallpaperData.isLooping = isLooping;
-        emit isLoopingChanged(m_wallpaperData.isLooping);
+        m_wallpaperData.setIsLooping(isLooping);
+        emit isLoopingChanged(m_wallpaperData.isLooping());
     }
 
     void setPlaybackRate(float playbackRate)
     {
         if (playbackRate < 0.0f || playbackRate > 1.0f)
             return;
-
-        m_wallpaperData.playbackRate = playbackRate;
-        emit playbackRateChanged(m_wallpaperData.playbackRate);
+        m_wallpaperData.setPlaybackRate(playbackRate);
+        emit playbackRateChanged(m_wallpaperData.playbackRate());
     }
-
     void setIsConnected(bool isConnected)
     {
         if (m_isConnected == isConnected)

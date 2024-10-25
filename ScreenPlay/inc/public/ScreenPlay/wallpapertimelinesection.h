@@ -14,7 +14,7 @@
 
 namespace ScreenPlay {
 class ScreenPlayWallpaper;
-// Represents one line in the UI. ScreenPlayManager has a list of
+// Represents one timeline section line in the UI. ScreenPlayManager has a list of
 // WallpaperTimeline. Only the active timeline section has
 // a filled vector of ScreenPlayWallpaper
 class WallpaperTimelineSection : public QObject {
@@ -37,6 +37,7 @@ public:
     float relativePosition = 0.0f;
     QTime startTime;
     QTime endTime;
+
     // Data from the profiles.json that we need when we
     // enable this section of the pipeline. We keep a copy
     // here when this timeline needs to become active

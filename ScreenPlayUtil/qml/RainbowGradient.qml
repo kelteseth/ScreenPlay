@@ -4,7 +4,7 @@ Rectangle {
     id: root
     implicitHeight: 100
     implicitWidth: 100
-    property int animationDuration: 2000
+    property int animationDuration: 5000
     property bool running: true
     gradient: Gradient {
         orientation: Gradient.Horizontal
@@ -59,6 +59,7 @@ Rectangle {
                 from: -0.25
                 to: 0.25
                 duration: root.animationDuration
+                easing.type: Easing.OutCubic
             }
             NumberAnimation {
                 target: stop2
@@ -66,6 +67,7 @@ Rectangle {
                 from: -0.11
                 to: 0.39
                 duration: root.animationDuration
+                easing.type: Easing.OutCubic
             }
             NumberAnimation {
                 target: stop3
@@ -73,6 +75,7 @@ Rectangle {
                 from: 0.03
                 to: 0.53
                 duration: root.animationDuration
+                easing.type: Easing.OutCubic
             }
             NumberAnimation {
                 target: stop4
@@ -80,6 +83,7 @@ Rectangle {
                 from: 0.17
                 to: 0.67
                 duration: root.animationDuration
+                easing.type: Easing.OutCubic
             }
             NumberAnimation {
                 target: stop5
@@ -87,6 +91,7 @@ Rectangle {
                 from: 0.31
                 to: 0.81
                 duration: root.animationDuration
+                easing.type: Easing.OutCubic
             }
             NumberAnimation {
                 target: stop6
@@ -94,6 +99,7 @@ Rectangle {
                 from: 0.45
                 to: 0.95
                 duration: root.animationDuration
+                easing.type: Easing.OutCubic
             }
             NumberAnimation {
                 target: stop7
@@ -101,6 +107,7 @@ Rectangle {
                 from: 0.59
                 to: 1.09
                 duration: root.animationDuration
+                easing.type: Easing.OutCubic
             }
             NumberAnimation {
                 target: stop8
@@ -108,6 +115,7 @@ Rectangle {
                 from: 0.75
                 to: 1.25
                 duration: root.animationDuration
+                easing.type: Easing.OutCubic
             }
         }
         ParallelAnimation {
@@ -117,6 +125,7 @@ Rectangle {
                 from: 0.25
                 to: -0.25
                 duration: root.animationDuration
+                easing.type: Easing.OutCubic
             }
             NumberAnimation {
                 target: stop2
@@ -124,6 +133,7 @@ Rectangle {
                 from: 0.39
                 to: -0.11
                 duration: root.animationDuration
+                easing.type: Easing.OutCubic
             }
             NumberAnimation {
                 target: stop3
@@ -131,6 +141,7 @@ Rectangle {
                 from: 0.53
                 to: 0.03
                 duration: root.animationDuration
+                easing.type: Easing.OutCubic
             }
             NumberAnimation {
                 target: stop4
@@ -138,6 +149,7 @@ Rectangle {
                 from: 0.67
                 to: 0.17
                 duration: root.animationDuration
+                easing.type: Easing.OutCubic
             }
             NumberAnimation {
                 target: stop5
@@ -145,6 +157,7 @@ Rectangle {
                 from: 0.81
                 to: 0.31
                 duration: root.animationDuration
+                easing.type: Easing.OutCubic
             }
             NumberAnimation {
                 target: stop6
@@ -152,6 +165,7 @@ Rectangle {
                 from: 0.95
                 to: 0.45
                 duration: root.animationDuration
+                easing.type: Easing.OutCubic
             }
             NumberAnimation {
                 target: stop7
@@ -159,6 +173,7 @@ Rectangle {
                 from: 1.09
                 to: 0.59
                 duration: root.animationDuration
+                easing.type: Easing.OutCubic
             }
             NumberAnimation {
                 target: stop8
@@ -166,6 +181,7 @@ Rectangle {
                 from: 1.25
                 to: 0.75
                 duration: root.animationDuration
+                easing.type: Easing.OutCubic
             }
         }
     }

@@ -9,11 +9,12 @@ import ScreenPlayApp
 Item {
     id: root
 
+    required property string name
+    required property bool isHeadline
+    required property var value
+    required property int index
+
     property int selectedMonitor
-    property string name
-    property var value
-    property bool isHeadline
-    property int itemIndex
     property var projectSettingsListmodelRef
 
     focus: true
@@ -77,7 +78,7 @@ Item {
 
             Connections {
                 function onSave(value) {
-                    projectSettingsListmodelRef.setValueAtIndex(root.itemIndex, name, value);
+                    projectSettingsListmodelRef.setValueAtIndex(root.index, name, value);
                 }
 
                 target: loader.item
@@ -201,7 +202,7 @@ Item {
                     stepSize: root.stepSize
                     live: false
                     onValueChanged: {
-                        const value = Math.trunc(slider.value * 100) / 100;
+                        const value = slider.value.toFixed(2)
                         txtSliderValue.text = value;
                         let obj = {
                             "from": root.from,

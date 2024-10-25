@@ -240,18 +240,7 @@ QRect MonitorListModel::absoluteDesktopSize() const
     return totalRect;
 }
 
-/*!
-  \brief If successful this function returns an AppID. Otherwhise std::nullopt.
-*/
-std::optional<QString> MonitorListModel::getAppIDByMonitorIndex(const int index) const
-{
-    // for (auto& monitor : m_monitorList) {
-    //     if (monitor.m_index == index && monitor.m_activeWallpaper) {
-    //         return { monitor.m_activeWallpaper->appID() };
-    //     }
-    // }
-    return std::nullopt;
-}
+
 
 /*!
   \brief Removes all items and loads them vida loadMonitors() again.

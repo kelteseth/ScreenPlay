@@ -60,8 +60,6 @@ public:
     QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
-
-    std::optional<QString> getAppIDByMonitorIndex(const int index) const;
     Q_INVOKABLE void reset();
     Q_INVOKABLE QRect absoluteDesktopSize() const;
     Q_INVOKABLE QSize totalDesktopSize() const;

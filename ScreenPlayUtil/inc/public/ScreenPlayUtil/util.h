@@ -96,6 +96,8 @@ class Util : public QObject {
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
 
 public:
+    explicit Util(QObject* parent = nullptr);
+
     QJsonArray fillArray(const QVector<QString>& items);
     ScreenPlay::ContentTypes::SearchType getSearchTypeFromInstalledType(const ScreenPlay::ContentTypes::InstalledType type);
     std::optional<ScreenPlay::ContentTypes::InstalledType> getInstalledTypeFromString(const QString& type);

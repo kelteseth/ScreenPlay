@@ -21,7 +21,6 @@ ApplicationWindow {
         // This also now means we have to make sure to init it here
         // and do _not_ access any other properties before we called init.
         App.init();
-        setTheme(App.settings.theme);
         if (!App.settings.silentStart) {
             App.showDockIcon(true);
             root.show();
@@ -45,20 +44,6 @@ ApplicationWindow {
         target: App
         function onRequestExit() {
             Qt.exit(0);
-        }
-    }
-
-    function setTheme(theme) {
-        switch (theme) {
-        case Settings.Theme.System:
-            root.Material.theme = Material.System;
-            break;
-        case Settings.Theme.Dark:
-            root.Material.theme = Material.Dark;
-            break;
-        case Settings.Theme.Light:
-            root.Material.theme = Material.Light;
-            break;
         }
     }
 

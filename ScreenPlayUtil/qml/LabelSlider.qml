@@ -7,11 +7,24 @@ import ScreenPlayApp
 Item {
     id: root
 
-    property string headline: "dummyHeandline"
-    property string iconSource: "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume.svg"
-    property alias slider: slider
-
     height: 80
+
+    property string headline: "dummyHeandline"
+    property string iconSource: ""
+    property alias slider: qqcSlider
+
+    property bool userInteracting: false
+    property int debounceInterval: 100 // Delay in ms before emitting value
+    signal valueEditingFinished(real value)
+
+    Timer {
+        id: debounceTimer
+        interval: root.debounceInterval
+        repeat: false
+        onTriggered: {
+            valueEditingFinished(qqcSlider.value)
+        }
+    }
 
     Text {
         id: txtHeadline
@@ -41,30 +54,43 @@ Item {
 
         ColorImage {
             id: imgIcon
-
             width: 20
             height: 20
-            source: iconSource
+            source: root.iconSource
             sourceSize: Qt.size(20, 20)
             Layout.alignment: Qt.AlignVCenter
         }
 
         QQC.Slider {
-            id: slider
-
+            id: qqcSlider
             stepSize: 0.01
             from: 0
             value: 1
             to: 1
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignVCenter
+            snapMode: QQC.Slider.SnapAlways
+
+            live: true // Keep visual updates smooth
+
+            // Reset and start timer when value changes from user interaction
+            onMoved: {
+                debounceTimer.restart()
+            }
+
+            // Also handle the case when user releases the slider
+            onPressedChanged: {
+                if (!pressed) {
+                    debounceTimer.restart()
+                }
+            }
         }
 
         Text {
             id: txtValue
 
             color: QQCM.Material.secondaryTextColor
-            text: Math.round(slider.value * 100) / 100
+            text: qqcSlider.value.toFixed(1)
 
             Layout.preferredWidth: 20
             Layout.preferredHeight: 20

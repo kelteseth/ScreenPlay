@@ -37,30 +37,33 @@ public:
 
     Q_INVOKABLE QCoro::QmlTask removeAllRunningWallpapers(bool saveToProfile = false);
     Q_INVOKABLE bool removeAllRunningWidgets(bool saveToProfile = false);
-    Q_INVOKABLE QCoro::QmlTask removeWallpaperAt(const int timelineIndex, const QString timelineIdentifier, const int monitorIndex);
-    Q_INVOKABLE ScreenPlayWallpaper* getWallpaperByAppID(const QString& appID);
+    Q_INVOKABLE QCoro::QmlTask removeWallpaperAt(const int timelineIndex, const QString sectionIdentifier, const int monitorIndex);
+    Q_INVOKABLE WallpaperData getWallpaperData(const int monitorIndex,
+                                               const int timelineIndex,
+                                               const QString sectionIdentifier);
 
     Q_INVOKABLE bool moveTimelineAt(
-        const int index,
+        const int timelineIndex,
         const QString identifier,
         const float relativePosition,
         QString positionTimeString);
     Q_INVOKABLE bool addTimelineAt(
-        const int index,
+        const int timelineIndex,
         const float reltiaveLinePosition,
         QString identifier);
-    Q_INVOKABLE bool removeTimelineAt(const int index);
+    Q_INVOKABLE bool removeTimelineAt(const int timelineIndex);
     Q_INVOKABLE QJsonArray timelineSections();
     Q_INVOKABLE QCoro::QmlTask removeAllTimlineSections();
 
     Q_INVOKABLE QCoro::QmlTask setWallpaperAtTimelineIndex(
         const ScreenPlay::ContentTypes::InstalledType type,
-        const QString& absolutePath,
-        const QString& previewImage,
-        const QString& file,
-        const QVector<int>& monitorIndex,
+        const QString &absolutePath,
+        const QString &previewImage,
+        const QString &file,
+        const QString &title,
+        const QVector<int> &monitorIndex,
         const int timelineIndex,
-        const QString& identifier,
+        const QString &identifier,
         const bool saveToProfilesConfigFile);
 
     Q_INVOKABLE bool startWidget(
@@ -73,8 +76,17 @@ public:
         const bool saveToProfilesConfigFile);
 
     Q_INVOKABLE bool requestProjectSettingsAtMonitorIndex(const int index);
-    Q_INVOKABLE bool setWallpaperValueAtMonitorIndex(const int index, const QString& key, const QString& value);
-    Q_INVOKABLE bool setWallpaperFillModeAtMonitorIndex(const int index, const int fillmode);
+    Q_INVOKABLE QCoro::QmlTask  setValueAtMonitorTimelineIndex(
+        const int monitorIndex,
+        const int timelineIndex,
+        const QString sectionIdentifier,
+        const QString& key,
+        const QString& value);
+    Q_INVOKABLE QCoro::QmlTask setWallpaperFillModeAtMonitorIndex(
+        const int monitorIndex,
+        const int timelineIndex,
+        const QString sectionIdentifier,
+        const int fillmode);
     Q_INVOKABLE bool setAllWallpaperValue(const QString& key, const QString& value);
     Q_INVOKABLE bool setWallpaperValue(const QString& appID, const QString& key, const QString& value);
     Q_INVOKABLE int activeTimelineIndex();

@@ -101,7 +101,7 @@ Drawer {
 
                 Text {
                     Layout.leftMargin: 20
-                    text: qsTr("1. Select the duration your wallpaper should be visible")
+                    text: qsTr("1. Set the duration your wallpaper should be visible")
                     font.family: App.settings.font
                     verticalAlignment: Text.AlignVCenter
                     font.pointSize: 14
@@ -123,7 +123,7 @@ Drawer {
                 spacing: 10
 
                 Text {
-                    text: qsTr("2. Select a Monitor to display the content")
+                    text: qsTr("2. Set a Monitor to display the content")
                     font.family: App.settings.font
                     verticalAlignment: Text.AlignVCenter
                     font.pointSize: 14
@@ -243,7 +243,7 @@ Drawer {
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
                     objectName: "btnLaunchContent"
-                    text: qsTr("Set Wallpaper")
+                    text: qsTr("3. Set Wallpaper")
                     enabled: monitorSelection.isSelected && timeline.selectedTimelineIndex > -1
                     icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_plus.svg"
                     icon.color: "white"
@@ -256,6 +256,7 @@ Drawer {
                         const item = App.installedListModel.get(root.contentFolderName);
                         const absoluteStoragePath = item.absoluteStoragePath;
                         const previewImage = item.preview;
+                        const title = item.title;
                         if (App.util.isWallpaper(root.type)) {
                             if (type === ContentTypes.InstalledType.GodotWallpaper) {
                                 if (App.globalVariables.isBasicVersion()) {
@@ -272,9 +273,8 @@ Drawer {
                                         InstantPopup.openErrorPopup(timeline, result.message);
                                     } else {
                                         const file = item.file;
-                                        let volume = 1;
                                         const selectedTimeline = timeline.getSelectedTimeline();
-                                        App.screenPlayManager.setWallpaperAtTimelineIndex(root.type, absoluteStoragePath, previewImage, file, activeMonitors, selectedTimeline.index, selectedTimeline.identifier, true).then(result => {
+                                        App.screenPlayManager.setWallpaperAtTimelineIndex(root.type, absoluteStoragePath, previewImage, file, title, activeMonitors, selectedTimeline.index, selectedTimeline.identifier, true).then(result => {
                                             btnLaunchContent.enabled = true;
                                             if (!result.success) {
                                                 InstantPopup.openErrorPopup(timeline, result.message);
@@ -290,7 +290,7 @@ Drawer {
                             }
                             const selectedTimeline = timeline.getSelectedTimeline();
                             const file = item.file;
-                            App.screenPlayManager.setWallpaperAtTimelineIndex(root.type, absoluteStoragePath, previewImage, file, activeMonitors, selectedTimeline.index, selectedTimeline.identifier, true).then(result => {
+                            App.screenPlayManager.setWallpaperAtTimelineIndex(root.type, absoluteStoragePath, previewImage, file, title, activeMonitors, selectedTimeline.index, selectedTimeline.identifier, true).then(result => {
                                 btnLaunchContent.enabled = true;
                                 if (!result.success) {
                                     InstantPopup.openErrorPopup(timeline, result.message);

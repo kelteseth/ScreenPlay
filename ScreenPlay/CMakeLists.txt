@@ -191,12 +191,14 @@ set(RESOURCES
     assets/icons/icon_volume_up.svg
     assets/icons/icon_widgets.svg
     assets/icons/icon_window.svg
+    assets/icons/icon_schedule.svg
     assets/icons/item_banner_new.svg
     assets/icons/monitor_setup.svg
     assets/icons/steam_default_avatar.png
     assets/images/Intro.png
     assets/images/Intro_PC.png
     assets/images/Intro_shine.png
+    assets/images/timeline_mask.png
     assets/images/mask_round.svg
     assets/images/mask_workshop.png
     assets/images/missingPreview.png
@@ -311,7 +313,8 @@ qt_add_qml_module(
     ${SOURCES}
     ${HEADER}
     RESOURCES
-    ${RESOURCES})
+    ${RESOURCES}
+)
 
 target_link_libraries(
     ScreenPlayApp

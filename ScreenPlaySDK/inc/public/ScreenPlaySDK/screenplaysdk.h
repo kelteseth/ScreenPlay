@@ -23,7 +23,7 @@ class ScreenPlaySDK : public QObject {
     Q_OBJECT
 
 public:
-    ScreenPlaySDK(const QString& appID, const QString& type);
+    ScreenPlaySDK(const QString& appID, const QString& type, QObject* parent = nullptr);
     ~ScreenPlaySDK();
     Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(bool isConnected READ isConnected WRITE setIsConnected NOTIFY isConnectedChanged)
