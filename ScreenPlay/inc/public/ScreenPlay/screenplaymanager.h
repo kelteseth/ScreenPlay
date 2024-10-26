@@ -37,7 +37,6 @@ public:
 
     Q_INVOKABLE QCoro::QmlTask removeAllRunningWallpapers(bool saveToProfile = false);
     Q_INVOKABLE bool removeAllRunningWidgets(bool saveToProfile = false);
-    Q_INVOKABLE QCoro::QmlTask removeWallpaperAt(const int timelineIndex, const QString sectionIdentifier, const int monitorIndex);
     Q_INVOKABLE WallpaperData getWallpaperData(const int monitorIndex,
         const int timelineIndex,
         const QString sectionIdentifier);
@@ -54,7 +53,7 @@ public:
     Q_INVOKABLE bool removeTimelineAt(const int timelineIndex);
     Q_INVOKABLE QJsonArray timelineSections();
     Q_INVOKABLE QCoro::QmlTask removeAllTimlineSections();
-
+    Q_INVOKABLE QCoro::QmlTask removeWallpaperAt(const int timelineIndex, const QString sectionIdentifier, const int monitorIndex);
     Q_INVOKABLE QCoro::QmlTask setWallpaperAtTimelineIndex(
         const ScreenPlay::ContentTypes::InstalledType type,
         const QString& absolutePath,
@@ -109,6 +108,8 @@ signals:
     void printQmlTimeline();
     void displayErrorPopup(const QString& msg);
     void selectedTimelineIndexChanged(int selectedTimelineIndex);
+
+    void wallpaperAdded();
 
 private slots:
     bool saveProfiles();

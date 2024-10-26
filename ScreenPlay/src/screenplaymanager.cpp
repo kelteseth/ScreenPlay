@@ -129,7 +129,9 @@ QCoro::QmlTask ScreenPlayManager::setWallpaperAtTimelineIndex(
                               // We do not start the wallpaper here, but let
                               // ScreenPlayTimelineManager::checkActiveWallpaperTimeline decide
                               // if the wallpaper
+                              m_screenPlayTimelineManager.updateMonitorListModelData(selectedTimelineIndex());
                               requestSaveProfiles();
+                              emit this->wallpaperAdded();
                               co_return Result { success };
                           });
         co_return result;
