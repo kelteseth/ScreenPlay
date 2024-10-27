@@ -94,6 +94,13 @@ Control {
         }
         Component.onCompleted: reset()
 
+        Connections {
+            target: App.screenPlayManager
+            function onWallpaperAdded(){
+                timeline.setActiveWallpaperPreviewImage();
+            }
+        }
+
         Timer {
             running: true
             repeat: true
