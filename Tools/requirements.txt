@@ -1,3 +1,4 @@
 cmake-format
 aqtinstall
 requests
+setuptools # distutils
