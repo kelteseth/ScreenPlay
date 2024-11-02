@@ -64,6 +64,7 @@ set(QML
     qml/Components/LineIndicator.qml
     qml/Components/ScreenPlayProPopup.qml
     qml/Components/Timeline.qml
+    qml/Components/TimelineSection.qml
     qml/Components/TrayIcon.qml
     qml/ContentSettings/ContentSettingsView.qml
     qml/ContentSettings/DefaultVideoControls.qml
@@ -174,6 +175,7 @@ set(RESOURCES
     assets/icons/icon_play.svg
     assets/icons/icon_plus.svg
     assets/icons/icon_report_problem.svg
+    assets/icons/icon_schedule.svg
     assets/icons/icon_search.svg
     assets/icons/icon_settings.svg
     assets/icons/icon_share.svg
@@ -191,14 +193,12 @@ set(RESOURCES
     assets/icons/icon_volume_up.svg
     assets/icons/icon_widgets.svg
     assets/icons/icon_window.svg
-    assets/icons/icon_schedule.svg
     assets/icons/item_banner_new.svg
     assets/icons/monitor_setup.svg
     assets/icons/steam_default_avatar.png
     assets/images/Intro.png
     assets/images/Intro_PC.png
     assets/images/Intro_shine.png
-    assets/images/timeline_mask.png
     assets/images/mask_round.svg
     assets/images/mask_workshop.png
     assets/images/missingPreview.png
@@ -208,6 +208,7 @@ set(RESOURCES
     assets/images/rocket_3d.png
     assets/images/scale_window_indicator.png
     assets/images/steam_offline.png
+    assets/images/timeline_mask.png
     assets/images/trayIcon_osx.png
     assets/images/trayIcon_windows.png
     assets/images/Window.svg
@@ -313,8 +314,7 @@ qt_add_qml_module(
     ${SOURCES}
     ${HEADER}
     RESOURCES
-    ${RESOURCES}
-)
+    ${RESOURCES})
 
 target_link_libraries(
     ScreenPlayApp

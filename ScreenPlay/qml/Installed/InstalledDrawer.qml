@@ -3,6 +3,7 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Dialogs
+import QtQuick.Effects
 import QtQuick.Controls.Material
 import QtQuick.Controls.Material.impl
 import ScreenPlayApp
@@ -15,19 +16,20 @@ Drawer {
     id: root
     height: 300
     modal: false
+    closePolicy: Popup.NoAutoClose
     edge: Qt.BottomEdge
     background: Rectangle {
         color: Material.color(Material.Grey, Material.Shade900)
     }
-    onOpened: {
+    onAboutToShow: {
+        print("setInstalledDrawerItem onAboutToShow");
         timeline.reset();
     }
-
     property bool hasPreviewGif: false
     property var type: ContentTypes.InstalledType.QMLWallpaper
     property string contentFolderName
 
-    function setInstalledDrawerItem(folderName, type) {
+    function setInstalledDrawerItem(folderName: string, type: int) {
 
         // Toggle drawer if clicked on the same content twice
         if (root.contentFolderName === folderName) {
@@ -37,35 +39,15 @@ Drawer {
             }
         }
         if (!App.util.isWallpaper(type)) {
+            if (root.visible) {
+                root.close();
+                return;
+            }
             return;
         }
-        print("setInstalledDrawerItem", root.contentFolderName, folderName, typeof (folderName), type);
+        print("setInstalledDrawerItem", root.contentFolderName, folderName, typeof (folderName), type, root.visible);
         root.contentFolderName = folderName;
         root.type = type;
-        if (type === ContentTypes.InstalledType.VideoWallpaper)
-            installedDrawerWrapper.state = "wallpaper";
-        else
-            installedDrawerWrapper.state = "scene";
-        root.open();
-    }
-
-    // This is used for removing wallpaper. We need to clear
-    // the preview image/gif so we can release the file for deletion.
-    function clear() {
-        root.close();
-        root.contentFolderName = "";
-        root.type = ContentTypes.InstalledType.Unknown;
-        imagePreview.source = "";
-        animatedImagePreview.source = "";
-        txtHeadline.text = "";
-        installedDrawerWrapper.state = "inactive";
-    }
-
-    onContentFolderNameChanged: {
-        if (root.contentFolderName === "") {
-            console.error("empty folder name");
-            return;
-        }
         const item = App.installedListModel.get(root.contentFolderName);
         print(root.contentFolderName);
         txtHeadline.text = item.title;
@@ -78,6 +60,27 @@ Drawer {
         } else {
             imagePreview.source = previewImageFilePath;
         }
+        if (type === ContentTypes.InstalledType.VideoWallpaper)
+            installedDrawerWrapper.state = "wallpaper";
+        else
+            installedDrawerWrapper.state = "scene";
+        if (!root.visible) {
+            console.log("setInstalledDrawerItem");
+            root.open();
+        }
+    }
+
+    // This is used for removing wallpaper. We need to clear
+    // the preview image/gif so we can release the file for deletion.
+    function clear() {
+        console.warn("⚠️⚠️⚠️ CLEAR InstalledDrawer");
+        root.close();
+        root.contentFolderName = "";
+        root.type = ContentTypes.InstalledType.Unknown;
+        imagePreview.source = "";
+        animatedImagePreview.source = "";
+        txtHeadline.text = "";
+        installedDrawerWrapper.state = "inactive";
     }
 
     Item {
@@ -101,7 +104,14 @@ Drawer {
 
                 Text {
                     Layout.leftMargin: 20
-                    text: qsTr("1. Set the duration your wallpaper should be visible")
+                    text: {
+                        if (App.globalVariables.isBasicVersion()) {
+                            qsTr("🚀You need ScreenPlay Pro or compile it yourself");
+                        } else {
+                            qsTr("1. Set the duration your wallpaper should be visible");
+                        }
+                    }
+
                     font.family: App.settings.font
                     verticalAlignment: Text.AlignVCenter
                     font.pointSize: 14
@@ -113,6 +123,14 @@ Drawer {
                     Layout.topMargin: 50
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+
+                    layer.enabled: App.globalVariables.isBasicVersion()
+                    // For the layered items, you can assign a MultiEffect directly
+                    // to layer.effect.
+                    layer.effect: MultiEffect {
+                        blurEnabled: true
+                        blur: .7
+                    }
                 }
             }
 
@@ -123,7 +141,13 @@ Drawer {
                 spacing: 10
 
                 Text {
-                    text: qsTr("2. Set a Monitor to display the content")
+                    text: {
+                        if (App.globalVariables.isBasicVersion()) {
+                            qsTr("1. Set a Monitor to display the content");
+                        } else {
+                            qsTr("2. Set a Monitor to display the content");
+                        }
+                    }
                     font.family: App.settings.font
                     verticalAlignment: Text.AlignVCenter
                     font.pointSize: 14
@@ -144,7 +168,7 @@ Drawer {
                             monitorSelection.enabled = true;
                             if (result.success) {
                                 // Reset to update the wallpaper preview image
-                                timeline.reset();
+                                timeline.setActiveWallpaperPreviewImage();
                             } else {
                                 InstantPopup.openErrorPopup(timeline, result.message);
                             }
@@ -243,7 +267,14 @@ Drawer {
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
                     objectName: "btnLaunchContent"
-                    text: qsTr("3. Set Wallpaper")
+
+                    text: {
+                        if (App.globalVariables.isBasicVersion()) {
+                            qsTr("2. Set Wallpaper");
+                        } else {
+                            qsTr("3. Set Wallpaper");
+                        }
+                    }
                     enabled: monitorSelection.isSelected && timeline.selectedTimelineIndex > -1
                     icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_plus.svg"
                     icon.color: "white"

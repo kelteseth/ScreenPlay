@@ -27,6 +27,10 @@ Control {
         return timeline.sectionsList[root.selectedTimelineIndex];
     }
 
+    function setActiveWallpaperPreviewImage() {
+        timeline.setActiveWallpaperPreviewImage();
+    }
+
     function removeAll() {
         timeline.removeAll();
     }
@@ -52,26 +56,6 @@ Control {
         }
     }
 
-    Component {
-        id: sectionComp
-        QtObject {
-            property string identifier
-            property int index: 0
-            property real relativeLinePosition: lineHandle.linePosition
-            onRelativeLinePositionChanged: console.debug("relativelinepos: ", relativeLinePosition)
-            property LineHandle lineHandle
-            property LineIndicator lineIndicator
-
-            function toString() {
-                console.log(`TimelineEntry {
-                index: ${index}
-                identifier: ${identifier}
-                relativeLinePosition: ${relativeLinePosition.toFixed(6)}
-            }`);
-            }
-        }
-    }
-
     contentItem: Item {
         id: timeline
         height: 160
@@ -92,11 +76,12 @@ Control {
             }
             timeline.updatePositions();
         }
-        Component.onCompleted: reset()
+
+        // Component.onCompleted: reset()
 
         Connections {
             target: App.screenPlayManager
-            function onWallpaperAdded(){
+            function onWallpaperAdded() {
                 timeline.setActiveWallpaperPreviewImage();
             }
         }
@@ -117,17 +102,21 @@ Control {
             }
         }
 
+        function createTimelineAt(relativePosition: real) {
+            const identifier = App.util.generateRandomString(4);
+            const sectionObject = timeline.addSection(identifier, relativePosition);
+            const addTimelineAtSuccess = App.screenPlayManager.addTimelineAt(sectionObject.index, sectionObject.relativeLinePosition, sectionObject.identifier);
+            if (!addTimelineAtSuccess) {
+                InstantPopup.openErrorPopup(timeline, qsTr("Unable to add Timeline"));
+                return false;
+            }
+            return true;
+        }
+
         function reset() {
+            console.warn("⚠️ RESET");
             removeAll();
             let initialSectionsList = App.screenPlayManager.timelineSections();
-            if (App.globalVariables.isBasicVersion()) {
-                if (initialSectionsList.length > 1) {
-                    console.error(timelineLogging, "Invalid section list count for basic version");
-                    // Create dummy
-                    addSection("INVALID", 1);
-                }
-                return;
-            }
             initialSectionsList.sort(function (a, b) {
                 return b.index - a.index;
             });
@@ -148,6 +137,8 @@ Control {
             for (var i = 0; i < timelineSectionList.length; i++) {
                 let timelineSection = timelineSectionList[i];
                 let lineIndicator = timeline.sectionsList[i].lineIndicator;
+
+                // References a single wallpaper
                 if (timelineSection.wallpaperData.length === 0)
                     continue;
                 let firstWallpaper = timelineSection.wallpaperData[0];
@@ -184,6 +175,11 @@ Control {
                 console.error(timelineLogging, "Invalid position:", fixedStopPosition);
                 return;
             }
+            const sectionComp = Qt.createComponent("TimelineSection.qml");
+            if (sectionComp.status === Component.Error) {
+                console.assert(timelineLogging, sectionComp.errorString());
+                return;
+            }
             let sectionObject = sectionComp.createObject(timeline, {
                 "identifier": identifier,
                 "relativeLinePosition": fixedStopPosition
@@ -202,7 +198,7 @@ Control {
         // Disables all other LineHandles if one is in use. Enables
         // all after the user released the LineHandle
         function setActiveHandle(identifier, active) {
-            for (let i = 0; i < timeline.sectionsList.length; i++) {
+            for (var i = 0; i < timeline.sectionsList.length; i++) {
                 let lineHandle = timeline.sectionsList[i].lineHandle;
                 if (active) {
                     if (lineHandle.identifier !== identifier) {
@@ -498,16 +494,11 @@ Control {
                 id: btnAdd
                 text: "➕"
                 enabled: !App.globalVariables.isBasicVersion()
+                visible: enabled
                 onClicked: {
                     const absTimelinePosX = btnAdd.x + width * .5;
                     const position = Number(absTimelinePosX / timeline.width).toFixed(6);
-                    const identifier = App.util.generateRandomString(4);
-                    const sectionObject = timeline.addSection(identifier, position);
-                    const addTimelineAtSuccess = App.screenPlayManager.addTimelineAt(sectionObject.index, sectionObject.relativeLinePosition, sectionObject.identifier);
-                    if (!addTimelineAtSuccess) {
-                        InstantPopup.openErrorPopup(timeline, qsTr("Unable to add Timeline"));
-                        return;
-                    }
+                    timeline.createTimelineAt(position);
                 }
 
                 ScreenPlayProPopup {
@@ -560,7 +551,7 @@ Control {
             text: resetting ? qsTr("Reseting...") : qsTr("❌ Reset")
             property bool resetting: false
             enabled: !resetting
-            z: 99
+            visible: !App.globalVariables.isBasicVersion()
             anchors {
                 right: parent.right
                 top: parent.top
@@ -582,14 +573,7 @@ Control {
                         }
                         timeline.removeAll();
                         const position = 1.0;
-                        const identifier = App.util.generateRandomString(4);
-                        const sectionObject = timeline.addSection(identifier, position);
-                        const addTimelineAtSuccess = App.screenPlayManager.addTimelineAt(sectionObject.index, sectionObject.relativeLinePosition, sectionObject.identifier);
-                        btnReset.resetting = false;
-                        if (!addTimelineAtSuccess) {
-                            InstantPopup.openErrorPopup(timeline, qsTr("Unable to add Timeline"));
-                            return;
-                        }
+                        timeline.createTimelineAt(position);
                     });
                 });
             }

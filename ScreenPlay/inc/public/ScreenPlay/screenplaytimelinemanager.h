@@ -8,6 +8,7 @@
 
 #include "ScreenPlay/monitorlistmodel.h"
 #include "ScreenPlay/wallpapertimelinesection.h"
+#include "ScreenPlayUtil/util.h"
 
 namespace ScreenPlay {
 
@@ -84,5 +85,6 @@ private:
     std::shared_ptr<GlobalVariables> m_globalVariables;
     std::shared_ptr<Settings> m_settings;
     int m_selectedTimelineIndex { 0 };
+    Util m_util;
 };
 }

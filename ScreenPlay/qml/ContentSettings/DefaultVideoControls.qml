@@ -17,6 +17,7 @@ ColumnLayout {
         if (!wallpaperData)
             return;
         slVolume.slider.value = wallpaperData.volume.toFixed(2);
+        settingsComboBox.currentIndex = settingsComboBox.indexOfValue(wallpaperData.fillMode);
     }
 
     spacing: 10
@@ -103,9 +104,6 @@ ColumnLayout {
             Layout.leftMargin: 10
             textRole: "text"
             valueRole: "value"
-            Component.onCompleted: {
-                settingsComboBox.currentIndex = settingsComboBox.indexOfValue(App.settings.videoFillMode);
-            }
 
             model: ListModel {
                 id: model

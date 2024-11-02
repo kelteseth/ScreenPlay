@@ -90,18 +90,38 @@ bool ScreenPlayTimelineManager::addTimelineFromSettings(const QJsonObject& timel
         return false;
     }
 
-    // TODO check license
+    // If this is basic version and we already have a timeline, ignore additional ones
+    if (m_globalVariables->isBasicVersion() && !m_wallpaperTimelineSectionsList.isEmpty()) {
+        qInfo() << "Basic version: Ignoring additional timeline sections";
+        return true;
+    }
+
+    // For basic version, force timeline to span whole day
+    if (m_globalVariables->isBasicVersion()) {
+        // Always spans 00:00:00 to 23:59:59 for basic version
+        QTime defaultStartTime = QTime::fromString("00:00:00", m_timelineTimeFormat);
+        QTime defaultEndTime = QTime::fromString("23:59:59", m_timelineTimeFormat);
+
+        if (startTime != defaultStartTime || endTime != defaultEndTime) {
+            qInfo() << "Basic version: Enforcing full day timeline span";
+            const_cast<QTime&>(startTime) = defaultStartTime;
+            const_cast<QTime&>(endTime) = defaultEndTime;
+        }
+    }
+
     auto newTimelineSection = std::make_shared<WallpaperTimelineSection>();
     QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::requestUpdateMonitorListModel, this, [this]() {
         updateMonitorListModelData(selectedTimelineIndex());
     });
     QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::requestSaveProfiles, this, &ScreenPlayTimelineManager::requestSaveProfiles);
     QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::activeWallpaperCountChanged, this, &ScreenPlayTimelineManager::activeWallpaperCountChanged);
+
     newTimelineSection->startTime = startTime;
     newTimelineSection->endTime = endTime;
     newTimelineSection->settings = m_settings;
     newTimelineSection->globalVariables = m_globalVariables;
-    newTimelineSection->relativePosition = Util().calculateRelativePosition(endTime);
+    newTimelineSection->relativePosition = m_util.calculateRelativePosition(endTime);
+
     const auto wallpaperList = timelineObj.value("wallpaper").toArray();
     for (auto& wallpaper : wallpaperList) {
         std::optional<WallpaperData> wallpaperDataOpt = WallpaperData::loadTimelineWallpaperConfig(wallpaper.toObject());
@@ -110,15 +130,13 @@ bool ScreenPlayTimelineManager::addTimelineFromSettings(const QJsonObject& timel
         newTimelineSection->wallpaperDataList.push_back(wallpaperDataOpt.value());
     }
 
-    // Todo: Should we use addTimelineAt?
     newTimelineSection->index = m_wallpaperTimelineSectionsList.length();
-    newTimelineSection->identifier = Util().generateRandomString(4);
+    newTimelineSection->identifier = m_util.generateRandomString(4);
 
     qInfo() << newTimelineSection->index
             << newTimelineSection->startTime
             << newTimelineSection->endTime;
 
-    // Todo: Should we use addTimelineAt?
     m_wallpaperTimelineSectionsList.append(newTimelineSection);
     return true;
 }
@@ -129,8 +147,8 @@ bool ScreenPlayTimelineManager::addTimelineFromSettings(const QJsonObject& timel
 */
 bool ScreenPlayTimelineManager::moveTimelineAt(const int index, const QString identifier, const float relativePosition, QString positionTimeString)
 {
-    // Q_ASSERT(Util().getTimeString(relativePosition) == positionTimeString);
-    // qDebug() << "Calculated time:" << Util().getTimeString(relativePosition) << "Provided time:" << positionTimeString << relativePosition;
+    // Q_ASSERT(m_util.getTimeString(relativePosition) == positionTimeString);
+    // qDebug() << "Calculated time:" << m_util.getTimeString(relativePosition) << "Provided time:" << positionTimeString << relativePosition;
 
     m_contentTimer.stop();
     auto updateTimer = qScopeGuard([this] { m_contentTimer.start(); });
@@ -426,7 +444,7 @@ void ScreenPlayTimelineManager::sortAndUpdateIndices()
 bool ScreenPlayTimelineManager::addTimelineAt(const int index, const float relativeLinePosition, QString identifier)
 {
     // We always get the new endTime
-    const QString newStopPosition = Util().getTimeString(relativeLinePosition);
+    const QString newStopPosition = m_util.getTimeString(relativeLinePosition);
     QTime newStopPositionTime = QTime::fromString(newStopPosition, m_timelineTimeFormat);
     if (!newStopPositionTime.isValid()) {
         return false;

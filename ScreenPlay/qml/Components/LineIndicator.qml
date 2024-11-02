@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import QtQuick.Effects
 import QtQuick.Controls
 import ScreenPlayUtil as Util
+import ScreenPlayApp
 
 Rectangle {
     id: root
@@ -207,13 +208,14 @@ Rectangle {
             }
         }
         MouseArea {
+            enabled: !App.globalVariables.isBasicVersion()
             anchors.fill: parent
-            hoverEnabled: true
+            hoverEnabled: !App.globalVariables.isBasicVersion()
             cursorShape: Qt.PointingHandCursor
             onClicked: {
                 root.lineSelected(root.index);
             }
-            ToolTip.visible: containsMouse
+            ToolTip.visible: containsMouse && !App.globalVariables.isBasicVersion()
             ToolTip.delay: 500
             ToolTip.text: "index: " + root.index + " - id:" + root.identifier
         }
@@ -223,7 +225,7 @@ Rectangle {
             enabled: visible
             onClicked: root.remove(root.index)
             font.pointSize: 10
-            hoverEnabled: true
+            hoverEnabled: !App.globalVariables.isBasicVersion()
             opacity: hovered ? 1 : .5
 
             Behavior on opacity {

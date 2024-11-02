@@ -1,8 +1,8 @@
 import QtQuick
 import QtQuick.Controls
-import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material
 import QtQuick.Layouts
+import QtQuick.Effects
 import QtQuick.Controls.Material.impl
 import ScreenPlayApp
 import ScreenPlayUtil as Util
@@ -77,6 +77,14 @@ Util.Popup {
                     onSelectedTimelineIndexChanged: defaultVideoControls.update()
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+
+                    layer.enabled: App.globalVariables.isBasicVersion()
+                     // For the layered items, you can assign a MultiEffect directly
+                     // to layer.effect.
+                     layer.effect: MultiEffect {
+                         blurEnabled: true
+                         blur: .7
+                     }
                 }
             }
         }
