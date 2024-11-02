@@ -141,6 +141,7 @@ if(${SCREENPLAY_STEAM})
                     Qt6::QuickControls2
                     ${PROJECT_NAME}plugin
                     ScreenPlayUtilplugin
+                    ScreenPlayAppplugin # Only needed for the test app
                     SteamSDK)
 
         if(APPLE)
