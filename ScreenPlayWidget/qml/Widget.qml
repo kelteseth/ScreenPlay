@@ -178,7 +178,7 @@ Item {
                 right: parent.right
             }
 
-            ColorImage {
+            Util.ColorImage {
                 id: imgClose
                 source: "qrc:/qml/ScreenPlayWidget/assets/icons/baseline-close-24px.svg"
                 anchors.centerIn: parent

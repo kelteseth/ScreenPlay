@@ -30,12 +30,6 @@ int main(int argc, char* argv[])
     // Lets keep using it until: https://bugreports.qt.io/browse/QTBUG-109401
     QtWebEngineQuick::initialize();
 
-#if defined(Q_OS_WIN)
-    // Workaround for Qt 6.5.1 crash https://bugreports.qt.io/browse/QTBUG-113832
-    qputenv("QT_DISABLE_HW_TEXTURES_CONVERSION", "1");
-    qputenv("QT_MEDIA_BACKEND", "ffmpeg");
-#endif
-
     QGuiApplication app(argc, argv);
     std::unique_ptr<const ScreenPlayUtil::LoggingHandler> logging;
 
