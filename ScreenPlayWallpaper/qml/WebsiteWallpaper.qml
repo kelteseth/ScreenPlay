@@ -23,7 +23,6 @@ Item {
 
         anchors.fill: parent
         url: Qt.resolvedUrl(root.url)
-        onJavaScriptConsoleMessage: print(lineNumber, message)
         onLoadProgressChanged: {
             if (loadProgress === 100)
                 Wallpaper.requestFadeIn();
