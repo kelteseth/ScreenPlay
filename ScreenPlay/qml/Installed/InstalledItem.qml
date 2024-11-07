@@ -21,9 +21,8 @@ Item {
     required property string previewGIF
     required property string preview
     required property int index
-    property int version: App.globalVariables.version
     property bool hasLicense: {
-        if ((root.version === GlobalVariables.OpenSourceStandalone || root.version === GlobalVariables.OpenSourceSteam) && root.type === Util.ContentTypes.InstalledType.GodotWallpaper) {
+        if (App.globalVariables.isBasicVersion() && root.type === Util.ContentTypes.InstalledType.GodotWallpaper) {
             return false;
         }
         return true;
@@ -254,7 +253,7 @@ Item {
             MouseArea {
                 id: hoverArea
                 anchors.fill: parent
-                hoverEnabled: !root.isScrolling && !showAnim.running
+                hoverEnabled: !root.isScrolling && !showAnim.running && root.hasLicense
                 cursorShape: Qt.PointingHandCursor
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onEntered: handleMouseEnter()
