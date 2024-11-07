@@ -53,7 +53,7 @@ Item {
 
             asynchronous: true
             playing: true
-            // source: root.sourceImageGIF === "" ? "qrc:/qml/ScreenPlayApp/assets/images/missingPreview.png" : Qt.resolvedUrl(root.absoluteStoragePath + "/" + root.sourceImageGIF)
+            source: root.sourceImageGIF === "" ? "qrc:/qml/ScreenPlayApp/assets/images/missingPreview.png" : Qt.resolvedUrl(root.absoluteStoragePath + "/" + root.sourceImageGIF)
             fillMode: Image.PreserveAspectCrop
         }
     }
