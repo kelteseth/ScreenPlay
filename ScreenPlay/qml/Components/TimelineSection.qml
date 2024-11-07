@@ -8,7 +8,7 @@ QtObject {
     property LineHandle lineHandle
     property LineIndicator lineIndicator
 
-    function toString() {
+    function toString() : void {
         console.log(`TimelineEntry {
         index: ${index}
         identifier: ${identifier}

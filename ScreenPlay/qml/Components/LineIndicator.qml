@@ -19,7 +19,7 @@ Rectangle {
     signal remove(int index)
     signal lineSelected(int index)
 
-    function toString() {
+    function toString() : void {
         console.log(`LineIndicator {
         index: ${index}
         text: ${text}
@@ -219,25 +219,49 @@ Rectangle {
             ToolTip.delay: 500
             ToolTip.text: "index: " + root.index + " - id:" + root.identifier
         }
-        ToolButton {
-            text: "❌"
-            visible: !root.isLast && root.selected
-            enabled: visible
-            onClicked: root.remove(root.index)
-            font.pointSize: 10
-            hoverEnabled: !App.globalVariables.isBasicVersion()
-            opacity: hovered ? 1 : .5
 
-            Behavior on opacity {
-
-                NumberAnimation {
-                    duration: 200
-                }
-            }
+        Item {
+            id: buttonWrapper
+            width: removeButton.width
+            height: removeButton.height
             anchors {
                 horizontalCenter: parent.horizontalCenter
                 top: parent.bottom
                 topMargin: -5
+            }
+
+            property int disabledClickCount: 0
+
+            ToolButton {
+                id: removeButton
+                anchors.fill: parent
+                text: "❌"
+                visible: root.selected
+                enabled: visible && !root.isLast
+                onClicked: root.remove(root.index)
+                font.pointSize: 10
+                hoverEnabled: !App.globalVariables.isBasicVersion()
+                opacity: hovered ? 1 : .5
+                ToolTip.visible: root.isLast && root.selected && hovered
+                ToolTip.delay: 1000
+                ToolTip.text: qsTr("You cannot remove the last timeline. There must always be 🌩️ a timeline wallpaper.")
+                Behavior on opacity {
+                    NumberAnimation {
+                        duration: 200
+                    }
+                }
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                visible: root.isLast && root.selected && !App.globalVariables.isBasicVersion()
+                onClicked: {
+                    buttonWrapper.disabledClickCount++
+                    if (buttonWrapper.disabledClickCount >= 5) {
+                        Qt.openUrlExternally("https://youtu.be/x0fm48LhJ9k?si=RYKjtOwMQJOhOkFC&t=73")
+                        buttonWrapper.disabledClickCount = 0
+                    }
+                }
             }
         }
     }

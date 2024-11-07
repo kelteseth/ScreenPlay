@@ -28,7 +28,7 @@ Item {
     width: 0
     height: width
 
-    function toString() {
+    function toString() : void {
         console.log(`LineHandle {
         position: ${linePosition.toFixed(6)}
         time: ${timeString}
