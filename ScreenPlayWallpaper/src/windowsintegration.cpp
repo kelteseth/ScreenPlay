@@ -1,4 +1,28 @@
 #include "windowsintegration.h"
+#include <atomic>
+
+WindowsIntegration* WindowsIntegration::instance = nullptr;
+
+WindowsIntegration::WindowsIntegration()
+    : m_mouseHook(NULL)
+    , m_keyboardHook(NULL)
+    , m_mouseEventHandler(nullptr)
+    , m_keyboardEventHandler(nullptr)
+{
+    instance = this;
+}
+
+WindowsIntegration::~WindowsIntegration()
+{
+    unhookAll();
+    instance = nullptr;
+}
+
+void WindowsIntegration::unhookAll()
+{
+    unhookMouse();
+    unhookKeyboard();
+}
 
 /*!
    \brief Returns scaling factor as reported by Windows.
@@ -377,64 +401,7 @@ BOOL MonitorEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPAR
 
 void WindowsIntegration::setMouseEventHandler(MouseEventHandler handler)
 {
-    m_mouseEventHandler = handler;
-}
-
-LRESULT __stdcall WindowsIntegration::MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
-{
-    // Initialize mouse event variables
-    DWORD mouseButton = 0;
-    UINT type = WM_MOUSEMOVE;
-    POINT p {};
-
-    if (nCode >= 0) {
-        switch (wParam) {
-        case WM_LBUTTONDOWN:
-            mouseButton = MK_LBUTTON;
-            type = WM_LBUTTONDOWN;
-            break;
-        case WM_LBUTTONUP:
-            mouseButton = MK_LBUTTON;
-            type = WM_LBUTTONUP;
-            break;
-        case WM_RBUTTONDOWN:
-            mouseButton = MK_RBUTTON;
-            type = WM_RBUTTONDOWN;
-            break;
-        default:
-            type = WM_MOUSEMOVE;
-        }
-    }
-
-    if (GetCursorPos(&p)) {
-        // Check if the callback function is set and call it
-        if (m_mouseEventHandler) {
-            m_mouseEventHandler(mouseButton, type, p);
-        }
-
-    } else {
-        return CallNextHookEx(m_mouseHook, nCode, wParam, lParam);
-    }
-
-    return CallNextHookEx(m_mouseHook, nCode, wParam, lParam);
-}
-
-void WindowsIntegration::setupWindowMouseHook()
-{
-    HINSTANCE hInstance = GetModuleHandle(NULL);
-    if (!(m_mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseHookCallback, hInstance, 0))) {
-        OutputDebugStringW(L"Failed to install mouse hook!");
-        return;
-    }
-}
-
-void WindowsIntegration::setupWindowKeyboardHook()
-{
-    HINSTANCE hInstance = GetModuleHandle(NULL);
-    if (!(m_keyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, KeyboardHookCallback, hInstance, 0))) {
-        OutputDebugStringW(L"Failed to install keyboard hook!");
-        return;
-    }
+    m_mouseEventHandler = std::move(handler);
 }
 
 void WindowsIntegration::setKeyboardEventHandler(KeyboardEventHandler handler)
@@ -442,31 +409,133 @@ void WindowsIntegration::setKeyboardEventHandler(KeyboardEventHandler handler)
     m_keyboardEventHandler = std::move(handler);
 }
 
-LRESULT __stdcall WindowsIntegration::KeyboardHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
+void WindowsIntegration::setupWindowMouseHook()
 {
-    if (nCode >= 0) {
-        KBDLLHOOKSTRUCT* kbStruct = (KBDLLHOOKSTRUCT*)lParam;
-        bool keyDown = wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN;
-        // Check if the callback function is set and call it
-        if (m_keyboardEventHandler) {
-            m_keyboardEventHandler(kbStruct->vkCode, keyDown);
-        }
+    // First unhook any existing hook
+    unhookMouse();
+
+    HINSTANCE hInstance = GetModuleHandle(NULL);
+    m_mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseHookCallback, hInstance, 0);
+
+    if (!m_mouseHook) {
+        DWORD error = GetLastError();
+        OutputDebugStringW(L"Failed to install mouse hook!");
+    }
+}
+
+void WindowsIntegration::setupWindowKeyboardHook()
+{
+    // First unhook any existing hook
+    unhookKeyboard();
+
+    HINSTANCE hInstance = GetModuleHandle(NULL);
+    m_keyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, KeyboardHookCallback, hInstance, 0);
+
+    if (!m_keyboardHook) {
+        DWORD error = GetLastError();
+        OutputDebugStringW(L"Failed to install keyboard hook!");
+    }
+}
+
+LRESULT CALLBACK WindowsIntegration::MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
+{
+    if (nCode >= 0 && instance) {
+        instance->processMouseEvent(wParam, lParam);
     }
     return CallNextHookEx(NULL, nCode, wParam, lParam);
 }
 
+LRESULT CALLBACK WindowsIntegration::KeyboardHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
+{
+    if (nCode >= 0 && instance) {
+        instance->processKeyboardEvent(wParam, lParam);
+    }
+    return CallNextHookEx(NULL, nCode, wParam, lParam);
+}
+void WindowsIntegration::processMouseEvent(WPARAM wParam, LPARAM lParam)
+{
+    if (!m_mouseEventHandler) {
+        return;
+    }
+
+    static POINT lastPoint = {};
+    DWORD mouseButton = 0;
+    UINT type = WM_MOUSEMOVE;
+    POINT p {};
+
+    if (!GetCursorPos(&p)) {
+        return;
+    }
+
+    // Filter duplicate mouse move events
+    if (wParam == WM_MOUSEMOVE) {
+        if (lastPoint.x == p.x && lastPoint.y == p.y) {
+            return;
+        }
+        lastPoint = p;
+    }
+
+    switch (wParam) {
+    case WM_LBUTTONDOWN:
+        mouseButton = MK_LBUTTON;
+        type = WM_LBUTTONDOWN;
+        break;
+    case WM_LBUTTONUP:
+        mouseButton = MK_LBUTTON;
+        type = WM_LBUTTONUP;
+        break;
+    case WM_RBUTTONDOWN:
+        mouseButton = MK_RBUTTON;
+        type = WM_RBUTTONDOWN;
+        break;
+    default:
+        type = WM_MOUSEMOVE;
+    }
+
+    try {
+        m_mouseEventHandler(mouseButton, type, p);
+    } catch (...) {
+        OutputDebugStringW(L"Exception in mouse event handler!");
+    }
+}
+
+void WindowsIntegration::processKeyboardEvent(WPARAM wParam, LPARAM lParam)
+{
+    if (!m_keyboardEventHandler) {
+        return;
+    }
+
+    try {
+        KBDLLHOOKSTRUCT* kbStruct = (KBDLLHOOKSTRUCT*)lParam;
+        bool keyDown = (wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN);
+        m_keyboardEventHandler(kbStruct->vkCode, keyDown);
+    } catch (...) {
+        OutputDebugStringW(L"Exception in keyboard event handler!");
+    }
+}
+
 void WindowsIntegration::unhookMouse()
 {
-    if (m_mouseHook != NULL) {
-        UnhookWindowsHookEx(m_mouseHook);
-        m_mouseHook = NULL;
+    if (m_mouseHook) {
+        HHOOK hookToUnhook = m_mouseHook;
+        m_mouseHook = NULL; // Clear member first
+
+        if (!UnhookWindowsHookEx(hookToUnhook)) {
+            DWORD error = GetLastError();
+            OutputDebugStringW(L"Failed to unhook mouse hook!");
+        }
     }
 }
 
 void WindowsIntegration::unhookKeyboard()
 {
-    if (m_keyboardHook != NULL) {
-        UnhookWindowsHookEx(m_keyboardHook);
-        m_keyboardHook = NULL;
+    if (m_keyboardHook) {
+        HHOOK hookToUnhook = m_keyboardHook;
+        m_keyboardHook = NULL; // Clear member first
+
+        if (!UnhookWindowsHookEx(hookToUnhook)) {
+            DWORD error = GetLastError();
+            OutputDebugStringW(L"Failed to unhook keyboard hook!");
+        }
     }
 }

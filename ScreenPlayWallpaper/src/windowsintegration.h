@@ -67,6 +67,12 @@ static KeyboardEventHandler m_keyboardEventHandler;
 
 class WindowsIntegration {
 public:
+    WindowsIntegration();
+    ~WindowsIntegration();
+
+    // Prevent copying
+    WindowsIntegration(const WindowsIntegration&) = delete;
+    WindowsIntegration& operator=(const WindowsIntegration&) = delete;
     struct SpanResult {
         int width = 0;
         int height = 0;
@@ -94,17 +100,36 @@ public:
     HWND windowHandle() const;
     HWND windowHandleWorker() const;
     void setWindowHandle(HWND windowHandle);
-    void setupWindowMouseHook();
-    void unhookMouse();
-    void setMouseEventHandler(MouseEventHandler handler);
-    static LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam);
 
+    void setupWindowMouseHook();
     void setupWindowKeyboardHook();
+    // Unhook methods
+    void unhookMouse();
     void unhookKeyboard();
+    void unhookAll();
+
     void setKeyboardEventHandler(KeyboardEventHandler handler);
-    static LRESULT __stdcall KeyboardHookCallback(int nCode, WPARAM wParam, LPARAM lParam);
+    void setMouseEventHandler(MouseEventHandler handler);
+
+    // Status check methods
+    bool isMouseHookInstalled() const { return m_mouseHook != NULL; }
+    bool isKeyboardHookInstalled() const { return m_keyboardHook != NULL; }
 
 private:
+    void processMouseEvent(WPARAM wParam, LPARAM lParam);
+    void processKeyboardEvent(WPARAM wParam, LPARAM lParam);
+
+    static LRESULT __stdcall KeyboardHookCallback(int nCode, WPARAM wParam, LPARAM lParam);
+    static LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam);
+
+private:
+    static WindowsIntegration* instance;
     HWND m_windowHandle {};
     HWND m_windowHandleWorker {};
+    // Hook handles
+    HHOOK m_mouseHook;
+    HHOOK m_keyboardHook;
+    // Event handlers
+    MouseEventHandler m_mouseEventHandler;
+    KeyboardEventHandler m_keyboardEventHandler;
 };
