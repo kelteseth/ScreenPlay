@@ -28,16 +28,20 @@ ApplicationWindow {
         baseLoader.setSource("qrc:/qml/ScreenPlayApp/qml/MainApp.qml");
         const isSteamVersion = App.globalVariables.isSteamVersion();
         let platform = "";
-        if (isSteamVersion)
+        if (isSteamVersion) {
             platform = qsTr("Steam");
-        const isProVersion = App.globalVariables.isProVersion();
+        } else {
+            platform = qsTr("Standalone");
+        }
         let featureLevel = "";
-        if (isProVersion)
+        if (App.globalVariables.isProVersion()) {
             featureLevel = qsTr("Pro");
-        const isUltraVersion = App.globalVariables.isUltraVersion();
-        if (isUltraVersion)
+        } else if (App.globalVariables.isUltraVersion()) {
             featureLevel = qsTr("Ultra");
-        root.title = "ScreenPlay - v" + App.version() + " " + featureLevel + " " + platform;
+        } else {
+            featureLevel = qsTr("Standard");
+        }
+        root.title = "ScreenPlay v" + App.version() + " " + featureLevel + " " + platform;
     }
 
     Connections {
