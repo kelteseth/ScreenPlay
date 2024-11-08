@@ -7,7 +7,7 @@ set(CMAKE_AUTOMOC ON)
 find_package(Qt6 COMPONENTS Core Quick)
 
 set(HEADER
-    public/steam/isteamapplist.h
+    public/steam/isteamtimeline.h
     public/steam/isteamapps.h
     public/steam/isteamappticket.h
     public/steam/isteamclient.h
