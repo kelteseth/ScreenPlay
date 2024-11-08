@@ -1,3 +1,3 @@
 ### Steam SDK
-Version: 1.53a - 23.11.2021
+Version: 1.60 - 23.08.2024
 Download from: https://partner.steamgames.com/home

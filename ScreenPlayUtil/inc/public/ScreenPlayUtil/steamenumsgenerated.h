@@ -1,6 +1,7 @@
 // GENERATED FILE DO NOT EDIT
-// TO REGENERATE run ScreenPlayInternal\SteamSDK
+// TO REGENERATE:
 // > python.exe generate_qt_enums.py
+// Copy to ScreenPlayUtil/inc/public/ScreenPlayUtil/steamenumsgenerated.h
 
 #pragma once
 #include <QObject>
@@ -161,6 +162,8 @@ public:
         K_EResultChargerRequired = 125,
         K_EResultCachedCredentialInvalid = 126,
         K_EResultPhoneNumberIsVOIP = 127,
+        K_EResultNotSupported = 128,
+        K_EResultFamilySizeLimitExceeded = 129,
     };
     Q_ENUM(EResult)
 
@@ -373,6 +376,16 @@ public:
         K_EDurationControlOnlineState_OnlineHighPri = 3,
     };
     Q_ENUM(EDurationControlOnlineState)
+
+    enum class EBetaBranchFlags {
+        K_EBetaBranch_None = 0,
+        K_EBetaBranch_Default = 1,
+        K_EBetaBranch_Available = 2,
+        K_EBetaBranch_Private = 4,
+        K_EBetaBranch_Selected = 8,
+        K_EBetaBranch_Installed = 16,
+    };
+    Q_ENUM(EBetaBranchFlags)
 
     enum class EGameSearchErrorCode_t {
         K_EGameSearchErrorCode_OK = 1,
@@ -665,7 +678,8 @@ public:
         K_EWorkshopFileTypeSteamworksAccessInvite = 13,
         K_EWorkshopFileTypeSteamVideo = 14,
         K_EWorkshopFileTypeGameManagedItem = 15,
-        K_EWorkshopFileTypeMax = 16,
+        K_EWorkshopFileTypeClip = 16,
+        K_EWorkshopFileTypeMax = 17,
     };
     Q_ENUM(EWorkshopFileType)
 
@@ -1898,6 +1912,7 @@ public:
         K_EItemStateNeedsUpdate = 8,
         K_EItemStateDownloading = 16,
         K_EItemStateDownloadPending = 32,
+        K_EItemStateDisabledLocally = 64,
     };
     Q_ENUM(EItemState)
 
@@ -1924,6 +1939,7 @@ public:
         K_EItemPreviewType_Sketchfab = 2,
         K_EItemPreviewType_EnvironmentMap_HorizontalCross = 3,
         K_EItemPreviewType_EnvironmentMap_LatLong = 4,
+        K_EItemPreviewType_Clip = 5,
         K_EItemPreviewType_ReservedMax = 255,
     };
     Q_ENUM(EItemPreviewType)
@@ -1944,6 +1960,24 @@ public:
     };
     Q_ENUM(ESteamItemFlags)
 
+    enum class ETimelineGameMode {
+        K_ETimelineGameMode_Invalid = 0,
+        K_ETimelineGameMode_Playing = 1,
+        K_ETimelineGameMode_Staging = 2,
+        K_ETimelineGameMode_Menus = 3,
+        K_ETimelineGameMode_LoadingScreen = 4,
+        K_ETimelineGameMode_Max = 5,
+    };
+    Q_ENUM(ETimelineGameMode)
+
+    enum class ETimelineEventClipPriority {
+        K_ETimelineEventClipPriority_Invalid = 0,
+        K_ETimelineEventClipPriority_None = 1,
+        K_ETimelineEventClipPriority_Standard = 2,
+        K_ETimelineEventClipPriority_Featured = 3,
+    };
+    Q_ENUM(ETimelineEventClipPriority)
+
     enum class EParentalFeature {
         K_EFeatureInvalid = 0,
         K_EFeatureStore = 1,
@@ -1959,8 +1993,9 @@ public:
         K_EFeatureLibrary = 11,
         K_EFeatureTest = 12,
         K_EFeatureSiteLicense = 13,
-        K_EFeatureKioskMode = 14,
-        K_EFeatureMax = 15,
+        K_EFeatureKioskMode_Deprecated = 14,
+        K_EFeatureBlockAlways = 15,
+        K_EFeatureMax = 16,
     };
     Q_ENUM(EParentalFeature)
 
@@ -1970,6 +2005,7 @@ public:
         K_ESteamDeviceFormFactorTablet = 2,
         K_ESteamDeviceFormFactorComputer = 3,
         K_ESteamDeviceFormFactorTV = 4,
+        K_ESteamDeviceFormFactorVRHeadset = 5,
     };
     Q_ENUM(ESteamDeviceFormFactor)
 
@@ -2085,11 +2121,16 @@ public:
         K_ESteamNetworkingConfig_TimeoutInitial = 24,
         K_ESteamNetworkingConfig_TimeoutConnected = 25,
         K_ESteamNetworkingConfig_SendBufferSize = 9,
+        K_ESteamNetworkingConfig_RecvBufferSize = 47,
+        K_ESteamNetworkingConfig_RecvBufferMessages = 48,
+        K_ESteamNetworkingConfig_RecvMaxMessageSize = 49,
+        K_ESteamNetworkingConfig_RecvMaxSegmentsPerPacket = 50,
         K_ESteamNetworkingConfig_ConnectionUserData = 40,
         K_ESteamNetworkingConfig_SendRateMin = 10,
         K_ESteamNetworkingConfig_SendRateMax = 11,
         K_ESteamNetworkingConfig_NagleTime = 12,
         K_ESteamNetworkingConfig_IP_AllowWithoutAuth = 23,
+        K_ESteamNetworkingConfig_IPLocalHost_AllowWithoutAuth = 52,
         K_ESteamNetworkingConfig_MTU_PacketSize = 32,
         K_ESteamNetworkingConfig_MTU_DataSize = 33,
         K_ESteamNetworkingConfig_Unencrypted = 34,
@@ -2112,6 +2153,7 @@ public:
         K_ESteamNetworkingConfig_FakeRateLimit_Send_Burst = 43,
         K_ESteamNetworkingConfig_FakeRateLimit_Recv_Rate = 44,
         K_ESteamNetworkingConfig_FakeRateLimit_Recv_Burst = 45,
+        K_ESteamNetworkingConfig_OutOfOrderCorrectionWindowMicroseconds = 51,
         K_ESteamNetworkingConfig_Callback_ConnectionStatusChanged = 201,
         K_ESteamNetworkingConfig_Callback_AuthStatusChanged = 202,
         K_ESteamNetworkingConfig_Callback_RelayNetworkStatusChanged = 203,
@@ -2132,15 +2174,17 @@ public:
         K_ESteamNetworkingConfig_SDRClient_MinPingsBeforePingAccurate = 21,
         K_ESteamNetworkingConfig_SDRClient_SingleSocket = 22,
         K_ESteamNetworkingConfig_SDRClient_ForceRelayCluster = 29,
-        K_ESteamNetworkingConfig_SDRClient_DebugTicketAddress = 30,
+        K_ESteamNetworkingConfig_SDRClient_DevTicket = 30,
         K_ESteamNetworkingConfig_SDRClient_ForceProxyAddr = 31,
         K_ESteamNetworkingConfig_SDRClient_FakeClusterPing = 36,
+        K_ESteamNetworkingConfig_SDRClient_LimitPingProbesToNearestN = 60,
         K_ESteamNetworkingConfig_LogLevel_AckRTT = 13,
         K_ESteamNetworkingConfig_LogLevel_PacketDecode = 14,
         K_ESteamNetworkingConfig_LogLevel_Message = 15,
         K_ESteamNetworkingConfig_LogLevel_PacketGaps = 16,
         K_ESteamNetworkingConfig_LogLevel_P2PRendezvous = 17,
         K_ESteamNetworkingConfig_LogLevel_SDRRelayPings = 18,
+        K_ESteamNetworkingConfig_ECN = 999,
         K_ESteamNetworkingConfig_DELETED_EnumerateDevVars = 35,
         K_ESteamNetworkingConfigValue__Force32Bit = 2147483647,
     };
@@ -2169,6 +2213,14 @@ public:
         K_ESteamNetworkingSocketsDebugOutputType__Force32Bit = 2147483647,
     };
     Q_ENUM(ESteamNetworkingSocketsDebugOutputType)
+
+    enum class ESteamAPIInitResult {
+        K_ESteamAPIInitResult_OK = 0,
+        K_ESteamAPIInitResult_FailedGeneric = 1,
+        K_ESteamAPIInitResult_NoSteamClient = 2,
+        K_ESteamAPIInitResult_VersionMismatch = 3,
+    };
+    Q_ENUM(ESteamAPIInitResult)
 
     enum class EServerMode {
         EServerModeInvalid = 0,

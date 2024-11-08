@@ -28,8 +28,9 @@ if __name__ == '__main__':
     path = os.path.join(my_path, "public/steam/steam_api.json")
 
     file_begin = """// GENERATED FILE DO NOT EDIT
-// TO REGENERATE run ScreenPlayInternal\SteamSDK
-// > python.exe updateEnums.py
+// TO REGENERATE:
+// > python.exe generate_qt_enums.py
+// Copy to ScreenPlayUtil/inc/public/ScreenPlayUtil/steamenumsgenerated.h
 
 #pragma once
 #include <QObject>
