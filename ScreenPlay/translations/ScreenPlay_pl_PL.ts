@@ -12,101 +12,120 @@
     <name>CommunityView</name>
     <message>
         <source>News</source>
-        <translation type="unfinished">Aktualności</translation>
+        <translation>Aktualności</translation>
     </message>
     <message>
         <source>Wiki</source>
-        <translation type="unfinished">Wiki</translation>
+        <translation>Wiki</translation>
     </message>
     <message>
         <source>Forum</source>
-        <translation type="unfinished">Forum</translation>
+        <translation>Forum</translation>
     </message>
     <message>
         <source>Reddit</source>
-        <translation type="unfinished">Reddit</translation>
+        <translation>Reddit</translation>
     </message>
     <message>
         <source>Issue Tracker</source>
-        <translation type="unfinished">Lista problemów</translation>
+        <translation>Tracker zgłoszeń</translation>
     </message>
     <message>
         <source>Contribute</source>
-        <translation type="unfinished">Udziel się</translation>
+        <translation>Wnieś swój wkład</translation>
     </message>
     <message>
         <source>Steam Workshop</source>
-        <translation type="unfinished">Warsztat Steam</translation>
+        <translation>Warsztat Steam</translation>
+    </message>
+</context>
+<context>
+    <name>ContentSettingsView</name>
+    <message>
+        <source>Timeline</source>
+        <translation>Oś czasu</translation>
+    </message>
+    <message>
+        <source>Wallpaper Configuration</source>
+        <translation>Konfiguracja tapety</translation>
+    </message>
+    <message>
+        <source>No active Wallpaper</source>
+        <translation>Brak aktywnego tła</translation>
+    </message>
+    <message>
+        <source>Remove all</source>
+        <translation>Usuń wszystko</translation>
+    </message>
+    <message>
+        <source>running Wallpaper</source>
+        <translation>uruchomiony tapeta</translation>
+    </message>
+    <message>
+        <source>No active Widgets</source>
+        <translation>Brak aktywnych widżetów</translation>
+    </message>
+    <message>
+        <source>running Widgets</source>
+        <translation>uruchomione widżety</translation>
     </message>
 </context>
 <context>
     <name>CreateSidebar</name>
     <message>
         <source>Tools Overview</source>
-        <translation type="unfinished">Tools Overview</translation>
-    </message>
-    <message>
-        <source>Video Import h264 (.mp4)</source>
-        <translation type="unfinished">Video Import h264 (.mp4)</translation>
-    </message>
-    <message>
-        <source>Video Import VP8 &amp; VP9 (.webm)</source>
-        <translation type="unfinished">Video Import VP8 &amp; VP9 (.webm)</translation>
-    </message>
-    <message>
-        <source>Video import (all types)</source>
-        <translation type="unfinished">Video import (all types)</translation>
+        <translation>Przegląd narzędzi</translation>
     </message>
     <message>
         <source>GIF Wallpaper</source>
-        <translation type="unfinished">GIF Wallpaper</translation>
+        <translation>Tapeta GIF</translation>
     </message>
     <message>
         <source>QML Wallpaper</source>
-        <translation type="unfinished">QML Wallpaper</translation>
+        <translation>Tapeta QML</translation>
     </message>
     <message>
         <source>HTML5 Wallpaper</source>
-        <translation type="unfinished">HTML5 Wallpaper</translation>
+        <translation>Tapeta HTML5</translation>
     </message>
     <message>
         <source>Website Wallpaper</source>
-        <translation type="unfinished">Website Wallpaper</translation>
+        <translation>Tapeta na stronę</translation>
     </message>
     <message>
         <source>QML Widget</source>
-        <translation type="unfinished">QML Widget</translation>
+        <translation>Widget QML</translation>
     </message>
     <message>
         <source>HTML Widget</source>
-        <translation type="unfinished">HTML Widget</translation>
+        <translation>Widget HTML</translation>
     </message>
     <message>
         <source>3D Engine Wallpaper (Godot 4.2)</source>
-        <translation type="unfinished"></translation>
+        <translation>Tapeta silnika 3D (Godot 4.2)</translation>
+    </message>
+    <message>
+        <source>Import Video</source>
+        <translation>Importuj wideo</translation>
     </message>
 </context>
 <context>
-    <name>CreateWallpaperInit</name>
+    <name>CreateWallpaperFileSelect</name>
     <message>
-        <source>Import any video type</source>
-        <translation>Importuj dowolny typ filmu</translation>
+        <source>Import Video Wallpaper</source>
+        <translation>Importuj tapetę wideo</translation>
     </message>
     <message>
-        <source>Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper! Supported video formats are: 
+        <source>Invalid file type. Must be valid video!</source>
+        <translation>Nieprawidłowy typ pliku. Musi być to poprawne wideo!</translation>
+    </message>
+    <message>
+        <source>Drag and drop your video here. Supported video formats are:
 
-*.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</source>
-        <translation>W zależności od konfiguracji Twojego urządzenia zalecamy przekonwertować tapetę do konkretnego kodeka wideo. Jeśli wydajność jest słaba w obu przypadkach, możesz wypróbować tapetę QML! Wspierane są następujące formaty wideo: 
+%1</source>
+        <translation>Przeciągnij i upuść tutaj swój film. Obsługiwane formaty wideo to:
 
-*.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</translation>
-    </message>
-    <message>
-        <source>Set your preffered video codec:</source>
-        <translation>Ustaw preferowany kodek wideo:</translation>
-    </message>
-    <message>
-        <source>Quality slider. Lower value means better quality.</source>
-        <translation>Suwak jakości. Mniejsza wartość oznacza lepszą jakość.</translation>
+%1</translation>
     </message>
     <message>
         <source>Open Documentation</source>
@@ -133,10 +152,49 @@
     </message>
 </context>
 <context>
+    <name>CreateWallpaperSettings</name>
+    <message>
+        <source>Import Video Wallpaper - Select Codec</source>
+        <translation>Importuj tapetę wideo - wybierz kodek</translation>
+    </message>
+    <message>
+        <source>Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. We skip encoding if the input format matches the ouput format.</source>
+        <translation>W zależności od konfiguracji Twojego komputera lepiej jest przekonwertować tapetę na określony kodek wideo. Pomijamy kodowanie, jeśli format wejściowy odpowiada formatowi wyjściowemu.</translation>
+    </message>
+    <message>
+        <source>Set your preffered video codec:</source>
+        <translation>Ustaw preferowany kodek wideo:</translation>
+    </message>
+    <message>
+        <source>✨h.264 (Better for all hardware)</source>
+        <translation>✨h.264 (Lepsze dla całego sprzętu)</translation>
+    </message>
+    <message>
+        <source>VP9 (Better for newer hardware 2018+)</source>
+        <translation>VP9 (Lepsze dla nowszego sprzętu 2018+)</translation>
+    </message>
+    <message>
+        <source>VP8 (Better for older hardware)</source>
+        <translation>VP8 (Lepszy dla starszego sprzętu)</translation>
+    </message>
+    <message>
+        <source>Set video quality. Lower value means better quality.</source>
+        <translation>Ustaw jakość wideo. Niższa wartość oznacza lepszą jakość.</translation>
+    </message>
+    <message>
+        <source>Open Documentation</source>
+        <translation>Otwórz dokumentację</translation>
+    </message>
+    <message>
+        <source>Start import</source>
+        <translation>Rozpocznij import</translation>
+    </message>
+</context>
+<context>
     <name>CreateWallpaperVideoImportConvert</name>
     <message>
-        <source></source>
-        <translation></translation>
+        <source />
+        <translation />
     </message>
     <message>
         <source>Generating preview image...</source>
@@ -215,7 +273,7 @@
     </message>
     <message>
         <source>Fill Mode</source>
-        <translation type="unfinished">Fill Mode</translation>
+        <translation>Tryb wypełnienia</translation>
     </message>
     <message>
         <source>Stretch</source>
@@ -227,44 +285,43 @@
     </message>
     <message>
         <source>Contain</source>
-        <translation type="unfinished">Contain</translation>
+        <translation>Zawiera</translation>
     </message>
     <message>
         <source>Cover</source>
-        <translation type="unfinished">Cover</translation>
+        <translation>Okładka</translation>
     </message>
     <message>
-        <source>Scale_Down</source>
-        <translation type="unfinished">Scale_Down</translation>
+        <source>Scale Down</source>
+        <translation>Zmniejsz</translation>
     </message>
 </context>
 <context>
     <name>ExitPopup</name>
     <message>
         <source>Minimize ScreenPlay</source>
-        <translation type="unfinished">Minimize ScreenPlay</translation>
+        <translation>Zminimalizuj ScreenPlay</translation>
     </message>
     <message>
         <source>Always minimize ScreenPlay</source>
-        <translation type="unfinished">Always minimize ScreenPlay</translation>
+        <translation>Zawsze minimalizuj ScreenPlay</translation>
     </message>
     <message>
         <source>You have active Wallpaper.
 ScreenPlay will only quit if no Wallpaper are running.</source>
-        <translation type="unfinished">You have active Wallpaper.
-ScreenPlay will only quit if no Wallpaper are running.</translation>
+        <translation>Masz aktywne tapety. ScreenPlay zamknie się tylko, jeśli żadne tapety nie będą działać.</translation>
     </message>
     <message>
         <source>You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the bottom right Tray-Icon.</source>
-        <translation type="unfinished">You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the bottom right Tray-Icon.</translation>
+        <translation>Możesz &lt;b&gt;wyjść&lt;/b&gt; z ScreenPlay za pomocą ikonki w prawym dolnym rogu.</translation>
     </message>
     <message>
         <source>You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the top right Tray-Icon.</source>
-        <translation type="unfinished">You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the top right Tray-Icon.</translation>
+        <translation>Możesz &lt;b&gt;wyjść&lt;/b&gt; z ScreenPlay za pomocą ikony w zasobniku w prawym górnym rogu.</translation>
     </message>
     <message>
         <source>Quit ScreenPlay now</source>
-        <translation type="unfinished">Quit ScreenPlay now</translation>
+        <translation>Zamknij ScreenPlay teraz</translation>
     </message>
 </context>
 <context>
@@ -274,8 +331,8 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
         <translation>Importuj tapetę Gif</translation>
     </message>
     <message>
-        <source>Drop a *.gif file here or use &apos;Select file&apos; below.</source>
-        <translation>Przeciągnij tutaj plik *.gif lub naciśnij &apos;Wybierz plik&apos;.</translation>
+        <source>Drop a *.gif file here or use 'Select file' below.</source>
+        <translation>Przeciągnij tutaj plik *.gif lub naciśnij 'Wybierz plik'.</translation>
     </message>
     <message>
         <source>Select your gif</source>
@@ -302,31 +359,31 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     <name>GodotWallpaper</name>
     <message>
         <source>Create a Godot Wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation>Utwórz tapetę Godot</translation>
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished">Ogólne</translation>
+        <translation>Ogólne</translation>
     </message>
     <message>
         <source>Wallpaper name</source>
-        <translation type="unfinished">Nazwa tapety</translation>
+        <translation>Nazwa tapety</translation>
     </message>
     <message>
         <source>Created By</source>
-        <translation type="unfinished">Utworzone przez</translation>
+        <translation>Utworzone przez</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Opis</translation>
+        <translation>Opis</translation>
     </message>
     <message>
         <source>License &amp; Tags</source>
-        <translation type="unfinished">Licencja i znaczniki</translation>
+        <translation>Licencja i tagi</translation>
     </message>
     <message>
         <source>Preview Image</source>
-        <translation type="unfinished">Obraz podglądu</translation>
+        <translation>Podgląd obrazu</translation>
     </message>
 </context>
 <context>
@@ -386,290 +443,147 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
 <context>
     <name>ImportWebmConvert</name>
     <message>
-        <source></source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>AnalyseVideo...</source>
-        <translation>Analizowanie filmu...</translation>
-    </message>
-    <message>
-        <source>Generating preview image...</source>
-        <translation>Generowanie obrazu podglądu...</translation>
-    </message>
-    <message>
-        <source>Generating preview thumbnail image...</source>
-        <translation>Generowanie miniaturki podglądu...</translation>
-    </message>
-    <message>
-        <source>Generating 5 second preview video...</source>
-        <translation>Generowanie 5-sekundowego podglądu wideo...</translation>
-    </message>
-    <message>
-        <source>Generating preview gif...</source>
-        <translation>Generowanie podglądu gif...</translation>
-    </message>
-    <message>
-        <source>Converting Audio...</source>
-        <translation>Konwertowanie dźwięku...</translation>
-    </message>
-    <message>
-        <source>Converting Video... This can take some time!</source>
-        <translation>Konwertowanie wideo... Może to zająć trochę czasu!</translation>
-    </message>
-    <message>
-        <source>Converting Video ERROR!</source>
-        <translation>BŁĄD konwertowania wideo!</translation>
-    </message>
-    <message>
-        <source>Analyse Video ERROR!</source>
-        <translation>BŁĄD analizowania filmu!</translation>
-    </message>
-    <message>
-        <source>Import a video to a wallpaper</source>
-        <translation>Importowanie filmu jako tapetę</translation>
-    </message>
-    <message>
-        <source>Generating preview video...</source>
-        <translation>Generowanie podglądu wideo...</translation>
-    </message>
-    <message>
-        <source>Name (required!)</source>
-        <translation>Nazwa (wymagane!)</translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <translation>Opis</translation>
-    </message>
-    <message>
-        <source>Youtube URL</source>
-        <translation>Adres URL YouTube</translation>
-    </message>
-    <message>
-        <source>Abort</source>
-        <translation>Przerwij</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Zapisz</translation>
-    </message>
-    <message>
-        <source>Save Wallpaper...</source>
-        <translation>Zapisz tapetę...</translation>
-    </message>
-</context>
-<context>
-    <name>ImportWebmInit</name>
-    <message>
-        <source>Import a .webm video</source>
-        <translation>Importuj film .webm</translation>
-    </message>
-    <message>
-        <source>When importing webm we can skip the long conversion. When you get unsatisfying results with the ScreenPlay importer from &apos;ideo import and convert (all types)&apos; you can also convert via the free and open source HandBrake!</source>
-        <translation>Importowanie pliku webm pozwala na ominięcie czasochłonnej konwersji. Jeśli rezultat importera ScreenPlay po użyciu opcji &apos;importuj i konwertuj film (dowolny typ)&apos; nie będzie dla Ciebie satysfakcjonujący, możesz przekonwertować film korzystając z bezpłatnego programu o otwartym źródle o nazwie HandBrake!</translation>
-    </message>
-    <message>
-        <source>Invalid file type. Must be valid VP8 or VP9 (*.webm)!</source>
-        <translation>Nieprawidłowy typ pliku. Należy wybrać plik VP8 lub VP9 (*.webm)!</translation>
-    </message>
-    <message>
-        <source>Drop a *.webm file here or use &apos;Select file&apos; below.</source>
-        <translation>Przeciągnij tutaj plik *.webm lub naciśnij &apos;Wybierz plik&apos;.</translation>
-    </message>
-    <message>
-        <source>Open Documentation</source>
-        <translation>Otwórz dokumentację</translation>
-    </message>
-    <message>
-        <source>Select file</source>
-        <translation>Wybierz plik</translation>
-    </message>
-</context>
-<context>
-    <name>Importh264Convert</name>
-    <message>
-        <source>AnalyseVideo...</source>
-        <translation>Analizowanie filmu...</translation>
-    </message>
-    <message>
-        <source>Generating preview image...</source>
-        <translation>Generowanie obrazu podglądu...</translation>
-    </message>
-    <message>
-        <source>Generating preview thumbnail image...</source>
-        <translation>Generowanie miniaturki podglądu...</translation>
-    </message>
-    <message>
-        <source>Generating 5 second preview video...</source>
-        <translation>Generowanie 5-sekundowego podglądu wideo...</translation>
-    </message>
-    <message>
-        <source>Generating preview gif...</source>
-        <translation>Generowanie podglądu gif...</translation>
-    </message>
-    <message>
-        <source>Converting Audio...</source>
-        <translation>Konwertowanie dźwięku...</translation>
-    </message>
-    <message>
-        <source>Converting Video... This can take some time!</source>
-        <translation>Konwertowanie wideo... Może to zająć trochę czasu!</translation>
-    </message>
-    <message>
-        <source>Converting Video ERROR!</source>
-        <translation>BŁĄD konwertowania wideo!</translation>
-    </message>
-    <message>
-        <source>Analyse Video ERROR!</source>
-        <translation>BŁĄD analizowania filmu!</translation>
-    </message>
-    <message>
-        <source>Import a video to a wallpaper</source>
-        <translation>Importowanie filmu jako tapetę</translation>
-    </message>
-    <message>
-        <source>Generating preview video...</source>
-        <translation>Generowanie podglądu wideo...</translation>
-    </message>
-    <message>
-        <source>Name (required!)</source>
-        <translation>Nazwa (wymagane!)</translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <translation>Opis</translation>
-    </message>
-    <message>
-        <source>Youtube URL</source>
-        <translation>Adres URL YouTube</translation>
-    </message>
-    <message>
-        <source>Abort</source>
-        <translation>Przerwij</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Zapisz</translation>
-    </message>
-    <message>
-        <source>Save Wallpaper...</source>
-        <translation>Zapisz tapetę...</translation>
-    </message>
-</context>
-<context>
-    <name>Importh264Init</name>
-    <message>
-        <source>Import a .mp4 video</source>
-        <translation>Importuj film .mp4</translation>
-    </message>
-    <message>
-        <source>Invalid file type. Must be valid h264 (*.mp4)!</source>
-        <translation>Nieprawidłowy typ pliku. Należy użyć prawidłowy plik h264 (*.mp4)!</translation>
-    </message>
-    <message>
-        <source>Drop a *.mp4 file here or use &apos;Select file&apos; below.</source>
-        <translation>Przeciągnij tutaj plik *.mp4 lub naciśnij &apos;Wybierz plik&apos;.</translation>
-    </message>
-    <message>
-        <source>Open Documentation</source>
-        <translation>Otwórz dokumentację</translation>
-    </message>
-    <message>
-        <source>Select file</source>
-        <translation>Wybierz plik</translation>
-    </message>
-    <message>
-        <source>ScreenPlay v0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.</source>
-        <translation type="unfinished"></translation>
+        <source />
+        <translation />
     </message>
 </context>
 <context>
     <name>Installed</name>
     <message>
-        <source></source>
-        <translation></translation>
+        <source />
+        <translation />
+    </message>
+</context>
+<context>
+    <name>InstalledDrawer</name>
+    <message>
+        <source>🚀You need ScreenPlay Pro or compile it yourself</source>
+        <translation>🚀Potrzebujesz ScreenPlay Pro lub skompiluj to samodzielnie</translation>
+    </message>
+    <message>
+        <source>1. Set the duration your wallpaper should be visible</source>
+        <translation>1. Ustaw czas, przez jaki twój tapeta ma być widoczna</translation>
+    </message>
+    <message>
+        <source>1. Set a Monitor to display the content</source>
+        <translation>1. Ustaw monitor, aby wyświetlić treść</translation>
+    </message>
+    <message>
+        <source>2. Set a Monitor to display the content</source>
+        <translation>2. Ustaw monitor do wyświetlania treści</translation>
+    </message>
+    <message>
+        <source>No active timeline to remove wallpaper</source>
+        <translation>Brak aktywnej osi czasu do usunięcia tapety</translation>
+    </message>
+    <message>
+        <source>Headline</source>
+        <translation>Nagłówek</translation>
+    </message>
+    <message>
+        <source>2. Set Wallpaper</source>
+        <translation>2. Ustaw tapetę</translation>
+    </message>
+    <message>
+        <source>3. Set Wallpaper</source>
+        <translation>3. Ustaw tapetę</translation>
+    </message>
+    <message>
+        <source>You are not allowed to do that!</source>
+        <translation>Nie masz na to pozwolenia!</translation>
+    </message>
+</context>
+<context>
+    <name>InstalledItem</name>
+    <message>
+        <source>NEW</source>
+        <translation>NOWY</translation>
+    </message>
+    <message>
+        <source>Start</source>
+        <translation>Start</translation>
     </message>
 </context>
 <context>
     <name>InstalledNavigation</name>
     <message>
         <source>All</source>
-        <translation type="unfinished">All</translation>
+        <translation>Wszystko</translation>
     </message>
     <message>
         <source>Scenes</source>
-        <translation type="unfinished">Scenes</translation>
+        <translation>Sceny</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished">Videos</translation>
+        <translation>Wideo</translation>
     </message>
     <message>
         <source>Widgets</source>
-        <translation type="unfinished">Widgets</translation>
+        <translation>Widgety</translation>
     </message>
     <message>
         <source>Search for Wallpaper &amp; Widgets</source>
-        <translation type="unfinished"></translation>
+        <translation>Szukaj tapet i widgetów</translation>
     </message>
 </context>
 <context>
     <name>InstalledView</name>
     <message>
         <source>Refreshing!</source>
-        <translation type="unfinished">Odświeżanie!</translation>
+        <translation>Odświeżam!</translation>
     </message>
     <message>
         <source>Pull to refresh!</source>
-        <translation type="unfinished">Przesuń, aby odświeżyć!</translation>
+        <translation>Pociągnij, aby odświeżyć!</translation>
     </message>
     <message>
         <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
-        <translation type="unfinished">Więcej tapet oraz widżetów dostępne przez Warsztat Steam!</translation>
+        <translation>Zdobądź więcej tapet i widgetów w warsztacie Steam!</translation>
     </message>
     <message>
         <source>Edit Wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation>Edytuj tapetę</translation>
     </message>
     <message>
         <source>Open containing folder</source>
-        <translation type="unfinished">Otwórz lokalizację pliku</translation>
+        <translation>Otwórz folder zawierający</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished">Export</translation>
+        <translation>Eksportuj</translation>
     </message>
     <message>
         <source>Remove Item</source>
-        <translation type="unfinished">Usuń element</translation>
+        <translation>Usuń element</translation>
     </message>
     <message>
         <source>Remove via Workshop</source>
-        <translation type="unfinished">Usuń poprzez Warsztat</translation>
+        <translation>Usuń przez Warsztat</translation>
     </message>
     <message>
         <source>Open Workshop Page</source>
-        <translation type="unfinished">Otwórz stronę Warsztatu</translation>
+        <translation>Otwórz stronę warsztatu</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this item?</source>
-        <translation type="unfinished">Czy na pewno chcesz usunąć ten element?</translation>
+        <translation>Czy na pewno chcesz usunąć ten element?</translation>
     </message>
     <message>
         <source>Export Content...</source>
-        <translation type="unfinished">Export Content...</translation>
+        <translation>Eksportuj zawartość...</translation>
     </message>
     <message>
         <source>We only support adding one item at once.</source>
-        <translation type="unfinished">We only support adding one item at once.</translation>
+        <translation>Obsługujemy tylko dodawanie jednego elementu naraz.</translation>
     </message>
     <message>
-        <source>File type not supported. We only support &apos;.screenplay&apos; files.</source>
-        <translation type="unfinished">File type not supported. We only support &apos;.screenplay&apos; files.</translation>
+        <source>File type not supported. We only support '.screenplay' files.</source>
+        <translation>Typ pliku nie jest obsługiwany. Obsługujemy tylko pliki '.screenplay'.</translation>
     </message>
     <message>
         <source>Import Content...</source>
-        <translation type="unfinished">Import Content...</translation>
+        <translation>Importuj zawartość...</translation>
     </message>
 </context>
 <context>
@@ -684,11 +598,37 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
     <message>
         <source>Get content via our forum</source>
-        <translation type="unfinished">Get content via our forum</translation>
+        <translation>Pobierz treści przez nasze forum</translation>
     </message>
     <message>
         <source>Open the ScreenPlay forum</source>
-        <translation type="unfinished">Open the ScreenPlay forum</translation>
+        <translation>Otwórz forum ScreenPlay</translation>
+    </message>
+</context>
+<context>
+    <name>LineIndicator</name>
+    <message>
+        <source>You cannot remove the last timeline. There must always be 🌩️ a timeline wallpaper.</source>
+        <translation>Nie możesz usunąć ostatniego harmonogramu. Zawsze musi być 🌩️ tło harmonogramu.</translation>
+    </message>
+</context>
+<context>
+    <name>MonitorSelectionItem</name>
+    <message>
+        <source>Inactive</source>
+        <translation>Nieaktywny</translation>
+    </message>
+    <message>
+        <source>Starting</source>
+        <translation>Rozpoczynanie</translation>
+    </message>
+    <message>
+        <source>Closing</source>
+        <translation>Zamykanie</translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation>Aktywny</translation>
     </message>
 </context>
 <context>
@@ -700,29 +640,6 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     <message>
         <source>Please choose a color</source>
         <translation>Należy wybrać kolor</translation>
-    </message>
-</context>
-<context>
-    <name>MonitorsView</name>
-    <message>
-        <source>Wallpaper Configuration</source>
-        <translation type="unfinished">Konfiguracja tapety</translation>
-    </message>
-    <message>
-        <source>Remove selected</source>
-        <translation type="unfinished">Usuń wybrane</translation>
-    </message>
-    <message>
-        <source>Remove all </source>
-        <translation type="unfinished">Usuń wszystkie </translation>
-    </message>
-    <message>
-        <source>Wallpapers</source>
-        <translation type="unfinished">Tapety</translation>
-    </message>
-    <message>
-        <source>Widgets</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -756,16 +673,28 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
         <translation>Wstrzymaj/Odtwórz wszystkie tapety</translation>
     </message>
     <message>
-        <source>Configure Wallpaper</source>
-        <translation>Konfiguruj tapetę</translation>
+        <source>Get ScreenPlay Pro 3D Wallpaper and Timelines!</source>
+        <translation>Pobierz tapetę 3D ScreenPlay Pro i harmonogramy!</translation>
     </message>
     <message>
-        <source>Support me on Patreon!</source>
-        <translation>Wspieraj nas na Patreon!</translation>
+        <source>ScreenPlay Pro Active</source>
+        <translation>ScreenPlay Pro Aktywny</translation>
     </message>
     <message>
-        <source>Close All Content</source>
-        <translation>Zamknij wszystkie treści</translation>
+        <source>ScreenPlay ULTRA Active</source>
+        <translation>ScreenPlay ULTRA Aktywny</translation>
+    </message>
+    <message>
+        <source>Stop All Running Content</source>
+        <translation>Zatrzymaj wszystkie odtwarzane treści</translation>
+    </message>
+    <message>
+        <source>Configure Content</source>
+        <translation>Skonfiguruj treść</translation>
+    </message>
+    <message>
+        <source>No Active Content</source>
+        <translation>Brak aktywnej zawartości</translation>
     </message>
 </context>
 <context>
@@ -803,7 +732,7 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     <name>QMLWallpaperMain</name>
     <message>
         <source>My ScreenPlay Wallpaper 🚀</source>
-        <translation type="unfinished"></translation>
+        <translation>Moje tło ekranu 🚀</translation>
     </message>
 </context>
 <context>
@@ -833,7 +762,7 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     <name>QMLWidgetMain</name>
     <message>
         <source>My Widget 🚀</source>
-        <translation type="unfinished">My Widget 🚀</translation>
+        <translation>Mój Widget 🚀</translation>
     </message>
 </context>
 <context>
@@ -844,10 +773,71 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
 </context>
 <context>
-    <name>ScreenPlayItem</name>
+    <name>ScreenPlay::Wizards</name>
     <message>
-        <source>NEW</source>
-        <translation>NOWE</translation>
+        <source>Unable to create temporary folder</source>
+        <translation>Nie można utworzyć folderu tymczasowego</translation>
+    </message>
+    <message>
+        <source>Could not write %1</source>
+        <translation>Nie udało się zapisać %1</translation>
+    </message>
+    <message>
+        <source>Could not write main.qml</source>
+        <translation>Nie udało się zapisać main.qml</translation>
+    </message>
+    <message>
+        <source>Could not copy thumbnail</source>
+        <translation>Nie udało się skopiować miniatury</translation>
+    </message>
+    <message>
+        <source>Could not write project file</source>
+        <translation>Nie udało się zapisać pliku projektu</translation>
+    </message>
+    <message>
+        <source>Could not write index.html</source>
+        <translation>Nie udało się zapisać index.html</translation>
+    </message>
+    <message>
+        <source>Could copy preview thumbnail</source>
+        <translation>Można skopiować miniaturę podglądu</translation>
+    </message>
+    <message>
+        <source>Could not write QmlProject.qmlproject</source>
+        <translation>Nie udało się zapisać QmlProject.qmlproject</translation>
+    </message>
+    <message>
+        <source>Could not write project.godot</source>
+        <translation>Nie udało się zapisać project.godot</translation>
+    </message>
+    <message>
+        <source>Could not write spinner.gd</source>
+        <translation>Nie udało się zapisać spinner.gd</translation>
+    </message>
+    <message>
+        <source>Could not write wallpaper.tscn</source>
+        <translation>Nie można zapisać wallpaper.tscn</translation>
+    </message>
+    <message>
+        <source>Could not write export_presets.cfg</source>
+        <translation>Nie można zapisać export_presets.cfg</translation>
+    </message>
+    <message>
+        <source>Could not copy gif</source>
+        <translation>Nie udało się skopiować gif</translation>
+    </message>
+</context>
+<context>
+    <name>ScreenPlayProPopup</name>
+    <message>
+        <source>✅ 3D Wallpaper
+✅ Wallpaper Timeline</source>
+        <translation>✅ Tapeta 3D
+✅ Oś czasu tapety</translation>
+    </message>
+    <message>
+        <source>Get ScreenPlay Pro</source>
+        <translation>Pobierz ScreenPlay Pro</translation>
     </message>
 </context>
 <context>
@@ -861,210 +851,163 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     <name>SettingsView</name>
     <message>
         <source>General</source>
-        <translation type="unfinished">Ogólne</translation>
+        <translation>Ogólne</translation>
     </message>
     <message>
         <source>Autostart</source>
-        <translation type="unfinished">Autostart</translation>
+        <translation>Autostart</translation>
     </message>
     <message>
         <source>ScreenPlay will start with Windows and will setup your Desktop every time for you.</source>
-        <translation type="unfinished">ScreenPlay zostanie uruchomione przy starcie systemu Windows i ustawi dla Ciebie tapetę za każdym razem.</translation>
+        <translation>ScreenPlay uruchomi się wraz z systemem Windows i za każdym razem skonfiguruje twój pulpit.</translation>
     </message>
     <message>
         <source>Send anonymous crash reports and statistics</source>
-        <translation type="unfinished">Wysyłaj anonimowe raporty o awariach oraz statystyki</translation>
+        <translation>Wyślij anonimowe raporty o awariach i statystyki</translation>
     </message>
     <message>
-        <source>Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use &lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; to collect and analyze this data. A &lt;b&gt;big thanks to them&lt;/b&gt; for providing us with free premium support for open source projects!</source>
-        <translation type="unfinished">Pomóż nam poprawić działanie oraz stabilność ScreenPlay. Wszystkie zgromadzone dane są w pełni anonimowe i używane tylko w celach rozwoju! Korzystamy z &lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt;, aby gromadzić i analizować te dane. &lt;b&gt;Ogromne podziękowania dla nich&lt;/b&gt; za zapewnienie nam bezpłatnego wsparcia premium dla projektów o otwartym źródle!</translation>
+        <source>Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use &lt;a href="https://sentry.io"&gt;sentry.io&lt;/a&gt; to collect and analyze this data. A &lt;b&gt;big thanks to them&lt;/b&gt; for providing us with free premium support for open source projects!</source>
+        <translation>Pomóż nam uczynić ScreenPlay szybszym i bardziej stabilnym. Wszystkie zebrane dane są całkowicie anonimowe i wykorzystywane tylko do celów rozwojowych! Używamy &lt;a href="https://sentry.io"&gt;sentry.io&lt;/a&gt;, aby zbierać i analizować te dane. &lt;b&gt;Wielkie dzięki dla nich&lt;/b&gt; za zapewnienie nam darmowego wsparcia premium dla projektów open source!</translation>
     </message>
     <message>
         <source>Set save location</source>
-        <translation type="unfinished">Ustaw lokalizację zapisu</translation>
+        <translation>Ustaw lokalizację zapisu</translation>
     </message>
     <message>
         <source>Set location</source>
-        <translation type="unfinished">Ustaw lokalizację</translation>
+        <translation>Ustaw lokalizację</translation>
     </message>
     <message>
         <source>Your storage path is empty!</source>
-        <translation type="unfinished">Ścieżka do pamięci jest pusta!</translation>
+        <translation>Twoja ścieżka do pamięci jest pusta!</translation>
     </message>
     <message>
         <source>Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</source>
-        <translation type="unfinished">Uwaga: Zmiana tego katalogu nie ma wpływu na ścieżkę pobierania z warsztatu. ScreenPlay wspiera posiadanie tylko jednego folderu na treść!</translation>
+        <translation>Ważne: Zmiana tego katalogu nie ma wpływu na ścieżkę pobierania warsztatu. ScreenPlay obsługuje tylko jeden folder zawartości!</translation>
     </message>
     <message>
         <source>Language</source>
-        <translation type="unfinished">Język</translation>
+        <translation>Język</translation>
     </message>
     <message>
         <source>Set the ScreenPlay UI Language</source>
-        <translation type="unfinished">Ustaw język interfejsu ScreenPlay</translation>
+        <translation>Ustaw język interfejsu ScreenPlay</translation>
     </message>
     <message>
         <source>Theme</source>
-        <translation type="unfinished">Motyw</translation>
+        <translation>Motyw</translation>
     </message>
     <message>
         <source>Switch dark/light theme</source>
-        <translation type="unfinished">Zmień motyw na jasny/ciemny</translation>
+        <translation>Przełącz motyw ciemny/jasny</translation>
     </message>
     <message>
         <source>System Default</source>
-        <translation type="unfinished">Systemowy</translation>
+        <translation>Domyślne ustawienia systemowe</translation>
     </message>
     <message>
         <source>Dark</source>
-        <translation type="unfinished">Ciemny</translation>
+        <translation>Ciemny</translation>
     </message>
     <message>
         <source>Light</source>
-        <translation type="unfinished">Jasny</translation>
+        <translation>Jasny</translation>
     </message>
     <message>
         <source>Wallpaper and Widgets</source>
-        <translation type="unfinished"></translation>
+        <translation>Tapeta i widżety</translation>
     </message>
     <message>
         <source>Pause wallpaper video rendering while another app is in the foreground.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wstrzymaj renderowanie wideo tapety, gdy inna aplikacja jest na pierwszym planie.</translation>
     </message>
     <message>
         <source>Limitations: This setting is Windows only, currently only works if you have exactly one monitor connected, and is limited to wallpapers with no audio. Wallpaper restart is required, when changing this setting!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ograniczenia: Ta opcja jest dostępna tylko w systemie Windows, obecnie działa tylko wtedy, gdy masz podłączony dokładnie jeden monitor, i jest ograniczona do tapet bez dźwięku. Wymagane jest ponowne uruchomienie tapety po zmianie tej opcji!</translation>
     </message>
     <message>
         <source>Default Wallpaper Fill Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Domyślny tryb wypełnienia tapety</translation>
     </message>
     <message>
         <source>Set this property to define how the video is scaled to fit the target area.</source>
-        <translation type="unfinished">To ustawienie określa, w jaki sposób film jest skalowany, aby dopasować go do obszaru docelowego.</translation>
+        <translation>Ustaw tę właściwość, aby określić, jak wideo jest skalowane, aby dopasować się do docelowego obszaru.</translation>
     </message>
     <message>
         <source>Stretch</source>
-        <translation type="unfinished">Rozciągnięcie</translation>
+        <translation>Rozciągnij</translation>
     </message>
     <message>
         <source>Fill</source>
-        <translation type="unfinished"></translation>
+        <translation>Wypełnij</translation>
     </message>
     <message>
         <source>Contain</source>
-        <translation type="unfinished">Contain</translation>
+        <translation>Zawiera</translation>
     </message>
     <message>
         <source>Cover</source>
-        <translation type="unfinished">Cover</translation>
+        <translation>Okładka</translation>
     </message>
     <message>
         <source>Scale-Down</source>
-        <translation type="unfinished">Scale-Down</translation>
+        <translation>Skaluj w dół</translation>
     </message>
     <message>
         <source>About</source>
-        <translation type="unfinished">Informacje</translation>
+        <translation>O aplikacji</translation>
     </message>
     <message>
         <source>Thank you for using ScreenPlay</source>
-        <translation type="unfinished">Dziękujemy za wypróbowanie ScreenPlay</translation>
+        <translation>Dziękujemy za korzystanie z ScreenPlay</translation>
     </message>
     <message>
-        <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
-        <translation type="unfinished">Cześć, nazywam się Elias Steurer znany również jako Kelteseth i jestem programistą ScreenPlay. Dziękuję Ci za wypróbowanie mojego oprogramowania. Obserwuj mnie, aby być na bieżąco z aktualizacjami ScreenPlay:</translation>
+        <source>Hi, I'm Elias Steurer also known as Kelteseth and I'm the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
+        <translation>Cześć, nazywam się Elias Steurer, znany również jako Kelteseth, i jestem twórcą aplikacji ScreenPlay. Dziękuję za korzystanie z mojego oprogramowania. Możesz mnie śledzić, aby otrzymywać aktualizacje dotyczące ScreenPlay tutaj:</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished">Wersja</translation>
+        <translation>Wersja</translation>
     </message>
     <message>
         <source>Open Changelog</source>
-        <translation type="unfinished">Wyświetl listę zmian</translation>
+        <translation>Otwórz dziennik zmian</translation>
     </message>
     <message>
         <source>Third Party Software</source>
-        <translation type="unfinished">Oprogramowanie zewnętrzne</translation>
+        <translation>Oprogramowanie innych firm</translation>
     </message>
     <message>
         <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
-        <translation type="unfinished">ScreenPlay nie powstałoby gdyby nie prace innych osób. Ogromne podziękowania dla: </translation>
+        <translation>ScreenPlay nie byłby możliwy bez pracy innych. Wielkie podziękowania dla: </translation>
     </message>
     <message>
         <source>Licenses</source>
-        <translation type="unfinished">Licencje</translation>
+        <translation>Licencje</translation>
     </message>
     <message>
         <source>Logs</source>
-        <translation type="unfinished">Rejestry</translation>
+        <translation>Dzienniki</translation>
     </message>
     <message>
         <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
-        <translation type="unfinished">Tutaj znajdziesz wyjaśnienie, jeśli ScreenPlay nie działa poprawnie. Wyświetla wszystkie rejestry oraz ostrzeżenia podczas działania.</translation>
+        <translation>Jeśli twój ScreenPlay ma problemy, to dobry sposób, aby znaleźć odpowiedzi. To pokazuje wszystkie logi i ostrzeżenia w trakcie działania.</translation>
     </message>
     <message>
         <source>Show Logs</source>
-        <translation type="unfinished">Pokaż rejestry</translation>
+        <translation>Pokaż logi</translation>
     </message>
     <message>
         <source>Data Protection</source>
-        <translation type="unfinished">Ochrona danych</translation>
+        <translation>Ochrona danych</translation>
     </message>
     <message>
         <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
-        <translation type="unfinished">Bardzo ostrożnie używamy danych w celu rozwoju ScreenPlay. Nie sprzedajemy oraz nie udostępniamy tych (anonimowych) informacji osobom trzecim!</translation>
+        <translation>Bardzo ostrożnie korzystamy z Twoich danych, aby ulepszyć ScreenPlay. Nie sprzedajemy ani nie udostępniamy tych (anonimowych) informacji innym!</translation>
     </message>
     <message>
         <source>Privacy</source>
-        <translation type="unfinished">Prywatność</translation>
-    </message>
-</context>
-<context>
-    <name>Sidebar</name>
-    <message>
-        <source>Set Wallpaper</source>
-        <translation>Ustaw tapetę</translation>
-    </message>
-    <message>
-        <source>Set Widget</source>
-        <translation>Ustaw widżet</translation>
-    </message>
-    <message>
-        <source>Headline</source>
-        <translation>Nagłówek</translation>
-    </message>
-    <message>
-        <source>Select a Monitor to display the content</source>
-        <translation>Wybierz monitor do wyświetlania treści</translation>
-    </message>
-    <message>
-        <source>Set Volume</source>
-        <translation>Ustaw głośność</translation>
-    </message>
-    <message>
-        <source>Fill Mode</source>
-        <translation>Tryb wypełnienia</translation>
-    </message>
-    <message>
-        <source>Stretch</source>
-        <translation>Rozciągnięcie</translation>
-    </message>
-    <message>
-        <source>Fill</source>
-        <translation>Wypełnienie</translation>
-    </message>
-    <message>
-        <source>Contain</source>
-        <translation type="unfinished">Contain</translation>
-    </message>
-    <message>
-        <source>Cover</source>
-        <translation type="unfinished">Cover</translation>
-    </message>
-    <message>
-        <source>Scale-Down</source>
-        <translation type="unfinished">Scale-Down</translation>
+        <translation>Prywatność</translation>
     </message>
 </context>
 <context>
@@ -1079,65 +1022,80 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
 </context>
 <context>
+    <name>Timeline</name>
+    <message>
+        <source>Unable to add Timeline</source>
+        <translation>Nie można dodać osi czasu</translation>
+    </message>
+    <message>
+        <source>Reseting...</source>
+        <translation>Resetowanie...</translation>
+    </message>
+    <message>
+        <source>❌ Reset</source>
+        <translation>❌ Zresetuj</translation>
+    </message>
+</context>
+<context>
     <name>TrayIcon</name>
     <message>
         <source>ScreenPlay - Double click to change you settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>ScreenPlay - Kliknij dwukrotnie, aby zmienić ustawienia.</translation>
     </message>
     <message>
         <source>Open ScreenPlay</source>
-        <translation type="unfinished"></translation>
+        <translation>Otwórz ScreenPlay</translation>
     </message>
     <message>
         <source>Mute all</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyłącz wszystko</translation>
     </message>
     <message>
         <source>Unmute all</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz dźwięk dla wszystkich</translation>
     </message>
     <message>
         <source>Pause all</source>
-        <translation type="unfinished"></translation>
+        <translation>Wstrzymaj wszystko</translation>
     </message>
     <message>
         <source>Play all</source>
-        <translation type="unfinished"></translation>
+        <translation>Odtwórz wszystko</translation>
     </message>
     <message>
         <source>Quit ScreenPlay</source>
-        <translation type="unfinished"></translation>
+        <translation>Zamknij ScreenPlay</translation>
     </message>
     <message>
         <source>Change Wallpaper settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Zmień ustawienia tapety</translation>
     </message>
     <message>
         <source>Browse Workshop</source>
-        <translation type="unfinished"></translation>
+        <translation>Przeglądaj warsztat</translation>
     </message>
     <message>
         <source>Create new Wallpaper or Widgets</source>
-        <translation type="unfinished"></translation>
+        <translation>Utwórz nowe tapety lub widżety</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished">Ustawienia</translation>
+        <translation>Ustawienia</translation>
     </message>
     <message>
         <source>Forums and Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Fora i Pomoc</translation>
     </message>
     <message>
         <source>Frequently Asked Questions (FAQ)</source>
-        <translation type="unfinished"></translation>
+        <translation>Najczęściej Zadawane Pytania (FAQ)</translation>
     </message>
 </context>
 <context>
     <name>WebsiteWallpaper</name>
     <message>
         <source>Create a Website Wallpaper</source>
-        <translation type="unfinished">Create a Website Wallpaper</translation>
+        <translation>Utwórz tapetę strony internetowej</translation>
     </message>
     <message>
         <source>General</source>
@@ -1180,6 +1138,29 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     <message>
         <source>News &amp; Patchnotes</source>
         <translation>Aktualności i lista zmian</translation>
+    </message>
+</context>
+<context>
+    <name>main</name>
+    <message>
+        <source>Steam</source>
+        <translation>Steam</translation>
+    </message>
+    <message>
+        <source>Standalone</source>
+        <translation>Samodzielny</translation>
+    </message>
+    <message>
+        <source>Pro</source>
+        <translation>Pro</translation>
+    </message>
+    <message>
+        <source>Ultra</source>
+        <translation>Ultra</translation>
+    </message>
+    <message>
+        <source>Standard</source>
+        <translation>Standardowy</translation>
     </message>
 </context>
 </TS>

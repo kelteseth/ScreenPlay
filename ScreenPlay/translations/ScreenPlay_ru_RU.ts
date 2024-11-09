@@ -12,101 +12,118 @@
     <name>CommunityView</name>
     <message>
         <source>News</source>
-        <translation type="unfinished">Новости</translation>
+        <translation>Новости</translation>
     </message>
     <message>
         <source>Wiki</source>
-        <translation type="unfinished">Википедия</translation>
+        <translation>Вики</translation>
     </message>
     <message>
         <source>Forum</source>
-        <translation type="unfinished">Форум</translation>
+        <translation>Форум</translation>
     </message>
     <message>
         <source>Reddit</source>
-        <translation type="unfinished">Reddit</translation>
+        <translation>Реддит</translation>
     </message>
     <message>
         <source>Issue Tracker</source>
-        <translation type="unfinished">Issue Tracker</translation>
+        <translation>Трекер проблем</translation>
     </message>
     <message>
         <source>Contribute</source>
-        <translation type="unfinished">Внести вклад</translation>
+        <translation>Внести вклад</translation>
     </message>
     <message>
         <source>Steam Workshop</source>
-        <translation type="unfinished">Мастерская Steam</translation>
+        <translation>Мастерская Steam</translation>
+    </message>
+</context>
+<context>
+    <name>ContentSettingsView</name>
+    <message>
+        <source>Timeline</source>
+        <translation>Временная шкала</translation>
+    </message>
+    <message>
+        <source>Wallpaper Configuration</source>
+        <translation>Настройки обоев</translation>
+    </message>
+    <message>
+        <source>No active Wallpaper</source>
+        <translation>Нет активного обоев</translation>
+    </message>
+    <message>
+        <source>Remove all</source>
+        <translation>Удалить все</translation>
+    </message>
+    <message>
+        <source>running Wallpaper</source>
+        <translation>работающий обои</translation>
+    </message>
+    <message>
+        <source>No active Widgets</source>
+        <translation>Нет активных виджетов</translation>
+    </message>
+    <message>
+        <source>running Widgets</source>
+        <translation>Запущенные виджеты</translation>
     </message>
 </context>
 <context>
     <name>CreateSidebar</name>
     <message>
         <source>Tools Overview</source>
-        <translation type="unfinished">Tools Overview</translation>
-    </message>
-    <message>
-        <source>Video Import h264 (.mp4)</source>
-        <translation type="unfinished">Video Import h264 (.mp4)</translation>
-    </message>
-    <message>
-        <source>Video Import VP8 &amp; VP9 (.webm)</source>
-        <translation type="unfinished">Video Import VP8 &amp; VP9 (.webm)</translation>
-    </message>
-    <message>
-        <source>Video import (all types)</source>
-        <translation type="unfinished">Video import (all types)</translation>
+        <translation>Обзор инструментов</translation>
     </message>
     <message>
         <source>GIF Wallpaper</source>
-        <translation type="unfinished">GIF Wallpaper</translation>
+        <translation>GIF Обои</translation>
     </message>
     <message>
         <source>QML Wallpaper</source>
-        <translation type="unfinished">QML Wallpaper</translation>
+        <translation>QML Обои</translation>
     </message>
     <message>
         <source>HTML5 Wallpaper</source>
-        <translation type="unfinished">HTML5 Wallpaper</translation>
+        <translation>Обои HTML5</translation>
     </message>
     <message>
         <source>Website Wallpaper</source>
-        <translation type="unfinished">Website Wallpaper</translation>
+        <translation>Обои сайта</translation>
     </message>
     <message>
         <source>QML Widget</source>
-        <translation type="unfinished">QML Widget</translation>
+        <translation>QML Виджет</translation>
     </message>
     <message>
         <source>HTML Widget</source>
-        <translation type="unfinished">HTML Widget</translation>
+        <translation>HTML виджет</translation>
     </message>
     <message>
         <source>3D Engine Wallpaper (Godot 4.2)</source>
-        <translation type="unfinished"></translation>
+        <translation>Обои 3D Двигателя (Godot 4.2)</translation>
+    </message>
+    <message>
+        <source>Import Video</source>
+        <translation>Импортировать видео</translation>
     </message>
 </context>
 <context>
-    <name>CreateWallpaperInit</name>
+    <name>CreateWallpaperFileSelect</name>
     <message>
-        <source>Import any video type</source>
-        <translation>Импортируй любых типов видео</translation>
+        <source>Import Video Wallpaper</source>
+        <translation>Импортировать видеосску</translation>
     </message>
     <message>
-        <source>Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper! Supported video formats are: 
+        <source>Invalid file type. Must be valid video!</source>
+        <translation>Неверный тип файла. Должен быть корректный видеофайл!</translation>
+    </message>
+    <message>
+        <source>Drag and drop your video here. Supported video formats are:
 
-*.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</source>
-        <translation type="unfinished">Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper! Supported video formats are: 
-
-*.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</translation>
-    </message>
-    <message>
-        <source>Set your preffered video codec:</source>
-        <translation>Установите предпочитаемый видео кодек:</translation>
-    </message>
-    <message>
-        <source>Quality slider. Lower value means better quality.</source>
-        <translation>Ползунок качества. Чем ниже значение тем выше качество.</translation>
+%1</source>
+        <translation>Перетащите свое видео сюда. Поддерживаемые форматы видео: %1</translation>
     </message>
     <message>
         <source>Open Documentation</source>
@@ -114,7 +131,7 @@
     </message>
     <message>
         <source>Select file</source>
-        <translation>Выберите файл</translation>
+        <translation>Выбрать файл</translation>
     </message>
 </context>
 <context>
@@ -133,10 +150,49 @@
     </message>
 </context>
 <context>
+    <name>CreateWallpaperSettings</name>
+    <message>
+        <source>Import Video Wallpaper - Select Codec</source>
+        <translation>Импорт обоев из видео - Выберите кодек</translation>
+    </message>
+    <message>
+        <source>Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. We skip encoding if the input format matches the ouput format.</source>
+        <translation>В зависимости от конфигурации вашего ПК лучше всего конвертировать обои в определённый видеокодек. Мы пропускаем кодирование, если входной формат совпадает с выходным форматом.</translation>
+    </message>
+    <message>
+        <source>Set your preffered video codec:</source>
+        <translation>Выберите предпочитаемый видеокодек:</translation>
+    </message>
+    <message>
+        <source>✨h.264 (Better for all hardware)</source>
+        <translation>✨h.264 (Лучше для всего железа)</translation>
+    </message>
+    <message>
+        <source>VP9 (Better for newer hardware 2018+)</source>
+        <translation>VP9 (Лучше для новых устройств 2018+)</translation>
+    </message>
+    <message>
+        <source>VP8 (Better for older hardware)</source>
+        <translation>VP8 (Лучше для старого оборудования)</translation>
+    </message>
+    <message>
+        <source>Set video quality. Lower value means better quality.</source>
+        <translation>Настройте качество видео. Чем ниже значение, тем лучше качество.</translation>
+    </message>
+    <message>
+        <source>Open Documentation</source>
+        <translation>Открыть документацию</translation>
+    </message>
+    <message>
+        <source>Start import</source>
+        <translation>Начать импорт</translation>
+    </message>
+</context>
+<context>
     <name>CreateWallpaperVideoImportConvert</name>
     <message>
-        <source></source>
-        <translation></translation>
+        <source />
+        <translation />
     </message>
     <message>
         <source>Generating preview image...</source>
@@ -219,967 +275,891 @@
     </message>
     <message>
         <source>Stretch</source>
-        <translation type="unfinished">Stretch</translation>
+        <translation>Растянуть</translation>
     </message>
     <message>
         <source>Fill</source>
-        <translation type="unfinished">Fill</translation>
+        <translation>Заполнить</translation>
     </message>
     <message>
         <source>Contain</source>
-        <translation type="unfinished">Contain</translation>
+        <translation>Содержит</translation>
     </message>
     <message>
         <source>Cover</source>
-        <translation type="unfinished">Cover</translation>
+        <translation>Обложка</translation>
     </message>
     <message>
-        <source>Scale_Down</source>
-        <translation type="unfinished">Scale_Down</translation>
+        <source>Scale Down</source>
+        <translation>Уменьшить масштаб</translation>
     </message>
 </context>
 <context>
     <name>ExitPopup</name>
     <message>
         <source>Minimize ScreenPlay</source>
-        <translation type="unfinished">Minimize ScreenPlay</translation>
+        <translation>Свернуть ScreenPlay</translation>
     </message>
     <message>
         <source>Always minimize ScreenPlay</source>
-        <translation type="unfinished">Always minimize ScreenPlay</translation>
+        <translation>Всегда сворачивать ScreenPlay</translation>
     </message>
     <message>
         <source>You have active Wallpaper.
 ScreenPlay will only quit if no Wallpaper are running.</source>
-        <translation type="unfinished">You have active Wallpaper.
-ScreenPlay will only quit if no Wallpaper are running.</translation>
+        <translation>У вас активные обои.
+ScreenPlay закроется только в том случае, если обои не запущены.</translation>
     </message>
     <message>
         <source>You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the bottom right Tray-Icon.</source>
-        <translation type="unfinished">You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the bottom right Tray-Icon.</translation>
+        <translation>Вы можете &lt;b&gt;выйти&lt;/b&gt; из ScreenPlay через иконку в трее в правом нижнем углу.</translation>
     </message>
     <message>
         <source>You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the top right Tray-Icon.</source>
-        <translation type="unfinished">You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the top right Tray-Icon.</translation>
+        <translation>Вы можете &lt;b&gt;выйти&lt;/b&gt; из ScreenPlay через значок в правом верхнем углу панели задач.</translation>
     </message>
     <message>
         <source>Quit ScreenPlay now</source>
-        <translation type="unfinished">Quit ScreenPlay now</translation>
+        <translation>Закрыть ScreenPlay сейчас</translation>
     </message>
 </context>
 <context>
     <name>GifWallpaper</name>
     <message>
         <source>Import a Gif Wallpaper</source>
-        <translation type="unfinished">Import a Gif Wallpaper</translation>
+        <translation>Импортировать обои в формате Gif</translation>
     </message>
     <message>
-        <source>Drop a *.gif file here or use &apos;Select file&apos; below.</source>
-        <translation type="unfinished">Drop a *.gif file here or use &apos;Select file&apos; below.</translation>
+        <source>Drop a *.gif file here or use 'Select file' below.</source>
+        <translation>Перетащите файл *.gif сюда или воспользуйтесь кнопкой 'Выбрать файл' ниже.</translation>
     </message>
     <message>
         <source>Select your gif</source>
-        <translation type="unfinished">Select your gif</translation>
+        <translation>Выберите свой gif</translation>
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished">General</translation>
+        <translation>Основные</translation>
     </message>
     <message>
         <source>Wallpaper name</source>
-        <translation type="unfinished">Wallpaper name</translation>
+        <translation>Имя обоев</translation>
     </message>
     <message>
         <source>Created By</source>
-        <translation type="unfinished">Created By</translation>
+        <translation>Создано</translation>
     </message>
     <message>
         <source>Tags</source>
-        <translation type="unfinished">Tags</translation>
+        <translation>Теги</translation>
     </message>
 </context>
 <context>
     <name>GodotWallpaper</name>
     <message>
         <source>Create a Godot Wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation>Создать обои Godot</translation>
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished">General</translation>
+        <translation>Общее</translation>
     </message>
     <message>
         <source>Wallpaper name</source>
-        <translation type="unfinished">Wallpaper name</translation>
+        <translation>Название обоев</translation>
     </message>
     <message>
         <source>Created By</source>
-        <translation type="unfinished">Created By</translation>
+        <translation>Создано За</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Описание</translation>
     </message>
     <message>
         <source>License &amp; Tags</source>
-        <translation type="unfinished">License &amp; Tags</translation>
+        <translation>Лицензия и теги</translation>
     </message>
     <message>
         <source>Preview Image</source>
-        <translation type="unfinished">Preview Image</translation>
+        <translation>Предварительный просмотр изображения</translation>
     </message>
 </context>
 <context>
     <name>HTMLWallpaper</name>
     <message>
         <source>Create a HTML Wallpaper</source>
-        <translation type="unfinished">Create a HTML Wallpaper</translation>
+        <translation>Создать HTML обои</translation>
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished">General</translation>
+        <translation>Общие</translation>
     </message>
     <message>
         <source>Wallpaper name</source>
-        <translation type="unfinished">Wallpaper name</translation>
+        <translation>Название обоев</translation>
     </message>
     <message>
         <source>Created By</source>
-        <translation type="unfinished">Created By</translation>
+        <translation>Создано</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Description</translation>
+        <translation>Описание</translation>
     </message>
     <message>
         <source>License &amp; Tags</source>
-        <translation type="unfinished">License &amp; Tags</translation>
+        <translation>Лицензия и теги</translation>
     </message>
     <message>
         <source>Preview Image</source>
-        <translation type="unfinished">Preview Image</translation>
+        <translation>Изображение предварительного просмотра</translation>
     </message>
 </context>
 <context>
     <name>HTMLWidget</name>
     <message>
         <source>Create a HTML widget</source>
-        <translation type="unfinished">Create a HTML widget</translation>
+        <translation>Создать HTML виджет</translation>
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished">General</translation>
+        <translation>Общие</translation>
     </message>
     <message>
         <source>Widget name</source>
-        <translation type="unfinished">Widget name</translation>
+        <translation>Имя виджета</translation>
     </message>
     <message>
         <source>Created by</source>
-        <translation type="unfinished">Created by</translation>
+        <translation>Создано</translation>
     </message>
     <message>
         <source>Tags</source>
-        <translation type="unfinished">Tags</translation>
+        <translation>Теги</translation>
     </message>
 </context>
 <context>
     <name>ImportWebmConvert</name>
     <message>
-        <source></source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>AnalyseVideo...</source>
-        <translation type="unfinished">AnalyseVideo...</translation>
-    </message>
-    <message>
-        <source>Generating preview image...</source>
-        <translation type="unfinished">Generating preview image...</translation>
-    </message>
-    <message>
-        <source>Generating preview thumbnail image...</source>
-        <translation type="unfinished">Generating preview thumbnail image...</translation>
-    </message>
-    <message>
-        <source>Generating 5 second preview video...</source>
-        <translation type="unfinished">Generating 5 second preview video...</translation>
-    </message>
-    <message>
-        <source>Generating preview gif...</source>
-        <translation type="unfinished">Generating preview gif...</translation>
-    </message>
-    <message>
-        <source>Converting Audio...</source>
-        <translation type="unfinished">Converting Audio...</translation>
-    </message>
-    <message>
-        <source>Converting Video... This can take some time!</source>
-        <translation type="unfinished">Converting Video... This can take some time!</translation>
-    </message>
-    <message>
-        <source>Converting Video ERROR!</source>
-        <translation type="unfinished">Converting Video ERROR!</translation>
-    </message>
-    <message>
-        <source>Analyse Video ERROR!</source>
-        <translation type="unfinished">Analyse Video ERROR!</translation>
-    </message>
-    <message>
-        <source>Import a video to a wallpaper</source>
-        <translation type="unfinished">Import a video to a wallpaper</translation>
-    </message>
-    <message>
-        <source>Generating preview video...</source>
-        <translation type="unfinished">Generating preview video...</translation>
-    </message>
-    <message>
-        <source>Name (required!)</source>
-        <translation type="unfinished">Name (required!)</translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <translation type="unfinished">Description</translation>
-    </message>
-    <message>
-        <source>Youtube URL</source>
-        <translation type="unfinished">Youtube URL</translation>
-    </message>
-    <message>
-        <source>Abort</source>
-        <translation type="unfinished">Abort</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="unfinished">Save</translation>
-    </message>
-    <message>
-        <source>Save Wallpaper...</source>
-        <translation type="unfinished">Save Wallpaper...</translation>
-    </message>
-</context>
-<context>
-    <name>ImportWebmInit</name>
-    <message>
-        <source>Import a .webm video</source>
-        <translation type="unfinished">Import a .webm video</translation>
-    </message>
-    <message>
-        <source>When importing webm we can skip the long conversion. When you get unsatisfying results with the ScreenPlay importer from &apos;ideo import and convert (all types)&apos; you can also convert via the free and open source HandBrake!</source>
-        <translation type="unfinished">When importing webm we can skip the long conversion. When you get unsatisfying results with the ScreenPlay importer from &apos;ideo import and convert (all types)&apos; you can also convert via the free and open source HandBrake!</translation>
-    </message>
-    <message>
-        <source>Invalid file type. Must be valid VP8 or VP9 (*.webm)!</source>
-        <translation type="unfinished">Invalid file type. Must be valid VP8 or VP9 (*.webm)!</translation>
-    </message>
-    <message>
-        <source>Drop a *.webm file here or use &apos;Select file&apos; below.</source>
-        <translation type="unfinished">Drop a *.webm file here or use &apos;Select file&apos; below.</translation>
-    </message>
-    <message>
-        <source>Open Documentation</source>
-        <translation type="unfinished">Open Documentation</translation>
-    </message>
-    <message>
-        <source>Select file</source>
-        <translation type="unfinished">Select file</translation>
-    </message>
-</context>
-<context>
-    <name>Importh264Convert</name>
-    <message>
-        <source>AnalyseVideo...</source>
-        <translation type="unfinished">AnalyseVideo...</translation>
-    </message>
-    <message>
-        <source>Generating preview image...</source>
-        <translation type="unfinished">Generating preview image...</translation>
-    </message>
-    <message>
-        <source>Generating preview thumbnail image...</source>
-        <translation type="unfinished">Generating preview thumbnail image...</translation>
-    </message>
-    <message>
-        <source>Generating 5 second preview video...</source>
-        <translation type="unfinished">Generating 5 second preview video...</translation>
-    </message>
-    <message>
-        <source>Generating preview gif...</source>
-        <translation type="unfinished">Generating preview gif...</translation>
-    </message>
-    <message>
-        <source>Converting Audio...</source>
-        <translation type="unfinished">Converting Audio...</translation>
-    </message>
-    <message>
-        <source>Converting Video... This can take some time!</source>
-        <translation type="unfinished">Converting Video... This can take some time!</translation>
-    </message>
-    <message>
-        <source>Converting Video ERROR!</source>
-        <translation type="unfinished">Converting Video ERROR!</translation>
-    </message>
-    <message>
-        <source>Analyse Video ERROR!</source>
-        <translation type="unfinished">Analyse Video ERROR!</translation>
-    </message>
-    <message>
-        <source>Import a video to a wallpaper</source>
-        <translation type="unfinished">Import a video to a wallpaper</translation>
-    </message>
-    <message>
-        <source>Generating preview video...</source>
-        <translation type="unfinished">Generating preview video...</translation>
-    </message>
-    <message>
-        <source>Name (required!)</source>
-        <translation type="unfinished">Name (required!)</translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <translation type="unfinished">Description</translation>
-    </message>
-    <message>
-        <source>Youtube URL</source>
-        <translation type="unfinished">Youtube URL</translation>
-    </message>
-    <message>
-        <source>Abort</source>
-        <translation type="unfinished">Abort</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="unfinished">Save</translation>
-    </message>
-    <message>
-        <source>Save Wallpaper...</source>
-        <translation type="unfinished">Save Wallpaper...</translation>
-    </message>
-</context>
-<context>
-    <name>Importh264Init</name>
-    <message>
-        <source>Import a .mp4 video</source>
-        <translation type="unfinished">Import a .mp4 video</translation>
-    </message>
-    <message>
-        <source>Invalid file type. Must be valid h264 (*.mp4)!</source>
-        <translation type="unfinished">Invalid file type. Must be valid h264 (*.mp4)!</translation>
-    </message>
-    <message>
-        <source>Drop a *.mp4 file here or use &apos;Select file&apos; below.</source>
-        <translation type="unfinished">Drop a *.mp4 file here or use &apos;Select file&apos; below.</translation>
-    </message>
-    <message>
-        <source>Open Documentation</source>
-        <translation type="unfinished">Open Documentation</translation>
-    </message>
-    <message>
-        <source>Select file</source>
-        <translation type="unfinished">Select file</translation>
-    </message>
-    <message>
-        <source>ScreenPlay v0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.</source>
-        <translation type="unfinished"></translation>
+        <source />
+        <translation />
     </message>
 </context>
 <context>
     <name>Installed</name>
     <message>
-        <source></source>
-        <translation></translation>
+        <source />
+        <translation />
+    </message>
+</context>
+<context>
+    <name>InstalledDrawer</name>
+    <message>
+        <source>🚀You need ScreenPlay Pro or compile it yourself</source>
+        <translation>🚀 Вам нужен ScreenPlay Pro или соберите его сами</translation>
+    </message>
+    <message>
+        <source>1. Set the duration your wallpaper should be visible</source>
+        <translation>1. Установите продолжительность видимости вашего фона</translation>
+    </message>
+    <message>
+        <source>1. Set a Monitor to display the content</source>
+        <translation>1. Установите монитор для отображения содержимого</translation>
+    </message>
+    <message>
+        <source>2. Set a Monitor to display the content</source>
+        <translation>2. Установите монитор для отображения контента</translation>
+    </message>
+    <message>
+        <source>No active timeline to remove wallpaper</source>
+        <translation>Нет активного временного периода для удаления обоев</translation>
+    </message>
+    <message>
+        <source>Headline</source>
+        <translation>Заголовок</translation>
+    </message>
+    <message>
+        <source>2. Set Wallpaper</source>
+        <translation>2. Установить обои</translation>
+    </message>
+    <message>
+        <source>3. Set Wallpaper</source>
+        <translation>3. Установить обои</translation>
+    </message>
+    <message>
+        <source>You are not allowed to do that!</source>
+        <translation>Вам это не разрешено!</translation>
+    </message>
+</context>
+<context>
+    <name>InstalledItem</name>
+    <message>
+        <source>NEW</source>
+        <translation>НОВЫЙ</translation>
+    </message>
+    <message>
+        <source>Start</source>
+        <translation>Запустить</translation>
     </message>
 </context>
 <context>
     <name>InstalledNavigation</name>
     <message>
         <source>All</source>
-        <translation type="unfinished">All</translation>
+        <translation>Все</translation>
     </message>
     <message>
         <source>Scenes</source>
-        <translation type="unfinished">Scenes</translation>
+        <translation>Сцены</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished">Videos</translation>
+        <translation>Видео</translation>
     </message>
     <message>
         <source>Widgets</source>
-        <translation type="unfinished">Widgets</translation>
+        <translation>Виджеты</translation>
     </message>
     <message>
         <source>Search for Wallpaper &amp; Widgets</source>
-        <translation type="unfinished"></translation>
+        <translation>Поиск обоев и виджетов</translation>
     </message>
 </context>
 <context>
     <name>InstalledView</name>
     <message>
         <source>Refreshing!</source>
-        <translation type="unfinished">Refreshing!</translation>
+        <translation>Обновление!</translation>
     </message>
     <message>
         <source>Pull to refresh!</source>
-        <translation type="unfinished">Pull to refresh!</translation>
+        <translation>Потяните вниз, чтобы обновить!</translation>
     </message>
     <message>
         <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
-        <translation type="unfinished">Get more Wallpaper &amp; Widgets via the Steam workshop!</translation>
+        <translation>Получите больше обоев и виджетов через мастерскую Steam!</translation>
     </message>
     <message>
         <source>Edit Wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить обои</translation>
     </message>
     <message>
         <source>Open containing folder</source>
-        <translation type="unfinished">Open containing folder</translation>
+        <translation>Открыть папку содержимого</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished">Export</translation>
+        <translation>Экспорт</translation>
     </message>
     <message>
         <source>Remove Item</source>
-        <translation type="unfinished">Remove Item</translation>
+        <translation>Удалить элемент</translation>
     </message>
     <message>
         <source>Remove via Workshop</source>
-        <translation type="unfinished">Remove via Workshop</translation>
+        <translation>Удалить через Мастерскую</translation>
     </message>
     <message>
         <source>Open Workshop Page</source>
-        <translation type="unfinished">Open Workshop Page</translation>
+        <translation>Открыть страницу мастерской</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this item?</source>
-        <translation type="unfinished">Are you sure you want to delete this item?</translation>
+        <translation>Вы уверены, что хотите удалить этот элемент?</translation>
     </message>
     <message>
         <source>Export Content...</source>
-        <translation type="unfinished">Export Content...</translation>
+        <translation>Экспортировать контент...</translation>
     </message>
     <message>
         <source>We only support adding one item at once.</source>
-        <translation type="unfinished">We only support adding one item at once.</translation>
+        <translation>Мы поддерживаем добавление только одного элемента за раз.</translation>
     </message>
     <message>
-        <source>File type not supported. We only support &apos;.screenplay&apos; files.</source>
-        <translation type="unfinished">File type not supported. We only support &apos;.screenplay&apos; files.</translation>
+        <source>File type not supported. We only support '.screenplay' files.</source>
+        <translation>Тип файла не поддерживается. Мы поддерживаем только файлы '.screenplay'.</translation>
     </message>
     <message>
         <source>Import Content...</source>
-        <translation type="unfinished">Import Content...</translation>
+        <translation>Импорт контента...</translation>
     </message>
 </context>
 <context>
     <name>InstalledWelcomeScreen</name>
     <message>
         <source>Get free Widgets and Wallpaper via the Steam Workshop</source>
-        <translation type="unfinished">Get free Widgets and Wallpaper via the Steam Workshop</translation>
+        <translation>Получите бесплатные виджеты и обои через Steam Workshop</translation>
     </message>
     <message>
         <source>Browse the Steam Workshop</source>
-        <translation type="unfinished">Browse the Steam Workshop</translation>
+        <translation>Посмотреть в Steam Workshop</translation>
     </message>
     <message>
         <source>Get content via our forum</source>
-        <translation type="unfinished">Get content via our forum</translation>
+        <translation>Получите контент через наш форум</translation>
     </message>
     <message>
         <source>Open the ScreenPlay forum</source>
-        <translation type="unfinished">Open the ScreenPlay forum</translation>
+        <translation>Перейти на форум ScreenPlay</translation>
+    </message>
+</context>
+<context>
+    <name>LineIndicator</name>
+    <message>
+        <source>You cannot remove the last timeline. There must always be 🌩️ a timeline wallpaper.</source>
+        <translation>Вы не можете удалить последнюю шкалу времени. Должен всегда быть 🌩️ фон шкалы времени.</translation>
+    </message>
+</context>
+<context>
+    <name>MonitorSelectionItem</name>
+    <message>
+        <source>Inactive</source>
+        <translation>Неактивный</translation>
+    </message>
+    <message>
+        <source>Starting</source>
+        <translation>Запуск</translation>
+    </message>
+    <message>
+        <source>Closing</source>
+        <translation>Закрытие</translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation>Активно</translation>
     </message>
 </context>
 <context>
     <name>MonitorsProjectSettingItem</name>
     <message>
         <source>Set color</source>
-        <translation type="unfinished">Set color</translation>
+        <translation>Установить цвет</translation>
     </message>
     <message>
         <source>Please choose a color</source>
-        <translation type="unfinished">Please choose a color</translation>
-    </message>
-</context>
-<context>
-    <name>MonitorsView</name>
-    <message>
-        <source>Wallpaper Configuration</source>
-        <translation type="unfinished">Wallpaper Configuration</translation>
-    </message>
-    <message>
-        <source>Remove selected</source>
-        <translation type="unfinished">Remove selected</translation>
-    </message>
-    <message>
-        <source>Remove all </source>
-        <translation type="unfinished">Remove all </translation>
-    </message>
-    <message>
-        <source>Wallpapers</source>
-        <translation type="unfinished">Wallpapers</translation>
-    </message>
-    <message>
-        <source>Widgets</source>
-        <translation type="unfinished">Widgets</translation>
+        <translation>Пожалуйста, выберите цвет</translation>
     </message>
 </context>
 <context>
     <name>Navigation</name>
     <message>
         <source>Create</source>
-        <translation type="unfinished">Create</translation>
+        <translation>Создать</translation>
     </message>
     <message>
         <source>Workshop</source>
-        <translation type="unfinished">Workshop</translation>
+        <translation>Мастерская</translation>
     </message>
     <message>
         <source>Installed</source>
-        <translation type="unfinished">Installed</translation>
+        <translation>Установлено</translation>
     </message>
     <message>
         <source>Community</source>
-        <translation type="unfinished">Community</translation>
+        <translation>Сообщество</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished">Settings</translation>
+        <translation>Настройки</translation>
     </message>
     <message>
         <source>Mute/Unmute all Wallpaper</source>
-        <translation type="unfinished">Mute/Unmute all Wallpaper</translation>
+        <translation>Включить/выключить звук для всех обоев</translation>
     </message>
     <message>
         <source>Pause/Play all Wallpaper</source>
-        <translation type="unfinished">Pause/Play all Wallpaper</translation>
+        <translation>Приостановить/Запустить все обои</translation>
     </message>
     <message>
-        <source>Configure Wallpaper</source>
-        <translation type="unfinished">Configure Wallpaper</translation>
+        <source>Get ScreenPlay Pro 3D Wallpaper and Timelines!</source>
+        <translation>Получите обои ScreenPlay Pro 3D и таймлайны!</translation>
     </message>
     <message>
-        <source>Support me on Patreon!</source>
-        <translation type="unfinished">Support me on Patreon!</translation>
+        <source>ScreenPlay Pro Active</source>
+        <translation>Экранный Про Актив</translation>
     </message>
     <message>
-        <source>Close All Content</source>
-        <translation type="unfinished">Close All Content</translation>
+        <source>ScreenPlay ULTRA Active</source>
+        <translation>Экранная Пьеса ULTRA Активна</translation>
+    </message>
+    <message>
+        <source>Stop All Running Content</source>
+        <translation>Остановить все запущенные материалы</translation>
+    </message>
+    <message>
+        <source>Configure Content</source>
+        <translation>Настроить содержимое</translation>
+    </message>
+    <message>
+        <source>No Active Content</source>
+        <translation>Нет активного контента</translation>
     </message>
 </context>
 <context>
     <name>QMLWallpaper</name>
     <message>
         <source>Create a QML Wallpaper</source>
-        <translation type="unfinished">Create a QML Wallpaper</translation>
+        <translation>Создать QML обои</translation>
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished">General</translation>
+        <translation>Общее</translation>
     </message>
     <message>
         <source>Wallpaper name</source>
-        <translation type="unfinished">Wallpaper name</translation>
+        <translation>Название обоев</translation>
     </message>
     <message>
         <source>Created By</source>
-        <translation type="unfinished">Created By</translation>
+        <translation>Создано На</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Description</translation>
+        <translation>Описание</translation>
     </message>
     <message>
         <source>License &amp; Tags</source>
-        <translation type="unfinished">License &amp; Tags</translation>
+        <translation>Лицензия и теги</translation>
     </message>
     <message>
         <source>Preview Image</source>
-        <translation type="unfinished">Preview Image</translation>
+        <translation>Изображение превью</translation>
     </message>
 </context>
 <context>
     <name>QMLWallpaperMain</name>
     <message>
         <source>My ScreenPlay Wallpaper 🚀</source>
-        <translation type="unfinished"></translation>
+        <translation>Мой экранный обои 🚀</translation>
     </message>
 </context>
 <context>
     <name>QMLWidget</name>
     <message>
         <source>Create a QML widget</source>
-        <translation type="unfinished">Create a QML widget</translation>
+        <translation>Создать QML-виджет</translation>
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished">General</translation>
+        <translation>Общие</translation>
     </message>
     <message>
         <source>Widget name</source>
-        <translation type="unfinished">Widget name</translation>
+        <translation>Имя виджета</translation>
     </message>
     <message>
         <source>Created by</source>
-        <translation type="unfinished">Created by</translation>
+        <translation>Создано by</translation>
     </message>
     <message>
         <source>Tags</source>
-        <translation type="unfinished">Tags</translation>
+        <translation>Теги</translation>
     </message>
 </context>
 <context>
     <name>QMLWidgetMain</name>
     <message>
         <source>My Widget 🚀</source>
-        <translation type="unfinished">My Widget 🚀</translation>
+        <translation>Мой Виджет 🚀</translation>
     </message>
 </context>
 <context>
     <name>SaveNotification</name>
     <message>
         <source>Profile saved successfully!</source>
-        <translation type="unfinished">Profile saved successfully!</translation>
+        <translation>Профиль успешно сохранен!</translation>
     </message>
 </context>
 <context>
-    <name>ScreenPlayItem</name>
+    <name>ScreenPlay::Wizards</name>
     <message>
-        <source>NEW</source>
-        <translation type="unfinished">NEW</translation>
+        <source>Unable to create temporary folder</source>
+        <translation>Не удалось создать временную папку</translation>
+    </message>
+    <message>
+        <source>Could not write %1</source>
+        <translation>Не удалось записать %1</translation>
+    </message>
+    <message>
+        <source>Could not write main.qml</source>
+        <translation>Не удалось записать main.qml</translation>
+    </message>
+    <message>
+        <source>Could not copy thumbnail</source>
+        <translation>Не удалось скопировать миниатюру</translation>
+    </message>
+    <message>
+        <source>Could not write project file</source>
+        <translation>Не удалось записать файл проекта</translation>
+    </message>
+    <message>
+        <source>Could not write index.html</source>
+        <translation>Не удалось записать index.html</translation>
+    </message>
+    <message>
+        <source>Could copy preview thumbnail</source>
+        <translation>Можно скопировать эскиз превью</translation>
+    </message>
+    <message>
+        <source>Could not write QmlProject.qmlproject</source>
+        <translation>Не удалось записать QmlProject.qmlproject</translation>
+    </message>
+    <message>
+        <source>Could not write project.godot</source>
+        <translation>Не удалось записать project.godot</translation>
+    </message>
+    <message>
+        <source>Could not write spinner.gd</source>
+        <translation>Не удалось записать spinner.gd</translation>
+    </message>
+    <message>
+        <source>Could not write wallpaper.tscn</source>
+        <translation>Не удалось записать wallpaper.tscn</translation>
+    </message>
+    <message>
+        <source>Could not write export_presets.cfg</source>
+        <translation>Не удалось записать export_presets.cfg</translation>
+    </message>
+    <message>
+        <source>Could not copy gif</source>
+        <translation>Не удалось скопировать гиф</translation>
+    </message>
+</context>
+<context>
+    <name>ScreenPlayProPopup</name>
+    <message>
+        <source>✅ 3D Wallpaper
+✅ Wallpaper Timeline</source>
+        <translation>✅ 3D Обои
+✅ Временная шкала обоев</translation>
+    </message>
+    <message>
+        <source>Get ScreenPlay Pro</source>
+        <translation>Получить ScreenPlay Pro</translation>
     </message>
 </context>
 <context>
     <name>SettingsExpander</name>
     <message>
         <source>Copy text to clipboard</source>
-        <translation type="unfinished">Copy text to clipboard</translation>
+        <translation>Скопировать текст в буфер обмена</translation>
     </message>
 </context>
 <context>
     <name>SettingsView</name>
     <message>
         <source>General</source>
-        <translation type="unfinished">General</translation>
+        <translation>Основные</translation>
     </message>
     <message>
         <source>Autostart</source>
-        <translation type="unfinished">Autostart</translation>
+        <translation>Автозапуск</translation>
     </message>
     <message>
         <source>ScreenPlay will start with Windows and will setup your Desktop every time for you.</source>
-        <translation type="unfinished">ScreenPlay will start with Windows and will setup your Desktop every time for you.</translation>
+        <translation>ScreenPlay будет запускаться с Windows и каждый раз будет настраивать ваш рабочий стол.</translation>
     </message>
     <message>
         <source>Send anonymous crash reports and statistics</source>
-        <translation type="unfinished">Send anonymous crash reports and statistics</translation>
+        <translation>Отправлять анонимные отчёты о сбоях и статистику</translation>
     </message>
     <message>
-        <source>Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use &lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; to collect and analyze this data. A &lt;b&gt;big thanks to them&lt;/b&gt; for providing us with free premium support for open source projects!</source>
-        <translation type="unfinished">Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use &lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; to collect and analyze this data. A &lt;b&gt;big thanks to them&lt;/b&gt; for providing us with free premium support for open source projects!</translation>
+        <source>Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use &lt;a href="https://sentry.io"&gt;sentry.io&lt;/a&gt; to collect and analyze this data. A &lt;b&gt;big thanks to them&lt;/b&gt; for providing us with free premium support for open source projects!</source>
+        <translation>Помогите нам сделать ScreenPlay быстрее и стабильнее. Все собранные данные являются полностью анонимными и используются только для разработки! Мы используем &lt;a href="https://sentry.io"&gt;sentry.io&lt;/a&gt; для сбора и анализа этих данных. Огромное спасибо им за предоставление бесплатной премиум поддержки для открытых проектов!</translation>
     </message>
     <message>
         <source>Set save location</source>
-        <translation type="unfinished">Set save location</translation>
+        <translation>Установить место сохранения</translation>
     </message>
     <message>
         <source>Set location</source>
-        <translation type="unfinished">Set location</translation>
+        <translation>Установить расположение</translation>
     </message>
     <message>
         <source>Your storage path is empty!</source>
-        <translation type="unfinished">Your storage path is empty!</translation>
+        <translation>Ваш путь к хранилищу пустой!</translation>
     </message>
     <message>
         <source>Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</source>
-        <translation type="unfinished">Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</translation>
+        <translation>Важно: Изменение этой директории не повлияет на путь загрузки мастерской. ScreenPlay поддерживает только одну папку для контента!</translation>
     </message>
     <message>
         <source>Language</source>
-        <translation type="unfinished">Language</translation>
+        <translation>Язык</translation>
     </message>
     <message>
         <source>Set the ScreenPlay UI Language</source>
-        <translation type="unfinished">Set the ScreenPlay UI Language</translation>
+        <translation>Установите язык интерфейса ScreenPlay</translation>
     </message>
     <message>
         <source>Theme</source>
-        <translation type="unfinished">Theme</translation>
+        <translation>Тема</translation>
     </message>
     <message>
         <source>Switch dark/light theme</source>
-        <translation type="unfinished">Switch dark/light theme</translation>
+        <translation>Переключить тёмную/светлую тему</translation>
     </message>
     <message>
         <source>System Default</source>
-        <translation type="unfinished">System Default</translation>
+        <translation>Системный по умолчанию</translation>
     </message>
     <message>
         <source>Dark</source>
-        <translation type="unfinished">Dark</translation>
+        <translation>Темный</translation>
     </message>
     <message>
         <source>Light</source>
-        <translation type="unfinished">Light</translation>
+        <translation>Светлый</translation>
     </message>
     <message>
         <source>Wallpaper and Widgets</source>
-        <translation type="unfinished"></translation>
+        <translation>Обои и Виджеты</translation>
     </message>
     <message>
         <source>Pause wallpaper video rendering while another app is in the foreground.</source>
-        <translation type="unfinished"></translation>
+        <translation>Приостановить рендеринг видео обоев, пока другое приложение активно.</translation>
     </message>
     <message>
         <source>Limitations: This setting is Windows only, currently only works if you have exactly one monitor connected, and is limited to wallpapers with no audio. Wallpaper restart is required, when changing this setting!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ограничения: Эта настройка доступна только для Windows, в настоящее время работает только при подключении ровно одного монитора и ограничивается обоями без звука. Требуется перезагрузка обоев при изменении этой настройки!</translation>
     </message>
     <message>
         <source>Default Wallpaper Fill Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Режим заполнения обоев по умолчанию</translation>
     </message>
     <message>
         <source>Set this property to define how the video is scaled to fit the target area.</source>
-        <translation type="unfinished">Set this property to define how the video is scaled to fit the target area.</translation>
+        <translation>Установите это свойство, чтобы определить, как видео будет масштабироваться для соответствия целевой области.</translation>
     </message>
     <message>
         <source>Stretch</source>
-        <translation type="unfinished">Stretch</translation>
+        <translation>Растянуть</translation>
     </message>
     <message>
         <source>Fill</source>
-        <translation type="unfinished">Fill</translation>
+        <translation>Заполнить</translation>
     </message>
     <message>
         <source>Contain</source>
-        <translation type="unfinished">Contain</translation>
+        <translation>Содержать</translation>
     </message>
     <message>
         <source>Cover</source>
-        <translation type="unfinished">Cover</translation>
+        <translation>Обложка</translation>
     </message>
     <message>
         <source>Scale-Down</source>
-        <translation type="unfinished">Scale-Down</translation>
+        <translation>Уменьшить</translation>
     </message>
     <message>
         <source>About</source>
-        <translation type="unfinished">About</translation>
+        <translation>О программе</translation>
     </message>
     <message>
         <source>Thank you for using ScreenPlay</source>
-        <translation type="unfinished">Thank you for using ScreenPlay</translation>
+        <translation>Спасибо, что используете ScreenPlay</translation>
     </message>
     <message>
-        <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
-        <translation type="unfinished">Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</translation>
+        <source>Hi, I'm Elias Steurer also known as Kelteseth and I'm the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
+        <translation>Привет, я Элиас Штойер, также известный как Келтесет, и я разработчик ScreenPlay. Спасибо за использование моего ПО. Вы можете следить за мной, чтобы получать обновления о ScreenPlay здесь:</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished">Version</translation>
+        <translation>Версия</translation>
     </message>
     <message>
         <source>Open Changelog</source>
-        <translation type="unfinished">Open Changelog</translation>
+        <translation>Открыть журнал изменений</translation>
     </message>
     <message>
         <source>Third Party Software</source>
-        <translation type="unfinished">Third Party Software</translation>
+        <translation>Программное обеспечение третьих лиц</translation>
     </message>
     <message>
         <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
-        <translation type="unfinished">ScreenPlay would not be possible without the work of others. A big thank you to: </translation>
+        <translation>ScreenPlay был бы невозможен без работы других. Большое спасибо: </translation>
     </message>
     <message>
         <source>Licenses</source>
-        <translation type="unfinished">Licenses</translation>
+        <translation>Лицензии</translation>
     </message>
     <message>
         <source>Logs</source>
-        <translation type="unfinished">Logs</translation>
+        <translation>Логи</translation>
     </message>
     <message>
         <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
-        <translation type="unfinished">If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</translation>
+        <translation>Если ваш ScreenPlay ведет себя неправильно, это хороший способ найти ответы. Здесь отображаются все логи и предупреждения во время выполнения.</translation>
     </message>
     <message>
         <source>Show Logs</source>
-        <translation type="unfinished">Show Logs</translation>
+        <translation>Показать журналы</translation>
     </message>
     <message>
         <source>Data Protection</source>
-        <translation type="unfinished">Data Protection</translation>
+        <translation>Защита данных</translation>
     </message>
     <message>
         <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
-        <translation type="unfinished">We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</translation>
+        <translation>Мы очень заботливо используем ваши данные для улучшения ScreenPlay. Мы не продаём и не делимся этой (анонимной) информацией с другими!</translation>
     </message>
     <message>
         <source>Privacy</source>
-        <translation type="unfinished">Privacy</translation>
-    </message>
-</context>
-<context>
-    <name>Sidebar</name>
-    <message>
-        <source>Set Wallpaper</source>
-        <translation type="unfinished">Set Wallpaper</translation>
-    </message>
-    <message>
-        <source>Set Widget</source>
-        <translation type="unfinished">Set Widget</translation>
-    </message>
-    <message>
-        <source>Headline</source>
-        <translation type="unfinished">Headline</translation>
-    </message>
-    <message>
-        <source>Select a Monitor to display the content</source>
-        <translation type="unfinished">Select a Monitor to display the content</translation>
-    </message>
-    <message>
-        <source>Set Volume</source>
-        <translation type="unfinished">Set Volume</translation>
-    </message>
-    <message>
-        <source>Fill Mode</source>
-        <translation type="unfinished">Fill Mode</translation>
-    </message>
-    <message>
-        <source>Stretch</source>
-        <translation type="unfinished">Stretch</translation>
-    </message>
-    <message>
-        <source>Fill</source>
-        <translation type="unfinished">Fill</translation>
-    </message>
-    <message>
-        <source>Contain</source>
-        <translation type="unfinished">Contain</translation>
-    </message>
-    <message>
-        <source>Cover</source>
-        <translation type="unfinished">Cover</translation>
-    </message>
-    <message>
-        <source>Scale-Down</source>
-        <translation type="unfinished">Scale-Down</translation>
+        <translation>Конфиденциальность</translation>
     </message>
 </context>
 <context>
     <name>StartInfo</name>
     <message>
         <source>Free tools to help you to create wallpaper</source>
-        <translation type="unfinished">Free tools to help you to create wallpaper</translation>
+        <translation>Бесплатные инструменты для создания обоев</translation>
     </message>
     <message>
         <source>Below you can find tools to create wallaper, beyond the tools that ScreenPlay provides for you!</source>
-        <translation type="unfinished">Below you can find tools to create wallaper, beyond the tools that ScreenPlay provides for you!</translation>
+        <translation>Ниже вы можете найти инструменты для создания обоев, помимо тех, которые предоставляет вам ScreenPlay!</translation>
+    </message>
+</context>
+<context>
+    <name>Timeline</name>
+    <message>
+        <source>Unable to add Timeline</source>
+        <translation>Не удалось добавить временную шкалу</translation>
+    </message>
+    <message>
+        <source>Reseting...</source>
+        <translation>Сброс...</translation>
+    </message>
+    <message>
+        <source>❌ Reset</source>
+        <translation>❌ Сброс</translation>
     </message>
 </context>
 <context>
     <name>TrayIcon</name>
     <message>
         <source>ScreenPlay - Double click to change you settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>ScreenPlay - Дважды щелкните, чтобы изменить настройки.</translation>
     </message>
     <message>
         <source>Open ScreenPlay</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть ScreenPlay</translation>
     </message>
     <message>
         <source>Mute all</source>
-        <translation type="unfinished"></translation>
+        <translation>Выключить звук</translation>
     </message>
     <message>
         <source>Unmute all</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить звук для всех</translation>
     </message>
     <message>
         <source>Pause all</source>
-        <translation type="unfinished"></translation>
+        <translation>Приостановить всё</translation>
     </message>
     <message>
         <source>Play all</source>
-        <translation type="unfinished"></translation>
+        <translation>Воспроизвести всё</translation>
     </message>
     <message>
         <source>Quit ScreenPlay</source>
-        <translation type="unfinished"></translation>
+        <translation>Выйти из ScreenPlay</translation>
     </message>
     <message>
         <source>Change Wallpaper settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить настройки обоев</translation>
     </message>
     <message>
         <source>Browse Workshop</source>
-        <translation type="unfinished"></translation>
+        <translation>Просмотреть мастерскую</translation>
     </message>
     <message>
         <source>Create new Wallpaper or Widgets</source>
-        <translation type="unfinished"></translation>
+        <translation>Создать новый обои или виджеты</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished">Settings</translation>
+        <translation>Настройки</translation>
     </message>
     <message>
         <source>Forums and Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Форумы и помощь</translation>
     </message>
     <message>
         <source>Frequently Asked Questions (FAQ)</source>
-        <translation type="unfinished"></translation>
+        <translation>Часто задаваемые вопросы (ЧаВо)</translation>
     </message>
 </context>
 <context>
     <name>WebsiteWallpaper</name>
     <message>
         <source>Create a Website Wallpaper</source>
-        <translation type="unfinished">Create a Website Wallpaper</translation>
+        <translation>Создать обои для сайта</translation>
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished">General</translation>
+        <translation>Общие</translation>
     </message>
     <message>
         <source>Wallpaper name</source>
-        <translation type="unfinished">Wallpaper name</translation>
+        <translation>Название обоев</translation>
     </message>
     <message>
         <source>Created By</source>
-        <translation type="unfinished">Created By</translation>
+        <translation>Создано</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Description</translation>
+        <translation>Описание</translation>
     </message>
     <message>
         <source>Tags</source>
-        <translation type="unfinished">Tags</translation>
+        <translation>Теги</translation>
     </message>
     <message>
         <source>Preview Image</source>
-        <translation type="unfinished">Preview Image</translation>
+        <translation>Изображение предпросмотра</translation>
     </message>
 </context>
 <context>
     <name>WizardPage</name>
     <message>
         <source>Save</source>
-        <translation type="unfinished">Save</translation>
+        <translation>Сохранить</translation>
     </message>
     <message>
         <source>Saving...</source>
-        <translation type="unfinished">Saving...</translation>
+        <translation>Сохранение...</translation>
     </message>
 </context>
 <context>
     <name>XMLNewsfeed</name>
     <message>
         <source>News &amp; Patchnotes</source>
-        <translation type="unfinished">News &amp; Patchnotes</translation>
+        <translation>Новости и патчи</translation>
+    </message>
+</context>
+<context>
+    <name>main</name>
+    <message>
+        <source>Steam</source>
+        <translation>Steam</translation>
+    </message>
+    <message>
+        <source>Standalone</source>
+        <translation>Отдельное</translation>
+    </message>
+    <message>
+        <source>Pro</source>
+        <translation>Профи</translation>
+    </message>
+    <message>
+        <source>Ultra</source>
+        <translation>Ультра</translation>
+    </message>
+    <message>
+        <source>Standard</source>
+        <translation>Стандартный</translation>
     </message>
 </context>
 </TS>

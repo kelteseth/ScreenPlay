@@ -12,101 +12,120 @@
     <name>CommunityView</name>
     <message>
         <source>News</source>
-        <translation type="unfinished">새소식</translation>
+        <translation>뉴스</translation>
     </message>
     <message>
         <source>Wiki</source>
-        <translation type="unfinished">위키</translation>
+        <translation>위키</translation>
     </message>
     <message>
         <source>Forum</source>
-        <translation type="unfinished">게시판</translation>
+        <translation>포럼</translation>
     </message>
     <message>
         <source>Reddit</source>
-        <translation type="unfinished">Reddit</translation>
+        <translation>레딧</translation>
     </message>
     <message>
         <source>Issue Tracker</source>
-        <translation type="unfinished">Issue Tracker</translation>
+        <translation>문제 추적기</translation>
     </message>
     <message>
         <source>Contribute</source>
-        <translation type="unfinished">Contribute</translation>
+        <translation>기여하기</translation>
     </message>
     <message>
         <source>Steam Workshop</source>
-        <translation type="unfinished">스팀 창작마당</translation>
+        <translation>스팀 워크샵</translation>
+    </message>
+</context>
+<context>
+    <name>ContentSettingsView</name>
+    <message>
+        <source>Timeline</source>
+        <translation>타임라인</translation>
+    </message>
+    <message>
+        <source>Wallpaper Configuration</source>
+        <translation>배경화면 설정</translation>
+    </message>
+    <message>
+        <source>No active Wallpaper</source>
+        <translation>활성화된 배경화면이 없습니다</translation>
+    </message>
+    <message>
+        <source>Remove all</source>
+        <translation>모두 제거</translation>
+    </message>
+    <message>
+        <source>running Wallpaper</source>
+        <translation>실행 중인 배경화면</translation>
+    </message>
+    <message>
+        <source>No active Widgets</source>
+        <translation>활성 위젯이 없습니다</translation>
+    </message>
+    <message>
+        <source>running Widgets</source>
+        <translation>실행 중인 위젯</translation>
     </message>
 </context>
 <context>
     <name>CreateSidebar</name>
     <message>
         <source>Tools Overview</source>
-        <translation type="unfinished">Tools Overview</translation>
-    </message>
-    <message>
-        <source>Video Import h264 (.mp4)</source>
-        <translation type="unfinished">Video Import h264 (.mp4)</translation>
-    </message>
-    <message>
-        <source>Video Import VP8 &amp; VP9 (.webm)</source>
-        <translation type="unfinished">Video Import VP8 &amp; VP9 (.webm)</translation>
-    </message>
-    <message>
-        <source>Video import (all types)</source>
-        <translation type="unfinished">Video import (all types)</translation>
+        <translation>도구 개요</translation>
     </message>
     <message>
         <source>GIF Wallpaper</source>
-        <translation type="unfinished">GIF Wallpaper</translation>
+        <translation>GIF 배경화면</translation>
     </message>
     <message>
         <source>QML Wallpaper</source>
-        <translation type="unfinished">QML Wallpaper</translation>
+        <translation>QML 배경화면</translation>
     </message>
     <message>
         <source>HTML5 Wallpaper</source>
-        <translation type="unfinished">HTML5 Wallpaper</translation>
+        <translation>HTML5 배경화면</translation>
     </message>
     <message>
         <source>Website Wallpaper</source>
-        <translation type="unfinished">Website Wallpaper</translation>
+        <translation>웹사이트 배경화면</translation>
     </message>
     <message>
         <source>QML Widget</source>
-        <translation type="unfinished">QML Widget</translation>
+        <translation>QML 위젯</translation>
     </message>
     <message>
         <source>HTML Widget</source>
-        <translation type="unfinished">HTML Widget</translation>
+        <translation>HTML 위젯</translation>
     </message>
     <message>
         <source>3D Engine Wallpaper (Godot 4.2)</source>
-        <translation type="unfinished"></translation>
+        <translation>3D 엔진 배경화면 (Godot 4.2)</translation>
+    </message>
+    <message>
+        <source>Import Video</source>
+        <translation>비디오 가져오기</translation>
     </message>
 </context>
 <context>
-    <name>CreateWallpaperInit</name>
+    <name>CreateWallpaperFileSelect</name>
     <message>
-        <source>Import any video type</source>
-        <translation type="unfinished">Import any video type</translation>
+        <source>Import Video Wallpaper</source>
+        <translation>비디오 배경화면 가져오기</translation>
     </message>
     <message>
-        <source>Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper! Supported video formats are: 
+        <source>Invalid file type. Must be valid video!</source>
+        <translation>유효하지 않은 파일 형식입니다. 올바른 비디오이어야 합니다!</translation>
+    </message>
+    <message>
+        <source>Drag and drop your video here. Supported video formats are:
 
-*.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</source>
-        <translation type="unfinished">Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper! Supported video formats are: 
+%1</source>
+        <translation>여기에 비디오를 드래그 앤 드롭하세요. 지원되는 비디오 형식은:
 
-*.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</translation>
-    </message>
-    <message>
-        <source>Set your preffered video codec:</source>
-        <translation type="unfinished">Set your preffered video codec:</translation>
-    </message>
-    <message>
-        <source>Quality slider. Lower value means better quality.</source>
-        <translation type="unfinished">Quality slider. Lower value means better quality.</translation>
+%1</translation>
     </message>
     <message>
         <source>Open Documentation</source>
@@ -133,10 +152,49 @@
     </message>
 </context>
 <context>
+    <name>CreateWallpaperSettings</name>
+    <message>
+        <source>Import Video Wallpaper - Select Codec</source>
+        <translation>비디오 배경화면 가져오기 - 코덱 선택</translation>
+    </message>
+    <message>
+        <source>Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. We skip encoding if the input format matches the ouput format.</source>
+        <translation>PC 설정에 따라 배경화를 특정 비디오 코덱으로 변환하는 것이 좋습니다. 입력 형식과 출력 형식이 일치하면 인코딩을 건너뜁니다.</translation>
+    </message>
+    <message>
+        <source>Set your preffered video codec:</source>
+        <translation>선호하는 비디오 코덱 설정:</translation>
+    </message>
+    <message>
+        <source>✨h.264 (Better for all hardware)</source>
+        <translation>✨h.264 (모든 하드웨어에 더 좋음)</translation>
+    </message>
+    <message>
+        <source>VP9 (Better for newer hardware 2018+)</source>
+        <translation>VP9 (새로운 하드웨어 2018년 이후에는 더 좋음)</translation>
+    </message>
+    <message>
+        <source>VP8 (Better for older hardware)</source>
+        <translation>VP8 (구형 하드웨어에 더 좋음)</translation>
+    </message>
+    <message>
+        <source>Set video quality. Lower value means better quality.</source>
+        <translation>비디오 품질 설정. 낮은 값일수록 품질이 더 좋습니다.</translation>
+    </message>
+    <message>
+        <source>Open Documentation</source>
+        <translation>문서 열기</translation>
+    </message>
+    <message>
+        <source>Start import</source>
+        <translation>가져오기 시작</translation>
+    </message>
+</context>
+<context>
     <name>CreateWallpaperVideoImportConvert</name>
     <message>
-        <source></source>
-        <translation></translation>
+        <source />
+        <translation />
     </message>
     <message>
         <source>Generating preview image...</source>
@@ -164,282 +222,27 @@
     </message>
     <message>
         <source>Converting Video ERROR!</source>
-        <translation type="unfinished">Converting Video ERROR!</translation>
+        <translation>비디오 변환 오류!</translation>
     </message>
     <message>
         <source>Analyse Video ERROR!</source>
-        <translation type="unfinished">Analyse Video ERROR!</translation>
+        <translation>비디오 분석 오류!</translation>
     </message>
     <message>
         <source>Convert a video to a wallpaper</source>
-        <translation type="unfinished">Convert a video to a wallpaper</translation>
+        <translation>비디오를 바탕화면으로 변환</translation>
     </message>
     <message>
         <source>Generating preview video...</source>
-        <translation type="unfinished">Generating preview video...</translation>
+        <translation>미리보기 비디오 생성 중...</translation>
     </message>
     <message>
         <source>Name (required!)</source>
-        <translation type="unfinished">Name (required!)</translation>
+        <translation>이름 (필수!)</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Description</translation>
-    </message>
-    <message>
-        <source>Youtube URL</source>
-        <translation type="unfinished">Youtube URL</translation>
-    </message>
-    <message>
-        <source>Abort</source>
-        <translation type="unfinished">Abort</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="unfinished">Save</translation>
-    </message>
-    <message>
-        <source>Save Wallpaper...</source>
-        <translation type="unfinished">Save Wallpaper...</translation>
-    </message>
-</context>
-<context>
-    <name>DefaultVideoControls</name>
-    <message>
-        <source>Volume</source>
-        <translation type="unfinished">Volume</translation>
-    </message>
-    <message>
-        <source>Current Video Time</source>
-        <translation type="unfinished">Current Video Time</translation>
-    </message>
-    <message>
-        <source>Fill Mode</source>
-        <translation type="unfinished">Fill Mode</translation>
-    </message>
-    <message>
-        <source>Stretch</source>
-        <translation>늘리기</translation>
-    </message>
-    <message>
-        <source>Fill</source>
-        <translation type="unfinished">Fill</translation>
-    </message>
-    <message>
-        <source>Contain</source>
-        <translation type="unfinished">Contain</translation>
-    </message>
-    <message>
-        <source>Cover</source>
-        <translation type="unfinished">Cover</translation>
-    </message>
-    <message>
-        <source>Scale_Down</source>
-        <translation type="unfinished">Scale_Down</translation>
-    </message>
-</context>
-<context>
-    <name>ExitPopup</name>
-    <message>
-        <source>Minimize ScreenPlay</source>
-        <translation type="unfinished">Minimize ScreenPlay</translation>
-    </message>
-    <message>
-        <source>Always minimize ScreenPlay</source>
-        <translation type="unfinished">Always minimize ScreenPlay</translation>
-    </message>
-    <message>
-        <source>You have active Wallpaper.
-ScreenPlay will only quit if no Wallpaper are running.</source>
-        <translation type="unfinished">You have active Wallpaper.
-ScreenPlay will only quit if no Wallpaper are running.</translation>
-    </message>
-    <message>
-        <source>You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the bottom right Tray-Icon.</source>
-        <translation type="unfinished">You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the bottom right Tray-Icon.</translation>
-    </message>
-    <message>
-        <source>You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the top right Tray-Icon.</source>
-        <translation type="unfinished">You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the top right Tray-Icon.</translation>
-    </message>
-    <message>
-        <source>Quit ScreenPlay now</source>
-        <translation type="unfinished">Quit ScreenPlay now</translation>
-    </message>
-</context>
-<context>
-    <name>GifWallpaper</name>
-    <message>
-        <source>Import a Gif Wallpaper</source>
-        <translation type="unfinished">Import a Gif Wallpaper</translation>
-    </message>
-    <message>
-        <source>Drop a *.gif file here or use &apos;Select file&apos; below.</source>
-        <translation type="unfinished">Drop a *.gif file here or use &apos;Select file&apos; below.</translation>
-    </message>
-    <message>
-        <source>Select your gif</source>
-        <translation type="unfinished">Select your gif</translation>
-    </message>
-    <message>
-        <source>General</source>
-        <translation type="unfinished">General</translation>
-    </message>
-    <message>
-        <source>Wallpaper name</source>
-        <translation type="unfinished">Wallpaper name</translation>
-    </message>
-    <message>
-        <source>Created By</source>
-        <translation type="unfinished">Created By</translation>
-    </message>
-    <message>
-        <source>Tags</source>
-        <translation type="unfinished">Tags</translation>
-    </message>
-</context>
-<context>
-    <name>GodotWallpaper</name>
-    <message>
-        <source>Create a Godot Wallpaper</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>General</source>
-        <translation type="unfinished">General</translation>
-    </message>
-    <message>
-        <source>Wallpaper name</source>
-        <translation type="unfinished">Wallpaper name</translation>
-    </message>
-    <message>
-        <source>Created By</source>
-        <translation type="unfinished">Created By</translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <translation type="unfinished">Description</translation>
-    </message>
-    <message>
-        <source>License &amp; Tags</source>
-        <translation type="unfinished">License &amp; Tags</translation>
-    </message>
-    <message>
-        <source>Preview Image</source>
-        <translation type="unfinished">Preview Image</translation>
-    </message>
-</context>
-<context>
-    <name>HTMLWallpaper</name>
-    <message>
-        <source>Create a HTML Wallpaper</source>
-        <translation type="unfinished">Create a HTML Wallpaper</translation>
-    </message>
-    <message>
-        <source>General</source>
-        <translation type="unfinished">General</translation>
-    </message>
-    <message>
-        <source>Wallpaper name</source>
-        <translation type="unfinished">Wallpaper name</translation>
-    </message>
-    <message>
-        <source>Created By</source>
-        <translation type="unfinished">Created By</translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <translation type="unfinished">Description</translation>
-    </message>
-    <message>
-        <source>License &amp; Tags</source>
-        <translation type="unfinished">License &amp; Tags</translation>
-    </message>
-    <message>
-        <source>Preview Image</source>
-        <translation type="unfinished">Preview Image</translation>
-    </message>
-</context>
-<context>
-    <name>HTMLWidget</name>
-    <message>
-        <source>Create a HTML widget</source>
-        <translation type="unfinished">Create a HTML widget</translation>
-    </message>
-    <message>
-        <source>General</source>
-        <translation type="unfinished">General</translation>
-    </message>
-    <message>
-        <source>Widget name</source>
-        <translation type="unfinished">Widget name</translation>
-    </message>
-    <message>
-        <source>Created by</source>
-        <translation>만든이</translation>
-    </message>
-    <message>
-        <source>Tags</source>
-        <translation>태그</translation>
-    </message>
-</context>
-<context>
-    <name>ImportWebmConvert</name>
-    <message>
-        <source></source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>AnalyseVideo...</source>
-        <translation type="unfinished">AnalyseVideo...</translation>
-    </message>
-    <message>
-        <source>Generating preview image...</source>
-        <translation type="unfinished">Generating preview image...</translation>
-    </message>
-    <message>
-        <source>Generating preview thumbnail image...</source>
-        <translation type="unfinished">Generating preview thumbnail image...</translation>
-    </message>
-    <message>
-        <source>Generating 5 second preview video...</source>
-        <translation type="unfinished">Generating 5 second preview video...</translation>
-    </message>
-    <message>
-        <source>Generating preview gif...</source>
-        <translation type="unfinished">Generating preview gif...</translation>
-    </message>
-    <message>
-        <source>Converting Audio...</source>
-        <translation type="unfinished">Converting Audio...</translation>
-    </message>
-    <message>
-        <source>Converting Video... This can take some time!</source>
-        <translation type="unfinished">Converting Video... This can take some time!</translation>
-    </message>
-    <message>
-        <source>Converting Video ERROR!</source>
-        <translation type="unfinished">Converting Video ERROR!</translation>
-    </message>
-    <message>
-        <source>Analyse Video ERROR!</source>
-        <translation type="unfinished">Analyse Video ERROR!</translation>
-    </message>
-    <message>
-        <source>Import a video to a wallpaper</source>
-        <translation type="unfinished">Import a video to a wallpaper</translation>
-    </message>
-    <message>
-        <source>Generating preview video...</source>
-        <translation type="unfinished">Generating preview video...</translation>
-    </message>
-    <message>
-        <source>Name (required!)</source>
-        <translation type="unfinished">Name (required!)</translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <translation type="unfinished">Description</translation>
+        <translation>설명</translation>
     </message>
     <message>
         <source>Youtube URL</source>
@@ -455,731 +258,910 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
     <message>
         <source>Save Wallpaper...</source>
-        <translation type="unfinished">Save Wallpaper...</translation>
+        <translation>배경화면 저장...</translation>
     </message>
 </context>
 <context>
-    <name>ImportWebmInit</name>
+    <name>DefaultVideoControls</name>
     <message>
-        <source>Import a .webm video</source>
-        <translation type="unfinished">Import a .webm video</translation>
+        <source>Volume</source>
+        <translation>볼륨</translation>
     </message>
     <message>
-        <source>When importing webm we can skip the long conversion. When you get unsatisfying results with the ScreenPlay importer from &apos;ideo import and convert (all types)&apos; you can also convert via the free and open source HandBrake!</source>
-        <translation type="unfinished">When importing webm we can skip the long conversion. When you get unsatisfying results with the ScreenPlay importer from &apos;ideo import and convert (all types)&apos; you can also convert via the free and open source HandBrake!</translation>
+        <source>Current Video Time</source>
+        <translation>현재 비디오 시간</translation>
     </message>
     <message>
-        <source>Invalid file type. Must be valid VP8 or VP9 (*.webm)!</source>
-        <translation type="unfinished">Invalid file type. Must be valid VP8 or VP9 (*.webm)!</translation>
+        <source>Fill Mode</source>
+        <translation>채움 모드</translation>
     </message>
     <message>
-        <source>Drop a *.webm file here or use &apos;Select file&apos; below.</source>
-        <translation type="unfinished">Drop a *.webm file here or use &apos;Select file&apos; below.</translation>
+        <source>Stretch</source>
+        <translation>늘리기</translation>
     </message>
     <message>
-        <source>Open Documentation</source>
-        <translation>문서 열기</translation>
+        <source>Fill</source>
+        <translation>채우기</translation>
     </message>
     <message>
-        <source>Select file</source>
-        <translation>파일 선택</translation>
+        <source>Contain</source>
+        <translation>포함</translation>
+    </message>
+    <message>
+        <source>Cover</source>
+        <translation>표지</translation>
+    </message>
+    <message>
+        <source>Scale Down</source>
+        <translation>축소</translation>
     </message>
 </context>
 <context>
-    <name>Importh264Convert</name>
+    <name>ExitPopup</name>
     <message>
-        <source>AnalyseVideo...</source>
-        <translation type="unfinished">AnalyseVideo...</translation>
+        <source>Minimize ScreenPlay</source>
+        <translation>스크린플레이 최소화</translation>
     </message>
     <message>
-        <source>Generating preview image...</source>
-        <translation type="unfinished">Generating preview image...</translation>
+        <source>Always minimize ScreenPlay</source>
+        <translation>ScreenPlay 항상 최소화</translation>
     </message>
     <message>
-        <source>Generating preview thumbnail image...</source>
-        <translation type="unfinished">Generating preview thumbnail image...</translation>
+        <source>You have active Wallpaper.
+ScreenPlay will only quit if no Wallpaper are running.</source>
+        <translation>활성화된 배경화면이 있습니다.
+배경화면이 실행 중인 경우 ScreenPlay는 종료되지 않습니다.</translation>
     </message>
     <message>
-        <source>Generating 5 second preview video...</source>
-        <translation type="unfinished">Generating 5 second preview video...</translation>
+        <source>You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the bottom right Tray-Icon.</source>
+        <translation>하단 오른쪽 트레이 아이콘을 통해 &lt;b&gt;종료&lt;/b&gt;할 수 있습니다.</translation>
     </message>
     <message>
-        <source>Generating preview gif...</source>
-        <translation type="unfinished">Generating preview gif...</translation>
+        <source>You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the top right Tray-Icon.</source>
+        <translation>상단 오른쪽 트레이 아이콘을 통해 ScreenPlay를 &lt;b&gt;종료&lt;/b&gt;할 수 있습니다.</translation>
     </message>
     <message>
-        <source>Converting Audio...</source>
-        <translation type="unfinished">Converting Audio...</translation>
+        <source>Quit ScreenPlay now</source>
+        <translation>지금 ScreenPlay 종료하기</translation>
+    </message>
+</context>
+<context>
+    <name>GifWallpaper</name>
+    <message>
+        <source>Import a Gif Wallpaper</source>
+        <translation>GIF 배경화면 가져오기</translation>
     </message>
     <message>
-        <source>Converting Video... This can take some time!</source>
-        <translation type="unfinished">Converting Video... This can take some time!</translation>
+        <source>Drop a *.gif file here or use 'Select file' below.</source>
+        <translation>*.gif 파일을 여기에 드롭하거나 아래의 '파일 선택'을 사용하세요.</translation>
     </message>
     <message>
-        <source>Converting Video ERROR!</source>
-        <translation type="unfinished">Converting Video ERROR!</translation>
+        <source>Select your gif</source>
+        <translation>GIF 선택하기</translation>
     </message>
     <message>
-        <source>Analyse Video ERROR!</source>
-        <translation type="unfinished">Analyse Video ERROR!</translation>
+        <source>General</source>
+        <translation>일반</translation>
     </message>
     <message>
-        <source>Import a video to a wallpaper</source>
-        <translation type="unfinished">Import a video to a wallpaper</translation>
+        <source>Wallpaper name</source>
+        <translation>배경화면 이름</translation>
     </message>
     <message>
-        <source>Generating preview video...</source>
-        <translation type="unfinished">Generating preview video...</translation>
+        <source>Created By</source>
+        <translation>제작자</translation>
     </message>
     <message>
-        <source>Name (required!)</source>
-        <translation type="unfinished">Name (required!)</translation>
+        <source>Tags</source>
+        <translation>태그</translation>
+    </message>
+</context>
+<context>
+    <name>GodotWallpaper</name>
+    <message>
+        <source>Create a Godot Wallpaper</source>
+        <translation>고도트 배경화면 만들기</translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>일반</translation>
+    </message>
+    <message>
+        <source>Wallpaper name</source>
+        <translation>배경화면 이름</translation>
+    </message>
+    <message>
+        <source>Created By</source>
+        <translation>제작자</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Description</translation>
+        <translation>설명</translation>
     </message>
     <message>
-        <source>Youtube URL</source>
-        <translation type="unfinished">Youtube URL</translation>
+        <source>License &amp; Tags</source>
+        <translation>라이센스 및 태그</translation>
     </message>
     <message>
-        <source>Abort</source>
-        <translation type="unfinished">Abort</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="unfinished">Save</translation>
-    </message>
-    <message>
-        <source>Save Wallpaper...</source>
-        <translation type="unfinished">Save Wallpaper...</translation>
+        <source>Preview Image</source>
+        <translation>미리보기 이미지</translation>
     </message>
 </context>
 <context>
-    <name>Importh264Init</name>
+    <name>HTMLWallpaper</name>
     <message>
-        <source>Import a .mp4 video</source>
-        <translation type="unfinished">Import a .mp4 video</translation>
+        <source>Create a HTML Wallpaper</source>
+        <translation>HTML 배경화면 만들기</translation>
     </message>
     <message>
-        <source>Invalid file type. Must be valid h264 (*.mp4)!</source>
-        <translation type="unfinished">Invalid file type. Must be valid h264 (*.mp4)!</translation>
+        <source>General</source>
+        <translation>일반</translation>
     </message>
     <message>
-        <source>Drop a *.mp4 file here or use &apos;Select file&apos; below.</source>
-        <translation type="unfinished">Drop a *.mp4 file here or use &apos;Select file&apos; below.</translation>
+        <source>Wallpaper name</source>
+        <translation>배경화면 이름</translation>
     </message>
     <message>
-        <source>Open Documentation</source>
-        <translation type="unfinished">Open Documentation</translation>
+        <source>Created By</source>
+        <translation>제작자</translation>
     </message>
     <message>
-        <source>Select file</source>
-        <translation type="unfinished">Select file</translation>
+        <source>Description</source>
+        <translation>설명</translation>
     </message>
     <message>
-        <source>ScreenPlay v0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.</source>
-        <translation type="unfinished"></translation>
+        <source>License &amp; Tags</source>
+        <translation>라이센스 및 태그</translation>
+    </message>
+    <message>
+        <source>Preview Image</source>
+        <translation>미리보기 이미지</translation>
+    </message>
+</context>
+<context>
+    <name>HTMLWidget</name>
+    <message>
+        <source>Create a HTML widget</source>
+        <translation>HTML 위젯 만들기</translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>일반</translation>
+    </message>
+    <message>
+        <source>Widget name</source>
+        <translation>위젯 이름</translation>
+    </message>
+    <message>
+        <source>Created by</source>
+        <translation>만든이</translation>
+    </message>
+    <message>
+        <source>Tags</source>
+        <translation>태그</translation>
+    </message>
+</context>
+<context>
+    <name>ImportWebmConvert</name>
+    <message>
+        <source />
+        <translation />
     </message>
 </context>
 <context>
     <name>Installed</name>
     <message>
-        <source></source>
-        <translation></translation>
+        <source />
+        <translation />
+    </message>
+</context>
+<context>
+    <name>InstalledDrawer</name>
+    <message>
+        <source>🚀You need ScreenPlay Pro or compile it yourself</source>
+        <translation>🚀ScreenPlay Pro가 필요하거나 직접 컴파일해야 합니다</translation>
+    </message>
+    <message>
+        <source>1. Set the duration your wallpaper should be visible</source>
+        <translation>1. 배경화면이 표시될 시간을 설정하세요</translation>
+    </message>
+    <message>
+        <source>1. Set a Monitor to display the content</source>
+        <translation>1. 콘텐츠를 표시할 모니터를 설정하세요</translation>
+    </message>
+    <message>
+        <source>2. Set a Monitor to display the content</source>
+        <translation>2. 콘텐츠를 표시할 모니터를 설정하세요</translation>
+    </message>
+    <message>
+        <source>No active timeline to remove wallpaper</source>
+        <translation>배경화를 삭제할 수 있는 활성 타임라인이 없습니다</translation>
+    </message>
+    <message>
+        <source>Headline</source>
+        <translation>헤드라인</translation>
+    </message>
+    <message>
+        <source>2. Set Wallpaper</source>
+        <translation>2. 배경화면 설정</translation>
+    </message>
+    <message>
+        <source>3. Set Wallpaper</source>
+        <translation>3. 배경화면 설정</translation>
+    </message>
+    <message>
+        <source>You are not allowed to do that!</source>
+        <translation>그렇게 할 수 없습니다!</translation>
+    </message>
+</context>
+<context>
+    <name>InstalledItem</name>
+    <message>
+        <source>NEW</source>
+        <translation>새로움</translation>
+    </message>
+    <message>
+        <source>Start</source>
+        <translation>시작</translation>
     </message>
 </context>
 <context>
     <name>InstalledNavigation</name>
     <message>
         <source>All</source>
-        <translation type="unfinished">All</translation>
+        <translation>전체</translation>
     </message>
     <message>
         <source>Scenes</source>
-        <translation type="unfinished">Scenes</translation>
+        <translation>장면</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished">Videos</translation>
+        <translation>비디오</translation>
     </message>
     <message>
         <source>Widgets</source>
-        <translation type="unfinished">Widgets</translation>
+        <translation>위젯</translation>
     </message>
     <message>
         <source>Search for Wallpaper &amp; Widgets</source>
-        <translation type="unfinished"></translation>
+        <translation>바탕화면 이미지 및 위젯 검색</translation>
     </message>
 </context>
 <context>
     <name>InstalledView</name>
     <message>
         <source>Refreshing!</source>
-        <translation type="unfinished">새로고침 중</translation>
+        <translation>새로 고침 중!</translation>
     </message>
     <message>
         <source>Pull to refresh!</source>
-        <translation type="unfinished">Pull to refresh!</translation>
+        <translation>당겨서 새로고침!</translation>
     </message>
     <message>
         <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
-        <translation type="unfinished">Get more Wallpaper &amp; Widgets via the Steam workshop!</translation>
+        <translation>스팀 워크숍을 통해 더 많은 배경화면과 위젯을 받아보세요!</translation>
     </message>
     <message>
         <source>Edit Wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation>배경화면 수정</translation>
     </message>
     <message>
         <source>Open containing folder</source>
-        <translation type="unfinished">Open containing folder</translation>
+        <translation>폴더 열기</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished">Export</translation>
+        <translation>내보내기</translation>
     </message>
     <message>
         <source>Remove Item</source>
-        <translation type="unfinished">Remove Item</translation>
+        <translation>항목 제거</translation>
     </message>
     <message>
         <source>Remove via Workshop</source>
-        <translation type="unfinished">Remove via Workshop</translation>
+        <translation>워크숍을 통해 제거</translation>
     </message>
     <message>
         <source>Open Workshop Page</source>
-        <translation type="unfinished">창작마당 페이지 열기</translation>
+        <translation>워크샵 페이지 열기</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this item?</source>
-        <translation type="unfinished">Are you sure you want to delete this item?</translation>
+        <translation>이 항목을 정말로 삭제하시겠습니까?</translation>
     </message>
     <message>
         <source>Export Content...</source>
-        <translation type="unfinished">Export Content...</translation>
+        <translation>콘텐츠 내보내기...</translation>
     </message>
     <message>
         <source>We only support adding one item at once.</source>
-        <translation type="unfinished">We only support adding one item at once.</translation>
+        <translation>한 번에 하나의 항목만 추가할 수 있습니다.</translation>
     </message>
     <message>
-        <source>File type not supported. We only support &apos;.screenplay&apos; files.</source>
-        <translation type="unfinished">File type not supported. We only support &apos;.screenplay&apos; files.</translation>
+        <source>File type not supported. We only support '.screenplay' files.</source>
+        <translation>지원되지 않는 파일 형식입니다. 저희는 '.screenplay' 파일만 지원합니다.</translation>
     </message>
     <message>
         <source>Import Content...</source>
-        <translation type="unfinished">Import Content...</translation>
+        <translation>콘텐츠 가져오기...</translation>
     </message>
 </context>
 <context>
     <name>InstalledWelcomeScreen</name>
     <message>
         <source>Get free Widgets and Wallpaper via the Steam Workshop</source>
-        <translation type="unfinished">Get free Widgets and Wallpaper via the Steam Workshop</translation>
+        <translation>스팀 워크숍을 통해 무료 위젯과 배경화면을 받아보세요</translation>
     </message>
     <message>
         <source>Browse the Steam Workshop</source>
-        <translation type="unfinished">Browse the Steam Workshop</translation>
+        <translation>스팀 워크숍 탐색하기</translation>
     </message>
     <message>
         <source>Get content via our forum</source>
-        <translation type="unfinished">Get content via our forum</translation>
+        <translation>포럼을 통해 콘텐츠 받기</translation>
     </message>
     <message>
         <source>Open the ScreenPlay forum</source>
-        <translation type="unfinished">Open the ScreenPlay forum</translation>
+        <translation>ScreenPlay 포럼 열기</translation>
+    </message>
+</context>
+<context>
+    <name>LineIndicator</name>
+    <message>
+        <source>You cannot remove the last timeline. There must always be 🌩️ a timeline wallpaper.</source>
+        <translation>마지막 타임라인을 제거할 수 없습니다. 항상 🌩️ 타임라인 배경화면이 있어야 합니다.</translation>
+    </message>
+</context>
+<context>
+    <name>MonitorSelectionItem</name>
+    <message>
+        <source>Inactive</source>
+        <translation>비활성</translation>
+    </message>
+    <message>
+        <source>Starting</source>
+        <translation>시작 중</translation>
+    </message>
+    <message>
+        <source>Closing</source>
+        <translation>닫는 중</translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation>활성</translation>
     </message>
 </context>
 <context>
     <name>MonitorsProjectSettingItem</name>
     <message>
         <source>Set color</source>
-        <translation type="unfinished">Set color</translation>
+        <translation>색상 설정</translation>
     </message>
     <message>
         <source>Please choose a color</source>
-        <translation type="unfinished">Please choose a color</translation>
-    </message>
-</context>
-<context>
-    <name>MonitorsView</name>
-    <message>
-        <source>Wallpaper Configuration</source>
-        <translation type="unfinished">Wallpaper Configuration</translation>
-    </message>
-    <message>
-        <source>Remove selected</source>
-        <translation type="unfinished">Remove selected</translation>
-    </message>
-    <message>
-        <source>Remove all </source>
-        <translation type="unfinished">Remove all </translation>
-    </message>
-    <message>
-        <source>Wallpapers</source>
-        <translation type="unfinished">Wallpapers</translation>
-    </message>
-    <message>
-        <source>Widgets</source>
-        <translation type="unfinished">Widgets</translation>
+        <translation>색상을 선택해 주세요</translation>
     </message>
 </context>
 <context>
     <name>Navigation</name>
     <message>
         <source>Create</source>
-        <translation type="unfinished">Create</translation>
+        <translation>생성</translation>
     </message>
     <message>
         <source>Workshop</source>
-        <translation type="unfinished">Workshop</translation>
+        <translation>워크숍</translation>
     </message>
     <message>
         <source>Installed</source>
-        <translation type="unfinished">Installed</translation>
+        <translation>설치됨</translation>
     </message>
     <message>
         <source>Community</source>
-        <translation type="unfinished">Community</translation>
+        <translation>커뮤니티</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished">Settings</translation>
+        <translation>설정</translation>
     </message>
     <message>
         <source>Mute/Unmute all Wallpaper</source>
-        <translation type="unfinished">Mute/Unmute all Wallpaper</translation>
+        <translation>모든 배경음 끄기/켜기</translation>
     </message>
     <message>
         <source>Pause/Play all Wallpaper</source>
-        <translation type="unfinished">Pause/Play all Wallpaper</translation>
+        <translation>모든 배경화면 일시 정지/재생</translation>
     </message>
     <message>
-        <source>Configure Wallpaper</source>
-        <translation type="unfinished">Configure Wallpaper</translation>
+        <source>Get ScreenPlay Pro 3D Wallpaper and Timelines!</source>
+        <translation>스크린플레이 프로 3D 배경화면과 타임라인을 받으세요!</translation>
     </message>
     <message>
-        <source>Support me on Patreon!</source>
-        <translation type="unfinished">Support me on Patreon!</translation>
+        <source>ScreenPlay Pro Active</source>
+        <translation>스크린플레이 프로 활성화</translation>
     </message>
     <message>
-        <source>Close All Content</source>
-        <translation type="unfinished">Close All Content</translation>
+        <source>ScreenPlay ULTRA Active</source>
+        <translation>스크린플레이 울트라 활성화</translation>
+    </message>
+    <message>
+        <source>Stop All Running Content</source>
+        <translation>모든 실행 중인 콘텐츠 중지</translation>
+    </message>
+    <message>
+        <source>Configure Content</source>
+        <translation>콘텐츠 설정</translation>
+    </message>
+    <message>
+        <source>No Active Content</source>
+        <translation>활성 콘텐츠가 없습니다</translation>
     </message>
 </context>
 <context>
     <name>QMLWallpaper</name>
     <message>
         <source>Create a QML Wallpaper</source>
-        <translation type="unfinished">Create a QML Wallpaper</translation>
+        <translation>QML 배경화면 만들기</translation>
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished">General</translation>
+        <translation>일반</translation>
     </message>
     <message>
         <source>Wallpaper name</source>
-        <translation type="unfinished">Wallpaper name</translation>
+        <translation>배경화면 이름</translation>
     </message>
     <message>
         <source>Created By</source>
-        <translation type="unfinished">Created By</translation>
+        <translation>제작자</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Description</translation>
+        <translation>설명</translation>
     </message>
     <message>
         <source>License &amp; Tags</source>
-        <translation type="unfinished">License &amp; Tags</translation>
+        <translation>라이선스 및 태그</translation>
     </message>
     <message>
         <source>Preview Image</source>
-        <translation type="unfinished">Preview Image</translation>
+        <translation>미리보기 이미지</translation>
     </message>
 </context>
 <context>
     <name>QMLWallpaperMain</name>
     <message>
         <source>My ScreenPlay Wallpaper 🚀</source>
-        <translation type="unfinished"></translation>
+        <translation>내 스크린플레이 배경화면 🚀</translation>
     </message>
 </context>
 <context>
     <name>QMLWidget</name>
     <message>
         <source>Create a QML widget</source>
-        <translation type="unfinished">Create a QML widget</translation>
+        <translation>QML 위젯 만들기</translation>
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished">General</translation>
+        <translation>일반</translation>
     </message>
     <message>
         <source>Widget name</source>
-        <translation type="unfinished">Widget name</translation>
+        <translation>위젯 이름</translation>
     </message>
     <message>
         <source>Created by</source>
-        <translation type="unfinished">Created by</translation>
+        <translation>제작자</translation>
     </message>
     <message>
         <source>Tags</source>
-        <translation type="unfinished">Tags</translation>
+        <translation>태그</translation>
     </message>
 </context>
 <context>
     <name>QMLWidgetMain</name>
     <message>
         <source>My Widget 🚀</source>
-        <translation type="unfinished">My Widget 🚀</translation>
+        <translation>내 위젯 🚀</translation>
     </message>
 </context>
 <context>
     <name>SaveNotification</name>
     <message>
         <source>Profile saved successfully!</source>
-        <translation type="unfinished">Profile saved successfully!</translation>
+        <translation>프로필이 성공적으로 저장되었습니다!</translation>
     </message>
 </context>
 <context>
-    <name>ScreenPlayItem</name>
+    <name>ScreenPlay::Wizards</name>
     <message>
-        <source>NEW</source>
-        <translation type="unfinished">NEW</translation>
+        <source>Unable to create temporary folder</source>
+        <translation>임시 폴더를 생성할 수 없습니다</translation>
+    </message>
+    <message>
+        <source>Could not write %1</source>
+        <translation>%1을(를) 쓰지 못했습니다</translation>
+    </message>
+    <message>
+        <source>Could not write main.qml</source>
+        <translation>main.qml을 작성할 수 없습니다</translation>
+    </message>
+    <message>
+        <source>Could not copy thumbnail</source>
+        <translation>썸네일을 복사할 수 없습니다</translation>
+    </message>
+    <message>
+        <source>Could not write project file</source>
+        <translation>프로젝트 파일을 쓸 수 없습니다</translation>
+    </message>
+    <message>
+        <source>Could not write index.html</source>
+        <translation>index.html을 쓸 수 없습니다</translation>
+    </message>
+    <message>
+        <source>Could copy preview thumbnail</source>
+        <translation>미리보기 썸네일을 복사할 수 있습니다</translation>
+    </message>
+    <message>
+        <source>Could not write QmlProject.qmlproject</source>
+        <translation>QmlProject.qmlproject을(를) 작성할 수 없습니다</translation>
+    </message>
+    <message>
+        <source>Could not write project.godot</source>
+        <translation>project.godot을(를) 쓸 수 없습니다</translation>
+    </message>
+    <message>
+        <source>Could not write spinner.gd</source>
+        <translation>spinner.gd를 쓸 수 없습니다</translation>
+    </message>
+    <message>
+        <source>Could not write wallpaper.tscn</source>
+        <translation>wallpaper.tscn 파일을 쓸 수 없습니다</translation>
+    </message>
+    <message>
+        <source>Could not write export_presets.cfg</source>
+        <translation>export_presets.cfg 파일을 쓸 수 없습니다</translation>
+    </message>
+    <message>
+        <source>Could not copy gif</source>
+        <translation>GIF를 복사할 수 없습니다</translation>
+    </message>
+</context>
+<context>
+    <name>ScreenPlayProPopup</name>
+    <message>
+        <source>✅ 3D Wallpaper
+✅ Wallpaper Timeline</source>
+        <translation>✅ 3D 배경화면
+✅ 배경화면 타임라인</translation>
+    </message>
+    <message>
+        <source>Get ScreenPlay Pro</source>
+        <translation>스크린플레이 프로 받기</translation>
     </message>
 </context>
 <context>
     <name>SettingsExpander</name>
     <message>
         <source>Copy text to clipboard</source>
-        <translation type="unfinished">Copy text to clipboard</translation>
+        <translation>텍스트를 클립보드에 복사</translation>
     </message>
 </context>
 <context>
     <name>SettingsView</name>
     <message>
         <source>General</source>
-        <translation type="unfinished">General</translation>
+        <translation>일반</translation>
     </message>
     <message>
         <source>Autostart</source>
-        <translation type="unfinished">Autostart</translation>
+        <translation>자동 시작</translation>
     </message>
     <message>
         <source>ScreenPlay will start with Windows and will setup your Desktop every time for you.</source>
-        <translation type="unfinished">ScreenPlay will start with Windows and will setup your Desktop every time for you.</translation>
+        <translation>ScreenPlay은 매번 Windows와 함께 시작되며 바탕화면을 자동으로 설정해드립니다.</translation>
     </message>
     <message>
         <source>Send anonymous crash reports and statistics</source>
-        <translation type="unfinished">Send anonymous crash reports and statistics</translation>
+        <translation>익명 충돌 보고서 및 통계 전송</translation>
     </message>
     <message>
-        <source>Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use &lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; to collect and analyze this data. A &lt;b&gt;big thanks to them&lt;/b&gt; for providing us with free premium support for open source projects!</source>
-        <translation type="unfinished">Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use &lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; to collect and analyze this data. A &lt;b&gt;big thanks to them&lt;/b&gt; for providing us with free premium support for open source projects!</translation>
+        <source>Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use &lt;a href="https://sentry.io"&gt;sentry.io&lt;/a&gt; to collect and analyze this data. A &lt;b&gt;big thanks to them&lt;/b&gt; for providing us with free premium support for open source projects!</source>
+        <translation>ScreenPlay을 더 빠르고 안정적으로 만들 수 있도록 도와주세요. 수집된 모든 데이터는 완전히 익명이며 개발 용도로만 사용됩니다! 우리는 &lt;a href="https://sentry.io"&gt;sentry.io&lt;/a&gt;를 사용하여 이 데이터를 수집하고 분석합니다. &lt;b&gt;그들에게 큰 감사를 전합니다&lt;/b&gt; 무료 프리미엄 지원을 제공해주셔서 감사합니다!</translation>
     </message>
     <message>
         <source>Set save location</source>
-        <translation type="unfinished">Set save location</translation>
+        <translation>저장 위치 설정</translation>
     </message>
     <message>
         <source>Set location</source>
-        <translation type="unfinished">Set location</translation>
+        <translation>위치 설정</translation>
     </message>
     <message>
         <source>Your storage path is empty!</source>
-        <translation type="unfinished">Your storage path is empty!</translation>
+        <translation>저장 경로가 비어 있습니다!</translation>
     </message>
     <message>
         <source>Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</source>
-        <translation type="unfinished">Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</translation>
+        <translation>중요: 이 디렉토리를 변경해도 워크숍 다운로드 경로에는 영향을 주지 않습니다. ScreenPlay는 하나의 콘텐츠 폴더만 지원합니다!</translation>
     </message>
     <message>
         <source>Language</source>
-        <translation type="unfinished">Language</translation>
+        <translation>언어</translation>
     </message>
     <message>
         <source>Set the ScreenPlay UI Language</source>
-        <translation type="unfinished">Set the ScreenPlay UI Language</translation>
+        <translation>스크린플레이 UI 언어 설정</translation>
     </message>
     <message>
         <source>Theme</source>
-        <translation type="unfinished">Theme</translation>
+        <translation>테마</translation>
     </message>
     <message>
         <source>Switch dark/light theme</source>
-        <translation type="unfinished">Switch dark/light theme</translation>
+        <translation>어두운/밝은 테마 전환</translation>
     </message>
     <message>
         <source>System Default</source>
-        <translation type="unfinished">System Default</translation>
+        <translation>시스템 기본값</translation>
     </message>
     <message>
         <source>Dark</source>
-        <translation type="unfinished">Dark</translation>
+        <translation>어둡게</translation>
     </message>
     <message>
         <source>Light</source>
-        <translation type="unfinished">Light</translation>
+        <translation>밝은 방</translation>
     </message>
     <message>
         <source>Wallpaper and Widgets</source>
-        <translation type="unfinished"></translation>
+        <translation>배경화면 및 위젯</translation>
     </message>
     <message>
         <source>Pause wallpaper video rendering while another app is in the foreground.</source>
-        <translation type="unfinished"></translation>
+        <translation>다른 앱이 전경에 있을 때 배경화면 비디오 렌더링 일시 정지</translation>
     </message>
     <message>
         <source>Limitations: This setting is Windows only, currently only works if you have exactly one monitor connected, and is limited to wallpapers with no audio. Wallpaper restart is required, when changing this setting!</source>
-        <translation type="unfinished"></translation>
+        <translation>제한 사항: 이 설정은 Windows 전용이며, 현재 모니터가 정확히 하나만 연결되어 있는 경우에만 작동합니다. 오디오가 없는 배경화면에만 제한됩니다. 이 설정을 변경할 때 배경화면을 다시 시작해야 합니다!</translation>
     </message>
     <message>
         <source>Default Wallpaper Fill Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>기본 배경화면 채우기 모드</translation>
     </message>
     <message>
         <source>Set this property to define how the video is scaled to fit the target area.</source>
-        <translation type="unfinished">Set this property to define how the video is scaled to fit the target area.</translation>
+        <translation>이 속성을 설정하여 비디오가 대상 영역에 맞게 어떻게 크기가 조정되는지를 정의합니다.</translation>
     </message>
     <message>
         <source>Stretch</source>
-        <translation type="unfinished"></translation>
+        <translation>늘리기</translation>
     </message>
     <message>
         <source>Fill</source>
-        <translation type="unfinished">Fill</translation>
+        <translation>채우기</translation>
     </message>
     <message>
         <source>Contain</source>
-        <translation type="unfinished">Contain</translation>
+        <translation>포함</translation>
     </message>
     <message>
         <source>Cover</source>
-        <translation type="unfinished">Cover</translation>
+        <translation>표지</translation>
     </message>
     <message>
         <source>Scale-Down</source>
-        <translation type="unfinished">Scale-Down</translation>
+        <translation>축소</translation>
     </message>
     <message>
         <source>About</source>
-        <translation type="unfinished">About</translation>
+        <translation>정보</translation>
     </message>
     <message>
         <source>Thank you for using ScreenPlay</source>
-        <translation type="unfinished">Thank you for using ScreenPlay</translation>
+        <translation>ScreenPlay를 사용해 주셔서 감사합니다</translation>
     </message>
     <message>
-        <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
-        <translation type="unfinished">Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</translation>
+        <source>Hi, I'm Elias Steurer also known as Kelteseth and I'm the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
+        <translation>안녕하세요, 저는 엘리어스 스토이어, 또는 켈테세스라고 불리는 사람이고, 스크린플레이의 개발자입니다. 제 소프트웨어를 사용해 주셔서 감사합니다. 스크린플레이에 관한 업데이트를 받으시려면 여기에서 저를 팔로우하실 수 있습니다:</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished">Version</translation>
+        <translation>버전</translation>
     </message>
     <message>
         <source>Open Changelog</source>
-        <translation type="unfinished">Open Changelog</translation>
+        <translation>변경 로그 열기</translation>
     </message>
     <message>
         <source>Third Party Software</source>
-        <translation type="unfinished">Third Party Software</translation>
+        <translation>제3자 소프트웨어</translation>
     </message>
     <message>
         <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
-        <translation type="unfinished">ScreenPlay would not be possible without the work of others. A big thank you to: </translation>
+        <translation>ScreenPlay은 다른 사람들의 노력 없이는 불가능했을 것입니다. 큰 감사의 말씀을 전합니다:</translation>
     </message>
     <message>
         <source>Licenses</source>
-        <translation type="unfinished">Licenses</translation>
+        <translation>라이선스</translation>
     </message>
     <message>
         <source>Logs</source>
-        <translation type="unfinished">Logs</translation>
+        <translation>로그</translation>
     </message>
     <message>
         <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
-        <translation type="unfinished">If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</translation>
+        <translation>스크린플레이가 이상하게 작동하면 이 방법으로 해결책을 찾아보세요. 이곳에서는 실행 중에 발생한 모든 로그와 경고를 보여줍니다.</translation>
     </message>
     <message>
         <source>Show Logs</source>
-        <translation type="unfinished">Show Logs</translation>
+        <translation>로그 표시</translation>
     </message>
     <message>
         <source>Data Protection</source>
-        <translation type="unfinished">Data Protection</translation>
+        <translation>데이터 보호</translation>
     </message>
     <message>
         <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
-        <translation type="unfinished">We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</translation>
+        <translation>우리는 ScreenPlay를 개선하기 위해 귀하의 데이터를 매우 신중하게 사용합니다. 이 (익명) 정보는 다른 사람과 판매하거나 공유하지 않습니다!</translation>
     </message>
     <message>
         <source>Privacy</source>
-        <translation type="unfinished">Privacy</translation>
-    </message>
-</context>
-<context>
-    <name>Sidebar</name>
-    <message>
-        <source>Set Wallpaper</source>
-        <translation type="unfinished">Set Wallpaper</translation>
-    </message>
-    <message>
-        <source>Set Widget</source>
-        <translation type="unfinished">Set Widget</translation>
-    </message>
-    <message>
-        <source>Headline</source>
-        <translation type="unfinished">Headline</translation>
-    </message>
-    <message>
-        <source>Select a Monitor to display the content</source>
-        <translation type="unfinished">Select a Monitor to display the content</translation>
-    </message>
-    <message>
-        <source>Set Volume</source>
-        <translation type="unfinished">Set Volume</translation>
-    </message>
-    <message>
-        <source>Fill Mode</source>
-        <translation type="unfinished">Fill Mode</translation>
-    </message>
-    <message>
-        <source>Stretch</source>
-        <translation type="unfinished">Stretch</translation>
-    </message>
-    <message>
-        <source>Fill</source>
-        <translation type="unfinished">Fill</translation>
-    </message>
-    <message>
-        <source>Contain</source>
-        <translation type="unfinished">Contain</translation>
-    </message>
-    <message>
-        <source>Cover</source>
-        <translation type="unfinished">Cover</translation>
-    </message>
-    <message>
-        <source>Scale-Down</source>
-        <translation type="unfinished">Scale-Down</translation>
+        <translation>개인정보 보호</translation>
     </message>
 </context>
 <context>
     <name>StartInfo</name>
     <message>
         <source>Free tools to help you to create wallpaper</source>
-        <translation type="unfinished">Free tools to help you to create wallpaper</translation>
+        <translation>배경화를 만들기 위한 무료 도구</translation>
     </message>
     <message>
         <source>Below you can find tools to create wallaper, beyond the tools that ScreenPlay provides for you!</source>
-        <translation type="unfinished">Below you can find tools to create wallaper, beyond the tools that ScreenPlay provides for you!</translation>
+        <translation>여기에서 ScreenPlay가 제공하는 도구 외에도 배경화를 만들기 위한 도구를 찾을 수 있습니다!</translation>
+    </message>
+</context>
+<context>
+    <name>Timeline</name>
+    <message>
+        <source>Unable to add Timeline</source>
+        <translation>타임라인을 추가할 수 없습니다</translation>
+    </message>
+    <message>
+        <source>Reseting...</source>
+        <translation>재설정 중...</translation>
+    </message>
+    <message>
+        <source>❌ Reset</source>
+        <translation>❌ 초기화</translation>
     </message>
 </context>
 <context>
     <name>TrayIcon</name>
     <message>
         <source>ScreenPlay - Double click to change you settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>ScreenPlay - 설정을 변경하려면 두 번 클릭하세요.</translation>
     </message>
     <message>
         <source>Open ScreenPlay</source>
-        <translation type="unfinished"></translation>
+        <translation>스크린플레이 열기</translation>
     </message>
     <message>
         <source>Mute all</source>
-        <translation type="unfinished"></translation>
+        <translation>모두 음소거</translation>
     </message>
     <message>
         <source>Unmute all</source>
-        <translation type="unfinished"></translation>
+        <translation>모두 음소거 해제</translation>
     </message>
     <message>
         <source>Pause all</source>
-        <translation type="unfinished"></translation>
+        <translation>모두 일시정지</translation>
     </message>
     <message>
         <source>Play all</source>
-        <translation type="unfinished"></translation>
+        <translation>모두 재생</translation>
     </message>
     <message>
         <source>Quit ScreenPlay</source>
-        <translation type="unfinished"></translation>
+        <translation>스크린플레이 종료</translation>
     </message>
     <message>
         <source>Change Wallpaper settings</source>
-        <translation type="unfinished"></translation>
+        <translation>바탕화면 배경 설정 변경</translation>
     </message>
     <message>
         <source>Browse Workshop</source>
-        <translation type="unfinished"></translation>
+        <translation>워크숍 탐색</translation>
     </message>
     <message>
         <source>Create new Wallpaper or Widgets</source>
-        <translation type="unfinished"></translation>
+        <translation>새 배경화면이나 위젯 만들기</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished">Settings</translation>
+        <translation>설정</translation>
     </message>
     <message>
         <source>Forums and Help</source>
-        <translation type="unfinished"></translation>
+        <translation>포럼 및 도움말</translation>
     </message>
     <message>
         <source>Frequently Asked Questions (FAQ)</source>
-        <translation type="unfinished"></translation>
+        <translation>자주 묻는 질문 (FAQ)</translation>
     </message>
 </context>
 <context>
     <name>WebsiteWallpaper</name>
     <message>
         <source>Create a Website Wallpaper</source>
-        <translation type="unfinished">Create a Website Wallpaper</translation>
+        <translation>웹사이트 배경화면 만들기</translation>
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished">General</translation>
+        <translation>일반</translation>
     </message>
     <message>
         <source>Wallpaper name</source>
-        <translation type="unfinished">Wallpaper name</translation>
+        <translation>배경화면 이름</translation>
     </message>
     <message>
         <source>Created By</source>
-        <translation type="unfinished">Created By</translation>
+        <translation>작성자</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Description</translation>
+        <translation>설명</translation>
     </message>
     <message>
         <source>Tags</source>
-        <translation type="unfinished">Tags</translation>
+        <translation>태그</translation>
     </message>
     <message>
         <source>Preview Image</source>
-        <translation type="unfinished">Preview Image</translation>
+        <translation>미리보기 이미지</translation>
     </message>
 </context>
 <context>
     <name>WizardPage</name>
     <message>
         <source>Save</source>
-        <translation type="unfinished">Save</translation>
+        <translation>저장</translation>
     </message>
     <message>
         <source>Saving...</source>
-        <translation type="unfinished">Saving...</translation>
+        <translation>저장하는 중...</translation>
     </message>
 </context>
 <context>
     <name>XMLNewsfeed</name>
     <message>
         <source>News &amp; Patchnotes</source>
-        <translation type="unfinished">News &amp; Patchnotes</translation>
+        <translation>뉴스 및 패치노트</translation>
+    </message>
+</context>
+<context>
+    <name>main</name>
+    <message>
+        <source>Steam</source>
+        <translation>스팀</translation>
+    </message>
+    <message>
+        <source>Standalone</source>
+        <translation>독립형</translation>
+    </message>
+    <message>
+        <source>Pro</source>
+        <translation>프로</translation>
+    </message>
+    <message>
+        <source>Ultra</source>
+        <translation>울트라</translation>
+    </message>
+    <message>
+        <source>Standard</source>
+        <translation>표준</translation>
     </message>
 </context>
 </TS>

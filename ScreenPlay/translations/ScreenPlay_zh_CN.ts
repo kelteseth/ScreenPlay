@@ -12,101 +12,120 @@
     <name>CommunityView</name>
     <message>
         <source>News</source>
-        <translation type="unfinished">新闻</translation>
+        <translation>新闻</translation>
     </message>
     <message>
         <source>Wiki</source>
-        <translation type="unfinished">维基</translation>
+        <translation>维基</translation>
     </message>
     <message>
         <source>Forum</source>
-        <translation type="unfinished">论坛</translation>
+        <translation>论坛</translation>
     </message>
     <message>
         <source>Reddit</source>
-        <translation type="unfinished">Reddit</translation>
+        <translation>Reddit</translation>
     </message>
     <message>
         <source>Issue Tracker</source>
-        <translation type="unfinished">问题跟踪器</translation>
+        <translation>问题追踪器</translation>
     </message>
     <message>
         <source>Contribute</source>
-        <translation type="unfinished">贡献</translation>
+        <translation>贡献</translation>
     </message>
     <message>
         <source>Steam Workshop</source>
-        <translation type="unfinished">Steam 创意工坊</translation>
+        <translation>Steam 创意工坊</translation>
+    </message>
+</context>
+<context>
+    <name>ContentSettingsView</name>
+    <message>
+        <source>Timeline</source>
+        <translation>时间轴</translation>
+    </message>
+    <message>
+        <source>Wallpaper Configuration</source>
+        <translation>壁纸配置</translation>
+    </message>
+    <message>
+        <source>No active Wallpaper</source>
+        <translation>没有活动的壁纸</translation>
+    </message>
+    <message>
+        <source>Remove all</source>
+        <translation>全部移除</translation>
+    </message>
+    <message>
+        <source>running Wallpaper</source>
+        <translation>运行壁纸</translation>
+    </message>
+    <message>
+        <source>No active Widgets</source>
+        <translation>没有活动小部件</translation>
+    </message>
+    <message>
+        <source>running Widgets</source>
+        <translation>运行小部件</translation>
     </message>
 </context>
 <context>
     <name>CreateSidebar</name>
     <message>
         <source>Tools Overview</source>
-        <translation type="unfinished">Tools Overview</translation>
-    </message>
-    <message>
-        <source>Video Import h264 (.mp4)</source>
-        <translation type="unfinished">Video Import h264 (.mp4)</translation>
-    </message>
-    <message>
-        <source>Video Import VP8 &amp; VP9 (.webm)</source>
-        <translation type="unfinished">Video Import VP8 &amp; VP9 (.webm)</translation>
-    </message>
-    <message>
-        <source>Video import (all types)</source>
-        <translation type="unfinished">Video import (all types)</translation>
+        <translation>工具概览</translation>
     </message>
     <message>
         <source>GIF Wallpaper</source>
-        <translation type="unfinished">GIF Wallpaper</translation>
+        <translation>GIF 动态壁纸</translation>
     </message>
     <message>
         <source>QML Wallpaper</source>
-        <translation type="unfinished">QML Wallpaper</translation>
+        <translation>QML 壁纸</translation>
     </message>
     <message>
         <source>HTML5 Wallpaper</source>
-        <translation type="unfinished">HTML5 Wallpaper</translation>
+        <translation>HTML5 壁纸</translation>
     </message>
     <message>
         <source>Website Wallpaper</source>
-        <translation type="unfinished">Website Wallpaper</translation>
+        <translation>网站壁纸</translation>
     </message>
     <message>
         <source>QML Widget</source>
-        <translation type="unfinished">QML Widget</translation>
+        <translation>QML 小部件</translation>
     </message>
     <message>
         <source>HTML Widget</source>
-        <translation type="unfinished">HTML Widget</translation>
+        <translation>HTML 小部件</translation>
     </message>
     <message>
         <source>3D Engine Wallpaper (Godot 4.2)</source>
-        <translation type="unfinished"></translation>
+        <translation>3D引擎壁纸（Godot 4.2）</translation>
+    </message>
+    <message>
+        <source>Import Video</source>
+        <translation>导入视频</translation>
     </message>
 </context>
 <context>
-    <name>CreateWallpaperInit</name>
+    <name>CreateWallpaperFileSelect</name>
     <message>
-        <source>Import any video type</source>
-        <translation>导入任何视频类型</translation>
+        <source>Import Video Wallpaper</source>
+        <translation>导入视频壁纸</translation>
     </message>
     <message>
-        <source>Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper! Supported video formats are: 
+        <source>Invalid file type. Must be valid video!</source>
+        <translation>无效的文件类型。必须是有效的视频！</translation>
+    </message>
+    <message>
+        <source>Drag and drop your video here. Supported video formats are:
 
-*.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</source>
-        <translation>取决于您的PC配置，最好将您的壁纸转换为特定的视频编码格式。如果它们的性能都不好，您还可以尝试 QML 壁纸！已支持的视频格式有：
+%1</source>
+        <translation>将视频拖放到这里。支持的视频格式有：
 
-*.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</translation>
-    </message>
-    <message>
-        <source>Set your preffered video codec:</source>
-        <translation>设置您偏好的视频编码格式：</translation>
-    </message>
-    <message>
-        <source>Quality slider. Lower value means better quality.</source>
-        <translation>质量滑条，更小的值意味着更好的质量。</translation>
+%1</translation>
     </message>
     <message>
         <source>Open Documentation</source>
@@ -133,10 +152,49 @@
     </message>
 </context>
 <context>
+    <name>CreateWallpaperSettings</name>
+    <message>
+        <source>Import Video Wallpaper - Select Codec</source>
+        <translation>导入视频壁纸 - 选择编码器</translation>
+    </message>
+    <message>
+        <source>Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. We skip encoding if the input format matches the ouput format.</source>
+        <translation>根据您的电脑配置，最好将壁纸转换为特定的视频编码格式。如果输入格式与输出格式相同，我们将跳过编码。</translation>
+    </message>
+    <message>
+        <source>Set your preffered video codec:</source>
+        <translation>设置您首选的视频编码格式：</translation>
+    </message>
+    <message>
+        <source>✨h.264 (Better for all hardware)</source>
+        <translation>✨h.264（适合所有硬件）</translation>
+    </message>
+    <message>
+        <source>VP9 (Better for newer hardware 2018+)</source>
+        <translation>VP9（适合2018年及之后的新硬件）</translation>
+    </message>
+    <message>
+        <source>VP8 (Better for older hardware)</source>
+        <translation>VP8（适合旧硬件）</translation>
+    </message>
+    <message>
+        <source>Set video quality. Lower value means better quality.</source>
+        <translation>设置视频质量。数值越低，质量越好。</translation>
+    </message>
+    <message>
+        <source>Open Documentation</source>
+        <translation>打开文档</translation>
+    </message>
+    <message>
+        <source>Start import</source>
+        <translation>开始导入</translation>
+    </message>
+</context>
+<context>
     <name>CreateWallpaperVideoImportConvert</name>
     <message>
-        <source></source>
-        <translation></translation>
+        <source />
+        <translation />
     </message>
     <message>
         <source>Generating preview image...</source>
@@ -234,37 +292,37 @@
         <translation>平铺</translation>
     </message>
     <message>
-        <source>Scale_Down</source>
-        <translation>裁切</translation>
+        <source>Scale Down</source>
+        <translation>缩小</translation>
     </message>
 </context>
 <context>
     <name>ExitPopup</name>
     <message>
         <source>Minimize ScreenPlay</source>
-        <translation type="unfinished">Minimize ScreenPlay</translation>
+        <translation>最小化 ScreenPlay</translation>
     </message>
     <message>
         <source>Always minimize ScreenPlay</source>
-        <translation type="unfinished">Always minimize ScreenPlay</translation>
+        <translation>始终最小化 ScreenPlay</translation>
     </message>
     <message>
         <source>You have active Wallpaper.
 ScreenPlay will only quit if no Wallpaper are running.</source>
-        <translation type="unfinished">You have active Wallpaper.
-ScreenPlay will only quit if no Wallpaper are running.</translation>
+        <translation>你有正在运行的壁纸。
+只有当没有壁纸运行时，ScreenPlay 才会退出。</translation>
     </message>
     <message>
         <source>You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the bottom right Tray-Icon.</source>
-        <translation type="unfinished">You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the bottom right Tray-Icon.</translation>
+        <translation>您可以通过右下角的托盘图标&lt;b&gt;退出&lt;/b&gt; ScreenPlay。</translation>
     </message>
     <message>
         <source>You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the top right Tray-Icon.</source>
-        <translation type="unfinished">You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the top right Tray-Icon.</translation>
+        <translation>您可以通过右上角的托盘图标&lt;b&gt;退出&lt;/b&gt; ScreenPlay。</translation>
     </message>
     <message>
         <source>Quit ScreenPlay now</source>
-        <translation type="unfinished">Quit ScreenPlay now</translation>
+        <translation>立即退出 ScreenPlay</translation>
     </message>
 </context>
 <context>
@@ -274,8 +332,8 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
         <translation>导入 GIF 壁纸</translation>
     </message>
     <message>
-        <source>Drop a *.gif file here or use &apos;Select file&apos; below.</source>
-        <translation>拖放一个 *.gif 文件到这里，或者使用下面的 &apos;选择文件&apos;。</translation>
+        <source>Drop a *.gif file here or use 'Select file' below.</source>
+        <translation>拖放一个 *.gif 文件到这里，或者使用下面的 '选择文件'。</translation>
     </message>
     <message>
         <source>Select your gif</source>
@@ -302,31 +360,31 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     <name>GodotWallpaper</name>
     <message>
         <source>Create a Godot Wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation>创建 Godot 壁纸</translation>
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished">常规</translation>
+        <translation>常规</translation>
     </message>
     <message>
         <source>Wallpaper name</source>
-        <translation type="unfinished"></translation>
+        <translation>壁纸名称</translation>
     </message>
     <message>
         <source>Created By</source>
-        <translation type="unfinished">作者</translation>
+        <translation>创建者</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">简介</translation>
+        <translation>描述</translation>
     </message>
     <message>
         <source>License &amp; Tags</source>
-        <translation type="unfinished">许可证 &amp; 标签</translation>
+        <translation>许可证与标签</translation>
     </message>
     <message>
         <source>Preview Image</source>
-        <translation type="unfinished">预览图</translation>
+        <translation>预览图像</translation>
     </message>
 </context>
 <context>
@@ -386,290 +444,147 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
 <context>
     <name>ImportWebmConvert</name>
     <message>
-        <source></source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>AnalyseVideo...</source>
-        <translation>分析视频...</translation>
-    </message>
-    <message>
-        <source>Generating preview image...</source>
-        <translation>生成预览图...</translation>
-    </message>
-    <message>
-        <source>Generating preview thumbnail image...</source>
-        <translation>生成预览缩略图...</translation>
-    </message>
-    <message>
-        <source>Generating 5 second preview video...</source>
-        <translation>生成5秒预览视频...</translation>
-    </message>
-    <message>
-        <source>Generating preview gif...</source>
-        <translation>生成预览 GIF...</translation>
-    </message>
-    <message>
-        <source>Converting Audio...</source>
-        <translation>转换音频...</translation>
-    </message>
-    <message>
-        <source>Converting Video... This can take some time!</source>
-        <translation>转换视频... 这可能需要一些时间！</translation>
-    </message>
-    <message>
-        <source>Converting Video ERROR!</source>
-        <translation>转换视频出错！</translation>
-    </message>
-    <message>
-        <source>Analyse Video ERROR!</source>
-        <translation>分析视频出错！</translation>
-    </message>
-    <message>
-        <source>Import a video to a wallpaper</source>
-        <translation>将视频导入为壁纸</translation>
-    </message>
-    <message>
-        <source>Generating preview video...</source>
-        <translation>生成预览视频...</translation>
-    </message>
-    <message>
-        <source>Name (required!)</source>
-        <translation>名称（必选）</translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <translation>简介</translation>
-    </message>
-    <message>
-        <source>Youtube URL</source>
-        <translation>Youtube 链接</translation>
-    </message>
-    <message>
-        <source>Abort</source>
-        <translation>中止</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>保存</translation>
-    </message>
-    <message>
-        <source>Save Wallpaper...</source>
-        <translation>保存壁纸...</translation>
-    </message>
-</context>
-<context>
-    <name>ImportWebmInit</name>
-    <message>
-        <source>Import a .webm video</source>
-        <translation>导入 .webm 视频</translation>
-    </message>
-    <message>
-        <source>When importing webm we can skip the long conversion. When you get unsatisfying results with the ScreenPlay importer from &apos;ideo import and convert (all types)&apos; you can also convert via the free and open source HandBrake!</source>
-        <translation>导入webm时，我们可以跳过漫长的转换过程。当您对&apos;导入和转换（所有类型）&apos; ScreenPlay 得到的结果不满意时，您还可以使用免费开源的HandBrake!</translation>
-    </message>
-    <message>
-        <source>Invalid file type. Must be valid VP8 or VP9 (*.webm)!</source>
-        <translation>文件类型无效。必须是 VP8 / VP9（*.webm）！</translation>
-    </message>
-    <message>
-        <source>Drop a *.webm file here or use &apos;Select file&apos; below.</source>
-        <translation>将一个webm文件拖到这里，或者使用下面的&apos;选择文件&apos;</translation>
-    </message>
-    <message>
-        <source>Open Documentation</source>
-        <translation>打开文档</translation>
-    </message>
-    <message>
-        <source>Select file</source>
-        <translation>选择文件</translation>
-    </message>
-</context>
-<context>
-    <name>Importh264Convert</name>
-    <message>
-        <source>AnalyseVideo...</source>
-        <translation>分析视频...</translation>
-    </message>
-    <message>
-        <source>Generating preview image...</source>
-        <translation>生成预览图...</translation>
-    </message>
-    <message>
-        <source>Generating preview thumbnail image...</source>
-        <translation>生成预览缩略图...</translation>
-    </message>
-    <message>
-        <source>Generating 5 second preview video...</source>
-        <translation>生成5秒预览视频...</translation>
-    </message>
-    <message>
-        <source>Generating preview gif...</source>
-        <translation>生成预览GIF...</translation>
-    </message>
-    <message>
-        <source>Converting Audio...</source>
-        <translation>正在转换音频...</translation>
-    </message>
-    <message>
-        <source>Converting Video... This can take some time!</source>
-        <translation>正在转换视频... 这可能需要一些时间！</translation>
-    </message>
-    <message>
-        <source>Converting Video ERROR!</source>
-        <translation>转换视频出错！</translation>
-    </message>
-    <message>
-        <source>Analyse Video ERROR!</source>
-        <translation>分析视频出错！</translation>
-    </message>
-    <message>
-        <source>Import a video to a wallpaper</source>
-        <translation>将视频导入为壁纸</translation>
-    </message>
-    <message>
-        <source>Generating preview video...</source>
-        <translation>生成预览视频...</translation>
-    </message>
-    <message>
-        <source>Name (required!)</source>
-        <translation>名称 （必填）</translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <translation>简介</translation>
-    </message>
-    <message>
-        <source>Youtube URL</source>
-        <translation>Youtube 链接</translation>
-    </message>
-    <message>
-        <source>Abort</source>
-        <translation>中止</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>保存</translation>
-    </message>
-    <message>
-        <source>Save Wallpaper...</source>
-        <translation>保存壁纸...</translation>
-    </message>
-</context>
-<context>
-    <name>Importh264Init</name>
-    <message>
-        <source>Import a .mp4 video</source>
-        <translation>导入 .mp4 视频</translation>
-    </message>
-    <message>
-        <source>Invalid file type. Must be valid h264 (*.mp4)!</source>
-        <translation>文件类型无效。必须是有效的 h264 (*.mp4)！</translation>
-    </message>
-    <message>
-        <source>Drop a *.mp4 file here or use &apos;Select file&apos; below.</source>
-        <translation>将*.mp4文件拖入此处，或使用下面的 &apos;选择文件&apos;。</translation>
-    </message>
-    <message>
-        <source>Open Documentation</source>
-        <translation>打开文档</translation>
-    </message>
-    <message>
-        <source>Select file</source>
-        <translation>选择文件</translation>
-    </message>
-    <message>
-        <source>ScreenPlay v0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.</source>
-        <translation type="unfinished"></translation>
+        <source />
+        <translation />
     </message>
 </context>
 <context>
     <name>Installed</name>
     <message>
-        <source></source>
-        <translation></translation>
+        <source />
+        <translation />
+    </message>
+</context>
+<context>
+    <name>InstalledDrawer</name>
+    <message>
+        <source>🚀You need ScreenPlay Pro or compile it yourself</source>
+        <translation>🚀您需要 ScreenPlay Pro 或自己编译</translation>
+    </message>
+    <message>
+        <source>1. Set the duration your wallpaper should be visible</source>
+        <translation>1. 设置你的壁纸可见的时长</translation>
+    </message>
+    <message>
+        <source>1. Set a Monitor to display the content</source>
+        <translation>1. 设置一个显示器来显示内容</translation>
+    </message>
+    <message>
+        <source>2. Set a Monitor to display the content</source>
+        <translation>2. 设置一个显示器以展示内容</translation>
+    </message>
+    <message>
+        <source>No active timeline to remove wallpaper</source>
+        <translation>没有可移除壁纸的活动时间线</translation>
+    </message>
+    <message>
+        <source>Headline</source>
+        <translation>标题</translation>
+    </message>
+    <message>
+        <source>2. Set Wallpaper</source>
+        <translation>2. 设置壁纸</translation>
+    </message>
+    <message>
+        <source>3. Set Wallpaper</source>
+        <translation>3. 设置壁纸</translation>
+    </message>
+    <message>
+        <source>You are not allowed to do that!</source>
+        <translation>您不被允许这样做！</translation>
+    </message>
+</context>
+<context>
+    <name>InstalledItem</name>
+    <message>
+        <source>NEW</source>
+        <translation>全新</translation>
+    </message>
+    <message>
+        <source>Start</source>
+        <translation>开始</translation>
     </message>
 </context>
 <context>
     <name>InstalledNavigation</name>
     <message>
         <source>All</source>
-        <translation type="unfinished">All</translation>
+        <translation>全部</translation>
     </message>
     <message>
         <source>Scenes</source>
-        <translation type="unfinished">Scenes</translation>
+        <translation>场景</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished">Videos</translation>
+        <translation>视频</translation>
     </message>
     <message>
         <source>Widgets</source>
-        <translation type="unfinished">Widgets</translation>
+        <translation>小部件</translation>
     </message>
     <message>
         <source>Search for Wallpaper &amp; Widgets</source>
-        <translation type="unfinished"></translation>
+        <translation>搜索壁纸和小部件</translation>
     </message>
 </context>
 <context>
     <name>InstalledView</name>
     <message>
         <source>Refreshing!</source>
-        <translation type="unfinished">刷新中！</translation>
+        <translation>正在刷新！</translation>
     </message>
     <message>
         <source>Pull to refresh!</source>
-        <translation type="unfinished">下拉以刷新！</translation>
+        <translation>下拉刷新！</translation>
     </message>
     <message>
         <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
-        <translation type="unfinished">从创意工坊获取更多壁纸和物件！</translation>
+        <translation>通过 Steam 创意工坊获取更多壁纸和小工具！</translation>
     </message>
     <message>
         <source>Edit Wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑壁纸</translation>
     </message>
     <message>
         <source>Open containing folder</source>
-        <translation type="unfinished">打开文件夹</translation>
+        <translation>打开所在文件夹</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished">Export</translation>
+        <translation>导出</translation>
     </message>
     <message>
         <source>Remove Item</source>
-        <translation type="unfinished">删除物品</translation>
+        <translation>移除项目</translation>
     </message>
     <message>
         <source>Remove via Workshop</source>
-        <translation type="unfinished">从创意工坊中删除</translation>
+        <translation>通过工作坊移除</translation>
     </message>
     <message>
         <source>Open Workshop Page</source>
-        <translation type="unfinished">打开创意工坊页面</translation>
+        <translation>打开工作坊页面</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this item?</source>
-        <translation type="unfinished">您确定要删除此物品？</translation>
+        <translation>您确定要删除此项吗？</translation>
     </message>
     <message>
         <source>Export Content...</source>
-        <translation type="unfinished">Export Content...</translation>
+        <translation>导出内容...</translation>
     </message>
     <message>
         <source>We only support adding one item at once.</source>
-        <translation type="unfinished">We only support adding one item at once.</translation>
+        <translation>我们只支持一次添加一个项目。</translation>
     </message>
     <message>
-        <source>File type not supported. We only support &apos;.screenplay&apos; files.</source>
-        <translation type="unfinished">File type not supported. We only support &apos;.screenplay&apos; files.</translation>
+        <source>File type not supported. We only support '.screenplay' files.</source>
+        <translation>不支持的文件类型。我们只支持 '.screenplay' 文件。</translation>
     </message>
     <message>
         <source>Import Content...</source>
-        <translation type="unfinished">Import Content...</translation>
+        <translation>导入内容...</translation>
     </message>
 </context>
 <context>
@@ -688,7 +603,33 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
     <message>
         <source>Open the ScreenPlay forum</source>
-        <translation type="unfinished">Open the ScreenPlay forum</translation>
+        <translation>打开 ScreenPlay 论坛</translation>
+    </message>
+</context>
+<context>
+    <name>LineIndicator</name>
+    <message>
+        <source>You cannot remove the last timeline. There must always be 🌩️ a timeline wallpaper.</source>
+        <translation>您无法移除最后一条时间线。必须始终有一条🌩️ 时间线壁纸。</translation>
+    </message>
+</context>
+<context>
+    <name>MonitorSelectionItem</name>
+    <message>
+        <source>Inactive</source>
+        <translation>未激活</translation>
+    </message>
+    <message>
+        <source>Starting</source>
+        <translation>正在启动</translation>
+    </message>
+    <message>
+        <source>Closing</source>
+        <translation>关闭中</translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation>激活</translation>
     </message>
 </context>
 <context>
@@ -700,29 +641,6 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     <message>
         <source>Please choose a color</source>
         <translation>请选择颜色</translation>
-    </message>
-</context>
-<context>
-    <name>MonitorsView</name>
-    <message>
-        <source>Wallpaper Configuration</source>
-        <translation type="unfinished">壁纸配置</translation>
-    </message>
-    <message>
-        <source>Remove selected</source>
-        <translation type="unfinished">移除已选择</translation>
-    </message>
-    <message>
-        <source>Remove all </source>
-        <translation type="unfinished">移除所有</translation>
-    </message>
-    <message>
-        <source>Wallpapers</source>
-        <translation type="unfinished">壁纸</translation>
-    </message>
-    <message>
-        <source>Widgets</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -756,16 +674,28 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
         <translation>暂停/播放所有壁纸</translation>
     </message>
     <message>
-        <source>Configure Wallpaper</source>
-        <translation>配置壁纸</translation>
+        <source>Get ScreenPlay Pro 3D Wallpaper and Timelines!</source>
+        <translation>获取 ScreenPlay Pro 3D 壁纸和时间线！</translation>
     </message>
     <message>
-        <source>Support me on Patreon!</source>
-        <translation>在Patreon上支持！</translation>
+        <source>ScreenPlay Pro Active</source>
+        <translation>屏幕播放专业版</translation>
     </message>
     <message>
-        <source>Close All Content</source>
-        <translation>关闭所有内容</translation>
+        <source>ScreenPlay ULTRA Active</source>
+        <translation>ScreenPlay ULTRA 激活</translation>
+    </message>
+    <message>
+        <source>Stop All Running Content</source>
+        <translation>停止所有正在播放的内容</translation>
+    </message>
+    <message>
+        <source>Configure Content</source>
+        <translation>配置内容</translation>
+    </message>
+    <message>
+        <source>No Active Content</source>
+        <translation>没有活动内容</translation>
     </message>
 </context>
 <context>
@@ -803,7 +733,7 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     <name>QMLWallpaperMain</name>
     <message>
         <source>My ScreenPlay Wallpaper 🚀</source>
-        <translation type="unfinished"></translation>
+        <translation>我的屏幕剧壁纸 🚀</translation>
     </message>
 </context>
 <context>
@@ -833,7 +763,7 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     <name>QMLWidgetMain</name>
     <message>
         <source>My Widget 🚀</source>
-        <translation type="unfinished">My Widget 🚀</translation>
+        <translation>我的小部件 🚀</translation>
     </message>
 </context>
 <context>
@@ -844,10 +774,71 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
 </context>
 <context>
-    <name>ScreenPlayItem</name>
+    <name>ScreenPlay::Wizards</name>
     <message>
-        <source>NEW</source>
-        <translation>新</translation>
+        <source>Unable to create temporary folder</source>
+        <translation>无法创建临时文件夹</translation>
+    </message>
+    <message>
+        <source>Could not write %1</source>
+        <translation>无法写入 %1</translation>
+    </message>
+    <message>
+        <source>Could not write main.qml</source>
+        <translation>无法写入 main.qml</translation>
+    </message>
+    <message>
+        <source>Could not copy thumbnail</source>
+        <translation>无法复制缩略图</translation>
+    </message>
+    <message>
+        <source>Could not write project file</source>
+        <translation>无法写入项目文件</translation>
+    </message>
+    <message>
+        <source>Could not write index.html</source>
+        <translation>无法写入 index.html</translation>
+    </message>
+    <message>
+        <source>Could copy preview thumbnail</source>
+        <translation>可以复制预览缩略图</translation>
+    </message>
+    <message>
+        <source>Could not write QmlProject.qmlproject</source>
+        <translation>无法写入 QmlProject.qmlproject</translation>
+    </message>
+    <message>
+        <source>Could not write project.godot</source>
+        <translation>无法写入 project.godot</translation>
+    </message>
+    <message>
+        <source>Could not write spinner.gd</source>
+        <translation>无法写入 spinner.gd</translation>
+    </message>
+    <message>
+        <source>Could not write wallpaper.tscn</source>
+        <translation>无法写入 wallpaper.tscn</translation>
+    </message>
+    <message>
+        <source>Could not write export_presets.cfg</source>
+        <translation>无法写入 export_presets.cfg</translation>
+    </message>
+    <message>
+        <source>Could not copy gif</source>
+        <translation>无法复制 GIF</translation>
+    </message>
+</context>
+<context>
+    <name>ScreenPlayProPopup</name>
+    <message>
+        <source>✅ 3D Wallpaper
+✅ Wallpaper Timeline</source>
+        <translation>✅ 3D 壁纸
+✅ 壁纸时间轴</translation>
+    </message>
+    <message>
+        <source>Get ScreenPlay Pro</source>
+        <translation>获取 ScreenPlay Pro</translation>
     </message>
 </context>
 <context>
@@ -861,190 +852,87 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     <name>SettingsView</name>
     <message>
         <source>General</source>
-        <translation type="unfinished">常规</translation>
+        <translation>常规</translation>
     </message>
     <message>
         <source>Autostart</source>
-        <translation type="unfinished">自启动</translation>
+        <translation>自启动</translation>
     </message>
     <message>
         <source>ScreenPlay will start with Windows and will setup your Desktop every time for you.</source>
-        <translation type="unfinished">ScreenPlay将在操作系统启动时启动，并会设置您的桌面。</translation>
+        <translation>ScreenPlay 将在 Windows 启动时自动启动，并每次为您设置桌面。</translation>
     </message>
     <message>
         <source>Send anonymous crash reports and statistics</source>
-        <translation type="unfinished">发送匿名崩溃报告和统计数据</translation>
+        <translation>发送匿名崩溃报告和统计信息</translation>
     </message>
     <message>
-        <source>Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use &lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; to collect and analyze this data. A &lt;b&gt;big thanks to them&lt;/b&gt; for providing us with free premium support for open source projects!</source>
-        <translation type="unfinished">帮助我们让 ScreenPlay 更快更稳定。所有被收集的数据完全匿名，而且仅用于开发用途！我们使用&lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; 收集与分析数据。&lt;b&gt;感谢他们&lt;/b&gt; 为我们提供对开源项目免费而优质的服务！</translation>
+        <source>Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use &lt;a href="https://sentry.io"&gt;sentry.io&lt;/a&gt; to collect and analyze this data. A &lt;b&gt;big thanks to them&lt;/b&gt; for providing us with free premium support for open source projects!</source>
+        <translation>帮助我们让 ScreenPlay 更快更稳定。收集的数据是完全匿名的，仅用于开发目的！我们使用 &lt;a href="https://sentry.io"&gt;sentry.io&lt;/a&gt; 来收集和分析这些数据。特别感谢他们为开源项目提供的免费高级支持！</translation>
     </message>
     <message>
         <source>Set save location</source>
-        <translation type="unfinished">设置保存位置</translation>
+        <translation>设置保存位置</translation>
     </message>
     <message>
         <source>Set location</source>
-        <translation type="unfinished">选择位置</translation>
+        <translation>设置位置</translation>
     </message>
     <message>
         <source>Your storage path is empty!</source>
-        <translation type="unfinished">您的存储路径是空的！</translation>
+        <translation>你的存储路径是空的！</translation>
     </message>
     <message>
         <source>Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</source>
-        <translation type="unfinished">注意：修改此目录并不影响创意工坊的下载路径。ScreenPlay仅支持单个内容文件夹！</translation>
+        <translation>重要提示：更改此目录不会影响工作区下载路径。ScreenPlay 只支持一个内容文件夹！</translation>
     </message>
     <message>
         <source>Language</source>
-        <translation type="unfinished">语言</translation>
+        <translation>语言</translation>
     </message>
     <message>
         <source>Set the ScreenPlay UI Language</source>
-        <translation type="unfinished">设置ScreenPlay界面语言</translation>
+        <translation>设置 ScreenPlay 用户界面语言</translation>
     </message>
     <message>
         <source>Theme</source>
-        <translation type="unfinished">主题</translation>
+        <translation>主题</translation>
     </message>
     <message>
         <source>Switch dark/light theme</source>
-        <translation type="unfinished">切换到暗/亮主题</translation>
+        <translation>切换深色/浅色主题</translation>
     </message>
     <message>
         <source>System Default</source>
-        <translation type="unfinished">跟随系统</translation>
+        <translation>系统默认</translation>
     </message>
     <message>
         <source>Dark</source>
-        <translation type="unfinished">暗</translation>
+        <translation>深色</translation>
     </message>
     <message>
         <source>Light</source>
-        <translation type="unfinished">亮</translation>
+        <translation>明亮</translation>
     </message>
     <message>
         <source>Wallpaper and Widgets</source>
-        <translation type="unfinished"></translation>
+        <translation>壁纸和小部件</translation>
     </message>
     <message>
         <source>Pause wallpaper video rendering while another app is in the foreground.</source>
-        <translation type="unfinished"></translation>
+        <translation>在其他应用程序处于前台时暂停壁纸视频渲染。</translation>
     </message>
     <message>
         <source>Limitations: This setting is Windows only, currently only works if you have exactly one monitor connected, and is limited to wallpapers with no audio. Wallpaper restart is required, when changing this setting!</source>
-        <translation type="unfinished"></translation>
+        <translation>限制：此设置仅适用于 Windows，目前仅在连接恰好一个显示器时有效，并仅限于没有音频的壁纸。更改此设置时需要重新启动壁纸！</translation>
     </message>
     <message>
         <source>Default Wallpaper Fill Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>默认壁纸填充模式</translation>
     </message>
     <message>
         <source>Set this property to define how the video is scaled to fit the target area.</source>
-        <translation type="unfinished">设置此属性可定义视频的缩放方式以适应目标区域。</translation>
-    </message>
-    <message>
-        <source>Stretch</source>
-        <translation type="unfinished">拉伸</translation>
-    </message>
-    <message>
-        <source>Fill</source>
-        <translation type="unfinished">填充</translation>
-    </message>
-    <message>
-        <source>Contain</source>
-        <translation type="unfinished">适应</translation>
-    </message>
-    <message>
-        <source>Cover</source>
-        <translation type="unfinished">平铺</translation>
-    </message>
-    <message>
-        <source>Scale-Down</source>
-        <translation type="unfinished">裁剪</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation type="unfinished">关于</translation>
-    </message>
-    <message>
-        <source>Thank you for using ScreenPlay</source>
-        <translation type="unfinished">感谢您的使用</translation>
-    </message>
-    <message>
-        <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
-        <translation type="unfinished">您好，我是Elias Steurer，也叫Kelteseth，我是ScreenPlay的开发者。感谢您使用我的软件。您可以在这里关注我，接收ScreenPlay的更新。</translation>
-    </message>
-    <message>
-        <source>Version</source>
-        <translation type="unfinished">版本</translation>
-    </message>
-    <message>
-        <source>Open Changelog</source>
-        <translation type="unfinished">打开更改日志。</translation>
-    </message>
-    <message>
-        <source>Third Party Software</source>
-        <translation type="unfinished">第三方软件</translation>
-    </message>
-    <message>
-        <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
-        <translation type="unfinished">ScreenPlay离不开一些人的帮助。非常感谢你们：</translation>
-    </message>
-    <message>
-        <source>Licenses</source>
-        <translation type="unfinished">许可证</translation>
-    </message>
-    <message>
-        <source>Logs</source>
-        <translation type="unfinished">日志</translation>
-    </message>
-    <message>
-        <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
-        <translation type="unfinished">如果您的ScreenPlay出错，这是个很好的查错方式。它显示所有的日志和运行时警告。</translation>
-    </message>
-    <message>
-        <source>Show Logs</source>
-        <translation type="unfinished">显示日志</translation>
-    </message>
-    <message>
-        <source>Data Protection</source>
-        <translation type="unfinished">数据保护</translation>
-    </message>
-    <message>
-        <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
-        <translation type="unfinished">我们使用您的数据提升ScreenPlay的体验。我们承诺不出售或分享这些匿名信息！</translation>
-    </message>
-    <message>
-        <source>Privacy</source>
-        <translation type="unfinished">隐私</translation>
-    </message>
-</context>
-<context>
-    <name>Sidebar</name>
-    <message>
-        <source>Set Wallpaper</source>
-        <translation>设置壁纸</translation>
-    </message>
-    <message>
-        <source>Set Widget</source>
-        <translation>设置物件</translation>
-    </message>
-    <message>
-        <source>Headline</source>
-        <translation>标题</translation>
-    </message>
-    <message>
-        <source>Select a Monitor to display the content</source>
-        <translation>选择显示此内容的显示器</translation>
-    </message>
-    <message>
-        <source>Set Volume</source>
-        <translation>设置音量</translation>
-    </message>
-    <message>
-        <source>Fill Mode</source>
-        <translation>填充模式</translation>
+        <translation>设置此属性以定义视频如何缩放以适应目标区域。</translation>
     </message>
     <message>
         <source>Stretch</source>
@@ -1056,15 +944,71 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
     <message>
         <source>Contain</source>
-        <translation>适应</translation>
+        <translation>包含</translation>
     </message>
     <message>
         <source>Cover</source>
-        <translation>平铺</translation>
+        <translation>封面</translation>
     </message>
     <message>
         <source>Scale-Down</source>
-        <translation>裁剪</translation>
+        <translation>缩小</translation>
+    </message>
+    <message>
+        <source>About</source>
+        <translation>关于</translation>
+    </message>
+    <message>
+        <source>Thank you for using ScreenPlay</source>
+        <translation>感谢您使用 ScreenPlay</translation>
+    </message>
+    <message>
+        <source>Hi, I'm Elias Steurer also known as Kelteseth and I'm the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
+        <translation>嗨，我是 Elias Steurer，大家也叫我 Kelteseth，我是 ScreenPlay 的开发者。感谢您使用我的软件。您可以在这里关注我，以获取有关 ScreenPlay 的更新:</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>版本</translation>
+    </message>
+    <message>
+        <source>Open Changelog</source>
+        <translation>打开更新日志</translation>
+    </message>
+    <message>
+        <source>Third Party Software</source>
+        <translation>第三方软件</translation>
+    </message>
+    <message>
+        <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
+        <translation>ScreenPlay 离不开他人的努力。非常感谢：</translation>
+    </message>
+    <message>
+        <source>Licenses</source>
+        <translation>许可证</translation>
+    </message>
+    <message>
+        <source>Logs</source>
+        <translation>日志</translation>
+    </message>
+    <message>
+        <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
+        <translation>如果你的 ScreenPlay 行为异常，这是寻找答案的好方法。这里显示了运行时的所有日志和警告。</translation>
+    </message>
+    <message>
+        <source>Show Logs</source>
+        <translation>显示日志</translation>
+    </message>
+    <message>
+        <source>Data Protection</source>
+        <translation>数据保护</translation>
+    </message>
+    <message>
+        <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
+        <translation>我们会非常谨慎地使用您的数据来改善 ScreenPlay。我们不会出售或分享这些（匿名）信息给其他人！</translation>
+    </message>
+    <message>
+        <source>Privacy</source>
+        <translation>隐私</translation>
     </message>
 </context>
 <context>
@@ -1079,58 +1023,73 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     </message>
 </context>
 <context>
+    <name>Timeline</name>
+    <message>
+        <source>Unable to add Timeline</source>
+        <translation>无法添加时间线</translation>
+    </message>
+    <message>
+        <source>Reseting...</source>
+        <translation>重置中...</translation>
+    </message>
+    <message>
+        <source>❌ Reset</source>
+        <translation>❌ 重置</translation>
+    </message>
+</context>
+<context>
     <name>TrayIcon</name>
     <message>
         <source>ScreenPlay - Double click to change you settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>ScreenPlay - 双击更改您的设置。</translation>
     </message>
     <message>
         <source>Open ScreenPlay</source>
-        <translation type="unfinished"></translation>
+        <translation>打开屏幕播放</translation>
     </message>
     <message>
         <source>Mute all</source>
-        <translation type="unfinished"></translation>
+        <translation>全部静音</translation>
     </message>
     <message>
         <source>Unmute all</source>
-        <translation type="unfinished"></translation>
+        <translation>解除静音</translation>
     </message>
     <message>
         <source>Pause all</source>
-        <translation type="unfinished"></translation>
+        <translation>暂停所有</translation>
     </message>
     <message>
         <source>Play all</source>
-        <translation type="unfinished"></translation>
+        <translation>全部播放</translation>
     </message>
     <message>
         <source>Quit ScreenPlay</source>
-        <translation type="unfinished"></translation>
+        <translation>退出 ScreenPlay</translation>
     </message>
     <message>
         <source>Change Wallpaper settings</source>
-        <translation type="unfinished"></translation>
+        <translation>更改壁纸设置</translation>
     </message>
     <message>
         <source>Browse Workshop</source>
-        <translation type="unfinished"></translation>
+        <translation>浏览工作坊</translation>
     </message>
     <message>
         <source>Create new Wallpaper or Widgets</source>
-        <translation type="unfinished"></translation>
+        <translation>创建新的壁纸或小部件</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished">设置</translation>
+        <translation>设置</translation>
     </message>
     <message>
         <source>Forums and Help</source>
-        <translation type="unfinished"></translation>
+        <translation>论坛与帮助</translation>
     </message>
     <message>
         <source>Frequently Asked Questions (FAQ)</source>
-        <translation type="unfinished"></translation>
+        <translation>常见问题解答 (FAQ)</translation>
     </message>
 </context>
 <context>
@@ -1180,6 +1139,29 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
     <message>
         <source>News &amp; Patchnotes</source>
         <translation>新闻和更改日志</translation>
+    </message>
+</context>
+<context>
+    <name>main</name>
+    <message>
+        <source>Steam</source>
+        <translation>Steam</translation>
+    </message>
+    <message>
+        <source>Standalone</source>
+        <translation>独立模式</translation>
+    </message>
+    <message>
+        <source>Pro</source>
+        <translation>专业版</translation>
+    </message>
+    <message>
+        <source>Ultra</source>
+        <translation>超强</translation>
+    </message>
+    <message>
+        <source>Standard</source>
+        <translation>标准</translation>
     </message>
 </context>
 </TS>

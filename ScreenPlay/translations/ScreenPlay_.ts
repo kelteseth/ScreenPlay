@@ -40,21 +40,40 @@
     </message>
 </context>
 <context>
+    <name>ContentSettingsView</name>
+    <message>
+        <source>Timeline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wallpaper Configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No active Wallpaper</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>running Wallpaper</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No active Widgets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>running Widgets</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CreateSidebar</name>
     <message>
         <source>Tools Overview</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Video Import h264 (.mp4)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Video Import VP8 &amp; VP9 (.webm)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Video import (all types)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -85,25 +104,25 @@
         <source>3D Engine Wallpaper (Godot 4.2)</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Import Video</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
-    <name>CreateWallpaperInit</name>
+    <name>CreateWallpaperFileSelect</name>
     <message>
-        <source>Import any video type</source>
+        <source>Import Video Wallpaper</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper! Supported video formats are: 
+        <source>Invalid file type. Must be valid video!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Drag and drop your video here. Supported video formats are:
 
-*.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Set your preffered video codec:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Quality slider. Lower value means better quality.</source>
+%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -127,6 +146,45 @@
     </message>
     <message>
         <source>Back to create and send an error report!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CreateWallpaperSettings</name>
+    <message>
+        <source>Import Video Wallpaper - Select Codec</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. We skip encoding if the input format matches the ouput format.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set your preffered video codec:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>✨h.264 (Better for all hardware)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>VP9 (Better for newer hardware 2018+)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>VP8 (Better for older hardware)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set video quality. Lower value means better quality.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open Documentation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start import</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -232,7 +290,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Scale_Down</source>
+        <source>Scale Down</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -386,205 +444,62 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
         <source></source>
         <translation></translation>
     </message>
-    <message>
-        <source>AnalyseVideo...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Generating preview image...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Generating preview thumbnail image...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Generating 5 second preview video...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Generating preview gif...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Converting Audio...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Converting Video... This can take some time!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Converting Video ERROR!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Analyse Video ERROR!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Import a video to a wallpaper</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Generating preview video...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Name (required!)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Youtube URL</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Abort</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Save Wallpaper...</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ImportWebmInit</name>
-    <message>
-        <source>Import a .webm video</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>When importing webm we can skip the long conversion. When you get unsatisfying results with the ScreenPlay importer from &apos;ideo import and convert (all types)&apos; you can also convert via the free and open source HandBrake!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Invalid file type. Must be valid VP8 or VP9 (*.webm)!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Drop a *.webm file here or use &apos;Select file&apos; below.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open Documentation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select file</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Importh264Convert</name>
-    <message>
-        <source>AnalyseVideo...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Generating preview image...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Generating preview thumbnail image...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Generating 5 second preview video...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Generating preview gif...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Converting Audio...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Converting Video... This can take some time!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Converting Video ERROR!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Analyse Video ERROR!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Import a video to a wallpaper</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Generating preview video...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Name (required!)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Youtube URL</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Abort</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Save Wallpaper...</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Importh264Init</name>
-    <message>
-        <source>Import a .mp4 video</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Invalid file type. Must be valid h264 (*.mp4)!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Drop a *.mp4 file here or use &apos;Select file&apos; below.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open Documentation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ScreenPlay v0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>Installed</name>
     <message>
         <source></source>
         <translation></translation>
+    </message>
+</context>
+<context>
+    <name>InstalledDrawer</name>
+    <message>
+        <source>🚀You need ScreenPlay Pro or compile it yourself</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1. Set the duration your wallpaper should be visible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1. Set a Monitor to display the content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>2. Set a Monitor to display the content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No active timeline to remove wallpaper</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Headline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>2. Set Wallpaper</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>3. Set Wallpaper</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You are not allowed to do that!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>InstalledItem</name>
+    <message>
+        <source>NEW</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -689,6 +604,32 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
     </message>
 </context>
 <context>
+    <name>LineIndicator</name>
+    <message>
+        <source>You cannot remove the last timeline. There must always be 🌩️ a timeline wallpaper.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MonitorSelectionItem</name>
+    <message>
+        <source>Inactive</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Starting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Closing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MonitorsProjectSettingItem</name>
     <message>
         <source>Set color</source>
@@ -696,29 +637,6 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
     </message>
     <message>
         <source>Please choose a color</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>MonitorsView</name>
-    <message>
-        <source>Wallpaper Configuration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove all </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Wallpapers</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Widgets</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -753,15 +671,27 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Configure Wallpaper</source>
+        <source>Get ScreenPlay Pro 3D Wallpaper and Timelines!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Support me on Patreon!</source>
+        <source>ScreenPlay Pro Active</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Close All Content</source>
+        <source>ScreenPlay ULTRA Active</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Stop All Running Content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configure Content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No Active Content</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -841,9 +771,69 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
     </message>
 </context>
 <context>
-    <name>ScreenPlayItem</name>
+    <name>ScreenPlay::Wizards</name>
     <message>
-        <source>NEW</source>
+        <source>Unable to create temporary folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not write %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not write main.qml</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not copy thumbnail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not write project file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not write index.html</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could copy preview thumbnail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not write QmlProject.qmlproject</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not write project.godot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not write spinner.gd</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not write wallpaper.tscn</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not write export_presets.cfg</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not copy gif</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ScreenPlayProPopup</name>
+    <message>
+        <source>✅ 3D Wallpaper
+✅ Wallpaper Timeline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Get ScreenPlay Pro</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1018,53 +1008,6 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
     </message>
 </context>
 <context>
-    <name>Sidebar</name>
-    <message>
-        <source>Set Wallpaper</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Set Widget</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Headline</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select a Monitor to display the content</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Set Volume</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Fill Mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Stretch</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Fill</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Contain</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cover</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Scale-Down</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>StartInfo</name>
     <message>
         <source>Free tools to help you to create wallpaper</source>
@@ -1072,6 +1015,21 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
     </message>
     <message>
         <source>Below you can find tools to create wallaper, beyond the tools that ScreenPlay provides for you!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Timeline</name>
+    <message>
+        <source>Unable to add Timeline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reseting...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>❌ Reset</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1176,6 +1134,29 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
     <name>XMLNewsfeed</name>
     <message>
         <source>News &amp; Patchnotes</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>main</name>
+    <message>
+        <source>Steam</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Standalone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pro</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ultra</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Standard</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
