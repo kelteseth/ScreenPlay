@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
-#include "ScreenPlayUtil/contenttypes.h"
+#include "ScreenPlayCore/contenttypes.h"
 
 namespace ScreenPlay {
 ContentTypes::ContentTypes(QObject* parent)

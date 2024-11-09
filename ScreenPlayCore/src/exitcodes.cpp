@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
-#include "ScreenPlayUtil/exitcodes.h"
+#include "ScreenPlayCore/exitcodes.h"
 
 namespace ScreenPlay {
 WallpaperExit::WallpaperExit(QObject* parent)

@@ -16,7 +16,7 @@
 
 #include <QQmlEngineExtensionPlugin>
 Q_IMPORT_QML_PLUGIN(ScreenPlayAppPlugin)
-Q_IMPORT_QML_PLUGIN(ScreenPlayUtilPlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlayCorePlugin)
 #ifdef SCREENPLAY_STEAM
 Q_IMPORT_QML_PLUGIN(ScreenPlayWorkshopPlugin)
 #endif

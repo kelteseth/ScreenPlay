@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import ScreenPlayUtil as Util
+import ScreenPlayCore as Util
 
 Util.Dialog {
     id: root

@@ -4,8 +4,8 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import ScreenPlayApp
-import ScreenPlayUtil
-import "../../../ScreenPlayUtil/qml/InstantPopup.js" as InstantPopup
+import ScreenPlayCore
+import "../../../ScreenPlayCore/qml/InstantPopup.js" as InstantPopup
 
 Control {
     id: root

@@ -11,7 +11,7 @@
 
 #include "ScreenPlay/createimportstates.h"
 #include "ScreenPlay/globalvariables.h"
-#include "ScreenPlayUtil/contenttypes.h"
+#include "ScreenPlayCore/contenttypes.h"
 
 namespace ScreenPlay {
 

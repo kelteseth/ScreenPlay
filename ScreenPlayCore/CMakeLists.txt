@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
-project(ScreenPlayUtil LANGUAGES CXX)
+project(ScreenPlayCore LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTORCC ON)
@@ -57,22 +57,22 @@ set(SOURCES
 
 set(HEADER
     # cmake-format: sort
-    inc/public/ScreenPlayUtil/archive.h
-    inc/public/ScreenPlayUtil/contenttypes.h
-    inc/public/ScreenPlayUtil/exitcodes.h
-    inc/public/ScreenPlayUtil/globalenums.h
-    inc/public/ScreenPlayUtil/HelpersCommon.h
-    inc/public/ScreenPlayUtil/ListPropertyHelper.h
-    inc/public/ScreenPlayUtil/logginghandler.h
-    inc/public/ScreenPlayUtil/processmanager.h
-    inc/public/ScreenPlayUtil/projectfile.h
-    inc/public/ScreenPlayUtil/PropertyHelpers.h
-    inc/public/ScreenPlayUtil/steamenumsgenerated.h
-    inc/public/ScreenPlayUtil/util.h)
+    inc/public/ScreenPlayCore/archive.h
+    inc/public/ScreenPlayCore/contenttypes.h
+    inc/public/ScreenPlayCore/exitcodes.h
+    inc/public/ScreenPlayCore/globalenums.h
+    inc/public/ScreenPlayCore/HelpersCommon.h
+    inc/public/ScreenPlayCore/ListPropertyHelper.h
+    inc/public/ScreenPlayCore/logginghandler.h
+    inc/public/ScreenPlayCore/processmanager.h
+    inc/public/ScreenPlayCore/projectfile.h
+    inc/public/ScreenPlayCore/PropertyHelpers.h
+    inc/public/ScreenPlayCore/steamenumsgenerated.h
+    inc/public/ScreenPlayCore/util.h)
 
 if(APPLE)
     list(APPEND SOURCES src/macutils.mm)
-    list(APPEND HEADER inc/public/ScreenPlayUtil/macutils.h)
+    list(APPEND HEADER inc/public/ScreenPlayCore/macutils.h)
 endif()
 
 set(RESOURCES # cmake-format: sort
@@ -104,9 +104,9 @@ target_include_directories(
     PUBLIC inc/public/
     PRIVATE src/)
 
-# Note making this public is so thatscreenplayutil_qmltyperegistrations.cpp can find the #include <contenttypes.h> include
-target_include_directories(${PROJECT_NAME} PUBLIC inc/public/ScreenPlayUtil)
-target_include_directories(${PROJECT_NAME}plugin PUBLIC inc/public/ScreenPlayUtil)
+# Note making this public is so thatScreenPlayCore_qmltyperegistrations.cpp can find the #include <contenttypes.h> include
+target_include_directories(${PROJECT_NAME} PUBLIC inc/public/ScreenPlayCore)
+target_include_directories(${PROJECT_NAME}plugin PUBLIC inc/public/ScreenPlayCore)
 
 target_link_libraries(
     ${PROJECT_NAME}

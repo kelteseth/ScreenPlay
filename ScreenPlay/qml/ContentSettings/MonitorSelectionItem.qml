@@ -2,7 +2,7 @@ import QtQuick
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material
 import ScreenPlayApp
-import ScreenPlayUtil
+import ScreenPlayCore
 
 Item {
     id: root

@@ -1,4 +1,4 @@
-#include "ScreenPlayUtil/logginghandler.h"
+#include "ScreenPlayCore/logginghandler.h"
 #include <QDateTime>
 #include <QDebug>
 #include <QDir>
@@ -8,7 +8,7 @@
 #include <QUrl>
 #include <fmt/color.h>
 
-#include "ScreenPlayUtil/CMakeVariables.h"
+#include "ScreenPlayCore/CMakeVariables.h"
 
 #ifdef Q_OS_WINDOWS
 #ifndef NOMINMAX
@@ -18,11 +18,11 @@
 #endif
 
 /*!
-    \class ScreenPlayUtil::LoggingHandler
+    \class ScreenPlayCore::LoggingHandler
     \brief The LoggingHandler class writes logs to the console and a log file.
 */
 
-namespace ScreenPlayUtil {
+namespace ScreenPlayCore {
 QString LoggingHandler::m_logFileName;
 
 LoggingHandler::LoggingHandler(const QString& logFileName)

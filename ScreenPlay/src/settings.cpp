@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "ScreenPlay/settings.h"
 #include "ScreenPlay/CMakeVariables.h"
-#include "ScreenPlayUtil/util.h"
+#include "ScreenPlayCore/util.h"
 
 #include <QDebug>
 #include <QDir>

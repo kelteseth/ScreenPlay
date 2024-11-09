@@ -1,5 +1,5 @@
-#include "ScreenPlayUtil/archive.h"
-#include "ScreenPlayUtil/util.h"
+#include "ScreenPlayCore/archive.h"
+#include "ScreenPlayCore/util.h"
 namespace ScreenPlay {
 
 Archive::Archive(QObject* parent)

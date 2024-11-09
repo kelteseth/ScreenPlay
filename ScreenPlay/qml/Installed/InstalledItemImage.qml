@@ -1,5 +1,5 @@
 import QtQuick
-import ScreenPlayUtil as Util
+import ScreenPlayCore as Util
 
 Item {
     id: root

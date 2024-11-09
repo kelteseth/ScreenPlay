@@ -7,8 +7,8 @@ import QtQuick.Effects
 import QtQuick.Controls.Material
 import QtQuick.Controls.Material.impl
 import ScreenPlayApp
-import ScreenPlayUtil
-import "../../../ScreenPlayUtil/qml/InstantPopup.js" as InstantPopup
+import ScreenPlayCore
+import "../../../ScreenPlayCore/qml/InstantPopup.js" as InstantPopup
 import "../ContentSettings"
 import "../Components"
 
@@ -124,14 +124,14 @@ Drawer {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
 
-                    layer.enabled: App.globalVariables.isBasicVersion()
-                    // For the layered items, you can assign a MultiEffect directly
-                    // to layer.effect.
-                    layer.effect: MultiEffect {
-                        blurEnabled: true
-                        blur: .7
+                        layer.enabled: App.globalVariables.isBasicVersion()
+                        // For the layered items, you can assign a MultiEffect directly
+                        // to layer.effect.
+                        layer.effect: MultiEffect {
+                            blurEnabled: true
+                            blur: .7
+                        }
                     }
-                }
             }
 
             ColumnLayout {

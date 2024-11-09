@@ -5,7 +5,7 @@ import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
 import ScreenPlayApp
-import ScreenPlayUtil
+import ScreenPlayCore
 import "../Components"
 
 Rectangle {

@@ -10,7 +10,7 @@
 #include <QVersionNumber>
 
 #include "ScreenPlay/globalvariables.h"
-#include "ScreenPlayUtil/contenttypes.h"
+#include "ScreenPlayCore/contenttypes.h"
 #include <memory>
 
 namespace ScreenPlay {

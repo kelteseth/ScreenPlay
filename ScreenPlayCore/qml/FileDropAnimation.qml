@@ -21,7 +21,7 @@ Item {
         smooth: true
         antialiasing: true
         mipmap: true
-        source: "qrc:/qml/ScreenPlayUtil/assets/icons/attach_file.svg"
+        source: "qrc:/qml/ScreenPlayCore/assets/icons/attach_file.svg"
         sourceSize: Qt.size(width, width)
         layer {
             enabled: true
@@ -42,7 +42,7 @@ Item {
         opacity: 0
         width: root.secondaryIconSize
         height: root.secondaryIconSize
-        source: "qrc:/qml/ScreenPlayUtil/assets/icons/description.svg"
+        source: "qrc:/qml/ScreenPlayCore/assets/icons/description.svg"
         sourceSize: Qt.size(width, width)
         layer {
             enabled: true
@@ -67,7 +67,7 @@ Item {
         opacity: 0
         width: root.centerIconSize
         height: root.centerIconSize
-        source: "qrc:/qml/ScreenPlayUtil/assets/icons/folder.svg"
+        source: "qrc:/qml/ScreenPlayCore/assets/icons/folder.svg"
         sourceSize: Qt.size(width, width)
         layer {
             enabled: true

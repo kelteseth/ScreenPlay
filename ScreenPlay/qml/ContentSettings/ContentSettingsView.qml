@@ -5,8 +5,8 @@ import QtQuick.Layouts
 import QtQuick.Effects
 import QtQuick.Controls.Material.impl
 import ScreenPlayApp
-import ScreenPlayUtil as Util
-import "../../../ScreenPlayUtil/qml/InstantPopup.js" as InstantPopup
+import ScreenPlayCore as Util
+import "../../../ScreenPlayCore/qml/InstantPopup.js" as InstantPopup
 import "../Components"
 
 Util.Popup {
@@ -79,12 +79,12 @@ Util.Popup {
                     Layout.fillHeight: true
 
                     layer.enabled: App.globalVariables.isBasicVersion()
-                     // For the layered items, you can assign a MultiEffect directly
-                     // to layer.effect.
-                     layer.effect: MultiEffect {
-                         blurEnabled: true
-                         blur: .7
-                     }
+                    // For the layered items, you can assign a MultiEffect directly
+                    // to layer.effect.
+                    layer.effect: MultiEffect {
+                        blurEnabled: true
+                        blur: .7
+                    }
                 }
             }
         }

@@ -1,7 +1,7 @@
 #include "ScreenPlay/wallpapertimelinesection.h"
 #include "ScreenPlay/screenplaywallpaper.h"
 #include "ScreenPlay/wallpaperdata.h"
-#include "ScreenPlayUtil/util.h"
+#include "ScreenPlayCore/util.h"
 #include <QDebug>
 #include <QDir>
 #include <QFileInfoList>

@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Effects
 import QtQuick.Controls
-import ScreenPlayUtil as Util
+import ScreenPlayCore as Util
 import ScreenPlayApp
 
 Rectangle {

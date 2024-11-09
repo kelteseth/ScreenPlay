@@ -13,8 +13,8 @@
 #include <optional>
 
 #include "ScreenPlay/wallpapertimelinesection.h"
-#include "ScreenPlayUtil/contenttypes.h"
-#include "ScreenPlayUtil/globalenums.h"
+#include "ScreenPlayCore/contenttypes.h"
+#include "ScreenPlayCore/globalenums.h"
 
 namespace ScreenPlay {
 

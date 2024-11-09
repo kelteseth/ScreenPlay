@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick.Controls
-import ScreenPlayUtil
+import ScreenPlayCore
 import ScreenPlayApp 1.0
 import "ContentSettings" as ContentSettings
 import "Navigation" as Navigation

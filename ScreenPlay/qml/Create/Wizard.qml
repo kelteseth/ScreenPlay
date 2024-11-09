@@ -5,7 +5,7 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 import ScreenPlayApp
 
-import ScreenPlayUtil
+import ScreenPlayCore
 
 Item {
     id: root

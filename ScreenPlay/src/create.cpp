@@ -2,7 +2,7 @@
 
 #include "ScreenPlay/create.h"
 #include "ScreenPlay/createimportvideo.h"
-#include "ScreenPlayUtil/util.h"
+#include "ScreenPlayCore/util.h"
 
 #include <QDir>
 #include <QFile>

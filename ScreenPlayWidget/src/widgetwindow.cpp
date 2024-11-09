@@ -5,9 +5,9 @@
 #include <QGuiApplication>
 #include <QSysInfo>
 
-#include "ScreenPlayUtil/contenttypes.h"
-#include "ScreenPlayUtil/processmanager.h"
-#include "ScreenPlayUtil/util.h"
+#include "ScreenPlayCore/contenttypes.h"
+#include "ScreenPlayCore/processmanager.h"
+#include "ScreenPlayCore/util.h"
 
 namespace ScreenPlay {
 /*!

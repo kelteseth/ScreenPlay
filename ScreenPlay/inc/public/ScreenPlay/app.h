@@ -10,7 +10,7 @@
 #include "ScreenPlay/screenplaymanager.h"
 #include "ScreenPlay/settings.h"
 #include "ScreenPlay/wizards.h"
-#include "ScreenPlayUtil/util.h"
+#include "ScreenPlayCore/util.h"
 
 #include <QQmlEngine>
 #include <QString>

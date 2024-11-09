@@ -2,7 +2,7 @@ import QtQml
 import QtQuick
 import QtQuick.Controls
 import ScreenPlayWallpaper
-import ScreenPlayUtil
+import ScreenPlayCore
 
 Rectangle {
     id: root

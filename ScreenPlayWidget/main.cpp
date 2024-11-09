@@ -8,20 +8,20 @@
 #include <QStringList>
 #include <QtWebEngineQuick>
 
-#include "ScreenPlayUtil/contenttypes.h"
-#include "ScreenPlayUtil/exitcodes.h"
-#include "ScreenPlayUtil/logginghandler.h"
+#include "ScreenPlayCore/contenttypes.h"
+#include "ScreenPlayCore/exitcodes.h"
+#include "ScreenPlayCore/logginghandler.h"
 #include "src/widgetwindow.h"
 
 #if defined(Q_OS_WIN)
 Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoPlugin)
 #endif
 #if defined(Q_OS_MACOS)
-#include "ScreenPlayUtil/macutils.h"
+#include "ScreenPlayCore/macutils.h"
 #endif
 
 Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherPlugin)
-Q_IMPORT_QML_PLUGIN(ScreenPlayUtilPlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlayCorePlugin)
 
 int main(int argc, char* argv[])
 {
@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
     QtWebEngineQuick::initialize();
 
     QGuiApplication app(argc, argv);
-    std::unique_ptr<const ScreenPlayUtil::LoggingHandler> logging;
+    std::unique_ptr<const ScreenPlayCore::LoggingHandler> logging;
 
     QStringList argumentList;
 
@@ -149,7 +149,7 @@ int main(int argc, char* argv[])
 #if defined(Q_OS_MACOS)
     MacUtils::showDockIcon(false);
 #endif
-    logging = std::make_unique<const ScreenPlayUtil::LoggingHandler>("ScreenPlayWidget_" + appID);
+    logging = std::make_unique<const ScreenPlayCore::LoggingHandler>("ScreenPlayWidget_" + appID);
     const int status = app.exec();
     logging.reset();
     return status;

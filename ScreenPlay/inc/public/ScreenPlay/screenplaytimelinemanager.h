@@ -8,7 +8,7 @@
 
 #include "ScreenPlay/monitorlistmodel.h"
 #include "ScreenPlay/wallpapertimelinesection.h"
-#include "ScreenPlayUtil/util.h"
+#include "ScreenPlayCore/util.h"
 
 namespace ScreenPlay {
 

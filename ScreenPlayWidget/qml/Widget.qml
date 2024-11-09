@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtWebEngine
 import ScreenPlayWidget
-import ScreenPlayUtil as Util
+import ScreenPlayCore as Util
 
 Item {
     id: root

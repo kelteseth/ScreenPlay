@@ -54,5 +54,5 @@ set(HEADER
 if(${SCREENPLAY_STEAM})
     qt_add_library(${PROJECT_NAME} STATIC ${HEADER})
     target_include_directories(${PROJECT_NAME} PUBLIC public/)
-    target_link_libraries(${PROJECT_NAME} PUBLIC ScreenPlayUtil)
+    target_link_libraries(${PROJECT_NAME} PUBLIC ScreenPlayCore)
 endif()

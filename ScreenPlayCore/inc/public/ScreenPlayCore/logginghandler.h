@@ -4,7 +4,7 @@
 #include <QObject>
 #include <mutex>
 
-namespace ScreenPlayUtil {
+namespace ScreenPlayCore {
 class LoggingHandler : public QObject {
     Q_OBJECT
 

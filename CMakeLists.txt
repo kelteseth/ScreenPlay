@@ -38,7 +38,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
 set(CMAKE_OSX_DEPLOYMENT_TARGET "13.0")
 
 # This is needed for OSX: Because we bundle ScreenPlay and ScreenPlayWallpaper into .app they both need other QML dependencies like
-# ScreenPlayUtil. The fastest way is to use a shared QML module path for development and add this path to the qml engines import pah. For
+# ScreenPlayCore. The fastest way is to use a shared QML module path for development and add this path to the qml engines import pah. For
 # the SCREENPLAY_DEPLOY we copy them into the matching dirs via the build.py
 #
 # This subdirectoy is needed for OSX and Linux to fix linker errors because we would have ScreenPlayApp executable and folder for the qml
@@ -152,7 +152,7 @@ add_subdirectory(ScreenPlaySDK)
 add_subdirectory(ScreenPlayShader)
 add_subdirectory(ScreenPlayWallpaper)
 add_subdirectory(ScreenPlayWidget)
-add_subdirectory(ScreenPlayUtil)
+add_subdirectory(ScreenPlayCore)
 add_subdirectory(ScreenPlayWeather)
 
 if(${SCREENPLAY_GODOT})

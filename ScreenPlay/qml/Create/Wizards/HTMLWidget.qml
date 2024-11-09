@@ -4,7 +4,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import ScreenPlayApp
 
-import ScreenPlayUtil as Util
+import ScreenPlayCore as Util
 
 WizardPage {
     id: root

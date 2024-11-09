@@ -16,8 +16,8 @@
 #include "ScreenPlay/settings.h"
 #include "ScreenPlay/wallpaperdata.h"
 #include "ScreenPlay/wallpapertimelinesection.h"
-#include "ScreenPlayUtil/globalenums.h"
-#include "ScreenPlayUtil/processmanager.h"
+#include "ScreenPlayCore/globalenums.h"
+#include "ScreenPlayCore/processmanager.h"
 
 namespace ScreenPlay {
 

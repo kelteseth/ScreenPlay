@@ -1,4 +1,4 @@
-#include "ScreenPlayUtil/steamenumsgenerated.h"
+#include "ScreenPlayCore/steamenumsgenerated.h"
 
 namespace ScreenPlayWorkshop {
 Steam::Steam() { }

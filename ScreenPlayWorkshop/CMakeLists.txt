@@ -101,7 +101,7 @@ target_link_libraries(
     PUBLIC Qt6::Core
            Qt6::Quick
            ${STEAM_LIB}
-           ScreenPlayUtil
+           ScreenPlayCore
            SteamSDK)
 
 qt_add_qml_module(
@@ -140,7 +140,7 @@ if(${SCREENPLAY_STEAM})
             PRIVATE Qt6::Quick
                     Qt6::QuickControls2
                     ${PROJECT_NAME}plugin
-                    ScreenPlayUtilplugin
+                    ScreenPlayCoreplugin
                     ScreenPlayAppplugin # Only needed for the test app
                     SteamSDK)
 

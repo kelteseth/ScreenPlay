@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
-#include "ScreenPlayUtil/util.h"
+#include "ScreenPlayCore/util.h"
 
 #include <QDesktopServices>
 #include <QFile>
@@ -9,14 +9,14 @@
 
 #include "core/qcoroprocess.h"
 /*!
-    \module ScreenPlayUtil
-    \title ScreenPlayUtil
-    \brief Module for ScreenPlayUtil.
+    \module ScreenPlayCore
+    \title ScreenPlayCore
+    \brief Module for ScreenPlayCore.
 */
 /*!
     \namespace ScreenPlay
-    \inmodule ScreenPlayUtil
-    \brief Namespace for ScreenPlayUtil.
+    \inmodule ScreenPlayCore
+    \brief Namespace for ScreenPlayCore.
 */
 
 namespace ScreenPlay {
@@ -463,6 +463,49 @@ bool Util::isVideo(const ScreenPlay::ContentTypes::InstalledType type) const
 QStringList Util::getAvailableFillModes() const
 {
     return { "stretch", "fill", "contain", "cover", "scale-down" };
+}
+
+/*!
+    \brief Checks if the wallpaper type is Qt-based (Video, QML, HTML, GIF, Website)
+    \param type The InstalledType to check
+    \return true if the wallpaper is Qt-based, false otherwise
+*/
+bool Util::isQtBasedWallpaper(const ScreenPlay::ContentTypes::InstalledType type) const
+{
+    using IT = ScreenPlay::ContentTypes::InstalledType;
+    return type == IT::VideoWallpaper || type == IT::QMLWallpaper || type == IT::HTMLWallpaper || type == IT::GifWallpaper || type == IT::WebsiteWallpaper;
+}
+
+/*!
+    \brief Checks if the wallpaper type is Godot-based
+    \param type The InstalledType to check
+    \return true if the wallpaper is Godot-based, false otherwise
+*/
+bool Util::isGodotWallpaper(const ScreenPlay::ContentTypes::InstalledType type) const
+{
+    return type == ScreenPlay::ContentTypes::InstalledType::GodotWallpaper;
+}
+
+/*!
+    \brief Checks if two wallpaper types share the same runtime environment
+    \param type1 First InstalledType to compare
+    \param type2 Second InstalledType to compare
+    \return true if both wallpapers use the same runtime, false otherwise
+*/
+bool Util::isSameWallpaperRuntime(
+    const ScreenPlay::ContentTypes::InstalledType type1,
+    const ScreenPlay::ContentTypes::InstalledType type2) const
+{
+    if (!isWallpaper(type1) || !isWallpaper(type2)) {
+        return false;
+    }
+    // If either type is Unknown, they're not compatible
+    if (type1 == ScreenPlay::ContentTypes::InstalledType::Unknown || type2 == ScreenPlay::ContentTypes::InstalledType::Unknown) {
+        return false;
+    }
+
+    // Check if both are Qt-based or both are Godot
+    return (isQtBasedWallpaper(type1) && isQtBasedWallpaper(type2)) || (isGodotWallpaper(type1) && isGodotWallpaper(type2));
 }
 
 /*!

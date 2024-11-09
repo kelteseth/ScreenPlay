@@ -3,7 +3,7 @@
 #include <QStringList>
 #include <QVariant>
 
-#include "ScreenPlayUtil/steamenumsgenerated.h"
+#include "ScreenPlayCore/steamenumsgenerated.h"
 #include "steam/steamtypes.h"
 
 namespace ScreenPlayWorkshop {

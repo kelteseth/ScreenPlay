@@ -2,36 +2,25 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material
-import QtQuick.Window
-import Qt5Compat.GraphicalEffects
 import ScreenPlayApp
 
-import ScreenPlayUtil as Util
+import ScreenPlayCore as Util
 
 Util.Dialog {
     id: root
 
-    property ApplicationWindow window
-    property string message
-    standardButtons: Dialog.Ok | Dialog.Help
-    onHelpRequested: {
-        Qt.openUrlExternally("https://forum.screen-play.app/");
-    }
+    standardButtons: Dialog.Ok
+    contentHeight: 250
 
     Connections {
-        function onDisplayErrorPopup(msg) {
-            root.message = msg;
-            root.window.show();
+        function onMonitorConfigurationChanged() {
             root.open();
         }
 
-        target: App.screenPlayManager
+        target: App.monitorListModel
     }
 
     contentItem: Item {
-        implicitWidth: 600
-        implicitHeight: 400
-
         ColumnLayout {
             anchors.margins: 20
             anchors.fill: parent
@@ -41,23 +30,14 @@ Util.Dialog {
                 Layout.alignment: Qt.AlignHCenter
                 Layout.preferredWidth: 150
                 Layout.preferredHeight: 150
-                source: "qrc:/qml/ScreenPlayApp/assets/icons/exclamation-triangle-solid.svg"
+                source: "qrc:/qml/ScreenPlayApp/assets/icons/monitor_setup.svg"
                 fillMode: Image.PreserveAspectFit
-
-                layer {
-                    enabled: true
-
-                    effect: ColorOverlay {
-                        color: Material.color(Material.DeepOrange)
-                    }
-                }
             }
 
             Text {
-                text: root.message
+                text: qsTr("Your monitor setup changed!\n Please configure your wallpaper again.")
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                Layout.margins: 20
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 horizontalAlignment: Text.AlignHCenter
                 font.family: App.settings.font

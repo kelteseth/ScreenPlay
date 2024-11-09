@@ -320,8 +320,8 @@ target_link_libraries(
     ScreenPlayApp
     PUBLIC ScreenPlaySDK
            LibArchive::LibArchive
-           ScreenPlayUtil
-           ScreenPlayUtilplugin
+           ScreenPlayCore
+           ScreenPlayCoreplugin
            QArchive
            Threads::Threads
            QCoro6::Qml

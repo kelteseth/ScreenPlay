@@ -19,7 +19,7 @@
 #include <QtMath>
 
 #include "ScreenPlay/createimportstates.h"
-#include "ScreenPlayUtil/contenttypes.h"
+#include "ScreenPlayCore/contenttypes.h"
 
 namespace ScreenPlay {
 

@@ -23,7 +23,7 @@
 #include <QtQml>
 #include <vector>
 
-#include "ScreenPlayUtil/projectfile.h"
+#include "ScreenPlayCore/projectfile.h"
 
 /*!
     \class Installed List Model

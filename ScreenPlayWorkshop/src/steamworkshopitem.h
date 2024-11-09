@@ -15,12 +15,12 @@
 #include <QUrl>
 
 // Steam
-#include "ScreenPlayUtil/steamenumsgenerated.h"
+#include "ScreenPlayCore/steamenumsgenerated.h"
 #include "cstring"
 #include "stdlib.h"
 #include "steam/steam_api.h"
 
-#include "ScreenPlayUtil/util.h"
+#include "ScreenPlayCore/util.h"
 #include "steamapiwrapper.h"
 
 namespace ScreenPlayWorkshop {

@@ -14,7 +14,7 @@
 #include "ScreenPlay/screenplaywallpaper.h"
 #include "ScreenPlay/screenplaywidget.h"
 #include "ScreenPlay/settings.h"
-#include "ScreenPlayUtil/util.h"
+#include "ScreenPlayCore/util.h"
 
 namespace ScreenPlay {
 

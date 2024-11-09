@@ -243,7 +243,7 @@ set(RESOURCES
     assets/icons/wi-windy.svg)
 
 qt_add_library(${PROJECT_NAME} STATIC)
-target_link_libraries(${PROJECT_NAME} PUBLIC ScreenPlayUtil ScreenPlayUtilplugin)
+target_link_libraries(${PROJECT_NAME} PUBLIC ScreenPlayCore ScreenPlayCoreplugin)
 target_include_directories(${PROJECT_NAME} PUBLIC src/)
 
 qt_add_qml_module(

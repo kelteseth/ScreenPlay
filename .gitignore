@@ -264,3 +264,4 @@ cython_debug/
 /ThirdParty/qt-layer-shell/**
 /ThirdParty/Godot/Godot_*.*
 /ScreenPlay/qml/Create/WizardsFiles/Godot_v5/.godot/*
+.qmlls.ini

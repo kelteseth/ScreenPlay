@@ -6,7 +6,7 @@
 #include <QUrl>
 #include <QVector>
 
-#include "ScreenPlayUtil/steamenumsgenerated.h"
+#include "ScreenPlayCore/steamenumsgenerated.h"
 #include "steamworkshopitem.h"
 
 namespace ScreenPlayWorkshop {

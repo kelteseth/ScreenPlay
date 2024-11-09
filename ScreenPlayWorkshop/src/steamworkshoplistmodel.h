@@ -11,7 +11,7 @@
 
 #include "workshopitem.h"
 // Steam
-#include "ScreenPlayUtil/steamenumsgenerated.h"
+#include "ScreenPlayCore/steamenumsgenerated.h"
 #include "cstring"
 #include "stdlib.h"
 #include "steam/steam_api.h"

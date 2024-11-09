@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #pragma once
-#include "ScreenPlayUtil/PropertyHelpers.h"
+#include "ScreenPlayCore/PropertyHelpers.h"
 #include <QDateTime>
 #include <QObject>
 #include <QQmlEngine>

@@ -14,7 +14,7 @@
 
 #include "ScreenPlay/globalvariables.h"
 #include "ScreenPlay/settings.h"
-#include "ScreenPlayUtil/projectfile.h"
+#include "ScreenPlayCore/projectfile.h"
 
 namespace ScreenPlay {
 

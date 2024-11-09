@@ -2,7 +2,7 @@
 
 #include "ScreenPlay/CMakeVariables.h"
 #include "ScreenPlay/applicationengine.h"
-#include "ScreenPlayUtil/logginghandler.h"
+#include "ScreenPlayCore/logginghandler.h"
 #include "qcorotask.h"
 #include "qml/qcoroqml.h"
 #include "qml/qcoroqmltask.h"
@@ -20,7 +20,7 @@ Q_IMPORT_QML_PLUGIN(ScreenPlayWorkshopPlugin)
 
 #include <QQmlEngineExtensionPlugin>
 Q_IMPORT_QML_PLUGIN(ScreenPlayAppPlugin)
-Q_IMPORT_QML_PLUGIN(ScreenPlayUtilPlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlayCorePlugin)
 
 int main(int argc, char* argv[])
 {
@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
         return 0;
     }
 
-    auto logging = std::make_unique<const ScreenPlayUtil::LoggingHandler>("ScreenPlay");
+    auto logging = std::make_unique<const ScreenPlayCore::LoggingHandler>("ScreenPlay");
     appEngine.init();
     const int status = qtGuiApp.exec();
 #if defined(Q_OS_WIN)

@@ -25,7 +25,7 @@
 #include <QtGlobal>
 #include <optional>
 
-#include "ScreenPlayUtil/contenttypes.h"
+#include "ScreenPlayCore/contenttypes.h"
 #include "qcorotask.h"
 #include "qml/qcoroqml.h"
 #include "qml/qcoroqmltask.h"
@@ -121,6 +121,13 @@ public:
     QStringList getAvailableWidgets() const;
     QStringList getAvailableTypes() const;
     QStringList getAvailableFillModes() const;
+
+    bool isQtBasedWallpaper(const ScreenPlay::ContentTypes::InstalledType type) const;
+    bool isSameWallpaperRuntime(
+        const ScreenPlay::ContentTypes::InstalledType type1,
+        const ScreenPlay::ContentTypes::InstalledType type2) const;
+    bool isGodotWallpaper(const ScreenPlay::ContentTypes::InstalledType type) const;
+
     // QML callable functions
     Q_INVOKABLE QString toLocal(const QString& url) const;
     Q_INVOKABLE QCoro::QmlTask exportGodotProject(const QString& absolutePath, const QString& godotEditorExecutablePath);

@@ -3,7 +3,7 @@
 #pragma once
 
 #include "ScreenPlay/globalvariables.h"
-#include "ScreenPlayUtil/util.h"
+#include "ScreenPlayCore/util.h"
 
 #include <QColor>
 #include <QFuture>

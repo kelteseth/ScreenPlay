@@ -6,7 +6,7 @@ import QtQuick.Layouts
 import QtQuick.Dialogs
 import ScreenPlayApp
 
-import ScreenPlayUtil
+import ScreenPlayCore
 
 Item {
     id: root

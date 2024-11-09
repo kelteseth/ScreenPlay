@@ -4,7 +4,7 @@ import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 import QtQuick.Layouts
 import ScreenPlayWorkshop
-import ScreenPlayUtil as Util
+import ScreenPlayCore as Util
 import "upload/"
 
 Item {

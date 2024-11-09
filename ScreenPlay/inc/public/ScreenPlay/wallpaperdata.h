@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "ScreenPlayUtil/contenttypes.h"
+#include "ScreenPlayCore/contenttypes.h"
 #include <QDebug>
 #include <QDir>
 #include <QFileInfoList>

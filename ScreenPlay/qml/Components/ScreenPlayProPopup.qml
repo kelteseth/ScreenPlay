@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick.Controls
-import ScreenPlayUtil
+import ScreenPlayCore
 import ScreenPlayApp
 
 Dialog {

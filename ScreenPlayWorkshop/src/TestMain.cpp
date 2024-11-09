@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
-#include "ScreenPlayUtil/steamenumsgenerated.h"
+#include "ScreenPlayCore/steamenumsgenerated.h"
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
@@ -7,7 +7,7 @@
 
 Q_IMPORT_QML_PLUGIN(ScreenPlayAppPlugin)
 Q_IMPORT_QML_PLUGIN(ScreenPlayWorkshopPlugin)
-Q_IMPORT_QML_PLUGIN(ScreenPlayUtilPlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlayCorePlugin)
 
 int main(int argc, char* argv[])
 {

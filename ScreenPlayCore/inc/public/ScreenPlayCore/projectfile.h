@@ -16,8 +16,8 @@
 #include <QVariant>
 #include <QVariantList>
 
-#include "ScreenPlayUtil/PropertyHelpers.h"
-#include "ScreenPlayUtil/util.h"
+#include "ScreenPlayCore/PropertyHelpers.h"
+#include "ScreenPlayCore/util.h"
 
 /*!
     \class ProjectFile

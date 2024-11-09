@@ -4,7 +4,7 @@ import QtQuick.Layouts
 import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 import ScreenPlayWorkshop
-import ScreenPlayUtil
+import ScreenPlayCore
 import ScreenPlayApp
 
 Popup {

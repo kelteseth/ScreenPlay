@@ -17,7 +17,7 @@
 #include <QTimer>
 #include <QtGlobal>
 
-#include "ScreenPlayUtil/processmanager.h"
+#include "ScreenPlayCore/processmanager.h"
 
 class ScreenPlaySDK : public QObject {
     Q_OBJECT

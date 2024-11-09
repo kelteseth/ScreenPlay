@@ -7,7 +7,7 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 import ScreenPlayApp
 
-import ScreenPlayUtil as Util
+import ScreenPlayCore as Util
 import Qt5Compat.GraphicalEffects
 
 /*!

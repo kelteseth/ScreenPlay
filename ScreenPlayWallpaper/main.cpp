@@ -8,9 +8,9 @@
 
 #include "ScreenPlayWallpaper/CMakeVariables.h"
 
-#include "ScreenPlayUtil/exitcodes.h"
-#include "ScreenPlayUtil/logginghandler.h"
-#include "ScreenPlayUtil/util.h"
+#include "ScreenPlayCore/exitcodes.h"
+#include "ScreenPlayCore/logginghandler.h"
+#include "ScreenPlayCore/util.h"
 
 #if defined(Q_OS_WIN)
 #include "src/winwindow.h"
@@ -23,7 +23,7 @@ Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoPlugin)
 #endif
 
 Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherPlugin)
-Q_IMPORT_QML_PLUGIN(ScreenPlayUtilPlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlayCorePlugin)
 
 int main(int argc, char* argv[])
 {
@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
 
     QCoreApplication::setApplicationName("ScreenPlayWallpaper");
     QCoreApplication::setApplicationVersion("1.0");
-    std::unique_ptr<const ScreenPlayUtil::LoggingHandler> logging;
+    std::unique_ptr<const ScreenPlayCore::LoggingHandler> logging;
     std::unique_ptr<BaseWindow> window;
 
 #if defined(Q_OS_WIN)
@@ -196,7 +196,7 @@ int main(int argc, char* argv[])
         return static_cast<int>(startStatus);
     }
     emit window->qmlStart();
-    logging = std::make_unique<const ScreenPlayUtil::LoggingHandler>("ScreenPlayWallpaper_" + parser.value(appIDOption));
+    logging = std::make_unique<const ScreenPlayCore::LoggingHandler>("ScreenPlayWallpaper_" + parser.value(appIDOption));
     const int status = app.exec();
     logging.reset();
     return status;

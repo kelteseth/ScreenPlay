@@ -1,7 +1,7 @@
 #include "ScreenPlay/screenplaytimelinemanager.h"
 #include "ScreenPlay/screenplaywallpaper.h"
 #include "ScreenPlay/wallpaperdata.h"
-#include "ScreenPlayUtil/util.h"
+#include "ScreenPlayCore/util.h"
 #include <QString>
 #include <QStringList>
 #include <QtGlobal>

@@ -24,7 +24,7 @@
 #endif
 
 #include "ScreenPlaySDK/screenplaysdk.h"
-#include "ScreenPlayUtil/util.h"
+#include "ScreenPlayCore/util.h"
 #include <memory>
 
 namespace ScreenPlay {

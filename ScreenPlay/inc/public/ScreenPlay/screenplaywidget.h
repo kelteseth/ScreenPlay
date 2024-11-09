@@ -13,7 +13,7 @@
 #include "ScreenPlay/globalvariables.h"
 #include "ScreenPlay/projectsettingslistmodel.h"
 #include "ScreenPlay/sdkconnection.h"
-#include "ScreenPlayUtil/processmanager.h"
+#include "ScreenPlayCore/processmanager.h"
 
 namespace ScreenPlay {
 

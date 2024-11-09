@@ -16,7 +16,7 @@
 #include <QtSvg>
 
 #if defined(Q_OS_MACOS)
-#include "ScreenPlayUtil/macutils.h"
+#include "ScreenPlayCore/macutils.h"
 #endif
 
 namespace ScreenPlay {

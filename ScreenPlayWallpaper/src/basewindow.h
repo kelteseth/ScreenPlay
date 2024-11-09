@@ -15,10 +15,10 @@
 #include <QtQml>
 
 #include "ScreenPlaySDK/screenplaysdk.h"
-#include "ScreenPlayUtil/exitcodes.h"
-#include "ScreenPlayUtil/processmanager.h"
-#include "ScreenPlayUtil/projectfile.h"
-#include "ScreenPlayUtil/util.h"
+#include "ScreenPlayCore/exitcodes.h"
+#include "ScreenPlayCore/processmanager.h"
+#include "ScreenPlayCore/projectfile.h"
+#include "ScreenPlayCore/util.h"
 
 #include <memory>
 
