@@ -5,8 +5,7 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Dialogs
 import ScreenPlayApp
-
-import ScreenPlayUtil as Util
+import ScreenPlayCore as Util
 import "../../"
 
 Item {

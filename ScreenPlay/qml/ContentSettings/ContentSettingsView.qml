@@ -156,11 +156,14 @@ Util.Popup {
                             return;
                         }
                         monitorSelection.enabled = false;
-                        App.screenPlayManager.removeWallpaperAt(index, selectedTimeline.identifier, selectedTimeline.index).then(result => {
+                        App.screenPlayManager.removeWallpaperAt(selectedTimeline.index,  selectedTimeline.identifier, index).then(result => {
                             monitorSelection.enabled = true;
-                            if (!result.success) {
-                                InstantPopup.openErrorPopup(this, result);
-                            }
+                          if (result.success) {
+                              // Reset to update the wallpaper preview image
+                              timeline.setActiveWallpaperPreviewImage();
+                          } else {
+                              InstantPopup.openErrorPopup(Window.window.contentItem, result.message);
+                          }
                         });
                     }
 

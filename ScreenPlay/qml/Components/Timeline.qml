@@ -139,9 +139,12 @@ Control {
                 let timelineSection = timelineSectionList[i];
                 let lineIndicator = timeline.sectionsList[i].lineIndicator;
 
-                // References a single wallpaper
-                if (timelineSection.wallpaperData.length === 0)
+                // Reset the preview image
+                if (timelineSection.wallpaperData.length === 0){
+                    lineIndicator.wallpaperPreviewImage = ""
                     continue;
+                }
+
                 let firstWallpaper = timelineSection.wallpaperData[0];
                 lineIndicator.wallpaperPreviewImage = Qt.resolvedUrl("file:///" + firstWallpaper.absolutePath + "/" + firstWallpaper.previewImage);
             }

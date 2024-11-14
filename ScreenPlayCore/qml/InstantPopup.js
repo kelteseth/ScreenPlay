@@ -3,8 +3,11 @@
 
 var errorPopup
 
+
 /*
-  Creates error popups in js
+  Creates error popups in js. Make sure you are parenting to an item.
+  Alternativly use  InstantPopup.openErrorPopup(Window.window.contentItem, message);
+  We cannot access window in here, so the developer must provide it...
 */
 function openErrorPopup(parent, errorMsg) {
     console.error(errorMsg)
@@ -18,7 +21,7 @@ function openErrorPopup(parent, errorMsg) {
 
     if (!errorPopup) {
         var errorComponent = Qt.createComponent(
-                    "qrc:/qml/ScreenPlayUtil/qml/ErrorPopup.qml")
+                    "qrc:/qml/ScreenPlayCore/qml/ErrorPopup.qml")
         if (errorComponent.status === QtQ.Component.Ready) {
             errorPopup = errorComponent.createObject(parent)
         } else {
