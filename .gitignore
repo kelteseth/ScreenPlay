@@ -265,3 +265,6 @@ cython_debug/
 /ThirdParty/Godot/Godot_*.*
 /ScreenPlay/qml/Create/WizardsFiles/Godot_v5/.godot/*
 .qmlls.ini
+/.vs/ScreenPlay/
+/.vs/slnx.sqlite
+/.vs/VSWorkspaceState.json

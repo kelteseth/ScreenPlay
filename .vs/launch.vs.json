@@ -1,0 +1,13 @@
+{
+    "version": "0.2.1",
+    "defaults": {},
+    "configurations": [
+        {
+            "type": "default",
+            "project": "CMakeLists.txt",
+            "projectTarget": "ScreenPlay.exe (bin\\ScreenPlay.exe)",
+            "env": "PATH=${workspaceRoot}\\..\\vcpkg\\installed\\x64-windows\\debug\\bin;${workspaceRoot}\\..\\vcpkg\\installed\\x64-windows\\bin;C:\\Qt\\6.8.0\\msvc2022_64\\bin\\;C:\\Qt\\6.8.0\\msvc2022_64\\modules\\;C:\\Qt\\6.8.0\\msvc2022_64\\qml\\;${env.PATH}",
+            "name": "⭐ ScreenPlay x64"
+        }
+    ]
+}
