@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "ScreenPlayCore/globalenums.h"
+#include "ScreenPlayCore/licensemanager.h"
 #include <QObject>
 #include <QQmlEngine>
 #include <QUrl>
@@ -14,7 +16,7 @@ class GlobalVariables : public QObject {
     QML_UNCREATABLE("")
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
 
-    Q_PROPERTY(ScreenPlay::GlobalVariables::Version version READ version WRITE setVersion NOTIFY versionChanged FINAL)
+    Q_PROPERTY(ScreenPlay::ScreenPlayEnums::Version version READ version WRITE setVersion NOTIFY versionChanged FINAL)
     Q_PROPERTY(QUrl localStoragePath READ localStoragePath WRITE setLocalStoragePath NOTIFY localStoragePathChanged FINAL)
     Q_PROPERTY(QUrl localSettingsPath READ localSettingsPath WRITE setLocalSettingsPath NOTIFY localSettingsPathChanged FINAL)
     Q_PROPERTY(QUrl wallpaperExecutablePath READ wallpaperExecutablePath WRITE setWallpaperExecutablePath NOTIFY wallpaperExecutablePathChanged FINAL)
@@ -25,22 +27,13 @@ class GlobalVariables : public QObject {
 public:
     explicit GlobalVariables(QObject* parent = nullptr);
 
-    enum class Version {
-        OpenSourceStandalone,
-        OpenSourceSteam,
-        OpenSourceProStandalone,
-        OpenSourceProSteam,
-        OpenSourceUltraStandalone,
-        OpenSourceUltraSteam
-    };
-    Q_ENUM(Version)
     Q_INVOKABLE bool isBasicVersion() const;
     Q_INVOKABLE bool isStandaloneVersion() const;
     Q_INVOKABLE bool isSteamVersion() const;
     Q_INVOKABLE bool isProVersion() const;
     Q_INVOKABLE bool isUltraVersion() const;
 
-    ScreenPlay::GlobalVariables::Version version() const { return m_version; }
+    ScreenPlay::ScreenPlayEnums::Version version() const { return m_version; }
     QUrl localStoragePath() const { return m_localStoragePath; }
     QUrl localSettingsPath() const { return m_localSettingsPath; }
     QUrl wallpaperExecutablePath() const { return m_wallpaperExecutablePath; }
@@ -49,7 +42,7 @@ public:
     QUrl godotEditorExecutablePath() const { return m_godotEditorExecutablePath; }
 
 signals:
-    void versionChanged(Version version);
+    void versionChanged(ScreenPlay::ScreenPlayEnums::Version version);
     void localStoragePathChanged(QUrl localStoragePath);
     void localSettingsPathChanged(QUrl localSettingsPath);
     void wallpaperExecutablePathChanged(QUrl wallpaperExecutablePath);
@@ -58,7 +51,7 @@ signals:
     void godotEditorExecutablePathChanged(QUrl godotEditorExecutablePath);
 
 public slots:
-    void setVersion(Version version);
+    void setVersion(ScreenPlay::ScreenPlayEnums::Version version);
     void setLocalStoragePath(QUrl localStoragePath);
     void setLocalSettingsPath(QUrl localSettingsPath);
     void setWallpaperExecutablePath(QUrl wallpaperExecutablePath);
@@ -80,6 +73,6 @@ private:
     QUrl m_widgetExecutablePath;
     QUrl m_godotWallpaperExecutablePath;
     QUrl m_godotEditorExecutablePath;
-    Version m_version = Version::OpenSourceStandalone;
+    ScreenPlayEnums::Version m_version = ScreenPlayEnums::Version::OpenSourceStandalone;
 };
 }

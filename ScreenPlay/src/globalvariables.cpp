@@ -22,8 +22,7 @@ GlobalVariables::GlobalVariables(QObject* parent)
     setLocalSettingsPath(QUrl { QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) });
 
     if (SCREENPLAY_STEAM_VERSION) {
-        // setVersion(ScreenPlayEnums::Version::OpenSourceProSteam); // TODO OpenSourceProSteam OpenSourceSteam
-        setVersion(m_licenseManager.getVersion());
+        setVersion(ScreenPlayEnums::Version::OpenSourceSteam); // TODO OpenSourceProSteam OpenSourceSteam
     } else {
         setVersion(ScreenPlayEnums::Version::OpenSourceStandalone);
     }
