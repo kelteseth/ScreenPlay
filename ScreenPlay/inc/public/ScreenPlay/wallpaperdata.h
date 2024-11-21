@@ -68,8 +68,8 @@ private:
     QString m_absolutePath;
     QString m_previewImage;
     QString m_title;
-    float m_playbackRate = {};
-    float m_volume = {};
+    float m_playbackRate = 1.0f;
+    float m_volume = 1.0f;
     QString m_file;
     QJsonObject m_properties;
     ContentTypes::InstalledType m_type = ContentTypes::InstalledType::Unknown;

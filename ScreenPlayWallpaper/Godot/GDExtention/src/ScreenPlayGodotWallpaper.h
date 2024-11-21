@@ -81,6 +81,6 @@ private:
     WindowsPipe m_windowsPipe;
 
     godot::PackedInt64Array m_activeScreensList;
-    float m_volume = 0.0;
+    float m_volume = 1.0f;
     bool m_checkWallpaperVisible = false;
 };
