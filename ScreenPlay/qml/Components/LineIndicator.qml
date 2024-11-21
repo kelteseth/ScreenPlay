@@ -19,7 +19,7 @@ Rectangle {
     signal remove(int index)
     signal lineSelected(int index)
 
-    function toString() : void {
+    function toString(): void {
         console.log(`LineIndicator {
         index: ${index}
         text: ${text}
@@ -189,7 +189,6 @@ Rectangle {
                 source: {
                     let imgSource = root.wallpaperPreviewImage;
                     if (imgSource === "") {
-                        print("empty");
                         return "";
                     }
                     return imgSource;
@@ -256,10 +255,10 @@ Rectangle {
                 anchors.fill: parent
                 visible: root.isLast && root.selected && !App.globalVariables.isBasicVersion()
                 onClicked: {
-                    buttonWrapper.disabledClickCount++
+                    buttonWrapper.disabledClickCount++;
                     if (buttonWrapper.disabledClickCount >= 5) {
-                        Qt.openUrlExternally("https://youtu.be/x0fm48LhJ9k?si=RYKjtOwMQJOhOkFC&t=73")
-                        buttonWrapper.disabledClickCount = 0
+                        Qt.openUrlExternally("https://youtu.be/x0fm48LhJ9k?si=RYKjtOwMQJOhOkFC&t=73");
+                        buttonWrapper.disabledClickCount = 0;
                     }
                 }
             }

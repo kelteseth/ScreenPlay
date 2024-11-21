@@ -133,15 +133,15 @@ Control {
             setActiveWallpaperPreviewImage();
         }
 
-        function setActiveWallpaperPreviewImage() : void{
+        function setActiveWallpaperPreviewImage(): void {
             let timelineSectionList = App.screenPlayManager.timelineSections();
             for (var i = 0; i < timelineSectionList.length; i++) {
                 let timelineSection = timelineSectionList[i];
                 let lineIndicator = timeline.sectionsList[i].lineIndicator;
 
                 // Reset the preview image
-                if (timelineSection.wallpaperData.length === 0){
-                    lineIndicator.wallpaperPreviewImage = ""
+                if (timelineSection.wallpaperData.length === 0) {
+                    lineIndicator.wallpaperPreviewImage = "";
                     continue;
                 }
 
@@ -150,7 +150,7 @@ Control {
             }
         }
 
-        function removeAll() : void{
+        function removeAll(): void {
             console.debug(timelineLogging, "removeAll", timeline.sectionsList.length);
             for (var i = 0; i < timeline.sectionsList.length; i++) {
                 // ORDER is important here! Destory the children first
@@ -169,7 +169,7 @@ Control {
         // handle always persists  because the
         // user can never delete it. It only gets "pushed" further
         // to the right, by decreasing its size.
-        function addSection(identifier: string, stopPosition: real) : int {
+        function addSection(identifier: string, stopPosition: real): int {
             console.debug(timelineLogging, "stopPosition", stopPosition);
 
             // Make sure to limit float precision
@@ -201,7 +201,7 @@ Control {
 
         // Disables all other LineHandles if one is in use. Enables
         // all after the user released the LineHandle
-        function setActiveHandle(identifier: string, active: bool) : void {
+        function setActiveHandle(identifier: string, active: bool): void {
             for (var i = 0; i < timeline.sectionsList.length; i++) {
                 let lineHandle = timeline.sectionsList[i].lineHandle;
                 if (active) {
@@ -214,7 +214,7 @@ Control {
             }
         }
 
-        function createSection(index: int, stopPosition: real, section: TimelineSection, identifier: string) : void {
+        function createSection(index: int, stopPosition: real, section: TimelineSection, identifier: string): void {
             console.debug(timelineLogging, "Adding at:", index, stopPosition, identifier);
 
             let haComponent = Qt.createComponent("LineHandle.qml");
@@ -252,7 +252,7 @@ Control {
             section.lineIndicator.lineSelected.connect(timeline.lineIndicatorSelected);
         }
 
-        function sectionFromHandle(lineHandle: LineHandle) : TimelineSection {
+        function sectionFromHandle(lineHandle: LineHandle): TimelineSection {
             for (var i = 0; i < timeline.sectionsList.length; i++) {
                 if (timeline.sectionsList[i].lineHandle === lineHandle)
                     return timeline.sectionsList[i];
@@ -260,7 +260,7 @@ Control {
             return null;
         }
 
-        function onHandleMoved(lineHandle: LineHandle) : void {
+        function onHandleMoved(lineHandle: LineHandle): void {
             updatePositions();
             const section = sectionFromHandle(lineHandle);
             if (section === null) {
@@ -271,7 +271,7 @@ Control {
             App.screenPlayManager.moveTimelineAt(section.index, section.identifier, lineHandle.linePosition, lineHandle.timeString);
         }
 
-        function lineIndicatorSelected(selectedTimelineIndex: int) : void {
+        function lineIndicatorSelected(selectedTimelineIndex: int): void {
             console.debug(timelineLogging, "selectedTimelineIndex:", selectedTimelineIndex, "section cout: ", timeline.sectionsList.length);
             for (var i = 0; i < timeline.sectionsList.length; i++) {
                 const enableTimeline = (i === selectedTimelineIndex);
@@ -295,7 +295,7 @@ Control {
             }
         }
 
-        function removeSection(index: int) : void {
+        function removeSection(index: int): void {
             console.debug(timelineLogging, timeline.stopPositionList);
             console.debug(timelineLogging, timeline.sectionList);
             const isLast = index === timeline.sectionsList.length - 1;
@@ -312,7 +312,7 @@ Control {
             App.screenPlayManager.removeTimelineAt(index);
         }
 
-        function updatePositions() : void {
+        function updatePositions(): void {
             // Iterate through each handle in the 'sectionList' array
             for (var i = 0; i < timeline.sectionsList.length; i++) {
                 let handle = timeline.sectionsList[i].lineHandle;
@@ -347,7 +347,7 @@ Control {
             updateIndicatorIndexes();
         }
 
-        function getColorAtIndex(index: int) : string { // Return hex not color
+        function getColorAtIndex(index: int): string { // Return hex not color
             let i = index;
             // Start from the beginnging again
             if (index >= timeline.lineColors.length) {
@@ -356,21 +356,21 @@ Control {
             return timeline.lineColors[i];
         }
 
-        function updateIndicatorColor() : void {
+        function updateIndicatorColor(): void {
             for (var i = 0; i < timeline.sectionsList.length; i++) {
                 let lineIndicator = timeline.sectionsList[i].lineIndicator;
                 lineIndicator.color = getColorAtIndex(i);
             }
         }
 
-        function updateLastHandle() : void{
+        function updateLastHandle(): void {
             for (var i = 0; i < timeline.sectionsList.length; i++) {
                 timeline.sectionsList[i].lineHandle.isLast = i === timeline.sectionsList.length - 1;
                 timeline.sectionsList[i].lineIndicator.isLast = i === timeline.sectionsList.length - 1;
             }
         }
 
-        function updateIndicatorPositions() : void {
+        function updateIndicatorPositions(): void {
             for (var i = 0; i < timeline.sectionsList.length; i++) {
                 const lineIndicator = timeline.sectionsList[i].lineIndicator;
                 //console.debug(i, lineIndicator.x, lineIndicator.width, timeline.sectionsList[i].relativeLinePosition)
