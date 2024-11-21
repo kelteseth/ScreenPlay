@@ -246,8 +246,8 @@ void Settings::initInstalledPath()
     const QString contentPath = m_qSettings.value("ScreenPlayContentPath", "").toString();
 
     // Steamless
-    const GlobalVariables::Version version = m_globalVariables->version();
-    const bool steamVersion = version == GlobalVariables::Version::OpenSourceSteam || version == GlobalVariables::Version::OpenSourceProSteam;
+    const ScreenPlayEnums::Version version = m_globalVariables->version();
+    const bool steamVersion = version == ScreenPlayEnums::Version::OpenSourceSteam || version == ScreenPlayEnums::Version::OpenSourceProSteam;
     if (!steamVersion && contentPath.isEmpty()) {
         const QString path = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
         m_qSettings.setValue("ScreenPlayContentPath", QUrl::fromUserInput(path));

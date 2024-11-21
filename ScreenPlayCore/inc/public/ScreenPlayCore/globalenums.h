@@ -11,10 +11,11 @@ class ScreenPlayEnums : public QObject {
     Q_OBJECT
     QML_ELEMENT
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
-    /*!
-        \brief Used in the "Installed" tab.
-    */
+
 public:
+    /*!
+        \brief
+    */
     enum class AppState {
         Inactive,
         Starting,
@@ -23,6 +24,18 @@ public:
         Timeout,
     };
     Q_ENUM(AppState)
+    /*!
+        \brief
+    */
+    enum class Version {
+        OpenSourceStandalone,
+        OpenSourceSteam,
+        OpenSourceProStandalone,
+        OpenSourceProSteam,
+        OpenSourceUltraStandalone,
+        OpenSourceUltraSteam
+    };
+    Q_ENUM(Version)
 };
 
 }

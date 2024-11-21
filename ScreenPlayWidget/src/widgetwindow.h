@@ -23,8 +23,8 @@
 #include <qt_windows.h>
 #endif
 
-#include "ScreenPlaySDK/screenplaysdk.h"
 #include "ScreenPlayCore/util.h"
+#include "ScreenPlaySDK/screenplaysdk.h"
 #include <memory>
 
 namespace ScreenPlay {

@@ -1,8 +1,8 @@
 // networkinterface_win.cpp
-#include "networkinterface_win.h"
 
 #include <QtSystemDetection>
 #ifdef Q_OS_WIN
+#include "networkinterface_win.h"
 namespace NetworkInterfaceImpl {
 bool getInterfaceStats(NET_IFINDEX ifIndex, ULONG64& bytesReceived, ULONG64& bytesSent, bool& isActive)
 {

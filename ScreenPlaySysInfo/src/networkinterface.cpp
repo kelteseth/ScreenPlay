@@ -110,10 +110,10 @@ void NetworkInterface::updateStats()
             m_uploadSpeed = static_cast<double>(newBytesSent - m_lastBytesSent) * 1000.0 / timeDiff;
 
             // Debug output for speeds
-            if (m_downloadSpeed > 0 || m_uploadSpeed > 0) {
-                qDebug() << "Download speed:" << (m_downloadSpeed / 1024.0 / 1024.0) << "MB/s"
-                         << "Upload speed:" << (m_uploadSpeed / 1024.0 / 1024.0) << "MB/s";
-            }
+            // if (m_downloadSpeed > 0 || m_uploadSpeed > 0) {
+            //     qDebug() << "Download speed:" << (m_downloadSpeed / 1024.0 / 1024.0) << "MB/s"
+            //              << "Upload speed:" << (m_uploadSpeed / 1024.0 / 1024.0) << "MB/s";
+            // }
         }
 
         // Update totals

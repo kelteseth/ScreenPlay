@@ -19,45 +19,46 @@ namespace ScreenPlay {
 GlobalVariables::GlobalVariables(QObject* parent)
     : QObject(parent)
 {
-    if (SCREENPLAY_STEAM_VERSION) {
-        setVersion(GlobalVariables::Version::OpenSourceSteam);
-    } else {
-        setVersion(GlobalVariables::Version::OpenSourceStandalone);
-    }
-    setVersion(GlobalVariables::Version::OpenSourceStandalone);
     setLocalSettingsPath(QUrl { QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) });
+
+    if (SCREENPLAY_STEAM_VERSION) {
+        // setVersion(ScreenPlayEnums::Version::OpenSourceProSteam); // TODO OpenSourceProSteam OpenSourceSteam
+        setVersion(m_licenseManager.getVersion());
+    } else {
+        setVersion(ScreenPlayEnums::Version::OpenSourceStandalone);
+    }
 }
 
 bool GlobalVariables::isBasicVersion() const
 {
-    return (m_version == Version::OpenSourceSteam
-        || m_version == Version::OpenSourceStandalone);
+    return (m_version == ScreenPlayEnums::Version::OpenSourceSteam
+        || m_version == ScreenPlayEnums::Version::OpenSourceStandalone);
 }
 
 bool GlobalVariables::isSteamVersion() const
 {
-    return (m_version == Version::OpenSourceSteam
-        || m_version == Version::OpenSourceProSteam
-        || m_version == Version::OpenSourceUltraSteam);
+    return (m_version == ScreenPlayEnums::Version::OpenSourceSteam
+        || m_version == ScreenPlayEnums::Version::OpenSourceProSteam
+        || m_version == ScreenPlayEnums::Version::OpenSourceUltraSteam);
 }
 
 bool GlobalVariables::isStandaloneVersion() const
 {
-    return (m_version == Version::OpenSourceStandalone
-        || m_version == Version::OpenSourceProStandalone
-        || m_version == Version::OpenSourceUltraStandalone);
+    return (m_version == ScreenPlayEnums::Version::OpenSourceStandalone
+        || m_version == ScreenPlayEnums::Version::OpenSourceProStandalone
+        || m_version == ScreenPlayEnums::Version::OpenSourceUltraStandalone);
 }
 
 bool GlobalVariables::isProVersion() const
 {
-    return (m_version == Version::OpenSourceProStandalone
-        || m_version == Version::OpenSourceProSteam);
+    return (m_version == ScreenPlayEnums::Version::OpenSourceProStandalone
+        || m_version == ScreenPlayEnums::Version::OpenSourceProSteam);
 }
 
 bool GlobalVariables::isUltraVersion() const
 {
-    return (m_version == Version::OpenSourceUltraStandalone
-        || m_version == Version::OpenSourceUltraSteam);
+    return (m_version == ScreenPlayEnums::Version::OpenSourceUltraStandalone
+        || m_version == ScreenPlayEnums::Version::OpenSourceUltraSteam);
 }
 
 void GlobalVariables::setLocalStoragePath(QUrl localStoragePath)
@@ -112,7 +113,7 @@ void GlobalVariables::setGodotEditorExecutablePath(QUrl godotEditorExecutablePat
     emit godotEditorExecutablePathChanged(m_godotEditorExecutablePath);
 }
 
-void GlobalVariables::setVersion(Version version)
+void GlobalVariables::setVersion(ScreenPlayEnums::Version version)
 {
     if (m_version == version)
         return;

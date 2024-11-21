@@ -78,11 +78,7 @@ endif()
 set(RESOURCES # cmake-format: sort
               assets/icons/attach_file.svg assets/icons/description.svg assets/icons/folder.svg)
 
-qt_add_library(
-    ${PROJECT_NAME}
-    STATIC
-    ${SOURCES}
-    ${HEADER})
+qt_add_library(${PROJECT_NAME} STATIC)
 
 qt_add_qml_module(
     ${PROJECT_NAME}
@@ -97,7 +93,10 @@ qt_add_qml_module(
     QML_FILES
     ${QML}
     RESOURCES
-    ${RESOURCES})
+    ${RESOURCES}
+    SOURCES
+    ${SOURCES}
+    ${HEADER})
 
 target_include_directories(
     ${PROJECT_NAME}

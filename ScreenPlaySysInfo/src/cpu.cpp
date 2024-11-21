@@ -151,4 +151,121 @@ void CPU::updateCPUInfo()
     emit cpuInfoChanged();
 #endif
 }
+
+#ifdef Q_OS_WIN
+QVariantMap WMIHelper::getCPUInfo()
+{
+    QVariantMap result;
+    QAxObject* wmiService = nullptr;
+    QAxObject* objService = nullptr;
+    QAxObject* collection = nullptr;
+    QAxObject* item = nullptr;
+
+    try {
+        // Initialize COM with different threading model
+        HRESULT hr = CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
+        if (FAILED(hr)) {
+            if (hr == RPC_E_CHANGED_MODE) {
+                // If threading mode was already set differently, try reinitializing
+                CoUninitialize();
+                hr = CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
+            }
+            if (FAILED(hr)) {
+                qWarning() << "Failed to initialize COM:" << hr;
+                return result;
+            }
+        }
+
+        // Set general COM security levels
+        hr = CoInitializeSecurity(
+            nullptr,
+            -1, // COM authentication
+            nullptr, // Authentication services
+            nullptr, // Reserved
+            RPC_C_AUTHN_LEVEL_DEFAULT, // Default authentication
+            RPC_C_IMP_LEVEL_IMPERSONATE, // Default Impersonation
+            nullptr, // Authentication info
+            EOAC_NONE, // Additional capabilities
+            nullptr // Reserved
+        );
+
+        if (FAILED(hr) && hr != RPC_E_TOO_LATE) {
+            qWarning() << "Failed to initialize security:" << hr;
+            CoUninitialize();
+            return result;
+        }
+
+        wmiService = new QAxObject("WbemScripting.SWbemLocator");
+        if (!wmiService || wmiService->isNull()) {
+            qWarning() << "Failed to create WbemScripting.SWbemLocator";
+            CoUninitialize();
+            return result;
+        }
+
+        objService = wmiService->querySubObject("ConnectServer(QString&,QString&)",
+            QString("."), QString("root\\CIMV2"));
+        if (!objService || objService->isNull()) {
+            qWarning() << "Failed to connect to WMI";
+            CoUninitialize();
+            return result;
+        }
+
+        // Modified query to ensure we get the correct information
+        QString query = "SELECT Name, NumberOfCores, NumberOfLogicalProcessors, "
+                        "MaxClockSpeed, L2CacheSize, L3CacheSize, SocketDesignation "
+                        "FROM Win32_Processor";
+
+        collection = objService->querySubObject("ExecQuery(QString&)", query);
+        if (!collection || collection->isNull()) {
+            qWarning() << "Failed to execute WMI query";
+            CoUninitialize();
+            return result;
+        }
+
+        QAxObject* count = collection->querySubObject("Count");
+        if (!count || count->isNull()) {
+            qWarning() << "Failed to get item count";
+            CoUninitialize();
+            return result;
+        }
+
+        int itemCount = count->property("Value").toInt();
+        count->deleteLater();
+
+        if (itemCount > 0) {
+            item = collection->querySubObject("ItemIndex(0)");
+            if (item && !item->isNull()) {
+                // Map the properties with correct names
+                result["Name"] = item->property("Name");
+                result["NumberOfCores"] = item->property("NumberOfCores");
+                result["ThreadCount"] = item->property("NumberOfLogicalProcessors");
+                result["MaxClockSpeed"] = item->property("MaxClockSpeed");
+                result["L2CacheSize"] = item->property("L2CacheSize");
+                result["L3CacheSize"] = item->property("L3CacheSize");
+                result["SocketDesignation"] = item->property("SocketDesignation");
+            }
+        }
+
+    } catch (const std::exception& e) {
+        qWarning() << "Exception in WMI query:" << e.what();
+    } catch (...) {
+        qWarning() << "Unknown exception in WMI query";
+    }
+
+    // Cleanup
+    if (item)
+        item->deleteLater();
+    if (collection)
+        collection->deleteLater();
+    if (objService)
+        objService->deleteLater();
+    if (wmiService)
+        wmiService->deleteLater();
+
+    CoUninitialize();
+    return result;
+}
+
+#endif
+
 #include "moc_cpu.cpp"

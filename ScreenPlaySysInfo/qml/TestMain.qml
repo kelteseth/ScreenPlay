@@ -37,7 +37,8 @@ Window {
     }
 
     function formatBytes(bytes) {
-        if (bytes === 0) return '0 B';
+        if (bytes === 0)
+            return '0 B';
         const k = 1024;
         const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
         const i = Math.floor(Math.log(bytes) / Math.log(k));
@@ -45,7 +46,8 @@ Window {
     }
 
     function formatSpeed(bytesPerSecond) {
-        if (bytesPerSecond === 0) return '0 B/s';
+        if (bytesPerSecond === 0)
+            return '0 B/s';
         const k = 1024;
         const sizes = ['B/s', 'KB/s', 'MB/s', 'GB/s'];
         const i = Math.floor(Math.log(bytesPerSecond) / Math.log(k));

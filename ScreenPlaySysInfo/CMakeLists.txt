@@ -18,10 +18,10 @@ set(QML qml/TestMain.qml)
 
 set(QML_PLUGIN_SOURCES
     # cmake-format: sort
-    src/networkinterface.cpp
     src/cpu.cpp
     src/gpu.cpp
     src/ipaddress.cpp
+    src/networkinterface.cpp
     src/ram.cpp
     src/storage.cpp
     src/sysinfo.cpp
@@ -33,36 +33,35 @@ endif()
 
 set(QML_PLUGIN_HEADER
     # cmake-format: sort
-    src/networkinterface.h
-    src/cpu.h
-    src/gpu.h
-    src/ipaddress.h
-    src/ram.h
-    src/storage.h
-    src/sysinfo.h
-    src/uptime.h)
+    inc/public/ScreenPlaySysInfo/cpu.h
+    inc/public/ScreenPlaySysInfo/gpu.h
+    inc/public/ScreenPlaySysInfo/ipaddress.h
+    inc/public/ScreenPlaySysInfo/networkinterface.h
+    inc/public/ScreenPlaySysInfo/ram.h
+    inc/public/ScreenPlaySysInfo/storage.h
+    inc/public/ScreenPlaySysInfo/sysinfo.h
+    inc/public/ScreenPlaySysInfo/uptime.h)
 
 if(WIN32)
-    list(APPEND QML_PLUGIN_HEADER src/networkinterface_win.h)
+    list(APPEND QML_PLUGIN_HEADER inc/private/networkinterface_win.h)
 endif()
 
 qt_add_library(${PROJECT_NAME} STATIC)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt::NetworkPrivate
-    Qt6::Core
-    Qt6::Quick
-    infoware)
+target_link_libraries(
+    ${PROJECT_NAME}
+    PRIVATE Qt::NetworkPrivate
+            Qt6::Core
+            Qt6::Quick
+            infoware)
 
-target_include_directories(${PROJECT_NAME} PUBLIC src/)
+target_include_directories(${PROJECT_NAME} PUBLIC inc/public)
+# Add full inc/public/ScreenPlaySysInfo path for moc includes
+target_include_directories(${PROJECT_NAME} PRIVATE inc/private inc/public/ScreenPlaySysInfo)
 
 if(WIN32)
-    target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::AxContainer ole32.lib winmm.lib)
-    target_compile_definitions(${PROJECT_NAME} PRIVATE
-        WIN32_LEAN_AND_MEAN
-        _WINSOCKAPI_
-        NOMINMAX
-    )
+    target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::AxContainer ole32.lib winmm.lib)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE WIN32_LEAN_AND_MEAN _WINSOCKAPI_ NOMINMAX)
 endif()
 
 qt_add_qml_module(
@@ -79,8 +78,7 @@ qt_add_qml_module(
     ${QML}
     SOURCES
     ${QML_PLUGIN_SOURCES}
-    ${QML_PLUGIN_HEADER}
-)
+    ${QML_PLUGIN_HEADER})
 
 if(${SCREENPLAY_TESTS})
     qt_add_executable(tst_ScreenPlaySysInfo src/TestMain.cpp)

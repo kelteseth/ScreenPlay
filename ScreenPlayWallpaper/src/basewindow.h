@@ -14,11 +14,11 @@
 #include <QSysInfo>
 #include <QtQml>
 
-#include "ScreenPlaySDK/screenplaysdk.h"
 #include "ScreenPlayCore/exitcodes.h"
 #include "ScreenPlayCore/processmanager.h"
 #include "ScreenPlayCore/projectfile.h"
 #include "ScreenPlayCore/util.h"
+#include "ScreenPlaySDK/screenplaysdk.h"
 
 #include <memory>
 

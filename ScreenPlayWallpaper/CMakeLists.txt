@@ -80,7 +80,6 @@ qt_add_qml_module(
 target_link_libraries(
     ${PROJECT_NAME}
     PRIVATE ScreenPlaySDK
-            ScreenPlayCore
             ScreenPlayCoreplugin
             ScreenPlayWeatherplugin
             Qt6::Quick
