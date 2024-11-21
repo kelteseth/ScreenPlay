@@ -29,14 +29,14 @@ steam_windows:
   extends:
     - .base_windows_build
   script:
-    - python Tools/build.py --type=release -steam --use-aqt --deploy-version
+    - python Tools/build.py --type=release --steam --use-aqt --deploy-version
 
 steam_osx:
   stage: build_steam
   extends:
     - .base_osx_build
   script:
-    - python3 Tools/build.py --type=release -steam --use-aqt --deploy-version --sign_osx
+    - python3 Tools/build.py --type=release --steam --use-aqt --deploy-version --sign_osx
   artifacts:
     expire_in: "2 weeks"
     paths:
@@ -47,4 +47,4 @@ steam_linux:
   extends:
     - .base_linux_build
   script:
-    - python3 Tools/build.py --type=release -steam --use-aqt  --deploy-version
+    - python3 Tools/build.py --type=release --steam --use-aqt  --deploy-version
