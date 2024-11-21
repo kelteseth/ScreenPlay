@@ -32,6 +32,11 @@ Item {
             navWrapper.visible = true;
         }
     }
+    StackView.onStatusChanged: {
+        if (StackView.status == StackView.Deactivating) {
+            installedDrawer.close();
+        }
+    }
 
     InstalledDrawer {
         id: installedDrawer
