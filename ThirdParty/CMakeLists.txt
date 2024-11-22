@@ -22,12 +22,5 @@ add_subdirectory(qqcoro)
 qcoro_enable_coroutines()
 
 if(UNIX AND NOT APPLE)
-    FetchContent_Populate(
-        qt-layer-shell
-        GIT_REPOSITORY https://github.com/KDE/layer-shell-qt.git
-        GIT_TAG 721c0ae334554eb2396a2d4d3358f896b8c77412
-        # Workaround because: 1. QtCreator cannot handle QML_ELEMENT stuff when it is in bin folder
-        # https://bugreports.qt.io/browse/QTCREATORBUG-27083
-        SOURCE_DIR ${THIRD_PARTY_PATH}/qt-layer-shell)
     add_subdirectory(qt-layer-shell)
 endif()
