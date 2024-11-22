@@ -28,6 +28,16 @@ elseif(APPLE)
     set(VCPKG_TARGET_ARCHITECTURE "arm64;x86_64")
 endif()
 
+# QArchive: RPATH is the runtime library search path on Unix systems that tells the dynamic
+# linker where to look for shared libraries. By default, CMake builds with RPATH
+# pointing to the build directory, then changes it during installation. Some build
+# systems like Ninja on non-ELF platforms don't support this RPATH modification
+# during install. Setting CMAKE_BUILD_WITH_INSTALL_RPATH builds directly with the
+# final installation RPATH, avoiding the need to modify it later.
+if(UNIX)
+   set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+endif()
+
 # This sets cmake to compile all dlls into the main directory
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
