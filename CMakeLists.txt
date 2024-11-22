@@ -63,7 +63,7 @@ set(VCPKG_BIN_PATH "${VCPKG_INSTALLED_PATH}/bin")
 set(GODOT_VERSION_MAJOR "4")
 set(GODOT_VERSION_MINOR "3")
 set(GODOT_VERSION_PATCH "")
-set(GODOT_RELEASE_TYPE "rc1")
+set(GODOT_RELEASE_TYPE "stable")
 
 # Use an if statement to check if GODOT_VERSION_PATCH is empty or not
 if(GODOT_VERSION_PATCH STREQUAL "")
