@@ -7,6 +7,7 @@
 #include <QSysInfo>
 #include <QUrl>
 #include <fmt/color.h>
+#include <iostream>
 
 #include "ScreenPlayCore/CMakeVariables.h"
 
@@ -230,7 +231,7 @@ void LoggingHandler::writeToConsole(QtMsgType type, const QMessageLogContext& co
         break;
     default:
         color = darkMode ? fmt::color::gray : fmt::color::black;
-        typeIndicator = "Info"; // Assuming default is info
+        typeIndicator = "Info";
         break;
     }
 
@@ -239,25 +240,44 @@ void LoggingHandler::writeToConsole(QtMsgType type, const QMessageLogContext& co
     const auto function = extractFunction(context);
     const auto line = context.line;
 
-    if (SCREENPLAY_DEPLOY_VERSION) {
-        fmt::print(
-            "[{}] {} {}:{} - {}\n",
-            fmt::styled(now.toStdString(), fmt::emphasis::bold),
-            fmt::styled(typeIndicator.toStdString(), fg(color)),
-            function.toStdString(),
-            line,
-            message.toStdString());
-    } else {
-        // Maky output clickable in QtCreator
-        fmt::print(
-            "[{}] {} - {}\n   Loc: [{}:{}]\n",
-            fmt::styled(now.toStdString(), fmt::emphasis::bold),
-            fmt::styled(typeIndicator.toStdString(), fg(color)),
-            message.toStdString(),
-            // Using context.file (char*) directly results
-            // in a runtime crash in release
-            QString::fromUtf8(context.file).toStdString(),
-            line);
+    try {
+        if (SCREENPLAY_DEPLOY_VERSION) {
+            fmt::print(
+                "[{}] {} {}:{} - {}\n",
+                fmt::styled(now.toStdString(), fmt::emphasis::bold),
+                fmt::styled(typeIndicator.toStdString(), fg(color)),
+                function.toStdString(),
+                line,
+                message.toStdString());
+        } else {
+            // Create std::string versions before formatting to avoid potential conversion issues
+            std::string fileStr;
+            if (context.file) {
+                fileStr = QString::fromUtf8(context.file).toStdString();
+            } else {
+                fileStr = "unknown";
+            }
+
+            const auto nowStr = now.toStdString();
+            const auto typeStr = typeIndicator.toStdString();
+            const auto msgStr = message.toStdString();
+
+            fmt::print(
+                "[{}] {} - {}\n   Loc: [{}:{}]\n",
+                fmt::styled(nowStr, fmt::emphasis::bold),
+                fmt::styled(typeStr, fg(color)),
+                msgStr,
+                fileStr,
+                line);
+        }
+    } catch (const std::exception& e) {
+        // Fallback logging in case fmt::print fails
+        std::cout << "[" << now.toStdString() << "] "
+                  << typeIndicator.toStdString() << " - "
+                  << message.toStdString() << "\n   Loc: ["
+                  << (context.file ? context.file : "unknown") << ":"
+                  << line << "]\n"
+                  << "Logging error details: " << e.what() << std::endl;
     }
 }
 

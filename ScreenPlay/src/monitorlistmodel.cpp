@@ -37,33 +37,32 @@ namespace ScreenPlay {
 MonitorListModel::MonitorListModel(QObject* parent)
     : QAbstractListModel(parent)
 {
-    static_assert(SCREENPLAY_DEPLOY_VERSION == 0 || !std::is_same_v<decltype(m_useMockMonitors), bool>,
-        "Mock monitors should not be available in deploy version");
+    if (!SCREENPLAY_DEPLOY_VERSION) {
+        // Setup 1: Two Full HD monitors
+        m_mockMonitorList.append({ Monitor(0, QRect(0, 0, 1920, 1080)),
+            Monitor(1, QRect(1920, 0, 1920, 1080)) });
+
+        // Setup 2: One 4K monitor and one Full HD above
+        m_mockMonitorList.append({ Monitor(0, QRect(0, 0, 3840, 2160)),
+            Monitor(1, QRect((-3840 / 2), 3840, 1920, 1080)) });
+
+        // Setup 3: One WQHD and one Full HD
+        m_mockMonitorList.append({ Monitor(0, QRect(0, 0, 2560, 1440)),
+            Monitor(1, QRect(2560, 0, 1920, 1080)) });
+
+        // Setup 4: Three Full HD monitors (two horizontal, one vertical)
+        m_mockMonitorList.append({ Monitor(0, QRect(0, 0, 1920, 1080)),
+            Monitor(1, QRect(1920, 0, 1920, 1080)),
+            Monitor(2, QRect(3840, 0, 1080, 1920)) });
+
+        // Setup 5: One ultrawide and one regular monitor
+        m_mockMonitorList.append({ Monitor(0, QRect(0, 0, 3440, 1440)),
+            Monitor(1, QRect(3440, 0, 1920, 1080)) });
+    }
 
     auto* guiAppInst = dynamic_cast<QGuiApplication*>(QGuiApplication::instance());
     connect(guiAppInst, &QGuiApplication::screenAdded, this, &MonitorListModel::screenAdded);
     connect(guiAppInst, &QGuiApplication::screenRemoved, this, &MonitorListModel::screenRemoved);
-
-    // Setup 1: Two Full HD monitors
-    m_mockMonitorList.append({ Monitor(0, QRect(0, 0, 1920, 1080)),
-        Monitor(1, QRect(1920, 0, 1920, 1080)) });
-
-    // Setup 2: One 4K monitor and one Full HD above
-    m_mockMonitorList.append({ Monitor(0, QRect(0, 0, 3840, 2160)),
-        Monitor(1, QRect((-3840 / 2), 3840, 1920, 1080)) });
-
-    // Setup 3: One WQHD and one Full HD
-    m_mockMonitorList.append({ Monitor(0, QRect(0, 0, 2560, 1440)),
-        Monitor(1, QRect(2560, 0, 1920, 1080)) });
-
-    // Setup 4: Three Full HD monitors (two horizontal, one vertical)
-    m_mockMonitorList.append({ Monitor(0, QRect(0, 0, 1920, 1080)),
-        Monitor(1, QRect(1920, 0, 1920, 1080)),
-        Monitor(2, QRect(3840, 0, 1080, 1920)) });
-
-    // Setup 5: One ultrawide and one regular monitor
-    m_mockMonitorList.append({ Monitor(0, QRect(0, 0, 3440, 1440)),
-        Monitor(1, QRect(3440, 0, 1920, 1080)) });
 
     loadMonitors();
 }
