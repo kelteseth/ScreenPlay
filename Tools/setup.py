@@ -50,7 +50,7 @@ def download(aqt_path: Path, qt_platform: Path):
     extra_qt_packages = ""
     if system() == "Windows":
         os = "windows"
-        extra_qt_packages = "debug_info "
+        extra_qt_packages = "debug_info qtactiveqt"
     elif system() == "Darwin":
         os = "mac"
     elif system() == "Linux":
@@ -88,7 +88,7 @@ def setup_qt():
     print(f"Setup Qt via aqt at {aqt_path}")
 
     if system() == "Windows":
-        qt_platform = "win64_msvc2019_64" # 6.8.0 win64_msvc2022_64
+        qt_platform = "win64_msvc2019_64" # 6.7.3 win64_msvc2019_64
     elif system() == "Darwin":
         qt_platform = "clang_64"
     elif system() == "Linux":
