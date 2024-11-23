@@ -657,6 +657,14 @@ QString Settings::fixLanguageCode(const QString& languageCode)
     return langCode;
 }
 
+void Settings::setStartWallpaperMuted(bool startWallpaperMuted)
+{
+    if (m_startWallpaperMuted == startWallpaperMuted)
+        return;
+    m_startWallpaperMuted = startWallpaperMuted;
+    setqSetting("startWallpaperMuted", m_startWallpaperMuted);
+    emit startWallpaperMutedChanged(m_startWallpaperMuted);
+}
 }
 
 #include "moc_settings.cpp"

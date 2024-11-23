@@ -83,8 +83,15 @@ QCoro::QmlTask ScreenPlayManager::setWallpaperAtTimelineIndex(
     const QString& identifier,
     const bool saveToProfilesConfigFile)
 {
+
     WallpaperData wallpaperData;
-    wallpaperData.setVolume(1.0f);
+
+    if (m_settings->startWallpaperMuted()) {
+        wallpaperData.setVolume(0.0f);
+    } else {
+        wallpaperData.setVolume(1.0f);
+    }
+
     wallpaperData.setPlaybackRate(1.0f);
     wallpaperData.setType(type);
     wallpaperData.setAbsolutePath(

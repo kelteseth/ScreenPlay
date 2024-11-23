@@ -259,6 +259,17 @@ Item {
 
                     SettingsHorizontalSeperator {}
 
+                    SettingBool {
+                        headline: qsTr("Start Wallpaper Muted")
+                        description: qsTr("Defaults to a muted wallpaper. You can always change this at a alter date in the Configure Content menu.")
+                        isChecked: App.settings.startWallpaperMuted
+                        onCheckboxChanged: function (checked) {
+                            App.settings.setStartWallpaperMuted(checked);
+                        }
+                    }
+
+                    SettingsHorizontalSeperator {}
+
                     SettingsComboBox {
                         id: cbVideoFillMode
 

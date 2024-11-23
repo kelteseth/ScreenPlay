@@ -22,21 +22,22 @@ class Settings : public QObject {
     QML_UNCREATABLE("")
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
 
-    Q_PROPERTY(bool showDefaultContent READ showDefaultContent WRITE setShowDefaultContent NOTIFY showDefaultContentChanged)
-    Q_PROPERTY(bool anonymousTelemetry READ anonymousTelemetry WRITE setAnonymousTelemetry NOTIFY anonymousTelemetryChanged)
-    Q_PROPERTY(bool silentStart READ silentStart WRITE setSilentStart NOTIFY silentStartChanged)
-    Q_PROPERTY(bool autostart READ autostart WRITE setAutostart NOTIFY autostartChanged)
-    Q_PROPERTY(bool highPriorityStart READ highPriorityStart WRITE setHighPriorityStart NOTIFY highPriorityStartChanged)
-    Q_PROPERTY(bool checkWallpaperVisible READ checkWallpaperVisible WRITE setCheckWallpaperVisible NOTIFY checkWallpaperVisibleChanged)
+    Q_PROPERTY(bool showDefaultContent READ showDefaultContent WRITE setShowDefaultContent NOTIFY showDefaultContentChanged FINAL)
+    Q_PROPERTY(bool anonymousTelemetry READ anonymousTelemetry WRITE setAnonymousTelemetry NOTIFY anonymousTelemetryChanged FINAL)
+    Q_PROPERTY(bool silentStart READ silentStart WRITE setSilentStart NOTIFY silentStartChanged FINAL)
+    Q_PROPERTY(bool autostart READ autostart WRITE setAutostart NOTIFY autostartChanged FINAL)
+    Q_PROPERTY(bool highPriorityStart READ highPriorityStart WRITE setHighPriorityStart NOTIFY highPriorityStartChanged FINAL)
+    Q_PROPERTY(bool checkWallpaperVisible READ checkWallpaperVisible WRITE setCheckWallpaperVisible NOTIFY checkWallpaperVisibleChanged FINAL)
+    Q_PROPERTY(bool startWallpaperMuted READ startWallpaperMuted WRITE setStartWallpaperMuted NOTIFY startWallpaperMutedChanged FINAL)
 
     Q_PROPERTY(ScreenPlay::Video::FillMode videoFillMode READ videoFillMode WRITE setVideoFillMode NOTIFY videoFillModeChanged)
-    Q_PROPERTY(ScreenPlay::Settings::DesktopEnvironment desktopEnvironment READ desktopEnvironment WRITE setDesktopEnvironment NOTIFY desktopEnvironmentChanged)
-    Q_PROPERTY(ScreenPlay::Settings::Language language READ language WRITE setLanguage NOTIFY languageChanged)
-    Q_PROPERTY(ScreenPlay::Settings::Theme theme READ theme WRITE setTheme NOTIFY themeChanged)
+    Q_PROPERTY(ScreenPlay::Settings::DesktopEnvironment desktopEnvironment READ desktopEnvironment WRITE setDesktopEnvironment NOTIFY desktopEnvironmentChanged FINAL)
+    Q_PROPERTY(ScreenPlay::Settings::Language language READ language WRITE setLanguage NOTIFY languageChanged FINAL)
+    Q_PROPERTY(ScreenPlay::Settings::Theme theme READ theme WRITE setTheme NOTIFY themeChanged FINAL)
 
-    Q_PROPERTY(QString decoder READ decoder WRITE setDecoder NOTIFY decoderChanged)
-    Q_PROPERTY(QString buildInfos READ buildInfos WRITE setBuildInfos NOTIFY buildInfosChanged)
-    Q_PROPERTY(QString font READ font WRITE setFont NOTIFY fontChanged)
+    Q_PROPERTY(QString decoder READ decoder WRITE setDecoder NOTIFY decoderChanged FINAL)
+    Q_PROPERTY(QString buildInfos READ buildInfos WRITE setBuildInfos NOTIFY buildInfosChanged FINAL)
+    Q_PROPERTY(QString font READ font WRITE setFont NOTIFY fontChanged FINAL)
 
 public:
     explicit Settings(
@@ -97,6 +98,7 @@ public:
     ScreenPlay::Settings::DesktopEnvironment desktopEnvironment() const { return m_desktopEnvironment; }
     const QString& buildInfos() const { return m_buildInfos; }
     bool showDefaultContent() const { return m_showDefaultContent; }
+    bool startWallpaperMuted() const { return m_startWallpaperMuted; }
     void writeDefaultProfiles();
 
     QVersionNumber getProfilesVersion() const;
@@ -121,6 +123,7 @@ signals:
     void desktopEnvironmentChanged(ScreenPlay::Settings::DesktopEnvironment desktopEnvironment);
     void buildInfosChanged(const QString& buildInfos);
     void showDefaultContentChanged(bool showDefaultContent);
+    void startWallpaperMutedChanged(bool startWallpaperMuted);
 
 public slots:
     void setupLanguage();
@@ -143,6 +146,7 @@ public slots:
     void setTheme(ScreenPlay::Settings::Theme theme);
     void setDesktopEnvironment(ScreenPlay::Settings::DesktopEnvironment desktopEnvironment);
     void setBuildInfos(const QString& buildInfos);
+    void setStartWallpaperMuted(bool startWallpaperMuted);
 
 private:
     void initInstalledPath();
@@ -158,6 +162,7 @@ private:
     bool m_autostart { true };
     bool m_highPriorityStart { false };
     bool m_checkWallpaperVisible { false };
+    bool m_startWallpaperMuted { false };
     bool m_silentStart { false };
     bool m_anonymousTelemetry { true };
     bool m_showDefaultContent { false };
