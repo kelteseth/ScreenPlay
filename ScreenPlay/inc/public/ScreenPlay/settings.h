@@ -127,7 +127,7 @@ signals:
 
 public slots:
     void setupLanguage();
-    void initProfilesSettings();
+    void setupProfilesSettings();
     void setupWidgetAndWindowPaths();
     bool retranslateUI();
 
@@ -149,8 +149,10 @@ public slots:
     void setStartWallpaperMuted(bool startWallpaperMuted);
 
 private:
-    void initInstalledPath();
+    void setupInstalledPath();
     void initSteamInstalledPath();
+    QString findSteamPath();
+    void initStandaloneStoragePath();
     QString fixLanguageCode(const QString& languageCode);
 
 private:

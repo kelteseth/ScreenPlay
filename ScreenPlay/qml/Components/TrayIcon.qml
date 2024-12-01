@@ -6,7 +6,7 @@ import ScreenPlayApp
 SystemTrayIcon {
     id: root
 
-    property Window window
+    property Window applicationWindow
     visible: true
     icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/app.ico"
     tooltip: qsTr("ScreenPlay - Double click to change you settings.")
@@ -17,7 +17,7 @@ SystemTrayIcon {
         case SystemTrayIcon.Context:
             break;
         case SystemTrayIcon.DoubleClick:
-            window.show();
+            applicationWindow.show();
             break;
         case SystemTrayIcon.Trigger:
             break;
@@ -28,7 +28,7 @@ SystemTrayIcon {
 
     function open() {
         App.showDockIcon(true);
-        window.show();
+        applicationWindow.show();
     }
 
     menu: Menu {

@@ -116,12 +116,19 @@ Item {
                     Text {
                         id: txtDirChangesInfo
 
-                        text: qsTr("Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!")
+                        text:{
+                            let text =  qsTr("Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder! Example Steam paths:\n")
+                            if(App.globalVariables.isSteamVersion()){
+                                text += "\n    C:\\Program Files (x86)\\Steam\\steamapps\\workshop\\content\\672870\\"
+                                text += "\n    F:\\SteamLibrary\\steamapps\\\workshop\\content\\672870\\"
+                            }
+                        }
+
                         color: Qt.darker(Material.foreground)
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                         font.pointSize: 10
                         font.family: App.settings.font
-                        height: 30
+                        height: App.globalVariables.isSteamVersion() ? 70 : 30
 
                         anchors {
                             right: parent.right

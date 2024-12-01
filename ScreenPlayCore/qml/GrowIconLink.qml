@@ -9,7 +9,7 @@ Rectangle {
     property string url
     property alias color: overlay.color
 
-    color: Material.theme === Material.Light ? Material.background : Qt.darker(Material.background)
+    color: Material.theme === Material.Light ? Material.backgroundColor : Qt.darker(Material.backgroundColor)
     width: 42
     height: width
     radius: width

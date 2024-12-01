@@ -129,7 +129,7 @@ Rectangle {
         console.debug(logger, "MonitorSelection resize completed", flickable.contentWidth, flickable.contentHeight);
     }
 
-    color: Material.theme === Material.Light ? Material.background : Qt.darker(Material.background)
+    color: Material.theme === Material.Light ? Material.backgroundColor : Qt.darker(Material.backgroundColor)
     height: availableHeight
     width: parent.width
     clip: true

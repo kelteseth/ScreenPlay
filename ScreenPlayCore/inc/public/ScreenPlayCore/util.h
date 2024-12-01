@@ -129,7 +129,8 @@ public:
     bool isGodotWallpaper(const ScreenPlay::ContentTypes::InstalledType type) const;
 
     // QML callable functions
-    Q_INVOKABLE QString toLocal(const QString& url) const;
+    Q_INVOKABLE QString toLocal(const QString& urlString) const;
+    Q_INVOKABLE QString toLocal(const QUrl& url) const;
     Q_INVOKABLE QCoro::QmlTask exportGodotProject(const QString& absolutePath, const QString& godotEditorExecutablePath);
 
     Q_INVOKABLE bool isWallpaper(const ScreenPlay::ContentTypes::InstalledType type) const;

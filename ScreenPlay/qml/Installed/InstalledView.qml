@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Dialogs
 import QtQuick.Layouts
+import QtQuick.Effects
 import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
@@ -15,26 +16,22 @@ Item {
 
     property bool refresh: false
     property bool enabled: true
+    property bool installedLoadingFinished: false
 
     property Item modalSource
     signal setNavigationItem(var pos)
 
     function checkIsContentInstalled() {
-        if (App.installedListModel.count === 0) {
-            gridView.footerItem.isVisible = true;
-            gridView.visible = false;
-            navWrapper.visible = false;
-        } else {
-            gridView.footerItem.isVisible = false;
-            refresh = false;
+        if (App.installedListModel.count !== 0) {
             gridView.contentY = -82;
-            gridView.visible = true;
-            navWrapper.visible = true;
         }
     }
     StackView.onStatusChanged: {
         if (StackView.status == StackView.Deactivating) {
             installedDrawer.close();
+        }
+        if (StackView.status == StackView.Active) {
+            App.installedListModel.reset();
         }
     }
 
@@ -46,22 +43,26 @@ Item {
 
     StackView.onActivated: {
         navWrapper.state = "in";
-        checkIsContentInstalled();
+        root.checkIsContentInstalled();
     }
 
     Action {
         shortcut: "F5"
-        onTriggered: App.installedListModel.reset()
+        onTriggered: {
+            root.installedLoadingFinished = false;
+            App.installedListModel.reset();
+        }
     }
 
     Connections {
         function onInstalledLoadingFinished() {
-            checkIsContentInstalled();
+            root.installedLoadingFinished = true;
+            root.checkIsContentInstalled();
         }
 
         function onCountChanged(count) {
             if (count === 0)
-                checkIsContentInstalled();
+                root.checkIsContentInstalled();
         }
 
         target: App.installedListModel
@@ -82,6 +83,7 @@ Item {
     GridView {
         id: gridView
         objectName: "gridView"
+        visible: root.installedLoadingFinished
 
         property bool isDragging: false
         property bool isScrolling: gridView.verticalVelocity !== 0
@@ -131,8 +133,10 @@ Item {
             else
                 gridView.headerItem.isVisible = false;
             //Pull to refresh
-            if (contentY <= -180 && !refresh && !isDragging)
+            if (contentY <= -180 && root.installedLoadingFinished && !isDragging) {
+                root.installedLoadingFinished = false;
                 App.installedListModel.reset();
+            }
         }
 
         anchors {
@@ -185,44 +189,33 @@ Item {
             }
         }
 
+        // To not cover the items on the botton when the
+        // Drawer is active
         footer: Item {
-            property bool isVisible: true
-
-            height: 100
-            opacity: 0
-            visible: isVisible
+            height: 300
+            visible: root.installedLoadingFinished && App.installedListModel.count !== 0
             width: parent.width
 
             Text {
                 id: txtFooter
-
                 font.family: App.settings.font
-                text: qsTr("Get more Wallpaper & Widgets via the Steam workshop!")
-                anchors.centerIn: parent
-                color: "gray"
-
-                Timer {
-                    interval: 400
-                    running: true
-                    onTriggered: {
-                        animFadeInTxtFooter.start();
-                    }
-                }
-
-                PropertyAnimation on opacity {
-                    id: animFadeInTxtFooter
-
-                    from: 0
-                    to: 1
-                    running: false
-                    duration: 1000
+                font.pointSize: 14
+                text: qsTr("Get more Wallpaper & Widgets from the Steam Workshop!")
+                color: Material.hintTextColor
+                visible: App.globalVariables.isSteamVersion()
+                anchors {
+                    top: parent.top
+                    topMargin: 20
+                    horizontalCenter: parent.horizontalCenter
                 }
             }
         }
 
         delegate: InstalledItem {
             id: delegate
+            // objectName: "installedItem" + index
             isScrolling: gridView.isScrolling
+            focus: true
             onClicked: function (folderName, type) {
                 installedDrawer.setInstalledDrawerItem(folderName, type);
             }
@@ -390,16 +383,7 @@ Item {
         }
     }
 
-    InstalledNavigation {
-        id: navWrapper
-        installedDrawer: installedDrawer
 
-        anchors {
-            top: parent.top
-            right: parent.right
-            left: parent.left
-        }
-    }
 
     Util.Archive {
         id: archive
@@ -487,6 +471,269 @@ Item {
         }
     }
 
+
+    Pane {
+        id: invalidStoragePathView
+        anchors.centerIn: parent
+        visible: !isValid && root.installedLoadingFinished
+        enabled: visible
+        property bool isValid: (App.globalVariables.localStoragePath + "") !== ""
+
+        contentItem: ColumnLayout {
+            anchors.centerIn: parent
+            width: parent.width
+            spacing: 16
+
+            Label {
+                Layout.fillWidth: true
+                Layout.bottomMargin: 8
+                horizontalAlignment: Text.AlignHCenter
+                color: Material.accentColor
+                font.pixelSize: 18
+                text: qsTr("⚠️ Storage Path Issue")
+                wrapMode: Text.WordWrap
+            }
+
+            Label {
+                Layout.fillWidth: true
+                color: Material.secondaryTextColor
+                text: App.globalVariables.isStandaloneVersion() ? qsTr("Unable to access content storage location") : qsTr("Unable to access Steam Workshop folder")
+                wrapMode: Text.WordWrap
+            }
+
+            Label {
+                Layout.fillWidth: true
+                Layout.topMargin: 16
+                color: Material.secondaryTextColor
+                text: {
+                   if( App.globalVariables.isStandaloneVersion()) {
+                       qsTr("This could be due to:\n• Missing write permissions\n• Antivirus blocking access\n• Storage path no longer exists\n\nTry:\n• Running ScreenPlay as administrator\n• Checking your antivirus settings\n• Reinstalling ScreenPlay")
+                   } else {
+                       qsTr("This could be due to:\n• Steam is not installed\n• Steam Workshop folder is inaccessible\n• Missing write permissions\n\nTry:\n• Starting Steam first\n• Running ScreenPlay through Steam\n• Verifying game files in Steam\n• Reinstalling ScreenPlay through Steam")
+                   }
+                }
+
+                wrapMode: Text.WordWrap
+                lineHeight: 1.2
+            }
+
+            RowLayout {
+                Layout.topMargin: 20
+                Layout.fillWidth: true
+
+                Button {
+                    text: qsTr("Set content folder path")
+                    onClicked: App.util.setNavigation("Settings")
+                    icon {
+                        source:  "qrc:/qml/ScreenPlayApp/assets/icons/icon_settings.svg"
+                        width: 20
+                        height: 20
+                    }
+                }
+                Button {
+                    text: qsTr("Get help in the forums")
+                    onClicked: Qt.openUrlExternally("https://forum.screen-play.app/")
+                    icon {
+                        source:  "qrc:/qml/ScreenPlayApp/assets/icons/icon_open_in_new_black.svg"
+                        width: 20
+                        height: 20
+                    }
+                }
+            }
+        }
+    }
+
+
+
+    Util.RainbowGradient {
+        id: rainbowGradient
+        visible: false
+        running: noInstalledContentView.enabled
+        anchors {
+            topMargin: parent.height *.666
+            top: parent.top
+            right: parent.right
+            bottom: parent.bottom
+            left: parent.left
+        }
+    }
+    MultiEffect {
+        id: rainbowEffect
+        source: rainbowGradient
+        anchors.fill: rainbowGradient
+
+        // Mask effect
+        maskSpreadAtMax: .5
+        maskSpreadAtMin: 1
+        maskThresholdMax: 1
+        maskThresholdMin: .5
+        maskEnabled: true
+        maskSource: Image {
+            id: maskImage
+            source: "qrc:/qml/ScreenPlayApp/assets/images/first_startup_mask.png"
+            width: rainbowGradient.width
+            height: rainbowGradient.height
+            fillMode: Image.Stretch
+        }
+        NumberAnimation {
+            id: breathingAnimation
+            running: noInstalledContentView.enabled
+            from: 0
+            to: Math.PI * 2
+            duration: 3000
+            loops: Animation.Infinite
+        }
+        opacity: noInstalledContentView.enabled ? 1 : 0
+        Behavior on opacity {
+            NumberAnimation {
+                duration: 300
+            }
+        }
+    }
+    Pane {
+        id: noInstalledContentView
+        anchors.centerIn: parent
+        visible: App.installedListModel.count === 0 && invalidStoragePathView.isValid && root.installedLoadingFinished
+        enabled: visible
+        padding: 40
+        background: Rectangle {
+                color: Material.backgroundColor
+
+                Util.RainbowGradient {
+                    id: inlineRainbowGradient
+                    visible: noInstalledContentView.visible
+                    running: visible
+                    anchors.fill: parent
+                    radius: 4
+                    clip: true
+
+                }
+
+                Rectangle {
+                    radius: 4
+                    color: Material.backgroundColor
+                    anchors.fill: parent
+                    anchors.margins: 3
+                }
+            }
+
+
+
+
+        contentItem: RowLayout {
+            anchors.centerIn: parent
+            width: parent.width
+            spacing: 50
+                ColumnLayout {
+            spacing: 20
+
+            Label {
+                text: qsTr("Lets get started")
+                color: Material.accentColor
+                Layout.fillWidth: true
+                Layout.bottomMargin: 8
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: 26
+                wrapMode: Text.WordWrap
+            }
+
+            Label {
+                Layout.fillWidth: true
+                horizontalAlignment: Text.AlignHCenter
+                color: Material.primaryTextColor
+                text: App.globalVariables.isStandaloneVersion() ? qsTr("Your content library is empty at:") : qsTr("No Steam Workshop items installed at:")
+                wrapMode: Text.WordWrap
+            }
+            Label {
+                Layout.fillWidth: true
+                Layout.topMargin: -5
+                horizontalAlignment: Text.AlignHCenter
+                color: Material.secondaryTextColor
+                text: App.util.toLocal(App.globalVariables.localStoragePath)
+                wrapMode: Text.WordWrap
+            }
+
+            Label {
+                Layout.fillWidth: true
+                Layout.topMargin: 20
+                color: Material.secondaryTextColor
+                text:{
+                    if(App.globalVariables.isStandaloneVersion() ){
+                        qsTr("To get started:\n• Click the '+' button to add content\n• Import your existing wallpapers\n• Download community wallpapers\n• Create your own wallpaper")
+
+                    } else {
+                        qsTr("To get started:\n• Visit the Steam Workshop\n• Subscribe to wallpapers you like\n• Wait for Steam to download them\n• Create and share your own wallpapers")
+                    }
+                }
+                wrapMode: Text.WordWrap
+                lineHeight: 1.2
+            }
+
+            RowLayout {
+                Layout.topMargin: 20
+                Layout.fillWidth: true
+
+                Button {
+                    text: App.globalVariables.isStandaloneVersion() ? qsTr("Add Content") : qsTr("Open Workshop")
+                    onClicked: {
+                        if(App.globalVariables.isStandaloneVersion()){
+                            App.util.setNavigation("Create")
+                        } else {
+                            App.util.setNavigation("Workshop")
+                        }
+                    }
+
+                    icon {
+                        source: App.globalVariables.isStandaloneVersion() ? "qrc:/qml/ScreenPlayApp/assets/icons/icon_plus.svg" :"qrc:/qml/ScreenPlayApp/assets/icons/icon_steam.svg"
+                        width: 20
+                        height: 20
+                    }
+                }
+                Button {
+                    text: qsTr("Open Install Folder Path")
+                    onClicked: App.util.openFolderInExplorer(App.globalVariables.localStoragePath.toString())
+                    icon {
+                        source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_folder_open.svg"
+                        width: 20
+                        height: 20
+                    }
+                }
+            }
+
+            }
+                Item {
+                         Layout.preferredWidth: ship.width
+                         Layout.preferredHeight: ship.height + 20  // Added extra space for the animation
+                         Image {
+                             id: ship
+                             source: "qrc:/qml/ScreenPlayApp/assets/images/rocket_3d.png"
+
+                             SequentialAnimation {
+                                 running: true
+                                 loops: Animation.Infinite
+
+                                 NumberAnimation {
+                                     target: ship
+                                     property: "y"
+                                     from: 0
+                                     to: 10
+                                     duration: 1500
+                                     easing.type: Easing.InOutQuad
+                                 }
+                                 NumberAnimation {
+                                     target: ship
+                                     property: "y"
+                                     from: 10
+                                     to: 0
+                                     duration: 1500
+                                     easing.type: Easing.InOutQuad
+                                 }
+                             }
+                         }
+                }
+        }
+    }
+
     Popup {
         id: dropPopup
         anchors.centerIn: Overlay.overlay
@@ -503,6 +750,17 @@ Item {
         Util.FileDropAnimation {
             id: fileDropAnimation
             anchors.centerIn: parent
+        }
+    }
+    InstalledNavigation {
+        id: navWrapper
+        installedDrawer: installedDrawer
+        visible: root.installedLoadingFinished
+
+        anchors {
+            top: parent.top
+            right: parent.right
+            left: parent.left
         }
     }
 }

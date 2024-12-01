@@ -11,7 +11,7 @@ import ScreenPlayCore as Util
 Util.Dialog {
     id: root
 
-    property ApplicationWindow window
+    property ApplicationWindow applicationWindow
     property string message
     standardButtons: Dialog.Ok | Dialog.Help
     onHelpRequested: {
@@ -19,9 +19,9 @@ Util.Dialog {
     }
 
     Connections {
-        function onDisplayErrorPopup(msg) {
+        function onDisplayErrorPopup(msg: string): void {
             root.message = msg;
-            root.window.show();
+            root.applicationWindow.show();
             root.open();
         }
 

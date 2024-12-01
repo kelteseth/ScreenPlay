@@ -12,11 +12,11 @@ QQC.Popup {
     // when using hideSource
     property bool aboutToHide: false
     dim: true
-    anchors.centerIn: Overlay.overlay
+    anchors.centerIn: QQC.Overlay.overlay
     modal: true
     focus: true
 
-    Overlay.modal: ModalBackgroundBlur {
+    QQC.Overlay.modal: ModalBackgroundBlur {
         id: blurBg
         sourceItem: root.modalSource
         hideSource: root.aboutToHide

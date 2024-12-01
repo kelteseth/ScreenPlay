@@ -161,7 +161,7 @@ Rectangle {
             Layout.maximumHeight: 45
             visible: true
             background: Rectangle {
-                color: Material.theme === Material.Light ? Material.background : "#242424"
+                color: Material.theme === Material.Light ? Material.backgroundColor : "#242424"
                 border.color: "#44FFD700"
                 border.width: 1
                 radius: 3
@@ -203,7 +203,7 @@ Rectangle {
             Layout.maximumHeight: 45
             background: Rectangle {
                 id: quickActionRowBackground
-                color: Material.theme === Material.Light ? Material.background : "#242424"
+                color: Material.theme === Material.Light ? Material.backgroundColor : "#242424"
                 border.color: Material.theme === Material.Light ? Material.iconDisabledColor : Qt.darker(Material.background)
                 border.width: 1
                 radius: 3
@@ -309,7 +309,7 @@ Rectangle {
             property bool contentActive: App.screenPlayManager.activeWallpaperCounter > 0
 
             background: Rectangle {
-                color: Material.theme === Material.Light ? Material.background : "#242424"
+                color: Material.theme === Material.Light ? Material.backgroundColor : "#242424"
                 border.color: miConfig.contentActive ? "gold" : (Material.theme === Material.Light ? Material.iconDisabledColor : Qt.darker(Material.background))
                 border.width: 1
                 radius: 3

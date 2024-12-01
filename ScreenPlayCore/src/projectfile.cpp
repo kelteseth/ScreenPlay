@@ -53,7 +53,7 @@ bool ProjectFile::init()
         } else {
             QFileInfo fileInfo(folder.path() + "/" + file);
             if (!fileInfo.exists()) {
-                qCritical() << "Requested file:" << fileInfo.absoluteFilePath() << "does not exist!";
+                qInfo() << "Requested file:" << fileInfo.absoluteFilePath() << "does not exist!";
                 return false;
             }
         }

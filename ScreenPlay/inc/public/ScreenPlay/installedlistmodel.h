@@ -53,28 +53,18 @@ public:
     };
     Q_ENUM(ScreenPlayItem)
 
-    int count() const
-    {
-        return m_count;
-    }
     Q_INVOKABLE QVariantMap get(const QString& folderName) const;
+    Q_INVOKABLE bool deinstallItemAt(const QString& absoluteStoragePath);
+    Q_INVOKABLE void reset();
 
 public slots:
+    void init();
+    void setCount(int count);
+    int count() const { return m_count; }
 
+private:
     void loadInstalledContent();
     void append(const QString& projectJsonFilePath);
-    void reset();
-    void init();
-    bool deinstallItemAt(const QString& absoluteStoragePath);
-
-    void setCount(int count)
-    {
-        if (m_count == count)
-            return;
-
-        m_count = count;
-        emit countChanged(m_count);
-    }
 
 signals:
     void installedLoadingFinished();

@@ -370,9 +370,14 @@ std::optional<ScreenPlay::Video::VideoCodec> Util::getVideoCodecFromString(const
 /*!
     \brief Converts the given \a url string to a local file path.
 */
-QString Util::toLocal(const QString& url) const
+QString Util::toLocal(const QString& urlString) const
 {
-    return QUrl(url).toLocalFile();
+    return QUrl(urlString).toLocalFile();
+}
+
+QString Util::toLocal(const QUrl& url) const
+{
+    return url.toLocalFile();
 }
 
 /*!

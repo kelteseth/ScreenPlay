@@ -47,7 +47,7 @@ Util.Popup {
 
         Rectangle {
             id: timelineWrapper
-            color: Material.theme === Material.Light ? Material.background : "#242424"
+            color: Material.theme === Material.Light ? Material.backgroundColor : "#242424"
             border.color: "#44FFD700"
             border.width: 1
             radius: 3
@@ -244,7 +244,7 @@ Util.Popup {
             }
 
             Rectangle {
-                color: Material.theme === Material.Light ? Material.background : Qt.darker(Material.background)
+                color: Material.theme === Material.Light ? Material.backgroundColor : Qt.darker(Material.backgroundColor)
                 radius: 3
                 clip: true
 

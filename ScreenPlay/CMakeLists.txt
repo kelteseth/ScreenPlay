@@ -209,6 +209,7 @@ set(RESOURCES
     assets/images/scale_window_indicator.png
     assets/images/steam_offline.png
     assets/images/timeline_mask.png
+    assets/images/first_startup_mask.png
     assets/images/trayIcon_osx.png
     assets/images/trayIcon_windows.png
     assets/images/Window.svg
