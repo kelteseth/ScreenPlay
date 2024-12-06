@@ -156,9 +156,7 @@ Rectangle {
         width: 70
         height: 48
         radius: 5
-        running: root.isActive/*
-        border.width: root.selected ? 2 : 0
-        border.color: "gold"*/
+        running: root.isActive
         anchors {
             horizontalCenter: parent.horizontalCenter
             top: indicatorLineVertical.bottom
@@ -179,7 +177,7 @@ Rectangle {
             anchors.margins: 3
             radius: 5
             clip: true
-            color: Qt.darker(monitorBackground.color)
+            color: Qt.darker(root.color)
 
             Image {
                 id: imgWallpaper
