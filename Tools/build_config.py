@@ -9,7 +9,7 @@ class BuildConfig:
     executable_file_ending: str
     # qt_* use either aqt or from the maintenance tool
     qt_path: str  # C:\Qt
-    qt_bin_path: str  # C:\Qt\6.3.2\msvc2019_64
+    qt_bin_path: str  # C:\Qt\6.8.1\msvc2022_64
     qt_version: str
     qt_ifw_version: str
     ifw_root_path: str

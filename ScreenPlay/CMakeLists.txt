@@ -196,6 +196,7 @@ set(RESOURCES
     assets/icons/item_banner_new.svg
     assets/icons/monitor_setup.svg
     assets/icons/steam_default_avatar.png
+    assets/images/first_startup_mask.png
     assets/images/Intro.png
     assets/images/Intro_PC.png
     assets/images/Intro_shine.png
@@ -209,7 +210,6 @@ set(RESOURCES
     assets/images/scale_window_indicator.png
     assets/images/steam_offline.png
     assets/images/timeline_mask.png
-    assets/images/first_startup_mask.png
     assets/images/trayIcon_osx.png
     assets/images/trayIcon_windows.png
     assets/images/Window.svg

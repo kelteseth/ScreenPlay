@@ -1,6 +1,38 @@
 #include "windowsintegration.h"
+#include <VersionHelpers.h>
 #include <atomic>
 
+int GetWindowsBuildNumber()
+{
+    OSVERSIONINFOEXW osvi;
+    NTSTATUS(WINAPI * RtlGetVersion)(LPOSVERSIONINFOEXW);
+
+    *(FARPROC*)&RtlGetVersion = GetProcAddress(GetModuleHandleA("ntdll.dll"), "RtlGetVersion");
+
+    if (RtlGetVersion) {
+        osvi.dwOSVersionInfoSize = sizeof(osvi);
+        RtlGetVersion(&osvi);
+        return static_cast<int>(osvi.dwBuildNumber);
+    }
+
+    return 0;
+}
+
+bool GetClassName(HWND hwnd, LPWSTR className, int maxCount)
+{
+    if (!hwnd || !className || maxCount <= 0) {
+        return false;
+    }
+
+    int length = ::GetClassNameW(hwnd, className, maxCount);
+    return length > 0;
+}
+// Helper function to check if running on Windows 24H2 or newer
+bool IsWindows24H2OrNewer()
+{
+    int buildNumber = GetWindowsBuildNumber();
+    return buildNumber >= 26100;
+}
 WindowsIntegration* WindowsIntegration::instance = nullptr;
 
 WindowsIntegration::WindowsIntegration()
@@ -69,13 +101,51 @@ float WindowsIntegration::getScaling(const int monitorIndex) const
 
 bool WindowsIntegration::searchWorkerWindowToParentTo()
 {
-    HWND progman_hwnd = FindWindowW(L"Progman", L"Program Manager");
-    const DWORD WM_SPAWN_WORKER = 0x052C;
-    SendMessageTimeoutW(progman_hwnd, WM_SPAWN_WORKER, 0xD, 0x1, SMTO_NORMAL,
-        10000, nullptr);
+    bool isWin24H2Plus = IsWindows24H2OrNewer();
 
-    return EnumWindows(SearchForWorkerWindow, reinterpret_cast<LPARAM>(&m_windowHandleWorker));
+    if (isWin24H2Plus) {
+        HWND hProgman = FindWindowW(L"Progman", nullptr);
+        if (!hProgman) {
+            return false;
+        }
+
+        // Try to find existing DefView under Progman
+        HWND hDefView = FindWindowExW(hProgman, nullptr, L"SHELLDLL_DefView", nullptr);
+        if (hDefView != nullptr) {
+            // Look for WorkerW as a child of Progman, not GetDesktopWindow()
+            HWND hWorkerW = FindWindowExW(hProgman, nullptr, L"WorkerW", nullptr);
+            while (hWorkerW != nullptr) {
+                if (FindWindowExW(hWorkerW, nullptr, L"SHELLDLL_DefView", nullptr) == nullptr) {
+                    m_windowHandleWorker = hWorkerW;
+                    return true;
+                }
+                hWorkerW = FindWindowExW(hProgman, hWorkerW, L"WorkerW", nullptr);
+            }
+        }
+
+        // If no suitable WorkerW found, create one
+        SendMessageTimeoutW(hProgman, 0x052C, 0, 0, SMTO_NORMAL, 1000, nullptr);
+
+        // Try finding WorkerW again, still as child of Progman
+        HWND hWorkerW = FindWindowExW(hProgman, nullptr, L"WorkerW", nullptr);
+        while (hWorkerW != nullptr) {
+            if (FindWindowExW(hWorkerW, nullptr, L"SHELLDLL_DefView", nullptr) == nullptr) {
+                m_windowHandleWorker = hWorkerW;
+                return true;
+            }
+            hWorkerW = FindWindowExW(hProgman, hWorkerW, L"WorkerW", nullptr);
+        }
+        return false;
+    } else {
+        // Pre-24H2 handling
+        HWND progman_hwnd = FindWindowW(L"Progman", L"Program Manager");
+        const DWORD WM_SPAWN_WORKER = 0x052C;
+        SendMessageTimeoutW(progman_hwnd, WM_SPAWN_WORKER, 0xD, 0x1, SMTO_NORMAL, 10000, nullptr);
+
+        return EnumWindows(SearchForWorkerWindow, reinterpret_cast<LPARAM>(&m_windowHandleWorker));
+    }
 }
+
 /*!
   \brief Searches for the worker window for our window to parent to.
 */
@@ -138,6 +208,7 @@ bool WindowsIntegration::checkForFullScreenWindow(HWND windowHandle)
         return false;
     }
 }
+
 /*
  * Adjusting a Window's Position and Size for Different Monitor DPI Scale Factors:
  *      * Windows allows users to set different DPI (dots per inch) scale factors for each monitor. This DPI scaling can lead to
@@ -161,18 +232,22 @@ bool WindowsIntegration::checkForFullScreenWindow(HWND windowHandle)
  *      * By following this approach, we can accurately position and resize the window on any monitor, regardless of differences in DPI
  * scale factors.
  */
-
-WindowsIntegration::MonitorResult WindowsIntegration::setupWallpaperForOneScreen(const int activeScreen, std::function<void(int, int)> updateWindowSize)
+WindowsIntegration::MonitorResult WindowsIntegration::setupWallpaperForOneScreen(
+    const int activeScreen,
+    std::function<void(int, int)> updateWindowSize)
 {
+
+    SetWindowText(m_windowHandle, "ScreenPlayWallpaper");
     if (!IsWindow(m_windowHandle)) {
-        std::cout << "Could not get a valid window handle !";
+        std::cout << "Could not get a valid window handle!";
         return { std::nullopt, MonitorResultStatus::WindowHandleInvalidError };
     }
-
     if (!IsWindow(m_windowHandleWorker)) {
-        std::cout << "Could not get a valid window handle wroker!";
+        std::cout << "Could not get a valid window handle worker!";
         return { std::nullopt, MonitorResultStatus::WorkerWindowHandleInvalidError };
     }
+
+    bool isWin24H2Plus = IsWindows24H2OrNewer();
 
     std::vector<Monitor> monitors = getAllMonitors();
     for (const auto& monitor : monitors) {
@@ -180,28 +255,56 @@ WindowsIntegration::MonitorResult WindowsIntegration::setupWallpaperForOneScreen
         if (monitor.index != activeScreen)
             continue;
 
+        // Initial window positioning
         SetWindowPos(m_windowHandle, HWND_TOP,
             monitor.position.left, monitor.position.top,
             monitor.size.cx, monitor.size.cy,
             SWP_NOZORDER | SWP_NOACTIVATE);
 
-        // Must be called here to fix window positions!
+        // Update window size callback
         updateWindowSize(monitor.size.cx, monitor.size.cy);
 
+        // Store original window position
         RECT oldRect;
         GetWindowRect(m_windowHandle, &oldRect);
         std::cout << "Old Window Position: (" << oldRect.left << ", " << oldRect.top << ")" << std::endl;
 
+        // Calculate DPI scaling factors
         float windowDpiScaleFactor = static_cast<float>(GetDpiForWindow(m_windowHandle)) / 96.0f;
         float targetMonitorDpiScaleFactor = monitor.scaleFactor;
         std::cout << "Window DPI Scale Factor: " << windowDpiScaleFactor << std::endl;
         std::cout << "Target Monitor DPI Scale Factor: " << targetMonitorDpiScaleFactor << std::endl;
 
+        if (isWin24H2Plus) {
+            // 24H2-specific handling
+            HWND hProgman = FindWindowW(L"Progman", nullptr);
+            if (hProgman) {
+                HWND hDefView = FindWindowExW(hProgman, nullptr, L"SHELLDLL_DefView", nullptr);
+
+                if (hDefView != nullptr) {
+                    // Get the WorkerW that's the next sibling after SHELLDLL_DefView
+                    HWND hWorkerW = GetWindow(hDefView, GW_HWNDNEXT);
+                    if (hWorkerW) {
+                        WCHAR className[256];
+                        if (GetClassNameW(hWorkerW, className, sizeof(className) / sizeof(WCHAR)) > 0) {
+                            if (wcscmp(className, L"WorkerW") == 0) {
+                                m_windowHandleWorker = hWorkerW;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Set parent relationship
         SetParent(m_windowHandle, m_windowHandleWorker);
+
+        // Get parent window position
         RECT parentRect;
         GetWindowRect(m_windowHandleWorker, &parentRect);
         std::cout << "WorkerW Window Position: (" << parentRect.left << ", " << parentRect.top << ")" << std::endl;
 
+        // Calculate new position and size with DPI scaling
         int newX = static_cast<int>((oldRect.left - parentRect.left) * (windowDpiScaleFactor / targetMonitorDpiScaleFactor));
         int newY = static_cast<int>((oldRect.top - parentRect.top) * (windowDpiScaleFactor / targetMonitorDpiScaleFactor));
         std::cout << "Calculated New Position: (" << newX << ", " << newY << ")" << std::endl;
@@ -210,11 +313,28 @@ WindowsIntegration::MonitorResult WindowsIntegration::setupWallpaperForOneScreen
         int newHeight = static_cast<int>(monitor.size.cy * (windowDpiScaleFactor / targetMonitorDpiScaleFactor));
         std::cout << "Calculated New Size: (" << newWidth << "x" << newHeight << ")" << std::endl;
 
-        SetWindowPos(m_windowHandle, NULL, newX, newY, newWidth, newHeight, SWP_NOZORDER | SWP_NOACTIVATE);
+        // Final window positioning
+        SetWindowPos(m_windowHandle, nullptr,
+            newX, newY,
+            newWidth, newHeight,
+            SWP_NOZORDER | SWP_NOACTIVATE);
+
+        if (isWin24H2Plus) {
+            // Additional 24H2-specific window adjustments if needed
+            SetWindowLongW(m_windowHandle, GWL_STYLE,
+                GetWindowLongW(m_windowHandle, GWL_STYLE) | WS_CHILD);
+
+            // Force a redraw
+            RedrawWindow(m_windowHandle, nullptr, nullptr,
+                RDW_ERASE | RDW_INVALIDATE | RDW_FRAME | RDW_ALLCHILDREN);
+        }
+
         return { monitor, MonitorResultStatus::Ok };
     }
+
     return { std::nullopt, MonitorResultStatus::MonitorIterationError };
 }
+
 /**
  *  Spans the window across multiple monitors.
  *  * This function takes a vector of monitor indices and adjusts the window's

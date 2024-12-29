@@ -1,111 +1,35 @@
-# SPDX-License-Identifier: Unlicense
-
 cmake_minimum_required(VERSION 3.22)
-
-message(STATUS "Using CMake ${CMAKE_VERSION}")
-
-# Require out-of-source builds
-file(TO_CMAKE_PATH "${PROJECT_BINARY_DIR}/CMakeLists.txt" LOC_PATH)
-
-if(EXISTS "${LOC_PATH}")
-    message(FATAL_ERROR "You cannot build in the source directory. Please use a build subdirectory.")
-endif()
-
-# Add paths to modules
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
-
-# Turn on link time optimization for everything
-set(CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELEASE ON)
-
-# Output compile commands to compile_commands.json (for debugging CMake issues)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
-# Build universal lib on macOS Note that CMAKE_OSX_ARCHITECTURES must be set before project().
-if(APPLE)
-    set(CMAKE_OSX_ARCHITECTURES
-        "x86_64;arm64"
-        CACHE STRING "")
-endif()
 
 # Main project information
 project(ScreenPlayGodotWallpaper LANGUAGES CXX)
+find_package(Catch2 CONFIG REQUIRED)
+
+set(SOURCES
+    src/ScreenPlayGodotWallpaper.h
+    src/ScreenPlayGodotWallpaper.cpp
+    src/WindowsPipe.h
+    src/WindowsPipe.cpp
+    src/RegisterExtension.cpp)
 
 # Create our library
-add_library(${PROJECT_NAME} SHARED)
-# Runs after compilation Enable executing python scripts
-find_package(Python COMPONENTS Interpreter)
+add_library(${PROJECT_NAME} STATIC ${SOURCES})
 
-add_custom_command(
-    TARGET ${PROJECT_NAME}
-    POST_BUILD
-    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/Tools"
-    COMMAND "${Python_EXECUTABLE}" "build_godot.py" "--build_path" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
-    COMMENT "Running post-build step")
+if(WIN32)
+    # Ensure both Debug and Release configurations use dynamic runtime
+    set_property(TARGET ${PROJECT_NAME} PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
 
-# LIB_ARCH is the architecture being built. It is set to the build system's architecture. For macOS, we build a universal library (both
-# arm64 and x86_64).
-set(LIB_ARCH ${CMAKE_SYSTEM_PROCESSOR})
-
-if(APPLE)
-    set(LIB_ARCH "universal")
+    # Set iterator debug level consistently
+    target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<CONFIG:Debug>:_ITERATOR_DEBUG_LEVEL=2>
+                                                       $<$<CONFIG:Release>:_ITERATOR_DEBUG_LEVEL=0>)
 endif()
 
-# LIB_DIR is where the actual library ends up. This is used in both the build directory and the install directory and needs to be consistent
-# with the paths in the gdextension file. e.g. linux.release.x86_64 = "lib/Linux-x86_64/libGDExtensionTemplate.so"
-set(LIB_DIR "lib/${CMAKE_SYSTEM_NAME}-${LIB_ARCH}")
+target_link_libraries(${PROJECT_NAME} PUBLIC godot::cpp ScreenPlayWallpaperLib)
+target_include_directories(${PROJECT_NAME} PRIVATE "src")
 
-message(STATUS "Building ${PROJECT_NAME} for ${LIB_ARCH} on ${CMAKE_SYSTEM_NAME}")
+# # Runs after compilation Enable executing python scripts find_package(Python COMPONENTS Interpreter)
 
-# BUILD_OUTPUT_DIR is where we put the resulting library (in the build directory)
-set(BUILD_OUTPUT_DIR "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/")
-set(OUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../ScreenPlayGodot/${PROJECT_NAME}/)
-
-# Compile directly into our Godot project
-set_target_properties(
-    ${PROJECT_NAME}
-    PROPERTIES CXX_VISIBILITY_PRESET hidden
-               VISIBILITY_INLINES_HIDDEN true
-               RUNTIME_OUTPUT_DIRECTORY "${OUT_PATH}/${LIB_DIR}"
-               LIBRARY_OUTPUT_DIRECTORY "${OUT_PATH}/${LIB_DIR}")
-
-if(NOT DEFINED CMAKE_DEBUG_POSTFIX)
-    set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX "-d")
-endif()
-
-# Warnings
-include(CompilerWarnings)
-
-# Create and include version info file from git
-include(GitVersionInfo)
+# add_custom_command( TARGET ${PROJECT_NAME} POST_BUILD WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/Tools" COMMAND "${Python_EXECUTABLE}"
+# "build_godot.py" "--build_path" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" COMMENT "Running post-build step")
 
 add_subdirectory(src)
-
-# Install library and extension file in ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}
-set(INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}/")
-
-add_subdirectory(templates)
-
-# ccache Turns on ccache if found
-include(ccache)
-
-# Formatting Adds a custom target to format all the code at once
-include(ClangFormat)
-
-# godot-cpp From here: https://github.com/godotengine/godot-cpp
-if(NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/extern/godot-cpp/Makefile")
-    message(
-        FATAL_ERROR
-            "[${PROJECT_NAME}] The godot-cpp submodule was not downloaded. Please update submodules: git submodule update --init --recursive."
-    )
-endif()
-
-set(GODOT_CPP_SYSTEM_HEADERS
-    ON
-    CACHE BOOL "" FORCE)
-
 add_subdirectory(extern/godot-cpp)
-
-set_target_properties(godot-cpp PROPERTIES CXX_VISIBILITY_PRESET hidden # visibility needs to be the same as the main library
-)
-
-target_link_libraries(${PROJECT_NAME} PRIVATE godot-cpp ScreenPlayWallpaperLib)
