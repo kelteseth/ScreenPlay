@@ -35,13 +35,13 @@ endif()
 # during install. Setting CMAKE_BUILD_WITH_INSTALL_RPATH builds directly with the
 # final installation RPATH, avoiding the need to modify it later.
 if(UNIX)
-   set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+    set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 endif()
 
 # This sets cmake to compile all dlls into the main directory
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(THIRD_PARTY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty")
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})

@@ -277,17 +277,18 @@ endif()
 find_package(
     Qt6
     COMPONENTS Core
-               Quick
-               QuickControls2
-               Gui
-               Widgets
-               WebSockets
-               Svg
-               Xml
-               LinguistTools
-               Test)
+    Quick
+    QuickControls2
+    Gui
+    Widgets
+    WebSockets
+    Svg
+    Xml
+    LinguistTools
+    Test)
 
 add_library(ScreenPlayApp STATIC)
+target_compile_features(ScreenPlayApp PRIVATE cxx_std_23)
 
 target_include_directories(
     ScreenPlayApp
@@ -320,20 +321,20 @@ qt_add_qml_module(
 target_link_libraries(
     ScreenPlayApp
     PUBLIC ScreenPlaySDK
-           LibArchive::LibArchive
-           ScreenPlayCore
-           ScreenPlayCoreplugin
-           QArchive
-           Threads::Threads
-           QCoro6::Qml
-           Qt6::Quick
-           Qt6::Gui
-           Qt6::Widgets
-           Qt6::Core
-           Qt6::WebSockets
-           Qt6::Svg
-           Qt6::QuickControls2
-           Qt6::Xml)
+    LibArchive::LibArchive
+    ScreenPlayCore
+    ScreenPlayCoreplugin
+    QArchive
+    Threads::Threads
+    QCoro6::Qml
+    Qt6::Quick
+    Qt6::Gui
+    Qt6::Widgets
+    Qt6::Core
+    Qt6::WebSockets
+    Qt6::Svg
+    Qt6::QuickControls2
+    Qt6::Xml)
 
 if(${SCREENPLAY_STEAM})
     target_link_libraries(ScreenPlayApp PUBLIC ScreenPlayWorkshopplugin ScreenPlayWorkshop)
@@ -357,8 +358,8 @@ if(${SCREENPLAY_TESTS})
 endif()
 
 if(WIN32
-   OR UNIX
-   AND NOT APPLE)
+    OR UNIX
+    AND NOT APPLE)
     include(CopyRecursive)
     set(FONTS_OUT_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets/fonts)
     file(MAKE_DIRECTORY ${FONTS_OUT_DIR})
@@ -416,26 +417,26 @@ if(APPLE)
     set_target_properties(
         ${PROJECT_NAME}
         PROPERTIES OUTPUT_NAME ${PROJECT_NAME}
-                   MACOSX_BUNDLE TRUE
-                   MACOSX_RPATH TRUE
-                   MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist
-                   MACOSX_FRAMEWORK_IDENTIFIER app.screenplay
-                   XCODE_ATTRIBUTE_LD_RUNPATH_SEARCH_PATHS "@loader_path/Libraries"
-                   RESOURCE "${RESOURCE_FILES};${APP_ICON_MACOSX}" # Include the icon in the resources
-                   XCODE_ATTRIBUTE_ENABLE_HARDENED_RUNTIME TRUE
-                   XCODE_ATTRIBUTE_EXECUTABLE_NAME ${PROJECT_NAME})
+        MACOSX_BUNDLE TRUE
+        MACOSX_RPATH TRUE
+        MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist
+        MACOSX_FRAMEWORK_IDENTIFIER app.screenplay
+        XCODE_ATTRIBUTE_LD_RUNPATH_SEARCH_PATHS "@loader_path/Libraries"
+        RESOURCE "${RESOURCE_FILES};${APP_ICON_MACOSX}" # Include the icon in the resources
+        XCODE_ATTRIBUTE_ENABLE_HARDENED_RUNTIME TRUE
+        XCODE_ATTRIBUTE_EXECUTABLE_NAME ${PROJECT_NAME})
 
     add_custom_command(
         TARGET ${PROJECT_NAME}
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/ffmpeg"
-                "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
+        "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
 
     add_custom_command(
         TARGET ${PROJECT_NAME}
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/ffprobe"
-                "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
+        "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
 
     # fonts
     include(CopyRecursive)

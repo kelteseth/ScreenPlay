@@ -21,6 +21,7 @@ set(QML_PLUGIN_SOURCES src/screenplayweather.cpp)
 set(QML_PLUGIN_HEADER src/day.h src/screenplayweather.h)
 
 set(RESOURCES
+
     # cmake-format: sort
     assets/icons/wi-alien.svg
     assets/icons/wi-barometer.svg
@@ -243,6 +244,7 @@ set(RESOURCES
     assets/icons/wi-windy.svg)
 
 qt_add_library(${PROJECT_NAME} STATIC)
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_23)
 target_link_libraries(${PROJECT_NAME} PUBLIC ScreenPlayCore ScreenPlayCoreplugin)
 target_include_directories(${PROJECT_NAME} PUBLIC src/)
 
@@ -270,6 +272,6 @@ if(${SCREENPLAY_TESTS})
 
     if(APPLE)
         set_target_properties(tst_ScreenPlayWeather PROPERTIES RUNTIME_OUTPUT_DIRECTORY
-                                                               "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
+            "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
     endif()
 endif()

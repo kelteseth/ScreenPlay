@@ -1,6 +1,5 @@
 # SPDX-License-Identifier: Unlicense
-
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.28...3.31)
 
 message(STATUS "Using CMake ${CMAKE_VERSION}")
 
@@ -32,6 +31,8 @@ project(ScreenPlayGodotWallpaper LANGUAGES CXX)
 
 # Create our library
 add_library(${PROJECT_NAME} SHARED)
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_23)
+
 # Runs after compilation Enable executing python scripts
 find_package(Python COMPONENTS Interpreter)
 
@@ -64,9 +65,9 @@ set(OUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../ScreenPlayGodot/${PROJECT_NAME}/)
 set_target_properties(
     ${PROJECT_NAME}
     PROPERTIES CXX_VISIBILITY_PRESET hidden
-               VISIBILITY_INLINES_HIDDEN true
-               RUNTIME_OUTPUT_DIRECTORY "${OUT_PATH}/${LIB_DIR}"
-               LIBRARY_OUTPUT_DIRECTORY "${OUT_PATH}/${LIB_DIR}")
+    VISIBILITY_INLINES_HIDDEN true
+    RUNTIME_OUTPUT_DIRECTORY "${OUT_PATH}/${LIB_DIR}"
+    LIBRARY_OUTPUT_DIRECTORY "${OUT_PATH}/${LIB_DIR}")
 
 if(NOT DEFINED CMAKE_DEBUG_POSTFIX)
     set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX "-d")
@@ -95,13 +96,26 @@ include(ClangFormat)
 if(NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/extern/godot-cpp/Makefile")
     message(
         FATAL_ERROR
-            "[${PROJECT_NAME}] The godot-cpp submodule was not downloaded. Please update submodules: git submodule update --init --recursive."
+        "[${PROJECT_NAME}] The godot-cpp submodule was not downloaded. Please update submodules: git submodule update --init --recursive."
     )
 endif()
 
 set(GODOT_CPP_SYSTEM_HEADERS
     ON
     CACHE BOOL "" FORCE)
+
+if(MSVC)
+    # Disable LTCG globally for this directory and subdirectories
+    string(REPLACE "/LTCG" "" CMAKE_STATIC_LINKER_FLAGS_RELEASE "${CMAKE_STATIC_LINKER_FLAGS_RELEASE}")
+    string(REPLACE "/LTCG" "" CMAKE_SHARED_LINKER_FLAGS_RELEASE "${CMAKE_SHARED_LINKER_FLAGS_RELEASE}")
+    string(REPLACE "/GL" "" CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
+
+    # Force disable LTCG
+    set(CMAKE_STATIC_LINKER_FLAGS_RELEASE "${CMAKE_STATIC_LINKER_FLAGS_RELEASE} /LTCG:OFF")
+
+    # Also disable incremental linking which can interact with LTCG
+    set(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE} /INCREMENTAL:NO")
+endif()
 
 add_subdirectory(extern/godot-cpp)
 

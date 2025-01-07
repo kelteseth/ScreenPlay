@@ -92,6 +92,7 @@ elseif(UNIX)
 endif()
 
 qt_add_library(${PROJECT_NAME} STATIC ${RESOURCES})
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_23)
 
 # Needed by the automatic generated target missing includes
 # https://github.com/qt/qtdeclarative/blob/7a7064e14f094e843e1ee832cc927e86f887621a/src/qml/Qt6QmlMacros.cmake#L2042
@@ -99,10 +100,10 @@ target_include_directories(${PROJECT_NAME} PUBLIC src/)
 target_link_libraries(
     ${PROJECT_NAME}
     PUBLIC Qt6::Core
-           Qt6::Quick
-           ${STEAM_LIB}
-           ScreenPlayCore
-           SteamSDK)
+    Qt6::Quick
+    ${STEAM_LIB}
+    ScreenPlayCore
+    SteamSDK)
 
 qt_add_qml_module(
     ${PROJECT_NAME}
@@ -138,15 +139,15 @@ if(${SCREENPLAY_STEAM})
         target_link_libraries(
             tst_ScreenPlayWorkshop
             PRIVATE Qt6::Quick
-                    Qt6::QuickControls2
-                    ${PROJECT_NAME}plugin
-                    ScreenPlayCoreplugin
-                    ScreenPlayAppplugin # Only needed for the test app
-                    SteamSDK)
+            Qt6::QuickControls2
+            ${PROJECT_NAME}plugin
+            ScreenPlayCoreplugin
+            ScreenPlayAppplugin # Only needed for the test app
+            SteamSDK)
 
         if(APPLE)
             set_target_properties(tst_ScreenPlayWorkshop PROPERTIES RUNTIME_OUTPUT_DIRECTORY
-                                                                    "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
+                "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
         endif()
     endif()
 endif()
