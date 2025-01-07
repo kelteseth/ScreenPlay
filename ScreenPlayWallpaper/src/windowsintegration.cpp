@@ -1,5 +1,6 @@
 #include "windowsintegration.h"
-#include <atomic>
+
+#define UNUSED(x) (void)x;
 
 WindowsIntegration* WindowsIntegration::instance = nullptr;
 
@@ -244,7 +245,7 @@ WindowsIntegration::SpanResult WindowsIntegration::setupWallpaperForMultipleScre
     int bottommost = INT_MIN;
 
     for (const auto& monitorIndex : activeScreens) {
-        if (monitorIndex < monitors.size()) {
+        if (monitorIndex < static_cast<int>(monitors.size())) {
             const Monitor& monitor = monitors[monitorIndex];
             leftmost = (std::min)(leftmost, static_cast<int>(monitor.position.left));
             topmost = (std::min)(topmost, static_cast<int>(monitor.position.top));
@@ -357,6 +358,8 @@ void WindowsIntegration::setWindowHandle(HWND windowHandle)
 
 BOOL GetMonitorByHandle(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData)
 {
+    UNUSED(hdcMonitor);
+    UNUSED(lprcMonitor);
 
     auto info = (sEnumInfo*)dwData;
     if (info->hMonitor == hMonitor)
@@ -377,6 +380,8 @@ BOOL FindTheDesiredWnd(HWND hWnd, LPARAM lParam)
 
 BOOL MonitorEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData)
 {
+    UNUSED(hdcMonitor);
+    UNUSED(lprcMonitor);
     std::vector<Monitor>* pMonitors = reinterpret_cast<std::vector<Monitor>*>(dwData);
 
     MONITORINFOEX info;
@@ -388,7 +393,7 @@ BOOL MonitorEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPAR
 
     Monitor monitor;
     monitor.monitorID = hMonitor;
-    monitor.index = pMonitors->size(); // Set index based on the current size of the vector
+    monitor.index = static_cast<int>(pMonitors->size()); // Set index based on the current size of the vector
     monitor.position = info.rcMonitor;
     monitor.size.cx = info.rcMonitor.right - info.rcMonitor.left;
     monitor.size.cy = info.rcMonitor.bottom - info.rcMonitor.top;
@@ -418,8 +423,7 @@ void WindowsIntegration::setupWindowMouseHook()
     m_mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseHookCallback, hInstance, 0);
 
     if (!m_mouseHook) {
-        DWORD error = GetLastError();
-        OutputDebugStringW(L"Failed to install mouse hook!");
+        OutputDebugStringW(L"Failed to install mouse hook! ");
     }
 }
 
@@ -432,8 +436,7 @@ void WindowsIntegration::setupWindowKeyboardHook()
     m_keyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, KeyboardHookCallback, hInstance, 0);
 
     if (!m_keyboardHook) {
-        DWORD error = GetLastError();
-        OutputDebugStringW(L"Failed to install keyboard hook!");
+        OutputDebugStringW(L"Failed to install keyboard hook! ");
     }
 }
 
@@ -454,6 +457,7 @@ LRESULT CALLBACK WindowsIntegration::KeyboardHookCallback(int nCode, WPARAM wPar
 }
 void WindowsIntegration::processMouseEvent(WPARAM wParam, LPARAM lParam)
 {
+    UNUSED(lParam);
     if (!m_mouseEventHandler) {
         return;
     }
@@ -521,7 +525,6 @@ void WindowsIntegration::unhookMouse()
         m_mouseHook = NULL; // Clear member first
 
         if (!UnhookWindowsHookEx(hookToUnhook)) {
-            DWORD error = GetLastError();
             OutputDebugStringW(L"Failed to unhook mouse hook!");
         }
     }
@@ -534,7 +537,6 @@ void WindowsIntegration::unhookKeyboard()
         m_keyboardHook = NULL; // Clear member first
 
         if (!UnhookWindowsHookEx(hookToUnhook)) {
-            DWORD error = GetLastError();
             OutputDebugStringW(L"Failed to unhook keyboard hook!");
         }
     }
