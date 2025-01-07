@@ -39,6 +39,7 @@ set(HEADER ${HEADER} src/basewindow.h)
 
 set(QML
     # cmake-format: sort
+    qml/CrossFadeVideoPlayer.qml
     qml/GifWallpaper.qml
     qml/MultimediaView.qml
     qml/MultimediaWebView.qml

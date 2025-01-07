@@ -194,10 +194,7 @@ QString Util::generateRandomString(quint32 length)
 */
 QString Util::executableBinEnding()
 {
-#ifdef Q_OS_WIN
-    return ".exe";
-#endif
-    return "";
+    return QOperatingSystemVersion::currentType() == QOperatingSystemVersion::Windows ? ".exe" : "";
 }
 
 /*!
@@ -205,12 +202,14 @@ QString Util::executableBinEnding()
 */
 QString Util::executableAppEnding()
 {
-#ifdef Q_OS_WIN
-    return ".exe";
-#endif
-#ifdef Q_OS_MACOS
-    return ".app";
-#endif
+
+    auto osType = QOperatingSystemVersion::currentType();
+    if (osType == QOperatingSystemVersion::Windows) {
+        return ".exe";
+    }
+    if (osType == QOperatingSystemVersion::MacOS) {
+        return ".app";
+    }
     return "";
 }
 
@@ -548,6 +547,7 @@ float Util::roundDecimalPlaces(const float number) const
     float big = number * 100.0;
     return std::ceil(big * 0.01);
 }
+
 /*!
   \brief Copies the given string to the clipboard.
 */

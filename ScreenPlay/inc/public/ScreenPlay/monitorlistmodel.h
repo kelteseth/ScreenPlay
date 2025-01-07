@@ -65,6 +65,7 @@ public:
     Q_INVOKABLE QSize totalDesktopSize() const;
 
     bool setData(const QModelIndex& index, const QVariant& value, int role) override;
+    static QVector<Monitor> getSystemMonitors();
 signals:
     void monitorReloadCompleted();
     void setNewActiveMonitor(int index, QString path);

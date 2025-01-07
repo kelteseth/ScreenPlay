@@ -755,7 +755,6 @@ Item {
     InstalledNavigation {
         id: navWrapper
         installedDrawer: installedDrawer
-        visible: root.installedLoadingFinished
 
         anchors {
             top: parent.top

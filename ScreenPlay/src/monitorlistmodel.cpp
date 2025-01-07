@@ -135,84 +135,24 @@ QVariant MonitorListModel::data(const QModelIndex& index, int role) const
 void MonitorListModel::loadMonitors()
 {
     if (m_useMockMonitors) {
-
-        // Generate a random index
         const int selectedMockIndex = QRandomGenerator::global()->bounded(m_mockMonitorList.size());
         const auto& mockMonitorList = m_mockMonitorList[selectedMockIndex];
         qDebug() << "Using mock" << selectedMockIndex
                  << "of" << m_mockMonitorList.size()
                  << " with monitor count:" << mockMonitorList.count();
+
         beginInsertRows(index(rowCount()), rowCount(), rowCount() + mockMonitorList.count() - 1);
-        // Use the randomly selected mock monitor setup
         for (const auto& monitor : mockMonitorList) {
             m_monitorList.append(monitor);
             qDebug() << "Adding mock monitor: " << monitor.m_monitorIndex << monitor.m_geometry;
         }
         endInsertRows();
-
-        emit monitorReloadCompleted();
-        return;
-    }
-
-#ifdef Q_OS_WIN
-    auto monitors = WindowsIntegration().getAllMonitors();
-
-    // This offset lets us center the monitor selection view in the center
-    int offsetX = 0;
-    int offsetY = 0;
-
-    for (auto& monitor : monitors) {
-        const int x = monitor.position.left;
-        const int y = monitor.position.top;
-        if (x < 0) {
-            offsetX += (x * -1);
-        }
-        if (y < 0) {
-            offsetY += (y * -1);
-        }
-    }
-
-    for (int i = 0; auto& monitor : monitors) {
-        const int width = std::abs(monitor.position.right - monitor.position.left);
-        const int height = std::abs(monitor.position.top - monitor.position.bottom);
-        const int x = monitor.position.left;
-        const int y = monitor.position.top;
-        QRect geometry(
-            x + offsetX,
-            y + offsetY,
-            width,
-            height);
-        beginInsertRows(index(rowCount()), m_monitorList.size(), m_monitorList.size());
-        m_monitorList.append(Monitor { i, geometry });
-        endInsertRows();
-        i++;
-    }
-#else
-    int offsetX = 0;
-    int offsetY = 0;
-
-    for (int i = 0; i < QGuiApplication::screens().count(); i++) {
-        QScreen* screen = QGuiApplication::screens().at(i);
-        if (screen->availableGeometry().x() < 0) {
-            offsetX += (screen->availableGeometry().x() * -1);
-        }
-        if (screen->availableGeometry().y() < 0) {
-            offsetY += (screen->availableGeometry().y() * -1);
-        }
-    }
-
-    for (int i = 0; i < QGuiApplication::screens().count(); i++) {
-        QScreen* screen = QGuiApplication::screens().at(i);
-
-        // Sometimes we get invalid monitors on Windows. I don't know why...
-        if (screen->geometry().width() == 0 || screen->geometry().height() == 0)
-            continue;
-
-        beginInsertRows(index(rowCount()), m_monitorList.size(), m_monitorList.size());
-        m_monitorList.append(Monitor { i, screen->geometry() });
+    } else {
+        auto monitors = getSystemMonitors();
+        beginInsertRows(index(rowCount()), m_monitorList.size(), m_monitorList.size() + monitors.size() - 1);
+        m_monitorList = monitors;
         endInsertRows();
     }
-#endif
 
     emit monitorReloadCompleted();
 }
@@ -253,23 +193,94 @@ void MonitorListModel::reset()
 
 bool MonitorListModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
+    // qDebug() << "setData" << index << value << static_cast<MonitorRole>(role);
+
+    if (!index.isValid() || index.row() >= m_monitorList.size())
+        return false;
+
     if (role == static_cast<int>(MonitorRole::PreviewImage)) {
-        m_monitorList[index.column()].m_wallpaperPreviewImage = value.toString();
+        m_monitorList[index.row()].m_wallpaperPreviewImage = value.toString();
         emit dataChanged(index, index, { role });
+        return true;
     }
     if (role == static_cast<int>(MonitorRole::AppID)) {
-        m_monitorList[index.column()].m_appID = value.toString();
+        m_monitorList[index.row()].m_appID = value.toString();
         emit dataChanged(index, index, { role });
+        return true;
     }
     if (role == static_cast<int>(MonitorRole::AppState)) {
-        m_monitorList[index.column()].m_appState = static_cast<ScreenPlayEnums::AppState>(value.toInt());
+        m_monitorList[index.row()].m_appState = static_cast<ScreenPlayEnums::AppState>(value.toInt());
         emit dataChanged(index, index, { role });
+        return true;
     }
     if (role == static_cast<int>(MonitorRole::InstalledType)) {
-        m_monitorList[index.column()].m_installedType = static_cast<ContentTypes::InstalledType>(value.toInt());
+        m_monitorList[index.row()].m_installedType = static_cast<ContentTypes::InstalledType>(value.toInt());
         emit dataChanged(index, index, { role });
+        return true;
     }
-    return true;
+    return false;
+}
+
+QVector<Monitor> MonitorListModel::getSystemMonitors()
+{
+    QVector<Monitor> monitors;
+
+    // Calculate offset for centering monitor selection view
+    int offsetX = 0;
+    int offsetY = 0;
+
+#ifdef Q_OS_WIN
+    // Qt has been prooven to be unreliable
+    auto winMonitors = WindowsIntegration().getAllMonitors();
+
+    // Calculate offsets for Windows
+    for (const auto& monitor : winMonitors) {
+        const int x = monitor.position.left;
+        const int y = monitor.position.top;
+        if (x < 0) {
+            offsetX += (x * -1);
+        }
+        if (y < 0) {
+            offsetY += (y * -1);
+        }
+    }
+
+    // Create monitor objects
+    int index = 0;
+    for (const auto& monitor : winMonitors) {
+        const int width = std::abs(monitor.position.right - monitor.position.left);
+        const int height = std::abs(monitor.position.top - monitor.position.bottom);
+        const int x = monitor.position.left;
+        const int y = monitor.position.top;
+
+        QRect geometry(x + offsetX, y + offsetY, width, height);
+        monitors.append(Monitor(index++, geometry));
+    }
+#else
+    // Calculate offsets for other platforms
+    for (int i = 0; i < QGuiApplication::screens().count(); i++) {
+        QScreen* screen = QGuiApplication::screens().at(i);
+        if (screen->availableGeometry().x() < 0) {
+            offsetX += (screen->availableGeometry().x() * -1);
+        }
+        if (screen->availableGeometry().y() < 0) {
+            offsetY += (screen->availableGeometry().y() * -1);
+        }
+    }
+
+    // Create monitor objects
+    for (int i = 0; i < QGuiApplication::screens().count(); i++) {
+        QScreen* screen = QGuiApplication::screens().at(i);
+
+        // Skip invalid monitors
+        if (screen->geometry().width() == 0 || screen->geometry().height() == 0)
+            continue;
+
+        monitors.append(Monitor(i, screen->geometry()));
+    }
+#endif
+
+    return monitors;
 }
 }
 

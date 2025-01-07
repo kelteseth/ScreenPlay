@@ -84,7 +84,7 @@ public:
     void setStatus(const QVariant& status) { m_status = status; }
 
 private:
-    bool m_success;
+    bool m_success = true;
     QString m_message;
     QVariant m_status;
 };

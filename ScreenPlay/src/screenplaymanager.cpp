@@ -122,10 +122,11 @@ QCoro::QmlTask ScreenPlayManager::setWallpaperAtTimelineIndex(
 
         auto result = co_await m_screenPlayTimelineManager
                           .setWallpaperAtTimelineIndex(wallpaperData, timelineIndex, identifier)
-                          .then([this](bool success) -> QCoro::Task<Result> {
+                          .then([this, timelineIndex](bool success) -> QCoro::Task<Result> {
                               if (!success) {
                                   const QString msg = QString(
-                                      "Unable to setWallpaperAtTimelineIndex");
+                                      "Unable to set Wallpaper at timeline index: %1")
+                                                          .arg(timelineIndex);
                                   m_screenPlayTimelineManager.printTimelines();
                                   emit printQmlTimeline();
                                   Result result;
@@ -136,9 +137,9 @@ QCoro::QmlTask ScreenPlayManager::setWallpaperAtTimelineIndex(
                               // We do not start the wallpaper here, but let
                               // ScreenPlayTimelineManager::checkActiveWallpaperTimeline decide
                               // if the wallpaper
-                              m_screenPlayTimelineManager.updateMonitorListModelData(selectedTimelineIndex());
+                              // m_screenPlayTimelineManager.updateMonitorListModelData(selectedTimelineIndex());
                               requestSaveProfiles();
-                              emit this->wallpaperAdded();
+                              emit this->notifyUiWallpaperAdded();
                               co_return Result { success };
                           });
         co_return result;
@@ -199,9 +200,18 @@ QCoro::QmlTask ScreenPlayManager::removeAllRunningWallpapers(bool saveToProfile)
     return QCoro::QmlTask([this, saveToProfile]() -> QCoro::Task<Result> {
         auto result = co_await m_screenPlayTimelineManager.removeAllWallpaperFromActiveTimlineSections()
                           .then([this, saveToProfile](bool success) -> QCoro::Task<Result> {
+                              if (!success) {
+                                  const QString msg = QString("Unable to remove all Wallpaper");
+                                  m_screenPlayTimelineManager.printTimelines();
+                                  emit printQmlTimeline();
+                                  Result result;
+                                  result.setSuccess(false);
+                                  result.setMessage(msg);
+                                  co_return result;
+                              }
                               qDebug() << "Task: removeAllWallpaperFromActiveTimlineSections" << success;
-                              if (saveToProfile)
-                                  m_screenPlayTimelineManager.updateMonitorListModelData(selectedTimelineIndex());
+                              // if (saveToProfile)
+                              //     m_screenPlayTimelineManager.updateMonitorListModelData(selectedTimelineIndex());
                               co_return Result { success };
                           });
         co_return result;
@@ -245,9 +255,18 @@ QCoro::QmlTask ScreenPlayManager::removeWallpaperAt(int timelineIndex, QString s
     qInfo() << "this: " << this;
     return QCoro::QmlTask([this, timelineIndex, sectionIdentifier, monitorIndex]() -> QCoro::Task<Result> {
         auto result = co_await m_screenPlayTimelineManager.removeWallpaperAt(timelineIndex, sectionIdentifier, monitorIndex)
-                          .then([this](bool success) -> QCoro::Task<Result> {
-                              qDebug() << "Task: removeAllWallpaperFromActiveTimlineSections" << success;
-                              m_screenPlayTimelineManager.updateMonitorListModelData(selectedTimelineIndex());
+                          .then([this, timelineIndex, monitorIndex](bool success) -> QCoro::Task<Result> {
+                              if (!success) {
+                                  const QString msg = QString(
+                                      "Unable to remove wallpaper at timeline index: %1 at monitor index: %2")
+                                                          .arg(timelineIndex, monitorIndex);
+                                  m_screenPlayTimelineManager.printTimelines();
+                                  emit printQmlTimeline();
+                                  Result result;
+                                  result.setSuccess(false);
+                                  result.setMessage(msg);
+                                  co_return result;
+                              }
                               requestSaveProfiles();
                               co_return Result { success };
                           });
@@ -290,18 +309,26 @@ QCoro::QmlTask ScreenPlayManager::setValueAtMonitorTimelineIndex(
     return QCoro::QmlTask(
         [this, monitorIndex, timelineIndex, sectionIdentifier, key, value]() -> QCoro::Task<Result> {
             auto result = co_await m_screenPlayTimelineManager
-                              .setValueAtMonitorTimelineIndex(monitorIndex,
+                              .setValueAtMonitorTimelineIndex(
+                                  monitorIndex,
                                   timelineIndex,
                                   sectionIdentifier,
                                   key,
                                   value)
-                              .then([this](bool success) -> QCoro::Task<Result> {
-                                  qDebug() << "Task: setValueAtMonitorTimelineIndex" << success;
-                                  if (success) {
-                                      m_screenPlayTimelineManager.updateMonitorListModelData(
-                                          selectedTimelineIndex());
-                                      emit requestSaveProfiles();
+                              .then([this, timelineIndex, monitorIndex](bool success) -> QCoro::Task<Result> {
+                                  if (!success) {
+                                      const QString msg = QString(
+                                          "Unable to set Value at monitor %1 timeline index: %2")
+                                                              .arg(timelineIndex, monitorIndex);
+                                      m_screenPlayTimelineManager.printTimelines();
+                                      emit printQmlTimeline();
+                                      Result result;
+                                      result.setSuccess(false);
+                                      result.setMessage(msg);
+                                      co_return result;
                                   }
+                                  // m_screenPlayTimelineManager.updateMonitorListModelData(selectedTimelineIndex());
+                                  emit requestSaveProfiles();
                                   co_return Result { success };
                               });
             co_return result;
@@ -323,25 +350,7 @@ QCoro::QmlTask ScreenPlayManager::setWallpaperFillModeAtMonitorIndex(
     const QString key = "fillmode";
     qDebug() << monitorIndex << timelineIndex << sectionIdentifier << fillmode << key << value;
 
-    return QCoro::QmlTask(
-        [this, monitorIndex, timelineIndex, sectionIdentifier, key, value]() -> QCoro::Task<Result> {
-            auto result = co_await m_screenPlayTimelineManager
-                              .setValueAtMonitorTimelineIndex(monitorIndex,
-                                  timelineIndex,
-                                  sectionIdentifier,
-                                  key,
-                                  value)
-                              .then([this](bool success) -> QCoro::Task<Result> {
-                                  qDebug() << "Task: setValueAtMonitorTimelineIndex" << success;
-                                  if (success) {
-                                      m_screenPlayTimelineManager.updateMonitorListModelData(
-                                          selectedTimelineIndex());
-                                      emit requestSaveProfiles();
-                                  }
-                                  co_return Result { success };
-                              });
-            co_return result;
-        }());
+    return setValueAtMonitorTimelineIndex(monitorIndex, timelineIndex, sectionIdentifier, key, value);
 }
 
 /*!
@@ -421,6 +430,7 @@ bool ScreenPlayManager::removeTimelineAt(const int timelineIndex)
     requestSaveProfiles();
     return success;
 }
+
 /*!
   \brief Qml function to build our timeline on creation in qml.
 */
@@ -428,6 +438,7 @@ QJsonArray ScreenPlayManager::timelineSections()
 {
     return m_screenPlayTimelineManager.timelineSections();
 }
+
 /*!
     \brief Appends a new SDKConnection object shared_ptr to the m_clients list.
 */
@@ -458,11 +469,12 @@ void ScreenPlayManager::newConnection()
             return;
         }
 
-        auto activeTimelineSection = m_screenPlayTimelineManager.findActiveWallpaperTimelineSection();
-        if (!activeTimelineSection) {
+        auto startingTimelineSection = m_screenPlayTimelineManager.findStartingOrActiveWallpaperTimelineSection();
+        if (!startingTimelineSection) {
+            qWarning() << "Unable to findStartingOrActiveWallpaperTimelineSection! Aborting!";
             return;
         }
-        auto& activeWallpaperList = activeTimelineSection->activeWallpaperList;
+        auto& activeWallpaperList = startingTimelineSection->activeWallpaperList;
 
         for (int i = 0; i < activeWallpaperList.size(); ++i) {
             if (activeWallpaperList.at(i)->appID() == matchingConnection->appID()) {
@@ -564,7 +576,8 @@ int ScreenPlayManager::activeTimelineIndex()
 {
     std::shared_ptr<WallpaperTimelineSection> activeTimelineSection = m_screenPlayTimelineManager.findActiveWallpaperTimelineSection();
     if (!activeTimelineSection) {
-        qCritical() << "setWallpaperValue failed, because no active timeline section was found";
+        qCritical() << "ActiveTimelineIndex failed, because no active timeline section was found";
+        m_screenPlayTimelineManager.printTimelines();
         return -1;
     }
     return activeTimelineSection->index;

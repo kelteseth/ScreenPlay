@@ -27,10 +27,11 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
     QObject* parent)
     : QObject(parent)
     , m_globalVariables { globalVariables }
-    , m_wallpaperData { wallpaperData }
     , m_settings { settings }
     , m_appID { appID }
+    , m_wallpaperData { wallpaperData }
 {
+    setState(ScreenPlayEnums::AppState::Starting);
     Util util;
     std::optional<QJsonObject> projectOpt = util.openJsonFileToObject(m_wallpaperData.absolutePath()
         + "/project.json");
@@ -57,7 +58,9 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
         m_projectSettingsListModel.init(m_wallpaperData.type(), projectSettingsListModelProperties);
 
     QObject::connect(&m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &ScreenPlayWallpaper::processExit);
-    QObject::connect(&m_process, &QProcess::errorOccurred, this, &ScreenPlayWallpaper::processError);
+    QObject::connect(&m_process, &QProcess::errorOccurred, this, [this]() {
+        setState(ScreenPlay::ScreenPlayEnums::AppState::ErrorOccouredWhileActive);
+    });
 
     QString tmpScreenNumber;
     if (m_wallpaperData.monitors().length() > 1) {
@@ -123,7 +126,7 @@ bool ScreenPlayWallpaper::start()
     qInfo() << m_appArgumentsList;
     if (!success) {
         qInfo() << m_process.program() << m_appArgumentsList;
-        emit error(QString("Could not start Wallpaper: " + m_process.errorString()));
+        setState(ScreenPlay::ScreenPlayEnums::AppState::StartingFailed);
     }
     return success;
 }
@@ -165,7 +168,7 @@ QJsonObject ScreenPlayWallpaper::getActiveSettingsJson()
 /*!
     \brief Sends command quit to the wallpaper.
 */
-void ScreenPlayWallpaper::close()
+QCoro::Task<bool> ScreenPlayWallpaper::close()
 {
     setState(ScreenPlayEnums::AppState::Closing);
     qInfo() << "Close wallpaper with appID:" << m_appID;
@@ -176,15 +179,29 @@ void ScreenPlayWallpaper::close()
     if (!m_connection) {
         qCritical() << "Cannot request quit, wallpaper never connected!";
         setState(ScreenPlayEnums::AppState::Inactive);
-        return;
+        co_return false;
     }
 
     if (!m_connection->close()) {
         qCritical() << "Cannot close wallpaper!";
         setState(ScreenPlayEnums::AppState::Inactive);
-        return;
+        co_return false;
     }
-    // The state will be set to Inactive in the disconnected callback
+
+    QTimer timer;
+    timer.start(250);
+    const int maxRetries = 30;
+
+    for (int i = 1; i <= maxRetries; ++i) {
+        // Wait for the timer to tick
+        co_await timer;
+        if (!isConnected()) {
+            setState(ScreenPlayEnums::AppState::Inactive);
+            co_return true;
+        }
+    }
+
+    co_return false;
 }
 /*!
     \brief Prints the exit code if != 0.
@@ -197,15 +214,6 @@ void ScreenPlayWallpaper::processExit(int exitCode, QProcess::ExitStatus exitSta
         return;
     }
     qDebug() << "Wallpaper closed with appID: " << m_appID;
-}
-
-/*!
-    \brief Prints the exit code error.
-*/
-void ScreenPlayWallpaper::processError(QProcess::ProcessError error)
-{
-    setState(ScreenPlay::ScreenPlayEnums::AppState::Inactive);
-    qWarning() << "EX: " << error;
 }
 
 /*!
@@ -228,17 +236,27 @@ bool ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QString& v
 
     QJsonObject obj;
     obj.insert(key, value);
-
+    bool found = false;
     if (key == "volume") {
         setVolume(value.toFloat());
+        m_wallpaperData.setVolume(volume());
+        found = true;
     }
     if (key == "playbackRate") {
         setPlaybackRate(value.toFloat());
+        m_wallpaperData.setPlaybackRate(playbackRate());
+        found = true;
     }
     if (key == "fillmode") {
         setFillMode(QStringToEnum<Video::FillMode>(value, Video::FillMode::Cover));
+        m_wallpaperData.setFillMode(fillMode());
+        found = true;
     }
-
+    if (!found) {
+        auto properties = m_wallpaperData.properties();
+        properties.insert(key, value);
+        m_wallpaperData.setProperties(properties);
+    }
     const bool success = m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
 
     if (save && success)
@@ -281,44 +299,50 @@ void ScreenPlayWallpaper::setSDKConnection(std::unique_ptr<SDKConnection> connec
     });
 
     QTimer::singleShot(1000, this, [this]() {
-        if (playbackRate() != 1.0) {
-            setWallpaperValue("playbackRate", QString::number(playbackRate()), false);
-        }
+        // if (playbackRate() != 1.0) {
+        //     setWallpaperValue("playbackRate", QString::number(playbackRate()), false);
+        // }
 
         QObject::connect(&m_pingAliveTimer, &QTimer::timeout, this, [this]() {
-            qInfo() << "For " << m_pingAliveTimer.interval() << "ms no alive signal received. This means the Wallpaper is dead and likely crashed!";
-            setState(ScreenPlayEnums::AppState::Closing);
-            emit requestClose(m_appID);
-        });
-        m_pingAliveTimer.start(GlobalVariables::contentPingAliveIntervalMS);
-    });
-
-    // Check every X seconds if the wallpaper is still alive
-    QObject::connect(m_connection.get(), &SDKConnection::pingAliveReceived, this, [this]() {
-        if (state() == ScreenPlayEnums::AppState::Active) {
-            m_pingAliveTimer.stop();
-            m_pingAliveTimer.start(GlobalVariables::contentPingAliveIntervalMS);
-
+            // qInfo() << "For " << m_pingAliveTimer.interval() << "ms no alive signal received. This means the Wallpaper is dead and likely crashed!";
+            // setState(ScreenPlayEnums::AppState::Closing);
             std::optional<bool> running = m_processManager.isRunning(m_processID);
 
             if (running.has_value()) {
                 // qInfo() << "running:" << running.value();
             } else {
                 qInfo() << "INVALID PID:" << m_processID;
+                emit requestClose(m_appID);
             }
-        }
+        });
+        m_pingAliveTimer.start(GlobalVariables::contentPingAliveIntervalMS);
     });
+
+    // // Check every X seconds if the wallpaper is still alive
+    // QObject::connect(m_connection.get(), &SDKConnection::pingAliveReceived, this, [this]() {
+    //     if (state() == ScreenPlayEnums::AppState::Active) {
+    //         m_pingAliveTimer.stop();
+    //         m_pingAliveTimer.start(GlobalVariables::contentPingAliveIntervalMS);
+
+    //         std::optional<bool> running = m_processManager.isRunning(m_processID);
+
+    //         if (running.has_value()) {
+    //             // qInfo() << "running:" << running.value();
+    //         } else {
+    //             qInfo() << "INVALID PID:" << m_processID;
+    //         }
+    //     }
+    // });
 }
 
 /*!
     \brief Replaces the current wallpaper with the given one.
 */
 bool ScreenPlayWallpaper::replace(
-    const WallpaperData wallpaperData,
-    const bool checkWallpaperVisible)
+    const WallpaperData wallpaperData)
 {
     if (state() != ScreenPlayEnums::AppState::Active) {
-        qWarning() << "Cannot replace inactive or closing wallpaper!";
+        qWarning() << "Cannot replace " << appID() << "at " << monitors() << " with invalid state of: " << state();
         return false;
     }
 
@@ -336,9 +360,13 @@ bool ScreenPlayWallpaper::replace(
     obj.insert("volume", std::floor(m_wallpaperData.volume() * 100.0F) / 100.0f);
     obj.insert("absolutePath", m_wallpaperData.absolutePath());
     obj.insert("file", m_wallpaperData.file());
-    obj.insert("checkWallpaperVisible", checkWallpaperVisible);
+    obj.insert("checkWallpaperVisible", false);
 
     const bool success = m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
+    if (!success) {
+        qWarning() << "Cannot sendMessage:" << obj;
+        return false;
+    }
     emit requestSave();
     return success;
 }

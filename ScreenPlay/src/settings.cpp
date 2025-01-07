@@ -78,16 +78,15 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
     const QString isSteamVersion = QString("Is steam version: %1").arg((SCREENPLAY_STEAM_VERSION ? QString("✅ Yes") : QString("❌ No")));
     setBuildInfos(qtVersion + buildType + buildDate + commitHash + isDeployVersion + isSteamVersion);
 
-#ifdef Q_OS_WIN
-    setDesktopEnvironment(DesktopEnvironment::Windows);
-#endif
-#ifdef Q_OS_MACOS
-    setDesktopEnvironment(DesktopEnvironment::OSX);
-#endif
-#ifdef Q_OS_LINUX
-    // We only support Wayland wl_roots for now
-    setDesktopEnvironment(DesktopEnvironment::Wayland);
-#endif
+    const QString kernel = QSysInfo::kernelType();
+    if (kernel == "winnt") {
+        setDesktopEnvironment(DesktopEnvironment::Windows);
+    } else if (kernel == "darwin") {
+        setDesktopEnvironment(DesktopEnvironment::OSX);
+    } else if (kernel == "linux") {
+        // We only support Wayland wl_roots for now
+        setDesktopEnvironment(DesktopEnvironment::Wayland);
+    }
 
     // Lets not set the dev version as startup.
     if (SCREENPLAY_DEPLOY_VERSION)

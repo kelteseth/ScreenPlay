@@ -81,7 +81,7 @@ Control {
 
         Connections {
             target: App.screenPlayManager
-            function onWallpaperAdded() {
+            function onNotifyUiWallpaperAdded() {
                 timeline.setActiveWallpaperPreviewImage();
             }
         }
