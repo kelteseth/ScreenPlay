@@ -219,7 +219,7 @@ void Settings::setupWidgetAndWindowPaths()
         m_globalVariables->setGodotWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaperGodot").toLocalFile());
         const auto godotEditorName = "Godot_" + godotVersion + "-stable_osx.universal";
         m_globalVariables->setGodotEditorExecutablePath(QUrl(workingDir.path() + "/" + godotEditorName));
-    } else if (osType == "linux" || osType == "ubuntu"|| osType == "fedora") {
+    } else if (osType == "linux" || osType == "ubuntu" || osType == "fedora") {
         m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget"));
         m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper"));
         m_globalVariables->setGodotWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaperGodot"));

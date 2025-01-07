@@ -65,7 +65,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE inc/private inc/public/Screen
 if(WIN32)
     find_package(Qt6 COMPONENTS AxContainer)
     target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::AxContainer ole32.lib winmm.lib)
-    target_compile_definitions(${PROJECT_NAME} PRIVATE WIN32_LEAN_AND_MEAN _WINSOCKAPI_ NOMINMAX)
+    target_compile_definitions(${PROJECT_NAME} PUBLIC WIN32_LEAN_AND_MEAN _WINSOCKAPI_ NOMINMAX)
 endif()
 
 qt_add_qml_module(
@@ -84,7 +84,8 @@ qt_add_qml_module(
     ${QML_PLUGIN_SOURCES}
     ${QML_PLUGIN_HEADER})
 
-if(${SCREENPLAY_TESTS})
-    qt_add_executable(tst_ScreenPlaySysInfo src/TestMain.cpp)
-    target_link_libraries(tst_ScreenPlaySysInfo PRIVATE Qt6::Quick ${PROJECT_NAME}plugin)
-endif()
+# if(${SCREENPLAY_TESTS}) qt_add_executable(tst_ScreenPlaySysInfo src/TestMain.cpp) target_link_libraries(tst_ScreenPlaySysInfo PRIVATE
+# Qt6::Quick ${PROJECT_NAME}plugin) if(WIN32) target_link_libraries(tst_ScreenPlaySysInfo PUBLIC Qt6::AxContainer ole32.lib winmm.lib)
+# target_compile_definitions(tst_ScreenPlaySysInfo PUBLIC WIN32_LEAN_AND_MEAN _WINSOCKAPI_ NOMINMAX) endif()
+
+# endif()

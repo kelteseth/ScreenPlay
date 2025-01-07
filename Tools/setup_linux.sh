@@ -83,7 +83,7 @@ main() {
     setup_repo "https://invent.kde.org/plasma/layer-shell-qt.git" "layer-shell-qt"
     cd layer-shell-qt
     
-    QT_DIR="../../../aqt/6.7.3/gcc_64"
+    QT_DIR="../../../aqt/6.8.1/gcc_64"
     QT_PATHS="$QT_DIR/bin:$PATH"
     
     PATH="$QT_PATHS" configure_cmake "layer-shell-qt" "-DCMAKE_PREFIX_PATH=$QT_DIR"

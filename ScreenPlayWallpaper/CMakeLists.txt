@@ -56,10 +56,14 @@ set(LIB_HEADER)
 if(WIN32)
     set(LIB_SOURCES src/windowsintegration.cpp)
     set(LIB_HEADER src/windowsintegration.h)
-    add_library(ScreenPlayWallpaperLib STATIC ${LIB_SOURCES} ${LIB_HEADER})
-    target_compile_features(ScreenPlayWallpaperLib PRIVATE cxx_std_23)
-    target_include_directories(ScreenPlayWallpaperLib PUBLIC src)
+endif()
 
+add_library(ScreenPlayWallpaperLib STATIC ${LIB_SOURCES} ${LIB_HEADER})
+target_compile_features(ScreenPlayWallpaperLib PRIVATE cxx_std_23)
+target_include_directories(ScreenPlayWallpaperLib PUBLIC src)
+
+
+if(WIN32)
     # Used for query windows monitor data
     target_link_libraries(ScreenPlayWallpaperLib PUBLIC shcore.lib)
 endif()
@@ -120,8 +124,8 @@ if(APPLE)
     add_custom_command(
         TARGET ${PROJECT_NAME}
         POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/index.html
-        ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/)
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/index.html"
+                "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
     set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
 endif()
 
