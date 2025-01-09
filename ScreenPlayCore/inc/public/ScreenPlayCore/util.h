@@ -84,7 +84,7 @@ public:
     void setStatus(const QVariant& status) { m_status = status; }
 
 private:
-    bool m_success;
+    bool m_success = true;
     QString m_message;
     QVariant m_status;
 };
@@ -129,7 +129,8 @@ public:
     bool isGodotWallpaper(const ScreenPlay::ContentTypes::InstalledType type) const;
 
     // QML callable functions
-    Q_INVOKABLE QString toLocal(const QString& url) const;
+    Q_INVOKABLE QString toLocal(const QString& urlString) const;
+    Q_INVOKABLE QString toLocal(const QUrl& url) const;
     Q_INVOKABLE QCoro::QmlTask exportGodotProject(const QString& absolutePath, const QString& godotEditorExecutablePath);
 
     Q_INVOKABLE bool isWallpaper(const ScreenPlay::ContentTypes::InstalledType type) const;

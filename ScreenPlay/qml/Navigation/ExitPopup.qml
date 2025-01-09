@@ -45,9 +45,8 @@ Util.Popup {
                     if (Qt.platform.os === "osx") {
                         return "qrc:/qml/ScreenPlayApp/assets/images/trayIcon_osx.png";
                     }
-                    console.warn("missing tray icon image")
+                    console.warn("missing tray icon image");
                     return "";
-
                 }
 
                 fillMode: Image.PreserveAspectFit

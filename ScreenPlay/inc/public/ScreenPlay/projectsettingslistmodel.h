@@ -55,8 +55,7 @@ public:
     void init(const ContentTypes::InstalledType& type, const QJsonObject& properties);
     void append(const SettingsItem&& item);
 
-public slots:
-    void setValueAtIndex(const int row, const QString& key, const QJsonObject& value);
+    Q_INVOKABLE void setValueAtIndex(const int row, const QString& key, const QJsonObject& value);
 
 private:
     QVector<SettingsItem> m_projectSettings;

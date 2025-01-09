@@ -35,13 +35,13 @@ endif()
 # during install. Setting CMAKE_BUILD_WITH_INSTALL_RPATH builds directly with the
 # final installation RPATH, avoiding the need to modify it later.
 if(UNIX)
-   set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+    set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 endif()
 
 # This sets cmake to compile all dlls into the main directory
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(THIRD_PARTY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty")
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
@@ -73,7 +73,7 @@ set(VCPKG_BIN_PATH "${VCPKG_INSTALLED_PATH}/bin")
 set(GODOT_VERSION_MAJOR "4")
 set(GODOT_VERSION_MINOR "3")
 set(GODOT_VERSION_PATCH "")
-set(GODOT_RELEASE_TYPE "rc1")
+set(GODOT_RELEASE_TYPE "stable")
 
 # Use an if statement to check if GODOT_VERSION_PATCH is empty or not
 if(GODOT_VERSION_PATCH STREQUAL "")
@@ -94,10 +94,11 @@ else()
     message(FATAL_ERROR "Unsupported OS")
 endif()
 
+option(QCORO_BUILD_TESTING "Build QCoro tests" OFF)
+option(QCORO_BUILD_EXAMPLES "Build QCoro examples" OFF)
 option(SCREENPLAY_STEAM "For FOSS distribution so we do not bundle proprietary code." ON)
-option(SCREENPLAY_DEPLOY "Marks this version as an official deploy version. This version uses different import paths and other settings."
-       OFF)
-option(SCREENPLAY_TESTS "Enables UI tests." ON)
+option(SCREENPLAY_DEPLOY "Marks this version as an official deploy version. This version uses different import paths and other settings." OFF)
+option(SCREENPLAY_TESTS "Enables UI tests." OFF)
 option(SCREENPLAY_INSTALLER "Indicates whether an installer via the Qt Installer Framework is created." OFF)
 option(SCREENPLAY_GODOT "Compiles ScreenPlayGodotWallpaper." ON)
 

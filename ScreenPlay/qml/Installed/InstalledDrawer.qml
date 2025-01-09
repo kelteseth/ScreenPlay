@@ -29,7 +29,7 @@ Drawer {
     property var type: ContentTypes.InstalledType.QMLWallpaper
     property string contentFolderName
 
-    function setInstalledDrawerItem(folderName: string, type: int) {
+    function setInstalledDrawerItem(folderName: string, type: int) : void {
 
         // Toggle drawer if clicked on the same content twice
         if (root.contentFolderName === folderName) {
@@ -72,7 +72,7 @@ Drawer {
 
     // This is used for removing wallpaper. We need to clear
     // the preview image/gif so we can release the file for deletion.
-    function clear() {
+    function clear()  : void {
         console.warn("⚠️⚠️⚠️ CLEAR InstalledDrawer");
         root.close();
         root.contentFolderName = "";
@@ -117,21 +117,25 @@ Drawer {
                     font.pointSize: 14
                     color: Material.secondaryTextColor
                 }
+                Item {
 
-                Timeline {
-                    id: timeline
                     Layout.topMargin: 50
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+                    Timeline {
+                        id: timeline
+                        anchors.fill: parent
 
-                        layer.enabled: App.globalVariables.isBasicVersion()
-                        // For the layered items, you can assign a MultiEffect directly
-                        // to layer.effect.
-                        layer.effect: MultiEffect {
-                            blurEnabled: true
-                            blur: .7
+                        Text {
+                            anchors.centerIn: parent
+                            color: Material.secondaryTextColor
+                            font.pointSize: 16
+                            text: qsTr("Work in progress...👷")
+                            visible: App.globalVariables.isBasicVersion()
                         }
                     }
+
+                }
             }
 
             ColumnLayout {
@@ -305,7 +309,17 @@ Drawer {
                                     } else {
                                         const file = item.file;
                                         const selectedTimeline = timeline.getSelectedTimeline();
-                                        App.screenPlayManager.setWallpaperAtTimelineIndex(root.type, absoluteStoragePath, previewImage, file, title, activeMonitors, selectedTimeline.index, selectedTimeline.identifier, true).then(result => {
+                                        const saveToProfilesConfigFile = true;
+                                        App.screenPlayManager.setWallpaperAtTimelineIndex(
+                                            root.type,
+                                            absoluteStoragePath,
+                                            previewImage,
+                                            file,
+                                            title,
+                                            activeMonitors,
+                                            selectedTimeline.index,
+                                            selectedTimeline.identifier,
+                                            saveToProfilesConfigFile).then(result => {
                                             btnLaunchContent.enabled = true;
                                             if (!result.success) {
                                                 InstantPopup.openErrorPopup(timeline, result.message);

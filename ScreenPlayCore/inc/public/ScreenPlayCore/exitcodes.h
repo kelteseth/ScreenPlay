@@ -23,6 +23,7 @@ public:
         Invalid_Setup_Error,
         Invalid_PID,
         Invalid_Start_Windows_HandleError,
+        Invalid_Start_Configure_Window_Geometry_Error,
     };
     Q_ENUM(Code)
 };

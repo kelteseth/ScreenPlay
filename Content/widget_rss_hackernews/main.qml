@@ -4,7 +4,6 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQml.XmlListModel
-import ScreenPlayAssets
 
 Item {
     id: root

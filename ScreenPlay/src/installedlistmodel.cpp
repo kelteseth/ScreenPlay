@@ -42,14 +42,18 @@ InstalledListModel::InstalledListModel(
     , m_globalVariables { globalVariables }
     , m_settings { settings }
 {
+    init();
 }
 
 /*!
-    \brief Init function that needs to be called after the constructor because we need the GlobalVariables to finish loading.
+    \brief  Init function that needs to be called after the constructor because we need the
+            GlobalVariables to finish loading.
 */
 void InstalledListModel::init()
 {
     QString projectsPath = m_globalVariables->localStoragePath().toLocalFile();
+    if (projectsPath.isEmpty())
+        return;
     QDirIterator projectFilesIter(projectsPath, { "*.qml", "*.html", "*.css", "*.js", "*.png", "project.json" }, QDir::Files | QDir::NoSymLinks, QDirIterator::Subdirectories);
     while (projectFilesIter.hasNext()) {
         m_fileSystemWatcher.addPath(projectFilesIter.next());
@@ -66,6 +70,15 @@ void InstalledListModel::init()
 
     QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, restartTimer);
     QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, restartTimer);
+}
+
+void InstalledListModel::setCount(int count)
+{
+    if (m_count == count)
+        return;
+
+    m_count = count;
+    emit countChanged(m_count);
 }
 
 /*!
@@ -220,7 +233,6 @@ void InstalledListModel::append(const QString& projectJsonFilePath)
     ProjectFile projectFile;
     projectFile.projectJsonFilePath = QFileInfo(projectJsonFilePath);
     if (!projectFile.init()) {
-        // qWarning() << "Invalid project at " << projectJsonFilePath;
         return;
     }
     m_screenPlayFiles.append(std::move(projectFile));
@@ -323,7 +335,6 @@ void InstalledListModel::reset()
     endResetModel();
     loadInstalledContent();
 }
-
 }
 
 #include "moc_installedlistmodel.cpp"

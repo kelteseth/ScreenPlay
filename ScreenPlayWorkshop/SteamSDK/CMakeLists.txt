@@ -53,6 +53,7 @@ set(HEADER
 
 if(${SCREENPLAY_STEAM})
     qt_add_library(${PROJECT_NAME} STATIC ${HEADER})
+    target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_23)
     target_include_directories(${PROJECT_NAME} PUBLIC public/)
     target_link_libraries(${PROJECT_NAME} PUBLIC ScreenPlayCore)
 endif()

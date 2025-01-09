@@ -11,6 +11,7 @@
 #include "ScreenPlay/globalvariables.h"
 #include "ScreenPlay/settings.h"
 #include "ScreenPlay/wallpaperdata.h"
+#include "ScreenPlayCore/util.h"
 
 namespace ScreenPlay {
 class ScreenPlayWallpaper;
@@ -25,10 +26,11 @@ class WallpaperTimelineSection : public QObject {
 public:
     // TODO: replace with wallpaper state?
     enum class State {
-        Inactive, // Inactive means the current time is outside of startTime and endTime
-        Starting,
-        Closing,
-        Active, // Aka running
+        Inactive, // Current time is outside startTime and endTime
+        Starting, // Timeline is initializing wallpapers
+        Active, // Running normally
+        Closing, // Shutting down wallpapers
+        Failed, // Failed to start/crashed - needs recovery
     };
     Q_ENUM(State)
     State state = State::Inactive;
@@ -41,6 +43,9 @@ public:
     // Data from the profiles.json that we need when we
     // enable this section of the pipeline. We keep a copy
     // here when this timeline needs to become active
+    //
+    // Note: We essentially have a copy of WallpaperData here and in the
+    //       running activeWallpaperList. Should we make it a share_ptr?
     std::vector<WallpaperData> wallpaperDataList;
     // All active wallpaper.
     std::vector<std::shared_ptr<ScreenPlayWallpaper>> activeWallpaperList;
@@ -48,22 +53,28 @@ public:
     std::shared_ptr<GlobalVariables> globalVariables;
     std::shared_ptr<Settings> settings;
 
+    // Check if currentTime falls within the timeline section
+    bool containsTime(const QTime& time) const;
+    bool containsMonitor(const int monitor) const;
+    std::optional<WallpaperData> getWallpaperDataForMonitor(const int monitorIndex) const;
+    std::optional<std::shared_ptr<ScreenPlayWallpaper>> getActiveWallpaperForMonitor(const int monitorIndex) const;
+    QJsonObject serialize() const;
+    QCoro::Task<bool> activateTimeline();
+    QCoro::Task<bool> activateTimeline(std::vector<std::shared_ptr<ScreenPlayWallpaper>> currentActiveWallpaperList);
+    QCoro::Task<bool> deactivateTimeline();
+    QCoro::Task<bool> stopWallpaper(const int monitorIndex);
+    QCoro::Task<bool> removeWallpaper(const int monitorIndex);
+    QCoro::Task<bool> startWallpaper(const WallpaperData wallpaperData);
+
 signals:
     void requestSaveProfiles();
     void requestUpdateMonitorListModel();
     void activeWallpaperCountChanged(const int count);
 
-public:
-    // Check if currentTime falls within the timeline section
-    bool containsTime(const QTime& time) const;
-    QJsonObject serialize() const;
-    bool activateTimeline();
-    QCoro::Task<bool> deactivateTimeline();
-    QCoro::Task<bool> removeWallpaper(const int monitorIndex);
 private slots:
     void updateActiveWallpaperCounter();
 
 private:
-    std::optional<std::shared_ptr<ScreenPlayWallpaper>> wallpaperByMonitorIndex(const int index);
+    Util m_util;
 };
 }

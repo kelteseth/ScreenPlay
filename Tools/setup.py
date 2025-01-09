@@ -50,20 +50,20 @@ def download(aqt_path: Path, qt_platform: Path):
     extra_qt_packages = ""
     if system() == "Windows":
         os = "windows"
-        extra_qt_packages = "debug_info "
+        extra_qt_packages = "debug_info qtactiveqt"
     elif system() == "Darwin":
         os = "mac"
     elif system() == "Linux":
         os = "linux"
         extra_qt_packages = "qtwaylandcompositor debug_info "
 
-    # Windows: python aqt list-qt windows desktop --arch
-    # Linux: python3 aqt list-qt windows desktop --arch
+    # Windows: python -m aqt list-qt windows desktop --arch
+    # Linux: python3  -m aqt list-qt linux desktop --arch
     qt_packages = "qt3d qtquick3d qtconnectivity qt5compat qtimageformats qtmultimedia qtshadertools qtwebchannel qtwebengine qtwebsockets qtwebview qtpositioning "
     qt_packages += extra_qt_packages
-    # Windows: python -m aqt list-qt windows desktop --modules 6.7.3 win64_msvc2019_64
-    # Linux:  python3 -m aqt list-qt linux  desktop --modules 6.7.3 linux_gcc_64
-    # Linux:  python3 -m aqt list-qt mac  desktop --modules 6.7.3 clang_64
+    # Windows: python -m aqt list-qt windows desktop --modules 6.8.1 win64_msvc2022_64
+    # Linux:  python3 -m aqt list-qt linux  desktop --modules 6.8.1 linux_gcc_64
+    # Linux:  python3 -m aqt list-qt mac  desktop --modules 6.8.1 clang_64
 
     # debug_info:
     # Mac: Does not exist
@@ -88,7 +88,7 @@ def setup_qt():
     print(f"Setup Qt via aqt at {aqt_path}")
 
     if system() == "Windows":
-        qt_platform = "win64_msvc2019_64" # 6.8.0 win64_msvc2022_64
+        qt_platform = "win64_msvc2022_64" # 6.8.1 win64_msvc2022_64
     elif system() == "Darwin":
         qt_platform = "clang_64"
     elif system() == "Linux":

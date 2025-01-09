@@ -50,11 +50,7 @@ public:
         QObject* parent = nullptr);
 
     bool start();
-
-    bool replace(
-        const WallpaperData wallpaperData,
-        const bool checkWallpaperVisible);
-
+    bool replace(const WallpaperData wallpaperData);
     void setSDKConnection(std::unique_ptr<SDKConnection> connection);
 
     QJsonObject getActiveSettingsJson();
@@ -95,14 +91,11 @@ signals:
 
     void requestSave();
     void requestClose(const QString& appID);
-    void error(const QString& msg);
-
     void stateChanged(ScreenPlay::ScreenPlayEnums::AppState state);
 
 public slots:
-    void close();
+    QCoro::Task<bool> close();
     void processExit(int exitCode, QProcess::ExitStatus exitStatus);
-    void processError(QProcess::ProcessError error);
     bool setWallpaperValue(const QString& key, const QString& value, const bool save = false);
 
     void setMonitors(QVector<int> monitors)

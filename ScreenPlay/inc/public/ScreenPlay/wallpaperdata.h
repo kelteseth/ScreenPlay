@@ -74,6 +74,6 @@ private:
     QJsonObject m_properties;
     ContentTypes::InstalledType m_type = ContentTypes::InstalledType::Unknown;
     Video::FillMode m_fillMode = Video::FillMode::Fill;
-    QVector<int> m_monitors;
+    QVector<int> m_monitors {};
 };
 }

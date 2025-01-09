@@ -18,7 +18,9 @@
                 "host-windows"
             ],
             "cacheVariables": {
-                "VCPKG_TARGET_TRIPLET": "x64-windows"
+                "VCPKG_TARGET_TRIPLET": "x64-windows",
+                "GODOT_USE_STATIC_CPP": "OFF",
+                "GODOT_DEBUG_CRT": "ON"
             },
             "toolset": {
                 "value": "host=x64",
@@ -36,7 +38,7 @@
                 "windows-base"
             ],
             "cacheVariables": {
-                "CMAKE_PREFIX_PATH": "${sourceDir}/../aqt/6.7.3/msvc2019_64"
+                "CMAKE_PREFIX_PATH": "${sourceDir}/../aqt/6.8.1/msvc2022_64"
             }
         },
         {

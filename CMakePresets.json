@@ -1,16 +1,27 @@
 {
-    "version": 4,
-    "cmakeMinimumRequired": {
-        "major": 3,
-        "minor": 27,
-        "patch": 0
+  "version": 7,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 30,
+    "patch": 0
+  },
+  "include": [
+    "CMake/Platform/Windows/CMakePresets.json",
+    "CMake/Platform/Linux/CMakePresets.json",
+    "CMake/Platform/Mac/CMakePresets.json"
+  ],
+  "buildPresets": [
+    {
+      "name": "windows-msvc-debug-build",
+      "configurePreset": "windows-msvc-debug",
+      "displayName": "Build windows-msvc-debug",
+      "description": "Build windows-msvc-debug configuration"
     },
-    "include": [
-        "CMake/Platform/Linux/CMakePresets.json",
-        "CMake/Platform/Windows/CMakePresets.json",
-        "CMake/Platform/Mac/CMakePresets.json"
-    ],
-    "configurePresets": [],
-    "buildPresets": [],
-    "testPresets": []
+    {
+      "name": "windows-msvc-release-build",
+      "configurePreset": "windows-msvc-release",
+      "displayName": "Build windows-msvc-release",
+      "description": "Build windows-msvc-release configuration"
+    }
+  ]
 }

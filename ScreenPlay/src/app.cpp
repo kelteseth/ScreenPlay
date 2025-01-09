@@ -46,8 +46,6 @@ namespace ScreenPlay {
 */
 void App::init()
 {
-    qInfo() << "Init ScreenPlay";
-
     QString fontsPath = QGuiApplication::instance()->applicationDirPath() + "/assets/fonts/";
 #if defined(Q_OS_MACOS)
     fontsPath = QGuiApplication::instance()->applicationDirPath() + "/../Resources/fonts/";

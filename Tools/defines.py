@@ -10,7 +10,7 @@ stdout.reconfigure(encoding='utf-8')
 # Defined by Qt
 if sys.platform == "win32":
     OS = "windows"
-    QT_PLATFORM = "msvc2019_64"
+    QT_PLATFORM = "msvc2022_64"
 elif sys.platform == "darwin":
     OS = "mac"
     QT_PLATFORM = "macos"
@@ -21,12 +21,12 @@ elif sys.platform == "linux":
 REPO_PATH =  Path(__file__, "../../").resolve()
 THIRDPATH_PATH =  Path(REPO_PATH, "ThirdParty").resolve()
 QT_PATH = path = Path(REPO_PATH, "../aqt").resolve()
-QT_VERSION = "6.7.3"
+QT_VERSION = "6.8.1"
 QT_BIN_PATH = QT_PATH.joinpath(f"{QT_VERSION}/{QT_PLATFORM}/bin")
 QT_TOOLS_PATH = QT_PATH.joinpath("Tools/")
 QT_IFW_VERSION = "4.8.1"
-# 25.10.2024 https://github.com/microsoft/vcpkg :
-VCPKG_VERSION = "cff6ed4"
+# 13.12.2024 https://github.com/microsoft/vcpkg :
+VCPKG_VERSION = "3b57fb2"
 VCPKG_BASE_PACKAGES =  [
         "curl",
         "openssl",

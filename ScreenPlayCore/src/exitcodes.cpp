@@ -8,6 +8,7 @@ WallpaperExit::WallpaperExit(QObject* parent)
 }
 
 WidgetExit::WidgetExit(QObject* parent)
+    : QObject(parent)
 {
 }
 

@@ -78,16 +78,15 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
     const QString isSteamVersion = QString("Is steam version: %1").arg((SCREENPLAY_STEAM_VERSION ? QString("✅ Yes") : QString("❌ No")));
     setBuildInfos(qtVersion + buildType + buildDate + commitHash + isDeployVersion + isSteamVersion);
 
-#ifdef Q_OS_WIN
-    setDesktopEnvironment(DesktopEnvironment::Windows);
-#endif
-#ifdef Q_OS_MACOS
-    setDesktopEnvironment(DesktopEnvironment::OSX);
-#endif
-#ifdef Q_OS_LINUX
-    // We only support Wayland wl_roots for now
-    setDesktopEnvironment(DesktopEnvironment::Wayland);
-#endif
+    const QString kernel = QSysInfo::kernelType();
+    if (kernel == "winnt") {
+        setDesktopEnvironment(DesktopEnvironment::Windows);
+    } else if (kernel == "darwin") {
+        setDesktopEnvironment(DesktopEnvironment::OSX);
+    } else if (kernel == "linux") {
+        // We only support Wayland wl_roots for now
+        setDesktopEnvironment(DesktopEnvironment::Wayland);
+    }
 
     // Lets not set the dev version as startup.
     if (SCREENPLAY_DEPLOY_VERSION)
@@ -121,9 +120,8 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
 
     setAnonymousTelemetry(m_qSettings.value("AnonymousTelemetry", true).toBool());
 
-    initProfilesSettings();
-
-    initInstalledPath();
+    setupProfilesSettings();
+    setupInstalledPath();
     setupWidgetAndWindowPaths();
 }
 
@@ -131,7 +129,7 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
   \brief Writes the default profiles json if we do not have any or we do have a major
          version bump. We delete the old config for now.
 */
-void Settings::initProfilesSettings()
+void Settings::setupProfilesSettings()
 {
     const QString defaultProfilesFilePath = m_globalVariables->localSettingsPath().toString() + "/profiles.json";
     // Wallpaper and Widgets config
@@ -221,7 +219,7 @@ void Settings::setupWidgetAndWindowPaths()
         m_globalVariables->setGodotWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaperGodot").toLocalFile());
         const auto godotEditorName = "Godot_" + godotVersion + "-stable_osx.universal";
         m_globalVariables->setGodotEditorExecutablePath(QUrl(workingDir.path() + "/" + godotEditorName));
-    } else if (osType == "linux" || osType == "ubuntu"|| osType == "fedora") {
+    } else if (osType == "linux" || osType == "ubuntu" || osType == "fedora") {
         m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget"));
         m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper"));
         m_globalVariables->setGodotWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaperGodot"));
@@ -241,68 +239,96 @@ void Settings::setupWidgetAndWindowPaths()
     }
 }
 
-void Settings::initInstalledPath()
+void Settings::setupInstalledPath()
 {
     const QString contentPath = m_qSettings.value("ScreenPlayContentPath", "").toString();
+    if (!contentPath.isEmpty()) {
+        return m_globalVariables->setLocalStoragePath(QUrl::fromUserInput(contentPath));
+    }
 
-    // Steamless
-    const ScreenPlayEnums::Version version = m_globalVariables->version();
-    const bool steamVersion = version == ScreenPlayEnums::Version::OpenSourceSteam || version == ScreenPlayEnums::Version::OpenSourceProSteam;
-    if (!steamVersion && contentPath.isEmpty()) {
+    if (SCREENPLAY_DEPLOY_VERSION == 0) {
+        QString exampleContentPath = QString(SCREENPLAY_SOURCE_DIR) + "/Content";
+        qWarning() << "Development version without set contentPath defaults to:" << exampleContentPath;
+        return m_globalVariables->setLocalStoragePath(QUrl::fromUserInput(exampleContentPath));
+    }
+
+    if (m_globalVariables->isSteamVersion()) {
+        initSteamInstalledPath();
+    } else {
         const QString path = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
         m_qSettings.setValue("ScreenPlayContentPath", QUrl::fromUserInput(path));
         m_qSettings.sync();
         m_globalVariables->setLocalStoragePath(path);
-        return;
     }
-
-    // Steam
-    if (contentPath.isEmpty()) {
-        return initSteamInstalledPath();
-    }
-
-    m_globalVariables->setLocalStoragePath(QUrl::fromUserInput(contentPath));
 }
 
 /*!
-  \brief We must use this (ugly) method, because to stay FOSS we cannot call the steamAPI here !
+  \brief Path initialization for Steam workshop content without using Steam API to maintain FOSS status.
 
-  We start with the assumption that when we go up 2 folder.
-  So that there must be at least a common folder:
-  Windows example:
-  From -> C:\Program Files (x86)\Steam\steamapps\common\ScreenPlay
-  To   -> C:\Program Files (x86)\Steam\steamapps\
-  Dest.-> C:\Program Files (x86)\Steam\steamapps\workshop\content\672870
+    Starting from the ScreenPlay executable location, we navigate up the folder structure
+    to locate the Steam library folder. There are two possible configurations:
 
-  When we reach the folder it _can_ contain a workshop folder when the user
-  previously installed any workshop content. If the folder does not exsist we
-  need to create it by hand. Normally Steam will create this folder but we need to
-  set it here at this point so that the QFileSystemWatcher in InstalledListModel does
-  not generate warnings.
+    1. Main Steam installation:
+    From -> C:\Program Files (x86)\Steam\steamapps\common\ScreenPlay
+    To   -> C:\Program Files (x86)\Steam\steamapps\
+    VDF  -> C:\Program Files (x86)\Steam\steamapps\libraryfolders.vdf
+
+    2. Secondary Steam library:
+    From -> F:\SteamLibrary\steamapps\common\ScreenPlay
+    To   -> F:\SteamLibrary\steamapps\
+    VDF  -> F:\SteamLibrary\libraryfolder.vdf
+
+    Workshop path (Dest.) -> [Steam Library Path]\steamapps\workshop\content\672870
+
+    The workshop folder may or may not exist depending on whether the user has
+    previously installed workshop content. If it doesn't exist, we create it
+    to prevent QFileSystemWatcher warnings in InstalledListModel.
 */
 void Settings::initSteamInstalledPath()
 {
+    // QString appBasePath = "C:/Program Files (x86)/Steam/steamapps/common/ScreenPlay";
     QString appBasePath = QGuiApplication::instance()->applicationDirPath();
+    QString workshopPath;
+
+    // Handle OSX specific path adjustment
     if (desktopEnvironment() == DesktopEnvironment::OSX) {
         appBasePath += "/../../..";
     }
-    QString path = appBasePath + "/../../workshop/content/672870";
-    qInfo() << "InitSteamInstalledPath:" << path;
 
-    QDir dir;
-    if (!dir.exists()) {
-        if (!dir.mkpath(path)) {
-            qWarning() << "Could not create steam workshop path for path: " << path;
+    // From ScreenPlay.exe path, go up exactly 2 directories to reach steamapps
+    QDir currentDir(appBasePath);
+    currentDir.cdUp(); // up from ScreenPlay
+    currentDir.cdUp(); // up from common
+
+    // Now we should be in steamapps directory
+    // First check if this is a library folder (libraryfolder.vdf in parent)
+    QFileInfo libraryFolder(currentDir.absolutePath() + "/../libraryfolder.vdf");
+    QFileInfo libraryFolders(currentDir.absolutePath() + "/libraryfolders.vdf");
+
+    if (!libraryFolder.exists() && !libraryFolders.exists()) {
+        qWarning() << "Could not find Steam library VDF files at:" << currentDir.absolutePath();
+        return;
+    }
+
+    // Construct workshop path relative to steamapps
+    workshopPath = currentDir.absolutePath() + "/workshop/content/672870";
+
+    // Create workshop directory structure if it doesn't exist
+    QDir workshopDir(workshopPath);
+    if (!workshopDir.exists()) {
+        if (!workshopDir.mkpath(".")) {
+            qWarning() << "Could not create Steam workshop path:" << workshopPath;
+            return;
         }
     }
 
-    if (QDir(path).exists()) {
-        m_globalVariables->setLocalStoragePath(QUrl::fromUserInput(path));
-        m_qSettings.setValue("ScreenPlayContentPath", dir.cleanPath(path));
-        m_qSettings.sync();
-    } else {
-        qWarning() << "The following path could not be resolved to search for workshop content: " << path;
-    }
+    // Update settings with the new path
+    workshopPath = QDir::cleanPath(workshopPath);
+    m_globalVariables->setLocalStoragePath(QUrl::fromUserInput(workshopPath));
+    m_qSettings.setValue("ScreenPlayContentPath", workshopPath);
+    m_qSettings.sync();
+
+    qInfo() << "Steam workshop path initialized:" << workshopPath;
 }
 
 /*!
@@ -657,6 +683,14 @@ QString Settings::fixLanguageCode(const QString& languageCode)
     return langCode;
 }
 
+void Settings::setStartWallpaperMuted(bool startWallpaperMuted)
+{
+    if (m_startWallpaperMuted == startWallpaperMuted)
+        return;
+    m_startWallpaperMuted = startWallpaperMuted;
+    setqSetting("startWallpaperMuted", m_startWallpaperMuted);
+    emit startWallpaperMutedChanged(m_startWallpaperMuted);
+}
 }
 
 #include "moc_settings.cpp"

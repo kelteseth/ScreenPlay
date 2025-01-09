@@ -8,27 +8,16 @@ import "Navigation" as Navigation
 Item {
     id: content
     anchors.fill: parent
+    property ApplicationWindow applicationWindow
     Component.onCompleted: {
-        setTheme(App.settings.theme);
         stackView.push("qrc:/qml/ScreenPlayApp/qml/Installed/InstalledView.qml");
-        startTimer.start();
     }
 
-    function openExitDialog() {
+    function openExitDialog(): void {
         exitDialog.open();
     }
 
-    Timer {
-        id: startTimer
-        interval: 10
-        onTriggered: App.installedListModel.reset()
-    }
-
-    function switchPage(name) {
-        if (nav.currentNavigationName === name) {
-            if (name === "Installed")
-                App.installedListModel.reset();
-        }
+    function switchPage(name: string): void {
         stackView.replace("qrc:/qml/ScreenPlayApp/qml/" + name + "/" + name + "View.qml", {
             "modalSource": content
         });
@@ -37,7 +26,7 @@ Item {
 
     Navigation.ExitPopup {
         id: exitDialog
-        applicationWindow: root
+        applicationWindow: content.applicationWindow
         modalSource: content
     }
 
@@ -53,7 +42,7 @@ Item {
         }
 
         CriticalError {
-            window: root
+            applicationWindow: content.applicationWindow
             modalSource: content
         }
 
@@ -62,23 +51,10 @@ Item {
             modalSource: content
         }
         TrayIcon {
-            window: root
+            applicationWindow: content.applicationWindow
         }
     }
 
-    function setTheme(theme) {
-        switch (theme) {
-        case Settings.Theme.System:
-            root.Material.theme = Material.System;
-            break;
-        case Settings.Theme.Dark:
-            root.Material.theme = Material.Dark;
-            break;
-        case Settings.Theme.Light:
-            root.Material.theme = Material.Light;
-            break;
-        }
-    }
 
     Connections {
         function onThemeChanged(theme) {
@@ -99,7 +75,7 @@ Item {
     Connections {
         function onRequestRaise() {
             App.showDockIcon(true);
-            window.show();
+            content.applicationWindow.show();
         }
         target: App.screenPlayManager
     }
@@ -161,7 +137,7 @@ Item {
             // Close in case the user clicks
             // on the tray icon
             contentSettingsView.close();
-            switchPage(name);
+            content.switchPage(name);
         }
     }
 }

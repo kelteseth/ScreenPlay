@@ -17,11 +17,14 @@ public:
         \brief
     */
     enum class AppState {
+        NotSet,
         Inactive,
         Starting,
+        StartingFailed,
         Closing,
         Active,
         Timeout,
+        ErrorOccouredWhileActive,
     };
     Q_ENUM(AppState)
     /*!

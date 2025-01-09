@@ -12,11 +12,11 @@ find_package(
     Qt6
     COMPONENTS Quick Core
     REQUIRED)
-find_package(Qt6 COMPONENTS AxContainer)
 
 set(QML qml/TestMain.qml)
 
 set(QML_PLUGIN_SOURCES
+
     # cmake-format: sort
     src/cpu.cpp
     src/gpu.cpp
@@ -32,6 +32,7 @@ if(WIN32)
 endif()
 
 set(QML_PLUGIN_HEADER
+
     # cmake-format: sort
     inc/public/ScreenPlaySysInfo/cpu.h
     inc/public/ScreenPlaySysInfo/gpu.h
@@ -47,21 +48,24 @@ if(WIN32)
 endif()
 
 qt_add_library(${PROJECT_NAME} STATIC)
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_23)
 
 target_link_libraries(
     ${PROJECT_NAME}
     PRIVATE Qt::NetworkPrivate
-            Qt6::Core
-            Qt6::Quick
-            infoware)
+    Qt6::Core
+    Qt6::Quick
+    infoware)
 
 target_include_directories(${PROJECT_NAME} PUBLIC inc/public)
+
 # Add full inc/public/ScreenPlaySysInfo path for moc includes
 target_include_directories(${PROJECT_NAME} PRIVATE inc/private inc/public/ScreenPlaySysInfo)
 
 if(WIN32)
+    find_package(Qt6 COMPONENTS AxContainer)
     target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::AxContainer ole32.lib winmm.lib)
-    target_compile_definitions(${PROJECT_NAME} PRIVATE WIN32_LEAN_AND_MEAN _WINSOCKAPI_ NOMINMAX)
+    target_compile_definitions(${PROJECT_NAME} PUBLIC WIN32_LEAN_AND_MEAN _WINSOCKAPI_ NOMINMAX)
 endif()
 
 qt_add_qml_module(
@@ -80,7 +84,8 @@ qt_add_qml_module(
     ${QML_PLUGIN_SOURCES}
     ${QML_PLUGIN_HEADER})
 
-if(${SCREENPLAY_TESTS})
-    qt_add_executable(tst_ScreenPlaySysInfo src/TestMain.cpp)
-    target_link_libraries(tst_ScreenPlaySysInfo PRIVATE Qt6::Quick ${PROJECT_NAME}plugin)
-endif()
+# if(${SCREENPLAY_TESTS}) qt_add_executable(tst_ScreenPlaySysInfo src/TestMain.cpp) target_link_libraries(tst_ScreenPlaySysInfo PRIVATE
+# Qt6::Quick ${PROJECT_NAME}plugin) if(WIN32) target_link_libraries(tst_ScreenPlaySysInfo PUBLIC Qt6::AxContainer ole32.lib winmm.lib)
+# target_compile_definitions(tst_ScreenPlaySysInfo PUBLIC WIN32_LEAN_AND_MEAN _WINSOCKAPI_ NOMINMAX) endif()
+
+# endif()

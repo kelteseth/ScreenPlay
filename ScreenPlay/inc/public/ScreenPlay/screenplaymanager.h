@@ -53,7 +53,10 @@ public:
     Q_INVOKABLE bool removeTimelineAt(const int timelineIndex);
     Q_INVOKABLE QJsonArray timelineSections();
     Q_INVOKABLE QCoro::QmlTask removeAllTimlineSections();
-    Q_INVOKABLE QCoro::QmlTask removeWallpaperAt(const int timelineIndex, const QString sectionIdentifier, const int monitorIndex);
+    Q_INVOKABLE QCoro::QmlTask removeWallpaperAt(
+        const int timelineIndex,
+        const QString sectionIdentifier,
+        const int monitorIndex);
     Q_INVOKABLE QCoro::QmlTask setWallpaperAtTimelineIndex(
         const ScreenPlay::ContentTypes::InstalledType type,
         const QString& absolutePath,
@@ -109,7 +112,7 @@ signals:
     void displayErrorPopup(const QString& msg);
     void selectedTimelineIndexChanged(int selectedTimelineIndex);
 
-    void wallpaperAdded();
+    void notifyUiWallpaperAdded();
 
 private slots:
     bool saveProfiles();

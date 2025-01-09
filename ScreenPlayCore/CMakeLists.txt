@@ -76,9 +76,10 @@ if(APPLE)
 endif()
 
 set(RESOURCES # cmake-format: sort
-              assets/icons/attach_file.svg assets/icons/description.svg assets/icons/folder.svg)
+    assets/icons/attach_file.svg assets/icons/description.svg assets/icons/folder.svg)
 
 qt_add_library(${PROJECT_NAME} STATIC)
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_23)
 
 qt_add_qml_module(
     ${PROJECT_NAME}
@@ -110,13 +111,13 @@ target_include_directories(${PROJECT_NAME}plugin PUBLIC inc/public/ScreenPlayCor
 target_link_libraries(
     ${PROJECT_NAME}
     PUBLIC Qt6::Core
-           Qt6::Quick
-           Qt6::Gui
-           QCoro6::Core
-           QCoro6::Qml
-           fmt::fmt-header-only
-           LibArchive::LibArchive
-           QArchive)
+    Qt6::Quick
+    Qt6::Gui
+    QCoro6::Core
+    QCoro6::Qml
+    fmt::fmt-header-only
+    LibArchive::LibArchive
+    QArchive)
 
 if(WIN32)
     # Used for query windows monitor data
