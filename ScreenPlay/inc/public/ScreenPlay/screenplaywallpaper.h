@@ -96,7 +96,7 @@ signals:
 public slots:
     QCoro::Task<bool> close();
     void processExit(int exitCode, QProcess::ExitStatus exitStatus);
-    bool setWallpaperValue(const QString& key, const QString& value, const bool save = false);
+    bool setWallpaperValue(const QString& key, const QVariant& value, const bool save = false);
 
     void setMonitors(QVector<int> monitors)
     {

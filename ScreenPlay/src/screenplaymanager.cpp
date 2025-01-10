@@ -210,8 +210,8 @@ QCoro::QmlTask ScreenPlayManager::removeAllRunningWallpapers(bool saveToProfile)
                                   co_return result;
                               }
                               qDebug() << "Task: removeAllWallpaperFromActiveTimlineSections" << success;
-                              // if (saveToProfile)
-                              //     m_screenPlayTimelineManager.updateMonitorListModelData(selectedTimelineIndex());
+                              //   if (saveToProfile) ???
+                              //       requestSaveProfiles();
                               co_return Result { success };
                           });
         co_return result;
@@ -246,7 +246,8 @@ bool ScreenPlayManager::removeAllRunningWidgets(bool saveToProfile)
 }
 
 /*!
-    \brief Removes a Wallpaper at the given monitor \a at (index). Internally searches for a appID at the
+    \brief Removes a Wallpaper at the given monitor  \a timelineIndex, \a sectionIdentifier, and \a monitorIndex.
+    Internally searches for a appID at the
     given monitor index and then closes the sdk connection, removes the entries in the
     monitor list model and decreases the active wallpaper counter property of ScreenPlayManager.
 */
@@ -277,23 +278,22 @@ QCoro::QmlTask ScreenPlayManager::removeWallpaperAt(int timelineIndex, QString s
 /*!
     \brief Request a spesific json profile to display in the active wallpaper popup on the right.
 */
-bool ScreenPlayManager::requestProjectSettingsAtMonitorIndex(const int index)
+ScreenPlay::ProjectSettingsListModel* ScreenPlayManager::projectSettingsAtMonitorIndex(
+    const int monitorIndex,
+    const int timelineIndex,
+    const QString& sectionIdentifier)
 {
-    auto activeTimelineSection = m_screenPlayTimelineManager.findActiveWallpaperTimelineSection();
-    if (!activeTimelineSection) {
-        return false;
+    auto timelineSection = m_screenPlayTimelineManager.findTimelineSection(monitorIndex, timelineIndex, sectionIdentifier);
+    if (!timelineSection) {
+        return nullptr;
     }
 
-    // TODO CHANGE TO WP SECTION
-    for (const auto& wallpaper : std::as_const(activeTimelineSection->activeWallpaperList)) {
-        if (wallpaper->monitors()[0] == index) {
-
-            emit projectSettingsListModelResult(
-                wallpaper->getProjectSettingsListModel());
-            return true;
+    for (const auto& wallpaper : std::as_const(timelineSection->activeWallpaperList)) {
+        if (wallpaper->monitors().contains(monitorIndex)) {
+            return wallpaper->getProjectSettingsListModel();
         }
     }
-    return false;
+    return nullptr;
 }
 
 /*!
@@ -302,19 +302,21 @@ bool ScreenPlayManager::requestProjectSettingsAtMonitorIndex(const int index)
 QCoro::QmlTask ScreenPlayManager::setValueAtMonitorTimelineIndex(
     const int monitorIndex,
     const int timelineIndex,
-    const QString sectionIdentifier,
+    const QString& sectionIdentifier,
     const QString& key,
-    const QString& value)
+    const QVariant& value,
+    const QString& category)
 {
     return QCoro::QmlTask(
-        [this, monitorIndex, timelineIndex, sectionIdentifier, key, value]() -> QCoro::Task<Result> {
+        [this, monitorIndex, timelineIndex, sectionIdentifier, key, value, category]() -> QCoro::Task<Result> {
             auto result = co_await m_screenPlayTimelineManager
                               .setValueAtMonitorTimelineIndex(
                                   monitorIndex,
                                   timelineIndex,
                                   sectionIdentifier,
                                   key,
-                                  value)
+                                  value,
+                                  category)
                               .then([this, timelineIndex, monitorIndex](bool success) -> QCoro::Task<Result> {
                                   if (!success) {
                                       const QString msg = QString(
@@ -350,13 +352,13 @@ QCoro::QmlTask ScreenPlayManager::setWallpaperFillModeAtMonitorIndex(
     const QString key = "fillmode";
     qDebug() << monitorIndex << timelineIndex << sectionIdentifier << fillmode << key << value;
 
-    return setValueAtMonitorTimelineIndex(monitorIndex, timelineIndex, sectionIdentifier, key, value);
+    return setValueAtMonitorTimelineIndex(monitorIndex, timelineIndex, sectionIdentifier, key, value, "No property category");
 }
 
 /*!
   \brief Convenient function to set a \a value at a given \a index and \a key for all wallaper. For exmaple used to mute all wallpaper.
 */
-bool ScreenPlayManager::setAllWallpaperValue(const QString& key, const QString& value)
+bool ScreenPlayManager::setAllWallpaperValue(const QString& key, const QVariant& value)
 {
     auto activeTimelineSection = m_screenPlayTimelineManager.findActiveWallpaperTimelineSection();
     if (!activeTimelineSection) {
@@ -550,26 +552,6 @@ bool ScreenPlayManager::removeWidget(const QString& appID)
     }
 
     return true;
-}
-
-/*!
-   \brief Sets a given \a value to a given \a key. The \a appID is used to identify the receiver socket.
-*/
-bool ScreenPlayManager::setWallpaperValue(const QString& appID, const QString& key, const QString& value)
-{
-    std::shared_ptr<WallpaperTimelineSection> activeTimelineSection = m_screenPlayTimelineManager.findActiveWallpaperTimelineSection();
-    if (!activeTimelineSection) {
-        qCritical() << "setWallpaperValue failed, because no active timeline section was found";
-        return false;
-    }
-
-    for (auto& wallpaper : activeTimelineSection->activeWallpaperList) {
-        if (wallpaper->appID() == appID) {
-            return wallpaper->setWallpaperValue(key, value, true);
-        }
-    }
-    qCritical() << "No wallpaper with matching appID was found";
-    return false;
 }
 
 int ScreenPlayManager::activeTimelineIndex()

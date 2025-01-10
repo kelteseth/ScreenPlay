@@ -14,6 +14,7 @@ Util.Popup {
 
     property int selectedTimelineIndex
     property int selectedMonitorIndex
+    property int selectedInstallType
 
     width: 1366
     height: 768
@@ -74,16 +75,27 @@ Util.Popup {
 
                 Timeline {
                     id: timeline
-                    onSelectedTimelineIndexChanged: defaultVideoControls.update()
+                    onSelectedTimelineIndexChanged: {
+                        const selectedTimeline = timeline.getSelectedTimeline();
+                        print("onSelectedTimelineIndexChanged");
+                        if (!selectedTimeline) {
+                            console.error("Invalid selectedTimeline");
+                            return;
+                        }
+                        root.selectedTimelineIndex = selectedTimeline.index;
+                        root.selectedSectionIdentifier = selectedTimeline.identifier;
+                        wallpaperControlsWrapper.updateControls();
+                    }
+
                     Layout.fillWidth: true
                     Layout.fillHeight: true
 
-                    layer.enabled: App.globalVariables.isBasicVersion()
-                    // For the layered items, you can assign a MultiEffect directly
-                    // to layer.effect.
-                    layer.effect: MultiEffect {
-                        blurEnabled: true
-                        blur: .7
+                    Text {
+                        anchors.centerIn: parent
+                        color: Material.secondaryTextColor
+                        font.pointSize: 16
+                        text: qsTr("Work in progress...👷")
+                        visible: App.globalVariables.isBasicVersion()
                     }
                 }
             }
@@ -134,19 +146,22 @@ Util.Popup {
                     width: parent.width * 0.9
                     multipleMonitorsSelectable: false
                     monitorWithoutContentSelectable: false
+                    onDeselected: function () {
+                        defaultVideoControls.visible = false;
+                        customPropertiesGridView.visible = false;
+                        root.selectedInstallType = Util.ContentTypes.InstalledType.Unknown;
+                    }
 
                     onRequestProjectSettings: function (index, installedType, appID) {
-                        if (installedType === Util.ContentTypes.InstalledType.VideoWallpaper) {
-                            defaultVideoControls.state = "visible";
+                        console.log("Selected index:", index, "type:", installedType, "appID: ", appID);
+                        if (root.selectedInstallType !== installedType) {
+                            defaultVideoControls.visible = false;
                             customPropertiesGridView.visible = false;
-                            defaultVideoControls.update();
-                        } else {
-                            defaultVideoControls.state = "hidden";
-                            customPropertiesGridView.visible = true;
-                            if (!App.screenPlayManager.requestProjectSettingsAtMonitorIndex(index)) {
-                                console.warn("Unable to get requested settings from index: ", index);
-                            }
                         }
+                        root.selectedInstallType = installedType;
+
+                        console.log(installedType, Util.ContentTypes.InstalledType.VideoWallpaper);
+                        wallpaperControlsWrapper.updateControls();
                         root.selectedMonitorIndex = index;
                     }
                     onRequestRemoveWallpaper: index => {
@@ -156,14 +171,14 @@ Util.Popup {
                             return;
                         }
                         monitorSelection.enabled = false;
-                        App.screenPlayManager.removeWallpaperAt(selectedTimeline.index,  selectedTimeline.identifier, index).then(result => {
+                        App.screenPlayManager.removeWallpaperAt(selectedTimeline.index, selectedTimeline.identifier, index).then(result => {
                             monitorSelection.enabled = true;
-                          if (result.success) {
-                              // Reset to update the wallpaper preview image
-                              timeline.setActiveWallpaperPreviewImage();
-                          } else {
-                              InstantPopup.openErrorPopup(Window.window.contentItem, result.message);
-                          }
+                            if (result.success) {
+                                // Reset to update the wallpaper preview image
+                                timeline.setActiveWallpaperPreviewImage();
+                            } else {
+                                InstantPopup.openErrorPopup(Window.window.contentItem, result.message);
+                            }
                         });
                     }
 
@@ -172,14 +187,6 @@ Util.Popup {
                         topMargin: 20
                         left: parent.left
                         leftMargin: 20
-                    }
-
-                    Connections {
-                        function onProjectSettingsListModelResult(listModel) {
-                            customPropertiesGridView.projectSettingsListmodelRef = listModel;
-                        }
-
-                        target: App.screenPlayManager
                     }
                 }
 
@@ -244,6 +251,7 @@ Util.Popup {
             }
 
             Rectangle {
+                id: wallpaperControlsWrapper
                 color: Material.theme === Material.Light ? Material.backgroundColor : Qt.darker(Material.backgroundColor)
                 radius: 3
                 clip: true
@@ -258,36 +266,65 @@ Util.Popup {
                     left: itmLeftWrapper.right
                 }
 
-                DefaultVideoControls {
-                    id: defaultVideoControls
-                    state: "hidden"
-                    anchors.fill: parent
-                    anchors.margins: 10
-
-                    function update() {
-                        // TODO
-                        // 1. load video control values from WallpaperData
-                        // 2. Update onRequestProjectSettings
-                        print("updateVideoControlsWallpaper");
+                function updateControls() {
+                    print("updateControls");
+                    if (root.selectedInstallType === Util.ContentTypes.InstalledType.VideoWallpaper) {
                         const selectedTimeline = timeline.getSelectedTimeline();
                         if (selectedTimeline === undefined) {
                             print("Invalid selected timeline");
+                            defaultVideoControls.visible = false;
                             return;
                         }
+                        customPropertiesGridView.visible = false;
+                        defaultVideoControls.visible = true;
+                        defaultVideoControls.state = "visible";
                         const wallpaperData = App.screenPlayManager.getWallpaperData(root.selectedMonitorIndex, selectedTimeline.index, selectedTimeline.identifier);
                         defaultVideoControls.wallpaperData = wallpaperData;
                         defaultVideoControls.monitorIndex = root.selectedMonitorIndex;
                         defaultVideoControls.timelineActive = selectedTimeline.lineIndicator.isActive;
                         defaultVideoControls.timelineIndex = selectedTimeline.index;
                         defaultVideoControls.sectionIdentifier = selectedTimeline.identifier;
-                        defaultVideoControls.state = "visible";
+                        return;
                     }
+                    if (root.selectedInstallType === Util.ContentTypes.InstalledType.QMLWallpaper || root.selectedInstallType === Util.ContentTypes.InstalledType.GodotWallpaper || root.selectedInstallType === Util.ContentTypes.InstalledType.WebsiteWallpaper) {
+                        let listModel = App.screenPlayManager.projectSettingsAtMonitorIndex(root.selectedMonitorIndex, root.selectedTimelineIndex, root.selectedSectionIdentifier);
+                        if (!listModel) {
+                            console.error("Unable to get requested settings from index: ", root.selectedTimelineIndex);
+                            customPropertiesGridView.visible = false;
+                            defaultVideoControls.visible = false;
+                            return;
+                        }
+                        const selectedTimeline = timeline.getSelectedTimeline();
+                        if (selectedTimeline === undefined) {
+                            print("Invalid selected timeline");
+                            return;
+                        }
+                        customPropertiesGridView.timelineActive = selectedTimeline.lineIndicator.isActive;
+                        customPropertiesGridView.timelineIndex = selectedTimeline.index;
+                        customPropertiesGridView.sectionIdentifier = selectedTimeline.identifier;
+                        customPropertiesGridView.selectedMonitorIndex = root.selectedMonitorIndex;
+                        customPropertiesGridView.projectSettingsListmodelRef = listModel;
+                        console.log(customPropertiesGridView.timelineActive, customPropertiesGridView.timelineIndex, customPropertiesGridView.sectionIdentifier, customPropertiesGridView.selectedMonitorIndex, customPropertiesGridView.projectSettingsListmodelRef);
+                        customPropertiesGridView.visible = true;
+                        defaultVideoControls.visible = false;
+                        return;
+                    }
+                }
+
+                DefaultVideoControls {
+                    id: defaultVideoControls
+                    anchors.fill: parent
+                    anchors.margins: 10
+                    visible: false
                 }
 
                 GridView {
                     id: customPropertiesGridView
-
                     property var projectSettingsListmodelRef
+                    property int selectedMonitorIndex
+                    property bool timelineActive
+                    property int timelineIndex
+                    property string sectionIdentifier
 
                     boundsBehavior: Flickable.DragOverBounds
                     maximumFlickVelocity: 7000
@@ -304,8 +341,12 @@ Util.Popup {
                     delegate: MonitorsProjectSettingItem {
                         id: delegate
                         width: parent.width - 40
-                        selectedMonitor: root.selectedMonitorIndex
+                        height: 30
+                        selectedMonitorIndex: root.selectedMonitorIndex
                         projectSettingsListmodelRef: customPropertiesGridView.projectSettingsListmodelRef
+                        timelineActive: customPropertiesGridView.timelineActive
+                        timelineIndex: customPropertiesGridView.timelineIndex
+                        sectionIdentifier: customPropertiesGridView.sectionIdentifier
                     }
 
                     ScrollBar.vertical: ScrollBar {

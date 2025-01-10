@@ -32,7 +32,6 @@ class WallpaperData {
     Q_PROPERTY(ScreenPlay::Video::FillMode fillMode READ fillMode WRITE setFillMode)
     Q_PROPERTY(QVector<int> monitors READ monitors WRITE setMonitors)
 public:
-    // Getters
     bool isLooping() const { return m_isLooping; }
     QString absolutePath() const { return m_absolutePath; }
     QString previewImage() const { return m_previewImage; }
@@ -45,7 +44,6 @@ public:
     QVector<int> monitors() const { return m_monitors; }
     QString title() const { return m_title; }
 
-    // Setters
     void setIsLooping(bool value) { m_isLooping = value; }
     void setAbsolutePath(const QString& value) { m_absolutePath = value; }
     void setPreviewImage(const QString& value) { m_previewImage = value; }
@@ -64,7 +62,7 @@ public:
     static std::optional<WallpaperData> loadTimelineWallpaperConfig(const QJsonObject& wallpaperObj);
 
 private:
-    bool m_isLooping = false;
+    bool m_isLooping = true;
     QString m_absolutePath;
     QString m_previewImage;
     QString m_title;

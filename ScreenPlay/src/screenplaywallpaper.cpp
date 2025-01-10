@@ -43,16 +43,38 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
         projectSettingsListModelProperties.insert("volume", m_wallpaperData.volume());
         projectSettingsListModelProperties.insert("playbackRate", m_wallpaperData.playbackRate());
     } else {
-        if (m_wallpaperData.properties().isEmpty()) {
-            if (auto obj = util.openJsonFileToObject(m_wallpaperData.absolutePath()
-                    + "/project.json")) {
-                if (obj->contains("properties"))
-                    projectSettingsListModelProperties = obj->value("properties").toObject();
+        // Load base settings from project.json
+        if (auto obj = util.openJsonFileToObject(m_wallpaperData.absolutePath() + "/project.json")) {
+            if (obj->contains("properties")) {
+                projectSettingsListModelProperties = obj->value("properties").toObject();
+
+                // Apply any user-modified properties over the base settings
+                const QJsonObject& userProperties = m_wallpaperData.properties();
+                for (auto it = userProperties.begin(); it != userProperties.end(); ++it) {
+                    const QString& category = it.key();
+                    const QJsonObject& categoryProperties = it.value().toObject();
+
+                    // If this category exists in project settings, merge the properties
+                    if (projectSettingsListModelProperties.contains(category)) {
+                        QJsonObject baseCategory = projectSettingsListModelProperties[category].toObject();
+
+                        // Update each property in the category
+                        for (auto propIt = categoryProperties.begin(); propIt != categoryProperties.end(); ++propIt) {
+                            const QString& property = propIt.key();
+                            if (baseCategory.contains(property)) {
+                                QJsonObject propObj = baseCategory[property].toObject();
+                                propObj["value"] = propIt.value();
+                                baseCategory[property] = propObj;
+                            }
+                        }
+
+                        projectSettingsListModelProperties[category] = baseCategory;
+                    }
+                }
             }
-        } else {
-            projectSettingsListModelProperties = m_wallpaperData.properties();
         }
     }
+    qDebug().noquote() << Util().toString(projectSettingsListModelProperties);
 
     if (!projectSettingsListModelProperties.isEmpty())
         m_projectSettingsListModel.init(m_wallpaperData.type(), projectSettingsListModelProperties);
@@ -222,7 +244,7 @@ void ScreenPlayWallpaper::processExit(int exitCode, QProcess::ExitStatus exitSta
 
 */
 
-bool ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QString& value, const bool save)
+bool ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QVariant& value, const bool save)
 {
     if (state() != ScreenPlayEnums::AppState::Active) {
         qWarning() << "Cannot set value for inactive or closing wallpaper!";
@@ -235,7 +257,7 @@ bool ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QString& v
     }
 
     QJsonObject obj;
-    obj.insert(key, value);
+    obj.insert(key, QJsonValue::fromVariant(value));
     bool found = false;
     if (key == "volume") {
         setVolume(value.toFloat());
@@ -248,15 +270,16 @@ bool ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QString& v
         found = true;
     }
     if (key == "fillmode") {
-        setFillMode(QStringToEnum<Video::FillMode>(value, Video::FillMode::Cover));
+        setFillMode(QStringToEnum<Video::FillMode>(value.toString(), Video::FillMode::Cover));
         m_wallpaperData.setFillMode(fillMode());
         found = true;
     }
     if (!found) {
         auto properties = m_wallpaperData.properties();
-        properties.insert(key, value);
+        properties.insert(key, QJsonValue::fromVariant(value));
         m_wallpaperData.setProperties(properties);
     }
+    qDebug() << "Sending message:" << QJsonDocument(obj).toJson(QJsonDocument::Compact);
     const bool success = m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
 
     if (save && success)
@@ -361,6 +384,7 @@ bool ScreenPlayWallpaper::replace(
     obj.insert("absolutePath", m_wallpaperData.absolutePath());
     obj.insert("file", m_wallpaperData.file());
     obj.insert("checkWallpaperVisible", false);
+    obj.insert("properties", Util().flattenProperties(wallpaperData.properties()));
 
     const bool success = m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
     if (!success) {

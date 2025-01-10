@@ -77,20 +77,23 @@ public:
         const QJsonObject& properties,
         const bool saveToProfilesConfigFile);
 
-    Q_INVOKABLE bool requestProjectSettingsAtMonitorIndex(const int index);
+    Q_INVOKABLE ScreenPlay::ProjectSettingsListModel* projectSettingsAtMonitorIndex(
+        const int monitorIndex,
+        const int timelineIndex,
+        const QString& sectionIdentifier);
     Q_INVOKABLE QCoro::QmlTask setValueAtMonitorTimelineIndex(
         const int monitorIndex,
         const int timelineIndex,
-        const QString sectionIdentifier,
+        const QString& sectionIdentifier,
         const QString& key,
-        const QString& value);
+        const QVariant& value,
+        const QString& category);
     Q_INVOKABLE QCoro::QmlTask setWallpaperFillModeAtMonitorIndex(
         const int monitorIndex,
         const int timelineIndex,
         const QString sectionIdentifier,
         const int fillmode);
-    Q_INVOKABLE bool setAllWallpaperValue(const QString& key, const QString& value);
-    Q_INVOKABLE bool setWallpaperValue(const QString& appID, const QString& key, const QString& value);
+    Q_INVOKABLE bool setAllWallpaperValue(const QString& key, const QVariant& value);
     Q_INVOKABLE int activeTimelineIndex();
     Q_INVOKABLE void requestSaveProfiles();
     int activeWallpaperCounter() const { return m_activeWallpaperCounter; }

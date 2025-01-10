@@ -45,7 +45,7 @@ ApplicationWindow {
         } else {
             featureLevel = qsTr("Standard");
         }
-        applicationWindow.title = "ScreenPlay v" + App.version() + " " + featureLevel + " " + platform;
+        applicationWindow.title = "Open Source ScreenPlay v" + App.version() + " " + featureLevel + " " + platform;
     }
 
     function setTheme(theme) {

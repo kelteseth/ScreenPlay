@@ -38,7 +38,7 @@ QJsonObject WallpaperData::serialize() const
     data.insert("previewImage", previewImage());
     data.insert("title", title());
     data.insert("playbackRate", playbackRate());
-    data.insert("volume", volume());
+    data.insert("volume", QString::number(volume(), 'f', 2).toDouble());
     data.insert("file", file());
     data.insert("properties", properties());
     data.insert("type", QVariant::fromValue(type()).toString());

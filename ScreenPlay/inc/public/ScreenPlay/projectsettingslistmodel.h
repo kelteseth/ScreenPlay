@@ -11,23 +11,26 @@ namespace ScreenPlay {
 struct SettingsItem {
     SettingsItem(
         const QString& name,
-        const QJsonObject& value)
+        const QJsonObject& value,
+        const QString& category)
     {
         m_name = name;
         m_isHeadline = false;
         m_value = value;
+        m_category = category;
     }
 
     SettingsItem(
         const QString& name)
     {
         m_name = name;
+        m_category = name;
         m_isHeadline = true;
     }
     QString m_name;
+    QString m_category;
     bool m_isHeadline;
     QJsonObject m_value;
-    QString m_type;
 
 public:
     void setValue(const QJsonObject& value)
@@ -48,6 +51,7 @@ public:
         NameRole = Qt::UserRole,
         IsHeadlineRole,
         ValueRole,
+        CategoryRole,
     };
     Q_ENUM(ProjectSettingsRole)
 
@@ -55,7 +59,7 @@ public:
     void init(const ContentTypes::InstalledType& type, const QJsonObject& properties);
     void append(const SettingsItem&& item);
 
-    Q_INVOKABLE void setValueAtIndex(const int row, const QString& key, const QJsonObject& value);
+    Q_INVOKABLE void setValueAtIndex(const int row, const QString& key, const QString& category, const QJsonObject& value);
 
 private:
     QVector<SettingsItem> m_projectSettings;

@@ -24,7 +24,6 @@ class WallpaperTimelineSection : public QObject {
     QML_UNCREATABLE("")
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
 public:
-    // TODO: replace with wallpaper state?
     enum class State {
         Inactive, // Current time is outside startTime and endTime
         Starting, // Timeline is initializing wallpapers

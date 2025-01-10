@@ -9,12 +9,16 @@ import ScreenPlayApp
 Item {
     id: root
 
+    required property string category
     required property string name
     required property bool isHeadline
     required property var value
     required property int index
 
-    property int selectedMonitor
+    property int selectedMonitorIndex
+    property bool timelineActive
+    property int timelineIndex
+    property string sectionIdentifier
     property var projectSettingsListmodelRef
 
     focus: true
@@ -43,6 +47,7 @@ Item {
         Component.onCompleted: {
             if (root.isHeadline)
                 return;
+            console.log("MonitorsProjectSettingItem:", root.value["type"]);
             switch (root.value["type"]) {
             case "slider":
                 loader.sourceComponent = compSlider;
@@ -50,6 +55,8 @@ Item {
                 loader.item.to = root.value["to"];
                 loader.item.value = root.value["value"];
                 loader.item.stepSize = root.value["stepSize"];
+                const value = parseFloat(loader.item.value.toFixed(2));
+                loader.item.text = value;
                 break;
             case "bool":
                 loader.sourceComponent = compCheckbox;
@@ -58,6 +65,9 @@ Item {
             case "color":
                 loader.sourceComponent = compColorpicker;
                 loader.item.value = root.value["value"];
+                break;
+            default:
+                console.error(name, " has an invalid type:" << root.value["type"]);
                 break;
             }
             if (root.value["text"])
@@ -77,8 +87,16 @@ Item {
             anchors.rightMargin: 10
 
             Connections {
-                function onSave(value) {
-                    projectSettingsListmodelRef.setValueAtIndex(root.index, name, value);
+                function onSave(obj) {
+                    print("on save value:", obj.value);
+                    root.projectSettingsListmodelRef.setValueAtIndex(root.index, root.name, root.category, obj.value);
+
+                    const monitorIndex = root.selectedMonitorIndex;
+                    const timelineIndex = root.timelineIndex;
+                    const sectionIdentifier = root.sectionIdentifier;
+                    const key = root.name;
+                    const value = obj.value;
+                    App.screenPlayManager.setValueAtMonitorTimelineIndex(monitorIndex, timelineIndex, sectionIdentifier, key, value, root.category);
                 }
 
                 target: loader.item
@@ -102,13 +120,12 @@ Item {
 
                     checkable: true
                     checked: root.value
-                    onCheckedChanged: {
+                    onPressed: {
                         let obj = {
                             "value": checkbox.checked,
                             "type": "checkBox"
                         };
                         root.save(obj);
-                        App.screenPlayManager.setWallpaperValueAtMonitorIndex(selectedMonitor, name, checkbox.checked);
                     }
 
                     anchors {
@@ -172,7 +189,6 @@ Item {
                             "type": "color"
                         };
                         root.save(obj);
-                        App.screenPlayManager.setWallpaperValueAtMonitorIndex(selectedMonitor, name, tmpColor);
                     }
                 }
             }
@@ -185,6 +201,7 @@ Item {
                 id: root
 
                 property int from
+                property string text
                 property int to
                 property int value
                 property int stepSize: 1
@@ -201,9 +218,9 @@ Item {
                     value: root.value
                     stepSize: root.stepSize
                     live: false
-                    onValueChanged: {
-                        const value = slider.value.toFixed(2);
-                        txtSliderValue.text = value;
+                    onMoved: {
+                        const value = parseFloat(slider.value.toFixed(2));
+                        root.text = value;
                         let obj = {
                             "from": root.from,
                             "to": root.to,
@@ -212,7 +229,6 @@ Item {
                             "stepSize": root.stepSize
                         };
                         root.save(obj);
-                        App.screenPlayManager.setWallpaperValueAtMonitorIndex(selectedMonitor, name, value);
                     }
 
                     anchors {
@@ -226,7 +242,7 @@ Item {
 
                 Text {
                     id: txtSliderValue
-
+                    text: root.text
                     color: Material.foreground
                     horizontalAlignment: Text.AlignRight
                     font.family: App.settings.font

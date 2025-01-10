@@ -1,5 +1,4 @@
 import QtQuick
-import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material
 import ScreenPlayApp
 import ScreenPlayCore
@@ -14,16 +13,17 @@ Item {
     required property rect geometry
     required property string previewImage
     required property var installedType
-    required property var appState
+    required property int appState
+    onAppStateChanged: print(appState)
     required property int monitorIndex
 
     property bool isSelected: false
 
     onGeometryChanged: {
-        root.width = geometry.width;
-        root.height = geometry.height;
-        root.x = geometry.x;
-        root.y = geometry.y;
+        root.width = root.geometry.width;
+        root.height = root.geometry.height;
+        root.x = root.geometry.x;
+        root.y = root.geometry.y;
     }
 
     signal monitorSelected(int monitorIndex)
@@ -32,16 +32,17 @@ Item {
     onIsSelectedChanged: root.state = isSelected ? "selected" : "default"
     property bool hasContent: false
     onPreviewImageChanged: {
-        if (previewImage === "") {
+        print(root.previewImage);
+        if (root.previewImage === "") {
             root.hasContent = false;
         } else {
-            imgPreview.source = Qt.resolvedUrl("file:///" + previewImage);
+            imgPreview.source = Qt.resolvedUrl("file:///" + root.previewImage);
             root.hasContent = true;
         }
     }
 
     Text {
-        text: root.geometry.width + "x" + geometry.height
+        text: root.geometry.width + "x" + root.geometry.height
         color: Material.foreground
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
@@ -89,19 +90,31 @@ Item {
                 bottom: parent.bottom
                 bottomMargin: 5
             }
-            visible: false
+            visible: true
+            font.pointSize: 10
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
+            color: Material.primaryTextColor
+            styleColor: Material.secondaryTextColor
+            style: Text.Outline
             text: {
                 switch (root.appState) {
+                case ScreenPlayEnums.AppState.NotSet:
+                    return qsTr("Not Set");
                 case ScreenPlayEnums.AppState.Inactive:
                     return qsTr("Inactive");
                 case ScreenPlayEnums.AppState.Starting:
                     return qsTr("Starting");
+                case ScreenPlayEnums.AppState.StartingFailed:
+                    return qsTr("StartingFailed");
                 case ScreenPlayEnums.AppState.Closing:
                     return qsTr("Closing");
                 case ScreenPlayEnums.AppState.Active:
                     return qsTr("Active");
+                case ScreenPlayEnums.AppState.Timeout:
+                    return qsTr("Timeout");
+                case ScreenPlayEnums.AppState.ErrorOccouredWhileActive:
+                    return qsTr("Error Occoured While Active");
                 default:
                     console.error("Invalid state");
                 }

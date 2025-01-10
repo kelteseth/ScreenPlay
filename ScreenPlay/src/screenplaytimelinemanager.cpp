@@ -757,7 +757,8 @@ QCoro::Task<bool> ScreenPlayTimelineManager::setValueAtMonitorTimelineIndex(
     const int timelineIndex,
     const QString sectionIdentifier,
     const QString& key,
-    const QString& value)
+    const QVariant& value,
+    const QString& category)
 {
     auto wallpaperSectionOpt = wallpaperSection(timelineIndex, sectionIdentifier);
     if (!wallpaperSectionOpt.has_value())
@@ -775,18 +776,11 @@ QCoro::Task<bool> ScreenPlayTimelineManager::setValueAtMonitorTimelineIndex(
             }
             if (key == "fillmode") {
                 wallpaperData.setFillMode(
-                    QStringToEnum<Video::FillMode>(value, Video::FillMode::Cover));
+                    QStringToEnum<Video::FillMode>(value.toString(), Video::FillMode::Cover));
             }
             found = true;
         }
     }
-
-    // TODO remove the check for not active wp?
-    // // Skip when the values was changed on an not running wallpaper
-    // if (!found) {
-    //     co_return true;
-    // }
-
     // Now set the value in the ScreenPlayWallpaper class so it does
     // get propagated to the running wallpaper.
     for (auto& activeWallpaper : wallpaperSection->activeWallpaperList) {
@@ -795,15 +789,31 @@ QCoro::Task<bool> ScreenPlayTimelineManager::setValueAtMonitorTimelineIndex(
         }
     }
 
-    // Now set it in wallpaperData that is used for saving.
+    // Return for all none property varibales like volume
+    if (!found) {
+        co_return true;
+    }
+
+    // Now set it in wallpaperData property member
     for (auto& wallpaperData : wallpaperSection->wallpaperDataList) {
         if (wallpaperData.monitors().contains(monitorIndex)) {
             auto properties = wallpaperData.properties();
-            properties.insert(key, value);
+
+            // Check if category exists in properties
+            QJsonObject categoryObject;
+            if (properties.contains(category)) {
+                categoryObject = properties[category].toObject();
+            }
+
+            // Update or add the value in the category
+            categoryObject.insert(key, QJsonValue::fromVariant(value));
+
+            // Update the category in properties
+            properties.insert(category, categoryObject);
+
             wallpaperData.setProperties(properties);
         }
     }
-
     co_return true;
 }
 

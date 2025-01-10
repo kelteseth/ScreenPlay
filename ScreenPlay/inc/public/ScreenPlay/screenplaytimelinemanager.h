@@ -45,7 +45,8 @@ public:
         const int timelineIndex,
         const QString sectionIdentifier,
         const QString& key,
-        const QString& value);
+        const QVariant& value,
+        const QString& category);
     QJsonArray timelineSections();
     QJsonArray timelineWallpaperList();
 

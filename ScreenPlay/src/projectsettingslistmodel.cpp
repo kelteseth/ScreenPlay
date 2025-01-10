@@ -50,18 +50,21 @@ namespace ScreenPlay {
 */
 void ProjectSettingsListModel::init(const ContentTypes::InstalledType& type, const QJsonObject& properties)
 {
-
     for (QJsonObject::const_iterator itParent = properties.begin(); itParent != properties.end(); itParent++) {
-
         // The first object is always a category
-        const QJsonObject category = properties.value(itParent.key()).toObject();
+        const QString categoryName = itParent.key();
+        const QJsonObject category = properties.value(categoryName).toObject();
 
-        append(SettingsItem { itParent.key() });
+        // Add the category header
+        append(SettingsItem { categoryName });
 
         // Children of this category
         for (QJsonObject::const_iterator itChild = category.begin(); itChild != category.end(); itChild++) {
-            const QJsonObject child = category.value(itChild.key()).toObject();
-            append(SettingsItem { itChild.key(), child });
+            const QString childName = itChild.key();
+            const QJsonObject childValue = category.value(childName).toObject();
+
+            // Create a settings item with the child name, value, and category
+            append(SettingsItem { childName, childValue, categoryName });
         }
     }
 }
@@ -134,10 +137,15 @@ void ProjectSettingsListModel::append(const SettingsItem&& item)
 /*!
     \brief .
 */
-void ProjectSettingsListModel::setValueAtIndex(const int row, const QString& key, const QJsonObject& value)
+void ProjectSettingsListModel::setValueAtIndex(const int row, const QString& key, const QString& category, const QJsonObject& value)
 {
     if (row >= m_projectSettings.size() || row < 0) {
         qWarning() << "Cannot setValueAtIndex when index is out of bounce! Row: " << row << ", m_projectSettings size: " << m_projectSettings.size();
+        return;
+    }
+
+    if (m_projectSettings.at(row).m_category != category) {
+        qWarning() << "Category of the element does not match current settings";
         return;
     }
 
@@ -151,7 +159,7 @@ void ProjectSettingsListModel::setValueAtIndex(const int row, const QString& key
         return;
     }
 
-    m_projectSettings.replace(row, SettingsItem { key, value });
+    m_projectSettings.replace(row, SettingsItem { key, value, category });
 
     QVector<int> roles = { ValueRole };
 
@@ -187,8 +195,13 @@ QVariant ProjectSettingsListModel::data(const QModelIndex& index, int role) cons
             return m_projectSettings.at(rowIndex).m_name;
         case IsHeadlineRole:
             return m_projectSettings.at(rowIndex).m_isHeadline;
-        case ValueRole:
-            return m_projectSettings.at(rowIndex).m_value;
+        case ValueRole: {
+            auto value = m_projectSettings.at(rowIndex).m_value;
+            qDebug() << "ValueRole data:" << value; // Add this debug line
+            return QVariant::fromValue(value);
+        }
+        case CategoryRole:
+            return m_projectSettings.at(rowIndex).m_category;
         default:
             qWarning() << "Could not determine row for ProjectSettingsListModel";
             return QVariant();
@@ -206,6 +219,7 @@ QHash<int, QByteArray> ProjectSettingsListModel::roleNames() const
         { NameRole, "name" },
         { IsHeadlineRole, "isHeadline" },
         { ValueRole, "value" },
+        { CategoryRole, "category" },
     };
     return roles;
 }
