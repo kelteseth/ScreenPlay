@@ -10,6 +10,10 @@ namespace ScreenPlay {
 WallpaperExit::Code LinuxWaylandWindow::start()
 {
 
+    if (QGuiApplication::platformName() != "wayland") {
+        qFatal("Invalid");
+    }
+
     if (!debugMode()) {
         connect(m_sdk.get(), &ScreenPlaySDK::sdkDisconnected, this, &LinuxWaylandWindow::destroyThis);
     }
@@ -20,16 +24,16 @@ WallpaperExit::Code LinuxWaylandWindow::start()
     m_window.engine()->addImportPath(workingDir.path() + "/qml");
     m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
     m_window.setSource(QUrl("qrc:/qml/ScreenPlayWallpaper/qml/Wallpaper.qml"));
+    //m_window.setGeometry(0,0,100,100);
 
     // Get the Wayland display
-    if (QGuiApplication::platformName() == "wayland") {
-        QPlatformNativeInterface* native = QGuiApplication::platformNativeInterface();
+    // QPlatformNativeInterface* native = QGuiApplication::platformNativeInterface();
 
-        auto* layerShell = LayerShellQt::Window::get(&m_window);
-        layerShell->setLayer(LayerShellQt::Window::LayerBackground);
-        layerShell->setAnchors(static_cast<QFlags<LayerShellQt::Window::Anchor>>(
-            LayerShellQt::Window::Anchor::AnchorTop | LayerShellQt::Window::Anchor::AnchorBottom | LayerShellQt::Window::Anchor::AnchorLeft | LayerShellQt::Window::Anchor::AnchorRight));
-    }
+    auto* layerShell = LayerShellQt::Window::get(&m_window);
+    layerShell->setLayer(LayerShellQt::Window::LayerBackground);
+    layerShell->setAnchors(static_cast<QFlags<LayerShellQt::Window::Anchor>>(
+        LayerShellQt::Window::Anchor::AnchorTop | LayerShellQt::Window::Anchor::AnchorBottom | LayerShellQt::Window::Anchor::AnchorLeft | LayerShellQt::Window::Anchor::AnchorRight));
+
 
     m_window.show();
     return WallpaperExit::Code::Ok;
