@@ -95,7 +95,8 @@ signals:
         const float volume,
         const QString fillMode,
         const QString type,
-        const bool checkWallpaperVisible);
+        const bool checkWallpaperVisible,
+        const QJsonObject wallpaperProperties);
 
     void mainAppPIDChanged(qint64 mainAppPID);
 

@@ -72,7 +72,7 @@ void ScreenPlayManager::init(
 /*!
     \brief Sets the wallpaper at a specific timeline.
 */
-QCoro::QmlTask ScreenPlayManager::setWallpaperAtTimelineIndex(
+QCoro::QmlTask ScreenPlayManager::setWallpaperAtMonitorTimelineIndex(
     const ScreenPlay::ContentTypes::InstalledType type,
     const QString& absolutePath,
     const QString& previewImage,
@@ -102,7 +102,7 @@ QCoro::QmlTask ScreenPlayManager::setWallpaperAtTimelineIndex(
     wallpaperData.setMonitors(monitorIndex);
     wallpaperData.setFillMode(m_settings->videoFillMode());
 
-    return QCoro::QmlTask([this, wallpaperData, timelineIndex, identifier]() -> QCoro::Task<Result> {
+    return QCoro::QmlTask([this, wallpaperData, timelineIndex, identifier, monitorIndex]() -> QCoro::Task<Result> {
         if (wallpaperData.absolutePath().isEmpty()) {
             const QString msg = QString("AbsolutePath to project is empty");
             Result result;
@@ -121,7 +121,7 @@ QCoro::QmlTask ScreenPlayManager::setWallpaperAtTimelineIndex(
         }
 
         auto result = co_await m_screenPlayTimelineManager
-                          .setWallpaperAtTimelineIndex(wallpaperData, timelineIndex, identifier)
+                          .setWallpaperAtMonitorTimelineIndex(wallpaperData, timelineIndex, identifier, monitorIndex)
                           .then([this, timelineIndex](bool success) -> QCoro::Task<Result> {
                               if (!success) {
                                   const QString msg = QString(
@@ -283,12 +283,12 @@ ScreenPlay::ProjectSettingsListModel* ScreenPlayManager::projectSettingsAtMonito
     const int timelineIndex,
     const QString& sectionIdentifier)
 {
-    auto timelineSection = m_screenPlayTimelineManager.findTimelineSection(monitorIndex, timelineIndex, sectionIdentifier);
+    auto timelineSection = m_screenPlayTimelineManager.findTimelineSection(timelineIndex, sectionIdentifier);
     if (!timelineSection) {
         return nullptr;
     }
 
-    for (const auto& wallpaper : std::as_const(timelineSection->activeWallpaperList)) {
+    for (const auto& wallpaper : std::as_const(timelineSection->wallpaperList)) {
         if (wallpaper->monitors().contains(monitorIndex)) {
             return wallpaper->getProjectSettingsListModel();
         }
@@ -364,7 +364,7 @@ bool ScreenPlayManager::setAllWallpaperValue(const QString& key, const QVariant&
     if (!activeTimelineSection) {
         return false;
     }
-    for (auto& wallpaper : activeTimelineSection->activeWallpaperList) {
+    for (auto& wallpaper : activeTimelineSection->wallpaperList) {
         if (!wallpaper->setWallpaperValue(key, value, true))
             return false;
     }
@@ -379,13 +379,13 @@ WallpaperData ScreenPlayManager::getWallpaperData(const int monitorIndex,
     const int timelineIndex,
     const QString sectionIdentifier)
 {
-    auto timelineSection = m_screenPlayTimelineManager.findTimelineSection(monitorIndex,
+    auto timelineSection = m_screenPlayTimelineManager.findTimelineSection(
         timelineIndex,
         sectionIdentifier);
     if (!timelineSection) {
         return {};
     }
-    for (auto& wallpaperData : timelineSection->wallpaperDataList) {
+    for (const auto& wallpaperData : timelineSection->wallpaperData()) {
         if (wallpaperData.monitors().first() == monitorIndex) {
             // TODO COPY?
             return wallpaperData;
@@ -476,7 +476,7 @@ void ScreenPlayManager::newConnection()
             qWarning() << "Unable to findStartingOrActiveWallpaperTimelineSection! Aborting!";
             return;
         }
-        auto& activeWallpaperList = startingTimelineSection->activeWallpaperList;
+        auto& activeWallpaperList = startingTimelineSection->wallpaperList;
 
         for (int i = 0; i < activeWallpaperList.size(); ++i) {
             if (activeWallpaperList.at(i)->appID() == matchingConnection->appID()) {

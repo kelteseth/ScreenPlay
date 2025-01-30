@@ -109,11 +109,12 @@ void ScreenPlaySDK::readyRead()
 
     if (obj.contains("command")) {
         if (obj.value("command") == "replace") {
-            QString type = obj.value("type").toString();
-            QString fillMode = obj.value("fillMode").toString();
-            QString absolutePath = obj.value("absolutePath").toString();
-            QString file = obj.value("file").toString();
-            bool checkWallpaperVisible = obj.value("checkWallpaperVisible").toBool();
+            const QString type = obj.value("type").toString();
+            const QString fillMode = obj.value("fillMode").toString();
+            const QString absolutePath = obj.value("absolutePath").toString();
+            const QString file = obj.value("file").toString();
+            const QJsonObject properties = obj.value("properties").toObject();
+            const bool checkWallpaperVisible = obj.value("checkWallpaperVisible").toBool();
             if (type.isEmpty()
                 || fillMode.isEmpty()
                 || absolutePath.isEmpty()
@@ -138,9 +139,17 @@ void ScreenPlaySDK::readyRead()
                 << fillMode
                 << volumeParsed
                 << absolutePath
-                << file;
+                << file
+                << properties;
 
-            emit replaceWallpaper(absolutePath, file, volumeParsed, fillMode, type, checkWallpaperVisible);
+            emit replaceWallpaper(
+                absolutePath,
+                file,
+                volumeParsed,
+                fillMode,
+                type,
+                checkWallpaperVisible,
+                properties);
             return;
         }
     }

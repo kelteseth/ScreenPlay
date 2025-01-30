@@ -120,8 +120,10 @@ std::optional<ScreenPlay::WallpaperData> ScreenPlay::WallpaperData::loadTimeline
     WallpaperData wallpaperData;
     wallpaperData.setMonitors(monitors);
     wallpaperData.setVolume(volume);
+
+    // Remove file:///
     wallpaperData.setAbsolutePath(
-        wallpaperObj.value("absolutePath").toString().replace("file:///", ""));
+        QUrl::fromUserInput(wallpaperObj.value("absolutePath").toString()).toLocalFile());
     wallpaperData.setPreviewImage(wallpaperObj.value("previewImage").toString());
     wallpaperData.setPlaybackRate(wallpaperObj.value("playbackRate").toDouble(1.0));
     wallpaperData.setFile(wallpaperObj.value("file").toString());

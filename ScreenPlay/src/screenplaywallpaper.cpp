@@ -35,7 +35,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
     Util util;
     std::optional<QJsonObject> projectOpt = util.openJsonFileToObject(m_wallpaperData.absolutePath()
         + "/project.json");
-    if (projectOpt.has_value()) {
+    if (projectOpt.has_value()) { // TODO handle no value
         m_projectJson = projectOpt.value();
     }
     QJsonObject projectSettingsListModelProperties;
@@ -298,11 +298,6 @@ void ScreenPlayWallpaper::setState(ScreenPlay::ScreenPlayEnums::AppState state)
     m_state = state;
 }
 
-const WallpaperData& ScreenPlayWallpaper::wallpaperData()
-{
-    return m_wallpaperData;
-}
-
 /*!
     \brief  Connects to ScreenPlay. Start a alive ping check for every
             GlobalVariables::contentPingAliveIntervalMS seconds.
@@ -361,7 +356,7 @@ void ScreenPlayWallpaper::setSDKConnection(std::unique_ptr<SDKConnection> connec
 /*!
     \brief Replaces the current wallpaper with the given one.
 */
-bool ScreenPlayWallpaper::replace(
+bool ScreenPlayWallpaper::replaceLive(
     const WallpaperData wallpaperData)
 {
     if (state() != ScreenPlayEnums::AppState::Active) {

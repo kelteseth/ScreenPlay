@@ -77,8 +77,7 @@ ScreenPlayTimelineManager::findTimelineSectionForCurrentTime()
     return nullptr;
 }
 
-std::shared_ptr<WallpaperTimelineSection> ScreenPlayTimelineManager::findTimelineSection(
-    const int monitorIndex, const int timelineIndex, const QString sectionIdentifier)
+std::shared_ptr<WallpaperTimelineSection> ScreenPlayTimelineManager::findTimelineSection(const int timelineIndex, const QString sectionIdentifier)
 {
     for (const auto& section : m_wallpaperTimelineSectionsList) {
         if (section->identifier == sectionIdentifier && section->index == timelineIndex) {
@@ -90,7 +89,17 @@ std::shared_ptr<WallpaperTimelineSection> ScreenPlayTimelineManager::findTimelin
 }
 
 /*!
-  \brief Loads all timelines.
+  \brief Loads a single timeline from the timelineWallpaper array.
+
+        {
+        "endTime": "07:10:19",
+        "startTime": "02:34:12",
+        "wallpaper": [
+            {
+                [...]
+            }
+        ]
+    },
 */
 bool ScreenPlayTimelineManager::addTimelineFromSettings(const QJsonObject& timelineObj)
 {
@@ -132,15 +141,6 @@ bool ScreenPlayTimelineManager::addTimelineFromSettings(const QJsonObject& timel
     newTimelineSection->settings = m_settings;
     newTimelineSection->globalVariables = m_globalVariables;
     newTimelineSection->relativePosition = m_util.calculateRelativePosition(endTime);
-
-    const auto wallpaperList = timelineObj.value("wallpaper").toArray();
-    for (auto& wallpaper : wallpaperList) {
-        std::optional<WallpaperData> wallpaperDataOpt = WallpaperData::loadTimelineWallpaperConfig(wallpaper.toObject());
-        if (!wallpaperDataOpt.has_value())
-            return false;
-        newTimelineSection->wallpaperDataList.push_back(wallpaperDataOpt.value());
-    }
-
     newTimelineSection->index = m_wallpaperTimelineSectionsList.length();
     newTimelineSection->identifier = m_util.generateRandomString(4);
 
@@ -148,6 +148,7 @@ bool ScreenPlayTimelineManager::addTimelineFromSettings(const QJsonObject& timel
             << newTimelineSection->startTime
             << newTimelineSection->endTime;
 
+    newTimelineSection->init(timelineObj.value("wallpaper").toArray());
     m_wallpaperTimelineSectionsList.append(newTimelineSection);
     return true;
 }
@@ -180,6 +181,7 @@ bool ScreenPlayTimelineManager::moveTimelineAt(const int index, const QString id
     // Only update the next timeline startTime
     // if we are not end last wallpaper, that always
     // must end at 24:00
+    // TODO CRASH
     if (index <= timelineCount) {
         auto& wallpapterTimelineSectionNext = m_wallpaperTimelineSectionsList.at(index + 1);
         wallpapterTimelineSectionNext->startTime = newPositionTime;
@@ -194,25 +196,22 @@ bool ScreenPlayTimelineManager::moveTimelineAt(const int index, const QString id
     \brief  Checks if we need to display a different wallpaper at the current time. This function is
             only used to handle regular updates. We still have to manually update the timeline,
             when the user alters a timeline WallpaperData, for example by setting a new wallpaper.
-            This happens in \sa setWallpaperAtTimelineIndex(). During this time, the update timer
+            This happens in \sa setWallpaperAtMonitorTimelineIndex(). During this time, the update timer
             that calls this function will be paused.
 */
 QCoro::Task<void> ScreenPlayTimelineManager::checkActiveWallpaperTimeline()
 {
-    // First verify timeline states are valid - should have exactly one Active timeline
-    // and all others Inactive
+    // Verify timeline states
     int activeCount = 0;
     for (const auto& section : m_wallpaperTimelineSectionsList) {
         if (section->state == WallpaperTimelineSection::State::Failed) {
             qDebug() << "Timeline" << section->identifier << " failed, removing";
-            // TODO
             removeTimelineAt(section->index);
             co_return;
         }
         if (section->state == WallpaperTimelineSection::State::Active) {
             activeCount++;
         } else if (section->state != WallpaperTimelineSection::State::Inactive) {
-            // If any timeline is in a transitional state (Starting/Closing/Failed), wait
             qDebug() << "Timeline" << section->identifier << "in transition state:" << section->state;
             co_return;
         }
@@ -224,64 +223,145 @@ QCoro::Task<void> ScreenPlayTimelineManager::checkActiveWallpaperTimeline()
         co_return;
     }
 
-    // Current timeline with the state active
+    // Find current timelines
     std::shared_ptr<WallpaperTimelineSection> oldRunningTimeline = findActiveWallpaperTimelineSection();
-    // This is fine if we are in start/closing state
     if (!oldRunningTimeline) {
-        qDebug() << "No  timeline with state active found. ";
+        qDebug() << "No timeline with state active found.";
         printTimelines();
         co_return;
     }
 
-    // Current timline that should be active, based on the current time
     std::shared_ptr<WallpaperTimelineSection> newNotStartedTimeline = findTimelineSectionForCurrentTime();
     if (!newNotStartedTimeline) {
         qCritical() << "No current timeline found. There must always be an active timeline.";
         co_return;
     }
 
-    // Default state most of the time
+    // Default state - timeline hasn't changed
     if (newNotStartedTimeline->index == oldRunningTimeline->index) {
         co_return;
     }
 
-    const auto monitors = m_monitorListModel->getSystemMonitors();
+    // Collect all monitored indices
+    std::set<int> affectedMonitors;
 
-    const auto activeMonitors = oldRunningTimeline->activeWallpaperList
-        | std::views::transform([](const auto& wallpaper) { return wallpaper->monitors(); })
-        | std::views::join
-        | std::ranges::to<std::set>();
-
-    const auto newTimlineMonotiors = newNotStartedTimeline->wallpaperDataList
-        | std::views::transform([](const auto& wallpaperData) { return wallpaperData.monitors(); })
-        | std::views::join
-        | std::ranges::to<std::set>();
-
-    const auto monitorsToDeactivate = activeMonitors
-        | std::views::filter([&](int monitor) {
-              return !newNotStartedTimeline->containsMonitor(monitor);
-          })
-        | std::ranges::to<std::vector>();
-
-    // Stop, not remove ScreenPlayWallpaper that we no longer need.
-    for (const auto& monitorIndex : monitorsToDeactivate) {
-        co_await oldRunningTimeline->stopWallpaper(monitorIndex);
-    }
-    
-    if (oldRunningTimeline->wallpaperDataList.size() == 0) {
-        oldRunningTimeline->state = WallpaperTimelineSection::State::Closing;
-        const bool success = co_await newNotStartedTimeline->activateTimeline();
-        oldRunningTimeline->state = WallpaperTimelineSection::State::Inactive;
-    } else {
-        oldRunningTimeline->state = WallpaperTimelineSection::State::Closing;
-
-        const bool success = co_await newNotStartedTimeline->activateTimeline(oldRunningTimeline->activeWallpaperList);
-        if (!success) {
-            qCritical() << "Unable to replace running timeline";
+    // Add monitors from old timeline
+    for (const auto& wallpaper : oldRunningTimeline->wallpaperList) {
+        for (const auto& monitor : wallpaper->monitors()) {
+            affectedMonitors.insert(monitor);
         }
-        oldRunningTimeline->state = WallpaperTimelineSection::State::Inactive;
-        oldRunningTimeline->activeWallpaperList = {};
     }
+
+    // Add monitors from new timeline
+    for (const auto& data : newNotStartedTimeline->wallpaperData()) {
+        for (const auto& monitor : data.monitors()) {
+            affectedMonitors.insert(monitor);
+        }
+    }
+
+    // Set transition states
+    oldRunningTimeline->state = WallpaperTimelineSection::State::Closing;
+    newNotStartedTimeline->state = WallpaperTimelineSection::State::Starting;
+
+    // Handle each monitor transition
+    for (const int monitorIndex : affectedMonitors) {
+        auto oldWallpaperOpt = oldRunningTimeline->screenPlayWallpaperByMonitorIndex(monitorIndex);
+        auto newWallpaperDataOpt = newNotStartedTimeline->getWallpaperDataForMonitor(monitorIndex);
+
+        // Case 1: No old wallpaper, but new wallpaper needed
+        if (!oldWallpaperOpt.has_value() && newWallpaperDataOpt.has_value()) {
+            const bool startSuccess = co_await startWallpaper(
+                newNotStartedTimeline->index,
+                newNotStartedTimeline->identifier,
+                QVector<int> { monitorIndex });
+
+            if (!startSuccess) {
+                qCritical() << "Failed to start new wallpaper for monitor" << monitorIndex;
+                newNotStartedTimeline->state = WallpaperTimelineSection::State::Failed;
+                co_return;
+            }
+            continue;
+        }
+
+        // Case 2: Old wallpaper exists, but no new wallpaper needed
+        if (oldWallpaperOpt.has_value() && !newWallpaperDataOpt.has_value()) {
+            const bool stopSuccess = co_await stopWallpaper(
+                oldRunningTimeline->index,
+                oldRunningTimeline->identifier,
+                QVector<int> { monitorIndex });
+
+            if (!stopSuccess) {
+                qCritical() << "Failed to stop old wallpaper for monitor" << monitorIndex;
+                // Continue anyway to try handling other monitors
+            }
+            continue;
+        }
+
+        // Case 3: Both old and new wallpapers exist
+        if (oldWallpaperOpt.has_value() && newWallpaperDataOpt.has_value()) {
+            auto oldWallpaper = oldWallpaperOpt.value();
+            auto newWallpaperData = newWallpaperDataOpt.value();
+
+            if (m_util.isSameWallpaperRuntime(oldWallpaper->type(), newWallpaperData.type())) {
+                // Can reuse runtime - do live replacement
+                const auto oldRunningTimelineWallpaperDataBackup = oldRunningTimeline->getWallpaperDataForMonitor(monitorIndex);
+                auto runningScreenPlayWallpaperOpt = oldRunningTimeline->takeScreenPlayWallpaperByMonitorIndex(QVector<int> { monitorIndex });
+
+                if (!runningScreenPlayWallpaperOpt.has_value()) {
+                    qCritical() << "Failed to take existing wallpaper for monitor" << monitorIndex;
+                    newNotStartedTimeline->state = WallpaperTimelineSection::State::Failed;
+                    co_return;
+                }
+
+                auto runningScreenPlayWallpaper = runningScreenPlayWallpaperOpt.value();
+                runningScreenPlayWallpaper->replaceLive(newWallpaperData);
+
+                if (!newNotStartedTimeline->replaceScreenPlayWallpaperAtMonitorIndex(QVector<int> { monitorIndex }, runningScreenPlayWallpaper)) {
+                    qCritical() << "Failed to replace wallpaper for monitor" << monitorIndex;
+                    newNotStartedTimeline->state = WallpaperTimelineSection::State::Failed;
+                    co_return;
+                }
+
+                // Restore the wallpaper in the old timeline
+                if (oldRunningTimelineWallpaperDataBackup.has_value()) {
+                    co_await setWallpaperAtMonitorTimelineIndex(
+                        oldRunningTimelineWallpaperDataBackup.value(),
+                        oldRunningTimeline->index,
+                        oldRunningTimeline->identifier,
+                        QVector<int> { monitorIndex });
+                } else {
+                    qCritical() << "Failed to restore wallpaper backup for monitor" << monitorIndex;
+                }
+            } else {
+                // Different runtime - must stop old and start new
+                const bool removeSuccess = co_await removeWallpaper(
+                    oldRunningTimeline->index,
+                    oldRunningTimeline->identifier,
+                    QVector<int> { monitorIndex });
+
+                if (!removeSuccess) {
+                    qCritical() << "Failed to remove old wallpaper for monitor" << monitorIndex;
+                    newNotStartedTimeline->state = WallpaperTimelineSection::State::Failed;
+                    co_return;
+                }
+
+                const bool startSuccess = co_await startWallpaper(
+                    newNotStartedTimeline->index,
+                    newNotStartedTimeline->identifier,
+                    QVector<int> { monitorIndex });
+
+                if (!startSuccess) {
+                    qCritical() << "Failed to start new wallpaper for monitor" << monitorIndex;
+                    newNotStartedTimeline->state = WallpaperTimelineSection::State::Failed;
+                    co_return;
+                }
+            }
+        }
+    }
+
+    // Update final states
+    oldRunningTimeline->state = WallpaperTimelineSection::State::Inactive;
+    newNotStartedTimeline->state = WallpaperTimelineSection::State::Active;
 
     printTimelines();
 }
@@ -298,6 +378,20 @@ std::optional<std::shared_ptr<WallpaperTimelineSection>> ScreenPlayTimelineManag
     qCritical() << "No matching timeline for index:" << timelineIndex << "sectionIdentifier: " << sectionIdentifier;
 
     return std::nullopt;
+}
+
+std::optional<std::shared_ptr<ScreenPlayWallpaper>> ScreenPlayTimelineManager::screenPlayWallpaperAt(
+    const int timelineIndex,
+    const QString timelineIdentifier,
+    const QVector<int> monitorIndex)
+{
+    using enum WallpaperTimelineSection::State;
+    auto timelineSectionOpt = wallpaperSection(timelineIndex, timelineIdentifier);
+    if (!timelineSectionOpt.has_value()) {
+        return std::nullopt;
+    }
+    auto timelineSection = timelineSectionOpt.value();
+    return timelineSection->screenPlayWallpaperByMonitorIndex(monitorIndex.first());
 }
 
 void ScreenPlayTimelineManager::validateTimelineSections() const
@@ -372,7 +466,7 @@ QCoro::Task<void> ScreenPlayTimelineManager::startup()
         qCritical() << "No current timeline found. There must always be an active timeline.";
         co_return;
     }
-    co_await currentTimeline->activateTimeline();
+    co_await activateTimeline(currentTimeline->index, currentTimeline->identifier);
     printTimelines();
     m_contentTimer.start();
 }
@@ -426,7 +520,7 @@ void ScreenPlayTimelineManager::updateMonitorListModelData(const int selectedTim
     // wallpaper
     for (const auto& monitor : monitors) {
         QModelIndex modelIndex = m_monitorListModel->index(monitor.m_monitorIndex);
-        auto activeWallpaperOpt = timeline->getActiveWallpaperForMonitor(monitor.m_monitorIndex);
+        auto activeWallpaperOpt = timeline->screenPlayWallpaperByMonitorIndex(monitor.m_monitorIndex);
 
         if (activeWallpaperOpt.has_value()) {
             auto activeWallpaper = activeWallpaperOpt.value();
@@ -450,6 +544,18 @@ void ScreenPlayTimelineManager::updateMonitorListModelData(const int selectedTim
 void ScreenPlayTimelineManager::setGlobalVariables(const std::shared_ptr<GlobalVariables>& globalVariables)
 {
     m_globalVariables = globalVariables;
+}
+
+const std::vector<WallpaperData> ScreenPlayTimelineManager::wallpaperData() const
+{
+    std::vector<WallpaperData> wallpaperDataFlatList;
+    for (auto& timelineSection : m_wallpaperTimelineSectionsList) {
+        for (auto& screenPlayWallpaper : timelineSection->wallpaperList) {
+            wallpaperDataFlatList.push_back(screenPlayWallpaper->wallpaperData());
+        }
+    }
+
+    return wallpaperDataFlatList;
 }
 
 /*!
@@ -594,7 +700,7 @@ QCoro::Task<bool> ScreenPlayTimelineManager::removeAllTimlineSections()
     std::shared_ptr<WallpaperTimelineSection> activeTimelineSection = findActiveWallpaperTimelineSection();
     if (activeTimelineSection) {
         // First deactivate so the wallpaper has time to shutdown
-        co_await activeTimelineSection->deactivateTimeline();
+        co_await deactivateTimeline(activeTimelineSection->index, activeTimelineSection->identifier);
     }
 
     // After we have disconnected or timed out we remove the wallpaper
@@ -610,33 +716,25 @@ QCoro::Task<bool> ScreenPlayTimelineManager::removeAllTimlineSections()
 */
 QCoro::Task<bool> ScreenPlayTimelineManager::removeAllWallpaperFromActiveTimlineSections()
 {
-
     // First check if there is any active wallpaper and disable it
     std::shared_ptr<WallpaperTimelineSection> activeTimelineSection = findActiveWallpaperTimelineSection();
     if (activeTimelineSection) {
         // First deactivate so the wallpaper has time to shutdown
-        co_await activeTimelineSection->deactivateTimeline();
-        activeTimelineSection->wallpaperDataList.clear();
+        co_await deactivateTimeline(activeTimelineSection->index, activeTimelineSection->identifier);
     }
     co_return true;
 }
 
 /*!
-  \brief Qml function that removes all wallpaper for the current Timeline section.
+  \brief Qml function that removes a wallpaper from  a Timelinesection.
 */
 QCoro::Task<bool> ScreenPlayTimelineManager::removeWallpaperAt(const int timelineIndex, const QString sectionIdentifier, const int monitorIndex)
 {
     m_contentTimer.stop();
     auto updateTimer = qScopeGuard([this] { m_contentTimer.start(); });
 
-    std::optional<std::shared_ptr<WallpaperTimelineSection>> sectionOpt = wallpaperSection(timelineIndex, sectionIdentifier);
-    if (!sectionOpt) {
-        qCritical() << "No timeline section for  timelineIndex" << timelineIndex << "sectionIdentifier" << sectionIdentifier << "monitorIndex" << monitorIndex;
-        co_return false;
-    }
-
-    const bool success = co_await sectionOpt.value()->removeWallpaper(monitorIndex);
-
+    QVector<int> monitorIndexList = { monitorIndex }; // TODO
+    const bool success = co_await removeWallpaper(timelineIndex, sectionIdentifier, monitorIndexList);
     co_return success;
 }
 
@@ -690,6 +788,13 @@ bool ScreenPlayTimelineManager::removeTimelineAt(const int index)
     } else {
         endTime = m_wallpaperTimelineSectionsList.at(index - 1)->endTime;
     }
+
+    // Check if there is a next timeline
+    if (index + 1 >= timelineCount) {
+        qCritical() << "Cannot remove the last timeline section";
+        return false;
+    }
+
     std::shared_ptr<WallpaperTimelineSection> timelineAfter = m_wallpaperTimelineSectionsList.at(index + 1);
     //    before      remove     <- expand
     // |-----------|-----------|-----------|
@@ -723,12 +828,12 @@ void ScreenPlayTimelineManager::printTimelines() const
             + timeline->identifier + "\t"
             + QString::number(timeline->relativePosition) + "\t"
             + QVariant::fromValue(timeline->state).toString() + "\t\t"
-            + "wallpaper data count: " + QString::number(timeline->wallpaperDataList.size())
+            + "wallpaper data count: " + QString::number(timeline->wallpaperData().size())
             + " start: " + timeline->startTime.toString() + " "
             + " end: " + timeline->endTime.toString() + "\n";
 
-        if (timeline->activeWallpaperList.size() > 0) {
-            for (const auto& wallpaper : timeline->activeWallpaperList) {
+        if (timeline->wallpaperList.size() > 0) {
+            for (const auto& wallpaper : timeline->wallpaperList) {
                 const QString ptr = QString::number(reinterpret_cast<quintptr>(wallpaper.get()), 16);
                 out += "   └─ 🖼️ ACTIVE WALLPAPER -> Monitor " + QString::number(wallpaper->monitors().first())
                     + " " + QVariant::fromValue(wallpaper->state()).toString() + "\t\t"
@@ -736,8 +841,8 @@ void ScreenPlayTimelineManager::printTimelines() const
                     + " - " + wallpaper->absolutePath() + "\n";
             }
         }
-        if (timeline->wallpaperDataList.size() > 0) {
-            for (const auto& wallpaperData : timeline->wallpaperDataList) {
+        if (timeline->wallpaperData().size() > 0) {
+            for (const auto& wallpaperData : timeline->wallpaperData()) {
                 out += "   └─ 💾 WALLPAPER DATA   -> Monitor " + QString::number(wallpaperData.monitors().first()) + "\t\t"
                     + " - " + wallpaperData.absolutePath() + "\n";
             }
@@ -765,56 +870,17 @@ QCoro::Task<bool> ScreenPlayTimelineManager::setValueAtMonitorTimelineIndex(
         co_return false;
 
     auto wallpaperSection = wallpaperSectionOpt.value();
-    bool found = false;
-    for (auto& wallpaperData : wallpaperSection->wallpaperDataList) {
-        if (wallpaperData.monitors().contains(monitorIndex)) {
-            if (key == "volume") {
-                wallpaperData.setVolume(value.toFloat());
-            }
-            if (key == "playbackRate") {
-                wallpaperData.setPlaybackRate(value.toFloat());
-            }
-            if (key == "fillmode") {
-                wallpaperData.setFillMode(
-                    QStringToEnum<Video::FillMode>(value.toString(), Video::FillMode::Cover));
-            }
-            found = true;
-        }
-    }
+
     // Now set the value in the ScreenPlayWallpaper class so it does
     // get propagated to the running wallpaper.
-    for (auto& activeWallpaper : wallpaperSection->activeWallpaperList) {
+    for (auto& activeWallpaper : wallpaperSection->wallpaperList) {
         if (activeWallpaper->monitors().contains(monitorIndex)) {
-            activeWallpaper->setWallpaperValue(key, value);
+            const auto success = activeWallpaper->setWallpaperValue(key, value);
+            co_return success;
         }
     }
 
-    // Return for all none property varibales like volume
-    if (!found) {
-        co_return true;
-    }
-
-    // Now set it in wallpaperData property member
-    for (auto& wallpaperData : wallpaperSection->wallpaperDataList) {
-        if (wallpaperData.monitors().contains(monitorIndex)) {
-            auto properties = wallpaperData.properties();
-
-            // Check if category exists in properties
-            QJsonObject categoryObject;
-            if (properties.contains(category)) {
-                categoryObject = properties[category].toObject();
-            }
-
-            // Update or add the value in the category
-            categoryObject.insert(key, QJsonValue::fromVariant(value));
-
-            // Update the category in properties
-            properties.insert(category, categoryObject);
-
-            wallpaperData.setProperties(properties);
-        }
-    }
-    co_return true;
+    co_return false;
 }
 
 QCoro::Task<bool> ScreenPlayTimelineManager::updateCurrentlyActiveTimeline(
@@ -829,81 +895,147 @@ QCoro::Task<bool> ScreenPlayTimelineManager::updateCurrentlyActiveTimeline(
         co_return false;
     }
 
-    for (auto& activeWallpaper : activeTimeline->activeWallpaperList) {
-        if (activeWallpaper->monitors() == wallpaperData.monitors()) {
+    // for (auto& activeWallpaper : activeTimeline->wallpaperList) {
+    //     if (activeWallpaper->monitors() == wallpaperData.monitors()) {
 
-            // Godot is a different runtime then all other wallpaper
-            if (m_util.isSameWallpaperRuntime(activeWallpaper->type(), wallpaperData.type())) {
-                // Current wallpaper will simply replace the content
-                // in the currently run wallpaper
-                activeWallpaper->replace(wallpaperData);
-            } else {
-                const bool removeWallpapersuccess = co_await activeTimeline->removeWallpaper(wallpaperData.monitors().first());
-                if (!removeWallpapersuccess)
-                    co_return false;
-                const bool startWallpapersuccess = co_await activeTimeline->startWallpaper(wallpaperData);
-                if (!startWallpapersuccess)
-                    co_return false;
-            }
-        }
-    }
+    //         // Godot is a different runtime then all other wallpaper
+    //         if (m_util.isSameWallpaperRuntime(activeWallpaper->type(), wallpaperData.type())) {
+    //             // Current wallpaper will simply replace the content
+    //             // in the currently run wallpaper
+    //             activeWallpaper->replace(wallpaperData);
+    //         } else {
+    //             const bool removeWallpapersuccess = co_await activeTimeline->removeWallpaper(wallpaperData.monitors().first());
+    //             if (!removeWallpapersuccess)
+    //                 co_return false;
+    //             const bool startWallpapersuccess = co_await activeTimeline->startWallpaper(wallpaperData);
+    //             if (!startWallpapersuccess)
+    //                 co_return false;
+    //         }
+    //     }
+    // }
 
     co_return true;
 }
 
-QCoro::Task<bool> ScreenPlayTimelineManager::setWallpaperAtTimelineIndex(
+QCoro::Task<bool> ScreenPlayTimelineManager::setWallpaperAtMonitorActiveTimelineIndex(
     WallpaperData wallpaperData,
     const int timelineIndex,
-    const QString& sectionIdentifier)
+    const QString& sectionIdentifier,
+    const QVector<int> monitorIndex)
 {
     m_contentTimer.stop();
     auto updateTimer = qScopeGuard([this] {
         m_contentTimer.start();
     });
 
-    std::shared_ptr<WallpaperTimelineSection> activeTimeline = findActiveWallpaperTimelineSection();
-
-    // We need to update the wallpaper live and do it here, because
-    // checkActiveWallpaperTimeline() will only update when a timeline
-    // state active/inactive changed
-    if (activeTimeline->index == timelineIndex) {
-        for (auto& currentWallpaperData : activeTimeline->wallpaperDataList) {
-            // TODO: Does the selected wallpaper ralready have a wallpaper at this position?
-            if (currentWallpaperData.monitors() == wallpaperData.monitors()) {
-                const bool updated = co_await updateCurrentlyActiveTimeline(wallpaperData,
-                    timelineIndex,
-                    sectionIdentifier);
-                co_return updated;
-            }
-        }
-
-        const bool startWallpapersuccess = co_await activeTimeline->startWallpaper(wallpaperData);
-        co_return startWallpapersuccess;
-
-    } else {
-        // Update wallpaperData for timeline section that are not active
-        auto sectionOpt = wallpaperSection(timelineIndex, sectionIdentifier);
-        if (!sectionOpt.has_value())
-            co_return false;
-
-        auto& wallpaperDataList = sectionOpt.value()->wallpaperDataList;
-
-        for (auto& existingWallpaperData : wallpaperDataList) {
-            // Does the selected wallpaper already have a wallpaper at this position?
-            if (existingWallpaperData.monitors() == existingWallpaperData.monitors()) {
-                // When the timeline is not active, we can simply
-                // replace the data and wait for checkActiveWallpaperTimeline
-                // to handle it when the time comes.
-                existingWallpaperData = wallpaperData;
-                co_return true;
-            }
-        }
-        // If we do not have a wallpaper at this spesific
-        // inactive timeline, we can simply add it.
-        wallpaperDataList.push_back(wallpaperData);
-        co_return true;
+    // Do not use findActiveWallpaperTimelineSection here, because this function can also
+    // be called when we are in transition from one timeline to the next.
+    std::shared_ptr<WallpaperTimelineSection> oldRunningTimeline = findTimelineSectionForCurrentTime();
+    if (!oldRunningTimeline) {
+        co_return false;
     }
-    co_return false;
+    auto newNotStartedTimelineOpt = wallpaperSection(timelineIndex, sectionIdentifier);
+    if (!newNotStartedTimelineOpt.has_value()) {
+        co_return false;
+    }
+    auto newNotStartedTimeline = newNotStartedTimelineOpt.value();
+    auto newNotStartedWallpaperOpt = screenPlayWallpaperAt(timelineIndex, sectionIdentifier, wallpaperData.monitors());
+
+    // When we have no wallpaper active, we can simply add and start
+    if (!newNotStartedWallpaperOpt.has_value()) {
+        newNotStartedTimeline->addWallpaper(wallpaperData);
+        const bool startWallpapersuccess = co_await startWallpaper(
+            timelineIndex,
+            sectionIdentifier,
+            monitorIndex);
+        co_return startWallpapersuccess;
+    }
+
+    auto newNotStartedWallpaper = newNotStartedWallpaperOpt.value();
+
+    for (auto& activeWallpaper : oldRunningTimeline->wallpaperList) {
+        const auto monitorIndex = activeWallpaper->monitors().first();
+        auto newNotStartedWallpaperDataOpt = newNotStartedTimeline->getWallpaperDataForMonitor(monitorIndex);
+        if (!newNotStartedWallpaperDataOpt.has_value()) {
+            continue;
+        }
+        auto newNotStartedWallpaperData = newNotStartedWallpaperDataOpt.value();
+
+        // Godot is a different runtime then all other wallpaper
+        if (m_util.isSameWallpaperRuntime(activeWallpaper->type(), newNotStartedWallpaperData.type())) {
+            // Current wallpaper will simply replace the content
+            // in the currently run wallpaper
+            const auto oldRunningTimelineWallpaperDataBackup = oldRunningTimeline->getWallpaperDataForMonitor(activeWallpaper->monitors().first());
+            auto runningScreenPlayWallpaperOpt = oldRunningTimeline->takeScreenPlayWallpaperByMonitorIndex(activeWallpaper->monitors());
+            if (!runningScreenPlayWallpaperOpt.has_value()) {
+                qCritical() << "No takeScreenPlayWallpaperByMonitorIndex";
+                co_return false;
+            }
+            auto runningScreenPlayWallpaper = runningScreenPlayWallpaperOpt.value();
+            runningScreenPlayWallpaper->replaceLive(newNotStartedWallpaperData);
+            if (!newNotStartedTimeline->replaceScreenPlayWallpaperAtMonitorIndex(activeWallpaper->monitors(), runningScreenPlayWallpaper)) {
+                qCritical() << "No replaceScreenPlayWallpaperAtMonitorIndex";
+                co_return false;
+            }
+            co_return true;
+        } else {
+            const bool removeWallpapersuccess = co_await removeWallpaper(
+                oldRunningTimeline->index,
+                oldRunningTimeline->identifier,
+                activeWallpaper->monitors());
+            if (!removeWallpapersuccess)
+                co_return false;
+            const bool startWallpapersuccess = co_await startWallpaper(
+                newNotStartedTimeline->index,
+                newNotStartedTimeline->identifier,
+                activeWallpaper->monitors());
+            if (!startWallpapersuccess)
+                co_return false;
+        }
+    }
+    co_return true;
+}
+
+QCoro::Task<bool> ScreenPlayTimelineManager::setWallpaperAtMonitorInactiveTimelineIndex(
+    WallpaperData wallpaperData,
+    const int timelineIndex,
+    const QString& sectionIdentifier,
+    const QVector<int> monitorIndex)
+{
+    auto screenPlayWallpaperOpt = screenPlayWallpaperAt(timelineIndex, sectionIdentifier, monitorIndex);
+    const bool doesWallpaperAlreadyExistAtThisMonitor = screenPlayWallpaperOpt.has_value();
+    if (doesWallpaperAlreadyExistAtThisMonitor) {
+        screenPlayWallpaperOpt.value()->setWallpaperData(wallpaperData);
+    } else {
+        auto timelineSection = findTimelineSection(timelineIndex, sectionIdentifier);
+        if (!timelineSection)
+            co_return false;
+        timelineSection->addWallpaper(wallpaperData);
+    }
+    co_return true;
+}
+
+QCoro::Task<bool> ScreenPlayTimelineManager::setWallpaperAtMonitorTimelineIndex(
+    WallpaperData wallpaperData,
+    const int timelineIndex,
+    const QString& sectionIdentifier,
+    const QVector<int> monitorIndex)
+{
+    auto currentTimeline = findTimelineSectionForCurrentTime();
+    if (!currentTimeline) {
+        co_return false;
+    }
+    auto selectedTimelineOpt = findTimelineSection(timelineIndex, sectionIdentifier);
+    if (!selectedTimelineOpt)
+        co_return false;
+
+    if (currentTimeline == selectedTimelineOpt) {
+        const auto success = co_await setWallpaperAtMonitorActiveTimelineIndex(wallpaperData, timelineIndex, sectionIdentifier, monitorIndex);
+        co_return success;
+    } else {
+        const auto success = co_await setWallpaperAtMonitorInactiveTimelineIndex(wallpaperData, timelineIndex, sectionIdentifier, monitorIndex);
+        co_return success;
+    }
 }
 
 QJsonArray ScreenPlayTimelineManager::timelineWallpaperList()
@@ -915,7 +1047,7 @@ QJsonArray ScreenPlayTimelineManager::timelineWallpaperList()
         timelineWallpaper.insert("endTime", activeTimelineWallpaper->endTime.toString());
         QJsonArray wallpaper;
         // Every timeline section can have multiple wallpaper
-        for (const auto& wallpaperData : activeTimelineWallpaper->wallpaperDataList) {
+        for (const auto& wallpaperData : activeTimelineWallpaper->wallpaperData()) {
             wallpaper.append(wallpaperData.serialize());
         }
         timelineWallpaper.insert("wallpaper", wallpaper);
@@ -937,4 +1069,191 @@ void ScreenPlayTimelineManager::setSelectedTimelineIndex(int selectedTimelineInd
     m_selectedTimelineIndex = selectedTimelineIndex;
     emit selectedTimelineIndexChanged(m_selectedTimelineIndex);
 }
+
+// Start all ScreenPlayWallpaper processes of this current timeline
+QCoro::Task<bool> ScreenPlayTimelineManager::activateTimeline(const int timelineIndex, const QString timelineIdentifier)
+{
+    using enum WallpaperTimelineSection::State;
+    auto timelineSectionOpt = wallpaperSection(timelineIndex, timelineIdentifier);
+    if (!timelineSectionOpt.has_value()) {
+        co_return false;
+    }
+    auto timelineSection = timelineSectionOpt.value();
+    qDebug() << "Attempting timeline activation:" << timelineIndex << timelineIdentifier << "current state:" << timelineSection->state;
+    if (timelineSection->state == WallpaperTimelineSection::State::Closing) {
+        qDebug() << "Timeline already Closing:" << timelineIndex << timelineIdentifier;
+        co_return true;
+    }
+    // Allow activation if we're Inactive OR if we're already Starting
+    if (timelineSection->state == Active) {
+        qDebug() << "Timeline already active:" << timelineIndex << timelineIdentifier;
+        co_return true; // Already active is a success case
+    }
+
+    if (timelineSection->state == Starting) {
+        qDebug() << "Timeline already starting:" << timelineIndex << timelineIdentifier;
+        co_return true; // Already starting is a success case
+    }
+
+    if (timelineSection->state != Inactive && timelineSection->state != Failed) {
+        qCritical() << "Cannot activate timeline in state:" << timelineSection->state;
+        co_return false;
+    }
+
+    timelineSection->state = Starting;
+    qDebug() << "Activate timeline:" << timelineIndex
+             << timelineIdentifier
+             << timelineSection->relativePosition
+             << wallpaperData().size();
+
+    bool allWallpapersStarted = true;
+    for (auto& wallpaper : timelineSection->wallpaperList) {
+        const bool startSuccess = co_await startWallpaper(wallpaper);
+        if (!startSuccess) {
+            qCritical() << "Failed to start wallpaper in timeline:" << timelineIdentifier;
+            allWallpapersStarted = false;
+            break;
+        }
+    }
+
+    if (allWallpapersStarted) {
+        timelineSection->state = Active;
+        qDebug() << "Timeline activated successfully:" << timelineIndex << timelineIdentifier;
+        co_return true;
+    } else {
+        timelineSection->state = Failed; // Instead of Inactive
+        qCritical() << "Timeline activation failed:" << timelineIndex << timelineIdentifier;
+        co_return false;
+    }
+}
+
+QCoro::Task<bool> ScreenPlayTimelineManager::deactivateTimeline(const int timelineIndex, const QString timelineIdentifier)
+{
+    using enum WallpaperTimelineSection::State;
+    auto timelineSectionOpt = wallpaperSection(timelineIndex, timelineIdentifier);
+    if (!timelineSectionOpt.has_value()) {
+        co_return false;
+    }
+    auto timelineSection = timelineSectionOpt.value();
+    if (timelineSection->state != Active) {
+        qCritical() << " timeline:" << timelineIndex << timelineIdentifier << "is already active with state: " << timelineSection->state;
+        co_return false;
+    }
+
+    timelineSection->state = Closing;
+    if (timelineSection->wallpaperList.empty()) {
+        timelineSection->state = Inactive;
+        co_return true;
+    }
+    for (auto& activeWallpaper : timelineSection->wallpaperList) {
+        const bool success = co_await activeWallpaper->close();
+        if (!success) {
+            qCritical() << " Unable to close activeWallpaper:" << activeWallpaper->absolutePath();
+        }
+    }
+    timelineSection->wallpaperList.clear();
+    timelineSection->state = Inactive;
+    co_return false;
+}
+
+QCoro::Task<bool> ScreenPlayTimelineManager::stopWallpaper(const int timelineIndex, const QString timelineIdentifier, const QVector<int> monitorIndex)
+{
+    auto timelineSectionOpt = wallpaperSection(timelineIndex, timelineIdentifier);
+    if (!timelineSectionOpt.has_value()) {
+        co_return false;
+    }
+    auto timelineSection = timelineSectionOpt.value();
+    std::shared_ptr<ScreenPlayWallpaper> wallpaperToClose;
+    auto wallpaperIt = std::find_if(timelineSection->wallpaperList.begin(), timelineSection->wallpaperList.end(),
+        [monitorIndex](const auto& screenPlayWallpaper) {
+            return screenPlayWallpaper && screenPlayWallpaper->monitors() == monitorIndex;
+        });
+
+    if (wallpaperIt != timelineSection->wallpaperList.end()) {
+        wallpaperToClose = *wallpaperIt;
+    }
+    if (!wallpaperToClose)
+        co_return false;
+    const bool success = co_await wallpaperToClose->close();
+    co_return success;
+}
+
+// Remove the running wallpaper and the corresponding wallpaperData!
+QCoro::Task<bool> ScreenPlayTimelineManager::removeWallpaper(const int timelineIndex, const QString timelineIdentifier, const QVector<int> monitorIndex)
+{
+    auto timelineSectionOpt = wallpaperSection(timelineIndex, timelineIdentifier);
+    if (!timelineSectionOpt.has_value()) {
+        co_return false;
+    }
+    auto timelineSection = timelineSectionOpt.value();
+    // IMPORTANT: First find and store the wallpaper we need to close
+    // before modifying any containers
+    std::shared_ptr<ScreenPlayWallpaper> wallpaperToClose;
+    auto wallpaperIt = std::find_if(timelineSection->wallpaperList.begin(), timelineSection->wallpaperList.end(),
+        [monitorIndex](const auto& screenPlayWallpaper) {
+            return screenPlayWallpaper && screenPlayWallpaper->monitors() == monitorIndex;
+        });
+
+    if (wallpaperIt != timelineSection->wallpaperList.end()) {
+        wallpaperToClose = *wallpaperIt;
+    }
+
+    // If we found a wallpaper to close earlier, close it safely
+    if (wallpaperToClose) {
+        // Ensure the wallpaper isn't already closing
+        if (wallpaperToClose->state() != ScreenPlay::ScreenPlayEnums::AppState::Closing) {
+            const bool closingSuccess = co_await wallpaperToClose->close();
+            if (!closingSuccess) {
+                qCritical() << "Failed to close wallpaper for monitor index:" << monitorIndex;
+                // Continue to remove from list even if close failed
+            }
+        }
+
+        // Remove from active list after close attempt
+        timelineSection->wallpaperList.erase(
+            std::remove_if(timelineSection->wallpaperList.begin(), timelineSection->wallpaperList.end(),
+                [&wallpaperToClose](const auto& wp) {
+                    return wp == wallpaperToClose;
+                }),
+            timelineSection->wallpaperList.end());
+    }
+
+    timelineSection->updateActiveWallpaperCounter();
+    co_return true;
+}
+
+// QCoro::Task<bool> ScreenPlayTimelineManager::removeWallpaper(std::shared_ptr<ScreenPlayWallpaper> screenPlayWallpaper)
+// {
+// }
+
+QCoro::Task<bool> ScreenPlayTimelineManager::startWallpaper(const int timelineIndex, const QString timelineIdentifier, const QVector<int> monitorIndex)
+{
+    auto screenPlayWallpaperOpt = screenPlayWallpaperAt(timelineIndex, timelineIdentifier, monitorIndex);
+    if (!screenPlayWallpaperOpt.has_value()) {
+        co_return false;
+    }
+    auto screenPlayWallpaper = screenPlayWallpaperOpt.value();
+    const bool success = co_await startWallpaper(screenPlayWallpaper);
+    co_return success;
+}
+
+QCoro::Task<bool> ScreenPlayTimelineManager::startWallpaper(std::shared_ptr<ScreenPlayWallpaper> screenPlayWallpaper)
+{
+    QTimer timer;
+    timer.start(250);
+    const int maxRetries = 30;
+    if (!screenPlayWallpaper->start()) {
+        co_return false;
+    }
+    for (int i = 1; i <= maxRetries; ++i) {
+        // Wait for the timer to tick
+        co_await timer;
+        if (screenPlayWallpaper->isConnected()) {
+            // timelineSection->updateActiveWallpaperCounter(); TODO?
+            co_return true;
+        }
+    }
+    co_return false;
+}
+
 }

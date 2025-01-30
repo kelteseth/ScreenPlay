@@ -266,6 +266,75 @@ QString Util::toString(const QStringList& list) const
 }
 
 /*!
+    \brief Helper function to be used to print QJsonObjects. USe noquote!
+     qDebug().noquote() << Util().toString(projectSettingsListModelProperties);
+*/
+QString Util::toString(const QJsonObject& obj, int indent)
+{
+    const auto formatValue = [](const QJsonValue& value) -> QString {
+        switch (value.type()) {
+        case QJsonValue::Bool:
+            return value.toBool() ? "true" : "false";
+        case QJsonValue::Double:
+            return QString::number(value.toDouble());
+        case QJsonValue::String:
+            return "\"" + value.toString() + "\"";
+        case QJsonValue::Null:
+            return "null";
+        default:
+            return QString();
+        }
+    };
+
+    const std::function<QString(const QJsonObject&, int)> formatObject =
+        [&formatValue, &formatObject](const QJsonObject& obj, int indent) -> QString {
+        QString indentStr(indent, ' ');
+        QString output = "{\n";
+
+        QJsonObject::const_iterator it;
+        for (it = obj.begin(); it != obj.end(); ++it) {
+            output += indentStr + "  \"" + it.key() + "\": ";
+
+            switch (it.value().type()) {
+            case QJsonValue::Object:
+                output += formatObject(it.value().toObject(), indent + 2);
+                break;
+
+            case QJsonValue::Array: {
+                QJsonArray arr = it.value().toArray();
+                output += "[\n";
+                for (int i = 0; i < arr.size(); ++i) {
+                    output += indentStr + "    ";
+                    if (arr[i].isObject()) {
+                        output += formatObject(arr[i].toObject(), indent + 4);
+                    } else {
+                        output += formatValue(arr[i]);
+                    }
+                    if (i < arr.size() - 1)
+                        output += ",";
+                    output += "\n";
+                }
+                output += indentStr + "  ]";
+                break;
+            }
+
+            default:
+                output += formatValue(it.value());
+            }
+
+            if (std::next(it) != obj.end())
+                output += ",";
+            output += "\n";
+        }
+
+        output += indentStr + "}";
+        return output;
+    };
+
+    return formatObject(obj, indent);
+}
+
+/*!
   \brief Util function that converts a QVector of Strings into a QJsonArray.
 */
 QJsonArray Util::fillArray(const QVector<QString>& items)
@@ -488,6 +557,55 @@ bool Util::isQtBasedWallpaper(const ScreenPlay::ContentTypes::InstalledType type
 bool Util::isGodotWallpaper(const ScreenPlay::ContentTypes::InstalledType type) const
 {
     return type == ScreenPlay::ContentTypes::InstalledType::GodotWallpaper;
+}
+
+/*!
+    \brief Flattens a hierarchical property structure into a single-level object.
+
+    Takes a JSON object containing categorized properties and returns a new JSON object
+    where all properties are at the root level, removing the category hierarchy.
+
+    For example, transforms:
+    \code
+    {
+        "Emitter": {
+            "emitRate": "25.00",
+            "endSize": "18.00"
+        },
+        "ImageParticle": {
+            "imgOpacity": "1.00"
+        }
+    }
+    \endcode
+
+    Into:
+    \code
+    {
+        "emitRate": "25.00",
+        "endSize": "18.00",
+        "imgOpacity": "1.00"
+    }
+    \endcode
+
+    \param properties The hierarchical JSON object containing categorized properties
+    \return A flattened QJsonObject with all properties at the root level
+*/
+QJsonObject Util::flattenProperties(const QJsonObject& properties)
+{
+    QJsonObject flattened;
+
+    // Iterate through each category
+    for (auto categoryIt = properties.begin(); categoryIt != properties.end(); ++categoryIt) {
+        const QJsonObject categoryObj = categoryIt.value().toObject();
+
+        // Iterate through properties in this category
+        for (auto propIt = categoryObj.begin(); propIt != categoryObj.end(); ++propIt) {
+            // Add each property directly to the root level
+            flattened.insert(propIt.key(), propIt.value());
+        }
+    }
+
+    return flattened;
 }
 
 /*!

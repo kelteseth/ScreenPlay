@@ -57,7 +57,7 @@ public:
         const int timelineIndex,
         const QString sectionIdentifier,
         const int monitorIndex);
-    Q_INVOKABLE QCoro::QmlTask setWallpaperAtTimelineIndex(
+    Q_INVOKABLE QCoro::QmlTask setWallpaperAtMonitorTimelineIndex(
         const ScreenPlay::ContentTypes::InstalledType type,
         const QString& absolutePath,
         const QString& previewImage,

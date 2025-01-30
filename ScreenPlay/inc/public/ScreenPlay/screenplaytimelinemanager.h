@@ -28,7 +28,6 @@ public:
     std::shared_ptr<WallpaperTimelineSection> findStartingOrActiveWallpaperTimelineSection();
     std::shared_ptr<WallpaperTimelineSection> findActiveWallpaperTimelineSection();
     std::shared_ptr<WallpaperTimelineSection> findTimelineSection(
-        const int monitorIndex,
         const int timelineIndex,
         const QString sectionIdentifier);
     QCoro::Task<bool> removeAllTimlineSections();
@@ -37,10 +36,11 @@ public:
         const int timelineIndex,
         const QString sectionIdentifier,
         const int monitorIndex);
-    QCoro::Task<bool> setWallpaperAtTimelineIndex(
+    QCoro::Task<bool> setWallpaperAtMonitorTimelineIndex(
         WallpaperData wallpaperData,
         const int timelineIndex,
-        const QString& sectionIdentifier);
+        const QString& sectionIdentifier,
+        const QVector<int> monitorIndex);
     QCoro::Task<bool> setValueAtMonitorTimelineIndex(const int monitorIndex,
         const int timelineIndex,
         const QString sectionIdentifier,
@@ -50,6 +50,15 @@ public:
     QJsonArray timelineSections();
     QJsonArray timelineWallpaperList();
 
+    QCoro::Task<bool> activateTimeline(const int timelineIndex, const QString timelineIdentifier);
+    // QCoro::Task<bool> activateTimeline(std::vector<std::shared_ptr<ScreenPlayWallpaper>> currentActiveWallpaperList);
+    QCoro::Task<bool> deactivateTimeline(const int timelineIndex, const QString timelineIdentifier);
+    QCoro::Task<bool> stopWallpaper(const int timelineIndex, const QString timelineIdentifier, const QVector<int> monitorIndex);
+    QCoro::Task<bool> removeWallpaper(const int timelineIndex, const QString timelineIdentifier, const QVector<int> monitorIndex);
+    // QCoro::Task<bool> removeWallpaper(std::shared_ptr<ScreenPlayWallpaper> screenPlayWallpaper);
+    QCoro::Task<bool> startWallpaper(const int timelineIndex, const QString timelineIdentifier, const QVector<int> monitorIndex);
+    QCoro::Task<bool> startWallpaper(std::shared_ptr<ScreenPlayWallpaper> screenPlayWallpaper);
+
     void setGlobalVariables(const std::shared_ptr<GlobalVariables>& globalVariables);
     void setSettings(const std::shared_ptr<Settings>& settings);
     void setMonitorListModel(const std::shared_ptr<MonitorListModel>& monitorListModel);
@@ -58,6 +67,7 @@ public:
     void printTimelines() const;
     void validateTimelineSections() const;
     void sortAndUpdateIndices();
+    const std::vector<WallpaperData> wallpaperData() const;
 
 public slots:
     void updateMonitorListModelData(const int selectedTimelineIndex);
@@ -71,6 +81,17 @@ signals:
     void selectedTimelineIndexChanged(int selectedTimelineIndex);
 
 private:
+    QCoro::Task<bool> setWallpaperAtMonitorActiveTimelineIndex(
+        WallpaperData wallpaperData,
+        const int timelineIndex,
+        const QString& sectionIdentifier,
+        const QVector<int> monitorIndex);
+    QCoro::Task<bool> setWallpaperAtMonitorInactiveTimelineIndex(
+        WallpaperData wallpaperData,
+        const int timelineIndex,
+        const QString& sectionIdentifier,
+        const QVector<int> monitorIndex);
+    // bool replaceRunningWallpaper(std::shared_ptr<ScreenPlayWallpaper> runningWallpaper, WallpaperData wallpaperData);
     std::shared_ptr<WallpaperTimelineSection> findTimelineSectionForCurrentTime();
     QCoro::Task<bool> updateCurrentlyActiveTimeline(WallpaperData wallpaperData,
         const int timelineIndex,
@@ -78,6 +99,7 @@ private:
     std::optional<std::shared_ptr<WallpaperTimelineSection>> wallpaperSection(
         const int timelineIndex,
         const QString& sectionIdentifier);
+    std::optional<std::shared_ptr<ScreenPlayWallpaper>> screenPlayWallpaperAt(const int timelineIndex, const QString timelineIdentifier, const QVector<int> monitorIndex);
 
 private:
     QVector<std::shared_ptr<WallpaperTimelineSection>> m_wallpaperTimelineSectionsList;

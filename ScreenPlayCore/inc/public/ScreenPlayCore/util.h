@@ -112,6 +112,8 @@ public:
     bool writeFileFromQrc(const QString& qrcPath, const QString& absolutePath);
     bool copyPreviewThumbnail(QJsonObject& obj, const QString& previewThumbnail, const QString& destination);
     QString toString(const QStringList& list) const;
+    QString toString(const QJsonObject& obj, int indent = 0);
+
     std::optional<QVector<int>> parseStringToIntegerList(const QString& string) const;
     float roundDecimalPlaces(const float number) const;
     Q_INVOKABLE QString generateRandomString(quint32 length = 32);
@@ -127,6 +129,7 @@ public:
         const ScreenPlay::ContentTypes::InstalledType type1,
         const ScreenPlay::ContentTypes::InstalledType type2) const;
     bool isGodotWallpaper(const ScreenPlay::ContentTypes::InstalledType type) const;
+    QJsonObject flattenProperties(const QJsonObject& properties);
 
     // QML callable functions
     Q_INVOKABLE QString toLocal(const QString& urlString) const;
