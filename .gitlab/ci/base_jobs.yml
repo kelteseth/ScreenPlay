@@ -20,30 +20,18 @@
     # Otherwise libglib2 needs interaction
     - export DEBIAN_FRONTEND=noninteractive
     - apt update -y
-    - apt install cmake python3.10-venv libwayland-dev wayland-protocols curl wget zip unzip tar git pkg-config libxcb-* libfontconfig-dev apt-transport-https ca-certificates gnupg  software-properties-common python3 python3-pip build-essential libgl1-mesa-dev mesa-common-dev lld ninja-build libxkbcommon-* libx11-dev xserver-xorg-dev xorg-dev -y
+    - apt install cmake python3.12-venv libwayland-dev wayland-protocols curl wget zip unzip tar git pkg-config libxcb-* libfontconfig-dev apt-transport-https ca-certificates gnupg  software-properties-common python3 python3-pip build-essential libgl1-mesa-dev mesa-common-dev lld ninja-build libxkbcommon-* libx11-dev xserver-xorg-dev xorg-dev -y
     - python3 -m venv env
     - source env/bin/activate
     - python3 -m pip install -U pip
     - python3 -m pip install -U -r Tools/requirements.txt
     - python3 Tools/setup.py
-    - cd ThirdParty
-    - git clone https://invent.kde.org/frameworks/extra-cmake-modules.git
-    - cd extra-cmake-modules
-    - cmake configure .
-    - make
-    - make install
-    - cd ..
-    - git clone https://invent.kde.org/plasma/layer-shell-qt.git
-    - cd layer-shell-qt
-    - cmake configure . -DCMAKE_PREFIX_PATH="./../../../aqt/6.8.1/gcc_64"
-    - make
-    - make install
-    - cd ..
-    - cd ..
+    - chmod +x Tools/install-dependencies.sh 
+    - ./Tools/setup_linux.sh
     - git submodule sync --recursive
     - git submodule update --init --recursive
   image:
-    name: ubuntu:22.04
+    name: ubuntu:24.04
   tags:
     - gitlab-org-docker
   artifacts:

@@ -11,17 +11,26 @@ if [[ $(basename "$PWD") != "Tools" ]]; then
     exit 1
 fi
 
-# Check if script was invoked with sudo
-if [ "$(id -u)" = "0" ]; then
-    echo "Error: Please do not run this script with sudo!"
-    echo "The script will ask for sudo password when needed."
-    echo "Run it as a normal user: ./install-dependencies.sh"
-    exit 1
+# Check if we're running in CI
+if [ -n "$CI" ]; then
+    # In CI environment, we don't need sudo
+    SUDO=""
+else
+    # Check if script was invoked with sudo
+    if [ "$(id -u)" = "0" ]; then
+        echo "Error: Please do not run this script with sudo!"
+        echo "The script will ask for sudo password when needed."
+        echo "Run it as a normal user: ./install-dependencies.sh"
+        exit 1
+    fi
+    # For local development, use sudo
+    SUDO="sudo"
 fi
 
-# Function to check if sudo is available
+
+# Function to check if sudo is available (only for non-CI)
 check_sudo_available() {
-    if ! command -v sudo &> /dev/null; then
+    if [ -z "$CI" ] && ! command -v sudo &> /dev/null; then
         echo "Error: sudo is not available. Please install sudo first."
         exit 1
     fi
@@ -83,7 +92,7 @@ main() {
     setup_repo "https://invent.kde.org/plasma/layer-shell-qt.git" "layer-shell-qt"
     cd layer-shell-qt
     
-    QT_DIR="../../../aqt/6.8.1/gcc_64"
+    QT_DIR="../../../aqt/6.8.2/gcc_64"
     QT_PATHS="$QT_DIR/bin:$PATH"
     
     PATH="$QT_PATHS" configure_cmake "layer-shell-qt" "-DCMAKE_PREFIX_PATH=$QT_DIR"
