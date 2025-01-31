@@ -82,17 +82,6 @@ bool WallpaperTimelineSection::replaceScreenPlayWallpaperAtMonitorIndex(const QV
     return false;
 }
 
-bool WallpaperTimelineSection::containsMonitor(const int monitor) const
-{
-    auto wallpaperData = this->wallpaperData();
-    auto allMonitors = wallpaperData
-        | std::views::transform([](const WallpaperData& wallpaperData) { return wallpaperData.monitors(); })
-        | std::views::join
-        | std::ranges::to<std::vector<int>>();
-
-    return std::ranges::contains(allMonitors, monitor);
-}
-
 bool WallpaperTimelineSection::init(const QJsonArray wallpaperConfigList)
 {
     for (const auto& wallpaperConfig : wallpaperConfigList) {
