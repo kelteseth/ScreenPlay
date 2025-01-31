@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
-#include "ScreenPlayUtil/macutils.h"
+#include "ScreenPlayCore/macutils.h"
 #import <Cocoa/Cocoa.h>
 #import <MacTypes.h>
 #import <objc/runtime.h>
