@@ -3,38 +3,31 @@
 # Exit on any error
 set -e
 
-# Check if we're in the Tools directory
-if [[ $(basename "$PWD") != "Tools" ]]; then
-    echo "Error: This script must be run from the Tools directory"
-    echo "Current directory: $PWD"
-    echo "Please change to the Tools directory and try again"
-    exit 1
-fi
-
-# Check if we're running in CI
-if [ -n "$CI" ]; then
-    # In CI environment, we don't need sudo
-    SUDO=""
-else
-    # Check if script was invoked with sudo
-    if [ "$(id -u)" = "0" ]; then
-        echo "Error: Please do not run this script with sudo!"
-        echo "The script will ask for sudo password when needed."
-        echo "Run it as a normal user: ./install-dependencies.sh"
+# Function to get the project root directory
+get_project_root() {
+    local current_dir="$PWD"
+    while [[ ! -d "$current_dir/Tools" && "$current_dir" != "/" ]]; do
+        current_dir="$(dirname "$current_dir")"
+    done
+    
+    if [[ ! -d "$current_dir/Tools" ]]; then
+        echo "Error: Could not find project root directory containing Tools folder"
         exit 1
     fi
-    # For local development, use sudo
-    SUDO="sudo"
-fi
+    
+    echo "$current_dir"
+}
 
-
-# Function to check if sudo is available (only for non-CI)
-check_sudo_available() {
-    if [ -z "$CI" ] && ! command -v sudo &> /dev/null; then
+# Determine if we need sudo (only for non-root, non-CI environments)
+if [[ -z "$CI" && "$(id -u)" != "0" ]]; then
+    if ! command -v sudo &> /dev/null; then
         echo "Error: sudo is not available. Please install sudo first."
         exit 1
     fi
-}
+    SUDO="sudo"
+else
+    SUDO=""
+fi
 
 # Function to handle cmake configuration with error checking
 configure_cmake() {
@@ -59,21 +52,21 @@ setup_repo() {
     fi
     
     echo "Cloning $dir_name..."
-    git clone "$repo_url" "$dir_name"
+    if ! git clone "$repo_url" "$dir_name"; then
+        echo "Failed to clone $dir_name"
+        exit 1
+    fi
 }
 
 # Main installation process
 main() {
-    # Check if sudo is available for later use
-    check_sudo_available
-
-    # Move up to the root directory of the project
-    cd ..
+    # Get project root and validate directory structure
+    local project_root=$(get_project_root)
+    cd "$project_root"
 
     # Navigate to ThirdParty directory
     if [ ! -d "ThirdParty" ]; then
-        echo "Error: ThirdParty directory not found at $(pwd)"
-        exit 1
+        mkdir -p ThirdParty
     fi
     cd ThirdParty
 
@@ -83,8 +76,7 @@ main() {
     cd extra-cmake-modules
     configure_cmake "extra-cmake-modules"
     make
-    echo "Running make install for extra-cmake-modules (requires sudo)..."
-    sudo make install
+    $SUDO make install
     cd ..
 
     # Install layer-shell-qt
@@ -92,13 +84,20 @@ main() {
     setup_repo "https://invent.kde.org/plasma/layer-shell-qt.git" "layer-shell-qt"
     cd layer-shell-qt
     
-    QT_DIR="../../../aqt/6.8.2/gcc_64"
-    QT_PATHS="$QT_DIR/bin:$PATH"
+    # Set up Qt paths
+    local QT_DIR="../../../aqt/6.8.2/gcc_64"
+    local QT_PATHS="$QT_DIR/bin:$PATH"
+    
+    # Verify Qt directory exists
+    if [ ! -d "$QT_DIR" ]; then
+        echo "Error: Qt directory not found at $QT_DIR"
+        echo "Please ensure Qt is installed correctly"
+        exit 1
+    fi
     
     PATH="$QT_PATHS" configure_cmake "layer-shell-qt" "-DCMAKE_PREFIX_PATH=$QT_DIR"
     make
-    echo "Running make install for layer-shell-qt (requires sudo)..."
-    sudo make install
+    $SUDO make install
     cd ..
 
     echo "Installation completed successfully!"
