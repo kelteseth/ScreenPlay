@@ -21,13 +21,13 @@
     - export DEBIAN_FRONTEND=noninteractive
     - apt update -y
     - apt install cmake python3.12-venv libwayland-dev wayland-protocols curl wget zip unzip tar git pkg-config libxcb-* libfontconfig-dev apt-transport-https ca-certificates gnupg  software-properties-common python3 python3-pip build-essential libgl1-mesa-dev mesa-common-dev lld ninja-build libxkbcommon-* libx11-dev xserver-xorg-dev xorg-dev -y
+    - chmod +x Tools/setup_linux.sh 
+    - ./Tools/setup_linux.sh
     - python3 -m venv env
     - source env/bin/activate
     - python3 -m pip install -U pip
     - python3 -m pip install -U -r Tools/requirements.txt
     - python3 Tools/setup.py
-    - chmod +x Tools/install-dependencies.sh 
-    - ./Tools/setup_linux.sh
     - git submodule sync --recursive
     - git submodule update --init --recursive
   image:
