@@ -14,7 +14,7 @@ set(SOURCES src/screenplaysdk.cpp)
 
 set(HEADER inc/public/ScreenPlaySDK/screenplaysdk.h)
 
-add_library(${PROJECT_NAME} ${SOURCES} ${HEADER})
+add_library(${PROJECT_NAME} STATIC ${SOURCES} ${HEADER})
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_23)
 
 target_include_directories(${PROJECT_NAME} PUBLIC inc/public/)
