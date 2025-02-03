@@ -23,7 +23,7 @@ WallpaperExit::Code LinuxWaylandWindow::start()
     QDir workingDir(QGuiApplication::instance()->applicationDirPath());
     m_window.engine()->addImportPath(workingDir.path() + "/qml");
     m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
-    m_window.setSource(QUrl("qrc:/qml/ScreenPlayWallpaper/qml/Wallpaper.qml"));
+    m_window.loadFromModule("ScreenPlayWallpaper", "Wallpaper");
     //m_window.setGeometry(0,0,100,100);
 
     // Get the Wayland display

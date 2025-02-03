@@ -4,12 +4,12 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Effects
 import QtQuick.Controls.Material.impl
-import ScreenPlayApp
+import ScreenPlay
 import ScreenPlayCore as Util
 import "../../../ScreenPlayCore/qml/InstantPopup.js" as InstantPopup
 import "../Components"
 
-Util.Popup {
+Popup {
     id: root
 
     property int selectedTimelineIndex
@@ -377,7 +377,7 @@ Util.Popup {
         height: width
         icon.width: 16
         icon.height: 16
-        icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/font-awsome/close.svg"
+        icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/font-awsome/close.svg"
         icon.color: Material.iconColor
         onClicked: root.close()
 

@@ -3,7 +3,7 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Controls.Material
-import ScreenPlayApp 1.0
+import ScreenPlay
 import QtCore as QCore
 
 ApplicationWindow {
@@ -27,7 +27,7 @@ ApplicationWindow {
             App.showDockIcon(true);
             applicationWindow.show();
         }
-        baseLoader.setSource("qrc:/qml/ScreenPlayApp/qml/MainApp.qml", {
+        baseLoader.setSource("qml/MainApp.qml", {
             "applicationWindow": applicationWindow
         });
         const isSteamVersion = App.globalVariables.isSteamVersion();

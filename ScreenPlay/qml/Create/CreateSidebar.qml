@@ -4,7 +4,7 @@ import QtQuick.Layouts
 import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
-import ScreenPlayApp
+import ScreenPlay
 import ScreenPlayCore
 import "../Components"
 
@@ -51,14 +51,14 @@ Rectangle {
         model: ListModel {
             ListElement {
                 headline: qsTr("Tools Overview")
-                source: "qrc:/qml/ScreenPlayApp/qml/Create/StartInfo.qml"
+                source: "qml/Create/StartInfo.qml"
                 category: "Home"
                 proFeature: false
             }
 
             ListElement {
                 headline: qsTr("Import Video")
-                source: "qrc:/qml/ScreenPlayApp/qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml"
+                source: "qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml"
                 category: "Video Wallpaper"
                 objectName: "videoImportConvert"
                 proFeature: false
@@ -66,49 +66,49 @@ Rectangle {
 
             ListElement {
                 headline: qsTr("GIF Wallpaper")
-                source: "qrc:/qml/ScreenPlayApp/qml/Create/Wizards/GifWallpaper.qml"
+                source: "qml/Create/Wizards/GifWallpaper.qml"
                 category: "Video Wallpaper"
                 proFeature: false
             }
 
             ListElement {
                 headline: qsTr("3D Engine Wallpaper (Godot 4.2)")
-                source: "qrc:/qml/ScreenPlayApp/qml/Create/Wizards/GodotWallpaper.qml"
+                source: "qml/Create/Wizards/GodotWallpaper.qml"
                 category: "3D Engine & \nCode Wallpaper"
                 proFeature: true
             }
 
             ListElement {
                 headline: qsTr("QML Wallpaper")
-                source: "qrc:/qml/ScreenPlayApp/qml/Create/Wizards/QMLWallpaper.qml"
+                source: "qml/Create/Wizards/QMLWallpaper.qml"
                 category: "3D Engine & \nCode Wallpaper"
                 proFeature: false
             }
 
             ListElement {
                 headline: qsTr("HTML5 Wallpaper")
-                source: "qrc:/qml/ScreenPlayApp/qml/Create/Wizards/HTMLWallpaper.qml"
+                source: "qml/Create/Wizards/HTMLWallpaper.qml"
                 category: "3D Engine & \nCode Wallpaper"
                 proFeature: false
             }
 
             ListElement {
                 headline: qsTr("Website Wallpaper")
-                source: "qrc:/qml/ScreenPlayApp/qml/Create/Wizards/WebsiteWallpaper.qml"
+                source: "qml/Create/Wizards/WebsiteWallpaper.qml"
                 category: "3D Engine & \nCode Wallpaper"
                 proFeature: false
             }
 
             ListElement {
                 headline: qsTr("QML Widget")
-                source: "qrc:/qml/ScreenPlayApp/qml/Create/Wizards/QMLWidget.qml"
+                source: "qml/Create/Wizards/QMLWidget.qml"
                 category: "Widgets"
                 proFeature: false
             }
 
             ListElement {
                 headline: qsTr("HTML Widget")
-                source: "qrc:/qml/ScreenPlayApp/qml/Create/Wizards/HTMLWidget.qml"
+                source: "qml/Create/Wizards/HTMLWidget.qml"
                 category: "Widgets"
                 proFeature: false
             }
@@ -153,7 +153,7 @@ Rectangle {
             ToolButton {
                 enabled: false
                 visible: proFeature && App.globalVariables.isBasicVersion()
-                icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/font-awsome/lock-solid.svg"
+                icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/font-awsome/lock-solid.svg"
                 icon.width: 10
                 icon.height: 10
                 icon.color: "gold"

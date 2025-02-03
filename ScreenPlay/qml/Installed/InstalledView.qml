@@ -7,7 +7,7 @@ import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
 import QtCore as QCore
-import ScreenPlayApp
+import ScreenPlay
 import ScreenPlayCore as Util
 import "../Components"
 
@@ -257,7 +257,7 @@ Item {
             text: qsTr("Edit Wallpaper")
             objectName: "editWallpaper"
             enabled: contextMenu.type === Util.ContentTypes.InstalledType.GodotWallpaper
-            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_edit.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_edit.svg"
             onClicked: {
                 App.util.openGodotEditor(contextMenu.absoluteStoragePath, App.globalVariables.godotEditorExecutablePath);
             }
@@ -278,7 +278,7 @@ Item {
         MenuItem {
             text: qsTr("Open containing folder")
             objectName: "openFolder"
-            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_folder_open.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_folder_open.svg"
             onClicked: {
                 App.util.openFolderInExplorer(contextMenu.absoluteStoragePath);
             }
@@ -287,7 +287,7 @@ Item {
         MenuItem {
             text: qsTr("Export")
             objectName: enabled ? "removeItem" : "removeWorkshopItem"
-            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_import_export_.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_import_export_.svg"
             onClicked: {
                 exportFileDialog.absoluteStoragePath = contextMenu.absoluteStoragePath;
                 let urlFileName = QCore.StandardPaths.writableLocation(QCore.StandardPaths.DesktopLocation) + "/" + contextMenu.fileName + ".screenplay";
@@ -299,7 +299,7 @@ Item {
         MenuItem {
             text: enabled ? qsTr("Remove Item") : qsTr("Remove via Workshop")
             objectName: enabled ? "removeItem" : "removeWorkshopItem"
-            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_delete.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_delete.svg"
             enabled: contextMenu.publishedFileID === 0 || !App.globalVariables.isSteamVersion()
             onClicked: {
                 deleteDialog.open();
@@ -309,7 +309,7 @@ Item {
         MenuItem {
             text: qsTr("Open Workshop Page")
             enabled: contextMenu.publishedFileID !== 0 && App.globalVariables.isSteamVersion()
-            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_steam.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_steam.svg"
             onClicked: {
                 Qt.openUrlExternally("steam://url/CommunityFilePage/" + contextMenu.publishedFileID);
             }
@@ -525,7 +525,7 @@ Item {
                     text: qsTr("Set content folder path")
                     onClicked: App.util.setNavigation("Settings")
                     icon {
-                        source:  "qrc:/qml/ScreenPlayApp/assets/icons/icon_settings.svg"
+                        source:  "qrc:/qt/qml/ScreenPlay/assets/icons/icon_settings.svg"
                         width: 20
                         height: 20
                     }
@@ -534,7 +534,7 @@ Item {
                     text: qsTr("Get help in the forums")
                     onClicked: Qt.openUrlExternally("https://forum.screen-play.app/")
                     icon {
-                        source:  "qrc:/qml/ScreenPlayApp/assets/icons/icon_open_in_new_black.svg"
+                        source:  "qrc:/qt/qml/ScreenPlay/assets/icons/icon_open_in_new_black.svg"
                         width: 20
                         height: 20
                     }
@@ -570,7 +570,7 @@ Item {
         maskEnabled: true
         maskSource: Image {
             id: maskImage
-            source: "qrc:/qml/ScreenPlayApp/assets/images/first_startup_mask.png"
+            source: "qrc:/qt/qml/ScreenPlay/assets/images/first_startup_mask.png"
             width: rainbowGradient.width
             height: rainbowGradient.height
             fillMode: Image.Stretch
@@ -684,7 +684,7 @@ Item {
                     }
 
                     icon {
-                        source: App.globalVariables.isStandaloneVersion() ? "qrc:/qml/ScreenPlayApp/assets/icons/icon_plus.svg" :"qrc:/qml/ScreenPlayApp/assets/icons/icon_steam.svg"
+                        source: App.globalVariables.isStandaloneVersion() ? "qrc:/qt/qml/ScreenPlay/assets/icons/icon_plus.svg" :"qrc:/qt/qml/ScreenPlay/assets/icons/icon_steam.svg"
                         width: 20
                         height: 20
                     }
@@ -693,7 +693,7 @@ Item {
                     text: qsTr("Open Install Folder Path")
                     onClicked: App.util.openFolderInExplorer(App.globalVariables.localStoragePath.toString())
                     icon {
-                        source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_folder_open.svg"
+                        source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_folder_open.svg"
                         width: 20
                         height: 20
                     }
@@ -706,7 +706,7 @@ Item {
                          Layout.preferredHeight: ship.height + 20  // Added extra space for the animation
                          Image {
                              id: ship
-                             source: "qrc:/qml/ScreenPlayApp/assets/images/rocket_3d.png"
+                             source: "qrc:/qt/qml/ScreenPlay/assets/images/rocket_3d.png"
 
                              SequentialAnimation {
                                  running: true

@@ -6,7 +6,7 @@ import QtQuick.Dialogs
 import QtQuick.Effects
 import QtQuick.Controls.Material
 import QtQuick.Controls.Material.impl
-import ScreenPlayApp
+import ScreenPlay
 import ScreenPlayCore
 import "../../../ScreenPlayCore/qml/InstantPopup.js" as InstantPopup
 import "../ContentSettings"
@@ -280,7 +280,7 @@ Drawer {
                         }
                     }
                     enabled: monitorSelection.isSelected && timeline.selectedTimelineIndex > -1
-                    icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_plus.svg"
+                    icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_plus.svg"
                     icon.color: "white"
                     font.pointSize: 12
                     onClicked: {
@@ -310,7 +310,7 @@ Drawer {
                                         const file = item.file;
                                         const selectedTimeline = timeline.getSelectedTimeline();
                                         const saveToProfilesConfigFile = true;
-                                        App.screenPlayManager.setWallpaperAtTimelineIndex(
+                                        App.screenPlayManager.setWallpaperAtMonitorTimelineIndex(
                                             root.type,
                                             absoluteStoragePath,
                                             previewImage,
@@ -335,7 +335,7 @@ Drawer {
                             }
                             const selectedTimeline = timeline.getSelectedTimeline();
                             const file = item.file;
-                            App.screenPlayManager.setWallpaperAtTimelineIndex(root.type, absoluteStoragePath, previewImage, file, title, activeMonitors, selectedTimeline.index, selectedTimeline.identifier, true).then(result => {
+                            App.screenPlayManager.setWallpaperAtMonitorTimelineIndex(root.type, absoluteStoragePath, previewImage, file, title, activeMonitors, selectedTimeline.index, selectedTimeline.identifier, true).then(result => {
                                 btnLaunchContent.enabled = true;
                                 if (!result.success) {
                                     InstantPopup.openErrorPopup(timeline, result.message);
@@ -503,7 +503,7 @@ Drawer {
                 right: parent.right
             }
 
-            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_close.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_close.svg"
             icon.width: 15
             icon.height: 15
             onClicked: {

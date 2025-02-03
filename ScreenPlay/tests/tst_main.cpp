@@ -15,10 +15,9 @@
 #include "ScreenPlay/CMakeVariables.h"
 
 #include <QQmlEngineExtensionPlugin>
-Q_IMPORT_QML_PLUGIN(ScreenPlayAppPlugin)
-Q_IMPORT_QML_PLUGIN(ScreenPlayCorePlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlayCoreLibPlugin)
 #ifdef SCREENPLAY_STEAM
-Q_IMPORT_QML_PLUGIN(ScreenPlayWorkshopPlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlayWorkshopLibPlugin)
 #endif
 
 class ScreenPlayTest : public QObject {

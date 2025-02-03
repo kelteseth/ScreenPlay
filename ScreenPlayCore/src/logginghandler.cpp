@@ -9,7 +9,7 @@
 #include <fmt/color.h>
 #include <iostream>
 
-#include "ScreenPlayCore/CMakeVariables.h"
+#include "CMakeVariables.h"
 
 #ifdef Q_OS_WINDOWS
 #ifndef NOMINMAX

@@ -15,6 +15,8 @@ find_package(
     COMPONENTS Core Quick Gui
     REQUIRED)
 
+qt_standard_project_setup(REQUIRES 6.8)
+
 set(QML
     # cmake-format: sort
     qml/CloseIcon.qml
@@ -36,7 +38,7 @@ set(QML
     qml/LicenseSelector.qml
     qml/ModalBackgroundBlur.qml
     qml/MouseHoverBlocker.qml
-    qml/Popup.qml
+    qml/SPPopup.qml
     qml/RainbowGradient.qml
     qml/RippleEffect.qml
     qml/Shake.qml
@@ -78,17 +80,13 @@ endif()
 set(RESOURCES # cmake-format: sort
     assets/icons/attach_file.svg assets/icons/description.svg assets/icons/folder.svg)
 
-qt_add_library(${PROJECT_NAME} STATIC)
-target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_23)
+qt_add_library(ScreenPlayCoreLib STATIC)
+target_compile_features(ScreenPlayCoreLib PRIVATE cxx_std_23)
 
 qt_add_qml_module(
-    ${PROJECT_NAME}
-    OUTPUT_DIRECTORY
-    ${SCREENPLAY_QML_MODULES_PATH}/${PROJECT_NAME}
-    RESOURCE_PREFIX
-    /qml
+    ScreenPlayCoreLib
     URI
-    ${PROJECT_NAME}
+    ScreenPlayCore
     VERSION
     1.0
     QML_FILES
@@ -100,17 +98,18 @@ qt_add_qml_module(
     ${HEADER})
 
 target_include_directories(
-    ${PROJECT_NAME}
+    ScreenPlayCoreLib
     PUBLIC inc/public/
     PRIVATE src/)
 
 # Note making this public is so thatScreenPlayCore_qmltyperegistrations.cpp can find the #include <contenttypes.h> include
-target_include_directories(${PROJECT_NAME} PUBLIC inc/public/ScreenPlayCore)
-target_include_directories(${PROJECT_NAME}plugin PUBLIC inc/public/ScreenPlayCore)
+target_include_directories(ScreenPlayCoreLib PUBLIC inc/public/ScreenPlayCore)
+target_include_directories(ScreenPlayCoreLibplugin PUBLIC inc/public/ScreenPlayCore)
 
 target_link_libraries(
-    ${PROJECT_NAME}
-    PUBLIC Qt6::Core
+    ScreenPlayCoreLib
+    PUBLIC 
+    Qt6::Core
     Qt6::Quick
     Qt6::Gui
     QCoro6::Core
@@ -121,9 +120,9 @@ target_link_libraries(
 
 if(WIN32)
     # Used for query windows monitor data
-    target_link_libraries(${PROJECT_NAME} PUBLIC shcore.lib)
+    target_link_libraries(ScreenPlayCoreLib PUBLIC shcore.lib)
 endif()
 
 # ##### USE CMAKE VARIABLES IN CODE #####
 include(GenerateCMakeVariableHeader)
-generate_cmake_variable_header(${PROJECT_NAME})
+generate_cmake_variable_header(ScreenPlayCoreLib)

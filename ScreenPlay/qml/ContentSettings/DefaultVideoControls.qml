@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
-import ScreenPlayApp
+import ScreenPlay
 import ScreenPlayCore
 
 ColumnLayout {
@@ -39,7 +39,7 @@ ColumnLayout {
         id: slVolume
 
         headline: qsTr("Volume")
-        iconSource: "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume.svg"
+        iconSource: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_volume.svg"
         slider.stepSize: 0.1
         Layout.fillWidth: true
         Layout.topMargin: 20
@@ -71,7 +71,7 @@ ColumnLayout {
 
     LabelSlider {
         id: slCurrentVideoTime
-        iconSource: "qrc:/qml/ScreenPlayApp/assets/icons/icon_schedule.svg"
+        iconSource: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_schedule.svg"
 
         headline: qsTr("Current Video Time")
         slider.onValueChanged: {

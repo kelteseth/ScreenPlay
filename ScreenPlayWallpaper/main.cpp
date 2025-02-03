@@ -6,7 +6,7 @@
 #include <QtGlobal>
 #include <QtWebEngineQuick>
 
-#include "ScreenPlayWallpaper/CMakeVariables.h"
+#include "CMakeVariables.h"
 
 #include "ScreenPlayCore/exitcodes.h"
 #include "ScreenPlayCore/logginghandler.h"
@@ -14,7 +14,7 @@
 
 #if defined(Q_OS_WIN)
 #include "src/winwindow.h"
-Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoPlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoLibPlugin)
 #elif defined(Q_OS_LINUX)
 #include "src/linuxwaylandwindow.h"
 #include "src/linuxx11window.h"
@@ -22,8 +22,8 @@ Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoPlugin)
 #include "src/macwindow.h"
 #endif
 
-Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherPlugin)
-Q_IMPORT_QML_PLUGIN(ScreenPlayCorePlugin)
+// Q_IMPORT_QML_PLUGIN(ScreenPlayCoreLibPlugin)
+// Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherLibPlugin)
 
 int main(int argc, char* argv[])
 {
@@ -64,7 +64,7 @@ int main(int argc, char* argv[])
             "/wallpaper_video_astronaut_vp9", // 4
             "/wallpaper_video_nebula_h264" // 5
         };
-        const int index = 5;
+        const int index = 1;
         QString projectPath = exampleContentPath + contentFolder.at(index);
 
         argumentList.append(

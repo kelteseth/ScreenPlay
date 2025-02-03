@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
-import ScreenPlayApp
+import ScreenPlay
 
 ColumnLayout {
     id: root
@@ -82,13 +82,13 @@ ColumnLayout {
         }
 
         ToolButton {
-            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_help_center.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_help_center.svg"
             icon.color: Material.iconColor
             onClicked: toolTip.open()
         }
 
         ToolButton {
-            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_open_in_new.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_open_in_new.svg"
             icon.color: Material.iconColor
             onClicked: Qt.openUrlExternally(licenseModel.get(cb.currentIndex).tldrlegal)
         }

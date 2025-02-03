@@ -5,7 +5,7 @@
 #include <QtQml/qqmlextensionplugin.h>
 
 #if defined(Q_OS_WIN)
-Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoPlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoLibPlugin)
 #endif
 
 int main(int argc, char* argv[])

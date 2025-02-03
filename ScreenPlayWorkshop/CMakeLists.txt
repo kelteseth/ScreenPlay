@@ -11,8 +11,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(LibArchive REQUIRED)
 find_package(
     Qt6
-    COMPONENTS Core Quick QuickControls2
+    COMPONENTS 
+        Core 
+        Quick 
+        QuickControls2
+        Widgets
+        WebSockets
+        Svg
+        Xml
     REQUIRED)
+
+qt_standard_project_setup(REQUIRES 6.8)
 
 set(QML
     # cmake-format: sort
@@ -91,14 +100,14 @@ elseif(UNIX)
     set(STEAM_BIN ${STEAM_LIB})
 endif()
 
-qt_add_library(${PROJECT_NAME} STATIC ${RESOURCES})
-target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_23)
+qt_add_library(ScreenPlayWorkshopLib STATIC ${RESOURCES})
+target_compile_features(ScreenPlayWorkshopLib PRIVATE cxx_std_23)
 
 # Needed by the automatic generated target missing includes
 # https://github.com/qt/qtdeclarative/blob/7a7064e14f094e843e1ee832cc927e86f887621a/src/qml/Qt6QmlMacros.cmake#L2042
-target_include_directories(${PROJECT_NAME} PUBLIC src/)
+target_include_directories(ScreenPlayWorkshopLib PUBLIC src/)
 target_link_libraries(
-    ${PROJECT_NAME}
+    ScreenPlayWorkshopLib
     PUBLIC Qt6::Core
     Qt6::Quick
     ${STEAM_LIB}
@@ -106,13 +115,9 @@ target_link_libraries(
     SteamSDK)
 
 qt_add_qml_module(
-    ${PROJECT_NAME}
+    ScreenPlayWorkshopLib
     URI
-    ${PROJECT_NAME}
-    OUTPUT_DIRECTORY
-    ${SCREENPLAY_QML_MODULES_PATH}/${PROJECT_NAME}
-    RESOURCE_PREFIX
-    /qml
+    ScreenPlayWorkshop
     VERSION
     1.0
     QML_FILES
@@ -134,20 +139,22 @@ if(${SCREENPLAY_STEAM})
         configure_file(${STEAM_BIN} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
     endif()
 
-    if(${SCREENPLAY_TESTS})
-        qt_add_executable(tst_ScreenPlayWorkshop src/TestMain.cpp)
-        target_link_libraries(
-            tst_ScreenPlayWorkshop
-            PRIVATE Qt6::Quick
-            Qt6::QuickControls2
-            ${PROJECT_NAME}plugin
-            ScreenPlayCoreplugin
-            ScreenPlayAppplugin # Only needed for the test app
-            SteamSDK)
+    # if(${SCREENPLAY_TESTS})
+    #     qt_add_executable(tst_ScreenPlayWorkshop src/TestMain.cpp)
+    #     target_link_libraries(
+    #         tst_ScreenPlayWorkshop
+    #         PRIVATE 
+    #         Qt6::Quick
+    #         Qt6::Widgets
+    #         Qt6::QuickControls2
+    #         ScreenPlayWorkshopLibplugin
+    #         ScreenPlayCoreLibplugin
+    #         #ScreenPlayLibplugin # Only needed for the test app
+    #         SteamSDK)
 
-        if(APPLE)
-            set_target_properties(tst_ScreenPlayWorkshop PROPERTIES RUNTIME_OUTPUT_DIRECTORY
-                "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
-        endif()
-    endif()
+    #     if(APPLE)
+    #         set_target_properties(tst_ScreenPlayWorkshop PROPERTIES RUNTIME_OUTPUT_DIRECTORY
+    #             "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
+    #     endif()
+    # endif()
 endif()

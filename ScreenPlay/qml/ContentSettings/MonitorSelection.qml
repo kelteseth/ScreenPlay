@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material
-import ScreenPlayApp
+import ScreenPlay
 
 Rectangle {
     id: root
@@ -184,7 +184,7 @@ Rectangle {
 
     ToolButton {
         onClicked: App.monitorListModel.reset()
-        icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/font-awsome/rotate-right-solid.svg"
+        icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/font-awsome/rotate-right-solid.svg"
         icon.width: 14
         icon.height: 14
         opacity: hovered ? 1 : .4

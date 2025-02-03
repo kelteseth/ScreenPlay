@@ -4,7 +4,7 @@ import QtQuick.Layouts
 import QtQuick.Window
 import QtQuick.Controls.Material
 import QtQuick.Controls.Material.impl
-import ScreenPlayApp
+import ScreenPlay
 import "../Components"
 
 Rectangle {
@@ -99,7 +99,7 @@ Rectangle {
                 icon.width: 22
                 text: qsTr("Create")
                 objectName: "Create"
-                icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_plus.svg"
+                icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_plus.svg"
                 onClicked: {
                     root.onPageChanged("Create");
                 }
@@ -111,7 +111,7 @@ Rectangle {
                 enabled: App.globalVariables.isSteamVersion()
                 text: qsTr("Workshop")
                 objectName: "Workshop"
-                icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_steam.svg"
+                icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_steam.svg"
                 onClicked: {
                     root.onPageChanged("Workshop");
                 }
@@ -122,7 +122,7 @@ Rectangle {
                 index: 2
                 text: qsTr("Installed") + " " + App.installedListModel.count
                 objectName: "Installed"
-                icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_installed.svg"
+                icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_installed.svg"
                 onClicked: {
                     root.onPageChanged("Installed");
                 }
@@ -133,7 +133,7 @@ Rectangle {
                 index: 3
                 text: qsTr("Community")
                 objectName: "Community"
-                icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_community.svg"
+                icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_community.svg"
                 onClicked: {
                     root.onPageChanged("Community");
                 }
@@ -144,7 +144,7 @@ Rectangle {
                 index: 4
                 text: qsTr("Settings")
                 objectName: "Settings"
-                icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_settings.svg"
+                icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_settings.svg"
                 onClicked: {
                     root.onPageChanged("Settings");
                 }
@@ -174,7 +174,7 @@ Rectangle {
             contentItem: ToolButton {
                 id: btnPremiumPopup
                 height: 45
-                icon.source: "qrc:/qml/ScreenPlayApp/assets/images/rocket_3d.png"
+                icon.source: "qrc:/qt/qml/ScreenPlay/assets/images/rocket_3d.png"
                 icon.color: "transparent"
                 text: {
                     if (root.isSmallScreen) {
@@ -227,7 +227,7 @@ Rectangle {
                     id: miMuteAll
                     height: 45
                     Layout.alignment: Qt.AlignVCenter
-                    icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume.svg"
+                    icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_volume.svg"
                     icon.width: root.iconWidth
                     icon.height: root.iconHeight
                     enabled: quickActionRow.contentActive
@@ -236,10 +236,10 @@ Rectangle {
                     property bool soundEnabled: true
                     onSoundEnabledChanged: {
                         if (miMuteAll.soundEnabled) {
-                            miMuteAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume.svg";
+                            miMuteAll.icon.source = "qrc:/qt/qml/ScreenPlay/assets/icons/icon_volume.svg";
                             App.screenPlayManager.setAllWallpaperValue("muted", "false");
                         } else {
-                            miMuteAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume_mute.svg";
+                            miMuteAll.icon.source = "qrc:/qt/qml/ScreenPlay/assets/icons/icon_volume_mute.svg";
                             App.screenPlayManager.setAllWallpaperValue("muted", "true");
                         }
                     }
@@ -253,17 +253,17 @@ Rectangle {
                     height: 45
                     enabled: quickActionRow.contentActive
                     Layout.alignment: Qt.AlignVCenter
-                    icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_pause.svg"
+                    icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_pause.svg"
                     icon.width: root.iconWidth
                     icon.height: root.iconHeight
                     onClicked: isPlaying = !isPlaying
                     property bool isPlaying: true
                     onIsPlayingChanged: {
                         if (miStopAll.isPlaying) {
-                            miStopAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_pause.svg";
+                            miStopAll.icon.source = "qrc:/qt/qml/ScreenPlay/assets/icons/icon_pause.svg";
                             App.screenPlayManager.setAllWallpaperValue("isPlaying", "true");
                         } else {
-                            miStopAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_play.svg";
+                            miStopAll.icon.source = "qrc:/qt/qml/ScreenPlay/assets/icons/icon_play.svg";
                             App.screenPlayManager.setAllWallpaperValue("isPlaying", "false");
                         }
                     }
@@ -276,7 +276,7 @@ Rectangle {
                     height: 45
                     enabled: quickActionRow.contentActive
                     Layout.alignment: Qt.AlignVCenter
-                    icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_close.svg"
+                    icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_close.svg"
                     icon.width: root.iconWidth
                     icon.height: root.iconHeight
                     onClicked: {
@@ -298,7 +298,7 @@ Rectangle {
             id: miConfig
             Layout.maximumHeight: 55
             Layout.minimumHeight: 55
-            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_video_settings.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_video_settings.svg"
             icon.width: root.iconWidth
             icon.height: root.iconHeight
             onClicked: App.util.setToggleWallpaperConfiguration()

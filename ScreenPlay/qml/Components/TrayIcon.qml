@@ -1,14 +1,14 @@
 import QtQuick
 import QtQuick.Window
 import Qt.labs.platform
-import ScreenPlayApp
+import ScreenPlay
 
 SystemTrayIcon {
     id: root
 
     property Window applicationWindow
     visible: true
-    icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/app.ico"
+    icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/app.ico"
     tooltip: qsTr("ScreenPlay - Double click to change you settings.")
     onActivated: function (reason) {
         switch (reason) {
@@ -35,7 +35,7 @@ SystemTrayIcon {
         MenuItem {
             id: miOpenScreenPlay
             text: qsTr("Open ScreenPlay")
-            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_open_in_new_black.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_open_in_new_black.svg"
             onTriggered: {
                 root.open();
             }
@@ -43,7 +43,7 @@ SystemTrayIcon {
         MenuItem {
             id: miChangeWallpaperSettings
             text: qsTr("Change Wallpaper settings")
-            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_video_settings.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_video_settings.svg"
             onTriggered: {
                 root.open();
                 App.util.setNavigation("Installed");
@@ -57,7 +57,7 @@ SystemTrayIcon {
         MenuItem {
             text: qsTr("Browse Workshop")
             enabled: App.globalVariables.isSteamVersion()
-            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_steam.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_steam.svg"
             onTriggered: {
                 root.open();
                 App.util.setNavigation("Workshop");
@@ -67,7 +67,7 @@ SystemTrayIcon {
         MenuItem {
             id: miCreate
             text: qsTr("Create new Wallpaper or Widgets")
-            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_plus.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_plus.svg"
             onTriggered: {
                 root.open();
                 App.util.setNavigation("Create");
@@ -75,7 +75,7 @@ SystemTrayIcon {
         }
         MenuItem {
             id: miSettings
-            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_settings.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_settings.svg"
             text: qsTr("Settings")
             onTriggered: {
                 root.open();
@@ -88,14 +88,14 @@ SystemTrayIcon {
         }
         MenuItem {
             text: qsTr("Forums and Help")
-            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_supervisor_account.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_supervisor_account.svg"
             onTriggered: {
                 Qt.openUrlExternally("https://forum.screen-play.app/");
             }
         }
         MenuItem {
             text: qsTr("Frequently Asked Questions (FAQ)")
-            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_help_center.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_help_center.svg"
             onTriggered: {
                 Qt.openUrlExternally("https://kelteseth.gitlab.io/ScreenPlayDocs/Frequently%20Asked%20Questions/");
             }
@@ -109,17 +109,17 @@ SystemTrayIcon {
             property bool isMuted: false
 
             text: qsTr("Mute all")
-            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume_mute.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_volume_mute.svg"
             onTriggered: {
                 if (miMuteAll.isMuted) {
                     isMuted = false;
                     miMuteAll.text = qsTr("Mute all");
-                    miMuteAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume_mute.svg";
+                    miMuteAll.icon.source = "qrc:/qt/qml/ScreenPlay/assets/icons/icon_volume_mute.svg";
                     App.screenPlayManager.setAllWallpaperValue("muted", "true");
                 } else {
                     isMuted = true;
                     miMuteAll.text = qsTr("Unmute all");
-                    miMuteAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume_up.svg";
+                    miMuteAll.icon.source = "qrc:/qt/qml/ScreenPlay/assets/icons/icon_volume_up.svg";
                     App.screenPlayManager.setAllWallpaperValue("muted", "false");
                 }
             }
@@ -131,17 +131,17 @@ SystemTrayIcon {
             property bool isPlaying: false
 
             text: qsTr("Pause all")
-            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_pause.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_pause.svg"
             onTriggered: {
                 if (miStopAll.isPlaying) {
                     isPlaying = false;
                     miStopAll.text = qsTr("Pause all");
-                    miStopAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_pause.svg";
+                    miStopAll.icon.source = "qrc:/qt/qml/ScreenPlay/assets/icons/icon_pause.svg";
                     App.screenPlayManager.setAllWallpaperValue("isPlaying", "true");
                 } else {
                     isPlaying = true;
                     miStopAll.text = qsTr("Play all");
-                    miStopAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_play.svg";
+                    miStopAll.icon.source = "qrc:/qt/qml/ScreenPlay/assets/icons/icon_play.svg";
                     App.screenPlayManager.setAllWallpaperValue("isPlaying", "false");
                 }
             }
@@ -149,7 +149,7 @@ SystemTrayIcon {
 
         MenuItem {
             text: qsTr("Quit ScreenPlay")
-            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_cancel_presentation.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_cancel_presentation.svg"
             onTriggered: App.exit()
         }
     }

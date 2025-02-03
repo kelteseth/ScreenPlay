@@ -301,7 +301,7 @@ QQmlEngine* App::engine() const
 }
 
 void App::setEngine(QQmlEngine* engine)
-{
+{ 
     m_engine = engine;
     if (!m_engine) {
         qFatal("QQmlEngine not set");

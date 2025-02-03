@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import ScreenPlayCore
-import ScreenPlayApp
+import ScreenPlay
 
 Dialog {
     id: dialog
@@ -31,7 +31,7 @@ Dialog {
 
         Image {
             id: imgBg
-            source: "qrc:/qml/ScreenPlayApp/assets/images/Intro.png"
+            source: "qrc:/qt/qml/ScreenPlay/assets/images/Intro.png"
             anchors.fill: parent
         }
 
@@ -47,7 +47,7 @@ Dialog {
             Image {
                 id: imgShine
 
-                source: "qrc:/qml/ScreenPlayApp/assets/images/Intro_shine.png"
+                source: "qrc:/qt/qml/ScreenPlay/assets/images/Intro_shine.png"
                 height: 1753
                 width: 1753
                 opacity: 0
@@ -67,7 +67,7 @@ Dialog {
         Image {
             id: imgLogo
 
-            source: "qrc:/qml/ScreenPlayApp/assets/images/pro_version.png"
+            source: "qrc:/qt/qml/ScreenPlay/assets/images/pro_version.png"
             width: 539
             height: 148
             sourceSize: Qt.size(width, height)
@@ -101,7 +101,7 @@ Dialog {
         Image {
             id: imgPC
 
-            source: "qrc:/qml/ScreenPlayApp/assets/images/Intro_PC.png"
+            source: "qrc:/qt/qml/ScreenPlay/assets/images/Intro_PC.png"
             width: 500 * 0.8
             height: 500 * 0.8
             sourceSize: Qt.size(width, height)
@@ -122,7 +122,7 @@ Dialog {
             font.pointSize: 16
             width: implicitWidth + 20
             height: implicitHeight + 10
-            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_community.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_community.svg"
             icon.width: 18
             icon.height: 18
             onClicked: {
@@ -141,7 +141,7 @@ Dialog {
         }
 
         ToolButton {
-            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_close.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_close.svg"
             icon.color: "transparent"
             onClicked: dialog.close()
             anchors {

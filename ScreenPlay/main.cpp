@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
-#include "ScreenPlay/CMakeVariables.h"
+#include "CMakeVariables.h"
 #include "ScreenPlay/applicationengine.h"
 #include "ScreenPlayCore/logginghandler.h"
 #include "qcorotask.h"
@@ -15,12 +15,12 @@
 #endif
 
 #ifdef SCREENPLAY_STEAM
-Q_IMPORT_QML_PLUGIN(ScreenPlayWorkshopPlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlayWorkshopLibPlugin)
 #endif
 
 #include <QQmlEngineExtensionPlugin>
-Q_IMPORT_QML_PLUGIN(ScreenPlayAppPlugin)
-Q_IMPORT_QML_PLUGIN(ScreenPlayCorePlugin)
+// Q_IMPORT_QML_PLUGIN(ScreenPlayCoreLibPlugin)
+//  Q_IMPORT_QML_PLUGIN(ScreenPlayLibPlugin)
 
 int main(int argc, char* argv[])
 {

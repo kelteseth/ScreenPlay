@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
-import ScreenPlayApp
+import ScreenPlay
 import ScreenPlayCore
 
 Item {
@@ -16,7 +16,7 @@ Item {
     Image {
         id: imgBg
 
-        source: "qrc:/qml/ScreenPlayApp/assets/images/Intro.png"
+        source: "qrc:/qt/qml/ScreenPlay/assets/images/Intro.png"
         anchors.fill: parent
     }
 
@@ -33,7 +33,7 @@ Item {
         Image {
             id: imgShine
 
-            source: "qrc:/qml/ScreenPlayApp/assets/images/Intro_shine.png"
+            source: "qrc:/qt/qml/ScreenPlay/assets/images/Intro_shine.png"
             height: 1753
             width: 1753
             opacity: 0
@@ -53,7 +53,7 @@ Item {
     Image {
         id: imgLogo
 
-        source: "qrc:/qml/ScreenPlayApp/assets/images/Early_Access.png"
+        source: "qrc:/qt/qml/ScreenPlay/assets/images/Early_Access.png"
         width: 539
         height: 148
         sourceSize: Qt.size(width, height)
@@ -87,7 +87,7 @@ Item {
     Image {
         id: imgPC
 
-        source: "qrc:/qml/ScreenPlayApp/assets/images/Intro_PC.png"
+        source: "qrc:/qt/qml/ScreenPlay/assets/images/Intro_PC.png"
         width: 500 * 0.8
         height: 500 * 0.8
         sourceSize: Qt.size(width, height)
@@ -116,9 +116,9 @@ Item {
         height: implicitHeight + 10
         icon.source: {
             if (App.globalVariables.isSteamVersion()) {
-                return "qrc:/qml/ScreenPlayApp/assets/icons/icon_steam.svg";
+                return "qrc:/qt/qml/ScreenPlay/assets/icons/icon_steam.svg";
             } else {
-                return "qrc:/qml/ScreenPlayApp/assets/icons/icon_community.svg";
+                return "qrc:/qt/qml/ScreenPlay/assets/icons/icon_community.svg";
             }
         }
         icon.width: 18

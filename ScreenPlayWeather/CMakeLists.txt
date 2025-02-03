@@ -14,6 +14,8 @@ find_package(
     COMPONENTS Core Quick
     REQUIRED)
 
+qt_standard_project_setup(REQUIRES 6.8)
+
 set(QML qml/TestMain.qml)
 
 set(QML_PLUGIN_SOURCES src/screenplayweather.cpp)
@@ -243,19 +245,15 @@ set(RESOURCES
     assets/icons/wi-wind-deg.svg
     assets/icons/wi-windy.svg)
 
-qt_add_library(${PROJECT_NAME} STATIC)
-target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_23)
-target_link_libraries(${PROJECT_NAME} PUBLIC ScreenPlayCore ScreenPlayCoreplugin)
-target_include_directories(${PROJECT_NAME} PUBLIC src/)
+qt_add_library(ScreenPlayWeatherLib STATIC)
+target_compile_features(ScreenPlayWeatherLib PRIVATE cxx_std_23)
+target_link_libraries(ScreenPlayWeatherLib PUBLIC ScreenPlayCoreLib ScreenPlayCoreLibplugin)
+target_include_directories(ScreenPlayWeatherLib PUBLIC src/)
 
 qt_add_qml_module(
-    ${PROJECT_NAME}
+    ScreenPlayWeatherLib
     URI
-    ${PROJECT_NAME}
-    OUTPUT_DIRECTORY
-    ${SCREENPLAY_QML_MODULES_PATH}/${PROJECT_NAME}
-    RESOURCE_PREFIX
-    /qml
+    ScreenPlayWeather
     VERSION
     1.0
     QML_FILES
@@ -268,10 +266,10 @@ qt_add_qml_module(
 
 if(${SCREENPLAY_TESTS})
     qt_add_executable(tst_ScreenPlayWeather src/TestMain.cpp)
-    target_link_libraries(tst_ScreenPlayWeather PRIVATE Qt6::Quick ${PROJECT_NAME}plugin)
-
-    if(APPLE)
-        set_target_properties(tst_ScreenPlayWeather PROPERTIES RUNTIME_OUTPUT_DIRECTORY
-            "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
-    endif()
+    target_link_libraries(tst_ScreenPlayWeather PRIVATE Qt6::Quick 
+    
+    ScreenPlayWeatherLib
+    ScreenPlayWeatherLibplugin
+    ScreenPlayCoreLib
+    ScreenPlayCoreLibplugin)
 endif()

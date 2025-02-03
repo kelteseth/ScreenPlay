@@ -4,7 +4,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Dialogs
-import ScreenPlayApp
+import ScreenPlay
 
 import ScreenPlayCore
 
@@ -88,7 +88,7 @@ Item {
         LabelSlider {
             id: sliderQuality
 
-            iconSource: "qrc:/qml/ScreenPlayApp/assets/icons/icon_settings.svg"
+            iconSource: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_settings.svg"
             headline: qsTr("Set video quality. Lower value means better quality.")
             Layout.preferredWidth: 400
 
@@ -105,7 +105,7 @@ Item {
         text: qsTr("Open Documentation")
         Material.accent: Material.color(Material.LightGreen)
         highlighted: true
-        icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_document.svg"
+        icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_document.svg"
         icon.color: "white"
         icon.width: 16
         icon.height: 16

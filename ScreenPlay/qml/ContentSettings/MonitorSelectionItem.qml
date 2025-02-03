@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick.Controls.Material
-import ScreenPlayApp
+import ScreenPlay
 import ScreenPlayCore
 
 Item {

@@ -10,19 +10,22 @@ find_package(
     COMPONENTS Quick Network Core
     REQUIRED)
 
+qt_standard_project_setup(REQUIRES 6.8)
+
 set(SOURCES src/screenplaysdk.cpp)
 
 set(HEADER inc/public/ScreenPlaySDK/screenplaysdk.h)
 
-add_library(${PROJECT_NAME} STATIC ${SOURCES} ${HEADER})
-target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_23)
+qt_add_library(ScreenPlaySDKLib STATIC ${SOURCES} ${HEADER})
+target_compile_features(ScreenPlaySDKLib PRIVATE cxx_std_23)
 
-target_include_directories(${PROJECT_NAME} PUBLIC inc/public/)
+target_include_directories(ScreenPlaySDKLib PUBLIC inc/public/)
 
 target_link_libraries(
-    ${PROJECT_NAME}
-    PUBLIC Qt6::Core
+    ScreenPlaySDKLib
+    PUBLIC 
+    Qt6::Core
     Qt6::Quick
     Qt6::Gui
     Qt6::Network
-    ScreenPlayCore)
+    ScreenPlayCoreLib)

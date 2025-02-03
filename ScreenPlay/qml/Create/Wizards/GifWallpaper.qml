@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls.Material
 import QtQuick.Controls
 import QtQuick.Layouts
-import ScreenPlayApp
+import ScreenPlay
 
 import ScreenPlayCore as Util
 
@@ -74,7 +74,7 @@ WizardPage {
                         anchors.fill: parent
                         fillMode: Image.Tile
                         opacity: 0.2
-                        source: "qrc:/qml/ScreenPlayApp/assets/images/noisy-texture-3.png"
+                        source: "qrc:/qt/qml/ScreenPlay/assets/images/noisy-texture-3.png"
                     }
 
                     Text {

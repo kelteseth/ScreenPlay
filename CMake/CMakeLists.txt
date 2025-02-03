@@ -5,6 +5,7 @@ set(FILES
     GetProjectVersion.cmake
     GenerateCMakeVariableHeader.cmake
     CopyRecursive.cmake
+    QtDeploy.cmake
     CreateIFWInstaller.cmake)
 
 add_custom_target(

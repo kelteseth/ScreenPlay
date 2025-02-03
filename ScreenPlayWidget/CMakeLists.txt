@@ -11,6 +11,14 @@ set(HEADER src/widgetwindow.h)
 
 set(QML qml/Test.qml qml/Widget.qml)
 
+set(RESOURCES
+    # cmake-format: sort
+    assets/icons/baseline-close-24px.svg
+    assets/icons/baseline-opacity-24px.svg
+    assets/icons/baseline-settings-20px.svg
+    assets/image/noisy-texture-3.png)
+
+
 find_package(
     Qt6
     COMPONENTS Core
@@ -24,25 +32,20 @@ find_package(
                WebChannel
                Positioning)
 
-set(RESOURCES
-    # cmake-format: sort
-    assets/icons/baseline-close-24px.svg
-    assets/icons/baseline-opacity-24px.svg
-    assets/icons/baseline-settings-20px.svg
-    assets/image/noisy-texture-3.png)
+qt_standard_project_setup(REQUIRES 6.8)
 
 qt_add_executable(
-    ${PROJECT_NAME}
+    SPWidget
     ${SOURCES}
     ${HEADER}
     ${RESOURCES})
 
 target_link_libraries(
-    ${PROJECT_NAME}
-    PRIVATE ScreenPlaySDK
-            ScreenPlayCore
-            ScreenPlayCoreplugin
-            ScreenPlayWeatherplugin
+    SPWidget
+    PRIVATE ScreenPlaySDKLib
+            ScreenPlayCoreLib
+            ScreenPlayCoreLibplugin
+            ScreenPlayWeatherLibplugin
             Qt6::Quick
             Qt6::Gui
             Qt6::Widgets
@@ -53,19 +56,15 @@ target_link_libraries(
             Qt6::WebEngineQuick)
 
 if(WIN32)
-    target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlaySysInfoplugin ScreenPlayCoreplugin)
+    target_link_libraries(SPWidget PRIVATE ScreenPlaySysInfoLibplugin ScreenPlayCoreLibplugin)
 endif()
 
 qt_add_qml_module(
-    ${PROJECT_NAME}
+    SPWidgetLib
     URI
-    ${PROJECT_NAME}
+    ScreenPlayWidget
     VERSION
     1.0
-    OUTPUT_DIRECTORY
-    ${SCREENPLAY_QML_MODULES_PATH}/${PROJECT_NAME}
-    RESOURCE_PREFIX
-    /qml
     QML_FILES
     ${QML}
     RESOURCES
@@ -74,13 +73,17 @@ qt_add_qml_module(
 if(WIN32)
     # Disable console window on Windows
     # https://stackoverflow.com/questions/8249028/how-do-i-keep-my-qt-c-program-from-opening-a-console-in-windows
-    set_property(TARGET ${PROJECT_NAME} PROPERTY WIN32_EXECUTABLE true)
-endif()
-
-if(APPLE)
-    set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
+    set_property(TARGET SPWidget PROPERTY WIN32_EXECUTABLE true)
 endif()
 
 # ##### USE CMAKE VARIABLES IN CODE #####
 include(GenerateCMakeVariableHeader)
-generate_cmake_variable_header(${PROJECT_NAME})
+generate_cmake_variable_header(SPWidget)
+
+
+include(GNUInstallDirs)
+install(TARGETS SPWidget
+    BUNDLE DESTINATION .
+)
+
+register_qt_additional_deployment(SPWidget)

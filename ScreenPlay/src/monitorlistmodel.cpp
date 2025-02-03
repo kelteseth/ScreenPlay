@@ -11,7 +11,7 @@
 #include <QDebug>
 #include <QRandomGenerator>
 
-#include "ScreenPlay/CMakeVariables.h"
+#include "CMakeVariables.h"
 #include <type_traits>
 
 namespace ScreenPlay {

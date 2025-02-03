@@ -3,7 +3,7 @@ import QtQuick.Layouts
 import QtQuick.Effects
 import QtQuick.Controls
 import ScreenPlayCore as Util
-import ScreenPlayApp
+import ScreenPlay
 
 Rectangle {
     id: root
@@ -85,7 +85,7 @@ Rectangle {
         maskEnabled: true
         maskSource: Image {
             id: maskImage
-            source: "qrc:/qml/ScreenPlayApp/assets/images/timeline_mask.png"
+            source: "qrc:/qt/qml/ScreenPlay/assets/images/timeline_mask.png"
             width: rainbowGradient.width
             height: rainbowGradient.height
             fillMode: Image.Stretch

@@ -3,6 +3,7 @@ project(
     ScreenPlaySysInfo
     VERSION 0.1
     LANGUAGES CXX)
+
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
@@ -12,6 +13,8 @@ find_package(
     Qt6
     COMPONENTS Quick Core
     REQUIRED)
+
+qt_standard_project_setup(REQUIRES 6.8)
 
 set(QML qml/TestMain.qml)
 
@@ -47,37 +50,34 @@ if(WIN32)
     list(APPEND QML_PLUGIN_HEADER inc/private/networkinterface_win.h)
 endif()
 
-qt_add_library(${PROJECT_NAME} STATIC)
-target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_23)
+qt_add_library(ScreenPlaySysInfoLib STATIC)
+target_compile_features(ScreenPlaySysInfoLib PRIVATE cxx_std_23)
 
 target_link_libraries(
-    ${PROJECT_NAME}
-    PRIVATE Qt::NetworkPrivate
+    ScreenPlaySysInfoLib
+    PRIVATE 
+    Qt::NetworkPrivate
     Qt6::Core
     Qt6::Quick
     infoware)
 
-target_include_directories(${PROJECT_NAME} PUBLIC inc/public)
+target_include_directories(ScreenPlaySysInfoLib PUBLIC inc/public)
 
 # Add full inc/public/ScreenPlaySysInfo path for moc includes
-target_include_directories(${PROJECT_NAME} PRIVATE inc/private inc/public/ScreenPlaySysInfo)
+target_include_directories(ScreenPlaySysInfoLib PRIVATE inc/private inc/public/ScreenPlaySysInfo)
 
 if(WIN32)
     find_package(Qt6 COMPONENTS AxContainer)
-    target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::AxContainer ole32.lib winmm.lib)
-    target_compile_definitions(${PROJECT_NAME} PUBLIC WIN32_LEAN_AND_MEAN _WINSOCKAPI_ NOMINMAX)
+    target_link_libraries(ScreenPlaySysInfoLib PUBLIC Qt6::AxContainer ole32.lib winmm.lib)
+    target_compile_definitions(ScreenPlaySysInfoLib PUBLIC WIN32_LEAN_AND_MEAN _WINSOCKAPI_ NOMINMAX)
 endif()
 
 qt_add_qml_module(
-    ${PROJECT_NAME}
+    ScreenPlaySysInfoLib
     URI
-    ${PROJECT_NAME}
+    ScreenPlaySysInfo
     VERSION
     1.0
-    OUTPUT_DIRECTORY
-    ${SCREENPLAY_QML_MODULES_PATH}/${PROJECT_NAME}
-    RESOURCE_PREFIX
-    /qml
     QML_FILES
     ${QML}
     SOURCES
@@ -85,7 +85,7 @@ qt_add_qml_module(
     ${QML_PLUGIN_HEADER})
 
 # if(${SCREENPLAY_TESTS}) qt_add_executable(tst_ScreenPlaySysInfo src/TestMain.cpp) target_link_libraries(tst_ScreenPlaySysInfo PRIVATE
-# Qt6::Quick ${PROJECT_NAME}plugin) if(WIN32) target_link_libraries(tst_ScreenPlaySysInfo PUBLIC Qt6::AxContainer ole32.lib winmm.lib)
+# Qt6::Quick ScreenPlaySysInfoLibplugin) if(WIN32) target_link_libraries(tst_ScreenPlaySysInfo PUBLIC Qt6::AxContainer ole32.lib winmm.lib)
 # target_compile_definitions(tst_ScreenPlaySysInfo PUBLIC WIN32_LEAN_AND_MEAN _WINSOCKAPI_ NOMINMAX) endif()
 
 # endif()

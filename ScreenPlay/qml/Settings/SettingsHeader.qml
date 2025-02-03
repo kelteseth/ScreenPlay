@@ -1,14 +1,14 @@
 import QtQuick
 import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
-import ScreenPlayApp
+import ScreenPlay
 
 Item {
     id: settingsHeader
 
     property color background: "#FFAB00"
     property string text: "HEADLINE"
-    property url image: "qrc:/qml/ScreenPlayApp/assets/icons/icon_settings.svg"
+    property url image: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_settings.svg"
 
     state: "out"
     Component.onCompleted: state = "in"

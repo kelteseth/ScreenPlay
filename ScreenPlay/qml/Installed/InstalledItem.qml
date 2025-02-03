@@ -2,7 +2,7 @@ import QtQuick
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls
 import QtQuick.Controls.Material
-import ScreenPlayApp
+import ScreenPlay
 import ScreenPlayCore as Util
 import QtQuick.Window
 
@@ -36,15 +36,15 @@ Item {
     height: 180
     onTypeChanged: {
         if (App.util.isWidget(type)) {
-            icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_widgets.svg";
+            icnType.source = "qrc:/qt/qml/ScreenPlay/assets/icons/icon_widgets.svg";
             return;
         }
         if (App.util.isScene(type)) {
-            icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_code.svg";
+            icnType.source = "qrc:/qt/qml/ScreenPlay/assets/icons/icon_code.svg";
             return;
         }
         if (App.util.isVideo(type)) {
-            icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_movie.svg";
+            icnType.source = "qrc:/qt/qml/ScreenPlay/assets/icons/icon_movie.svg";
             return;
         }
     }
@@ -128,7 +128,7 @@ Item {
         Image {
             id: mask
 
-            source: "qrc:/qml/ScreenPlayApp/assets/images/Window.svg"
+            source: "qrc:/qt/qml/ScreenPlay/assets/images/Window.svg"
             sourceSize: Qt.size(root.width, root.height)
             visible: false
             smooth: true
@@ -175,7 +175,7 @@ Item {
                 height: 20
                 opacity: 0.25
                 visible: root.containsAudio
-                source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_contains_audio.svg"
+                source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_contains_audio.svg"
                 sourceSize: Qt.size(20, 20)
 
                 anchors {
@@ -191,7 +191,7 @@ Item {
                 width: 20
                 height: 20
                 opacity: 0.25
-                source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_movie.svg"
+                source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_movie.svg"
                 sourceSize: Qt.size(20, 20)
 
                 anchors {
@@ -233,7 +233,7 @@ Item {
             ToolButton {
                 enabled: false
                 visible: !root.hasLicense
-                icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/font-awsome/lock-solid.svg"
+                icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/font-awsome/lock-solid.svg"
                 icon.height: 14
                 icon.width: 11
                 icon.color: "gold"

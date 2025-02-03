@@ -4,7 +4,7 @@ import QtQuick.Layouts
 import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
-import ScreenPlayApp
+import ScreenPlay
 
 import ScreenPlayCore
 
@@ -15,7 +15,7 @@ Item {
 
     StackView.onActivated: {
         wizardContentWrapper.state = "in";
-        stackView.push("qrc:/qml/ScreenPlayApp/qml/Create/StartInfo.qml");
+        stackView.push("qml/Create/StartInfo.qml");
     }
 
     CreateSidebar {

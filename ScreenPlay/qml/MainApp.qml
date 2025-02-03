@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import ScreenPlayCore
-import ScreenPlayApp 1.0
+import ScreenPlay
 import "ContentSettings" as ContentSettings
 import "Navigation" as Navigation
 
@@ -10,15 +10,14 @@ Item {
     anchors.fill: parent
     property ApplicationWindow applicationWindow
     Component.onCompleted: {
-        stackView.push("qrc:/qml/ScreenPlayApp/qml/Installed/InstalledView.qml");
+        stackView.push("qrc:/qt/qml/ScreenPlay/qml/Installed/InstalledView.qml");
     }
 
     function openExitDialog(): void {
         exitDialog.open();
     }
-
     function switchPage(name: string): void {
-        stackView.replace("qrc:/qml/ScreenPlayApp/qml/" + name + "/" + name + "View.qml", {
+        stackView.replace(`qrc:/qt/qml/ScreenPlay/qml/${name}/${name}View.qml`, {
             "modalSource": content
         });
         nav.setNavigation(name);
@@ -27,28 +26,28 @@ Item {
     Navigation.ExitPopup {
         id: exitDialog
         applicationWindow: content.applicationWindow
-        modalSource: content
+        // modalSource: content
     }
 
     Item {
         id: noneContentItems
         SteamNotAvailable {
             id: dialogSteam
-            modalSource: content
+            // modalSource: content
         }
 
         MonitorConfiguration {
-            modalSource: content
+            // modalSource: content
         }
 
         CriticalError {
             applicationWindow: content.applicationWindow
-            modalSource: content
+            // modalSource: content
         }
 
         ContentSettings.ContentSettingsView {
             id: contentSettingsView
-            modalSource: content
+            // modalSource: content
         }
         TrayIcon {
             applicationWindow: content.applicationWindow

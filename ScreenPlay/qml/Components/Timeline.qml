@@ -3,7 +3,7 @@ pragma ValueTypeBehavior
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
-import ScreenPlayApp
+import ScreenPlay
 import ScreenPlayCore
 import "../../../ScreenPlayCore/qml/InstantPopup.js" as InstantPopup
 

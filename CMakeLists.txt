@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.22.0)
 
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(THIRD_PARTY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty")
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
+
 include(GetProjectVersion)
 get_project_version(SCREENPLAY_VERSION)
 
@@ -17,6 +21,10 @@ project(
     DESCRIPTION "Modern, Cross Plattform, Live Wallpaper, Widgets and AppDrawer!"
     HOMEPAGE_URL "https://screen-play.app/"
     LANGUAGES CXX)
+
+
+include(QtDeploy)
+
 
 # Only used for some custom file copy
 if(WIN32)
@@ -38,32 +46,6 @@ if(UNIX)
     set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 endif()
 
-# This sets cmake to compile all dlls into the main directory
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
-set(THIRD_PARTY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty")
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
-set(CMAKE_OSX_DEPLOYMENT_TARGET "13.0")
-
-# This is needed for OSX: Because we bundle ScreenPlay and ScreenPlayWallpaper into .app they both need other QML dependencies like
-# ScreenPlayCore. The fastest way is to use a shared QML module path for development and add this path to the qml engines import pah. For
-# the SCREENPLAY_DEPLOY we copy them into the matching dirs via the build.py
-#
-# This subdirectoy is needed for OSX and Linux to fix linker errors because we would have ScreenPlayApp executable and folder for the qml
-# files in the same directory.
-set(SCREENPLAY_QML_MODULES_PATH "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/qml")
-
-if(APPLE)
-    set(SCREENPLAY_QML_MODULES_PATH "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ScreenPlay.app/Contents/MacOS/qml")
-endif()
-
-# Adds the qml import path so QtCreator can find them
-list(APPEND QML_DIRS "${SCREENPLAY_QML_MODULES_PATH}")
-set(QML_IMPORT_PATH
-    "${QML_DIRS}"
-    CACHE STRING "Qt Creator extra qml import paths")
 
 set(VCPKG_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../vcpkg")
 set(VCPKG_INSTALLED_PATH "${VCPKG_PATH}/installed/${VCPKG_ARCH}")
@@ -106,10 +88,6 @@ option(SCREENPLAY_GODOT "Compiles ScreenPlayGodotWallpaper." ON)
 if(DEFINED ENV{CI_COMMIT_MESSAGE})
     set(GITLAB_CI true)
 endif()
-
-file(MAKE_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-
-find_package(Git REQUIRED)
 
 if(WIN32)
     set(DATE_COMMAND "CMD")
@@ -165,13 +143,12 @@ add_subdirectory(ScreenPlayWallpaper)
 add_subdirectory(ScreenPlayWidget)
 add_subdirectory(ScreenPlayCore)
 add_subdirectory(ScreenPlayWeather)
+# Only add target SteamSDKQtEnums
+add_subdirectory(ScreenPlayWorkshop/SteamSDK)
 
 if(${SCREENPLAY_GODOT})
     add_subdirectory(ScreenPlayWallpaper/Godot)
 endif()
-
-# Only add target SteamSDKQtEnums
-add_subdirectory(ScreenPlayWorkshop/SteamSDK)
 
 if(${SCREENPLAY_STEAM})
     add_subdirectory(ScreenPlayWorkshop)
@@ -188,6 +165,9 @@ if(${SCREENPLAY_INSTALLER})
         include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/CreateIFWInstaller.cmake)
     endif()
 endif()
+
+# Generate single deployment script after all targets are defined
+generate_qt_deployment_script()
 
 message(STATUS "[PROJECT] CMAKE_MODULE_PATH            = ${CMAKE_MODULE_PATH}")
 message(STATUS "[PROJECT] CMAKE_VERSION                = ${CMAKE_VERSION}")

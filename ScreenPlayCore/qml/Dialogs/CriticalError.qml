@@ -4,7 +4,7 @@ import QtQuick.Layouts
 import QtQuick.Controls.Material
 import QtQuick.Window
 import Qt5Compat.GraphicalEffects
-import ScreenPlayApp
+import ScreenPlay
 
 import ScreenPlayCore as Util
 
@@ -41,7 +41,7 @@ Util.Dialog {
                 Layout.alignment: Qt.AlignHCenter
                 Layout.preferredWidth: 150
                 Layout.preferredHeight: 150
-                source: "qrc:/qml/ScreenPlayApp/assets/icons/exclamation-triangle-solid.svg"
+                source: "qrc:/qt/qml/ScreenPlay/assets/icons/exclamation-triangle-solid.svg"
                 fillMode: Image.PreserveAspectFit
 
                 layer {

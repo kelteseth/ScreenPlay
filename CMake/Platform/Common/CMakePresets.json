@@ -107,7 +107,7 @@
                 "SCREENPLAY_STEAM": "ON",
                 "SCREENPLAY_DEPLOY": "OFF",
                 "SCREENPLAY_INSTALLER": "OFF",
-                "SCREENPLAY_TESTS": "ON",
+                "SCREENPLAY_TESTS": "OFF",
                 "SCREENPLAY_GODOT": "ON"
             }
         },

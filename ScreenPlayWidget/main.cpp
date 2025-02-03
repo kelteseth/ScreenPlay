@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
-#include "ScreenPlayWidget/CMakeVariables.h"
+#include "CMakeVariables.h"
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlExtensionPlugin>
@@ -14,14 +14,14 @@
 #include "src/widgetwindow.h"
 
 #if defined(Q_OS_WIN)
-Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoPlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoLibPlugin)
 #endif
 #if defined(Q_OS_MACOS)
 #include "ScreenPlayCore/macutils.h"
 #endif
 
-Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherPlugin)
-Q_IMPORT_QML_PLUGIN(ScreenPlayCorePlugin)
+// Q_IMPORT_QML_PLUGIN(ScreenPlayCoreLibPlugin)
+// Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherLibPlugin)
 
 int main(int argc, char* argv[])
 {

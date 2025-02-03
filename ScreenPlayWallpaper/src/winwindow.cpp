@@ -62,7 +62,7 @@ WallpaperExit::Code WinWindow::start()
     }
 
     qInfo() << "Setup " << width() << height();
-    m_window.setSource(QUrl("qrc:/qml/ScreenPlayWallpaper/qml/Wallpaper.qml"));
+    m_window.loadFromModule("ScreenPlayWallpaper", "Wallpaper");
     m_window.show();
 
     QTimer::singleShot(1000, this, [&]() {

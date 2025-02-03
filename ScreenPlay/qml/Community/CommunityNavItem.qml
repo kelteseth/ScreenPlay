@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
-import ScreenPlayApp
+import ScreenPlay
 
 TabButton {
     id: control
@@ -47,7 +47,7 @@ TabButton {
         ToolButton {
             opacity: 0.6
             width: parent.width * 0.2
-            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_open_in_new.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_open_in_new.svg"
             icon.color: "transparent"
             icon.width: 16
             icon.height: 16

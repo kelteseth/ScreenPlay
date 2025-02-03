@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
-import ScreenPlayApp
+import ScreenPlay
 
 Item {
     id: tag
@@ -72,7 +72,7 @@ Item {
             id: name
 
             anchors.fill: parent
-            source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_close.svg"
+            source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_close.svg"
         }
     }
 

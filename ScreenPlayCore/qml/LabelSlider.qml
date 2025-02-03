@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls.Material 2.0 as QQCM
 import QtQuick.Layouts
 import QtQuick.Controls as QQC
-import ScreenPlayApp
+import ScreenPlay
 
 Item {
     id: root

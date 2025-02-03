@@ -1,7 +1,7 @@
 #include "ScreenPlay/applicationengine.h"
-#include "ScreenPlay/CMakeVariables.h"
 #include "ScreenPlay/app.h"
 #include "ScreenPlay/applicationengine.h"
+#include "CMakeVariables.h"
 
 #include <QIcon>
 #include <QQuickStyle>
@@ -47,12 +47,18 @@ bool ScreenPlay::ApplicationEngine::isAnotherScreenPlayInstanceRunning()
 void ApplicationEngine::init()
 {
     auto* guiAppInst = dynamic_cast<QGuiApplication*>(QGuiApplication::instance());
-    addImportPath(guiAppInst->applicationDirPath() + "/qml");
-    guiAppInst->addLibraryPath(guiAppInst->applicationDirPath() + "/qml");
+    // addImportPath(guiAppInst->applicationDirPath() + "/qml");
+    qDebug() << "Import paths:" << importPathList();
+    // guiAppInst->addLibraryPath(guiAppInst->applicationDirPath() + "/qml");
 
     QQuickStyle::setStyle("Material");
-    load(QUrl(QStringLiteral("qrc:/qml/ScreenPlayApp/main.qml")));
+    loadFromModule("ScreenPlay", "ScreenPlayMain");
 
+
+    qmlRegisterSingletonType<ScreenPlay::App>("ScreenPlayApp", 1, 0, "App", 
+    [](QQmlEngine *engine, QJSEngine *) -> QObject * {
+        return new ScreenPlay::App();
+    });
     App* singleton = singletonInstance<App*>("ScreenPlayApp", "App");
     singleton->setEngine(this);
 }

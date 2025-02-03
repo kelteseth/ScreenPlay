@@ -5,7 +5,7 @@ import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
-import ScreenPlayApp
+import ScreenPlay
 
 import ScreenPlayCore as Util
 import Qt5Compat.GraphicalEffects
@@ -15,7 +15,7 @@ import Qt5Compat.GraphicalEffects
    \brief exitDialog
 
 */
-Util.Popup {
+Popup {
     id: root
     property ApplicationWindow applicationWindow
     contentItem: Pane {
@@ -40,10 +40,10 @@ Util.Popup {
                 Layout.alignment: Qt.AlignHCenter
                 source: {
                     if (Qt.platform.os === "windows") {
-                        return "qrc:/qml/ScreenPlayApp/assets/images/trayIcon_windows.png";
+                        return "qrc:/qt/qml/ScreenPlay/assets/images/trayIcon_windows.png";
                     }
                     if (Qt.platform.os === "osx") {
-                        return "qrc:/qml/ScreenPlayApp/assets/images/trayIcon_osx.png";
+                        return "qrc:/qt/qml/ScreenPlay/assets/images/trayIcon_osx.png";
                     }
                     console.warn("missing tray icon image");
                     return "";

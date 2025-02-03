@@ -5,7 +5,7 @@
 #include <QQuickStyle>
 #include <QtQml/qqmlextensionplugin.h>
 
-Q_IMPORT_QML_PLUGIN(ScreenPlayAppPlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlayLibPlugin)
 Q_IMPORT_QML_PLUGIN(ScreenPlayWorkshopPlugin)
 Q_IMPORT_QML_PLUGIN(ScreenPlayCorePlugin)
 

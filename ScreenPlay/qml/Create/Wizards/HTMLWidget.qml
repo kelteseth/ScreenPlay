@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls.Material
 import QtQuick.Controls
 import QtQuick.Layouts
-import ScreenPlayApp
+import ScreenPlay
 
 import ScreenPlayCore as Util
 
@@ -49,7 +49,7 @@ WizardPage {
                     Image {
                         id: imgPreview
 
-                        source: "qrc:/qml/ScreenPlayApp/assets/wizards/example_html.png"
+                        source: "qrc:/qt/qml/ScreenPlay/assets/wizards/example_html.png"
                         anchors.fill: parent
                         fillMode: Image.PreserveAspectCrop
                     }

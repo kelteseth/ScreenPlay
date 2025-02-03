@@ -56,7 +56,7 @@ set(HEADER
 
 set(QML
     # cmake-format: sort
-    main.qml
+    ScreenPlayMain.qml
     qml/Community/CommunityNavItem.qml
     qml/Community/CommunityView.qml
     qml/Community/XMLNewsfeed.qml
@@ -287,27 +287,26 @@ find_package(
     LinguistTools
     Test)
 
-add_library(ScreenPlayApp STATIC)
-target_compile_features(ScreenPlayApp PRIVATE cxx_std_23)
+qt_standard_project_setup(REQUIRES 6.8)
+
+qt_add_library(ScreenPlayLib STATIC)
+
+target_compile_features(ScreenPlayLib PRIVATE cxx_std_23)
 
 target_include_directories(
-    ScreenPlayApp
+    ScreenPlayLib
     PUBLIC inc/public/
     PRIVATE src/)
 
 # Note making this public is so that *_qmltyperegistrations.cpp can find the needed include
-target_include_directories(ScreenPlayApp PUBLIC src/ inc/public/ScreenPlay)
+target_include_directories(ScreenPlayLib PUBLIC src/ inc/public/ScreenPlay)
 
-# ScreenPlayApp is our qml module needed for compiling of all classes and most importanly for QML_ELEMENT. So our app is mostly a module
+# ScreenPlayLib is our qml module needed for compiling of all classes and most importanly for QML_ELEMENT. So our app is mostly a module
 # that then link to ScreenPlay executable.
 qt_add_qml_module(
-    ScreenPlayApp
+    ScreenPlayLib
     URI
-    ScreenPlayApp
-    OUTPUT_DIRECTORY
-    ${SCREENPLAY_QML_MODULES_PATH}/${PROJECT_NAME}App
-    RESOURCE_PREFIX
-    /qml
+    ScreenPlay
     VERSION
     1.0
     QML_FILES
@@ -319,11 +318,12 @@ qt_add_qml_module(
     ${RESOURCES})
 
 target_link_libraries(
-    ScreenPlayApp
-    PUBLIC ScreenPlaySDK
+    ScreenPlayLib
+    PUBLIC 
+    ScreenPlaySDKLib
     LibArchive::LibArchive
-    ScreenPlayCore
-    ScreenPlayCoreplugin
+    ScreenPlayCoreLib
+    ScreenPlayCoreLibplugin
     QArchive
     Threads::Threads
     QCoro6::Qml
@@ -336,42 +336,37 @@ target_link_libraries(
     Qt6::QuickControls2
     Qt6::Xml)
 
-if(${SCREENPLAY_STEAM})
-    target_link_libraries(ScreenPlayApp PUBLIC ScreenPlayWorkshopplugin ScreenPlayWorkshop)
-endif()
+# if(${SCREENPLAY_STEAM})
+#     target_link_libraries(ScreenPlayLib PUBLIC ScreenPlayWorkshopplugin ScreenPlayWorkshop)
+# endif()
 
-qt_add_executable(${PROJECT_NAME} main.cpp)
-target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlayApp ScreenPlayAppplugin QCoro6::Qml)
+qt_add_executable(ScreenPlayApp main.cpp)
+target_link_libraries(ScreenPlayApp PRIVATE ScreenPlayLib ScreenPlayLibplugin QCoro6::Qml)
 
 if(${SCREENPLAY_TESTS})
-    add_executable(tst_ScreenPlay tests/tst_main.cpp)
-    target_link_libraries(tst_ScreenPlay PRIVATE ScreenPlayApp ScreenPlayAppplugin Qt6::Test)
+    qt_add_executable(tst_ScreenPlay tests/tst_main.cpp)
+    target_link_libraries(tst_ScreenPlay PRIVATE ScreenPlayLib ScreenPlayLibplugin Qt6::Test)
     generate_cmake_variable_header(tst_ScreenPlay)
 
     if(${SCREENPLAY_STEAM})
         target_link_libraries(tst_ScreenPlay PUBLIC ScreenPlayWorkshopplugin ScreenPlayWorkshop)
     endif()
-
-    if(APPLE)
-        set_target_properties(tst_ScreenPlay PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
-    endif()
 endif()
 
-if(WIN32
-    OR UNIX
-    AND NOT APPLE)
-    include(CopyRecursive)
-    set(FONTS_OUT_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets/fonts)
-    file(MAKE_DIRECTORY ${FONTS_OUT_DIR})
-    copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.ttf")
-    copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.otf")
-    set(RESOURCES_DIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets")
-    file(MAKE_DIRECTORY ${RESOURCES_DIR})
-
-endif()
+# if(WIN32
+#     OR UNIX
+#     AND NOT APPLE)
+#     include(CopyRecursive)
+#     set(FONTS_OUT_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets/fonts)
+#     file(MAKE_DIRECTORY ${FONTS_OUT_DIR})
+#     copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.ttf")
+#     copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.otf")
+#     set(RESOURCES_DIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets")
+#     file(MAKE_DIRECTORY ${RESOURCES_DIR})
+# endif()
 
 if(WIN32)
-    target_link_libraries(ScreenPlayApp PUBLIC CURL::libcurl sentry::sentry ScreenPlayWallpaperLib)
+    target_link_libraries(ScreenPlayLib PUBLIC CURL::libcurl sentry::sentry ScreenPlayWallpaperLib)
 
     # Icon
     target_sources(${PROJECT_NAME} PRIVATE ScreenPlay.rc)
@@ -414,9 +409,9 @@ if(APPLE)
     configure_file(${APP_ICON_MACOSX} "${RESOURCES_DIR}/ScreenPlay.icns" COPYONLY)
 
     # Creates a ScreenPlay.app
-    set_target_properties(
-        ${PROJECT_NAME}
-        PROPERTIES OUTPUT_NAME ${PROJECT_NAME}
+    # Note: Do NOT set MACOSX_BUNDLE TRUE for additional targets
+    set_target_properties(ScreenPlayApp PROPERTIES
+        OUTPUT_NAME ${PROJECT_NAME}
         MACOSX_BUNDLE TRUE
         MACOSX_RPATH TRUE
         MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist
@@ -427,34 +422,43 @@ if(APPLE)
         XCODE_ATTRIBUTE_EXECUTABLE_NAME ${PROJECT_NAME})
 
     add_custom_command(
-        TARGET ${PROJECT_NAME}
+        TARGET ScreenPlayApp
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/ffmpeg"
         "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
 
     add_custom_command(
-        TARGET ${PROJECT_NAME}
+        TARGET ScreenPlayApp
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/ffprobe"
         "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
 
     # fonts
-    include(CopyRecursive)
-    set(FONTS_OUT_DIR "${RESOURCES_DIR}/fonts")
-    file(MAKE_DIRECTORY ${FONTS_OUT_DIR})
-    copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.ttf")
-    copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.otf")
+    # include(CopyRecursive)
+    # set(FONTS_OUT_DIR "${RESOURCES_DIR}/fonts")
+    # file(MAKE_DIRECTORY ${FONTS_OUT_DIR})
+    # copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.ttf")
+    # copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.otf")
 
 endif()
 
 # .qm translations
-set(QM_OUT_DIR "${RESOURCES_DIR}/translations")
-file(MAKE_DIRECTORY ${QM_OUT_DIR})
-set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${QM_OUT_DIR})
+# set(QM_OUT_DIR "${RESOURCES_DIR}/translations")
+# file(MAKE_DIRECTORY ${QM_OUT_DIR})
+# set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${QM_OUT_DIR})
 
 # Must be called here, because we need to change the OUTPUT_LOCATION for macos
-qt_add_lrelease(${PROJECT_NAME} TS_FILES ${TS_FILES})
+qt_add_lrelease(ScreenPlayApp TS_FILES ${TS_FILES})
 
 # Note: We need the variables in the lib and exe!
-generate_cmake_variable_header(${PROJECT_NAME})
 generate_cmake_variable_header(ScreenPlayApp)
+generate_cmake_variable_header(ScreenPlayLib)
+
+include(GNUInstallDirs)
+install(TARGETS ScreenPlayApp
+    BUNDLE DESTINATION .
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+register_qt_main_deployment(ScreenPlayApp)

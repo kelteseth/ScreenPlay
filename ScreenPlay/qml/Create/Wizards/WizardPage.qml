@@ -4,7 +4,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Window
-import ScreenPlayApp
+import ScreenPlay
 
 FocusScope {
     id: root

@@ -4,7 +4,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Dialogs
-import ScreenPlayApp
+import ScreenPlay
 import ScreenPlayCore as Util
 import "../../"
 
@@ -85,7 +85,7 @@ Item {
                         anchors.fill: parent
                         fillMode: Image.Tile
                         opacity: 0.2
-                        source: "qrc:/qml/ScreenPlayApp/assets/images/noisy-texture-3.png"
+                        source: "qrc:/qt/qml/ScreenPlay/assets/images/noisy-texture-3.png"
                     }
 
                     Text {
@@ -115,7 +115,7 @@ Item {
         text: qsTr("Open Documentation")
         Material.accent: Material.color(Material.LightGreen)
         highlighted: true
-        icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_document.svg"
+        icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_document.svg"
         icon.color: "white"
         icon.width: 16
         icon.height: 16

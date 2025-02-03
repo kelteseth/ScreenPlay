@@ -4,8 +4,8 @@
 #include <QSurfaceFormat>
 #include <QtQml/qqmlextensionplugin.h>
 
-Q_IMPORT_QML_PLUGIN(ScreenPlayShaderPlugin)
-Q_IMPORT_QML_PLUGIN(ScreenPlayCorePlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlayCoreLibPlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlayShaderLibPlugin)
 
 int main(int argc, char* argv[])
 {

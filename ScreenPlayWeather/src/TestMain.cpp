@@ -3,8 +3,8 @@
 #include <QQmlApplicationEngine>
 #include <QtQml/qqmlextensionplugin.h>
 
-Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherPlugin)
-Q_IMPORT_QML_PLUGIN(ScreenPlayCorePlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlayCoreLibPlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherLibPlugin)
 
 int main(int argc, char* argv[])
 {

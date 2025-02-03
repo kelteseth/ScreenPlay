@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "ScreenPlay/settings.h"
-#include "ScreenPlay/CMakeVariables.h"
+#include "CMakeVariables.h"
 #include "ScreenPlayCore/util.h"
 
 #include <QDebug>
@@ -167,7 +167,7 @@ void Settings::writeDefaultProfiles()
     if (!directory.exists()) {
         directory.mkpath(directory.path());
     }
-    QFile defaultProfileFile(":/qml/ScreenPlayApp/profiles.json");
+    QFile defaultProfileFile(":/qt/qml/ScreenPlay/profiles.json");
 
     profilesFile.open(QIODevice::WriteOnly | QIODevice::Text);
     defaultProfileFile.open(QIODevice::ReadOnly | QIODevice::Text);
@@ -219,10 +219,10 @@ void Settings::setupWidgetAndWindowPaths()
         m_globalVariables->setGodotWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaperGodot").toLocalFile());
         const auto godotEditorName = "Godot_" + godotVersion + "-stable_osx.universal";
         m_globalVariables->setGodotEditorExecutablePath(QUrl(workingDir.path() + "/" + godotEditorName));
-    } else if (osType == "linux" || osType == "ubuntu" || osType == "fedora") {
-        m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget"));
-        m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper"));
-        m_globalVariables->setGodotWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaperGodot"));
+    } else if (QSysInfo::kernelType() == "linux") {
+        m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/../ScreenPlayWidget/SPWidget"));
+        m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/../ScreenPlayWallpaper/SPWallpaper"));
+        m_globalVariables->setGodotWallpaperExecutablePath(QUrl(workingDir.path() + "/../ScreenPlayWallpaperGodot"));
         const auto godotEditorName = "Godot_" + godotVersion + "-stable_x11.64";
         m_globalVariables->setGodotEditorExecutablePath(QUrl(workingDir.path() + "/" + godotEditorName));
     } else {

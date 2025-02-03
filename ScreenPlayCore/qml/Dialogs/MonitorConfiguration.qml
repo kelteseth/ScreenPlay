@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material
-import ScreenPlayApp
+import ScreenPlay
 
 import ScreenPlayCore as Util
 
@@ -30,7 +30,7 @@ Util.Dialog {
                 Layout.alignment: Qt.AlignHCenter
                 Layout.preferredWidth: 150
                 Layout.preferredHeight: 150
-                source: "qrc:/qml/ScreenPlayApp/assets/icons/monitor_setup.svg"
+                source: "qrc:/qt/qml/ScreenPlay/assets/icons/monitor_setup.svg"
                 fillMode: Image.PreserveAspectFit
             }
 

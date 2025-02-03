@@ -19,6 +19,8 @@ find_package(
     WebChannel
     Positioning)
 
+qt_standard_project_setup(REQUIRES 6.8)
+
 if(WIN32)
     set(SOURCES src/windowsdesktopproperties.cpp src/winwindow.cpp)
     set(HEADER src/windowsdesktopproperties.h src/winwindow.h)
@@ -58,7 +60,7 @@ if(WIN32)
     set(LIB_HEADER src/windowsintegration.h)
 endif()
 
-add_library(ScreenPlayWallpaperLib STATIC ${LIB_SOURCES} ${LIB_HEADER})
+qt_add_library(ScreenPlayWallpaperLib STATIC ${LIB_SOURCES} ${LIB_HEADER})
 target_compile_features(ScreenPlayWallpaperLib PRIVATE cxx_std_23)
 target_include_directories(ScreenPlayWallpaperLib PUBLIC src)
 
@@ -68,29 +70,25 @@ if(WIN32)
     target_link_libraries(ScreenPlayWallpaperLib PUBLIC shcore.lib)
 endif()
 
-add_executable(${PROJECT_NAME} ${SOURCES} ${HEADER})
-target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_23)
+qt_add_executable(SPWallpaper ${SOURCES} ${HEADER})
+target_compile_features(SPWallpaper PRIVATE cxx_std_23)
 
 qt_add_qml_module(
-    ${PROJECT_NAME}
+    ScreenPlayWallpaperLib
     URI
-    ${PROJECT_NAME}
+    ScreenPlayWallpaper
     VERSION
     1.0
-    OUTPUT_DIRECTORY
-    ${SCREENPLAY_QML_MODULES_PATH}/${PROJECT_NAME}
-    RESOURCE_PREFIX
-    /qml
     QML_FILES
     ${QML}
     RESOURCES
     ${RESOURCES})
 
 target_link_libraries(
-    ${PROJECT_NAME}
-    PRIVATE ScreenPlaySDK
-    ScreenPlayCoreplugin
-    ScreenPlayWeatherplugin
+    SPWallpaper
+    PRIVATE ScreenPlaySDKLib
+    ScreenPlayCoreLibplugin
+    ScreenPlayWeatherLibplugin
     Qt6::Quick
     Qt6::Gui
     Qt6::Widgets
@@ -102,9 +100,9 @@ target_link_libraries(
     Qt6::WebEngineQuick)
 
 if(WIN32)
-    target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlaySysInfoplugin ScreenPlayWallpaperLib)
+    target_link_libraries(SPWallpaper PRIVATE ScreenPlaySysInfoplugin ScreenPlayWallpaperLib)
 elseif(UNIX AND NOT APPLE)
-    target_link_libraries(${PROJECT_NAME} PRIVATE X11)
+    target_link_libraries(SPWallpaper PRIVATE X11)
 endif()
 
 if(UNIX AND NOT APPLE)
@@ -115,27 +113,40 @@ if(UNIX AND NOT APPLE)
         NO_MODULE)
     set(LayerShellQt "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/layer-shell-qt/")
     find_package(LayerShellQt REQUIRED)
-    target_link_libraries(${PROJECT_NAME} PRIVATE LayerShellQtInterface)
+    target_link_libraries(SPWallpaper PRIVATE LayerShellQtInterface)
 endif()
 
 if(APPLE)
-    target_link_libraries(${PROJECT_NAME} PRIVATE "-framework Cocoa")
+    target_link_libraries(SPWallpaper PRIVATE "-framework Cocoa")
 
     add_custom_command(
-        TARGET ${PROJECT_NAME}
+        TARGET SPWallpaper
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/index.html"
                 "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
-    set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
+    
+    set_target_properties(SPWallpaper PROPERTIES
+        MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
+        MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+        MACOSX_BUNDLE FALSE
+        WIN32_EXECUTABLE TRUE
+    )
 endif()
 
 if(WIN32)
     # Disable console window on Windows
     # https://stackoverflow.com/questions/8249028/how-do-i-keep-my-qt-c-program-from-opening-a-console-in-windows
-    set_property(TARGET ${PROJECT_NAME} PROPERTY WIN32_EXECUTABLE true)
+    set_property(TARGET SPWallpaper PROPERTY WIN32_EXECUTABLE true)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/index.html ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/index.html COPYONLY)
 endif()
 
 # ##### USE CMAKE VARIABLES IN CODE #####
 include(GenerateCMakeVariableHeader)
-generate_cmake_variable_header(${PROJECT_NAME})
+generate_cmake_variable_header(SPWallpaper)
+
+include(GNUInstallDirs)
+install(TARGETS SPWallpaper
+    BUNDLE DESTINATION .
+)
+
+register_qt_additional_deployment(SPWallpaper)
