@@ -13,7 +13,9 @@
             "cacheVariables": {
                 "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/../vcpkg/scripts/buildsystems/vcpkg.cmake",
                 "QT_QML_GENERATE_QMLLS_INI": "ON",
-                "QCORO_BUILD_EXAMPLES": "OFF"
+                "QCORO_BUILD_EXAMPLES": "OFF",
+                "QCORO_BUILD_TESTING": "OFF",
+                "BUILD_TESTING": "OFF"
             }
         },
         {

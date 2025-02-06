@@ -31,12 +31,15 @@ WallpaperExit::Code LinuxX11Window::start()
     if (!debugMode()) {
         connect(m_sdk.get(), &ScreenPlaySDK::sdkDisconnected, this, &LinuxX11Window::destroyThis);
     }
-
+    qmlRegisterSingletonType<LinuxX11Window>("ScreenPlayWallpaper", 1, 0, "Wallpaper", 
+    [](QQmlEngine *engine, QJSEngine *) -> QObject * {
+        return new LinuxX11Window();
+    });
     qmlRegisterSingletonInstance<LinuxX11Window>("ScreenPlayWallpaper", 1, 0, "Wallpaper", this);
 
     auto* screen = QGuiApplication::screens().at(0);
-    m_window.setGeometry(screen->geometry());
-    Window window = m_window.winId();
+    m_quickView->setGeometry(screen->geometry());
+    Window window = m_quickView->winId();
 
     Display* display = XOpenDisplay("");
 
@@ -108,10 +111,10 @@ WallpaperExit::Code LinuxX11Window::start()
 
     XSync(display, window);
     QDir workingDir(QGuiApplication::instance()->applicationDirPath());
-    m_window.engine()->addImportPath(workingDir.path() + "/qml");
-    m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
-    m_window.loadFromModule("ScreenPlayWallpaper", "Wallpaper");
-    m_window.show();
+    // m_quickView->engine()->addImportPath(workingDir.path() + "/qml");
+    m_quickView->setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
+    m_quickView->loadFromModule("ScreenPlayWallpaper", "ScreenPlayWallpaperMain");
+    m_quickView->show();
     return WallpaperExit::Code::Ok;
 }
 
@@ -129,7 +132,7 @@ void LinuxX11Window::setupWallpaperForMultipleScreens(const QVector<int>& active
 
 void LinuxX11Window::setVisible(bool show)
 {
-    m_window.setVisible(show);
+    m_quickView->setVisible(show);
 }
 
 void LinuxX11Window::destroyThis()

@@ -17,6 +17,8 @@
 namespace ScreenPlay {
 class LinuxWaylandWindow : public BaseWindow {
     Q_OBJECT
+    QML_ELEMENT
+    QML_UNCREATABLE("cpp singleton")
 
 public:
     WallpaperExit::Code start() override;
@@ -29,7 +31,6 @@ public slots:
     void terminate() override;
 
 private:
-    QQuickView m_window;
     void setupWallpaperForOneScreen(int activeScreen);
     void setupWallpaperForAllScreens();
     void setupWallpaperForMultipleScreens(const QVector<int>& activeScreensList);

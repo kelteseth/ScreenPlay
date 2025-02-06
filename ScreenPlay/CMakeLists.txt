@@ -341,7 +341,7 @@ target_link_libraries(
 # endif()
 
 qt_add_executable(ScreenPlayApp main.cpp)
-target_link_libraries(ScreenPlayApp PRIVATE ScreenPlayLib ScreenPlayLibplugin QCoro6::Qml)
+target_link_libraries(ScreenPlayApp PRIVATE ScreenPlayLib ScreenPlayLibplugin)
 
 if(${SCREENPLAY_TESTS})
     qt_add_executable(tst_ScreenPlay tests/tst_main.cpp)

@@ -10,7 +10,7 @@ WallpaperExit::Code MacWindow::start()
 
     MacUtils::showDockIcon(false);
     auto* screen = QGuiApplication::screens().at(activeScreensList().at(0));
-    m_window.setGeometry(screen->geometry());
+    m_quickView->setGeometry(screen->geometry());
 
     qmlRegisterSingletonInstance<MacWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", this);
 
@@ -21,13 +21,13 @@ WallpaperExit::Code MacWindow::start()
     // OSX Development workaround:
     // This folder needs then to be copied into the .app/Contents/MacOS/
     // for the deploy version.
-    m_window.engine()->addImportPath(QGuiApplication::instance()->applicationDirPath() + "/qml");
+    m_quickView->engine()->addImportPath(QGuiApplication::instance()->applicationDirPath() + "/qml");
 
     // WARNING: Setting Window flags must be called *here*!
-    Qt::WindowFlags flags = m_window.flags();
-    m_window.setFlags(flags | Qt::FramelessWindowHint | Qt::Desktop);
-    m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
-    m_window.loadFromModule("ScreenPlayWallpaper", "Wallpaper");
+    Qt::WindowFlags flags = m_quickView->flags();
+    m_quickView->setFlags(flags | Qt::FramelessWindowHint | Qt::Desktop);
+    m_quickView->setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
+    m_quickView->loadFromModule("ScreenPlayWallpaper", "Wallpaper");
 
     MacIntegration* macIntegration = new MacIntegration(this);
     macIntegration->SetBackgroundLevel(&m_window);
@@ -37,7 +37,7 @@ WallpaperExit::Code MacWindow::start()
 
 void MacWindow::setVisible(bool show)
 {
-    m_window.setVisible(show);
+    m_quickView->setVisible(show);
 }
 
 void MacWindow::destroyThis()
@@ -52,7 +52,7 @@ void MacWindow::terminate()
 
 void MacWindow::clearComponentCache()
 {
-    m_window.engine()->clearComponentCache();
+    m_quickView->engine()->clearComponentCache();
 }
 }
 #include "moc_macwindow.cpp"

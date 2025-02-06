@@ -10,33 +10,31 @@ namespace ScreenPlay {
 WallpaperExit::Code LinuxWaylandWindow::start()
 {
 
-    if (QGuiApplication::platformName() != "wayland") {
-        qFatal("Invalid");
-    }
+    // if (QGuiApplication::platformName() != "wayland") {
+    //     qFatal("Invalid");
+    // }
 
-    if (!debugMode()) {
-        connect(m_sdk.get(), &ScreenPlaySDK::sdkDisconnected, this, &LinuxWaylandWindow::destroyThis);
-    }
-
-    qmlRegisterSingletonInstance<LinuxWaylandWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", this);
-
-    QDir workingDir(QGuiApplication::instance()->applicationDirPath());
-    m_window.engine()->addImportPath(workingDir.path() + "/qml");
-    m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
-    m_window.loadFromModule("ScreenPlayWallpaper", "Wallpaper");
-    //m_window.setGeometry(0,0,100,100);
+    // if (!debugMode()) {
+    //     connect(m_sdk.get(), &ScreenPlaySDK::sdkDisconnected, this, &LinuxWaylandWindow::destroyThis);
+    // }
+       // LinuxWaylandWindow* singleton = singletonInstance<LinuxWaylandWindow*>("ScreenPlayWallpaper", "Wallpaper");
+    // QDir workingDir(QGuiApplication::instance()->applicationDirPath());
+    // // m_quickView->engine()->addImportPath(workingDir.path() + "/qml");
+     m_quickView->setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
+    //  m_quickView->loadFromModule("ScreenPlayWallpaper", "ScreenPlayWallpaperMain");
+    //m_quickView->setGeometry(0,0,100,100);
 
     // Get the Wayland display
     // QPlatformNativeInterface* native = QGuiApplication::platformNativeInterface();
 
-    auto* layerShell = LayerShellQt::Window::get(&m_window);
-    layerShell->setLayer(LayerShellQt::Window::LayerBackground);
-    layerShell->setAnchors(static_cast<QFlags<LayerShellQt::Window::Anchor>>(
-        LayerShellQt::Window::Anchor::AnchorTop | LayerShellQt::Window::Anchor::AnchorBottom | LayerShellQt::Window::Anchor::AnchorLeft | LayerShellQt::Window::Anchor::AnchorRight));
+     auto* layerShell = LayerShellQt::Window::get(m_quickView.get());
+     layerShell->setLayer(LayerShellQt::Window::LayerBackground);
+     layerShell->setAnchors(static_cast<QFlags<LayerShellQt::Window::Anchor>>(
+         LayerShellQt::Window::Anchor::AnchorTop | LayerShellQt::Window::Anchor::AnchorBottom | LayerShellQt::Window::Anchor::AnchorLeft | LayerShellQt::Window::Anchor::AnchorRight));
 
 
-    m_window.show();
-    return WallpaperExit::Code::Ok;
+    m_quickView->show();
+     return WallpaperExit::Code::Ok;
 }
 
 void LinuxWaylandWindow::setupWallpaperForOneScreen(int activeScreen)
@@ -53,7 +51,7 @@ void LinuxWaylandWindow::setupWallpaperForMultipleScreens(const QVector<int>& ac
 
 void LinuxWaylandWindow::setVisible(bool show)
 {
-    m_window.setVisible(show);
+    // m_quickView->setVisible(show);
 }
 
 void LinuxWaylandWindow::destroyThis()

@@ -30,6 +30,6 @@ public slots:
     void clearComponentCache() override;
 
 private:
-    QQuickView m_window;
+    
 };
 }

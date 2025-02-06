@@ -36,18 +36,18 @@ elseif(UNIX)
     set(HEADER src/linuxx11window.h src/linuxwaylandwindow.h)
 endif()
 
-set(SOURCES ${SOURCES} main.cpp src/basewindow.cpp)
+set(SOURCES ${SOURCES} src/basewindow.cpp)
 set(HEADER ${HEADER} src/basewindow.h)
 
 set(QML
 
     # cmake-format: sort
+    ScreenPlayWallpaperMain.qml
     qml/CrossFadeVideoPlayer.qml
     qml/GifWallpaper.qml
     qml/MultimediaView.qml
     qml/MultimediaWebView.qml
     qml/Test.qml
-    qml/Wallpaper.qml
     qml/WebsiteWallpaper.qml)
 
 set(RESOURCES qtquickcontrols2.conf index.html)
@@ -60,7 +60,7 @@ if(WIN32)
     set(LIB_HEADER src/windowsintegration.h)
 endif()
 
-qt_add_library(ScreenPlayWallpaperLib STATIC ${LIB_SOURCES} ${LIB_HEADER})
+qt_add_library(ScreenPlayWallpaperLib STATIC)
 target_compile_features(ScreenPlayWallpaperLib PRIVATE cxx_std_23)
 target_include_directories(ScreenPlayWallpaperLib PUBLIC src)
 
@@ -70,7 +70,7 @@ if(WIN32)
     target_link_libraries(ScreenPlayWallpaperLib PUBLIC shcore.lib)
 endif()
 
-qt_add_executable(SPWallpaper ${SOURCES} ${HEADER})
+qt_add_executable(SPWallpaper main.cpp)
 target_compile_features(SPWallpaper PRIVATE cxx_std_23)
 
 qt_add_qml_module(
@@ -81,12 +81,18 @@ qt_add_qml_module(
     1.0
     QML_FILES
     ${QML}
+    SOURCES
+    ${LIB_SOURCES} 
+    ${LIB_HEADER}
+    ${SOURCES} 
+    ${HEADER}
     RESOURCES
     ${RESOURCES})
 
 target_link_libraries(
-    SPWallpaper
-    PRIVATE ScreenPlaySDKLib
+    ScreenPlayWallpaperLib
+    PUBLIC 
+    ScreenPlaySDKLib
     ScreenPlayCoreLibplugin
     ScreenPlayWeatherLibplugin
     Qt6::Quick
@@ -99,10 +105,12 @@ target_link_libraries(
     Qt6::WebEngineCore
     Qt6::WebEngineQuick)
 
+target_link_libraries(SPWallpaper PRIVATE ScreenPlayWallpaperLib ScreenPlayWallpaperLibplugin)
+
 if(WIN32)
-    target_link_libraries(SPWallpaper PRIVATE ScreenPlaySysInfoplugin ScreenPlayWallpaperLib)
+    target_link_libraries(ScreenPlayWallpaperLib PRIVATE ScreenPlaySysInfoplugin)
 elseif(UNIX AND NOT APPLE)
-    target_link_libraries(SPWallpaper PRIVATE X11)
+    target_link_libraries(ScreenPlayWallpaperLib PRIVATE X11)
 endif()
 
 if(UNIX AND NOT APPLE)
@@ -113,11 +121,11 @@ if(UNIX AND NOT APPLE)
         NO_MODULE)
     set(LayerShellQt "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/layer-shell-qt/")
     find_package(LayerShellQt REQUIRED)
-    target_link_libraries(SPWallpaper PRIVATE LayerShellQtInterface)
+    target_link_libraries(ScreenPlayWallpaperLib PRIVATE LayerShellQtInterface)
 endif()
 
 if(APPLE)
-    target_link_libraries(SPWallpaper PRIVATE "-framework Cocoa")
+    target_link_libraries(ScreenPlayWallpaperLib PRIVATE "-framework Cocoa")
 
     add_custom_command(
         TARGET SPWallpaper

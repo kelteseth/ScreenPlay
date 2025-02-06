@@ -12,6 +12,8 @@
 #include "ScreenPlayCore/logginghandler.h"
 #include "ScreenPlayCore/util.h"
 
+#include <QQmlEngine>
+
 #if defined(Q_OS_WIN)
 #include "src/winwindow.h"
 Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoLibPlugin)
@@ -35,19 +37,24 @@ int main(int argc, char* argv[])
     QCoreApplication::setApplicationName("ScreenPlayWallpaper");
     QCoreApplication::setApplicationVersion("1.0");
     std::unique_ptr<const ScreenPlayCore::LoggingHandler> logging;
-    std::unique_ptr<BaseWindow> window;
+    
+    auto quickView = std::make_shared<QQuickView>();
 
 #if defined(Q_OS_WIN)
-    window = std::make_unique<WinWindow>();
+    auto window = std::make_unique<WinWindow>();
 #elif defined(Q_OS_LINUX)
-    const auto platformName = QGuiApplication::platformName();
-    if (platformName == "xcb") {
-        window = std::make_unique<LinuxX11Window>();
-    } else if (platformName == "wayland") {
-        window = std::make_unique<LinuxWaylandWindow>();
-    }
+    // const auto platformName = QGuiApplication::platformName();
+    // if (platformName == "xcb") {
+    //     window = std::make_unique<LinuxX11Window>();
+    // } else if (platformName == "wayland") {
+    auto window = std::make_unique<LinuxWaylandWindow>();
+    qmlRegisterSingletonInstance<LinuxWaylandWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", window.get());
+    window->setQuickView(quickView);
+    quickView->loadFromModule("ScreenPlayWallpaper", "ScreenPlayWallpaperMain");
+
+    // }
 #elif defined(Q_OS_MACOS)
-    window = std::make_unique<MacWindow>();
+    auto window = std::make_unique<MacWindow>();
 #endif
 
     // If we start with only one argument (app path)

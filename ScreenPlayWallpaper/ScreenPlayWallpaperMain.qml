@@ -7,6 +7,7 @@ import ScreenPlayCore
 
 Rectangle {
     id: root
+    Component.onCompleted: print("asdadsasd")
 
     property bool canFadeByWallpaperFillMode: true
     anchors.fill: parent

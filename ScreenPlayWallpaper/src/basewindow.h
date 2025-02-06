@@ -12,7 +12,10 @@
 #include <QObject>
 #include <QString>
 #include <QSysInfo>
+#include <QQmlEngine>
 #include <QtQml>
+#include <QQuickView>
+
 
 #include "ScreenPlayCore/exitcodes.h"
 #include "ScreenPlayCore/processmanager.h"
@@ -25,6 +28,8 @@
 namespace ScreenPlay {
 class BaseWindow : public QObject {
     Q_OBJECT
+    QML_ELEMENT
+    QML_UNCREATABLE("cpp singleton")
 
 public:
     BaseWindow();
@@ -325,6 +330,10 @@ public slots:
         emit projectSourceFileAbsoluteChanged(m_projectSourceFileAbsolute);
     }
 
+    void setQuickView(std::shared_ptr<QQuickView> quickView){
+        m_quickView = quickView;
+    }
+
 private:
     void setupLiveReloading();
 
@@ -350,6 +359,8 @@ protected:
     int m_width { 0 };
     int m_height { 0 };
     qint64 m_mainAppPID { 0 };
+
+    std::shared_ptr<QQuickView> m_quickView;
 
     ProcessManager m_processManager;
     ScreenPlay::ContentTypes::InstalledType m_type = ScreenPlay::ContentTypes::InstalledType::Unknown;

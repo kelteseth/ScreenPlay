@@ -41,7 +41,7 @@ WallpaperExit::Code WinWindow::start()
     }
 
     m_windowsDesktopProperties = std::make_unique<WindowsDesktopProperties>();
-    m_windowsIntegration.setWindowHandle(reinterpret_cast<HWND>(m_window.winId()));
+    m_windowsIntegration.setWindowHandle(reinterpret_cast<HWND>(m_quickView->winId()));
     if (!IsWindow(m_windowsIntegration.windowHandle())) {
         qCritical("Could not get a valid window handle!");
         return WallpaperExit::Code::Invalid_Start_Windows_HandleError;
@@ -50,7 +50,7 @@ WallpaperExit::Code WinWindow::start()
     qRegisterMetaType<WinWindow*>();
     qmlRegisterSingletonInstance<WinWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", this);
 
-    m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
+    m_quickView->setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
     configureWindowGeometry();
 
     // We do not support autopause for multi monitor wallpaper and
@@ -62,8 +62,8 @@ WallpaperExit::Code WinWindow::start()
     }
 
     qInfo() << "Setup " << width() << height();
-    m_window.loadFromModule("ScreenPlayWallpaper", "Wallpaper");
-    m_window.show();
+    m_quickView->loadFromModule("ScreenPlayWallpaper", "Wallpaper");
+    m_quickView->show();
 
     QTimer::singleShot(1000, this, [&]() {
         m_windowsIntegration.setupWindowMouseHook();
@@ -101,7 +101,7 @@ WallpaperExit::Code WinWindow::start()
             QPoint globalPos(p.x, p.y);
 
             // Convert global position to local position within the target widget
-            QPoint localPos = m_window.mapFromGlobal(globalPos);
+            QPoint localPos = m_quickView->mapFromGlobal(globalPos);
 
             // Create the QMouseEvent
             QMouseEvent* qEvent = new QMouseEvent(eventType, localPos, globalPos, button, button, QGuiApplication::keyboardModifiers());
@@ -169,8 +169,8 @@ void WinWindow::setupWallpaperForOneScreen(int activeScreen)
     auto updateWindowSize = [this](const int width, const int height) {
         setWidth(width);
         setHeight(height);
-        m_window.setWidth(width);
-        m_window.setHeight(height);
+        m_quickView->setWidth(width);
+        m_quickView->setHeight(height);
     };
     WindowsIntegration::MonitorResult monitor = m_windowsIntegration.setupWallpaperForOneScreen(activeScreen, updateWindowSize);
     if (monitor.status != WindowsIntegration::MonitorResultStatus::Ok) {
@@ -186,8 +186,8 @@ void WinWindow::setupWallpaperForAllScreens()
     WindowsIntegration::SpanResult span = m_windowsIntegration.setupWallpaperForAllScreens();
     setWidth(span.width);
     setHeight(span.height);
-    m_window.setWidth(width());
-    m_window.setHeight(height());
+    m_quickView->setWidth(width());
+    m_quickView->setHeight(height());
 }
 
 /*!
@@ -199,8 +199,8 @@ void WinWindow::setupWallpaperForMultipleScreens(const QVector<int>& activeScree
     WindowsIntegration::SpanResult span = m_windowsIntegration.setupWallpaperForMultipleScreens(activeScreens);
     setWidth(span.width);
     setHeight(span.height);
-    m_window.setWidth(width());
-    m_window.setHeight(height());
+    m_quickView->setWidth(width());
+    m_quickView->setHeight(height());
 }
 
 /*!
@@ -230,7 +230,7 @@ void WinWindow::configureWindowGeometry()
     } else if (activeScreensList().length() > 1) {
         setupWallpaperForMultipleScreens(activeScreensList());
     }
-    m_window.show();
+    m_quickView->show();
 }
 
 std::tuple<int, QString> WinWindow::mapVirtualKeyToQtKey(UINT vkCode)
@@ -409,7 +409,7 @@ void WinWindow::terminate()
 */
 void WinWindow::clearComponentCache()
 {
-    m_window.engine()->clearComponentCache();
+    m_quickView->engine()->clearComponentCache();
 }
 
 void WinWindow::checkForFullScreenWindow()
