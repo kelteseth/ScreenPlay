@@ -5,11 +5,11 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 
-set(SOURCES main.cpp src/widgetwindow.cpp)
+set(SOURCES  src/widgetwindow.cpp)
 
 set(HEADER src/widgetwindow.h)
 
-set(QML qml/Test.qml qml/Widget.qml)
+set(QML qml/Test.qml ScreenPlayWidgetMain.qml)
 
 set(RESOURCES
     # cmake-format: sort
@@ -34,15 +34,14 @@ find_package(
 
 qt_standard_project_setup(REQUIRES 6.8)
 
-qt_add_executable(
-    SPWidget
-    ${SOURCES}
-    ${HEADER}
-    ${RESOURCES})
+qt_add_library(ScreenPlayWidgetLib STATIC)
+# qml_typeregistration
+target_include_directories(ScreenPlayWidgetLib PUBLIC src)
+qt_add_executable(SPWidget main.cpp)
 
 target_link_libraries(
-    SPWidget
-    PRIVATE ScreenPlaySDKLib
+    ScreenPlayWidgetLib
+    PUBLIC ScreenPlaySDKLib
             ScreenPlayCoreLib
             ScreenPlayCoreLibplugin
             ScreenPlayWeatherLibplugin
@@ -55,20 +54,25 @@ target_link_libraries(
             Qt6::WebEngineCore
             Qt6::WebEngineQuick)
 
-if(WIN32)
-    target_link_libraries(SPWidget PRIVATE ScreenPlaySysInfoLibplugin ScreenPlayCoreLibplugin)
-endif()
-
 qt_add_qml_module(
-    SPWidgetLib
+    ScreenPlayWidgetLib
     URI
     ScreenPlayWidget
     VERSION
     1.0
     QML_FILES
     ${QML}
+    SOURCES
+    ${SOURCES} 
+    ${HEADER}
     RESOURCES
     ${RESOURCES})
+
+if(WIN32)
+    target_link_libraries(SPWidget PRIVATE ScreenPlaySysInfoLibplugin)
+endif()
+
+target_link_libraries(SPWidget PRIVATE ScreenPlayWidgetLib ScreenPlayWidgetLibplugin)
 
 if(WIN32)
     # Disable console window on Windows

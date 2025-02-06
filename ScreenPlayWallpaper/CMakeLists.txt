@@ -62,6 +62,7 @@ endif()
 
 qt_add_library(ScreenPlayWallpaperLib STATIC)
 target_compile_features(ScreenPlayWallpaperLib PRIVATE cxx_std_23)
+# qml_typeregistration
 target_include_directories(ScreenPlayWallpaperLib PUBLIC src)
 
 

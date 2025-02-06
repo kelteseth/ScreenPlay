@@ -30,6 +30,8 @@
 namespace ScreenPlay {
 class WidgetWindow : public QObject {
     Q_OBJECT
+    QML_ELEMENT
+    QML_UNCREATABLE("cpp singleton")
 
 public:
     explicit WidgetWindow(
@@ -38,8 +40,9 @@ public:
         const QString& type,
         const QPoint& position,
         const qint64 mainAppPID,
+        std::shared_ptr<QQuickView> quickView,
         const bool debugMode = false);
-
+    void start();    
     Q_PROPERTY(qint64 mainAppPID READ mainAppPID WRITE setMainAppPID NOTIFY mainAppPIDChanged FINAL)
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
     Q_PROPERTY(QString projectPath READ projectPath WRITE setProjectPath NOTIFY projectPathChanged)
@@ -159,10 +162,12 @@ public slots:
         emit debugModeChanged(m_debugMode);
     }
 
+
 private:
     void setupLiveReloading();
 
 private:
+    std::shared_ptr<QQuickView> m_quickView;
     qint64 m_mainAppPID { 0 };
     QString m_appID;
     QString m_projectPath;
@@ -171,7 +176,6 @@ private:
     QPoint m_clickPos = { 0, 0 };
     QPoint m_lastPos = { 0, 0 };
     QPoint m_position = { 0, 0 };
-    QQuickView m_window;
     std::unique_ptr<ScreenPlaySDK> m_sdk;
     QTimer m_positionMessageLimiter;
     ScreenPlay::ContentTypes::InstalledType m_type;

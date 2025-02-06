@@ -28,26 +28,29 @@ WidgetWindow::WidgetWindow(
     const QString& type,
     const QPoint& position,
     const qint64 mainAppPID,
+    std::shared_ptr<QQuickView> quickView,
     const bool debugMode)
     : QObject(nullptr)
+    , m_quickView { quickView }
     , m_appID { appID }
     , m_position { position }
     , m_debugMode { debugMode }
 {
     setMainAppPID(mainAppPID);
-    Qt::WindowFlags flags = m_window.flags();
+
+            Qt::WindowFlags flags = m_quickView->flags();
     if (QSysInfo::productType() == "macos") {
         // Setting it as a SlashScreen causes the window to hide on focus lost
-        m_window.setFlags(flags | Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint);
+        m_quickView->setFlags(flags | Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint);
     } else if (QSysInfo::productType() == "windows") {
         // Must be splash screen to not show up in the taskbar
-        m_window.setFlags(flags | Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint | Qt::BypassWindowManagerHint | Qt::SplashScreen);
+        m_quickView->setFlags(flags | Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint | Qt::BypassWindowManagerHint | Qt::SplashScreen);
     }
 
-    qmlRegisterSingletonInstance<WidgetWindow>("ScreenPlayWidget", 1, 0, "Widget", this);
+    
 
 #ifdef Q_OS_WIN
-    m_hwnd = reinterpret_cast<HWND>(m_window.winId());
+    m_hwnd = reinterpret_cast<HWND>(m_quickView->winId());
     setWindowBlur();
 #endif
 
@@ -73,12 +76,6 @@ WidgetWindow::WidgetWindow(
             qWarning() << "Cannot parse Wallpaper type from value" << m_project.value("type");
         }
     }
-    auto* guiAppInst = dynamic_cast<QGuiApplication*>(QGuiApplication::instance());
-    m_window.engine()->addImportPath(guiAppInst->applicationDirPath() + "/qml");
-    m_window.setResizeMode(QQuickView::ResizeMode::SizeViewToRootObject);
-    m_window.loadFromModule("ScreenPlayWidget", "Widget");
-    m_window.setColor(Qt::transparent);
-    m_window.setPosition(m_position);
 
     // Debug mode means we directly start the ScreenPlayWallpaper for easy debugging.
     // This means we do not have a running ScreenPlay instance to connect to.
@@ -98,25 +95,37 @@ WidgetWindow::WidgetWindow(
 
                 QJsonObject obj;
                 obj.insert("messageType", "positionUpdate");
-                obj.insert("positionX", m_window.x());
-                obj.insert("positionY", m_window.y());
+                obj.insert("positionX", m_quickView->x());
+                obj.insert("positionY", m_quickView->y());
                 m_sdk->sendMessage(obj);
             };
             m_positionMessageLimiter.setInterval(500);
 
             QObject::connect(&m_positionMessageLimiter, &QTimer::timeout, this, sendPositionUpdate);
-            QObject::connect(&m_window, &QWindow::xChanged, this, [this]() { m_positionMessageLimiter.start(); });
-            QObject::connect(&m_window, &QWindow::yChanged, this, [this]() { m_positionMessageLimiter.start(); });
+            QObject::connect(m_quickView.get(), &QWindow::xChanged, this, [this]() { m_positionMessageLimiter.start(); });
+            QObject::connect(m_quickView.get(), &QWindow::yChanged, this, [this]() { m_positionMessageLimiter.start(); });
         });
     }
+    
+}
+
+void WidgetWindow::start(){
+
+    auto* guiAppInst = dynamic_cast<QGuiApplication*>(QGuiApplication::instance());
+    m_quickView->engine()->addImportPath(guiAppInst->applicationDirPath() + "/qml");
+    m_quickView->setResizeMode(QQuickView::ResizeMode::SizeViewToRootObject);
+    m_quickView->loadFromModule("ScreenPlayWidget", "ScreenPlayWidgetMain");
+    m_quickView->setColor(Qt::transparent);
+    m_quickView->setPosition(m_position);
+
 
     setupLiveReloading();
 }
 
 void WidgetWindow::setSize(QSize size)
 {
-    m_window.setWidth(size.width());
-    m_window.setHeight(size.height());
+    m_quickView->setWidth(size.width());
+    m_quickView->setHeight(size.height());
 }
 
 void WidgetWindow::destroyThis()
@@ -131,7 +140,7 @@ void WidgetWindow::messageReceived(QString key, QString value)
 
 void WidgetWindow::setPos(int xPos, int yPos)
 {
-    m_window.setPosition({ xPos, yPos });
+    m_quickView->setPosition({ xPos, yPos });
 }
 
 void WidgetWindow::setClickPos(const QPoint& clickPos)
@@ -141,8 +150,8 @@ void WidgetWindow::setClickPos(const QPoint& clickPos)
 
 void WidgetWindow::setWidgetSize(const int with, const int height)
 {
-    m_window.setWidth(with);
-    m_window.setHeight(height);
+    m_quickView->setWidth(with);
+    m_quickView->setHeight(height);
 }
 
 #ifdef Q_OS_WIN
@@ -189,12 +198,12 @@ void WidgetWindow::setWindowBlur(quint64 style)
 */
 void WidgetWindow::clearComponentCache()
 {
-    m_window.engine()->clearComponentCache();
+    m_quickView->engine()->clearComponentCache();
 }
 
 void WidgetWindow::show()
 {
-    m_window.show();
+    m_quickView->show();
 }
 
 /*!

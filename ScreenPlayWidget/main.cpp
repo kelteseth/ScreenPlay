@@ -138,13 +138,17 @@ int main(int argc, char* argv[])
         return static_cast<int>(WidgetExit::Code::Invalid_PID);
     }
 
+    auto quickView = std::make_shared<QQuickView>();
     WidgetWindow spwmw(
         projectPath,
         appID,
         type,
         QPoint { positionX, positionY },
         mainAppPidInt,
+        quickView,
         false);
+    qmlRegisterSingletonInstance<WidgetWindow>("ScreenPlayWidget", 1, 0, "Widget", &spwmw);
+    spwmw.start();
 
 #if defined(Q_OS_MACOS)
     MacUtils::showDockIcon(false);
