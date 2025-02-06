@@ -6,7 +6,8 @@
         "patch": 0
     },
     "include": [
-        "../Common/CMakePresets.json"
+        "../Common/CMakePresets.json",
+        "../Common/DeployPresets.json"
     ],
     "configurePresets": [
         {
@@ -36,7 +37,7 @@
         },
         {
             "name": "linux-gcc-debug",
-            "binaryDir": "${sourceDir}/../build_ScreenPlay_Gcc_Debug",
+            "binaryDir": "${sourceDir}/Build/Gcc_Debug",
             "inherits": [
                 "config-develop",
                 "linux-gcc-base",
@@ -45,7 +46,7 @@
         },
         {
             "name": "linux-gcc-relwithdebinfo",
-            "binaryDir": "${sourceDir}/../build_ScreenPlay_Gcc_RelWithDebInfo",
+            "binaryDir": "${sourceDir}/Build/Gcc_RelWithDebInfo",
             "inherits": [
                 "config-develop",
                 "linux-gcc-base",
@@ -54,7 +55,7 @@
         },
         {
             "name": "linux-gcc-release",
-            "binaryDir": "${sourceDir}/../build_ScreenPlay_Gcc_Release",
+            "binaryDir": "${sourceDir}/Build/Gcc_Release",
             "inherits": [
                 "config-develop",
                 "linux-gcc-base",
@@ -66,13 +67,13 @@
             "hidden": true,
             "inherits": "linux-base",
             "cacheVariables": {
-                "CMAKE_CXX_COMPILER": "clang++-17",
-                "CMAKE_C_COMPILER": "clang-17"
+                "CMAKE_CXX_COMPILER": "clang++",
+                "CMAKE_C_COMPILER": "clang"
             }
         },
         {
             "name": "linux-clang-debug",
-            "binaryDir": "${sourceDir}/../build_ScreenPlay_Clang_Debug",
+            "binaryDir": "${sourceDir}/Build/Clang_Debug",
             "inherits": [
                 "config-develop",
                 "linux-clang-base",
@@ -81,7 +82,7 @@
         },
         {
             "name": "linux-clang-relwithdebinfo",
-            "binaryDir": "${sourceDir}/../build_ScreenPlay_Clang_RelWithDebInfo",
+            "binaryDir": "${sourceDir}/Build/Clang_RelWithDebInfo",
             "inherits": [
                 "config-develop",
                 "linux-clang-base",
@@ -90,11 +91,29 @@
         },
         {
             "name": "linux-clang-release",
-            "binaryDir": "${sourceDir}/../build_ScreenPlay_Clang_Release",
+            "binaryDir": "${sourceDir}/Build/Clang_Release",
             "inherits": [
                 "config-develop",
                 "linux-clang-base",
                 "release"
+            ]
+        },
+        {
+            "name": "linux-deploy-release",
+            "inherits": [
+                "linux-gcc-release",
+                "deploy-base"
+            ],
+            "displayName": "Deploy Release (linux)",
+            "description": "Deploy Release build with QML dependencies"
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "linux-deploy-release",
+            "configurePreset": "linux-deploy-release",
+            "inherits": [
+                "deploy-base"
             ]
         }
     ]

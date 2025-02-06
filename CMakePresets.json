@@ -9,19 +9,5 @@
     "CMake/Platform/Windows/CMakePresets.json",
     "CMake/Platform/Linux/CMakePresets.json",
     "CMake/Platform/Mac/CMakePresets.json"
-  ],
-  "buildPresets": [
-    {
-      "name": "windows-msvc-debug-build",
-      "configurePreset": "windows-msvc-debug",
-      "displayName": "Build windows-msvc-debug",
-      "description": "Build windows-msvc-debug configuration"
-    },
-    {
-      "name": "windows-msvc-release-build",
-      "configurePreset": "windows-msvc-release",
-      "displayName": "Build windows-msvc-release",
-      "description": "Build windows-msvc-release configuration"
-    }
   ]
 }

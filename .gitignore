@@ -268,3 +268,4 @@ cython_debug/
 /.vs/ScreenPlay/
 /.vs/slnx.sqlite
 /.vs/VSWorkspaceState.json
+Build/*

@@ -1,0 +1,26 @@
+{
+    "version": 9,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 30,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "deploy-base",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/Build/Deploy"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "deploy-base",
+            "hidden": true,
+            "targets": [
+                "install"
+            ]
+        }
+    ]
+}

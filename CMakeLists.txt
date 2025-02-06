@@ -22,6 +22,18 @@ project(
     HOMEPAGE_URL "https://screen-play.app/"
     LANGUAGES CXX)
 
+find_package(
+    Qt6
+    COMPONENTS Core
+    Quick
+    QuickControls2
+    Gui
+    Widgets
+    WebSockets
+    Svg
+    Xml
+    LinguistTools
+    Test)
 
 include(QtDeploy)
 

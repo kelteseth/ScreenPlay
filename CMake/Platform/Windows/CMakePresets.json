@@ -6,7 +6,8 @@
         "patch": 0
     },
     "include": [
-        "../Common/CMakePresets.json"
+        "../Common/CMakePresets.json",
+        "../Common/DeployPresets.json"
     ],
     "configurePresets": [
         {
@@ -52,7 +53,7 @@
         },
         {
             "name": "windows-msvc-debug",
-            "binaryDir": "${sourceDir}/../build_ScreenPlay_MSVC_Debug",
+            "binaryDir": "${sourceDir}/Build/MSVC_Debug",
             "inherits": [
                 "config-develop",
                 "windows-msvc-base",
@@ -61,7 +62,7 @@
         },
         {
             "name": "windows-msvc-relwithdebinfo",
-            "binaryDir": "${sourceDir}/../build_ScreenPlay_MSVC_RelWithDebInfo",
+            "binaryDir": "${sourceDir}/Build/MSVC_RelWithDebInfo",
             "inherits": [
                 "config-develop",
                 "windows-msvc-base",
@@ -70,7 +71,7 @@
         },
         {
             "name": "windows-msvc-release",
-            "binaryDir": "${sourceDir}/../build_ScreenPlay_MSVC_Release",
+            "binaryDir": "${sourceDir}/Build/MSVC_Release",
             "inherits": [
                 "config-develop",
                 "windows-msvc-base",
@@ -87,7 +88,7 @@
         },
         {
             "name": "windows-clang-debug",
-            "binaryDir": "${sourceDir}/../build_ScreenPlay_Clang_Debug",
+            "binaryDir": "${sourceDir}/Build/Clang_Debug",
             "inherits": [
                 "config-develop",
                 "windows-clang-base",
@@ -96,7 +97,7 @@
         },
         {
             "name": "windows-clang-profile",
-            "binaryDir": "${sourceDir}/../build_ScreenPlay_Clang_Profile",
+            "binaryDir": "${sourceDir}/Build/Clang_Profile",
             "inherits": [
                 "config-develop",
                 "windows-clang-base",
@@ -105,11 +106,29 @@
         },
         {
             "name": "windows-clang-release",
-            "binaryDir": "${sourceDir}/../build_ScreenPlay_Clang_Release",
+            "binaryDir": "${sourceDir}/Build/Clang_Release",
             "inherits": [
                 "config-develop",
                 "windows-clang-base",
                 "release"
+            ]
+        },
+        {
+            "name": "windows-deploy-release",
+            "inherits": [
+                "windows-msvc-release",
+                "deploy-base"
+            ],
+            "displayName": "Deploy Release (windows)",
+            "description": "Deploy Release build with QML dependencies"
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "windows-deploy-release",
+            "configurePreset": "windows-deploy-release",
+            "inherits": [
+                "deploy-base"
             ]
         }
     ]

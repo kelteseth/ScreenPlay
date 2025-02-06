@@ -6,7 +6,8 @@
         "patch": 0
     },
     "include": [
-        "../Common/CMakePresets.json"
+        "../Common/CMakePresets.json",
+        "../Common/DeployPresets.json"
     ],
     "configurePresets": [
         {
@@ -34,7 +35,7 @@
         },
         {
             "name": "mac-clang-debug",
-            "binaryDir": "${sourceDir}/../build_ScreenPlay_Clang_Debug",
+            "binaryDir": "${sourceDir}/Build/Clang_Debug",
             "inherits": [
                 "config-develop",
                 "mac-clang-base",
@@ -43,7 +44,7 @@
         },
         {
             "name": "mac-clang-relwithdebinfo",
-            "binaryDir": "${sourceDir}/../build_ScreenPlay_Clang_RelWithDebInfo",
+            "binaryDir": "${sourceDir}/Build/Clang_RelWithDebInfo",
             "inherits": [
                 "config-develop",
                 "mac-clang-base",
@@ -52,11 +53,29 @@
         },
         {
             "name": "mac-clang-release",
-            "binaryDir": "${sourceDir}/../build_ScreenPlay_Clang_Release",
+            "binaryDir": "${sourceDir}/Build/Clang_Release",
             "inherits": [
                 "config-develop",
                 "mac-clang-base",
                 "release"
+            ]
+        },
+        {
+            "name": "mac-deploy-release",
+            "inherits": [
+                "mac-clang-release",
+                "deploy-base"
+            ],
+            "displayName": "Deploy Release (mac)",
+            "description": "Deploy Release build with QML dependencies"
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "mac-deploy-release",
+            "configurePreset": "mac-deploy-release",
+            "inherits": [
+                "deploy-base"
             ]
         }
     ]
