@@ -8,9 +8,6 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
 include(GetProjectVersion)
 get_project_version(SCREENPLAY_VERSION)
 
-# Needed by ffmpeg copy. todo remove
-file(MAKE_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${CMAKE_BINARY_DIR}/bin)
-
 # This must be set before project()
 if(APPLE)
     set(CMAKE_OSX_ARCHITECTURES
@@ -27,7 +24,8 @@ project(
 
 find_package(
     Qt6
-    COMPONENTS Core
+    COMPONENTS
+    Core
     Quick
     QuickControls2
     Gui

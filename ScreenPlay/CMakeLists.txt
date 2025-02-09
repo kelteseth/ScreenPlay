@@ -12,7 +12,6 @@ set(SOURCES
 
     # cmake-format: sort
     src/app.cpp
-    src/applicationengine.cpp
     src/create.cpp
     src/createimportvideo.cpp
     src/globalvariables.cpp
@@ -35,7 +34,6 @@ set(HEADER
 
     # cmake-format: sort
     inc/public/ScreenPlay/app.h
-    inc/public/ScreenPlay/applicationengine.h
     inc/public/ScreenPlay/create.h
     inc/public/ScreenPlay/createimportstates.h
     inc/public/ScreenPlay/createimportvideo.h
@@ -298,13 +296,13 @@ qt_add_library(ScreenPlayLib STATIC)
 
 target_compile_features(ScreenPlayLib PRIVATE cxx_std_23)
 
+# Note making this public is so that *_qmltyperegistrations.cpp can find the needed include
 target_include_directories(
     ScreenPlayLib
-    PUBLIC inc/public/
+    PUBLIC
+    inc/public/
+    inc/public/ScreenPlay
     PRIVATE src/)
-
-# Note making this public is so that *_qmltyperegistrations.cpp can find the needed include
-target_include_directories(ScreenPlayLib PUBLIC src/ inc/public/ScreenPlay)
 
 # ScreenPlayLib is our qml module needed for compiling of all classes and most importanly for QML_ELEMENT. So our app is mostly a module
 # that then link to ScreenPlay executable.
@@ -341,10 +339,12 @@ target_link_libraries(
     Qt6::QuickControls2
     Qt6::Xml)
 
-# if(${SCREENPLAY_STEAM})
-# target_link_libraries(ScreenPlayLib PUBLIC ScreenPlayWorkshopplugin ScreenPlayWorkshop)
-# endif()
+if(${SCREENPLAY_STEAM})
+    target_link_libraries(ScreenPlayLib PUBLIC ScreenPlayWorkshopLibplugin ScreenPlayWorkshopLib)
+endif()
+
 qt_add_executable(ScreenPlayApp main.cpp)
+
 target_link_libraries(ScreenPlayApp PRIVATE ScreenPlayLib ScreenPlayLibplugin)
 
 if(${SCREENPLAY_TESTS})
@@ -375,7 +375,7 @@ if(WIN32)
     target_sources(ScreenPlayLib PRIVATE ScreenPlay.rc)
 
     # Needed for the installscript.qs Windows entry
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/assets/icons/app.ico ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/assets/icons/app.ico ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
 
     # Disable console window on Windows
     # https://stackoverflow.com/questions/8249028/how-do-i-keep-my-qt-c-program-from-opening-a-console-in-windows
@@ -385,7 +385,7 @@ if(WIN32)
     file(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/*")
 
     foreach(filename ${files})
-        configure_file(${filename} ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
+        configure_file(${filename} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
     endforeach()
 
     configure_file(${VCPKG_INSTALLED_PATH}/tools/sentry-native/crashpad_handler.exe ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ COPYONLY)
@@ -451,6 +451,16 @@ endif()
 
 # Must be called here, because we need to change the OUTPUT_LOCATION for macos
 qt_add_lrelease(ScreenPlayApp TS_FILES ${TS_FILES})
+
+if(${SCREENPLAY_STEAM})
+    add_custom_command(TARGET ScreenPlayApp POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${STEAM_BINARY_PATH}
+        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+    )
+
+    file(WRITE "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/steam_appid.txt" "672870")
+endif()
 
 # Note: We need the variables in the lib and exe!
 generate_cmake_variable_header(ScreenPlayApp)

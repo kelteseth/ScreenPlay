@@ -25,6 +25,7 @@ namespace ScreenPlay {
 class App : public QObject {
     Q_OBJECT
     QML_ELEMENT
+    QML_UNCREATABLE("CPP ONLY")
     QML_SINGLETON
 
     // We must add the namespace here to make
@@ -58,9 +59,6 @@ public:
     InstalledListFilter* installedListFilter() const { return m_installedListFilter.get(); }
     Wizards* wizards() const { return m_wizards.get(); }
 
-    QQmlEngine* engine() const;
-    void setEngine(QQmlEngine* engine);
-
 signals:
     void globalVariablesChanged(ScreenPlay::GlobalVariables* globalVariables);
     void screenPlayManagerChanged(ScreenPlay::ScreenPlayManager* screenPlayManager);
@@ -88,7 +86,6 @@ public slots:
     void setWizards(Wizards* wizards);
 
 private:
-    QQmlEngine* m_engine = nullptr;
     std::unique_ptr<Create> m_create;
     std::unique_ptr<Wizards> m_wizards;
     std::unique_ptr<ScreenPlayManager> m_screenPlayManager;

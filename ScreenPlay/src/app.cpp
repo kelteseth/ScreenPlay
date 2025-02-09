@@ -295,23 +295,6 @@ void App::setWizards(Wizards* wizards)
     emit wizardsChanged(m_wizards.get());
 }
 
-QQmlEngine* App::engine() const
-{
-    return m_engine;
-}
-
-void App::setEngine(QQmlEngine* engine)
-{ 
-    m_engine = engine;
-    if (!m_engine) {
-        qFatal("QQmlEngine not set");
-    }
-    QObject::connect(
-        m_settings.get(),
-        &Settings::requestRetranslation,
-        m_engine,
-        &QQmlEngine::retranslate);
-}
 }
 
 #include "moc_app.cpp"

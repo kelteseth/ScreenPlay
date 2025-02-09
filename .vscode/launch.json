@@ -10,14 +10,14 @@
             "request": "launch",
             "program": "${command:cmake.launchTargetPath}",
             "args": [],
-            // "cwd": "${command:cmake.buildDirectory}/bin",
+            "cwd": "${command:cmake.buildDirectory}",
             "preLaunchTask": "CMake: build",
             "internalConsoleOptions": "openOnSessionStart",
             "console": "internalConsole",
             "environment": [
                 {
                     "name": "Path",
-                    "value": "${env:Path};${workspaceFolder}\\..\\aqt\\6.8.2\\msvc2022_64\\bin\\;${workspaceFolder}\\..\\aqt\\6.8.2\\msvc2022_64\\modules\\;${workspaceFolder}\\..\\aqt\\6.8.2\\msvc2022_64\\qml\\;${workspaceFolder}\\..\\vcpkg\\installed\\x64-windows\\debug\\bin;"
+                    "value": "${env:Path};${workspaceFolder}\\..\\aqt\\6.8.2\\msvc2022_64\\bin\\;${workspaceFolder}\\..\\aqt\\6.8.2\\msvc2022_64\\plugins\\;${workspaceFolder}\\..\\aqt\\6.8.2\\msvc2022_64\\qml\\;${workspaceFolder}\\..\\vcpkg\\installed\\x64-windows\\debug\\bin;"
                 }
             ],
             "logging": {
