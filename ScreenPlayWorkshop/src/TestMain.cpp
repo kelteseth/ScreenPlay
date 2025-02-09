@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
     engine.addImportPath(app.applicationDirPath() + "/qml");
     // The first subfolder is the libraryName followed by the regular
     // folder strucutre:     LibararyName/Subfolder
-    const QUrl url(u"qrc:/qml/ScreenPlayWorkshop/qml/TestMain.qml"_qs);
+    const QUrl url(u"qrc:/qt/qml/ScreenPlayWorkshop/qml/TestMain.qml"_qs);
     QObject::connect(
         &engine, &QQmlApplicationEngine::objectCreated,
         &app, [url](QObject* obj, const QUrl& objUrl) {

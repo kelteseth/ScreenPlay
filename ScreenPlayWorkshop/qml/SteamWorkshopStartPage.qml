@@ -146,7 +146,7 @@ Item {
                             text: qsTr("Download now!")
                             Material.accent: Material.color(Material.Orange)
                             highlighted: true
-                            icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_download.svg"
+                            icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_download.svg"
                             onClicked: {
                                 text = qsTr("Downloading...");
                                 root.steamWorkshop.subscribeItem(root.steamWorkshop.workshopListModel.getBannerID());
@@ -159,7 +159,7 @@ Item {
                                 text: qsTr("Details")
                                 Material.accent: Material.color(Material.Orange)
                                 highlighted: true
-                                //icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_info.svg"
+                                //icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_info.svg"
                                 visible: false
                                 onClicked: {
                                     sidebar.setWorkshopItem(publishedFileID, imgUrl, additionalPreviewUrl, subscriptionCount);
@@ -167,7 +167,7 @@ Item {
                             }
                             ToolButton {
                                 onClicked: Qt.openUrlExternally("steam://url/CommunityFilePage/" + banner.bannerPublishedFileID)
-                                icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_open_in_new.svg"
+                                icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_open_in_new.svg"
                                 icon.color: "transparent"
                             }
                         }
@@ -235,7 +235,7 @@ Item {
                     Image {
                         id: avatarPlaceholder
                         anchors.fill: avatar
-                        source: "qrc:/qml/ScreenPlayWorkshop/assets/images/steam_default_avatar.png"
+                        source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/images/steam_default_avatar.png"
                     }
 
                     Button {
@@ -249,9 +249,9 @@ Item {
                         }
 
                         text: qsTr("Profile")
-                        icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_account_circle.svg"
+                        icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_account_circle.svg"
                         onClicked: {
-                            stackView.push("qrc:/qml/ScreenPlayWorkshop/qml/SteamProfile.qml", {
+                            stackView.push("qrc:/qt/qml/ScreenPlayWorkshop/qml/SteamProfile.qml", {
                                 "screenPlayWorkshop": root.screenPlayWorkshop,
                                 "steamWorkshop": root.steamWorkshop,
                                 "stackView": root.stackView
@@ -269,9 +269,9 @@ Item {
                         }
 
                         text: qsTr("Upload")
-                        icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_file_upload.svg"
+                        icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_file_upload.svg"
                         onClicked: {
-                            stackView.push("qrc:/qml/ScreenPlayWorkshop/qml/upload/UploadProject.qml", {
+                            stackView.push("qrc:/qt/qml/ScreenPlayWorkshop/qml/upload/UploadProject.qml", {
                                 "screenPlayWorkshop": root.screenPlayWorkshop,
                                 "steamWorkshop": root.steamWorkshop,
                                 "stackView": root.stackView
@@ -339,7 +339,7 @@ Item {
                         }
                         ToolButton {
                             property bool hasContent: tiSearch.text.length > 0
-                            icon.source: hasContent ? "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_close.svg" : "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_search.svg"
+                            icon.source: hasContent ? "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_close.svg" : "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_search.svg"
                             icon.color: "transparent"
                             onClicked: {
                                 if (hasContent) {
@@ -385,7 +385,7 @@ Item {
                             text: qsTr("Open Workshop in Steam")
                             font.capitalization: Font.Capitalize
                             onClicked: Qt.openUrlExternally("steam://url/SteamWorkshopPage/672870")
-                            icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_steam.svg"
+                            icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_steam.svg"
                             icon.width: 18
                             icon.height: 18
                             height: cbQuerySort.height

@@ -65,13 +65,13 @@ QCoro::QmlTask Wizards::createQMLWidget(
         obj.insert("type", QVariant::fromValue(ContentTypes::InstalledType::QMLWidget).toString());
         obj.insert("file", "main.qml");
 
-        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
+        if (!m_util.writeFileFromQrc(":/qt/qml/ScreenPlay/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
             QString errorMessage = tr("Could not write %1").arg(licenseFile);
             qCritical() << errorMessage;
             co_return Result { false, QVariant::fromValue(WizardResult::WriteLicenseFileError), errorMessage };
         }
 
-        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/QMLWidgetMain.qml", workingPath + "/main.qml")) {
+        if (!m_util.writeFileFromQrc(":/qt/qml/ScreenPlay/qml/Create/WizardsFiles/QMLWidgetMain.qml", workingPath + "/main.qml")) {
             QString errorMessage = tr("Could not write main.qml");
             qCritical() << errorMessage;
             co_return Result { false, QVariant::fromValue(WizardResult::WriteFileError), errorMessage };
@@ -128,13 +128,13 @@ QCoro::QmlTask Wizards::createHTMLWidget(
         obj.insert("type", QVariant::fromValue(ContentTypes::InstalledType::HTMLWidget).toString());
         obj.insert("file", "index.html");
 
-        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
+        if (!m_util.writeFileFromQrc(":/qt/qml/ScreenPlay/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
             QString errorMessage = tr("Could not write %1").arg(licenseFile);
             qCritical() << errorMessage;
             co_return Result { false, QVariant::fromValue(WizardResult::WriteLicenseFileError), errorMessage };
         }
 
-        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/HTMLWidgetMain.html", workingPath + "/index.html")) {
+        if (!m_util.writeFileFromQrc(":/qt/qml/ScreenPlay/qml/Create/WizardsFiles/HTMLWidgetMain.html", workingPath + "/index.html")) {
             QString errorMessage = tr("Could not write index.html");
             qCritical() << errorMessage;
             co_return Result { false, QVariant::fromValue(WizardResult::WriteFileError), errorMessage };
@@ -194,13 +194,13 @@ QCoro::QmlTask Wizards::createHTMLWallpaper(
         obj.insert("type", QVariant::fromValue(ContentTypes::InstalledType::HTMLWallpaper).toString());
         obj.insert("file", "index.html");
 
-        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
+        if (!m_util.writeFileFromQrc(":/qt/qml/ScreenPlay/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
             QString errorMessage = tr("Could not write %1").arg(licenseFile);
             qCritical() << errorMessage;
             co_return Result { false, QVariant::fromValue(WizardResult::WriteLicenseFileError), errorMessage };
         }
 
-        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/HTMLWallpaperMain.html", workingPath + "/index.html")) {
+        if (!m_util.writeFileFromQrc(":/qt/qml/ScreenPlay/qml/Create/WizardsFiles/HTMLWallpaperMain.html", workingPath + "/index.html")) {
             QString errorMessage = tr("Could not write index.html");
             qCritical() << errorMessage;
             co_return Result { false, QVariant::fromValue(WizardResult::WriteFileError), errorMessage };
@@ -268,14 +268,14 @@ QCoro::QmlTask Wizards::createQMLWallpaper(
             createPreviewImage(title, workingPath);
         }
 
-        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
+        if (!m_util.writeFileFromQrc(":/qt/qml/ScreenPlay/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
             QString errorMessage = tr("Could not write %1").arg(licenseFile);
             qCritical() << errorMessage;
             co_return Result { false, QVariant::fromValue(WizardResult::WriteLicenseFileError), errorMessage };
         }
 
         const QString qmlproject = workingPath + "/" + title + ".qmlproject";
-        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/QmlProject.qmlproject", qmlproject)) {
+        if (!m_util.writeFileFromQrc(":/qt/qml/ScreenPlay/qml/Create/WizardsFiles/QmlProject.qmlproject", qmlproject)) {
             QString errorMessage = tr("Could not write QmlProject.qmlproject");
             qCritical() << errorMessage;
             co_return Result { false, QVariant::fromValue(WizardResult::WriteFileError), errorMessage };
@@ -287,7 +287,7 @@ QCoro::QmlTask Wizards::createQMLWallpaper(
             co_return Result { false, QVariant::fromValue(WizardResult::WriteProjectFileError), errorMessage };
         }
 
-        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/QMLWallpaperMain.qml", workingPath + "/main.qml")) {
+        if (!m_util.writeFileFromQrc(":/qt/qml/ScreenPlay/qml/Create/WizardsFiles/QMLWallpaperMain.qml", workingPath + "/main.qml")) {
             QString errorMessage = tr("Could not write main.qml");
             qCritical() << errorMessage;
             co_return Result { false, QVariant::fromValue(WizardResult::WriteFileError), errorMessage };
@@ -344,7 +344,7 @@ QCoro::QmlTask Wizards::createGodotWallpaper(
             createPreviewImage(title, workingPath);
         }
 
-        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
+        if (!m_util.writeFileFromQrc(":/qt/qml/ScreenPlay/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
             QString errorMessage = tr("Could not write %1").arg(licenseFile);
             qCritical() << errorMessage;
             co_return Result { false, QVariant::fromValue(WizardResult::WriteLicenseFileError), errorMessage };
@@ -356,19 +356,19 @@ QCoro::QmlTask Wizards::createGodotWallpaper(
             co_return Result { false, QVariant::fromValue(WizardResult::WriteProjectFileError), errorMessage };
         }
 
-        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/Godot_v5/project.godot", workingPath + "/project.godot")) {
+        if (!m_util.writeFileFromQrc(":/qt/qml/ScreenPlay/qml/Create/WizardsFiles/Godot_v5/project.godot", workingPath + "/project.godot")) {
             QString errorMessage = tr("Could not write project.godot");
             qCritical() << errorMessage;
             co_return Result { false, QVariant::fromValue(WizardResult::WriteFileError), errorMessage };
         }
 
-        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/Godot_v5/spinner.gd", workingPath + "/spinner.gd")) {
+        if (!m_util.writeFileFromQrc(":/qt/qml/ScreenPlay/qml/Create/WizardsFiles/Godot_v5/spinner.gd", workingPath + "/spinner.gd")) {
             QString errorMessage = tr("Could not write spinner.gd");
             qCritical() << errorMessage;
             co_return Result { false, QVariant::fromValue(WizardResult::WriteFileError), errorMessage };
         }
 
-        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/Godot_v5/wallpaper.tscn", workingPath + "/wallpaper.tscn")) {
+        if (!m_util.writeFileFromQrc(":/qt/qml/ScreenPlay/qml/Create/WizardsFiles/Godot_v5/wallpaper.tscn", workingPath + "/wallpaper.tscn")) {
             QString errorMessage = tr("Could not write wallpaper.tscn");
             qCritical() << errorMessage;
             co_return Result { false, QVariant::fromValue(WizardResult::WriteFileError), errorMessage };
@@ -377,7 +377,7 @@ QCoro::QmlTask Wizards::createGodotWallpaper(
         // This presets file is needed for the export. Because we do only export
         // package files, it does not matter that we hardcode "Windows Desktop" as
         // export preset.
-        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/Godot_v5/export_presets.cfg", workingPath + "/export_presets.cfg")) {
+        if (!m_util.writeFileFromQrc(":/qt/qml/ScreenPlay/qml/Create/WizardsFiles/Godot_v5/export_presets.cfg", workingPath + "/export_presets.cfg")) {
             QString errorMessage = tr("Could not write export_presets.cfg");
             qCritical() << errorMessage;
             co_return Result { false, QVariant::fromValue(WizardResult::WriteFileError), errorMessage };
@@ -416,7 +416,7 @@ QCoro::QmlTask Wizards::createGifWallpaper(
         obj.insert("tags", m_util.fillArray(tags));
         obj.insert("type", QVariant::fromValue(ContentTypes::InstalledType::GifWallpaper).toString());
 
-        if (!m_util.writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
+        if (!m_util.writeFileFromQrc(":/qt/qml/ScreenPlay/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
             QString errorMessage = tr("Could not write %1").arg(licenseFile);
             qCritical() << errorMessage;
             co_return Result { false, QVariant::fromValue(WizardResult::WriteLicenseFileError), errorMessage };

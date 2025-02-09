@@ -15,7 +15,7 @@ Item {
 
     StackView.onActivated: {
         wizardContentWrapper.state = "in";
-        stackView.push("qml/Create/StartInfo.qml");
+        stackView.push("qrc:/qt/qml/ScreenPlay/qml/Create/StartInfo.qml");
     }
 
     CreateSidebar {

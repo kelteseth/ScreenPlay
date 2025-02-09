@@ -722,32 +722,32 @@ void Util::requestAllLicenses()
         QFile file;
         QTextStream out(&file);
 
-        file.setFileName(":/qml/ScreenPlayApp/legal/Font Awesome Free License.txt");
+        file.setFileName(":/qt/qml/ScreenPlay/legal/Font Awesome Free License.txt");
         file.open(QIODevice::ReadOnly | QIODevice::Text);
         tmp += out.readAll();
         file.close();
 
-        file.setFileName(":/qml/ScreenPlayApp/legal/gpl-3.0.txt");
+        file.setFileName(":/qt/qml/ScreenPlay/legal/gpl-3.0.txt");
         file.open(QIODevice::ReadOnly | QIODevice::Text);
         tmp += out.readAll();
         file.close();
 
-        file.setFileName(":/qml/ScreenPlayApp/legal/gpl-3.0.txt");
+        file.setFileName(":/qt/qml/ScreenPlay/legal/gpl-3.0.txt");
         file.open(QIODevice::ReadOnly | QIODevice::Text);
         tmp += out.readAll();
         file.close();
 
-        file.setFileName(":/qml/ScreenPlayApp/legal/OFL.txt");
+        file.setFileName(":/qt/qml/ScreenPlay/legal/OFL.txt");
         file.open(QIODevice::ReadOnly | QIODevice::Text);
         tmp += out.readAll();
         file.close();
 
-        file.setFileName(":/qml/ScreenPlayApp/legal/OpenSSL.txt");
+        file.setFileName(":/qt/qml/ScreenPlay/legal/OpenSSL.txt");
         file.open(QIODevice::ReadOnly | QIODevice::Text);
         tmp += out.readAll();
         file.close();
 
-        file.setFileName(":/qml/ScreenPlayApp/legal/Qt LGPLv3.txt");
+        file.setFileName(":/qt/qml/ScreenPlay/legal/Qt LGPLv3.txt");
         file.open(QIODevice::ReadOnly | QIODevice::Text);
         tmp += out.readAll();
         file.close();
@@ -766,7 +766,7 @@ void Util::requestDataProtection()
     QFile file;
     QTextStream out(&file);
 
-    file.setFileName(":/qml/ScreenPlayApp/legal/DataProtection.txt");
+    file.setFileName(":/qt/qml/ScreenPlay/legal/DataProtection.txt");
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     tmp += out.readAll();
     file.close();

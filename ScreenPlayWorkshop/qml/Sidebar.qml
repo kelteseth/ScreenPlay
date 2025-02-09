@@ -142,7 +142,7 @@ Drawer {
             Image {
                 id: imgBack
 
-                source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_arrow_right.svg"
+                source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_arrow_right.svg"
                 sourceSize: Qt.size(15, 15)
                 fillMode: Image.PreserveAspectFit
                 anchors.centerIn: parent
@@ -178,7 +178,7 @@ Drawer {
                         id: txtVotesUp
 
                         Layout.fillWidth: true
-                        icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_thumb_up.svg"
+                        icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_thumb_up.svg"
                         icon.color: "transparent"
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("Click here if you like the content")
@@ -193,7 +193,7 @@ Drawer {
                         id: txtVotesDown
 
                         Layout.fillWidth: true
-                        icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_thumb_down.svg"
+                        icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_thumb_down.svg"
                         icon.color: "transparent"
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("Click here if you do not like the content")
@@ -323,7 +323,7 @@ Drawer {
             id: btnOpenInSteam
 
             font.pointSize: 10
-            icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_open_in_new.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_open_in_new.svg"
             icon.color: "transparent"
             height: 25
             text: qsTr("Open In Steam")
@@ -335,7 +335,7 @@ Drawer {
 
             highlighted: !root.subscribed
             enabled: !root.subscribed
-            icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_download.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_download.svg"
             text: root.subscribed ? qsTr("Subscribed!") : qsTr("Subscribe")
             onClicked: {
                 root.subscribed = true;

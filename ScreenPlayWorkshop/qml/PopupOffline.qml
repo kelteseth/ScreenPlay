@@ -37,7 +37,7 @@ Popup {
         }
 
         Image {
-            source: "qrc:/qml/ScreenPlayWorkshop/assets/images/steam_offline.png"
+            source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/images/steam_offline.png"
             Layout.alignment: Qt.AlignHCenter
         }
 

@@ -37,7 +37,7 @@ Rectangle {
         id: maskSource
 
         visible: false
-        source: "qrc:/qml/ScreenPlayWorkshop/assets/images/mask_workshop.png"
+        source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/images/mask_workshop.png"
     }
 
     Image {

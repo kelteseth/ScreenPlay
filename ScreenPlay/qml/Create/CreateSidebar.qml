@@ -41,6 +41,7 @@ Rectangle {
 
             function onWizardExited() {
                 root.expanded = true;
+
                 App.util.setNavigation("Installed");
                 App.util.setNavigationActive(true);
             }
@@ -51,14 +52,14 @@ Rectangle {
         model: ListModel {
             ListElement {
                 headline: qsTr("Tools Overview")
-                source: "qml/Create/StartInfo.qml"
+                source: "qrc:/qt/qml/ScreenPlay/qml/Create/StartInfo.qml"
                 category: "Home"
                 proFeature: false
             }
 
             ListElement {
                 headline: qsTr("Import Video")
-                source: "qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml"
+                source: "qrc:/qt/qml/ScreenPlay/qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml"
                 category: "Video Wallpaper"
                 objectName: "videoImportConvert"
                 proFeature: false
@@ -66,49 +67,49 @@ Rectangle {
 
             ListElement {
                 headline: qsTr("GIF Wallpaper")
-                source: "qml/Create/Wizards/GifWallpaper.qml"
+                source: "qrc:/qt/qml/ScreenPlay/qml/Create/Wizards/GifWallpaper.qml"
                 category: "Video Wallpaper"
                 proFeature: false
             }
 
             ListElement {
                 headline: qsTr("3D Engine Wallpaper (Godot 4.2)")
-                source: "qml/Create/Wizards/GodotWallpaper.qml"
+                source: "qrc:/qt/qml/ScreenPlay/qml/Create/Wizards/GodotWallpaper.qml"
                 category: "3D Engine & \nCode Wallpaper"
                 proFeature: true
             }
 
             ListElement {
                 headline: qsTr("QML Wallpaper")
-                source: "qml/Create/Wizards/QMLWallpaper.qml"
+                source: "qrc:/qt/qml/ScreenPlay/qml/Create/Wizards/QMLWallpaper.qml"
                 category: "3D Engine & \nCode Wallpaper"
                 proFeature: false
             }
 
             ListElement {
                 headline: qsTr("HTML5 Wallpaper")
-                source: "qml/Create/Wizards/HTMLWallpaper.qml"
+                source: "qrc:/qt/qml/ScreenPlay/qml/Create/Wizards/HTMLWallpaper.qml"
                 category: "3D Engine & \nCode Wallpaper"
                 proFeature: false
             }
 
             ListElement {
                 headline: qsTr("Website Wallpaper")
-                source: "qml/Create/Wizards/WebsiteWallpaper.qml"
+                source: "qrc:/qt/qml/ScreenPlay/qml/Create/Wizards/WebsiteWallpaper.qml"
                 category: "3D Engine & \nCode Wallpaper"
                 proFeature: false
             }
 
             ListElement {
                 headline: qsTr("QML Widget")
-                source: "qml/Create/Wizards/QMLWidget.qml"
+                source: "qrc:/qt/qml/ScreenPlay/qml/Create/Wizards/QMLWidget.qml"
                 category: "Widgets"
                 proFeature: false
             }
 
             ListElement {
                 headline: qsTr("HTML Widget")
-                source: "qml/Create/Wizards/HTMLWidget.qml"
+                source: "qrc:/qt/qml/ScreenPlay/qml/Create/Wizards/HTMLWidget.qml"
                 category: "Widgets"
                 proFeature: false
             }

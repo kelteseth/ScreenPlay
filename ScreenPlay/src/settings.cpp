@@ -416,7 +416,7 @@ void Settings::setAutostart(bool autostart)
     }
     if (desktopEnvironment() == DesktopEnvironment::OSX) {
         const QString plistFileName = "app.screenplay.plist";
-        QFile defaultPListFile(":/qml/ScreenPlayApp/assets/macos/" + plistFileName);
+        QFile defaultPListFile(":/qt/qml/ScreenPlay/assets/macos/" + plistFileName);
         defaultPListFile.open(QIODevice::ReadOnly);
         QString settingsPlistContent = defaultPListFile.readAll();
         if (!settingsPlistContent.contains("{{SCREENPLAY_PATH}}")) {

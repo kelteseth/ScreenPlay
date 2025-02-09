@@ -21,7 +21,7 @@ MouseArea {
 
         Icon image if the icon.
     */
-    property string icon: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_close.svg"
+    property string icon: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_close.svg"
 
     width: 32
     height: width
