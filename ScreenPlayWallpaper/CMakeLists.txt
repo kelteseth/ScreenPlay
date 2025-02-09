@@ -62,17 +62,14 @@ endif()
 
 qt_add_library(ScreenPlayWallpaperLib STATIC)
 target_compile_features(ScreenPlayWallpaperLib PRIVATE cxx_std_23)
+
 # qml_typeregistration
 target_include_directories(ScreenPlayWallpaperLib PUBLIC src)
-
 
 if(WIN32)
     # Used for query windows monitor data
     target_link_libraries(ScreenPlayWallpaperLib PUBLIC shcore.lib)
 endif()
-
-qt_add_executable(SPWallpaper main.cpp)
-target_compile_features(SPWallpaper PRIVATE cxx_std_23)
 
 qt_add_qml_module(
     ScreenPlayWallpaperLib
@@ -83,16 +80,16 @@ qt_add_qml_module(
     QML_FILES
     ${QML}
     SOURCES
-    ${LIB_SOURCES} 
+    ${LIB_SOURCES}
     ${LIB_HEADER}
-    ${SOURCES} 
+    ${SOURCES}
     ${HEADER}
     RESOURCES
     ${RESOURCES})
 
 target_link_libraries(
     ScreenPlayWallpaperLib
-    PUBLIC 
+    PUBLIC
     ScreenPlaySDKLib
     ScreenPlayCoreLibplugin
     ScreenPlayWeatherLibplugin
@@ -106,13 +103,15 @@ target_link_libraries(
     Qt6::WebEngineCore
     Qt6::WebEngineQuick)
 
-target_link_libraries(SPWallpaper PRIVATE ScreenPlayWallpaperLib ScreenPlayWallpaperLibplugin)
-
 if(WIN32)
-    target_link_libraries(ScreenPlayWallpaperLib PRIVATE ScreenPlaySysInfoplugin)
+    target_link_libraries(ScreenPlayWallpaperLib PUBLIC ScreenPlaySysInfoLibplugin)
 elseif(UNIX AND NOT APPLE)
     target_link_libraries(ScreenPlayWallpaperLib PRIVATE X11)
 endif()
+
+qt_add_executable(SPWallpaper main.cpp)
+target_compile_features(SPWallpaper PRIVATE cxx_std_23)
+target_link_libraries(SPWallpaper PRIVATE ScreenPlayWallpaperLib ScreenPlayWallpaperLibplugin)
 
 if(UNIX AND NOT APPLE)
     find_package(
@@ -132,8 +131,8 @@ if(APPLE)
         TARGET SPWallpaper
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/index.html"
-                "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
-    
+        "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
+
     set_target_properties(SPWallpaper PROPERTIES
         MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
         MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}

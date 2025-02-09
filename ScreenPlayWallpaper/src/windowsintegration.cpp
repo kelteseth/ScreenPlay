@@ -19,15 +19,15 @@ int GetWindowsBuildNumber()
     return 0;
 }
 
-bool GetClassName(HWND hwnd, LPWSTR className, int maxCount)
-{
-    if (!hwnd || !className || maxCount <= 0) {
-        return false;
-    }
+// bool GetClassName(HWND hwnd, LPWSTR className, int maxCount)
+// {
+//     if (!hwnd || !className || maxCount <= 0) {
+//         return false;
+//     }
 
-    int length = ::GetClassNameW(hwnd, className, maxCount);
-    return length > 0;
-}
+//     int length = ::GetClassNameW(hwnd, className, maxCount);
+//     return length > 0;
+// }
 // Helper function to check if running on Windows 24H2 or newer
 bool IsWindows24H2OrNewer()
 {
@@ -238,7 +238,7 @@ WindowsIntegration::MonitorResult WindowsIntegration::setupWallpaperForOneScreen
     std::function<void(int, int)> updateWindowSize)
 {
 
-    SetWindowText(m_windowHandle, "ScreenPlayWallpaper");
+    SetWindowText(m_windowHandle, L"ScreenPlayWallpaper");
     if (!IsWindow(m_windowHandle)) {
         std::cout << "Could not get a valid window handle!";
         return { std::nullopt, MonitorResultStatus::WindowHandleInvalidError };

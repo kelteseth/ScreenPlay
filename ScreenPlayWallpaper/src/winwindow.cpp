@@ -19,7 +19,7 @@ namespace ScreenPlay {
 WallpaperExit::Code WinWindow::start()
 {
     connect(
-        &m_window, &QQuickView::statusChanged, this, [this](auto status) {
+        m_quickView.get(), &QQuickView::statusChanged, this, [this](auto status) {
             if (status == QQuickView::Status::Error) {
                 destroyThis();
             }
@@ -41,7 +41,10 @@ WallpaperExit::Code WinWindow::start()
     }
 
     m_windowsDesktopProperties = std::make_unique<WindowsDesktopProperties>();
-    m_windowsIntegration.setWindowHandle(reinterpret_cast<HWND>(m_quickView->winId()));
+    auto winHandle = reinterpret_cast<HWND>(m_quickView->winId());
+    if (winHandle)
+        m_windowsIntegration.setWindowHandle(winHandle);
+
     if (!IsWindow(m_windowsIntegration.windowHandle())) {
         qCritical("Could not get a valid window handle!");
         return WallpaperExit::Code::Invalid_Start_Windows_HandleError;
@@ -111,7 +114,7 @@ WallpaperExit::Code WinWindow::start()
             // qDebug() << "Mouse event: Button=" << mouseButton << ", Type=" << type
             //         << ", Position=(" << p.x << ", " << p.y << ")" << globalPos << localPos << button;
             // Post the event to the target widget
-            QCoreApplication::postEvent(&m_window, qEvent);
+            QCoreApplication::postEvent(m_quickView.get(), qEvent);
         });
 
         // Inside your main application or somewhere appropriate
@@ -131,7 +134,7 @@ WallpaperExit::Code WinWindow::start()
             // qDebug() << "Keyboard event: Key=" << vkCode << ", Type=" << (keyDown ? "KeyDown" : "KeyUp") << qEvent;
 
             // Post the event to the target widget
-            QCoreApplication::postEvent(&m_window, qEvent);
+            QCoreApplication::postEvent(m_quickView.get(), qEvent);
         });
     });
     return WallpaperExit::Code::Ok;

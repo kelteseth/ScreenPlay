@@ -14,7 +14,6 @@
 #include "src/widgetwindow.h"
 
 #if defined(Q_OS_WIN)
-Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoLibPlugin)
 #endif
 #if defined(Q_OS_MACOS)
 #include "ScreenPlayCore/macutils.h"

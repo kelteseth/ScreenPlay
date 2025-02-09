@@ -200,8 +200,8 @@ void Settings::setupWidgetAndWindowPaths()
     QString godotVersion = QString(SCREENPLAY_GODOT_VERSION);
     QString godotReleaseType = QString(SCREENPLAY_GODOT_RELEASE_TYPE);
     if (osType == "windows") {
-        m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget" + util.executableBinEnding()));
-        m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper" + util.executableBinEnding()));
+        m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/SPWidget" + util.executableBinEnding()));
+        m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/SPWallpaper" + util.executableBinEnding()));
         m_globalVariables->setGodotWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaperGodot" + util.executableBinEnding()));
         const auto godotEditorName = "Godot_" + godotVersion + "_win64.exe";
         m_globalVariables->setGodotEditorExecutablePath(QUrl(workingDir.path() + "/" + godotEditorName));
@@ -214,8 +214,8 @@ void Settings::setupWidgetAndWindowPaths()
             qCritical("Godot Editor not found");
         }
     } else if (osType == "macos") {
-        m_globalVariables->setWidgetExecutablePath(QUrl::fromUserInput(workingDir.path() + "/ScreenPlayWidget").toLocalFile());
-        m_globalVariables->setWallpaperExecutablePath(QUrl::fromUserInput(workingDir.path() + "/ScreenPlayWallpaper").toLocalFile());
+        m_globalVariables->setWidgetExecutablePath(QUrl::fromUserInput(workingDir.path() + "/SPWidget").toLocalFile());
+        m_globalVariables->setWallpaperExecutablePath(QUrl::fromUserInput(workingDir.path() + "/SPWallpaper").toLocalFile());
         m_globalVariables->setGodotWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaperGodot").toLocalFile());
         const auto godotEditorName = "Godot_" + godotVersion + "-stable_osx.universal";
         m_globalVariables->setGodotEditorExecutablePath(QUrl(workingDir.path() + "/" + godotEditorName));

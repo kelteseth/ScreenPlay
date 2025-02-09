@@ -118,8 +118,7 @@ bool ScreenPlayGodotWallpaper::init(int activeScreen)
     }
     displayServer->window_set_size(godot::Vector2((real_t)monitor.monitor->size.cx, (real_t)monitor.monitor->size.cy));
 
-    const std::string windowTitle = "ScreenPlayWallpaperGodot";
-    SetWindowText(m_windowsIntegration.windowHandle(), windowTitle.c_str());
+    SetWindowText(m_windowsIntegration.windowHandle(), "ScreenPlayWallpaperGodot");
     ShowWindow(m_windowsIntegration.windowHandle(), SW_SHOW);
 
     // m_windowsIntegration.setupWindowMouseHook();
