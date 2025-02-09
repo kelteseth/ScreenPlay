@@ -12,7 +12,7 @@ WallpaperExit::Code MacWindow::start()
     auto* screen = QGuiApplication::screens().at(activeScreensList().at(0));
     m_quickView->setGeometry(screen->geometry());
 
-    qmlRegisterSingletonInstance<MacWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", this);
+    // qmlRegisterSingletonInstance<MacWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", this);
 
     if (!debugMode()) {
         connect(m_sdk.get(), &ScreenPlaySDK::sdkDisconnected, this, &MacWindow::destroyThis);
@@ -27,7 +27,7 @@ WallpaperExit::Code MacWindow::start()
     Qt::WindowFlags flags = m_quickView->flags();
     m_quickView->setFlags(flags | Qt::FramelessWindowHint | Qt::Desktop);
     m_quickView->setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
-    m_quickView->loadFromModule("ScreenPlayWallpaper", "Wallpaper");
+    // m_quickView->loadFromModule("ScreenPlayWallpaper", "Wallpaper");
 
     MacIntegration* macIntegration = new MacIntegration(this);
     macIntegration->SetBackgroundLevel(&m_window);

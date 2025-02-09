@@ -49,7 +49,7 @@ Item {
 
     Image {
         id: bgNoise
-        source: "qrc:/qml/ScreenPlayWidget/assets/image/noisy-texture-3.png"
+        source: "qrc:/qt/qml/ScreenPlayWidget/assets/image/noisy-texture-3.png"
         anchors.fill: parent
         fillMode: Image.Tile
         opacity: 0
@@ -180,7 +180,7 @@ Item {
 
             Util.ColorImage {
                 id: imgClose
-                source: "qrc:/qml/ScreenPlayWidget/assets/icons/baseline-close-24px.svg"
+                source: "qrc:/qt/qml/ScreenPlayWidget/assets/icons/baseline-close-24px.svg"
                 anchors.centerIn: parent
                 width: parent.width
                 height: parent.height

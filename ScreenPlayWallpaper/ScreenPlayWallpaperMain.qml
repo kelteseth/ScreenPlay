@@ -24,17 +24,17 @@ Rectangle {
             if (Qt.platform.os === "osx") {
                 print(ContentTypes.InstalledType.VideoWallpaper);
                 if ((Wallpaper.videoCodec === Video.VideoCodec.VP8 || Wallpaper.videoCodec === Video.VideoCodec.VP9)) {
-                    loader.source = "qrc:/qml/ScreenPlayWallpaper/qml/MultimediaWebView.qml";
+                    loader.source = "qrc:/qt/qml/ScreenPlayWallpaper/qml/MultimediaWebView.qml";
                 } else {
-                    loader.source = "qrc:/qml/ScreenPlayWallpaper/qml/MultimediaView.qml";
+                    loader.source = "qrc:/qt/qml/ScreenPlayWallpaper/qml/MultimediaView.qml";
                 }
             }
             if (Qt.platform.os === "windows" || Qt.platform.os === "linux") {
-                loader.source = "qrc:/qml/ScreenPlayWallpaper/qml/MultimediaView.qml";
+                loader.source = "qrc:/qt/qml/ScreenPlayWallpaper/qml/MultimediaView.qml";
             }
             break;
         case ContentTypes.InstalledType.HTMLWallpaper:
-            loader.setSource("qrc:/qml/ScreenPlayWallpaper/qml/WebsiteWallpaper.qml", {
+            loader.setSource("qrc:/qt/qml/ScreenPlayWallpaper/qml/WebsiteWallpaper.qml", {
                 "url": Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute)
             });
             break;
@@ -42,12 +42,12 @@ Rectangle {
             loader.source = Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute);
             break;
         case ContentTypes.InstalledType.WebsiteWallpaper:
-            loader.setSource("qrc:/qml/ScreenPlayWallpaper/qml/WebsiteWallpaper.qml", {
+            loader.setSource("qrc:/qt/qml/ScreenPlayWallpaper/qml/WebsiteWallpaper.qml", {
                 "url": Wallpaper.projectSourceFileAbsolute
             });
             break;
         case ContentTypes.InstalledType.GifWallpaper:
-            loader.setSource("qrc:/qml/ScreenPlayWallpaper/qml/GifWallpaper.qml", {
+            loader.setSource("qrc:/qt/qml/ScreenPlayWallpaper/qml/GifWallpaper.qml", {
                 "source": Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute)
             });
             break;
@@ -180,7 +180,7 @@ Rectangle {
             // was also Video not get called twice
             if (oldType === ContentTypes.InstalledType.VideoWallpaper)
                 return;
-            loader.source = "qrc:/qml/ScreenPlayWallpaper/qml/MultimediaView.qml";
+            loader.source = "qrc:/qt/qml/ScreenPlayWallpaper/qml/MultimediaView.qml";
         }
     }
     Loader {

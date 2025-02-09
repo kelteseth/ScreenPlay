@@ -193,18 +193,18 @@ QVersionNumber Settings::getProfilesVersion() const
 */
 void Settings::setupWidgetAndWindowPaths()
 {
-    QDir workingDir(QGuiApplication::applicationDirPath());
+    QDir appDir(QGuiApplication::applicationDirPath());
     const QString osType = QSysInfo::productType();
     Util util;
 
     QString godotVersion = QString(SCREENPLAY_GODOT_VERSION);
     QString godotReleaseType = QString(SCREENPLAY_GODOT_RELEASE_TYPE);
     if (osType == "windows") {
-        m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/SPWidget" + util.executableBinEnding()));
-        m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/SPWallpaper" + util.executableBinEnding()));
-        m_globalVariables->setGodotWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaperGodot" + util.executableBinEnding()));
+        m_globalVariables->setWidgetExecutablePath(QUrl(appDir.path() + "/../ScreenPlayWidget/SPWidget" + util.executableBinEnding()));
+        m_globalVariables->setWallpaperExecutablePath(QUrl(appDir.path() + "/../ScreenPlayWallpaper/SPWallpaper" + util.executableBinEnding()));
+        m_globalVariables->setGodotWallpaperExecutablePath(QUrl(appDir.path() + "/ScreenPlayWallpaperGodot" + util.executableBinEnding()));
         const auto godotEditorName = "Godot_" + godotVersion + "_win64.exe";
-        m_globalVariables->setGodotEditorExecutablePath(QUrl(workingDir.path() + "/" + godotEditorName));
+        m_globalVariables->setGodotEditorExecutablePath(QUrl(appDir.path() + "/" + godotEditorName));
         if (!QFileInfo::exists(m_globalVariables->godotWallpaperExecutablePath().toString())) {
             qInfo() << "godotWallpaperExecutablePath:" << m_globalVariables->godotWallpaperExecutablePath();
             qCritical("Godot Wallpaper not found");
@@ -214,20 +214,22 @@ void Settings::setupWidgetAndWindowPaths()
             qCritical("Godot Editor not found");
         }
     } else if (osType == "macos") {
-        m_globalVariables->setWidgetExecutablePath(QUrl::fromUserInput(workingDir.path() + "/SPWidget").toLocalFile());
-        m_globalVariables->setWallpaperExecutablePath(QUrl::fromUserInput(workingDir.path() + "/SPWallpaper").toLocalFile());
-        m_globalVariables->setGodotWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaperGodot").toLocalFile());
+        m_globalVariables->setWidgetExecutablePath(QUrl::fromUserInput(appDir.path() + "/SPWidget").toLocalFile());
+        m_globalVariables->setWallpaperExecutablePath(QUrl::fromUserInput(appDir.path() + "/SPWallpaper").toLocalFile());
+        m_globalVariables->setGodotWallpaperExecutablePath(QUrl(appDir.path() + "/ScreenPlayWallpaperGodot").toLocalFile());
         const auto godotEditorName = "Godot_" + godotVersion + "-stable_osx.universal";
-        m_globalVariables->setGodotEditorExecutablePath(QUrl(workingDir.path() + "/" + godotEditorName));
+        m_globalVariables->setGodotEditorExecutablePath(QUrl(appDir.path() + "/" + godotEditorName));
     } else if (QSysInfo::kernelType() == "linux") {
-        m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/../ScreenPlayWidget/SPWidget"));
-        m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/../ScreenPlayWallpaper/SPWallpaper"));
-        m_globalVariables->setGodotWallpaperExecutablePath(QUrl(workingDir.path() + "/../ScreenPlayWallpaperGodot"));
+        m_globalVariables->setWidgetExecutablePath(QUrl(appDir.path() + "/../ScreenPlayWidget/SPWidget"));
+        m_globalVariables->setWallpaperExecutablePath(QUrl(appDir.path() + "/../ScreenPlayWallpaper/SPWallpaper"));
+        m_globalVariables->setGodotWallpaperExecutablePath(QUrl(appDir.path() + "/../ScreenPlayWallpaperGodot"));
         const auto godotEditorName = "Godot_" + godotVersion + "-stable_x11.64";
-        m_globalVariables->setGodotEditorExecutablePath(QUrl(workingDir.path() + "/" + godotEditorName));
+        m_globalVariables->setGodotEditorExecutablePath(QUrl(appDir.path() + "/" + godotEditorName));
     } else {
         qFatal("OS not supported.");
     }
+
+    qDebug() << m_globalVariables->widgetExecutablePath() << m_globalVariables->wallpaperExecutablePath();
 
     if (!QFileInfo::exists(m_globalVariables->widgetExecutablePath().toString())) {
         qInfo() << "widgetExecutablePath:" << m_globalVariables->widgetExecutablePath();

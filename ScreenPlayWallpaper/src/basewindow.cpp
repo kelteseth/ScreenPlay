@@ -25,7 +25,7 @@ WallpaperExit::Code BaseWindow::setup()
 
     if (projectPath() == "test") {
         setType(ScreenPlay::ContentTypes::InstalledType::QMLWallpaper);
-        setProjectSourceFileAbsolute({ "qrc:/qml/ScreenPlayWallpaper/qml/Test.qml" });
+        setProjectSourceFileAbsolute({ "qrc:/qt/qml/ScreenPlayWallpaper/qml/Test.qml" });
         setupLiveReloading();
         return WallpaperExit::Code::Ok;
     }

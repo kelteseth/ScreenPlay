@@ -9,6 +9,7 @@ set(CMAKE_AUTOMOC ON)
 include(GenerateCMakeVariableHeader)
 
 set(SOURCES
+
     # cmake-format: sort
     src/app.cpp
     src/applicationengine.cpp
@@ -31,6 +32,7 @@ set(SOURCES
     src/wizards.cpp)
 
 set(HEADER
+
     # cmake-format: sort
     inc/public/ScreenPlay/app.h
     inc/public/ScreenPlay/applicationengine.h
@@ -55,6 +57,7 @@ set(HEADER
     inc/public/ScreenPlay/wizards.h)
 
 set(QML
+
     # cmake-format: sort
     ScreenPlayMain.qml
     qml/Community/CommunityNavItem.qml
@@ -110,6 +113,7 @@ set(QML
     qml/Workshop/WorkshopView.qml)
 
 set(TS_FILES
+
     # cmake-format: sort
     translations/ScreenPlay_.ts
     translations/ScreenPlay_de_DE.ts
@@ -126,6 +130,7 @@ set(TS_FILES
     translations/ScreenPlay_zh_CN.ts)
 
 set(RESOURCES
+
     # cmake-format: sort
     "legal/Font Awesome Free License.txt"
     "legal/Qt LGPLv3.txt"
@@ -319,7 +324,7 @@ qt_add_qml_module(
 
 target_link_libraries(
     ScreenPlayLib
-    PUBLIC 
+    PUBLIC
     ScreenPlaySDKLib
     LibArchive::LibArchive
     ScreenPlayCoreLib
@@ -337,9 +342,8 @@ target_link_libraries(
     Qt6::Xml)
 
 # if(${SCREENPLAY_STEAM})
-#     target_link_libraries(ScreenPlayLib PUBLIC ScreenPlayWorkshopplugin ScreenPlayWorkshop)
+# target_link_libraries(ScreenPlayLib PUBLIC ScreenPlayWorkshopplugin ScreenPlayWorkshop)
 # endif()
-
 qt_add_executable(ScreenPlayApp main.cpp)
 target_link_libraries(ScreenPlayApp PRIVATE ScreenPlayLib ScreenPlayLibplugin)
 
@@ -354,29 +358,28 @@ if(${SCREENPLAY_TESTS})
 endif()
 
 # if(WIN32
-#     OR UNIX
-#     AND NOT APPLE)
-#     include(CopyRecursive)
-#     set(FONTS_OUT_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets/fonts)
-#     file(MAKE_DIRECTORY ${FONTS_OUT_DIR})
-#     copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.ttf")
-#     copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.otf")
-#     set(RESOURCES_DIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets")
-#     file(MAKE_DIRECTORY ${RESOURCES_DIR})
+# OR UNIX
+# AND NOT APPLE)
+# include(CopyRecursive)
+# set(FONTS_OUT_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets/fonts)
+# file(MAKE_DIRECTORY ${FONTS_OUT_DIR})
+# copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.ttf")
+# copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.otf")
+# set(RESOURCES_DIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets")
+# file(MAKE_DIRECTORY ${RESOURCES_DIR})
 # endif()
-
 if(WIN32)
     target_link_libraries(ScreenPlayLib PUBLIC CURL::libcurl sentry::sentry ScreenPlayWallpaperLib)
 
     # Icon
-    target_sources(${PROJECT_NAME} PRIVATE ScreenPlay.rc)
+    target_sources(ScreenPlayLib PRIVATE ScreenPlay.rc)
 
     # Needed for the installscript.qs Windows entry
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/assets/icons/app.ico ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
 
     # Disable console window on Windows
     # https://stackoverflow.com/questions/8249028/how-do-i-keep-my-qt-c-program-from-opening-a-console-in-windows
-    set_property(TARGET ${PROJECT_NAME} PROPERTY WIN32_EXECUTABLE true)
+    set_property(TARGET ScreenPlayApp PROPERTY WIN32_EXECUTABLE true)
 
     # Copy ffmpeg. If the ffmpeg files are missing, start the install_dependencies_XXX for your system!
     file(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/*")
@@ -439,7 +442,6 @@ if(APPLE)
     # file(MAKE_DIRECTORY ${FONTS_OUT_DIR})
     # copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.ttf")
     # copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.otf")
-
 endif()
 
 # .qm translations

@@ -38,7 +38,7 @@ WidgetWindow::WidgetWindow(
 {
     setMainAppPID(mainAppPID);
 
-            Qt::WindowFlags flags = m_quickView->flags();
+    Qt::WindowFlags flags = m_quickView->flags();
     if (QSysInfo::productType() == "macos") {
         // Setting it as a SlashScreen causes the window to hide on focus lost
         m_quickView->setFlags(flags | Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint);
@@ -47,8 +47,6 @@ WidgetWindow::WidgetWindow(
         m_quickView->setFlags(flags | Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint | Qt::BypassWindowManagerHint | Qt::SplashScreen);
     }
 
-    
-
 #ifdef Q_OS_WIN
     m_hwnd = reinterpret_cast<HWND>(m_quickView->winId());
     setWindowBlur();
@@ -56,7 +54,7 @@ WidgetWindow::WidgetWindow(
 
     ScreenPlay::Util util;
     if (projectPath == "test") {
-        setProjectSourceFileAbsolute({ "qrc:/qml/ScreenPlayWidget/qml/Test.qml" });
+        setProjectSourceFileAbsolute({ "qrc:/qt/qml/ScreenPlayWidget/qml/Test.qml" });
         setType(ScreenPlay::ContentTypes::InstalledType::QMLWidget);
     } else {
         setProjectPath(projectPath);
@@ -106,10 +104,10 @@ WidgetWindow::WidgetWindow(
             QObject::connect(m_quickView.get(), &QWindow::yChanged, this, [this]() { m_positionMessageLimiter.start(); });
         });
     }
-    
 }
 
-void WidgetWindow::start(){
+void WidgetWindow::start()
+{
 
     auto* guiAppInst = dynamic_cast<QGuiApplication*>(QGuiApplication::instance());
     m_quickView->engine()->addImportPath(guiAppInst->applicationDirPath() + "/qml");
@@ -117,7 +115,6 @@ void WidgetWindow::start(){
     m_quickView->loadFromModule("ScreenPlayWidget", "ScreenPlayWidgetMain");
     m_quickView->setColor(Qt::transparent);
     m_quickView->setPosition(m_position);
-
 
     setupLiveReloading();
 }

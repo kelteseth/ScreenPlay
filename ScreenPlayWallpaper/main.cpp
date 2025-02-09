@@ -41,7 +41,9 @@ int main(int argc, char* argv[])
 
 #if defined(Q_OS_WIN)
     auto window = std::make_unique<WinWindow>();
+    qmlRegisterSingletonInstance<WinWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", window.get());
     window->setQuickView(quickView);
+    quickView->loadFromModule("ScreenPlayWallpaper", "ScreenPlayWallpaperMain");
 #elif defined(Q_OS_LINUX)
     // const auto platformName = QGuiApplication::platformName();
     // if (platformName == "xcb") {
@@ -55,7 +57,9 @@ int main(int argc, char* argv[])
     // }
 #elif defined(Q_OS_MACOS)
     auto window = std::make_unique<MacWindow>();
+    qmlRegisterSingletonInstance<MacWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", window.get());
     window->setQuickView(quickView);
+    quickView->loadFromModule("ScreenPlayWallpaper", "ScreenPlayWallpaperMain");
 #endif
 
     // If we start with only one argument (app path)
