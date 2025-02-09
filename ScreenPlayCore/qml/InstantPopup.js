@@ -21,7 +21,7 @@ function openErrorPopup(parent, errorMsg) {
 
     if (!errorPopup) {
         var errorComponent = Qt.createComponent(
-                    "qrc:/qml/ScreenPlayCore/qml/ErrorPopup.qml")
+            "qrc:/qt/qml/ScreenPlayCore/qml/ErrorPopup.qml")
         if (errorComponent.status === QtQ.Component.Ready) {
             errorPopup = errorComponent.createObject(parent)
         } else {
