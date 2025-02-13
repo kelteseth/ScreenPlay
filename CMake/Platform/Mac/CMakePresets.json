@@ -54,6 +54,9 @@
         {
             "name": "mac-clang-release",
             "binaryDir": "${sourceDir}/Build/Clang_Release",
+            "cacheVariables": {
+                "CMAKE_BINARY_DIR": "${sourceDir}/Build/Clang_Release"
+            },
             "inherits": [
                 "config-develop",
                 "mac-clang-base",

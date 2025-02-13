@@ -38,14 +38,13 @@ find_package(
 
 include(QtDeploy)
 
-
 # Only used for some custom file copy
 if(WIN32)
-    set(VCPKG_ARCH "x64-windows")
+    set(VCPKG_TARGET_TRIPLET "x64-windows")
 elseif(UNIX AND NOT APPLE)
-    set(VCPKG_ARCH "x64-linux")
+    set(VCPKG_TARGET_TRIPLET "x64-linux")
 elseif(APPLE)
-    set(VCPKG_ARCH "64-osx-universal") # Our own triplet for universal binaries
+    set(VCPKG_TARGET_TRIPLET "64-osx-universal") # Our own triplet for universal binaries
     set(VCPKG_TARGET_ARCHITECTURE "arm64;x86_64")
 endif()
 
@@ -59,9 +58,8 @@ if(UNIX)
     set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 endif()
 
-
 set(VCPKG_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../vcpkg")
-set(VCPKG_INSTALLED_PATH "${VCPKG_PATH}/installed/${VCPKG_ARCH}")
+set(VCPKG_INSTALLED_PATH "${VCPKG_PATH}/installed/${VCPKG_TARGET_TRIPLET}")
 set(VCPKG_BIN_PATH "${VCPKG_INSTALLED_PATH}/bin")
 
 # Godot Editor
@@ -97,6 +95,20 @@ option(SCREENPLAY_TESTS "Enables UI tests." OFF)
 option(SCREENPLAY_INSTALLER "Indicates whether an installer via the Qt Installer Framework is created." OFF)
 option(SCREENPLAY_GODOT "Compiles ScreenPlayGodotWallpaper." ON)
 
+if(${SCREENPLAY_STEAM})
+    if(WIN32)
+        set(STEAM_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/Steam/win64")
+        set(STEAM_BINARY "steam_api64.dll")
+    elseif(APPLE)
+        set(STEAM_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/Steam/osx")
+        set(STEAM_BINARY "libsteam_api.dylib")
+    elseif(UNIX)
+        set(STEAM_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/Steam/linux64")
+        set(STEAM_BINARY "libsteam_api.so")
+    endif()
+
+    set(STEAM_BINARY_PATH "${STEAM_ROOT}/${STEAM_BINARY}")
+endif()
 # Gitlab CI has many ENV variables. We use this one to check if the current build happens inside the CI
 if(DEFINED ENV{CI_COMMIT_MESSAGE})
     set(GITLAB_CI true)

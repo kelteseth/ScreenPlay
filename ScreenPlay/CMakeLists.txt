@@ -357,17 +357,18 @@ if(${SCREENPLAY_TESTS})
     endif()
 endif()
 
-# if(WIN32
-# OR UNIX
-# AND NOT APPLE)
-# include(CopyRecursive)
-# set(FONTS_OUT_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets/fonts)
-# file(MAKE_DIRECTORY ${FONTS_OUT_DIR})
-# copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.ttf")
-# copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.otf")
-# set(RESOURCES_DIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets")
-# file(MAKE_DIRECTORY ${RESOURCES_DIR})
-# endif()
+if(WIN32
+    OR UNIX
+    AND NOT APPLE)
+    include(CopyRecursive)
+    set(FONTS_OUT_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets/fonts)
+    file(MAKE_DIRECTORY ${FONTS_OUT_DIR})
+    copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.ttf")
+    copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.otf")
+    set(RESOURCES_DIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets")
+    file(MAKE_DIRECTORY ${RESOURCES_DIR})
+endif()
+
 if(WIN32)
     target_link_libraries(ScreenPlayLib PUBLIC CURL::libcurl sentry::sentry ScreenPlayWallpaperLib)
 
@@ -437,17 +438,17 @@ if(APPLE)
         "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
 
     # fonts
-    # include(CopyRecursive)
-    # set(FONTS_OUT_DIR "${RESOURCES_DIR}/fonts")
-    # file(MAKE_DIRECTORY ${FONTS_OUT_DIR})
-    # copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.ttf")
-    # copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.otf")
+    include(CopyRecursive)
+    set(FONTS_OUT_DIR "${RESOURCES_DIR}/fonts")
+    file(MAKE_DIRECTORY ${FONTS_OUT_DIR})
+    copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.ttf")
+    copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.otf")
 endif()
 
 # .qm translations
-# set(QM_OUT_DIR "${RESOURCES_DIR}/translations")
-# file(MAKE_DIRECTORY ${QM_OUT_DIR})
-# set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${QM_OUT_DIR})
+set(QM_OUT_DIR "${RESOURCES_DIR}/translations")
+file(MAKE_DIRECTORY ${QM_OUT_DIR})
+set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${QM_OUT_DIR})
 
 # Must be called here, because we need to change the OUTPUT_LOCATION for macos
 qt_add_lrelease(ScreenPlayApp TS_FILES ${TS_FILES})

@@ -63,11 +63,11 @@ if __name__ == "__main__":
     build_config = BuildConfig()
     build_config.qt_version = defines.QT_VERSION
     build_config.qt_ifw_version = defines.QT_IFW_VERSION
-    build_config.build_steam = "ON"
-    build_config.build_tests = "OFF"
-    build_config.build_deploy = "ON"
-    build_config.create_installer = "OFF"
-    build_config.build_type = "release"
+    # build_config.build_steam = "ON"
+    # build_config.build_tests = "OFF"
+    # build_config.build_deploy = "ON"
+    # build_config.create_installer = "OFF"
+    # build_config.build_type = "release"
     build_config.screenplay_version = screenplay_version
 
     if platform.system() == "Darwin" and not args.skip_build:

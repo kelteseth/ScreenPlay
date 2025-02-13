@@ -56,6 +56,9 @@
         {
             "name": "linux-gcc-release",
             "binaryDir": "${sourceDir}/Build/Gcc_Release",
+            "cacheVariables": {
+                "CMAKE_BINARY_DIR": "${sourceDir}/Build/Gcc_Release"
+            },
             "inherits": [
                 "config-develop",
                 "linux-gcc-base",
@@ -92,6 +95,9 @@
         {
             "name": "linux-clang-release",
             "binaryDir": "${sourceDir}/Build/Clang_Release",
+            "cacheVariables": {
+                "CMAKE_BINARY_DIR": "${sourceDir}/Build/Clang_Release"
+            },
             "inherits": [
                 "config-develop",
                 "linux-clang-base",

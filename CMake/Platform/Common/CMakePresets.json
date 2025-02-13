@@ -110,7 +110,7 @@
                 "SCREENPLAY_DEPLOY": "OFF",
                 "SCREENPLAY_INSTALLER": "OFF",
                 "SCREENPLAY_TESTS": "OFF",
-                "SCREENPLAY_GODOT": "ON"
+                "SCREENPLAY_GODOT": "OFF"
             }
         },
         {

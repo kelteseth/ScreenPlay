@@ -72,6 +72,9 @@
         {
             "name": "windows-msvc-release",
             "binaryDir": "${sourceDir}/Build/MSVC_Release",
+            "cacheVariables": {
+                "CMAKE_BINARY_DIR": "${sourceDir}/Build/MSVC_Release"
+            },
             "inherits": [
                 "config-develop",
                 "windows-msvc-base",
@@ -119,6 +122,13 @@
                 "windows-msvc-release",
                 "deploy-base"
             ],
+            "cacheVariables": {
+                "SCREENPLAY_STEAM": "ON",
+                "SCREENPLAY_DEPLOY": "ON",
+                "SCREENPLAY_INSTALLER": "OFF",
+                "SCREENPLAY_TESTS": "OFF",
+                "SCREENPLAY_GODOT": "OFF"
+            },
             "displayName": "Deploy Release (windows)",
             "description": "Deploy Release build with QML dependencies"
         }

@@ -17,7 +17,7 @@ def printLightGray(skk): print("\033[97m {}\033[0;37;40m" .format(skk))
 def printBlack(skk): print("\033[98m {}\033[0;37;40m" .format(skk))
 
 
-def execute(command, workingDir=".", ignore_error=False, use_shell=True, print_command=True):
+def execute(command, workingDir=".", ignore_error=False, use_shell=True, print_command=True) -> bool: 
 
     if print_command:
         print("\033[92m Executing: \033[0;37;40m", command)
@@ -44,5 +44,4 @@ def execute(command, workingDir=".", ignore_error=False, use_shell=True, print_c
         if ignore_error:
             printYellow("Ignore error {}".format(exitCode))
         else:
-            raise subprocess.CalledProcessError(exitCode, command)
-            
+            return exitCode

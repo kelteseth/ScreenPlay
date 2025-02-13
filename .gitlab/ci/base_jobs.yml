@@ -11,8 +11,7 @@
   artifacts:
     expire_in: "2 weeks"
     paths:
-      - build-x64-windows-release/bin/
-      - build-x64-windows-release/ScreenPlay-Installer.exe
+      - Build/Deploy
 
 .base_linux_build:
   dependencies: []
@@ -37,7 +36,7 @@
   artifacts:
     expire_in: "4 weeks"
     paths:
-      - build-x64-linux-release/bin/
+      - Build/Deploy
 
 .base_osx_build:
   dependencies: []
@@ -49,3 +48,7 @@
     - git submodule update --init --recursive
   tags:
     - osx
+  artifacts:
+    expire_in: "4 weeks"
+    paths:
+      - Build/Deploy
