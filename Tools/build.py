@@ -202,11 +202,10 @@ def setup(build_config: BuildConfig) -> Tuple[BuildConfig, BuildResult]:
         os.environ.update(env_dict)
 
 
-    elif platform.system() == "Linux":
+    elif platform.system() == "Linux" or platform.system() == "Darwin":
         build_config.executable_file_ending = ""
     else:
-        raise NotImplementedError(
-            "Unsupported platform, ScreenPlay only supports Windows, macOS and Linux.")
+        build_config.executable_file_ending = ".exe"
 
 
     build_result = BuildResult()

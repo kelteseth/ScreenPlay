@@ -30,7 +30,7 @@ WallpaperExit::Code MacWindow::start()
     // m_quickView->loadFromModule("ScreenPlayWallpaper", "Wallpaper");
 
     MacIntegration* macIntegration = new MacIntegration(this);
-    macIntegration->SetBackgroundLevel(&m_window);
+    macIntegration->SetBackgroundLevel(m_quickView.get());
 
     return WallpaperExit::Code::Ok;
 }

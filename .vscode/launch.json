@@ -43,7 +43,13 @@
             "request": "launch",
             "program": "${command:cmake.launchTargetPath}",
             "args": [],
-            "cwd": "${command:cmake.buildDirectory}/bin",
+            "cwd": "${command:cmake.buildDirectory}",
+            "env": {
+                "DYLD_FRAMEWORK_PATH": "${workspaceFolder}/../aqt/6.8.2/macos/lib:${workspaceFolder}/../aqt/6.8.2/macos/plugins",
+                "DYLD_LIBRARY_PATH": "${workspaceFolder}/../aqt/6.8.2/macos/lib:${workspaceFolder}/../aqt/6.8.2/macos/plugins",
+                "QML2_IMPORT_PATH": "${workspaceFolder}/../aqt/6.8.2/macos/qml",
+                "Path": "${env:Path}:${workspaceFolder}/../aqt/6.8.2/macos/bin:${workspaceFolder}/../aqt/6.8.2/macos/lib:${workspaceFolder}/../aqt/6.8.2/macos/qml"
+            }
         },
         {
             "name": "🐍 Python: Current File",

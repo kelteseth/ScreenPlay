@@ -131,14 +131,9 @@ if(APPLE)
         TARGET SPWallpaper
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/index.html"
-        "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
+        "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/")
 
-    set_target_properties(SPWallpaper PROPERTIES
-        MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-        MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-        MACOSX_BUNDLE FALSE
-        WIN32_EXECUTABLE TRUE
-    )
+
 endif()
 
 if(WIN32)

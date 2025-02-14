@@ -17,4 +17,4 @@ standalone_linux:
   extends:
     - .base_linux_build
   script:
-    - python Tools/build.py --preset=linux-deploy-release
+    - python3 Tools/build.py --preset=linux-deploy-release

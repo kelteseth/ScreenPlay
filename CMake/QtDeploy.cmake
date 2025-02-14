@@ -21,17 +21,26 @@ function(register_qt_additional_deployment TARGET_NAME)
             message(FATAL_ERROR "No main target registered. Call register_qt_main_deployment first.")
         endif()
         
-        # Important: Set output directories to be within the app bundle
+        # Get the bundle name from the main target
+        get_target_property(bundle_name ${main_target} OUTPUT_NAME)
+        if(NOT bundle_name)
+            get_target_property(bundle_name ${main_target} MACOSX_BUNDLE_BUNDLE_NAME)
+        endif()
+        if(NOT bundle_name)
+            set(bundle_name ${main_target})
+        endif()
+        
+        # Set output directories using the bundle name
         set_target_properties(${TARGET_NAME} PROPERTIES
             MACOSX_BUNDLE FALSE
-            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${main_target}.app/Contents/MacOS"
-            LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${main_target}.app/Contents/Frameworks"
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${bundle_name}.app/Contents/MacOS"
+            LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${bundle_name}.app/Contents/Frameworks"
         )
         
-        # Install directly into the app bundle
+        # Install using the bundle name
         install(TARGETS ${TARGET_NAME}
-            RUNTIME DESTINATION "${main_target}.app/Contents/MacOS"
-            LIBRARY DESTINATION "${main_target}.app/Contents/Frameworks"
+            RUNTIME DESTINATION "${bundle_name}.app/Contents/MacOS"
+            LIBRARY DESTINATION "${bundle_name}.app/Contents/Frameworks"
         )
     else()
         install(TARGETS ${TARGET_NAME}
@@ -42,7 +51,6 @@ function(register_qt_additional_deployment TARGET_NAME)
     endif()
 endfunction()
 
-# Function to generate single deployment script
 function(generate_qt_deployment_script)
     get_property(main_target GLOBAL PROPERTY QT_DEPLOY_MAIN_TARGET)
     get_property(additional_targets GLOBAL PROPERTY QT_DEPLOY_TARGETS)
@@ -52,19 +60,13 @@ function(generate_qt_deployment_script)
         return()
     endif()
     
-    # Prepare paths based on platform
-    if(APPLE)
-        set(main_exe "${CMAKE_INSTALL_PREFIX}/${main_target}.app")
-        set(additional_exes "")
-        foreach(target ${additional_targets})
-            list(APPEND additional_exes "${main_exe}/Contents/MacOS/$<TARGET_FILE_NAME:${target}>")
-        endforeach()
-    else()
-        set(main_exe "$<TARGET_FILE:${main_target}>")
-        set(additional_exes "")
-        foreach(target ${additional_targets})
-            list(APPEND additional_exes "$<TARGET_FILE:${target}>")
-        endforeach()
+    # Get actual bundle name from target properties
+    get_target_property(bundle_name ${main_target} OUTPUT_NAME)
+    if(NOT bundle_name)
+        get_target_property(bundle_name ${main_target} MACOSX_BUNDLE_BUNDLE_NAME)
+    endif()
+    if(NOT bundle_name)
+        set(bundle_name ${main_target})
     endif()
     
     set(deploy_script "${CMAKE_BINARY_DIR}/qt_deploy_all.cmake")
@@ -93,13 +95,20 @@ function(generate_qt_deployment_script)
         list(APPEND all_plugins \${${target}_plugins_found})")
     endforeach()
     
-    # Add runtime dependencies deployment
     if(APPLE)
+        set(bundle_path "${CMAKE_INSTALL_PREFIX}/${bundle_name}.app")
+        
+        # Create list of additional executables
+        set(additional_exes "")
+        foreach(target ${additional_targets})
+            list(APPEND additional_exes "${bundle_name}.app/Contents/MacOS/$<TARGET_FILE_NAME:${target}>")
+        endforeach()
+        
         string(APPEND script_content "
         
         # Deploy runtime dependencies including all QML plugins
         qt_deploy_runtime_dependencies(
-            EXECUTABLE \"${main_exe}\"
+            EXECUTABLE \"${bundle_name}.app\"
             ADDITIONAL_EXECUTABLES \"${additional_exes}\"
             ADDITIONAL_MODULES \${all_plugins}
             GENERATE_QT_CONF
@@ -108,11 +117,12 @@ function(generate_qt_deployment_script)
             QML_DIR Contents/Resources/qml
         )")
     else()
+        # For non-Apple platforms
         string(APPEND script_content "
         
         # Deploy runtime dependencies including all QML plugins
         qt_deploy_runtime_dependencies(
-            EXECUTABLE \"${main_exe}\"
+            EXECUTABLE \"\${CMAKE_INSTALL_PREFIX}/bin/$<TARGET_FILE_NAME:${main_target}>\"
             ADDITIONAL_EXECUTABLES \"${additional_exes}\"
             ADDITIONAL_MODULES \${all_plugins}
             GENERATE_QT_CONF
