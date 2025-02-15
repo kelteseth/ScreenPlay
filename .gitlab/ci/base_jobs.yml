@@ -7,7 +7,7 @@
     - git submodule sync --recursive
     - git submodule update --init --recursive
   tags:
-    - windows10
+    - windows
   artifacts:
     expire_in: "2 weeks"
     paths:
