@@ -10,7 +10,7 @@ standalone_osx:
   extends:
     - .base_osx_build
   script:
-    - python Tools/build.py --preset=mac-deploy-release
+    - python3 Tools/build.py --preset=mac-deploy-release
 
 standalone_linux:
   stage: build
