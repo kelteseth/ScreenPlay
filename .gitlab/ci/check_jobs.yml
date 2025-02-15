@@ -2,13 +2,13 @@ formatting:
   dependencies: []
   stage: check
   image:
-    name: ubuntu:23.10
+    name: ubuntu:24.04
   tags:
     - gitlab-org-docker
   script:
     - apt update -y
-     # For Ubuntu 22.04 and newer we need to create an virutal env
-    - apt install python3.11 python3.11-venv  clang clang-format -y
+     # For Ubuntu 24.04 and newer we need to create an virutal env
+    - apt install python3.12 python3.12-venv  clang clang-format -y
     # Run this command in the ScreenPlay source root folder:
     - python3 -m venv env
     - source env/bin/activate
