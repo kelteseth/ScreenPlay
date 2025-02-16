@@ -1,4 +1,5 @@
 .base_windows_build:
+  interruptible: true
   dependencies: []
   before_script:
     - python -m pip install -U pip wheel
@@ -14,6 +15,7 @@
       - Build/Deploy
 
 .base_linux_build:
+  interruptible: true
   dependencies: []
   before_script:
     # Otherwise libglib2 needs interaction
@@ -52,6 +54,7 @@
       - Build/Deploy
 
 .base_osx_build:
+  interruptible: true
   dependencies: []
   before_script:
     - pip3 install -U pip

@@ -38,6 +38,7 @@ steam_osx:
       - build-64-osx-universal-release/ScreenPlay-$CI_COMMIT_TAG-64-osx-universal-release.zip.sha256.txt
 
 release_job:
+  interruptible: true
   stage: release
   image: python:3.11
   dependencies:

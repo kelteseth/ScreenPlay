@@ -1,4 +1,5 @@
 formatting:
+  interruptible: true
   dependencies: []
   stage: check
   image:
