@@ -365,6 +365,12 @@ if(WIN32)
     file(MAKE_DIRECTORY ${RESOURCES_DIR})
 endif()
 
+if(UNIX AND NOT APPLE)
+    set(RESOURCES_DIR "${CMAKE_BINARY_DIR}/ScreenPlay/assets")
+    file(MAKE_DIRECTORY ${RESOURCES_DIR})
+endif()
+
+
 if(WIN32)
     target_link_libraries(ScreenPlayLib PUBLIC CURL::libcurl sentry::sentry ScreenPlayWallpaperLib)
 
