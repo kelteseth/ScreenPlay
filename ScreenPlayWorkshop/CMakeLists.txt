@@ -11,20 +11,18 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(LibArchive REQUIRED)
 find_package(
     Qt6
-    COMPONENTS
-    Core
-    Quick
-    QuickControls2
-    Widgets
-    WebSockets
-    Svg
-    Xml
+    COMPONENTS Core
+               Quick
+               QuickControls2
+               Widgets
+               WebSockets
+               Svg
+               Xml
     REQUIRED)
 
 qt_standard_project_setup(REQUIRES 6.8)
 
 set(QML
-
     # cmake-format: sort
     qml/Background.qml
     qml/Forum.qml
@@ -46,7 +44,6 @@ set(QML
     qml/WorkshopItem.qml)
 
 set(SOURCES
-
     # cmake-format: sort
     src/installedlistmodel.cpp
     src/screenplayworkshop.cpp
@@ -58,7 +55,6 @@ set(SOURCES
     src/steamworkshoplistmodel.cpp)
 
 set(HEADER
-
     # cmake-format: sort
     src/installedlistmodel.h
     src/screenplayworkshop.h
@@ -72,7 +68,6 @@ set(HEADER
     src/workshopitem.h)
 
 set(RESOURCES
-
     # cmake-format: sort
     assets/icons/icon_account_circle.svg
     assets/icons/icon_arrow_left.svg
@@ -110,13 +105,12 @@ target_include_directories(ScreenPlayWorkshopLib PUBLIC src/)
 
 target_link_libraries(
     ScreenPlayWorkshopLib
-    PUBLIC
-    Qt6::Core
-    Qt6::Quick
-    ${STEAM_LIB}
-    ScreenPlayCoreLib
-    ScreenPlayCoreLibplugin
-    SteamSDK)
+    PUBLIC Qt6::Core
+           Qt6::Quick
+           ${STEAM_LIB}
+           ScreenPlayCoreLib
+           ScreenPlayCoreLibplugin
+           SteamSDK)
 
 qt_add_qml_module(
     ScreenPlayWorkshopLib
@@ -129,39 +123,24 @@ qt_add_qml_module(
     SOURCES
     ${SOURCES}
     ${HEADER}
-    
     RESOURCES
     ${RESOURCES})
 
 if(${SCREENPLAY_STEAM})
     if(APPLE)
-        # set(MACOS_FRAMEWORKS_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ScreenPlay.app/Contents/MacOS/)
-        # file(MAKE_DIRECTORY ${MACOS_FRAMEWORKS_DIR})
+        # set(MACOS_FRAMEWORKS_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ScreenPlay.app/Contents/MacOS/) file(MAKE_DIRECTORY
+        # ${MACOS_FRAMEWORKS_DIR})
 
-        # configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${MACOS_FRAMEWORKS_DIR} COPYONLY)
-        # configure_file(${STEAM_BIN} ${MACOS_FRAMEWORKS_DIR} COPYONLY)
-        # else()
-        # configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
-        # configure_file(${STEAM_BIN} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
-        # endif()
+        # configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${MACOS_FRAMEWORKS_DIR} COPYONLY) configure_file(${STEAM_BIN}
+        # ${MACOS_FRAMEWORKS_DIR} COPYONLY) else() configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt
+        # ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY) configure_file(${STEAM_BIN} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY) endif()
 
-        # if(${SCREENPLAY_TESTS})
-        # qt_add_executable(tst_ScreenPlayWorkshop src/TestMain.cpp)
-        # target_link_libraries(
-        # tst_ScreenPlayWorkshop
-        # PRIVATE
-        # Qt6::Quick
-        # Qt6::Widgets
-        # Qt6::QuickControls2
-        # ScreenPlayWorkshopLibplugin
-        # ScreenPlayCoreLibplugin
-        # #ScreenPlayLibplugin # Only needed for the test app
-        # SteamSDK)
+        # if(${SCREENPLAY_TESTS}) qt_add_executable(tst_ScreenPlayWorkshop src/TestMain.cpp) target_link_libraries( tst_ScreenPlayWorkshop
+        # PRIVATE Qt6::Quick Qt6::Widgets Qt6::QuickControls2 ScreenPlayWorkshopLibplugin ScreenPlayCoreLibplugin #ScreenPlayLibplugin #
+        # Only needed for the test app SteamSDK)
 
-        # if(APPLE)
-        # set_target_properties(tst_ScreenPlayWorkshop PROPERTIES RUNTIME_OUTPUT_DIRECTORY
+        # if(APPLE) set_target_properties(tst_ScreenPlayWorkshop PROPERTIES RUNTIME_OUTPUT_DIRECTORY
         # "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
-        # endif()
-        # endif()
+        # endif() endif()
     endif()
 endif()

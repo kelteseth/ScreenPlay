@@ -24,17 +24,16 @@ project(
 
 find_package(
     Qt6
-    COMPONENTS
-    Core
-    Quick
-    QuickControls2
-    Gui
-    Widgets
-    WebSockets
-    Svg
-    Xml
-    LinguistTools
-    Test)
+    COMPONENTS Core
+               Quick
+               QuickControls2
+               Gui
+               Widgets
+               WebSockets
+               Svg
+               Xml
+               LinguistTools
+               Test)
 
 include(QtDeploy)
 
@@ -48,11 +47,9 @@ elseif(APPLE)
     set(VCPKG_TARGET_ARCHITECTURE "arm64;x86_64")
 endif()
 
-# QArchive: RPATH is the runtime library search path on Unix systems that tells the dynamic
-# linker where to look for shared libraries. By default, CMake builds with RPATH
-# pointing to the build directory, then changes it during installation. Some build
-# systems like Ninja on non-ELF platforms don't support this RPATH modification
-# during install. Setting CMAKE_BUILD_WITH_INSTALL_RPATH builds directly with the
+# QArchive: RPATH is the runtime library search path on Unix systems that tells the dynamic linker where to look for shared libraries. By
+# default, CMake builds with RPATH pointing to the build directory, then changes it during installation. Some build systems like Ninja on
+# non-ELF platforms don't support this RPATH modification during install. Setting CMAKE_BUILD_WITH_INSTALL_RPATH builds directly with the
 # final installation RPATH, avoiding the need to modify it later.
 if(UNIX)
     set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
@@ -90,7 +87,8 @@ endif()
 option(QCORO_BUILD_TESTING "Build QCoro tests" OFF)
 option(QCORO_BUILD_EXAMPLES "Build QCoro examples" OFF)
 option(SCREENPLAY_STEAM "For FOSS distribution so we do not bundle proprietary code." ON)
-option(SCREENPLAY_DEPLOY "Marks this version as an official deploy version. This version uses different import paths and other settings." OFF)
+option(SCREENPLAY_DEPLOY "Marks this version as an official deploy version. This version uses different import paths and other settings."
+       OFF)
 option(SCREENPLAY_TESTS "Enables UI tests." OFF)
 option(SCREENPLAY_INSTALLER "Indicates whether an installer via the Qt Installer Framework is created." OFF)
 option(SCREENPLAY_GODOT "Compiles ScreenPlayGodotWallpaper." ON)

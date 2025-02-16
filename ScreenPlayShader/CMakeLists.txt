@@ -69,9 +69,11 @@ qt6_add_shaders(
 
 if(${SCREENPLAY_TESTS})
     qt_add_executable(tst_ScreenPlayShader src/TestMain.cpp)
-    target_link_libraries(tst_ScreenPlayShader PRIVATE Qt::Quick 
-    ScreenPlayShaderLib
-    ScreenPlayShaderLibplugin
-    ScreenPlayShaderCore
-    ScreenPlayShaderCoreplugin)
+    target_link_libraries(
+        tst_ScreenPlayShader
+        PRIVATE Qt::Quick
+                ScreenPlayShaderLib
+                ScreenPlayShaderLibplugin
+                ScreenPlayShaderCore
+                ScreenPlayShaderCoreplugin)
 endif()

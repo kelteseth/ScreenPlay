@@ -42,7 +42,7 @@ public:
         const qint64 mainAppPID,
         std::shared_ptr<QQuickView> quickView,
         const bool debugMode = false);
-    void start();    
+    void start();
     Q_PROPERTY(qint64 mainAppPID READ mainAppPID WRITE setMainAppPID NOTIFY mainAppPIDChanged FINAL)
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
     Q_PROPERTY(QString projectPath READ projectPath WRITE setProjectPath NOTIFY projectPathChanged)
@@ -161,7 +161,6 @@ public slots:
         m_debugMode = debugMode;
         emit debugModeChanged(m_debugMode);
     }
-
 
 private:
     void setupLiveReloading();

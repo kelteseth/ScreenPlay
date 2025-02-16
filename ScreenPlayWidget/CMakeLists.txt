@@ -12,7 +12,6 @@ set(HEADER src/widgetwindow.h)
 set(QML qml/Test.qml ScreenPlayWidgetMain.qml)
 
 set(RESOURCES
-
     # cmake-format: sort
     assets/icons/baseline-close-24px.svg
     assets/icons/baseline-opacity-24px.svg
@@ -22,15 +21,15 @@ set(RESOURCES
 find_package(
     Qt6
     COMPONENTS Core
-    Quick
-    Gui
-    Widgets
-    WebSockets
-    Svg
-    WebEngineCore
-    WebEngineQuick
-    WebChannel
-    Positioning)
+               Quick
+               Gui
+               Widgets
+               WebSockets
+               Svg
+               WebEngineCore
+               WebEngineQuick
+               WebChannel
+               Positioning)
 
 qt_standard_project_setup(REQUIRES 6.8)
 
@@ -42,16 +41,16 @@ target_include_directories(ScreenPlayWidgetLib PUBLIC src)
 target_link_libraries(
     ScreenPlayWidgetLib
     PUBLIC ScreenPlaySDKLib
-    ScreenPlayCoreLibplugin
-    ScreenPlayWeatherLibplugin
-    Qt6::Quick
-    Qt6::Gui
-    Qt6::Widgets
-    Qt6::Core
-    Qt6::WebSockets
-    Qt6::Svg
-    Qt6::WebEngineCore
-    Qt6::WebEngineQuick)
+           ScreenPlayCoreLibplugin
+           ScreenPlayWeatherLibplugin
+           Qt6::Quick
+           Qt6::Gui
+           Qt6::Widgets
+           Qt6::Core
+           Qt6::WebSockets
+           Qt6::Svg
+           Qt6::WebEngineCore
+           Qt6::WebEngineQuick)
 
 if(WIN32)
     target_link_libraries(ScreenPlayWidgetLib PUBLIC ScreenPlaySysInfoLibplugin)
@@ -86,8 +85,6 @@ include(GenerateCMakeVariableHeader)
 generate_cmake_variable_header(SPWidget)
 
 include(GNUInstallDirs)
-install(TARGETS SPWidget
-    BUNDLE DESTINATION .
-)
+install(TARGETS SPWidget BUNDLE DESTINATION .)
 
 register_qt_additional_deployment(SPWidget)

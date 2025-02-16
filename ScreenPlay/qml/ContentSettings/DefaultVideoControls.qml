@@ -53,12 +53,7 @@ ColumnLayout {
                 return;
             }
             settingValue = true;
-            App.screenPlayManager.setValueAtMonitorTimelineIndex(
-                        root.monitorIndex,
-                        root.timelineIndex,
-                        root.sectionIdentifier,
-                        "volume",
-                        slVolume.slider.value.toFixed(2)).then(result => {
+            App.screenPlayManager.setValueAtMonitorTimelineIndex(root.monitorIndex, root.timelineIndex, root.sectionIdentifier, "volume", slVolume.slider.value.toFixed(2)).then(result => {
                 settingValue = false;
                 if (!result.success) {
                     console.error("setValueAtMonitorTimelineIndex failed");
@@ -75,12 +70,7 @@ ColumnLayout {
 
         headline: qsTr("Current Video Time")
         slider.onValueChanged: {
-            App.screenPlayManager.setValueAtMonitorTimelineIndex(
-                        root.monitorIndex,
-                        root.timelineIndex,
-                        root.sectionIdentifier,
-                        "currentTime",
-                        slCurrentVideoTime.slider.value.toFixed(2));
+            App.screenPlayManager.setValueAtMonitorTimelineIndex(root.monitorIndex, root.timelineIndex, root.sectionIdentifier, "currentTime", slCurrentVideoTime.slider.value.toFixed(2));
         }
         Layout.fillWidth: true
         slider.stepSize: 0.1

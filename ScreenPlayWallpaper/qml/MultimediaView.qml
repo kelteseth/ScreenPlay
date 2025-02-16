@@ -18,9 +18,9 @@ Item {
         isPlaying: Wallpaper.isPlaying
         onIsPlayingChanged: {
             if (isPlaying && !root.fadeInDone) {
-                  root.fadeInDone = true;
-                  startTimer.start();
-              }
+                root.fadeInDone = true;
+                startTimer.start();
+            }
         }
     }
 

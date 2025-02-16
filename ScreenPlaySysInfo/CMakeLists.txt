@@ -19,7 +19,6 @@ qt_standard_project_setup(REQUIRES 6.8)
 set(QML qml/TestMain.qml)
 
 set(QML_PLUGIN_SOURCES
-
     # cmake-format: sort
     src/cpu.cpp
     src/gpu.cpp
@@ -35,7 +34,6 @@ if(WIN32)
 endif()
 
 set(QML_PLUGIN_HEADER
-
     # cmake-format: sort
     inc/public/ScreenPlaySysInfo/cpu.h
     inc/public/ScreenPlaySysInfo/gpu.h
@@ -55,11 +53,10 @@ target_compile_features(ScreenPlaySysInfoLib PRIVATE cxx_std_23)
 
 target_link_libraries(
     ScreenPlaySysInfoLib
-    PRIVATE 
-    Qt::NetworkPrivate
-    Qt6::Core
-    Qt6::Quick
-    infoware)
+    PRIVATE Qt::NetworkPrivate
+            Qt6::Core
+            Qt6::Quick
+            infoware)
 
 target_include_directories(ScreenPlaySysInfoLib PUBLIC inc/public)
 

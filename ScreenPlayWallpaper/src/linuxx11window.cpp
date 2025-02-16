@@ -31,10 +31,10 @@ WallpaperExit::Code LinuxX11Window::start()
     if (!debugMode()) {
         connect(m_sdk.get(), &ScreenPlaySDK::sdkDisconnected, this, &LinuxX11Window::destroyThis);
     }
-    qmlRegisterSingletonType<LinuxX11Window>("ScreenPlayWallpaper", 1, 0, "Wallpaper", 
-    [](QQmlEngine *engine, QJSEngine *) -> QObject * {
-        return new LinuxX11Window();
-    });
+    qmlRegisterSingletonType<LinuxX11Window>("ScreenPlayWallpaper", 1, 0, "Wallpaper",
+        [](QQmlEngine* engine, QJSEngine*) -> QObject* {
+            return new LinuxX11Window();
+        });
     qmlRegisterSingletonInstance<LinuxX11Window>("ScreenPlayWallpaper", 1, 0, "Wallpaper", this);
 
     auto* screen = QGuiApplication::screens().at(0);

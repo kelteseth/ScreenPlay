@@ -9,7 +9,6 @@ set(CMAKE_AUTOMOC ON)
 include(GenerateCMakeVariableHeader)
 
 set(SOURCES
-
     # cmake-format: sort
     src/app.cpp
     src/create.cpp
@@ -31,7 +30,6 @@ set(SOURCES
     src/wizards.cpp)
 
 set(HEADER
-
     # cmake-format: sort
     inc/public/ScreenPlay/app.h
     inc/public/ScreenPlay/create.h
@@ -55,9 +53,7 @@ set(HEADER
     inc/public/ScreenPlay/wizards.h)
 
 set(QML
-
     # cmake-format: sort
-    qml/ScreenPlayMain.qml
     qml/Community/CommunityNavItem.qml
     qml/Community/CommunityView.qml
     qml/Community/XMLNewsfeed.qml
@@ -99,6 +95,7 @@ set(QML
     qml/Installed/InstalledWelcomeScreen.qml
     qml/Navigation/ExitPopup.qml
     qml/Navigation/Navigation.qml
+    qml/ScreenPlayMain.qml
     qml/Settings/SettingBool.qml
     qml/Settings/SettingsButton.qml
     qml/Settings/SettingsComboBox.qml
@@ -110,7 +107,6 @@ set(QML
     qml/Workshop/WorkshopView.qml)
 
 set(TS_FILES
-
     # cmake-format: sort
     translations/ScreenPlay_.ts
     translations/ScreenPlay_de_DE.ts
@@ -127,7 +123,6 @@ set(TS_FILES
     translations/ScreenPlay_zh_CN.ts)
 
 set(RESOURCES
-
     # cmake-format: sort
     "legal/Font Awesome Free License.txt"
     "legal/Qt LGPLv3.txt"
@@ -277,15 +272,15 @@ endif()
 find_package(
     Qt6
     COMPONENTS Core
-    Quick
-    QuickControls2
-    Gui
-    Widgets
-    WebSockets
-    Svg
-    Xml
-    LinguistTools
-    Test)
+               Quick
+               QuickControls2
+               Gui
+               Widgets
+               WebSockets
+               Svg
+               Xml
+               LinguistTools
+               Test)
 
 qt_standard_project_setup(REQUIRES 6.8)
 
@@ -296,9 +291,7 @@ target_compile_features(ScreenPlayLib PRIVATE cxx_std_23)
 # Note making this public is so that *_qmltyperegistrations.cpp can find the needed include
 target_include_directories(
     ScreenPlayLib
-    PUBLIC
-    inc/public/
-    inc/public/ScreenPlay
+    PUBLIC inc/public/ inc/public/ScreenPlay
     PRIVATE src/)
 
 # ScreenPlayLib is our qml module needed for compiling of all classes and most importanly for QML_ELEMENT. So our app is mostly a module
@@ -319,22 +312,21 @@ qt_add_qml_module(
 
 target_link_libraries(
     ScreenPlayLib
-    PUBLIC
-    ScreenPlaySDKLib
-    LibArchive::LibArchive
-    ScreenPlayCoreLib
-    ScreenPlayCoreLibplugin
-    QArchive
-    Threads::Threads
-    QCoro6::Qml
-    Qt6::Quick
-    Qt6::Gui
-    Qt6::Widgets
-    Qt6::Core
-    Qt6::WebSockets
-    Qt6::Svg
-    Qt6::QuickControls2
-    Qt6::Xml)
+    PUBLIC ScreenPlaySDKLib
+           LibArchive::LibArchive
+           ScreenPlayCoreLib
+           ScreenPlayCoreLibplugin
+           QArchive
+           Threads::Threads
+           QCoro6::Qml
+           Qt6::Quick
+           Qt6::Gui
+           Qt6::Widgets
+           Qt6::Core
+           Qt6::WebSockets
+           Qt6::Svg
+           Qt6::QuickControls2
+           Qt6::Xml)
 
 if(${SCREENPLAY_STEAM})
     target_link_libraries(ScreenPlayLib PUBLIC ScreenPlayWorkshopLibplugin ScreenPlayWorkshopLib)
@@ -368,7 +360,6 @@ if(UNIX AND NOT APPLE)
     set(RESOURCES_DIR "${CMAKE_BINARY_DIR}/ScreenPlay/assets")
     file(MAKE_DIRECTORY ${RESOURCES_DIR})
 endif()
-
 
 if(WIN32)
     target_link_libraries(ScreenPlayLib PUBLIC CURL::libcurl sentry::sentry ScreenPlayWallpaperLib)
@@ -407,35 +398,34 @@ if(APPLE)
     # Specify the name of the icon file for the bundle
     set(MACOSX_BUNDLE_ICON_FILE ScreenPlay.icns) # Only the file name
 
-    # Fore some reason this only works with maually copy
-    # configure_file(${APP_ICON_MACOSX} "${RESOURCES_DIR}/ScreenPlay.icns" COPYONLY)
+    # Fore some reason this only works with maually copy configure_file(${APP_ICON_MACOSX} "${RESOURCES_DIR}/ScreenPlay.icns" COPYONLY)
 
-    # Creates a ScreenPlay.app
-    # Note: Do NOT set MACOSX_BUNDLE TRUE for additional targets
-    set_target_properties(ScreenPlayApp PROPERTIES
-        OUTPUT_NAME "ScreenPlay"                  # This controls the .app name
-        MACOSX_BUNDLE TRUE
-        MACOSX_BUNDLE_BUNDLE_NAME "ScreenPlay"    # This controls the bundle name
-        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
-        MACOSX_RPATH TRUE
-        MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist
-        MACOSX_FRAMEWORK_IDENTIFIER app.screenplay
-        XCODE_ATTRIBUTE_LD_RUNPATH_SEARCH_PATHS "@loader_path/Libraries"
-        RESOURCE "${RESOURCE_FILES};${APP_ICON_MACOSX}"
-        XCODE_ATTRIBUTE_ENABLE_HARDENED_RUNTIME TRUE
-        XCODE_ATTRIBUTE_EXECUTABLE_NAME "ScreenPlay")    # This controls the executable name inside the bundle
+    # Creates a ScreenPlay.app Note: Do NOT set MACOSX_BUNDLE TRUE for additional targets
+    set_target_properties(
+        ScreenPlayApp
+        PROPERTIES OUTPUT_NAME "ScreenPlay" # This controls the .app name
+                   MACOSX_BUNDLE TRUE
+                   MACOSX_BUNDLE_BUNDLE_NAME "ScreenPlay" # This controls the bundle name
+                   RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
+                   MACOSX_RPATH TRUE
+                   MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist
+                   MACOSX_FRAMEWORK_IDENTIFIER app.screenplay
+                   XCODE_ATTRIBUTE_LD_RUNPATH_SEARCH_PATHS "@loader_path/Libraries"
+                   RESOURCE "${RESOURCE_FILES};${APP_ICON_MACOSX}"
+                   XCODE_ATTRIBUTE_ENABLE_HARDENED_RUNTIME TRUE
+                   XCODE_ATTRIBUTE_EXECUTABLE_NAME "ScreenPlay") # This controls the executable name inside the bundle
 
     add_custom_command(
         TARGET ScreenPlayApp
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/ffmpeg"
-        "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/")
+                "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/")
 
     add_custom_command(
         TARGET ScreenPlayApp
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/ffprobe"
-        "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/")
+                "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/")
 
     # fonts
     include(CopyRecursive)
@@ -445,13 +435,14 @@ if(APPLE)
     copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.otf")
 endif()
 
-
 # Must be called here, because we need to change the OUTPUT_LOCATION for macos
 qt_add_lrelease(
-    TS_FILES ${TS_FILES}
-    LRELEASE_TARGET screenplay_translations
-    QM_FILES_OUTPUT_VARIABLE qm_files
-)
+    TS_FILES
+    ${TS_FILES}
+    LRELEASE_TARGET
+    screenplay_translations
+    QM_FILES_OUTPUT_VARIABLE
+    qm_files)
 if(APPLE)
     add_dependencies(ScreenPlayApp screenplay_translations)
 else()
@@ -464,38 +455,34 @@ endif()
 if(${SCREENPLAY_STEAM})
     if(APPLE)
         # Add post-build commands for Steam integration
-        add_custom_command(TARGET ScreenPlayApp POST_BUILD
+        add_custom_command(
+            TARGET ScreenPlayApp
+            POST_BUILD
             # Copy Steam API library
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                "${STEAM_BINARY_PATH}"
-                "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/${STEAM_BINARY}"
-            
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${STEAM_BINARY_PATH}"
+                    "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/${STEAM_BINARY}"
             # Create Steam App ID file
             COMMAND ${CMAKE_COMMAND} -E echo "672870" > "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/steam_appid.txt"
-            
-            COMMENT "Copying Steam files from ${STEAM_BINARY_PATH} to bundle..."
-        )
+            COMMENT "Copying Steam files from ${STEAM_BINARY_PATH} to bundle...")
 
         # Print the paths for debugging
         message(STATUS "Steam root: ${STEAM_ROOT}")
         message(STATUS "Steam binary: ${STEAM_BINARY}")
         message(STATUS "Steam binary path: ${STEAM_BINARY_PATH}")
     elseif(WIN32)
-        add_custom_command(TARGET ScreenPlayApp POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                "${STEAM_BINARY_PATH}"
-                "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
-        )
-        
+        add_custom_command(
+            TARGET ScreenPlayApp
+            POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${STEAM_BINARY_PATH}" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+
         file(WRITE "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/steam_appid.txt" "672870")
     elseif(UNIX AND NOT APPLE)
         set(OUT_DIR "${CMAKE_BINARY_DIR}/ScreenPlay")
-        add_custom_command(TARGET ScreenPlayApp POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                "${STEAM_BINARY_PATH}"
-                "${OUT_DIR}"
-        )
-        
+        add_custom_command(
+            TARGET ScreenPlayApp
+            POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${STEAM_BINARY_PATH}" "${OUT_DIR}")
+
         file(WRITE "${OUT_DIR}/steam_appid.txt" "672870")
     endif()
 endif()
@@ -505,10 +492,10 @@ generate_cmake_variable_header(ScreenPlayApp)
 generate_cmake_variable_header(ScreenPlayLib)
 
 include(GNUInstallDirs)
-install(TARGETS ScreenPlayApp
+install(
+    TARGETS ScreenPlayApp
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 register_qt_main_deployment(ScreenPlayApp)

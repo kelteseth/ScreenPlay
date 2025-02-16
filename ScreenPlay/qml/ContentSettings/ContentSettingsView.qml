@@ -18,14 +18,12 @@ Popup {
 
     width: 1366
     height: 768
-    onOpened: {
+    onOpened: {}
+    onAboutToShow: {
+        timeline.reset();
+        monitorSelection.resize();
+        monitorSelection.selectMonitorAt(0);
     }
-      onAboutToShow: {
-          timeline.reset();
-          monitorSelection.resize()
-          monitorSelection.selectMonitorAt(0);
-
-      }
 
     background: Rectangle {
         anchors.fill: parent
@@ -38,7 +36,7 @@ Popup {
         }
     }
     Connections {
-        function onRequestToggleWallpaperConfiguration() : void  {
+        function onRequestToggleWallpaperConfiguration(): void {
             root.open();
         }
 
@@ -271,7 +269,7 @@ Popup {
                     left: itmLeftWrapper.right
                 }
 
-                function updateControls()  : void {
+                function updateControls(): void {
                     print("updateControls");
                     if (root.selectedInstallType === Util.ContentTypes.InstalledType.VideoWallpaper) {
                         const selectedTimeline = timeline.getSelectedTimeline();

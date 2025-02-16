@@ -63,7 +63,7 @@ private slots:
 
 private:
     QPoint m_zeroPoint {};
-    
+
     WindowsIntegration m_windowsIntegration;
     QTimer m_checkForFullScreenWindowTimer;
     QTimer m_reconfigureTimer;

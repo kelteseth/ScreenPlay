@@ -10,12 +10,11 @@
 #include <QJsonObject>
 #include <QJsonParseError>
 #include <QObject>
+#include <QQmlEngine>
+#include <QQuickView>
 #include <QString>
 #include <QSysInfo>
-#include <QQmlEngine>
 #include <QtQml>
-#include <QQuickView>
-
 
 #include "ScreenPlayCore/exitcodes.h"
 #include "ScreenPlayCore/processmanager.h"
@@ -330,7 +329,8 @@ public slots:
         emit projectSourceFileAbsoluteChanged(m_projectSourceFileAbsolute);
     }
 
-    void setQuickView(std::shared_ptr<QQuickView> quickView){
+    void setQuickView(std::shared_ptr<QQuickView> quickView)
+    {
         m_quickView = quickView;
     }
 

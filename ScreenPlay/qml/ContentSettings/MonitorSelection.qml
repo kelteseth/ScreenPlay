@@ -31,14 +31,14 @@ Rectangle {
 
     signal requestProjectSettings(int index, var installedType, string appID)
     signal requestRemoveWallpaper(int index)
-    signal deselected()
+    signal deselected
 
-    function getActiveMonitors() : list<int>{
-        print(root.activeMonitors)
+    function getActiveMonitors(): list<int> {
+        print(root.activeMonitors);
         return root.activeMonitors;
     }
 
-    function selectOnly(index: int ) : void {
+    function selectOnly(index: int): void {
         console.debug(logger, "selectOnly:", index);
         for (var i = 0; i < rp.count; i++) {
             if (i === index) {
@@ -50,7 +50,7 @@ Rectangle {
         updateActiveMonitors();
     }
 
-    function getSelectedMonitorIndex() : int {
+    function getSelectedMonitorIndex(): int {
         for (var i = 0; i < rp.count; i++) {
             let a = rp.itemAt(i).isSelected;
             let b = rp.itemAt(i).geometry;
@@ -60,7 +60,7 @@ Rectangle {
         return -1;
     }
 
-    function reset() : void{
+    function reset(): void {
         console.debug(logger, "MonitorSelection reset");
         for (var i = 0; i < rp.count; i++) {
             rp.itemAt(i).isSelected = false;
@@ -69,7 +69,7 @@ Rectangle {
         updateActiveMonitors();
     }
 
-    function updateActiveMonitors() : void {
+    function updateActiveMonitors(): void {
         root.activeMonitors = [];
         for (var i = 0; i < rp.count; i++) {
             if (rp.itemAt(i).isSelected)
@@ -78,20 +78,20 @@ Rectangle {
         root.isSelected = root.activeMonitors.length > 0;
     }
 
-    function selectMonitorAt(index: int ) : void {
+    function selectMonitorAt(index: int): void {
         if (!multipleMonitorsSelectable)
             selectOnly(index);
         else
             rp.itemAt(index).isSelected = !rp.itemAt(index).isSelected;
         updateActiveMonitors();
-        if (rp.itemAt(index).hasContent){
+        if (rp.itemAt(index).hasContent) {
             root.requestProjectSettings(index, rp.itemAt(index).installedType, rp.itemAt(index).appID);
         } else {
-            root.deselected()
+            root.deselected();
         }
     }
 
-    function resize() : void {
+    function resize(): void {
         console.debug(logger, "MonitorSelection resize started");
 
         // 1. Get the total desktop size
@@ -140,7 +140,7 @@ Rectangle {
     layer.enabled: true
 
     Connections {
-        function onMonitorReloadCompleted() : void {
+        function onMonitorReloadCompleted(): void {
             let currentSelectedIndex = getSelectedMonitorIndex();
             root.resize();
             // Restore selection if not

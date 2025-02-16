@@ -24,15 +24,14 @@ Drawer {
     onAboutToShow: {
         print("setInstalledDrawerItem onAboutToShow");
         timeline.reset();
-        monitorSelection.resize()
-        monitorSelection.selectOnly(0)
-
+        monitorSelection.resize();
+        monitorSelection.selectOnly(0);
     }
     property bool hasPreviewGif: false
     property var type: ContentTypes.InstalledType.QMLWallpaper
     property string contentFolderName
 
-    function setInstalledDrawerItem(folderName: string, type: int) : void {
+    function setInstalledDrawerItem(folderName: string, type: int): void {
 
         // Toggle drawer if clicked on the same content twice
         if (root.contentFolderName === folderName) {
@@ -75,7 +74,7 @@ Drawer {
 
     // This is used for removing wallpaper. We need to clear
     // the preview image/gif so we can release the file for deletion.
-    function clear()  : void {
+    function clear(): void {
         console.warn("⚠️⚠️⚠️ CLEAR InstalledDrawer");
         root.close();
         root.contentFolderName = "";
@@ -137,7 +136,6 @@ Drawer {
                             visible: App.globalVariables.isBasicVersion()
                         }
                     }
-
                 }
             }
 
@@ -313,16 +311,7 @@ Drawer {
                                         const file = item.file;
                                         const selectedTimeline = timeline.getSelectedTimeline();
                                         const saveToProfilesConfigFile = true;
-                                        App.screenPlayManager.setWallpaperAtMonitorTimelineIndex(
-                                            root.type,
-                                            absoluteStoragePath,
-                                            previewImage,
-                                            file,
-                                            title,
-                                            activeMonitors,
-                                            selectedTimeline.index,
-                                            selectedTimeline.identifier,
-                                            saveToProfilesConfigFile).then(result => {
+                                        App.screenPlayManager.setWallpaperAtMonitorTimelineIndex(root.type, absoluteStoragePath, previewImage, file, title, activeMonitors, selectedTimeline.index, selectedTimeline.identifier, saveToProfilesConfigFile).then(result => {
                                             btnLaunchContent.enabled = true;
                                             if (!result.success) {
                                                 InstantPopup.openErrorPopup(timeline, result.message);

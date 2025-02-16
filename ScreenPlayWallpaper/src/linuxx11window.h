@@ -28,7 +28,6 @@ public slots:
     void terminate() override;
 
 private:
-    
     void setupWallpaperForOneScreen(int activeScreen);
     void setupWallpaperForAllScreens();
     void setupWallpaperForMultipleScreens(const QVector<int>& activeScreensList);

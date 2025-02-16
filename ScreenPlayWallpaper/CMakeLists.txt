@@ -8,16 +8,16 @@ set(CMAKE_AUTOMOC ON)
 find_package(
     Qt6
     COMPONENTS Core
-    Quick
-    Gui
-    Widgets
-    WebSockets
-    Svg
-    Multimedia
-    WebEngineCore
-    WebEngineQuick
-    WebChannel
-    Positioning)
+               Quick
+               Gui
+               Widgets
+               WebSockets
+               Svg
+               Multimedia
+               WebEngineCore
+               WebEngineQuick
+               WebChannel
+               Positioning)
 
 qt_standard_project_setup(REQUIRES 6.8)
 
@@ -40,15 +40,14 @@ set(SOURCES ${SOURCES} src/basewindow.cpp)
 set(HEADER ${HEADER} src/basewindow.h)
 
 set(QML
-
     # cmake-format: sort
-    ScreenPlayWallpaperMain.qml
     qml/CrossFadeVideoPlayer.qml
     qml/GifWallpaper.qml
     qml/MultimediaView.qml
     qml/MultimediaWebView.qml
     qml/Test.qml
-    qml/WebsiteWallpaper.qml)
+    qml/WebsiteWallpaper.qml
+    ScreenPlayWallpaperMain.qml)
 
 set(RESOURCES qtquickcontrols2.conf index.html)
 
@@ -89,19 +88,18 @@ qt_add_qml_module(
 
 target_link_libraries(
     ScreenPlayWallpaperLib
-    PUBLIC
-    ScreenPlaySDKLib
-    ScreenPlayCoreLibplugin
-    ScreenPlayWeatherLibplugin
-    Qt6::Quick
-    Qt6::Gui
-    Qt6::Widgets
-    Qt6::Core
-    Qt6::WebSockets
-    Qt6::Svg
-    Qt6::Multimedia
-    Qt6::WebEngineCore
-    Qt6::WebEngineQuick)
+    PUBLIC ScreenPlaySDKLib
+           ScreenPlayCoreLibplugin
+           ScreenPlayWeatherLibplugin
+           Qt6::Quick
+           Qt6::Gui
+           Qt6::Widgets
+           Qt6::Core
+           Qt6::WebSockets
+           Qt6::Svg
+           Qt6::Multimedia
+           Qt6::WebEngineCore
+           Qt6::WebEngineQuick)
 
 if(WIN32)
     target_link_libraries(ScreenPlayWallpaperLib PUBLIC ScreenPlaySysInfoLibplugin)
@@ -131,8 +129,7 @@ if(APPLE)
         TARGET SPWallpaper
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/index.html"
-        "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/")
-
+                "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/")
 
 endif()
 
@@ -148,8 +145,6 @@ include(GenerateCMakeVariableHeader)
 generate_cmake_variable_header(SPWallpaper)
 
 include(GNUInstallDirs)
-install(TARGETS SPWallpaper
-    BUNDLE DESTINATION .
-)
+install(TARGETS SPWallpaper BUNDLE DESTINATION .)
 
 register_qt_additional_deployment(SPWallpaper)

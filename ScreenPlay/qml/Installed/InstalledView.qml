@@ -383,8 +383,6 @@ Item {
         }
     }
 
-
-
     Util.Archive {
         id: archive
     }
@@ -471,7 +469,6 @@ Item {
         }
     }
 
-
     Pane {
         id: invalidStoragePathView
         anchors.centerIn: parent
@@ -506,11 +503,11 @@ Item {
                 Layout.topMargin: 16
                 color: Material.secondaryTextColor
                 text: {
-                   if( App.globalVariables.isStandaloneVersion()) {
-                       qsTr("This could be due to:\n• Missing write permissions\n• Antivirus blocking access\n• Storage path no longer exists\n\nTry:\n• Running ScreenPlay as administrator\n• Checking your antivirus settings\n• Reinstalling ScreenPlay")
-                   } else {
-                       qsTr("This could be due to:\n• Steam is not installed\n• Steam Workshop folder is inaccessible\n• Missing write permissions\n\nTry:\n• Starting Steam first\n• Running ScreenPlay through Steam\n• Verifying game files in Steam\n• Reinstalling ScreenPlay through Steam")
-                   }
+                    if (App.globalVariables.isStandaloneVersion()) {
+                        qsTr("This could be due to:\n• Missing write permissions\n• Antivirus blocking access\n• Storage path no longer exists\n\nTry:\n• Running ScreenPlay as administrator\n• Checking your antivirus settings\n• Reinstalling ScreenPlay");
+                    } else {
+                        qsTr("This could be due to:\n• Steam is not installed\n• Steam Workshop folder is inaccessible\n• Missing write permissions\n\nTry:\n• Starting Steam first\n• Running ScreenPlay through Steam\n• Verifying game files in Steam\n• Reinstalling ScreenPlay through Steam");
+                    }
                 }
 
                 wrapMode: Text.WordWrap
@@ -525,7 +522,7 @@ Item {
                     text: qsTr("Set content folder path")
                     onClicked: App.util.setNavigation("Settings")
                     icon {
-                        source:  "qrc:/qt/qml/ScreenPlay/assets/icons/icon_settings.svg"
+                        source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_settings.svg"
                         width: 20
                         height: 20
                     }
@@ -534,7 +531,7 @@ Item {
                     text: qsTr("Get help in the forums")
                     onClicked: Qt.openUrlExternally("https://forum.screen-play.app/")
                     icon {
-                        source:  "qrc:/qt/qml/ScreenPlay/assets/icons/icon_open_in_new_black.svg"
+                        source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_open_in_new_black.svg"
                         width: 20
                         height: 20
                     }
@@ -543,14 +540,12 @@ Item {
         }
     }
 
-
-
     Util.RainbowGradient {
         id: rainbowGradient
         visible: false
         running: noInstalledContentView.enabled
         anchors {
-            topMargin: parent.height *.666
+            topMargin: parent.height * .666
             top: parent.top
             right: parent.right
             bottom: parent.bottom
@@ -597,140 +592,134 @@ Item {
         enabled: visible
         padding: 40
         background: Rectangle {
-                color: Material.backgroundColor
+            color: Material.backgroundColor
 
-                Util.RainbowGradient {
-                    id: inlineRainbowGradient
-                    visible: noInstalledContentView.visible
-                    running: visible
-                    anchors.fill: parent
-                    radius: 4
-                    clip: true
-
-                }
-
-                Rectangle {
-                    radius: 4
-                    color: Material.backgroundColor
-                    anchors.fill: parent
-                    anchors.margins: 3
-                }
+            Util.RainbowGradient {
+                id: inlineRainbowGradient
+                visible: noInstalledContentView.visible
+                running: visible
+                anchors.fill: parent
+                radius: 4
+                clip: true
             }
 
-
-
+            Rectangle {
+                radius: 4
+                color: Material.backgroundColor
+                anchors.fill: parent
+                anchors.margins: 3
+            }
+        }
 
         contentItem: RowLayout {
             anchors.centerIn: parent
             width: parent.width
             spacing: 50
-                ColumnLayout {
-            spacing: 20
+            ColumnLayout {
+                spacing: 20
 
-            Label {
-                text: qsTr("Lets get started")
-                color: Material.accentColor
-                Layout.fillWidth: true
-                Layout.bottomMargin: 8
-                horizontalAlignment: Text.AlignHCenter
-                font.pixelSize: 26
-                wrapMode: Text.WordWrap
-            }
-
-            Label {
-                Layout.fillWidth: true
-                horizontalAlignment: Text.AlignHCenter
-                color: Material.primaryTextColor
-                text: App.globalVariables.isStandaloneVersion() ? qsTr("Your content library is empty at:") : qsTr("No Steam Workshop items installed at:")
-                wrapMode: Text.WordWrap
-            }
-            Label {
-                Layout.fillWidth: true
-                Layout.topMargin: -5
-                horizontalAlignment: Text.AlignHCenter
-                color: Material.secondaryTextColor
-                text: App.util.toLocal(App.globalVariables.localStoragePath)
-                wrapMode: Text.WordWrap
-            }
-
-            Label {
-                Layout.fillWidth: true
-                Layout.topMargin: 20
-                color: Material.secondaryTextColor
-                text:{
-                    if(App.globalVariables.isStandaloneVersion() ){
-                        qsTr("To get started:\n• Click the '+' button to add content\n• Import your existing wallpapers\n• Download community wallpapers\n• Create your own wallpaper")
-
-                    } else {
-                        qsTr("To get started:\n• Visit the Steam Workshop\n• Subscribe to wallpapers you like\n• Wait for Steam to download them\n• Create and share your own wallpapers")
-                    }
+                Label {
+                    text: qsTr("Lets get started")
+                    color: Material.accentColor
+                    Layout.fillWidth: true
+                    Layout.bottomMargin: 8
+                    horizontalAlignment: Text.AlignHCenter
+                    font.pixelSize: 26
+                    wrapMode: Text.WordWrap
                 }
-                wrapMode: Text.WordWrap
-                lineHeight: 1.2
-            }
 
-            RowLayout {
-                Layout.topMargin: 20
-                Layout.fillWidth: true
+                Label {
+                    Layout.fillWidth: true
+                    horizontalAlignment: Text.AlignHCenter
+                    color: Material.primaryTextColor
+                    text: App.globalVariables.isStandaloneVersion() ? qsTr("Your content library is empty at:") : qsTr("No Steam Workshop items installed at:")
+                    wrapMode: Text.WordWrap
+                }
+                Label {
+                    Layout.fillWidth: true
+                    Layout.topMargin: -5
+                    horizontalAlignment: Text.AlignHCenter
+                    color: Material.secondaryTextColor
+                    text: App.util.toLocal(App.globalVariables.localStoragePath)
+                    wrapMode: Text.WordWrap
+                }
 
-                Button {
-                    text: App.globalVariables.isStandaloneVersion() ? qsTr("Add Content") : qsTr("Open Workshop")
-                    onClicked: {
-                        if(App.globalVariables.isStandaloneVersion()){
-                            App.util.setNavigation("Create")
+                Label {
+                    Layout.fillWidth: true
+                    Layout.topMargin: 20
+                    color: Material.secondaryTextColor
+                    text: {
+                        if (App.globalVariables.isStandaloneVersion()) {
+                            qsTr("To get started:\n• Click the '+' button to add content\n• Import your existing wallpapers\n• Download community wallpapers\n• Create your own wallpaper");
                         } else {
-                            App.util.setNavigation("Workshop")
+                            qsTr("To get started:\n• Visit the Steam Workshop\n• Subscribe to wallpapers you like\n• Wait for Steam to download them\n• Create and share your own wallpapers");
                         }
                     }
-
-                    icon {
-                        source: App.globalVariables.isStandaloneVersion() ? "qrc:/qt/qml/ScreenPlay/assets/icons/icon_plus.svg" :"qrc:/qt/qml/ScreenPlay/assets/icons/icon_steam.svg"
-                        width: 20
-                        height: 20
-                    }
+                    wrapMode: Text.WordWrap
+                    lineHeight: 1.2
                 }
-                Button {
-                    text: qsTr("Open Install Folder Path")
-                    onClicked: App.util.openFolderInExplorer(App.globalVariables.localStoragePath.toString())
-                    icon {
-                        source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_folder_open.svg"
-                        width: 20
-                        height: 20
+
+                RowLayout {
+                    Layout.topMargin: 20
+                    Layout.fillWidth: true
+
+                    Button {
+                        text: App.globalVariables.isStandaloneVersion() ? qsTr("Add Content") : qsTr("Open Workshop")
+                        onClicked: {
+                            if (App.globalVariables.isStandaloneVersion()) {
+                                App.util.setNavigation("Create");
+                            } else {
+                                App.util.setNavigation("Workshop");
+                            }
+                        }
+
+                        icon {
+                            source: App.globalVariables.isStandaloneVersion() ? "qrc:/qt/qml/ScreenPlay/assets/icons/icon_plus.svg" : "qrc:/qt/qml/ScreenPlay/assets/icons/icon_steam.svg"
+                            width: 20
+                            height: 20
+                        }
+                    }
+                    Button {
+                        text: qsTr("Open Install Folder Path")
+                        onClicked: App.util.openFolderInExplorer(App.globalVariables.localStoragePath.toString())
+                        icon {
+                            source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_folder_open.svg"
+                            width: 20
+                            height: 20
+                        }
                     }
                 }
             }
+            Item {
+                Layout.preferredWidth: ship.width
+                Layout.preferredHeight: ship.height + 20  // Added extra space for the animation
+                Image {
+                    id: ship
+                    source: "qrc:/qt/qml/ScreenPlay/assets/images/rocket_3d.png"
 
-            }
-                Item {
-                         Layout.preferredWidth: ship.width
-                         Layout.preferredHeight: ship.height + 20  // Added extra space for the animation
-                         Image {
-                             id: ship
-                             source: "qrc:/qt/qml/ScreenPlay/assets/images/rocket_3d.png"
+                    SequentialAnimation {
+                        running: true
+                        loops: Animation.Infinite
 
-                             SequentialAnimation {
-                                 running: true
-                                 loops: Animation.Infinite
-
-                                 NumberAnimation {
-                                     target: ship
-                                     property: "y"
-                                     from: 0
-                                     to: 10
-                                     duration: 1500
-                                     easing.type: Easing.InOutQuad
-                                 }
-                                 NumberAnimation {
-                                     target: ship
-                                     property: "y"
-                                     from: 10
-                                     to: 0
-                                     duration: 1500
-                                     easing.type: Easing.InOutQuad
-                                 }
-                             }
-                         }
+                        NumberAnimation {
+                            target: ship
+                            property: "y"
+                            from: 0
+                            to: 10
+                            duration: 1500
+                            easing.type: Easing.InOutQuad
+                        }
+                        NumberAnimation {
+                            target: ship
+                            property: "y"
+                            from: 10
+                            to: 0
+                            duration: 1500
+                            easing.type: Easing.InOutQuad
+                        }
+                    }
                 }
+            }
         }
     }
 

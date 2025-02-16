@@ -17,24 +17,23 @@ WallpaperExit::Code LinuxWaylandWindow::start()
     // if (!debugMode()) {
     //     connect(m_sdk.get(), &ScreenPlaySDK::sdkDisconnected, this, &LinuxWaylandWindow::destroyThis);
     // }
-       // LinuxWaylandWindow* singleton = singletonInstance<LinuxWaylandWindow*>("ScreenPlayWallpaper", "Wallpaper");
+    // LinuxWaylandWindow* singleton = singletonInstance<LinuxWaylandWindow*>("ScreenPlayWallpaper", "Wallpaper");
     // QDir workingDir(QGuiApplication::instance()->applicationDirPath());
     // // m_quickView->engine()->addImportPath(workingDir.path() + "/qml");
-     m_quickView->setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
+    m_quickView->setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
     //  m_quickView->loadFromModule("ScreenPlayWallpaper", "ScreenPlayWallpaperMain");
-    //m_quickView->setGeometry(0,0,100,100);
+    // m_quickView->setGeometry(0,0,100,100);
 
     // Get the Wayland display
     // QPlatformNativeInterface* native = QGuiApplication::platformNativeInterface();
 
-     auto* layerShell = LayerShellQt::Window::get(m_quickView.get());
-     layerShell->setLayer(LayerShellQt::Window::LayerBackground);
-     layerShell->setAnchors(static_cast<QFlags<LayerShellQt::Window::Anchor>>(
-         LayerShellQt::Window::Anchor::AnchorTop | LayerShellQt::Window::Anchor::AnchorBottom | LayerShellQt::Window::Anchor::AnchorLeft | LayerShellQt::Window::Anchor::AnchorRight));
-
+    auto* layerShell = LayerShellQt::Window::get(m_quickView.get());
+    layerShell->setLayer(LayerShellQt::Window::LayerBackground);
+    layerShell->setAnchors(static_cast<QFlags<LayerShellQt::Window::Anchor>>(
+        LayerShellQt::Window::Anchor::AnchorTop | LayerShellQt::Window::Anchor::AnchorBottom | LayerShellQt::Window::Anchor::AnchorLeft | LayerShellQt::Window::Anchor::AnchorRight));
 
     m_quickView->show();
-     return WallpaperExit::Code::Ok;
+    return WallpaperExit::Code::Ok;
 }
 
 void LinuxWaylandWindow::setupWallpaperForOneScreen(int activeScreen)

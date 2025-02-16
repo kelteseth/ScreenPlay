@@ -30,6 +30,5 @@ public slots:
     void clearComponentCache() override;
 
 private:
-    
 };
 }

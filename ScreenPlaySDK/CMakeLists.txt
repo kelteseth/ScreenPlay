@@ -16,16 +16,19 @@ set(SOURCES src/screenplaysdk.cpp)
 
 set(HEADER inc/public/ScreenPlaySDK/screenplaysdk.h)
 
-qt_add_library(ScreenPlaySDKLib STATIC ${SOURCES} ${HEADER})
+qt_add_library(
+    ScreenPlaySDKLib
+    STATIC
+    ${SOURCES}
+    ${HEADER})
 target_compile_features(ScreenPlaySDKLib PRIVATE cxx_std_23)
 
 target_include_directories(ScreenPlaySDKLib PUBLIC inc/public/)
 
 target_link_libraries(
     ScreenPlaySDKLib
-    PUBLIC 
-    Qt6::Core
-    Qt6::Quick
-    Qt6::Gui
-    Qt6::Network
-    ScreenPlayCoreLib)
+    PUBLIC Qt6::Core
+           Qt6::Quick
+           Qt6::Gui
+           Qt6::Network
+           ScreenPlayCoreLib)
