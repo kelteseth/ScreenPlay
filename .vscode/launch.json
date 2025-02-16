@@ -33,10 +33,10 @@
             "args": [],
             "cwd": "${command:cmake.buildDirectory}/bin",
             "env": {
-                "LD_LIBRARY_PATH": "${workspaceFolder}/../aqt/6.8.2/gcc_64/lib:${command:cmake.buildDirectory}/ThirdParty/qqcoro/lib:${command:cmake.buildDirectory}/ThirdParty/QArchive:${command:cmake.buildDirectory}/lib:${env:LD_LIBRARY_PATH}",
-                "Path": "${env:Path};${workspaceFolder}/../aqt/6.8.2/gcc_64/bin/;${workspaceFolder}/../aqt/6.8.2/gcc_64/lib/;${workspaceFolder}/../aqt/6.8.2/gcc_64/modules/;${workspaceFolder}/../aqt/6.8.2/gcc_64/qml/;${workspaceFolder}/../vcpkg/installed/x64-linux/debug/lib;"
+              "LD_LIBRARY_PATH": "${workspaceFolder}/../aqt/6.8.2/gcc_64/lib:${workspaceFolder}/../aqt/6.8.2/gcc_64/plugins:${command:cmake.buildDirectory}/ThirdParty/qqcoro/lib:${command:cmake.buildDirectory}/ThirdParty/QArchive:${command:cmake.buildDirectory}/lib:${env:LD_LIBRARY_PATH}",
+              "Path": "${env:Path};${workspaceFolder}/../aqt/6.8.2/gcc_64/bin/;${workspaceFolder}/../aqt/6.8.2/gcc_64/lib/;${workspaceFolder}/../aqt/6.8.2/gcc_64/modules/;${workspaceFolder}/../aqt/6.8.2/gcc_64/qml/;${workspaceFolder}/../vcpkg/installed/x64-linux/debug/lib;"
             }
-        },
+           },
         {
             "name": "🍏macOS",
             "type": "lldb",

@@ -37,6 +37,14 @@ find_package(
 
 include(QtDeploy)
 
+# Set RPATH to find our local QCoro
+if(UNIX)
+    set(CMAKE_SKIP_BUILD_RPATH FALSE)
+    set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+    set(CMAKE_INSTALL_RPATH "${CMAKE_BINARY_DIR}/ThirdParty/qqcoro/qcoro")
+    set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+endif()
+
 # Only used for some custom file copy
 if(WIN32)
     set(VCPKG_TARGET_TRIPLET "x64-windows")
