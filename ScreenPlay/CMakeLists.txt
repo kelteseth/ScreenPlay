@@ -354,9 +354,7 @@ if(${SCREENPLAY_TESTS})
     endif()
 endif()
 
-if(WIN32
-    OR UNIX
-    AND NOT APPLE)
+if(WIN32)
     include(CopyRecursive)
     set(FONTS_OUT_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets/fonts)
     file(MAKE_DIRECTORY ${FONTS_OUT_DIR})
@@ -365,6 +363,12 @@ if(WIN32
     set(RESOURCES_DIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets")
     file(MAKE_DIRECTORY ${RESOURCES_DIR})
 endif()
+
+if(UNIX AND NOT APPLE)
+    set(RESOURCES_DIR "${CMAKE_BINARY_DIR}/ScreenPlay/assets")
+    file(MAKE_DIRECTORY ${RESOURCES_DIR})
+endif()
+
 
 if(WIN32)
     target_link_libraries(ScreenPlayLib PUBLIC CURL::libcurl sentry::sentry ScreenPlayWallpaperLib)
@@ -476,8 +480,7 @@ if(${SCREENPLAY_STEAM})
         message(STATUS "Steam root: ${STEAM_ROOT}")
         message(STATUS "Steam binary: ${STEAM_BINARY}")
         message(STATUS "Steam binary path: ${STEAM_BINARY_PATH}")
-    else()
-        # Original Windows/Linux handling
+    elseif(WIN32)
         add_custom_command(TARGET ScreenPlayApp POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_if_different
                 "${STEAM_BINARY_PATH}"
@@ -485,6 +488,15 @@ if(${SCREENPLAY_STEAM})
         )
         
         file(WRITE "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/steam_appid.txt" "672870")
+    elseif(UNIX AND NOT APPLE)
+        set(OUT_DIR "${CMAKE_BINARY_DIR}/ScreenPlay")
+        add_custom_command(TARGET ScreenPlayApp POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "${STEAM_BINARY_PATH}"
+                "${OUT_DIR}"
+        )
+        
+        file(WRITE "${OUT_DIR}/steam_appid.txt" "672870")
     endif()
 endif()
 
