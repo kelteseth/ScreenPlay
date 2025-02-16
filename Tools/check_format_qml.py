@@ -65,7 +65,7 @@ def check_format_qml_file(file):
 
 
 def main(git_staged_only=False, check_only=False):
-    exclude_folders = ("ThirdParty", "build-x64-windows-release")
+    exclude_folders = ("ThirdParty","Build", "ScreenPlayWallpaper/Godot/GDExtention/extern/godot-cpp")
     file_list = find_files(('.qml'), util.repo_root_path(),
                            git_staged_only, exclude_folders)
 

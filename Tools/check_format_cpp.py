@@ -37,7 +37,7 @@ def check_format_file_function(file):
 
 def main(git_staged_only=False, check_only=False):
     exclude_folders = ("ScreenPlayWorkshop/SteamSDK",
-                       "ThirdParty", "build-x64-windows-release")
+                       "ThirdParty","Build", "ScreenPlayWallpaper/Godot/GDExtention/extern/godot-cpp")
     file_list = find_files(
         ('.cpp', '.h'), util.repo_root_path(), git_staged_only, exclude_folders)
 

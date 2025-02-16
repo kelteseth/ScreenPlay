@@ -33,8 +33,9 @@ def check_format_file_function(file):
 
 
 def main(git_staged_only=False, check_only=False):
+    exclude_folders = ("ThirdParty","Build","ScreenPlayWallpaper/Godot/GDExtention/extern/godot-cpp")
     file_list = find_files(
-        ('CMakeLists.txt', '*.cmake'), util.repo_root_path(), git_staged_only)
+        ('CMakeLists.txt', '*.cmake'), util.repo_root_path(), git_staged_only, exclude_folders)
 
     if check_only:
         result = execute_threaded(file_list, check_format_file_function)
