@@ -37,6 +37,7 @@ Control {
 
     function reset() {
         timeline.reset();
+        timeline.load();
         root.ready();
     }
 
@@ -69,7 +70,7 @@ Control {
         // a nasty bug where the initial lineHandle.lineWidth was set to
         // the implicitWidth of 600, but the actual timeine width was 608 causing
         // issues with handle movement dragging across boundries.
-        onWidthChanged: {
+        function load() : void {
             timeline.reset();
             for (var i = 0; i < sectionsList.length; i++) {
                 sectionsList[i].lineHandle.lineWidth = width;

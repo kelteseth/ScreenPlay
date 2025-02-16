@@ -9,6 +9,7 @@
 #include <QCommandLineParser>
 #include <QDebug>
 #include <QGuiApplication>
+#include <QLocalSocket>
 #include <QQmlApplicationEngine>
 #include <QStyleFactory>
 
@@ -53,18 +54,13 @@ int main(int argc, char* argv[])
     QGuiApplication::setApplicationVersion(QString(SCREENPLAY_VERSION));
     QGuiApplication::setQuitOnLastWindowClosed(false);
     QGuiApplication::setWindowIcon(QIcon(":/qt/qml/ScreenPlay/assets/icons/app.ico"));
-
-    QQmlApplicationEngine qmlApplicationEngine;
-    App app;
-    qmlRegisterSingletonInstance<App>("ScreenPlay", 1, 0, "App", &app);
-
     if (isAnotherScreenPlayInstanceRunning()) {
         return -5;
     }
-
     auto logging = std::make_unique<const ScreenPlayCore::LoggingHandler>("ScreenPlay");
 
     QQuickStyle::setStyle("Material");
+    QQmlApplicationEngine qmlApplicationEngine;
     qmlApplicationEngine.loadFromModule("ScreenPlay", "ScreenPlayMain");
     const int status = qtGuiApp.exec();
 #if defined(Q_OS_WIN)

@@ -24,6 +24,9 @@ Drawer {
     onAboutToShow: {
         print("setInstalledDrawerItem onAboutToShow");
         timeline.reset();
+        monitorSelection.resize()
+        monitorSelection.selectOnly(0)
+
     }
     property bool hasPreviewGif: false
     property var type: ContentTypes.InstalledType.QMLWallpaper

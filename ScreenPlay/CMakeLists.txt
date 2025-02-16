@@ -57,7 +57,7 @@ set(HEADER
 set(QML
 
     # cmake-format: sort
-    ScreenPlayMain.qml
+    qml/ScreenPlayMain.qml
     qml/Community/CommunityNavItem.qml
     qml/Community/CommunityView.qml
     qml/Community/XMLNewsfeed.qml
@@ -97,7 +97,6 @@ set(QML
     qml/Installed/InstalledNavigation.qml
     qml/Installed/InstalledView.qml
     qml/Installed/InstalledWelcomeScreen.qml
-    qml/MainApp.qml
     qml/Navigation/ExitPopup.qml
     qml/Navigation/Navigation.qml
     qml/Settings/SettingBool.qml

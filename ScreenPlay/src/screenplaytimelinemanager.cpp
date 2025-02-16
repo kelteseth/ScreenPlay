@@ -43,7 +43,7 @@ ScreenPlayTimelineManager::ScreenPlayTimelineManager(
 */
 std::shared_ptr<WallpaperTimelineSection> ScreenPlayTimelineManager::findActiveWallpaperTimelineSection()
 {
-    for (const auto& section : m_wallpaperTimelineSectionsList) {
+    for (auto& section : m_wallpaperTimelineSectionsList) {
         if (section->state == WallpaperTimelineSection::State::Active) {
             return section;
         }
@@ -53,7 +53,7 @@ std::shared_ptr<WallpaperTimelineSection> ScreenPlayTimelineManager::findActiveW
 
 std::shared_ptr<WallpaperTimelineSection> ScreenPlayTimelineManager::findStartingOrActiveWallpaperTimelineSection()
 {
-    for (const auto& section : m_wallpaperTimelineSectionsList) {
+    for (auto& section : m_wallpaperTimelineSectionsList) {
         if (section->state == WallpaperTimelineSection::State::Starting || section->state == WallpaperTimelineSection::State::Active) {
             return section;
         }
@@ -716,6 +716,9 @@ QCoro::Task<bool> ScreenPlayTimelineManager::removeAllTimlineSections()
 */
 QCoro::Task<bool> ScreenPlayTimelineManager::removeAllWallpaperFromActiveTimlineSections()
 {
+    m_contentTimer.stop();
+    auto updateTimer = qScopeGuard([this] { m_contentTimer.start(); });
+
     // First check if there is any active wallpaper and disable it
     std::shared_ptr<WallpaperTimelineSection> activeTimelineSection = findActiveWallpaperTimelineSection();
     if (activeTimelineSection) {

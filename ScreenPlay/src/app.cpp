@@ -44,7 +44,8 @@ namespace ScreenPlay {
     call QGuiApplication::quit(); in the SDKConnector before the app.exec(); ( the Qt main event
     loop ) has started.
 */
-void App::init()
+App::App(QObject* parent)
+    : QObject(parent)
 {
     QString fontsPath = QGuiApplication::instance()->applicationDirPath() + "/assets/fonts/";
 #if defined(Q_OS_MACOS)

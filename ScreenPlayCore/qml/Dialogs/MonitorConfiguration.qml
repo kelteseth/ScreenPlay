@@ -13,7 +13,7 @@ Util.Dialog {
     contentHeight: 250
 
     Connections {
-        function onMonitorConfigurationChanged() {
+        function onMonitorConfigurationChanged()  : void {
             root.open();
         }
 

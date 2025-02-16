@@ -42,8 +42,7 @@ class App : public QObject {
     Q_PROPERTY(ScreenPlay::ProfileListModel* profileListModel READ profileListModel WRITE setProfileListModel NOTIFY profileListModelChanged FINAL)
 
 public:
-    // QML callable functions
-    Q_INVOKABLE void init();
+    explicit App(QObject* parent = nullptr);
     Q_INVOKABLE QString version() const;
     Q_INVOKABLE void showDockIcon(const bool show);
     Q_INVOKABLE void exit();
