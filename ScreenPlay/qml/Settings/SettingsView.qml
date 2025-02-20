@@ -402,8 +402,8 @@ Item {
                                 }
 
                                 GrowIconLink {
-                                    iconSource: "qrc:/qt/qml/ScreenPlay/assets/icons/brand_twitter.svg"
-                                    url: "https://twitter.com/Kelteseth"
+                                    iconSource: "qrc:/qt/qml/ScreenPlay/assets/icons/brand_bluesky.svg"
+                                    url: "https://bsky.app/profile/kelteseth.bsky.social"
                                     color: "#1DA1F2"
                                 }
 
