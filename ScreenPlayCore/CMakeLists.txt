@@ -18,6 +18,7 @@ find_package(
 qt_standard_project_setup(REQUIRES 6.8)
 
 set(QML
+
     # cmake-format: sort
     qml/CloseIcon.qml
     qml/ColorImage.qml
@@ -47,6 +48,7 @@ set(QML
     qml/TextField.qml)
 
 set(SOURCES
+
     # cmake-format: sort
     src/archive.cpp
     src/contenttypes.cpp
@@ -58,6 +60,7 @@ set(SOURCES
     src/util.cpp)
 
 set(HEADER
+
     # cmake-format: sort
     inc/public/ScreenPlayCore/archive.h
     inc/public/ScreenPlayCore/contenttypes.h
@@ -77,8 +80,14 @@ if(APPLE)
     list(APPEND HEADER inc/public/ScreenPlayCore/macutils.h)
 endif()
 
+if(WIN32)
+    add_library(ScreenPlayCoreWindowsExtrasLib STATIC src/windowsutils.cpp inc/public/ScreenPlayCore/windowsutils.h)
+    target_link_libraries(ScreenPlayCoreWindowsExtrasLib PUBLIC shcore.lib)
+    target_include_directories(ScreenPlayCoreWindowsExtrasLib PUBLIC inc/public/ScreenPlayCore)
+endif()
+
 set(RESOURCES # cmake-format: sort
-              assets/icons/attach_file.svg assets/icons/description.svg assets/icons/folder.svg)
+    assets/icons/attach_file.svg assets/icons/description.svg assets/icons/folder.svg)
 
 qt_add_library(ScreenPlayCoreLib STATIC)
 target_compile_features(ScreenPlayCoreLib PRIVATE cxx_std_23)
@@ -109,13 +118,13 @@ target_include_directories(ScreenPlayCoreLibplugin PUBLIC inc/public/ScreenPlayC
 target_link_libraries(
     ScreenPlayCoreLib
     PUBLIC Qt6::Core
-           Qt6::Quick
-           Qt6::Gui
-           QCoro6::Core
-           QCoro6::Qml
-           fmt::fmt-header-only
-           LibArchive::LibArchive
-           QArchive)
+    Qt6::Quick
+    Qt6::Gui
+    QCoro6::Core
+    QCoro6::Qml
+    fmt::fmt-header-only
+    LibArchive::LibArchive
+    QArchive)
 
 if(WIN32)
     # Used for query windows monitor data
