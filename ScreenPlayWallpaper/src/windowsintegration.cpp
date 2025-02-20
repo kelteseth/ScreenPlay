@@ -3,6 +3,8 @@
 
 #define UNUSED(x) (void)x;
 
+namespace ScreenPlay {
+
 int GetWindowsBuildNumber()
 {
     OSVERSIONINFOEXW osvi;
@@ -163,16 +165,6 @@ BOOL SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
     return TRUE;
 }
 
-std::vector<Monitor> WindowsIntegration::getAllMonitors()
-{
-    std::vector<Monitor> monitors;
-
-    // Use the static MonitorEnumProc callback for EnumDisplayMonitors
-    EnumDisplayMonitors(NULL, NULL, MonitorEnumProc, reinterpret_cast<LPARAM>(&monitors));
-
-    return monitors;
-}
-
 int WindowsIntegration::GetMonitorIndex(HMONITOR hMonitor)
 {
     sEnumInfo info;
@@ -249,8 +241,8 @@ WindowsIntegration::MonitorResult WindowsIntegration::setupWallpaperForOneScreen
     }
 
     bool isWin24H2Plus = IsWindows24H2OrNewer();
-
-    std::vector<Monitor> monitors = getAllMonitors();
+    WindowsUtils windowsUtils;
+    std::vector<WindowsMonitor> monitors = windowsUtils.getAllMonitors();
     for (const auto& monitor : monitors) {
         monitor.print();
         if (monitor.index != activeScreen)
@@ -357,7 +349,8 @@ WindowsIntegration::MonitorResult WindowsIntegration::setupWallpaperForOneScreen
  */
 WindowsIntegration::SpanResult WindowsIntegration::setupWallpaperForMultipleScreens(const std::vector<int>& activeScreens)
 {
-    std::vector<Monitor> monitors = getAllMonitors();
+    WindowsUtils windowsUtils;
+    std::vector<WindowsMonitor> monitors = windowsUtils.getAllMonitors();
 
     int leftmost = INT_MAX;
     int topmost = INT_MAX;
@@ -366,7 +359,7 @@ WindowsIntegration::SpanResult WindowsIntegration::setupWallpaperForMultipleScre
 
     for (const auto& monitorIndex : activeScreens) {
         if (monitorIndex < static_cast<int>(monitors.size())) {
-            const Monitor& monitor = monitors[monitorIndex];
+            const WindowsMonitor& monitor = monitors[monitorIndex];
             leftmost = (std::min)(leftmost, static_cast<int>(monitor.position.left));
             topmost = (std::min)(topmost, static_cast<int>(monitor.position.top));
             rightmost = (std::max)(rightmost, static_cast<int>(monitor.position.right));
@@ -417,7 +410,8 @@ WindowsIntegration::SpanResult WindowsIntegration::setupWallpaperForMultipleScre
  */
 WindowsIntegration::SpanResult WindowsIntegration::setupWallpaperForAllScreens()
 {
-    std::vector<Monitor> monitors = getAllMonitors();
+    WindowsUtils windowsUtils;
+    std::vector<WindowsMonitor> monitors = windowsUtils.getAllMonitors();
 
     int leftmost = INT_MAX;
     int topmost = INT_MAX;
@@ -496,32 +490,6 @@ BOOL FindTheDesiredWnd(HWND hWnd, LPARAM lParam)
         return false; // stop enumerating
     }
     return true; // keep enumerating
-}
-
-BOOL MonitorEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData)
-{
-    UNUSED(hdcMonitor);
-    UNUSED(lprcMonitor);
-    std::vector<Monitor>* pMonitors = reinterpret_cast<std::vector<Monitor>*>(dwData);
-
-    MONITORINFOEX info;
-    info.cbSize = sizeof(info);
-    GetMonitorInfo(hMonitor, &info);
-
-    UINT dpiX, dpiY;
-    GetDpiForMonitor(hMonitor, MDT_EFFECTIVE_DPI, &dpiX, &dpiY);
-
-    Monitor monitor;
-    monitor.monitorID = hMonitor;
-    monitor.index = static_cast<int>(pMonitors->size()); // Set index based on the current size of the vector
-    monitor.position = info.rcMonitor;
-    monitor.size.cx = info.rcMonitor.right - info.rcMonitor.left;
-    monitor.size.cy = info.rcMonitor.bottom - info.rcMonitor.top;
-    monitor.scaleFactor = static_cast<float>(dpiX) / 96.0f;
-
-    pMonitors->push_back(monitor);
-
-    return true;
 }
 
 void WindowsIntegration::setMouseEventHandler(MouseEventHandler handler)
@@ -660,4 +628,5 @@ void WindowsIntegration::unhookKeyboard()
             OutputDebugStringW(L"Failed to unhook keyboard hook!");
         }
     }
+}
 }

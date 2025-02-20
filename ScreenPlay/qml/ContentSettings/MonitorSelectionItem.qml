@@ -10,6 +10,7 @@ Item {
     required property bool monitorWithoutContentSelectable
     // Model
     required property string appID
+    required property string name
     required property rect geometry
     required property string previewImage
     required property var installedType
@@ -41,22 +42,6 @@ Item {
         }
     }
 
-    Text {
-        text: root.geometry.width + "x" + root.geometry.height
-        color: Material.foreground
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-        font.pointSize: root.fontSize
-        font.family: App.settings.font
-        wrapMode: Text.WrapAnywhere
-
-        anchors {
-            horizontalCenter: parent.horizontalCenter
-            top: wrapper.bottom
-            topMargin: 5
-        }
-    }
-
     Rectangle {
         id: wrapper
 
@@ -84,6 +69,23 @@ Item {
             asynchronous: true
             fillMode: Image.PreserveAspectCrop
         }
+        Text {
+            text: root.geometry.width + "x" + root.geometry.height + "," + root.name
+            color: Material.foreground
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            font.pointSize: 10
+            font.family: App.settings.font
+            wrapMode: Text.WrapAnywhere
+
+            anchors {
+                left: parent.left
+                top: parent.top
+                topMargin: 2
+                leftMargin: 2
+            }
+        }
+
         Text {
             anchors {
                 horizontalCenter: parent.horizontalCenter

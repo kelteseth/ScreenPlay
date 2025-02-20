@@ -17,30 +17,9 @@
 #include "WinUser.h"
 #include <ShellScalingApi.h>
 
-struct Monitor {
-    HMONITOR monitorID; // Handle to the monitor
-    int index; // Index of the monitor
-    RECT position; // Monitor's position and size
-    SIZE size; // Monitor's width and height
-    float scaleFactor; // Scale factor (DPI scaling as a factor, e.g., 1.5 for 150% scaling)
-    std::string toString() const
-    {
-        return std::format(
-            "Monitor Info:\n"
-            "Monitor ID: {}\n"
-            "Index: {}\n"
-            "Position: ({}, {}, {}, {})\n"
-            "Size: ({}x{})\n"
-            "Scale Factor: {}\n",
-            (int64_t)monitorID, index, position.left, position.top,
-            position.right, position.bottom, size.cx, size.cy, scaleFactor);
-    }
-    void print() const
-    {
-        std::cout << toString() << std::endl;
-    }
-};
+#include "ScreenPlayCore/windowsutils.h"
 
+namespace ScreenPlay {
 // Static callback function for EnumDisplayMonitors
 BOOL CALLBACK MonitorEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData);
 BOOL CALLBACK GetMonitorByHandle(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData);
@@ -85,13 +64,12 @@ public:
         MonitorIterationError,
     };
     struct MonitorResult {
-        std::optional<Monitor> monitor;
+        std::optional<WindowsMonitor> monitor;
         MonitorResultStatus status = MonitorResultStatus::Ok;
     };
 
     bool searchWorkerWindowToParentTo();
     float getScaling(const int monitorIndex) const;
-    std::vector<Monitor> getAllMonitors();
     int GetMonitorIndex(HMONITOR hMonitor);
     bool checkForFullScreenWindow(HWND windowHandle);
     WindowsIntegration::MonitorResult setupWallpaperForOneScreen(const int activeScreen, std::function<void(int, int)> updateWindowSize);
@@ -133,3 +111,4 @@ private:
     MouseEventHandler m_mouseEventHandler;
     KeyboardEventHandler m_keyboardEventHandler;
 };
+}

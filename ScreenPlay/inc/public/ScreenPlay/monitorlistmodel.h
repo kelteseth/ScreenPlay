@@ -22,16 +22,19 @@ struct Monitor {
 
     Monitor(
         const int monitorIndex,
-        const QRect& geometry)
+        const QRect& geometry,
+        const QString& name = "")
     {
         m_monitorIndex = monitorIndex;
         m_geometry = geometry;
+        m_name = name;
     }
 
     int m_monitorIndex { 0 };
     QRect m_geometry;
     QString m_wallpaperPreviewImage;
     QString m_appID;
+    QString m_name;
     ScreenPlayEnums::AppState m_appState = ScreenPlayEnums::AppState::Inactive;
     ContentTypes::InstalledType m_installedType = ContentTypes::InstalledType::Unknown;
 };
@@ -54,6 +57,7 @@ public:
         Geometry,
         PreviewImage,
         InstalledType,
+        Name,
     };
     Q_ENUM(MonitorRole)
 

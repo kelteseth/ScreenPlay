@@ -4,7 +4,7 @@
 #include "ScreenPlay/screenplaywallpaper.h"
 
 #ifdef Q_OS_WIN
-#include "windowsintegration.h"
+#include "ScreenPlayCore/windowsutils.h"
 #endif
 #include <QGuiApplication>
 
@@ -79,6 +79,7 @@ QHash<int, QByteArray> MonitorListModel::roleNames() const
         { static_cast<int>(MonitorRole::Geometry), "geometry" },
         { static_cast<int>(MonitorRole::PreviewImage), "previewImage" },
         { static_cast<int>(MonitorRole::InstalledType), "installedType" },
+        { static_cast<int>(MonitorRole::Name), "name" },
     };
     return roles;
 }
@@ -125,6 +126,8 @@ QVariant MonitorListModel::data(const QModelIndex& index, int role) const
         return QVariant::fromValue(m_monitorList.at(row).m_installedType);
     case MonitorRole::PreviewImage:
         return m_monitorList.at(row).m_wallpaperPreviewImage;
+    case MonitorRole::Name:
+        return m_monitorList.at(row).m_name;
     }
     return QVariant();
 }
@@ -231,7 +234,8 @@ QVector<Monitor> MonitorListModel::getSystemMonitors()
 
 #ifdef Q_OS_WIN
     // Qt has been prooven to be unreliable
-    auto winMonitors = WindowsIntegration().getAllMonitors();
+    WindowsUtils windowsUtils;
+    std::vector<WindowsMonitor> winMonitors = windowsUtils.getAllMonitors();
 
     // Calculate offsets for Windows
     for (const auto& monitor : winMonitors) {
@@ -254,7 +258,7 @@ QVector<Monitor> MonitorListModel::getSystemMonitors()
         const int y = monitor.position.top;
 
         QRect geometry(x + offsetX, y + offsetY, width, height);
-        monitors.append(Monitor(index++, geometry));
+        monitors.append(Monitor(index++, geometry, QString::fromStdString(monitor.name)));
     }
 #else
     // Calculate offsets for other platforms
