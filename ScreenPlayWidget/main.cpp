@@ -19,9 +19,6 @@
 #include "ScreenPlayCore/macutils.h"
 #endif
 
-// Q_IMPORT_QML_PLUGIN(ScreenPlayCoreLibPlugin)
-// Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherLibPlugin)
-
 int main(int argc, char* argv[])
 {
 

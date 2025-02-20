@@ -23,9 +23,6 @@
 #include "src/macwindow.h"
 #endif
 
-// Q_IMPORT_QML_PLUGIN(ScreenPlayCoreLibPlugin)
-// Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherLibPlugin)
-
 int main(int argc, char* argv[])
 {
     using namespace ScreenPlay;
@@ -34,7 +31,7 @@ int main(int argc, char* argv[])
     QGuiApplication app(argc, argv);
 
     QCoreApplication::setApplicationName("ScreenPlayWallpaper");
-    QCoreApplication::setApplicationVersion("1.0");
+    QCoreApplication::setApplicationVersion("1.0.0");
     std::unique_ptr<const ScreenPlayCore::LoggingHandler> logging;
 
     auto quickView = std::make_shared<QQuickView>();
@@ -43,23 +40,29 @@ int main(int argc, char* argv[])
     auto window = std::make_unique<WinWindow>();
     qmlRegisterSingletonInstance<WinWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", window.get());
     window->setQuickView(quickView);
-    quickView->loadFromModule("ScreenPlayWallpaper", "ScreenPlayWallpaperMain");
 #elif defined(Q_OS_LINUX)
-    // const auto platformName = QGuiApplication::platformName();
-    // if (platformName == "xcb") {
-    //     window = std::make_unique<LinuxX11Window>();
-    // } else if (platformName == "wayland") {
-    auto window = std::make_unique<LinuxWaylandWindow>();
-    qmlRegisterSingletonInstance<LinuxWaylandWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", window.get());
-    window->setQuickView(quickView);
-    quickView->loadFromModule("ScreenPlayWallpaper", "ScreenPlayWallpaperMain");
+    const auto platformName = QGuiApplication::platformName();
+    std::unique_ptr<BaseWindow> window;
 
-    // }
+    if (platformName == "xcb") {
+        auto x11Window = std::make_unique<LinuxX11Window>();
+        qmlRegisterSingletonInstance<LinuxX11Window>("ScreenPlayWallpaper", 1, 0, "Wallpaper", x11Window.get());
+        x11Window->setQuickView(quickView);
+        window = std::move(x11Window);
+    } else if (platformName == "wayland") {
+        auto waylandWindow = std::make_unique<LinuxWaylandWindow>();
+        qmlRegisterSingletonInstance<LinuxWaylandWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", waylandWindow.get());
+        waylandWindow->setQuickView(quickView);
+        window = std::move(waylandWindow);
+    }
+
+    if (!window) {
+        return -5;
+    }
 #elif defined(Q_OS_MACOS)
     auto window = std::make_unique<MacWindow>();
     qmlRegisterSingletonInstance<MacWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", window.get());
     window->setQuickView(quickView);
-    quickView->loadFromModule("ScreenPlayWallpaper", "ScreenPlayWallpaperMain");
 #endif
 
     // If we start with only one argument (app path)
@@ -207,6 +210,7 @@ int main(int argc, char* argv[])
     if (startStatus != WallpaperExit::Code::Ok) {
         return static_cast<int>(startStatus);
     }
+    quickView->loadFromModule("ScreenPlayWallpaper", "ScreenPlayWallpaperMain");
     emit window->qmlStart();
     logging = std::make_unique<const ScreenPlayCore::LoggingHandler>("ScreenPlayWallpaper_" + parser.value(appIDOption));
     const int status = app.exec();
