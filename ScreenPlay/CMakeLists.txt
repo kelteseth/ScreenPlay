@@ -131,7 +131,7 @@ set(RESOURCES
     assets/icons/brand_gitlab.svg
     assets/icons/brand_reddit.svg
     assets/icons/brand_twitch.svg
-    assets/icons/brand_twitter.svg
+    assets/icons/brand_bluesky.svg
     assets/icons/exclamation-triangle-solid.svg
     assets/icons/font-awsome/close.svg
     assets/icons/font-awsome/frown-o.svg
