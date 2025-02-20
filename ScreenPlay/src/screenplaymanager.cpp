@@ -26,6 +26,7 @@ ScreenPlayManager::ScreenPlayManager(
 {
     m_server = std::make_unique<QLocalServer>();
     QObject::connect(m_server.get(), &QLocalServer::newConnection, this, &ScreenPlayManager::newConnection);
+    QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::activeTimelineIndexChanged, this, &ScreenPlayManager::setActiveTimelineIndex);
     QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::requestSaveProfiles, this, &ScreenPlayManager::requestSaveProfiles);
     QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::activeWallpaperCountChanged, this, &ScreenPlayManager::setActiveWallpaperCounter);
 
@@ -426,11 +427,20 @@ QCoro::QmlTask ScreenPlayManager::removeAllTimlineSections()
     }());
 }
 
-bool ScreenPlayManager::removeTimelineAt(const int timelineIndex)
+QCoro::QmlTask ScreenPlayManager::removeTimelineAt(const int timelineIndex)
 {
-    const bool success = m_screenPlayTimelineManager.removeTimelineAt(timelineIndex);
-    requestSaveProfiles();
-    return success;
+    return QCoro::QmlTask([this, timelineIndex]() -> QCoro::Task<Result> {
+        // call with coro
+        auto result = co_await m_screenPlayTimelineManager.removeTimelineAt(timelineIndex)
+                          .then([this](bool success) -> QCoro::Task<Result> {
+                              qDebug() << "Task: removeTimelineAt" << success;
+                              if (success)
+                                  requestSaveProfiles();
+                              co_return Result { success };
+                          });
+
+        co_return result;
+    }());
 }
 
 /*!
@@ -518,6 +528,15 @@ void ScreenPlayManager::setActiveWidgetsCounter(int activeWidgetsCounter)
 
     m_activeWidgetsCounter = activeWidgetsCounter;
     emit activeWidgetsCounterChanged(m_activeWidgetsCounter);
+}
+
+void ScreenPlayManager::setActiveTimelineIndex(int activeTimelineIndex)
+{
+    if (m_activeTimelineIndex == activeTimelineIndex)
+        return;
+
+    m_activeTimelineIndex = activeTimelineIndex;
+    emit activeTimelineIndexChanged(m_activeTimelineIndex);
 }
 
 /*!

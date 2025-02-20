@@ -76,6 +76,7 @@ Control {
                 sectionsList[i].lineHandle.lineWidth = width;
             }
             timeline.updatePositions();
+            timeline.updateActiveTimelineIndex(App.screenPlayManager.activeTimelineIndex);
         }
 
         // Component.onCompleted: reset()
@@ -85,22 +86,20 @@ Control {
             function onNotifyUiWallpaperAdded() {
                 timeline.setActiveWallpaperPreviewImage();
             }
+            function onActiveTimelineIndexChanged(activeTimelineIndex: int) {
+                timeline.updateActiveTimelineIndex(activeTimelineIndex);
+            }
         }
 
-        Timer {
-            running: true
-            repeat: true
-            interval: 500
-            onTriggered: {
-                const activeTimelineIndex = App.screenPlayManager.activeTimelineIndex();
-                if (activeTimelineIndex === -1) {
-                    return;
-                }
-                for (var i = 0; i < timeline.sectionsList.length; i++) {
-                    let section = timeline.sectionsList[i];
-                    section.lineIndicator.isActive = (activeTimelineIndex === i);
-                }
+        function updateActiveTimelineIndex(activeTimelineIndex: int): bool {
+            if (activeTimelineIndex === -1) {
+                return false;
             }
+            for (var i = 0; i < timeline.sectionsList.length; i++) {
+                let section = timeline.sectionsList[i];
+                section.lineIndicator.isActive = (activeTimelineIndex === i);
+            }
+            return true;
         }
 
         function createTimelineAt(relativePosition: real): bool {
@@ -126,7 +125,7 @@ Control {
                 let section = initialSectionsList[index];
                 addSection(section.identifier, section.relativePosition);
             }
-            const activeTimelineIndex = App.screenPlayManager.activeTimelineIndex();
+            const activeTimelineIndex = App.screenPlayManager.activeTimelineIndex;
             if (activeTimelineIndex === -1) {
                 return;
             }
@@ -310,7 +309,13 @@ Control {
             section.destroy();
             timeline.sectionsList.splice(index, 1);
             updatePositions();
-            App.screenPlayManager.removeTimelineAt(index);
+            App.screenPlayManager.removeTimelineAt(index).then(result => {
+                if (!result.success) {
+                    InstantPopup.openErrorPopup(timeline, result.message);
+                    btnReset.resetting = false;
+                    return;
+                }
+            });
         }
 
         function updatePositions(): void {

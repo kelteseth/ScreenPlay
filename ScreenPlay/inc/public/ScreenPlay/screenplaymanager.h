@@ -26,6 +26,7 @@ class ScreenPlayManager : public QObject {
     Q_PROPERTY(int activeWallpaperCounter READ activeWallpaperCounter WRITE setActiveWallpaperCounter NOTIFY activeWallpaperCounterChanged FINAL)
     Q_PROPERTY(int activeWidgetsCounter READ activeWidgetsCounter WRITE setActiveWidgetsCounter NOTIFY activeWidgetsCounterChanged FINAL)
     Q_PROPERTY(int selectedTimelineIndex READ selectedTimelineIndex WRITE setSelectedTimelineIndex NOTIFY selectedTimelineIndexChanged FINAL)
+    Q_PROPERTY(int activeTimelineIndex READ activeTimelineIndex WRITE setActiveTimelineIndex NOTIFY activeTimelineIndexChanged FINAL)
 
 public:
     explicit ScreenPlayManager(QObject* parent = nullptr);
@@ -50,7 +51,7 @@ public:
         const int timelineIndex,
         const float reltiaveLinePosition,
         QString identifier);
-    Q_INVOKABLE bool removeTimelineAt(const int timelineIndex);
+    Q_INVOKABLE QCoro::QmlTask removeTimelineAt(const int timelineIndex);
     Q_INVOKABLE QJsonArray timelineSections();
     Q_INVOKABLE QCoro::QmlTask removeAllTimlineSections();
     Q_INVOKABLE QCoro::QmlTask removeWallpaperAt(
@@ -99,6 +100,7 @@ public:
     int activeWallpaperCounter() const { return m_activeWallpaperCounter; }
     int activeWidgetsCounter() const { return m_activeWidgetsCounter; }
     int selectedTimelineIndex() const { return m_selectedTimelineIndex; }
+    int activeTimelineIndex() const { return m_activeTimelineIndex; }
 
 public slots:
     void setSelectedTimelineIndex(int selectedTimelineIndex);
@@ -106,6 +108,8 @@ public slots:
 signals:
     void activeWallpaperCounterChanged(int activeWallpaperCounter);
     void activeWidgetsCounterChanged(int activeWidgetsCounter);
+    void selectedTimelineIndexChanged(int selectedTimelineIndex);
+    void activeTimelineIndexChanged(int activeTimelineIndex);
     void monitorConfigurationChanged();
     void projectSettingsListModelResult(ScreenPlay::ProjectSettingsListModel* li = nullptr);
 
@@ -113,7 +117,6 @@ signals:
     void profilesSaved();
     void printQmlTimeline();
     void displayErrorPopup(const QString& msg);
-    void selectedTimelineIndexChanged(int selectedTimelineIndex);
 
     void notifyUiWallpaperAdded();
 
@@ -122,6 +125,7 @@ private slots:
     void newConnection();
     void setActiveWallpaperCounter(int activeWallpaperCounter);
     void setActiveWidgetsCounter(int activeWidgetsCounter);
+    void setActiveTimelineIndex(int activeTimelineIndex);
 
 private:
     bool loadProfiles();
@@ -144,6 +148,7 @@ private:
     int m_activeWallpaperCounter { 0 };
     int m_activeWidgetsCounter { 0 };
     int m_selectedTimelineIndex { 0 };
+    int m_activeTimelineIndex { -1 };
     const quint16 m_webSocketPort = 16395;
 };
 }
