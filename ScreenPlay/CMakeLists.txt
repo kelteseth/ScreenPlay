@@ -9,10 +9,8 @@ set(CMAKE_AUTOMOC ON)
 include(GenerateCMakeVariableHeader)
 
 set(SOURCES
-
     # cmake-format: sort
     src/app.cpp
-    src/uiappstatesignals.cpp
     src/create.cpp
     src/createimportvideo.cpp
     src/globalvariables.cpp
@@ -27,14 +25,13 @@ set(SOURCES
     src/screenplaywidget.cpp
     src/sdkconnection.cpp
     src/settings.cpp
+    src/uiappstatesignals.cpp
     src/wallpaperdata.cpp
     src/wallpapertimelinesection.cpp
     src/wizards.cpp)
 
 set(HEADER
-
     # cmake-format: sort
-    inc/public/ScreenPlay/uiappstatesignals.h
     inc/public/ScreenPlay/app.h
     inc/public/ScreenPlay/create.h
     inc/public/ScreenPlay/createimportstates.h
@@ -52,6 +49,7 @@ set(HEADER
     inc/public/ScreenPlay/screenplaywidget.h
     inc/public/ScreenPlay/sdkconnection.h
     inc/public/ScreenPlay/settings.h
+    inc/public/ScreenPlay/uiappstatesignals.h
     inc/public/ScreenPlay/wallpaperdata.h
     inc/public/ScreenPlay/wallpapertimelinesection.h
     inc/public/ScreenPlay/wizards.h)
@@ -131,11 +129,11 @@ set(RESOURCES
     "legal/Font Awesome Free License.txt"
     "legal/Qt LGPLv3.txt"
     assets/icons/app.ico
+    assets/icons/brand_bluesky.svg
     assets/icons/brand_github.svg
     assets/icons/brand_gitlab.svg
     assets/icons/brand_reddit.svg
     assets/icons/brand_twitch.svg
-    assets/icons/brand_bluesky.svg
     assets/icons/exclamation-triangle-solid.svg
     assets/icons/font-awsome/close.svg
     assets/icons/font-awsome/frown-o.svg

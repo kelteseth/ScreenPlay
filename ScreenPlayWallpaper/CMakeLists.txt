@@ -8,16 +8,16 @@ set(CMAKE_AUTOMOC ON)
 find_package(
     Qt6
     COMPONENTS Core
-    Quick
-    Gui
-    Widgets
-    WebSockets
-    Svg
-    Multimedia
-    WebEngineCore
-    WebEngineQuick
-    WebChannel
-    Positioning)
+               Quick
+               Gui
+               Widgets
+               WebSockets
+               Svg
+               Multimedia
+               WebEngineCore
+               WebEngineQuick
+               WebChannel
+               Positioning)
 
 qt_standard_project_setup(REQUIRES 6.8)
 
@@ -40,7 +40,6 @@ set(SOURCES ${SOURCES} src/basewindow.cpp)
 set(HEADER ${HEADER} src/basewindow.h)
 
 set(QML
-
     # cmake-format: sort
     qml/CrossFadeVideoPlayer.qml
     qml/GifWallpaper.qml
@@ -90,17 +89,17 @@ qt_add_qml_module(
 target_link_libraries(
     ScreenPlayWallpaperLib
     PUBLIC ScreenPlaySDKLib
-    ScreenPlayCoreLibplugin
-    ScreenPlayWeatherLibplugin
-    Qt6::Quick
-    Qt6::Gui
-    Qt6::Widgets
-    Qt6::Core
-    Qt6::WebSockets
-    Qt6::Svg
-    Qt6::Multimedia
-    Qt6::WebEngineCore
-    Qt6::WebEngineQuick)
+           ScreenPlayCoreLibplugin
+           ScreenPlayWeatherLibplugin
+           Qt6::Quick
+           Qt6::Gui
+           Qt6::Widgets
+           Qt6::Core
+           Qt6::WebSockets
+           Qt6::Svg
+           Qt6::Multimedia
+           Qt6::WebEngineCore
+           Qt6::WebEngineQuick)
 
 if(WIN32)
     target_link_libraries(ScreenPlayWallpaperLib PUBLIC ScreenPlaySysInfoLibplugin ScreenPlayCoreWindowsExtrasLib)
@@ -130,7 +129,7 @@ if(APPLE)
         TARGET SPWallpaper
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/index.html"
-        "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/")
+                "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/")
 endif()
 
 if(WIN32)
