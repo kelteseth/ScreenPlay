@@ -45,15 +45,13 @@ ColumnLayout {
         Layout.topMargin: 20
         Layout.leftMargin: 10
         Layout.rightMargin: 10
-        property bool settingValue: false
         onValueEditingFinished: {
-            console.log(root.timelineActive, root.monitorIndex, root.timelineIndex, root.sectionIdentifier);
-            if (settingValue) {
-                console.error("Setting settingValue to fast");
-                return;
-            }
-            settingValue = true;
-            App.screenPlayManager.setValueAtMonitorTimelineIndex(root.monitorIndex, root.timelineIndex, root.sectionIdentifier, "volume", slVolume.slider.value.toFixed(2)).then(result => {
+
+            // settingValue = true;
+            const newVolume = slVolume.slider.value.toFixed(2)
+            console.log(root.timelineActive, root.monitorIndex, root.timelineIndex, root.sectionIdentifier, newVolume);
+            const category = ""
+            App.screenPlayManager.setValueAtMonitorTimelineIndex(root.monitorIndex, root.timelineIndex, root.sectionIdentifier, "volume", newVolume, category).then(result => {
                 settingValue = false;
                 if (!result.success) {
                     console.error("setValueAtMonitorTimelineIndex failed");
@@ -70,7 +68,9 @@ ColumnLayout {
 
         headline: qsTr("Current Video Time")
         slider.onValueChanged: {
-            App.screenPlayManager.setValueAtMonitorTimelineIndex(root.monitorIndex, root.timelineIndex, root.sectionIdentifier, "currentTime", slCurrentVideoTime.slider.value.toFixed(2));
+            const category = ""
+            const newCurrentVideoTime= slCurrentVideoTime.slider.value.toFixed(2)
+            App.screenPlayManager.setValueAtMonitorTimelineIndex(root.monitorIndex, root.timelineIndex, root.sectionIdentifier, "currentTime", newCurrentVideoTime, category);
         }
         Layout.fillWidth: true
         slider.stepSize: 0.1

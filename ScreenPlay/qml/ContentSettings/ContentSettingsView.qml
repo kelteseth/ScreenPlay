@@ -12,6 +12,7 @@ import "../Components"
 Popup {
     id: root
 
+    property string selectedSectionIdentifier
     property int selectedTimelineIndex
     property int selectedMonitorIndex
     property int selectedInstallType

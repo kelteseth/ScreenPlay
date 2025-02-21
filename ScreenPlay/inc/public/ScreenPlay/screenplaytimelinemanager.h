@@ -42,7 +42,8 @@ public:
         const int timelineIndex,
         const QString& sectionIdentifier,
         const QVector<int> monitorIndex);
-    QCoro::Task<bool> setValueAtMonitorTimelineIndex(const int monitorIndex,
+    QCoro::Task<bool> setValueAtMonitorTimelineIndex(
+        const int monitorIndex,
         const int timelineIndex,
         const QString sectionIdentifier,
         const QString& key,
@@ -94,9 +95,7 @@ private:
         const QString& sectionIdentifier,
         const QVector<int> monitorIndex);
     std::shared_ptr<WallpaperTimelineSection> findTimelineSectionForCurrentTime();
-    QCoro::Task<bool> updateCurrentlyActiveTimeline(WallpaperData wallpaperData,
-        const int timelineIndex,
-        const QString& sectionIdentifier);
+
     std::optional<std::shared_ptr<WallpaperTimelineSection>> wallpaperSection(
         const int timelineIndex,
         const QString& sectionIdentifier);
