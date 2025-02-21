@@ -46,8 +46,8 @@ SystemTrayIcon {
             icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_video_settings.svg"
             onTriggered: {
                 root.open();
-                App.util.setNavigation("Installed");
-                App.util.setToggleWallpaperConfiguration();
+                App.uiAppStateSignals.setNavigation("Installed");
+                App.uiAppStateSignals.setToggleWallpaperConfiguration();
             }
         }
         MenuItem {
@@ -60,7 +60,7 @@ SystemTrayIcon {
             icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_steam.svg"
             onTriggered: {
                 root.open();
-                App.util.setNavigation("Workshop");
+                App.uiAppStateSignals.setNavigation("Workshop");
             }
         }
 
@@ -70,7 +70,7 @@ SystemTrayIcon {
             icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_plus.svg"
             onTriggered: {
                 root.open();
-                App.util.setNavigation("Create");
+                App.uiAppStateSignals.setNavigation("Create");
             }
         }
         MenuItem {
@@ -79,7 +79,7 @@ SystemTrayIcon {
             text: qsTr("Settings")
             onTriggered: {
                 root.open();
-                App.util.setNavigation("Settings");
+                App.uiAppStateSignals.setNavigation("Settings");
             }
         }
 

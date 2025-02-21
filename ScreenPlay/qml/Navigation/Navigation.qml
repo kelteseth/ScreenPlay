@@ -63,7 +63,7 @@ Rectangle {
             root.onPageChanged(nav);
         }
 
-        target: App.util
+        target: App.uiAppStateSignals
     }
 
     component CustomTabButton: TabButton {
@@ -301,7 +301,7 @@ Rectangle {
             icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_video_settings.svg"
             icon.width: root.iconWidth
             icon.height: root.iconHeight
-            onClicked: App.util.setToggleWallpaperConfiguration()
+            onClicked: App.uiAppStateSignals.setToggleWallpaperConfiguration()
             hoverEnabled: true
             text: !root.isSmallScreen ? (contentActive ? qsTr("Configure Content") : qsTr("No Active Content")) : ""
 

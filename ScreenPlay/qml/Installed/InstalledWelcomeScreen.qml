@@ -125,7 +125,7 @@ Item {
         icon.height: 18
         onClicked: {
             if (App.globalVariables.isSteamVersion()) {
-                App.util.setNavigation("Workshop");
+                App.uiAppStateSignals.setNavigation("Workshop");
             } else {
                 Qt.openUrlExternally("https://forum.screen-play.app/");
             }

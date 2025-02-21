@@ -520,7 +520,7 @@ Item {
 
                 Button {
                     text: qsTr("Set content folder path")
-                    onClicked: App.util.setNavigation("Settings")
+                    onClicked: App.uiAppStateSignals.setNavigation("Settings")
                     icon {
                         source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_settings.svg"
                         width: 20
@@ -667,9 +667,9 @@ Item {
                         text: App.globalVariables.isStandaloneVersion() ? qsTr("Add Content") : qsTr("Open Workshop")
                         onClicked: {
                             if (App.globalVariables.isStandaloneVersion()) {
-                                App.util.setNavigation("Create");
+                                App.uiAppStateSignals.setNavigation("Create");
                             } else {
-                                App.util.setNavigation("Workshop");
+                                App.uiAppStateSignals.setNavigation("Workshop");
                             }
                         }
 

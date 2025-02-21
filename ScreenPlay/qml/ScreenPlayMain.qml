@@ -46,6 +46,7 @@ ApplicationWindow {
 
         stackView.push("qrc:/qt/qml/ScreenPlay/qml/Installed/InstalledView.qml");
     }
+
     Connections {
         target: App.settings
         function onThemeChanged(theme) {
@@ -128,31 +129,18 @@ ApplicationWindow {
         Navigation.ExitPopup {
             id: exitDialog
             applicationWindow: applicationWindow
-            // modalSource: content
+            modalSource: content
+            onAboutToShow: App.uiAppStateSignals.hideInstalledDrawer()
         }
 
-        Item {
-            id: noneContentItems
-            SteamNotAvailable {
-                id: dialogSteam
-                // modalSource: content
-            }
+        ContentSettings.ContentSettingsView {
+            id: contentSettingsView
+            modalSource: content
+            onAboutToShow: App.uiAppStateSignals.hideInstalledDrawer()
+        }
 
-            // modalSource: content
-            MonitorConfiguration {}
-
-            CriticalError {
-                applicationWindow: applicationWindow
-                // modalSource: content
-            }
-
-            ContentSettings.ContentSettingsView {
-                id: contentSettingsView
-                // modalSource: content
-            }
-            TrayIcon {
-                applicationWindow: applicationWindow
-            }
+        TrayIcon {
+            applicationWindow: applicationWindow
         }
 
         Connections {
@@ -160,7 +148,7 @@ ApplicationWindow {
                 content.switchPage(nav);
             }
 
-            target: App.util
+            target: App.uiAppStateSignals
         }
 
         StackView {

@@ -9,6 +9,7 @@
 #include "ScreenPlay/profilelistmodel.h"
 #include "ScreenPlay/screenplaymanager.h"
 #include "ScreenPlay/settings.h"
+#include "ScreenPlay/uiAppStateSignals.h"
 #include "ScreenPlay/wizards.h"
 #include "ScreenPlayCore/util.h"
 
@@ -38,6 +39,7 @@ class App : public QObject {
     Q_PROPERTY(ScreenPlay::InstalledListFilter* installedListFilter READ installedListFilter WRITE setInstalledListFilter NOTIFY installedListFilterChanged FINAL)
     Q_PROPERTY(ScreenPlay::MonitorListModel* monitorListModel READ monitorListModel WRITE setMonitorListModel NOTIFY monitorListModelChanged FINAL)
     Q_PROPERTY(ScreenPlay::ProfileListModel* profileListModel READ profileListModel WRITE setProfileListModel NOTIFY profileListModelChanged FINAL)
+    Q_PROPERTY(ScreenPlay::UiAppStateSignals* uiAppStateSignals READ uiAppStateSignals WRITE setUiAppStateSignals NOTIFY uiAppStateSignalsChanged FINAL)
 
 public:
     explicit App(QObject* parent = nullptr);
@@ -55,6 +57,7 @@ public:
     ProfileListModel* profileListModel() const { return m_profileListModel.get(); }
     InstalledListFilter* installedListFilter() const { return m_installedListFilter.get(); }
     Wizards* wizards() const { return m_wizards.get(); }
+    UiAppStateSignals* uiAppStateSignals() const { return m_uiAppStateSignals.get(); }
 
     void setEngine(std::shared_ptr<QQmlApplicationEngine> engine);
 
@@ -68,6 +71,7 @@ signals:
     void monitorListModelChanged(ScreenPlay::MonitorListModel* monitorListModel);
     void profileListModelChanged(ScreenPlay::ProfileListModel* profileListModel);
     void installedListFilterChanged(ScreenPlay::InstalledListFilter* installedListFilter);
+    void uiAppStateSignalsChanged(ScreenPlay::UiAppStateSignals* uiAppStateSignals);
     void wizardsChanged(ScreenPlay::Wizards* wizards);
     void requestExit();
     void requestRetranslation();
@@ -82,6 +86,7 @@ public slots:
     void setMonitorListModel(MonitorListModel* monitorListModel);
     void setProfileListModel(ProfileListModel* profileListModel);
     void setInstalledListFilter(InstalledListFilter* installedListFilter);
+    void setUiAppStateSignals(UiAppStateSignals* uiAppStateSignals);
     void setWizards(Wizards* wizards);
 
 private:
@@ -97,5 +102,6 @@ private:
     std::shared_ptr<MonitorListModel> m_monitorListModel;
     std::shared_ptr<ProfileListModel> m_profileListModel;
     std::shared_ptr<InstalledListFilter> m_installedListFilter;
+    std::shared_ptr<UiAppStateSignals> m_uiAppStateSignals;
 };
 }

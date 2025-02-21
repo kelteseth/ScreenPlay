@@ -48,9 +48,9 @@ ColumnLayout {
         onValueEditingFinished: {
 
             // settingValue = true;
-            const newVolume = slVolume.slider.value.toFixed(2)
+            const newVolume = slVolume.slider.value.toFixed(2);
             console.log(root.timelineActive, root.monitorIndex, root.timelineIndex, root.sectionIdentifier, newVolume);
-            const category = ""
+            const category = "";
             App.screenPlayManager.setValueAtMonitorTimelineIndex(root.monitorIndex, root.timelineIndex, root.sectionIdentifier, "volume", newVolume, category).then(result => {
                 settingValue = false;
                 if (!result.success) {
@@ -68,8 +68,8 @@ ColumnLayout {
 
         headline: qsTr("Current Video Time")
         slider.onValueChanged: {
-            const category = ""
-            const newCurrentVideoTime= slCurrentVideoTime.slider.value.toFixed(2)
+            const category = "";
+            const newCurrentVideoTime = slCurrentVideoTime.slider.value.toFixed(2);
             App.screenPlayManager.setValueAtMonitorTimelineIndex(root.monitorIndex, root.timelineIndex, root.sectionIdentifier, "currentTime", newCurrentVideoTime, category);
         }
         Layout.fillWidth: true

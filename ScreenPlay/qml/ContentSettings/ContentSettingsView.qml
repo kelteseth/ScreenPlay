@@ -11,21 +11,37 @@ import "../Components"
 
 Popup {
     id: root
-
+    focus: true
     property string selectedSectionIdentifier
     property int selectedTimelineIndex
     property int selectedMonitorIndex
     property int selectedInstallType
+    property var modalSource
+    property int maxWidth: 1200
+    width: Math.min(Math.max(modalSource.width - 20, applicationWindow.minimumWidth), maxWidth)
+    height: Math.min(Math.max(modalSource.height - 20, applicationWindow.minimumHeight), 800)
 
-    width: 1366
-    height: 768
-    onOpened: {}
+    onAboutToHide: {
+        // Fixes the ugly transition with
+        // our ModalBackgroundBlur on exit
+        modal = false;
+    }
+
     onAboutToShow: {
+        modal = true;
         timeline.reset();
         monitorSelection.resize();
         monitorSelection.selectMonitorAt(0);
     }
 
+    anchors.centerIn: root.modalSource
+
+    modal: true
+
+    Overlay.modal: Util.ModalBackgroundBlur {
+        id: blurBg
+        sourceItem: root.modalSource
+    }
     background: Rectangle {
         anchors.fill: parent
         radius: 4
@@ -41,7 +57,7 @@ Popup {
             root.open();
         }
 
-        target: App.util
+        target: App.uiAppStateSignals
     }
     ColumnLayout {
 

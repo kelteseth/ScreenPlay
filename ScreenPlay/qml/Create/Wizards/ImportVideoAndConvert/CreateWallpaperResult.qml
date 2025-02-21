@@ -97,8 +97,8 @@ Item {
         Material.foreground: "white"
         font.family: App.settings.font
         onClicked: {
-            App.util.setNavigationActive(true);
-            App.util.setNavigation("Create");
+            App.uiAppStateSignals.setNavigationActive(true);
+            App.uiAppStateSignals.setNavigation("Create");
         }
 
         anchors {

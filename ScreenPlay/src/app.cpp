@@ -63,6 +63,7 @@ App::App(QObject* parent)
 
     using std::make_shared, std::make_unique;
 
+    m_uiAppStateSignals = make_unique<UiAppStateSignals>();
     m_screenPlayManager = make_unique<ScreenPlayManager>();
     m_globalVariables = make_shared<GlobalVariables>();
     m_monitorListModel = make_shared<MonitorListModel>();
@@ -267,11 +268,12 @@ void App::setProfileListModel(ProfileListModel* profileListModel)
     m_profileListModel.reset(profileListModel);
     emit profileListModelChanged(m_profileListModel.get());
 }
+
 /*!
     \property App::installedListFilter
     \brief .
 
-   .
+.
 */
 void App::setInstalledListFilter(InstalledListFilter* installedListFilter)
 {
@@ -281,6 +283,22 @@ void App::setInstalledListFilter(InstalledListFilter* installedListFilter)
     m_installedListFilter.reset(installedListFilter);
     emit installedListFilterChanged(m_installedListFilter.get());
 }
+
+/*!
+    \property App::installedListFilter
+    \brief .
+
+.
+*/
+void App::setUiAppStateSignals(UiAppStateSignals* uiAppStateSignals)
+{
+    if (m_uiAppStateSignals.get() == uiAppStateSignals)
+        return;
+
+    m_uiAppStateSignals.reset(uiAppStateSignals);
+    emit uiAppStateSignalsChanged(m_uiAppStateSignals.get());
+}
+
 /*!
     \property App::wizards
     \brief .

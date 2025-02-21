@@ -373,8 +373,8 @@ Item {
             interval: 1000 + Math.random() * 1000
             onTriggered: {
                 savePopup.close();
-                App.util.setNavigationActive(true);
-                App.util.setNavigation("Installed");
+                App.uiAppStateSignals.setNavigationActive(true);
+                App.uiAppStateSignals.setNavigation("Installed");
             }
         }
     }

@@ -4,7 +4,6 @@ import QtQuick.Layouts
 import QtQuick.Controls.Material
 import QtQuick.Controls.Material.impl
 import ScreenPlay
-
 import ScreenPlayCore as Util
 
 Item {

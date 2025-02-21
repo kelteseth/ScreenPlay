@@ -79,8 +79,8 @@ Item {
 
                 interval: 400
                 onTriggered: {
-                    App.util.setNavigationActive(true);
-                    App.util.setNavigation("Create");
+                    App.uiAppStateSignals.setNavigationActive(true);
+                    App.uiAppStateSignals.setNavigation("Create");
                 }
             }
         }

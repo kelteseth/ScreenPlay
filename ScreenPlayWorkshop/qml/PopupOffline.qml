@@ -62,7 +62,7 @@ Popup {
             Layout.alignment: Qt.AlignHCenter
             onClicked: {
                 root.close();
-                App.util.setNavigation("Installed");
+                App.uiAppStateSignals.setNavigation("Installed");
             }
         }
         Item {

@@ -798,6 +798,9 @@ float Util::calculateRelativePosition(const QTime& endTime) const
     return qRound(relativePosition * 10000.0) / 10000.0;
 }
 
+/*!
+  \brief Converts a range from 0.0f - 1.0f to 00:00:00 0 23:59:59
+*/
 QString Util::getTimeString(double relativeLinePosition)
 {
     if (relativeLinePosition == 1.0) {

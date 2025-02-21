@@ -85,6 +85,14 @@ Drawer {
         installedDrawerWrapper.state = "inactive";
     }
 
+    Connections {
+        function onRequestHideInstalledDrawer() {
+            close();
+        }
+
+        target: App.uiAppStateSignals
+    }
+
     Item {
         anchors.fill: parent
 

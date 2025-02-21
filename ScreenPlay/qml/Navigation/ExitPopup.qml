@@ -10,14 +10,26 @@ import ScreenPlay
 import ScreenPlayCore as Util
 import Qt5Compat.GraphicalEffects
 
-/*!
-   \qmltype exitDialog
-   \brief exitDialog
-
-*/
 Popup {
     id: root
+    property var modalSource
     property ApplicationWindow applicationWindow
+    anchors.centerIn: root.modalSource
+    onAboutToHide: {
+        // Fixes the ugly transition with
+        // our ModalBackgroundBlur on exit
+        modal = false;
+    }
+    onAboutToShow: {
+        modal = true;
+    }
+    modal: true
+
+    Overlay.modal: Util.ModalBackgroundBlur {
+        id: blurBg
+        sourceItem: root.modalSource
+    }
+
     contentItem: Pane {
         background: Item {}
         padding: 20

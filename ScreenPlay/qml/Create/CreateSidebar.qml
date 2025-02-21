@@ -42,8 +42,8 @@ Rectangle {
             function onWizardExited() {
                 root.expanded = true;
 
-                App.util.setNavigation("Installed");
-                App.util.setNavigationActive(true);
+                App.uiAppStateSignals.setNavigation("Installed");
+                App.uiAppStateSignals.setNavigationActive(true);
             }
 
             ignoreUnknownSignals: true

@@ -149,25 +149,6 @@ public:
     Q_INVOKABLE bool fileExists(const QString& filePath) const;
     Q_INVOKABLE float calculateRelativePosition(const QTime& endTime) const;
 
-    Q_INVOKABLE void setNavigation(QString nav)
-    {
-        emit requestNavigation(nav);
-    }
-
-    // When we create a wallpaper the main navigation gets disabled
-    Q_INVOKABLE void setNavigationActive(bool isActive)
-    {
-        emit requestNavigationActive(isActive);
-    }
-
-    Q_INVOKABLE void setToggleWallpaperConfiguration()
-    {
-        emit requestToggleWallpaperConfiguration();
-    }
-
-    /*!
-      \brief Converts a range from 0.0f - 1.0f to 00:00:00 0 23:59:59
-    */
     Q_INVOKABLE QString getTimeString(double relativeLinePosition);
 
 signals:
@@ -176,9 +157,6 @@ signals:
     void compressionProgressChanged(QString file, int proc, int total, qint64 br, qint64 bt);
     void compressionFinished();
 
-    void requestNavigation(QString nav);
-    void requestNavigationActive(bool isActive);
-    void requestToggleWallpaperConfiguration();
     void allLicenseLoaded(QString licensesText);
     void allDataProtectionLoaded(QString dataProtectionText);
 

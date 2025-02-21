@@ -9,8 +9,10 @@ set(CMAKE_AUTOMOC ON)
 include(GenerateCMakeVariableHeader)
 
 set(SOURCES
+
     # cmake-format: sort
     src/app.cpp
+    src/uiappstatesignals.cpp
     src/create.cpp
     src/createimportvideo.cpp
     src/globalvariables.cpp
@@ -30,7 +32,9 @@ set(SOURCES
     src/wizards.cpp)
 
 set(HEADER
+
     # cmake-format: sort
+    inc/public/ScreenPlay/uiappstatesignals.h
     inc/public/ScreenPlay/app.h
     inc/public/ScreenPlay/create.h
     inc/public/ScreenPlay/createimportstates.h
