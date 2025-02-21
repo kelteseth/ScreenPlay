@@ -936,40 +936,6 @@ QCoro::Task<bool> ScreenPlayTimelineManager::setValueAtMonitorTimelineIndex(
     co_return false;
 }
 
-QCoro::Task<bool> ScreenPlayTimelineManager::updateCurrentlyActiveTimeline(
-    WallpaperData wallpaperData,
-    const int timelineIndex,
-    const QString& sectionIdentifier)
-{
-
-    // Current timeline with the state active
-    std::shared_ptr<WallpaperTimelineSection> activeTimeline = findActiveWallpaperTimelineSection();
-    if (activeTimeline->index != timelineIndex || activeTimeline->identifier != sectionIdentifier) {
-        co_return false;
-    }
-
-    // for (auto& activeWallpaper : activeTimeline->wallpaperList) {
-    //     if (activeWallpaper->monitors() == wallpaperData.monitors()) {
-
-    //         // Godot is a different runtime then all other wallpaper
-    //         if (m_util.isSameWallpaperRuntime(activeWallpaper->type(), wallpaperData.type())) {
-    //             // Current wallpaper will simply replace the content
-    //             // in the currently run wallpaper
-    //             activeWallpaper->replace(wallpaperData);
-    //         } else {
-    //             const bool removeWallpapersuccess = co_await activeTimeline->removeWallpaper(wallpaperData.monitors().first());
-    //             if (!removeWallpapersuccess)
-    //                 co_return false;
-    //             const bool startWallpapersuccess = co_await activeTimeline->startWallpaper(wallpaperData);
-    //             if (!startWallpapersuccess)
-    //                 co_return false;
-    //         }
-    //     }
-    // }
-
-    co_return true;
-}
-
 QCoro::Task<bool> ScreenPlayTimelineManager::setWallpaperAtMonitorActiveTimelineIndex(
     WallpaperData wallpaperData,
     const int timelineIndex,
