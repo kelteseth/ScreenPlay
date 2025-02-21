@@ -92,7 +92,6 @@ target_link_libraries(
     PUBLIC ScreenPlaySDKLib
     ScreenPlayCoreLibplugin
     ScreenPlayWeatherLibplugin
-    ScreenPlayCoreWindowsExtrasLib
     Qt6::Quick
     Qt6::Gui
     Qt6::Widgets
@@ -104,7 +103,7 @@ target_link_libraries(
     Qt6::WebEngineQuick)
 
 if(WIN32)
-    target_link_libraries(ScreenPlayWallpaperLib PUBLIC ScreenPlaySysInfoLibplugin)
+    target_link_libraries(ScreenPlayWallpaperLib PUBLIC ScreenPlaySysInfoLibplugin ScreenPlayCoreWindowsExtrasLib)
 elseif(UNIX AND NOT APPLE)
     target_link_libraries(ScreenPlayWallpaperLib PRIVATE X11)
 endif()
