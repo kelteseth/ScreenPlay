@@ -64,79 +64,83 @@ WallpaperExit::Code WinWindow::start()
         }
     }
 
-    qInfo() << "Setup " << width() << height();
-    // m_quickView->loadFromModule("ScreenPlayWallpaper", "Wallpaper");
     m_quickView->show();
+    // Still a bit buggy and we only need it for these types of
+    // wallpaper anyway...
+    if (m_type == ScreenPlay::ContentTypes::InstalledType::QMLWallpaper
+        || m_type == ScreenPlay::ContentTypes::InstalledType::HTMLWallpaper
+        || m_type == ScreenPlay::ContentTypes::InstalledType::WebsiteWallpaper) {
 
-    QTimer::singleShot(1000, this, [&]() {
-        m_windowsIntegration.setupWindowMouseHook();
-        // Set up the mouse event handler
-        m_windowsIntegration.setMouseEventHandler([this](DWORD mouseButton, UINT type, POINT p) {
-            Qt::MouseButton button = Qt::NoButton;
-            QEvent::Type eventType = QEvent::None;
+        QTimer::singleShot(1000, this, [&]() {
+            m_windowsIntegration.setupWindowMouseHook();
+            // Set up the mouse event handler
+            m_windowsIntegration.setMouseEventHandler([this](DWORD mouseButton, UINT type, POINT p) {
+                Qt::MouseButton button = Qt::NoButton;
+                QEvent::Type eventType = QEvent::None;
 
-            // Determine the Qt mouse event type and button
-            switch (type) {
-            case WM_LBUTTONDOWN:
-                eventType = QEvent::MouseButtonPress;
-                button = Qt::LeftButton;
-                break;
-            case WM_LBUTTONUP:
-                eventType = QEvent::MouseButtonRelease;
-                button = Qt::LeftButton;
-                break;
-            case WM_RBUTTONDOWN:
-                eventType = QEvent::MouseButtonPress;
-                button = Qt::RightButton;
-                break;
-            case WM_RBUTTONUP:
-                eventType = QEvent::MouseButtonRelease;
-                button = Qt::RightButton;
-                break;
-            case WM_MOUSEMOVE:
-                eventType = QEvent::MouseMove;
-                button = Qt::NoButton;
-                break;
-                // Add more cases as needed
-            }
+                // Determine the Qt mouse event type and button
+                switch (type) {
+                case WM_LBUTTONDOWN:
+                    eventType = QEvent::MouseButtonPress;
+                    button = Qt::LeftButton;
+                    break;
+                case WM_LBUTTONUP:
+                    eventType = QEvent::MouseButtonRelease;
+                    button = Qt::LeftButton;
+                    break;
+                case WM_RBUTTONDOWN:
+                    eventType = QEvent::MouseButtonPress;
+                    button = Qt::RightButton;
+                    break;
+                case WM_RBUTTONUP:
+                    eventType = QEvent::MouseButtonRelease;
+                    button = Qt::RightButton;
+                    break;
+                case WM_MOUSEMOVE:
+                    eventType = QEvent::MouseMove;
+                    button = Qt::NoButton;
+                    break;
+                    // Add more cases as needed
+                }
 
-            // Convert POINT to global position
-            QPoint globalPos(p.x, p.y);
+                // Convert POINT to global position
+                QPoint globalPos(p.x, p.y);
 
-            // Convert global position to local position within the target widget
-            QPoint localPos = m_quickView->mapFromGlobal(globalPos);
+                // Convert global position to local position within the target widget
+                QPoint localPos = m_quickView->mapFromGlobal(globalPos);
 
-            // Create the QMouseEvent
-            QMouseEvent* qEvent = new QMouseEvent(eventType, localPos, globalPos, button, button, QGuiApplication::keyboardModifiers());
+                // Create the QMouseEvent
+                QMouseEvent* qEvent = new QMouseEvent(eventType, localPos, globalPos, button, button, QGuiApplication::keyboardModifiers());
 
-            // Handle the mouse event
-            // For example, logging the mouse button and position
-            // qDebug() << "Mouse event: Button=" << mouseButton << ", Type=" << type
-            //         << ", Position=(" << p.x << ", " << p.y << ")" << globalPos << localPos << button;
-            // Post the event to the target widget
-            QCoreApplication::postEvent(m_quickView.get(), qEvent);
+                // Handle the mouse event
+                // For example, logging the mouse button and position
+                // qDebug() << "Mouse event: Button=" << mouseButton << ", Type=" << type
+                //         << ", Position=(" << p.x << ", " << p.y << ")" << globalPos << localPos << button;
+                // Post the event to the target widget
+                QCoreApplication::postEvent(m_quickView.get(), qEvent);
+            });
+
+            // Inside your main application or somewhere appropriate
+            m_windowsIntegration.setupWindowKeyboardHook();
+            // Set up the keyboard event handler
+            m_windowsIntegration.setKeyboardEventHandler([this](UINT vkCode, bool keyDown) {
+                QEvent::Type eventType = keyDown ? QEvent::KeyPress : QEvent::KeyRelease;
+
+                // Map the vkCode to Qt key code if necessary
+                auto [qtKey, text] = mapVirtualKeyToQtKey(vkCode); // Implement this function based on your needs
+
+                // Create the QKeyEvent
+                QKeyEvent* qEvent = new QKeyEvent(eventType, qtKey, Qt::NoModifier, text);
+
+                // Handle the keyboard event
+                // For example, logging the key press
+                // qDebug() << "Keyboard event: Key=" << vkCode << ", Type=" << (keyDown ? "KeyDown" : "KeyUp") << qEvent;
+
+                // Post the event to the target widget
+                QCoreApplication::postEvent(m_quickView.get(), qEvent);
+            });
         });
-
-        // Inside your main application or somewhere appropriate
-        m_windowsIntegration.setupWindowKeyboardHook();
-        // Set up the keyboard event handler
-        m_windowsIntegration.setKeyboardEventHandler([this](UINT vkCode, bool keyDown) {
-            QEvent::Type eventType = keyDown ? QEvent::KeyPress : QEvent::KeyRelease;
-
-            // Map the vkCode to Qt key code if necessary
-            auto [qtKey, text] = mapVirtualKeyToQtKey(vkCode); // Implement this function based on your needs
-
-            // Create the QKeyEvent
-            QKeyEvent* qEvent = new QKeyEvent(eventType, qtKey, Qt::NoModifier, text);
-
-            // Handle the keyboard event
-            // For example, logging the key press
-            // qDebug() << "Keyboard event: Key=" << vkCode << ", Type=" << (keyDown ? "KeyDown" : "KeyUp") << qEvent;
-
-            // Post the event to the target widget
-            QCoreApplication::postEvent(m_quickView.get(), qEvent);
-        });
-    });
+    }
     return WallpaperExit::Code::Ok;
 }
 
