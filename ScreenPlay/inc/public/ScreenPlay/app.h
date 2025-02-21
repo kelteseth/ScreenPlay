@@ -9,7 +9,7 @@
 #include "ScreenPlay/profilelistmodel.h"
 #include "ScreenPlay/screenplaymanager.h"
 #include "ScreenPlay/settings.h"
-#include "ScreenPlay/uiAppStateSignals.h"
+#include "ScreenPlay/uiappstatesignals.h"
 #include "ScreenPlay/wizards.h"
 #include "ScreenPlayCore/util.h"
 
