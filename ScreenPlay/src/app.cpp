@@ -296,6 +296,15 @@ void App::setWizards(Wizards* wizards)
     emit wizardsChanged(m_wizards.get());
 }
 
+void App::setEngine(std::shared_ptr<QQmlApplicationEngine> engine)
+{
+    m_engine = engine;
+    QObject::connect(
+        m_settings.get(),
+        &Settings::requestRetranslation,
+        m_engine.get(),
+        &QQmlApplicationEngine::retranslate);
+}
 }
 
 #include "moc_app.cpp"

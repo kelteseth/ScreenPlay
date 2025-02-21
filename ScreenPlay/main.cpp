@@ -60,8 +60,11 @@ int main(int argc, char* argv[])
     auto logging = std::make_unique<const ScreenPlayCore::LoggingHandler>("ScreenPlay");
 
     QQuickStyle::setStyle("Material");
-    QQmlApplicationEngine qmlApplicationEngine;
-    qmlApplicationEngine.loadFromModule("ScreenPlay", "ScreenPlayMain");
+    auto qmlApplicationEngine = std::make_shared<QQmlApplicationEngine>();
+    App app;
+    app.setEngine(qmlApplicationEngine);
+    qmlRegisterSingletonInstance("ScreenPlay", 1, 0, "App", &app);
+    qmlApplicationEngine->loadFromModule("ScreenPlay", "ScreenPlayMain");
     const int status = qtGuiApp.exec();
 #if defined(Q_OS_WIN)
     sentry_shutdown();

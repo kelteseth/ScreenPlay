@@ -435,6 +435,15 @@ if(APPLE)
     copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.otf")
 endif()
 
+# Must be set before qt_add_lrelease
+if(NOT APPLE)
+    # .qm translations
+    set(QM_OUT_DIR "${RESOURCES_DIR}/translations")
+    message(STATUS "QM_OUT_DIR: ${QM_OUT_DIR}")
+    file(MAKE_DIRECTORY ${QM_OUT_DIR})
+    set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${QM_OUT_DIR})
+endif()
+
 # Must be called here, because we need to change the OUTPUT_LOCATION for macos
 qt_add_lrelease(
     TS_FILES
@@ -443,13 +452,9 @@ qt_add_lrelease(
     screenplay_translations
     QM_FILES_OUTPUT_VARIABLE
     qm_files)
+
 if(APPLE)
     add_dependencies(ScreenPlayApp screenplay_translations)
-else()
-    # .qm translations
-    set(QM_OUT_DIR "${RESOURCES_DIR}/translations")
-    file(MAKE_DIRECTORY ${QM_OUT_DIR})
-    set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${QM_OUT_DIR})
 endif()
 
 if(${SCREENPLAY_STEAM})

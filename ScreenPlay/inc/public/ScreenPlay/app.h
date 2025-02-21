@@ -12,6 +12,7 @@
 #include "ScreenPlay/wizards.h"
 #include "ScreenPlayCore/util.h"
 
+#include <QQmlApplicationEngine>
 #include <QQmlEngine>
 #include <QString>
 #include <memory>
@@ -24,9 +25,6 @@ namespace ScreenPlay {
 
 class App : public QObject {
     Q_OBJECT
-    QML_ELEMENT
-    QML_UNCREATABLE("CPP ONLY")
-    QML_SINGLETON
 
     // We must add the namespace here to make
     // it work with QtC autocompletion, see QTCREATORBUG-30197
@@ -58,6 +56,8 @@ public:
     InstalledListFilter* installedListFilter() const { return m_installedListFilter.get(); }
     Wizards* wizards() const { return m_wizards.get(); }
 
+    void setEngine(std::shared_ptr<QQmlApplicationEngine> engine);
+
 signals:
     void globalVariablesChanged(ScreenPlay::GlobalVariables* globalVariables);
     void screenPlayManagerChanged(ScreenPlay::ScreenPlayManager* screenPlayManager);
@@ -85,6 +85,7 @@ public slots:
     void setWizards(Wizards* wizards);
 
 private:
+    std::shared_ptr<QQmlApplicationEngine> m_engine;
     std::unique_ptr<Create> m_create;
     std::unique_ptr<Wizards> m_wizards;
     std::unique_ptr<ScreenPlayManager> m_screenPlayManager;
