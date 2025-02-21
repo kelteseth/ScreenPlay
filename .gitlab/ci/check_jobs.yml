@@ -5,7 +5,8 @@ formatting:
   image:
     name: ubuntu:24.04
   tags:
-    - gitlab-org-docker
+    - docker
+    - fedora
   script:
     - apt update -y
      # For Ubuntu 24.04 and newer we need to create an virutal env

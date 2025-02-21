@@ -41,6 +41,9 @@ release_job:
   interruptible: true
   stage: release
   image: python:3.11
+  tags:
+  - docker
+  - fedora
   dependencies:
     - steam_linux
     - steam_windows

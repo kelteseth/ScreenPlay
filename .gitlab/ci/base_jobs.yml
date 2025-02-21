@@ -47,7 +47,8 @@
   image:
     name: ubuntu:24.04
   tags:
-    - gitlab-org-docker
+    - docker
+    - fedora
   artifacts:
     expire_in: "4 weeks"
     paths:
