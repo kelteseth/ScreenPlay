@@ -9,6 +9,7 @@ formatting:
     - fedora
   script:
     - apt update -y
+    - apt install wget -y
     # Clang 19 so we match our dev setup
     - wget https://apt.llvm.org/llvm.sh
     - chmod +x llvm.sh
