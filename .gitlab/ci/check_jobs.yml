@@ -15,7 +15,7 @@ formatting:
     - chmod +x llvm.sh
     - ./llvm.sh 19 all
     # For Ubuntu 24.04 and newer we need to create an virutal env
-    - apt install python3.12 python3.12-venv  clang clang-format -y
+    - apt install python3.12 python3.12-venv -y
     # Run this command in the ScreenPlay source root folder:
     - python3 -m venv env
     - source env/bin/activate
