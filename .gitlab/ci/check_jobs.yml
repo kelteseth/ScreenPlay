@@ -9,7 +9,11 @@ formatting:
     - fedora
   script:
     - apt update -y
-     # For Ubuntu 24.04 and newer we need to create an virutal env
+    # Clang 19 so we match our dev setup
+    - wget https://apt.llvm.org/llvm.sh
+    - chmod +x llvm.sh
+    - ./llvm.sh 19 all
+    # For Ubuntu 24.04 and newer we need to create an virutal env
     - apt install python3.12 python3.12-venv  clang clang-format -y
     # Run this command in the ScreenPlay source root folder:
     - python3 -m venv env
