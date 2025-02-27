@@ -9,7 +9,7 @@ formatting:
     - fedora
   script:
     - apt update -y
-    - apt install wget -y
+    - apt install wget lsb-release software-properties-common gnupg -y
     # Clang 19 so we match our dev setup
     - wget https://apt.llvm.org/llvm.sh
     - chmod +x llvm.sh
