@@ -307,8 +307,8 @@ Popup {
                         return;
                     }
                     if (root.selectedInstallType === Util.ContentTypes.InstalledType.QMLWallpaper || root.selectedInstallType === Util.ContentTypes.InstalledType.GodotWallpaper || root.selectedInstallType === Util.ContentTypes.InstalledType.WebsiteWallpaper) {
-                        let listModel = App.screenPlayManager.projectSettingsAtMonitorIndex(root.selectedMonitorIndex, root.selectedTimelineIndex, root.selectedSectionIdentifier);
-                        if (!listModel) {
+                        let success = App.screenPlayManager.projectSettingsAtMonitorIndex(root.selectedMonitorIndex, root.selectedTimelineIndex, root.selectedSectionIdentifier);
+                        if (!success) {
                             console.error("Unable to get requested settings from index: ", root.selectedTimelineIndex);
                             customPropertiesGridView.visible = false;
                             defaultVideoControls.visible = false;
@@ -323,7 +323,7 @@ Popup {
                         customPropertiesGridView.timelineIndex = selectedTimeline.index;
                         customPropertiesGridView.sectionIdentifier = selectedTimeline.identifier;
                         customPropertiesGridView.selectedMonitorIndex = root.selectedMonitorIndex;
-                        customPropertiesGridView.projectSettingsListmodelRef = listModel;
+                        customPropertiesGridView.projectSettingsListmodelRef = App.screenPlayManager.projectSettingsListModel;
                         console.log(customPropertiesGridView.timelineActive, customPropertiesGridView.timelineIndex, customPropertiesGridView.sectionIdentifier, customPropertiesGridView.selectedMonitorIndex, customPropertiesGridView.projectSettingsListmodelRef);
                         customPropertiesGridView.visible = true;
                         defaultVideoControls.visible = false;

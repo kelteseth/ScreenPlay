@@ -79,8 +79,12 @@ ApplicationWindow {
     Connections {
         target: App
         function onRequestExit() {
+            crashOnExitWorkaround.forceActiveFocus()
             Qt.exit(0);
         }
+    }
+    FocusScope {
+        id: crashOnExitWorkaround
     }
 
     // Partial workaround for

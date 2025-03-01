@@ -27,6 +27,7 @@ class ScreenPlayManager : public QObject {
     Q_PROPERTY(int activeWidgetsCounter READ activeWidgetsCounter WRITE setActiveWidgetsCounter NOTIFY activeWidgetsCounterChanged FINAL)
     Q_PROPERTY(int selectedTimelineIndex READ selectedTimelineIndex WRITE setSelectedTimelineIndex NOTIFY selectedTimelineIndexChanged FINAL)
     Q_PROPERTY(int activeTimelineIndex READ activeTimelineIndex WRITE setActiveTimelineIndex NOTIFY activeTimelineIndexChanged FINAL)
+    Q_PROPERTY(ProjectSettingsListModel* projectSettingsListModel READ projectSettingsListModel WRITE setProjectSettingsListModel NOTIFY projectSettingsListModelChanged FINAL)
 
 public:
     explicit ScreenPlayManager(QObject* parent = nullptr);
@@ -35,6 +36,8 @@ public:
         const std::shared_ptr<GlobalVariables>& globalVariables,
         const std::shared_ptr<MonitorListModel>& mlm,
         const std::shared_ptr<Settings>& settings);
+
+    QCoro::Task<Result> shutdown();
 
     Q_INVOKABLE QCoro::QmlTask removeAllRunningWallpapers(bool saveToProfile = false);
     Q_INVOKABLE bool removeAllRunningWidgets(bool saveToProfile = false);
@@ -78,7 +81,7 @@ public:
         const QJsonObject& properties,
         const bool saveToProfilesConfigFile);
 
-    Q_INVOKABLE ScreenPlay::ProjectSettingsListModel* projectSettingsAtMonitorIndex(
+    Q_INVOKABLE bool projectSettingsAtMonitorIndex(
         const int monitorIndex,
         const int timelineIndex,
         const QString& sectionIdentifier);
@@ -102,6 +105,9 @@ public:
     int selectedTimelineIndex() const { return m_selectedTimelineIndex; }
     int activeTimelineIndex() const { return m_activeTimelineIndex; }
 
+    ProjectSettingsListModel* projectSettingsListModel() const;
+    void setProjectSettingsListModel(ProjectSettingsListModel* newProjectSettingsListModel);
+
 public slots:
     void setSelectedTimelineIndex(int selectedTimelineIndex);
 
@@ -112,13 +118,12 @@ signals:
     void activeTimelineIndexChanged(int activeTimelineIndex);
     void monitorConfigurationChanged();
     void projectSettingsListModelResult(ScreenPlay::ProjectSettingsListModel* li = nullptr);
-
     void requestRaise();
     void profilesSaved();
     void printQmlTimeline();
     void displayErrorPopup(const QString& msg);
-
     void notifyUiWallpaperAdded();
+    void projectSettingsListModelChanged(ProjectSettingsListModel* projectSettingsListModel);
 
 private slots:
     bool saveProfiles();
@@ -138,6 +143,7 @@ private:
     std::shared_ptr<MonitorListModel> m_monitorListModel;
     std::shared_ptr<Settings> m_settings;
     std::unique_ptr<QLocalServer> m_server;
+    std::shared_ptr<ProjectSettingsListModel> m_projectSettingsListModel;
     QVector<std::shared_ptr<ScreenPlayWidget>> m_screenPlayWidgets;
     std::vector<std::unique_ptr<SDKConnection>> m_unconnectedClients;
     ScreenPlayTimelineManager m_screenPlayTimelineManager;
@@ -149,6 +155,5 @@ private:
     int m_activeWidgetsCounter { 0 };
     int m_selectedTimelineIndex { 0 };
     int m_activeTimelineIndex { -1 };
-    const quint16 m_webSocketPort = 16395;
 };
 }

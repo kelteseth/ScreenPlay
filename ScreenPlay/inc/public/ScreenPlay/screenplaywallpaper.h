@@ -65,7 +65,7 @@ public:
     bool replaceLive(const WallpaperData wallpaperData);
     void setSDKConnection(std::unique_ptr<SDKConnection> connection);
     QJsonObject getActiveSettingsJson();
-    ProjectSettingsListModel* getProjectSettingsListModel() { return &m_projectSettingsListModel; }
+    std::shared_ptr<ProjectSettingsListModel> getProjectSettingsListModel() { return m_projectSettingsListModel; }
     const WallpaperData wallpaperData() const { return m_wallpaperData; }
 
     // Getters for WallpaperData properties
@@ -218,7 +218,7 @@ private:
     const std::shared_ptr<Settings> m_settings;
 
     ProcessManager m_processManager;
-    ProjectSettingsListModel m_projectSettingsListModel;
+    std::shared_ptr<ProjectSettingsListModel> m_projectSettingsListModel;
     QProcess m_process;
     QString m_appID;
     ScreenPlay::ScreenPlayEnums::AppState m_state = ScreenPlay::ScreenPlayEnums::AppState::Inactive;

@@ -45,7 +45,7 @@ public:
     explicit App(QObject* parent = nullptr);
     Q_INVOKABLE QString version() const;
     Q_INVOKABLE void showDockIcon(const bool show);
-    Q_INVOKABLE void exit();
+    Q_INVOKABLE QCoro::QmlTask exit();
 
     GlobalVariables* globalVariables() const { return m_globalVariables.get(); }
     ScreenPlayManager* screenPlayManager() const { return m_screenPlayManager.get(); }

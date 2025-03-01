@@ -76,8 +76,10 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
     }
     qDebug().noquote() << Util().toString(projectSettingsListModelProperties);
 
-    if (!projectSettingsListModelProperties.isEmpty())
-        m_projectSettingsListModel.init(m_wallpaperData.type(), projectSettingsListModelProperties);
+    if (!projectSettingsListModelProperties.isEmpty()) {
+        m_projectSettingsListModel = std::make_shared<ProjectSettingsListModel>();
+        m_projectSettingsListModel->init(m_wallpaperData.type(), projectSettingsListModelProperties);
+    }
 
     QObject::connect(&m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &ScreenPlayWallpaper::processExit);
     QObject::connect(&m_process, &QProcess::errorOccurred, this, [this]() {
@@ -172,7 +174,7 @@ QJsonObject ScreenPlayWallpaper::getActiveSettingsJson()
         obj.insert("volume", m_wallpaperData.volume());
         obj.insert("playbackRate", m_wallpaperData.playbackRate());
     } else {
-        QJsonObject properties = m_projectSettingsListModel.getActiveSettingsJson();
+        QJsonObject properties = m_projectSettingsListModel->getActiveSettingsJson();
         if (!properties.isEmpty()) {
             obj.insert("properties", properties);
         }

@@ -138,16 +138,11 @@ QString App::version() const
     \brief Calls QGuiApplication quit() and can be used to do additional
            tasks before exiting.
 */
-void App::exit()
+QCoro::QmlTask App::exit()
 {
-    m_screenPlayManager->removeAllRunningWallpapers(false);
-    m_screenPlayManager->removeAllRunningWidgets(false);
-    // Must be called inside a separate event loop otherwise we
-    // would kill the qml engine while it is calling this function.
-    // A single shot timer is a handy woraround for this.
-    QTimer::singleShot(0, this, [this]() {
-        emit requestExit();
-    });
+    return QCoro::QmlTask([this]() -> QCoro::Task<void> {
+        co_await m_screenPlayManager->shutdown().then([this]() { emit requestExit(); });
+    }());
 }
 
 void App::showDockIcon(const bool show)

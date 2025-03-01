@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
 #include "ScreenPlay/screenplaymanager.h"
+#include "QCoro/qcorotask.h"
 #include "ScreenPlayCore/util.h"
 #include "core/qcorothread.h"
 
@@ -68,6 +69,18 @@ void ScreenPlayManager::init(
         qInfo() << "Reset default profiles.json at:" << m_globalVariables->localSettingsPath();
         m_settings->writeDefaultProfiles();
     }
+}
+
+/*!
+    \brief Shutdown
+*/
+QCoro::Task<Result> ScreenPlayManager::shutdown()
+{
+    removeAllRunningWidgets(false);
+    const auto success = co_await m_screenPlayTimelineManager.removeAllWallpaperFromActiveTimlineSections();
+    Result result;
+    result.setSuccess(success);
+    co_return result;
 }
 
 /*!
@@ -279,22 +292,24 @@ QCoro::QmlTask ScreenPlayManager::removeWallpaperAt(int timelineIndex, QString s
 /*!
     \brief Request a spesific json profile to display in the active wallpaper popup on the right.
 */
-ScreenPlay::ProjectSettingsListModel* ScreenPlayManager::projectSettingsAtMonitorIndex(
+bool ScreenPlayManager::projectSettingsAtMonitorIndex(
     const int monitorIndex,
     const int timelineIndex,
     const QString& sectionIdentifier)
 {
     auto timelineSection = m_screenPlayTimelineManager.findTimelineSection(timelineIndex, sectionIdentifier);
     if (!timelineSection) {
-        return nullptr;
+        return false;
     }
 
     for (const auto& wallpaper : std::as_const(timelineSection->wallpaperList)) {
         if (wallpaper->monitors().contains(monitorIndex)) {
-            return wallpaper->getProjectSettingsListModel();
+            m_projectSettingsListModel = wallpaper->getProjectSettingsListModel();
+            emit projectSettingsListModelChanged(m_projectSettingsListModel.get());
+            return true;
         }
     }
-    return nullptr;
+    return false;
 }
 
 /*!
@@ -719,6 +734,19 @@ void ScreenPlayManager::setSelectedTimelineIndex(int selectedTimelineIndex)
     //     return;
     m_selectedTimelineIndex = selectedTimelineIndex;
     emit selectedTimelineIndexChanged(m_selectedTimelineIndex);
+}
+
+ProjectSettingsListModel* ScreenPlayManager::projectSettingsListModel() const
+{
+    return m_projectSettingsListModel.get();
+}
+
+void ScreenPlayManager::setProjectSettingsListModel(ProjectSettingsListModel* newProjectSettingsListModel)
+{
+    if (m_projectSettingsListModel.get() == newProjectSettingsListModel)
+        return;
+    m_projectSettingsListModel.reset(newProjectSettingsListModel);
+    emit projectSettingsListModelChanged(m_projectSettingsListModel.get());
 }
 }
 
