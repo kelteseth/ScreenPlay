@@ -181,8 +181,8 @@ Popup {
                         root.selectedInstallType = installedType;
 
                         console.log(installedType, Util.ContentTypes.InstalledType.VideoWallpaper);
-                        wallpaperControlsWrapper.updateControls();
                         root.selectedMonitorIndex = index;
+                        wallpaperControlsWrapper.updateControls();
                     }
                     onRequestRemoveWallpaper: index => {
                         const selectedTimeline = timeline.getSelectedTimeline();
