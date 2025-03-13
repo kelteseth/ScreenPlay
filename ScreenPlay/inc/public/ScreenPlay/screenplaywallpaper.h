@@ -30,7 +30,6 @@ class ScreenPlayWallpaper : public QObject {
     // Properties from WallpaperData - delegated
     Q_PROPERTY(QVector<int> monitors READ monitors WRITE setMonitors NOTIFY monitorsChanged)
     Q_PROPERTY(float volume READ volume WRITE setVolume NOTIFY volumeChanged)
-    Q_PROPERTY(float playbackRate READ playbackRate WRITE setPlaybackRate NOTIFY playbackRateChanged)
     Q_PROPERTY(bool isLooping READ isLooping WRITE setIsLooping NOTIFY isLoopingChanged)
     Q_PROPERTY(QString file READ file WRITE setFile NOTIFY fileChanged)
     Q_PROPERTY(QString absolutePath READ absolutePath WRITE setAbsolutePath NOTIFY absolutePathChanged)
@@ -64,14 +63,12 @@ public:
     }
     bool replaceLive(const WallpaperData wallpaperData);
     void setSDKConnection(std::unique_ptr<SDKConnection> connection);
-    QJsonObject getActiveSettingsJson();
     std::shared_ptr<ProjectSettingsListModel> getProjectSettingsListModel() { return m_projectSettingsListModel; }
     const WallpaperData wallpaperData() const { return m_wallpaperData; }
 
     // Getters for WallpaperData properties
     QVector<int> monitors() const { return m_wallpaperData.monitors(); }
     float volume() const { return m_wallpaperData.volume(); }
-    float playbackRate() const { return m_wallpaperData.playbackRate(); }
     bool isLooping() const { return m_wallpaperData.isLooping(); }
     QString file() const { return m_wallpaperData.file(); }
     QString absolutePath() const { return m_wallpaperData.absolutePath(); }
@@ -89,7 +86,6 @@ signals:
     // Signals for WallpaperData properties
     void monitorsChanged(QVector<int> monitors);
     void volumeChanged(float volume);
-    void playbackRateChanged(float playbackRate);
     void isLoopingChanged(bool isLooping);
     void fileChanged(QString file);
     void absolutePathChanged(QString absolutePath);
@@ -127,14 +123,6 @@ public slots:
             return;
         m_wallpaperData.setVolume(volume);
         emit volumeChanged(volume);
-    }
-
-    void setPlaybackRate(float playbackRate)
-    {
-        if (playbackRate < 0.0f || playbackRate > 1.0f)
-            return;
-        m_wallpaperData.setPlaybackRate(playbackRate);
-        emit playbackRateChanged(playbackRate);
     }
 
     void setIsLooping(bool isLooping)

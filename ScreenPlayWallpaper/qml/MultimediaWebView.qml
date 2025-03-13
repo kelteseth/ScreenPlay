@@ -106,15 +106,6 @@ Item {
                 webView.runJavaScript("var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = " + volume + ";");
         }
 
-        function onCurrentTimeChanged(currentTime) {
-            if (webView.loadProgress === 100)
-                webView.runJavaScript("var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.currentTime  = " + currentTime + " * videoPlayer.duration;");
-        }
-
-        function onPlaybackRateChanged(playbackRate) {
-            if (webView.loadProgress === 100)
-                webView.runJavaScript("var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.playbackRate  = " + playbackRate + ";");
-        }
 
         function onVisualsPausedChanged(visualsPaused) {
             if (visualsPaused) {

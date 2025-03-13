@@ -62,21 +62,6 @@ ColumnLayout {
         }
     }
 
-    LabelSlider {
-        id: slCurrentVideoTime
-        iconSource: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_schedule.svg"
-
-        headline: qsTr("Current Video Time")
-        slider.onValueChanged: {
-            const category = "";
-            const newCurrentVideoTime = slCurrentVideoTime.slider.value.toFixed(2);
-            App.screenPlayManager.setValueAtMonitorTimelineIndex(root.monitorIndex, root.timelineIndex, root.sectionIdentifier, "currentTime", newCurrentVideoTime, category);
-        }
-        Layout.fillWidth: true
-        slider.stepSize: 0.1
-        Layout.leftMargin: 10
-        Layout.rightMargin: 10
-    }
 
     ColumnLayout {
         implicitHeight: 50

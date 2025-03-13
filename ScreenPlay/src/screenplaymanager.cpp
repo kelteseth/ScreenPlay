@@ -106,7 +106,6 @@ QCoro::QmlTask ScreenPlayManager::setWallpaperAtMonitorTimelineIndex(
         wallpaperData.setVolume(1.0f);
     }
 
-    wallpaperData.setPlaybackRate(1.0f);
     wallpaperData.setType(type);
     wallpaperData.setAbsolutePath(
         QUrl::fromUserInput(absolutePath).toLocalFile()); // Remove file:///

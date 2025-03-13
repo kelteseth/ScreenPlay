@@ -54,8 +54,6 @@ public:
     Q_PROPERTY(bool checkWallpaperVisible READ checkWallpaperVisible WRITE setCheckWallpaperVisible NOTIFY checkWallpaperVisibleChanged)
     Q_PROPERTY(bool visualsPaused READ visualsPaused WRITE setVisualsPaused NOTIFY visualsPausedChanged)
     Q_PROPERTY(float volume READ volume WRITE setVolume NOTIFY volumeChanged)
-    Q_PROPERTY(float playbackRate READ playbackRate WRITE setPlaybackRate NOTIFY playbackRateChanged)
-    Q_PROPERTY(float currentTime READ currentTime WRITE setCurrentTime NOTIFY currentTimeChanged)
     Q_PROPERTY(ScreenPlay::ContentTypes::InstalledType type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(ScreenPlay::Video::VideoCodec videoCodec READ videoCodec WRITE setVideoCodec NOTIFY videoCodecChanged)
     Q_PROPERTY(ScreenPlaySDK* sdk READ sdk WRITE setSdk NOTIFY sdkChanged)
@@ -64,12 +62,10 @@ public:
     bool loops() const { return m_loops; }
     float volume() const { return m_volume; }
     bool isPlaying() const { return m_isPlaying; }
-    float playbackRate() const { return m_playbackRate; }
     ScreenPlay::ContentTypes::InstalledType type() const { return m_type; }
     QString appID() const { return m_appID; }
     QString OSVersion() const { return m_OSVersion; }
     bool muted() const { return m_muted; }
-    float currentTime() const { return m_currentTime; }
     bool canFade() const { return m_canFade; }
     QString fillMode() const { return m_fillMode; }
     int width() const { return m_width; }
@@ -100,13 +96,11 @@ signals:
     void loopsChanged(bool loops);
     void volumeChanged(float volume);
     void isPlayingChanged(bool isPlaying);
-    void playbackRateChanged(float playbackRate);
     void typeChanged(ScreenPlay::ContentTypes::InstalledType type);
     void appIDChanged(QString appID);
     void qmlSceneValueReceived(QString key, QString value);
     void OSVersionChanged(QString OSVersion);
     void mutedChanged(bool muted);
-    void currentTimeChanged(float currentTime);
     void canFadeChanged(bool canFade);
     void fillModeChanged(QString fillMode);
     void widthChanged(int width);
@@ -168,17 +162,7 @@ public slots:
         m_isPlaying = isPlaying;
         emit isPlayingChanged(m_isPlaying);
     }
-    void setPlaybackRate(float playbackRate)
-    {
-        if (playbackRate < 0.0f || playbackRate > 1.0f)
-            return;
 
-        if (qFuzzyCompare(m_playbackRate, playbackRate))
-            return;
-
-        m_playbackRate = playbackRate;
-        emit playbackRateChanged(m_playbackRate);
-    }
     void setType(ScreenPlay::ContentTypes::InstalledType type)
     {
         if (m_type == type)
@@ -211,17 +195,7 @@ public slots:
         m_muted = muted;
         emit mutedChanged(m_muted);
     }
-    void setCurrentTime(float currentTime)
-    {
-        if (currentTime < 0.0f || currentTime > 100000000000.0f)
-            return;
 
-        if (qFuzzyCompare(m_currentTime, currentTime))
-            return;
-
-        m_currentTime = currentTime;
-        emit currentTimeChanged(m_currentTime);
-    }
     void setCanFade(bool canFade)
     {
         if (m_canFade == canFade)
@@ -347,9 +321,6 @@ protected:
     bool m_debugMode { false };
 
     float m_volume { 1.0f };
-    float m_playbackRate { 1.0f };
-    float m_currentTime { 0.0f };
-
     QString m_projectPath;
     QString m_projectSourceFile;
     QString m_appID;

@@ -51,10 +51,6 @@ Item {
             videoPlayer.fillMode = fillMode;
         }
 
-        function onCurrentTimeChanged(currentTime) {
-            videoPlayer.normalizedPosition = currentTime;
-        }
-
         function onVisualsPausedChanged(visualsPaused) {
             if (!Wallpaper.isPlaying)
                 return;

@@ -82,15 +82,6 @@ void BaseWindow::messageReceived(QString key, QString value)
         return;
     }
 
-    if (key == "playbackRate") {
-        bool ok = false;
-        float tmp = value.toFloat(&ok);
-        if (ok) {
-            setPlaybackRate(tmp);
-        }
-        return;
-    }
-
     if (key == "loops") {
         bool tmp = QVariant(value).toBool();
         setLoops(tmp);
@@ -115,15 +106,6 @@ void BaseWindow::messageReceived(QString key, QString value)
             setFillMode("Scale-Down");
         } else {
             setFillMode(QVariant(value).toString());
-        }
-        return;
-    }
-
-    if (key == "currentTime") {
-        bool ok = false;
-        float tmp = value.toFloat(&ok);
-        if (ok) {
-            setCurrentTime(tmp);
         }
         return;
     }

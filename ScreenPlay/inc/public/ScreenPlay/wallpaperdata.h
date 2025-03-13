@@ -24,7 +24,6 @@ class WallpaperData {
     Q_PROPERTY(QString title READ title WRITE setTitle)
     Q_PROPERTY(QString absolutePath READ absolutePath WRITE setAbsolutePath)
     Q_PROPERTY(QString previewImage READ previewImage WRITE setPreviewImage)
-    Q_PROPERTY(float playbackRate READ playbackRate WRITE setPlaybackRate)
     Q_PROPERTY(float volume READ volume WRITE setVolume)
     Q_PROPERTY(QString file READ file WRITE setFile)
     Q_PROPERTY(QJsonObject properties READ properties WRITE setProperties)
@@ -35,7 +34,6 @@ public:
     bool isLooping() const { return m_isLooping; }
     QString absolutePath() const { return m_absolutePath; }
     QString previewImage() const { return m_previewImage; }
-    float playbackRate() const { return m_playbackRate; }
     float volume() const { return m_volume; }
     QString file() const { return m_file; }
     QJsonObject properties() const { return m_properties; }
@@ -47,7 +45,6 @@ public:
     void setIsLooping(bool value) { m_isLooping = value; }
     void setAbsolutePath(const QString& value) { m_absolutePath = value; }
     void setPreviewImage(const QString& value) { m_previewImage = value; }
-    void setPlaybackRate(float value) { m_playbackRate = value; }
     void setVolume(float value) { m_volume = value; }
     void setFile(const QString& value) { m_file = value; }
     void setProperties(const QJsonObject& value) { m_properties = value; }
@@ -66,7 +63,6 @@ private:
     QString m_absolutePath;
     QString m_previewImage;
     QString m_title;
-    float m_playbackRate = 1.0f;
     float m_volume = 1.0f;
     QString m_file;
     QJsonObject m_properties;

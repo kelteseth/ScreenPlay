@@ -41,7 +41,6 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
     QJsonObject projectSettingsListModelProperties;
     if (m_wallpaperData.type() == ContentTypes::InstalledType::VideoWallpaper) {
         projectSettingsListModelProperties.insert("volume", m_wallpaperData.volume());
-        projectSettingsListModelProperties.insert("playbackRate", m_wallpaperData.playbackRate());
     } else {
         // Load base settings from project.json
         if (auto obj = util.openJsonFileToObject(m_wallpaperData.absolutePath() + "/project.json")) {
@@ -241,8 +240,8 @@ void ScreenPlayWallpaper::processExit(int exitCode, QProcess::ExitStatus exitSta
 }
 
 /*!
-    \brief Sets a wallpaper value. We directly set the property if it is either volume,
-        playbackRate or fillMode. Otherwise it is a simple key, value json pair.
+    \brief Sets a wallpaper value. We directly set the property if it is either volume
+        or fillMode. Otherwise it is a simple key, value json pair.
 
 */
 
@@ -266,11 +265,7 @@ bool ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QVariant& 
         m_wallpaperData.setVolume(volume());
         found = true;
     }
-    if (key == "playbackRate") {
-        setPlaybackRate(value.toFloat());
-        m_wallpaperData.setPlaybackRate(playbackRate());
-        found = true;
-    }
+
     if (key == "fillmode") {
         setFillMode(QStringToEnum<Video::FillMode>(value.toString(), Video::FillMode::Cover));
         m_wallpaperData.setFillMode(fillMode());
@@ -319,10 +314,6 @@ void ScreenPlayWallpaper::setSDKConnection(std::unique_ptr<SDKConnection> connec
     });
 
     QTimer::singleShot(1000, this, [this]() {
-        // if (playbackRate() != 1.0) {
-        //     setWallpaperValue("playbackRate", QString::number(playbackRate()), false);
-        // }
-
         QObject::connect(&m_pingAliveTimer, &QTimer::timeout, this, [this]() {
             // qInfo() << "For " << m_pingAliveTimer.interval() << "ms no alive signal received. This means the Wallpaper is dead and likely crashed!";
             // setState(ScreenPlayEnums::AppState::Closing);

@@ -20,7 +20,6 @@ namespace ScreenPlay {
                 "monitors": [
                     0
                 ],
-                "playbackRate": 1,
                 "previewImage": "previewThumbnail.jpg",
                 "properties": {
                 },
@@ -37,7 +36,6 @@ QJsonObject WallpaperData::serialize() const
     data.insert("absolutePath", absolutePath());
     data.insert("previewImage", previewImage());
     data.insert("title", title());
-    data.insert("playbackRate", playbackRate());
     data.insert("volume", QString::number(volume(), 'f', 2).toDouble());
     data.insert("file", file());
     data.insert("properties", properties());
@@ -68,19 +66,17 @@ QString WallpaperData::toString() const
     isLooping: %1
     absolutePath: %2
     previewImage: %3
-    playbackRate: %4
-    volume: %5
-    file: %6
-    properties: %7
-    type: %8
-    fillMode: %9
-    monitors: %10
-    title: %11
+    volume: %3
+    file: %4
+    properties: %5
+    type: %6
+    fillMode: %7
+    monitors: %8
+    title: %9
 })")
         .arg(isLooping() ? "true" : "false")
         .arg(absolutePath())
         .arg(previewImage())
-        .arg(QString::number(playbackRate()))
         .arg(QString::number(volume()))
         .arg(file())
         .arg(QString(QJsonDocument(properties()).toJson(QJsonDocument::Compact)))
@@ -125,7 +121,6 @@ std::optional<ScreenPlay::WallpaperData> ScreenPlay::WallpaperData::loadTimeline
     wallpaperData.setAbsolutePath(
         QUrl::fromUserInput(wallpaperObj.value("absolutePath").toString()).toLocalFile());
     wallpaperData.setPreviewImage(wallpaperObj.value("previewImage").toString());
-    wallpaperData.setPlaybackRate(wallpaperObj.value("playbackRate").toDouble(1.0));
     wallpaperData.setFile(wallpaperObj.value("file").toString());
     wallpaperData.setTitle(wallpaperObj.value("title").toString());
     wallpaperData.setProperties(wallpaperObj.value("properties").toObject());
