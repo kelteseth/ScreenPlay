@@ -183,9 +183,8 @@ Item {
                     title: qsTr("Please choose a color")
                     onAccepted: {
                         rctPreviewColor.color = colorDialog.selectedColor;
-                        let tmpColor = "'" + colorDialog.selectedColor.toString() + "'";
                         let obj = {
-                            "value": colorDialog.color,
+                            "value": rctPreviewColor.color,
                             "type": "color"
                         };
                         root.save(obj);
