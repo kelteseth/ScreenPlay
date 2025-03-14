@@ -97,14 +97,13 @@ signals:
     void isConnectedChanged(bool isConnected);
     void appIDChanged(QString appID);
     void processIDChanged(qint64 processID);
-    void requestSave();
     void requestClose(const QString& appID);
     void stateChanged(ScreenPlay::ScreenPlayEnums::AppState state);
 
 public slots:
     QCoro::Task<bool> close();
     void processExit(int exitCode, QProcess::ExitStatus exitStatus);
-    bool setWallpaperValue(const QString& key, const QVariant& value, const bool save = false);
+    bool setWallpaperValue(const QString& key, const QVariant& value, const QString& category, const bool save = false);
 
     // Setters for WallpaperData properties
     void setMonitors(QVector<int> monitors)
@@ -201,6 +200,9 @@ public slots:
     void setState(ScreenPlay::ScreenPlayEnums::AppState state);
 
 private:
+    void syncAllProperties();
+
+private:
     const std::shared_ptr<GlobalVariables> m_globalVariables;
     std::unique_ptr<SDKConnection> m_connection;
     const std::shared_ptr<Settings> m_settings;
@@ -222,5 +224,4 @@ private:
     const qint64 m_pingAliveTimerMaxAllowedMissedPings = 3;
     QJsonObject m_projectJson;
 };
-
 }

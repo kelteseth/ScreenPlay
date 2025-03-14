@@ -99,7 +99,10 @@ private:
     std::optional<std::shared_ptr<WallpaperTimelineSection>> wallpaperSection(
         const int timelineIndex,
         const QString& sectionIdentifier);
-    std::optional<std::shared_ptr<ScreenPlayWallpaper>> screenPlayWallpaperAt(const int timelineIndex, const QString timelineIdentifier, const QVector<int> monitorIndex);
+    std::optional<std::shared_ptr<ScreenPlayWallpaper>> screenPlayWallpaperAt(
+        const int timelineIndex,
+        const QString timelineIdentifier,
+        const QVector<int> monitorIndex);
     QCoro::Task<bool> startAllWallpaperAtTimelineIndex(const int timelineIndex);
 
 private:

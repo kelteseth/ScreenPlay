@@ -34,8 +34,8 @@ public:
     BaseWindow();
 
     virtual WallpaperExit::Code setup() final;
-
     virtual WallpaperExit::Code start() = 0;
+    void connectToMainApp();
     Q_PROPERTY(qint64 mainAppPID READ mainAppPID WRITE setMainAppPID NOTIFY mainAppPIDChanged FINAL)
     Q_PROPERTY(int width READ width WRITE setWidth NOTIFY widthChanged)
     Q_PROPERTY(int height READ height WRITE setHeight NOTIFY heightChanged)
@@ -130,7 +130,8 @@ public slots:
         const float volume,
         const QString fillMode,
         const QString type,
-        const bool checkWallpaperVisible) final;
+        const bool checkWallpaperVisible,
+        const QJsonObject wallpaperProperties) final;
 
     QString loadFromFile(const QString& filename);
     QString getApplicationPath();

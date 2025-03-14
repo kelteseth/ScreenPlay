@@ -156,7 +156,10 @@ void ScreenPlaySDK::readyRead()
 
     QJsonObject::iterator iterator;
     for (iterator = obj.begin(); iterator != obj.end(); iterator++) {
-        emit incommingMessage(iterator.key(), obj.value(iterator.key()).toString());
+        // Use toVariant() and then toString() to handle various types properly
+        // or we loose all values that are not QString!
+        QVariant value = iterator.value().toVariant();
+        emit incommingMessage(iterator.key(), value.toString());
     }
 }
 

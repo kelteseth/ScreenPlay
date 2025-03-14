@@ -88,7 +88,7 @@ Item {
 
             Connections {
                 function onSave(obj) {
-                    print("on save value:", obj.value);
+                    print("on save value:", root.index, root.name, root.category, obj.value);
                     root.projectSettingsListmodelRef.setValueAtIndex(root.index, root.name, root.category, obj.value);
 
                     const monitorIndex = root.selectedMonitorIndex;

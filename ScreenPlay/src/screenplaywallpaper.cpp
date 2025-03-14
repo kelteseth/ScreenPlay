@@ -31,7 +31,6 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
     , m_appID { appID }
     , m_wallpaperData { wallpaperData }
 {
-    setState(ScreenPlayEnums::AppState::Starting);
     Util util;
     std::optional<QJsonObject> projectOpt = util.openJsonFileToObject(m_wallpaperData.absolutePath()
         + "/project.json");
@@ -133,6 +132,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
 
 bool ScreenPlayWallpaper::start()
 {
+    setState(ScreenPlayEnums::AppState::Starting);
     if (m_wallpaperData.type() == ContentTypes::InstalledType::GodotWallpaper) {
         m_process.setProgram(m_globalVariables->godotWallpaperExecutablePath().toString());
     } else {
@@ -152,40 +152,6 @@ bool ScreenPlayWallpaper::start()
         setState(ScreenPlay::ScreenPlayEnums::AppState::StartingFailed);
     }
     return success;
-}
-
-/*!
-    \brief Loads the project.json that contains all settings to display
-            the wallpaper.
-*/
-QJsonObject ScreenPlayWallpaper::getActiveSettingsJson()
-{
-    QJsonArray screenNumber;
-    for (const int i : m_wallpaperData.monitors()) {
-        screenNumber.append(i);
-    }
-
-    QJsonObject obj;
-
-    if (m_wallpaperData.type() == ContentTypes::InstalledType::VideoWallpaper) {
-        obj.insert("fillMode", QVariant::fromValue(m_wallpaperData.fillMode()).toString());
-        obj.insert("isLooping", m_wallpaperData.isLooping());
-        obj.insert("volume", m_wallpaperData.volume());
-        obj.insert("playbackRate", m_wallpaperData.playbackRate());
-    } else {
-        QJsonObject properties = m_projectSettingsListModel->getActiveSettingsJson();
-        if (!properties.isEmpty()) {
-            obj.insert("properties", properties);
-        }
-    }
-
-    obj.insert("file", m_wallpaperData.file());
-    obj.insert("absolutePath", m_wallpaperData.absolutePath());
-    obj.insert("monitors", screenNumber);
-    obj.insert("previewImage", m_wallpaperData.previewImage());
-    obj.insert("type", QVariant::fromValue(m_wallpaperData.type()).toString());
-
-    return obj;
 }
 
 /*!
@@ -245,7 +211,7 @@ void ScreenPlayWallpaper::processExit(int exitCode, QProcess::ExitStatus exitSta
 
 */
 
-bool ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QVariant& value, const bool save)
+bool ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QVariant& value, const QString& category, const bool save)
 {
     if (state() != ScreenPlayEnums::AppState::Active) {
         qWarning() << "Cannot set value for inactive or closing wallpaper!";
@@ -271,17 +237,30 @@ bool ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QVariant& 
         m_wallpaperData.setFillMode(fillMode());
         found = true;
     }
-    if (!found) {
+    // User defined properties
+    if (!found && !category.isEmpty()) {
         auto properties = m_wallpaperData.properties();
-        properties.insert(key, QJsonValue::fromVariant(value));
+
+        // Check if the category already exists
+        if (!properties.contains(category)) {
+            // Create a new category object if it doesn't exist
+            properties.insert(category, QJsonObject());
+        }
+
+        // Get the category object
+        QJsonObject categoryObj = properties[category].toObject();
+
+        // Add or update the property in the category
+        categoryObj.insert(key, QJsonValue::fromVariant(value));
+
+        // Update the category in the properties
+        properties[category] = categoryObj;
+
+        // Set the updated properties
         m_wallpaperData.setProperties(properties);
     }
-    qDebug() << "Sending message:" << QJsonDocument(obj).toJson(QJsonDocument::Compact);
+    qDebug() << "sending New values:" << QJsonDocument(obj).toJson(QJsonDocument::Compact);
     const bool success = m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
-
-    if (save && success)
-        emit requestSave(); // TODO REMOVE
-
     return success;
 }
 
@@ -295,6 +274,33 @@ void ScreenPlayWallpaper::setState(ScreenPlay::ScreenPlayEnums::AppState state)
     m_state = state;
 }
 
+void ScreenPlayWallpaper::syncAllProperties()
+{
+    // Only sync if we're connected and active
+    if (!m_connection || state() != ScreenPlayEnums::AppState::Active) {
+        return;
+    }
+
+    // Then sync all category-based properties
+    const QJsonObject& properties = m_wallpaperData.properties();
+
+    // Iterate through each category
+    for (auto categoryIt = properties.constBegin(); categoryIt != properties.constEnd(); ++categoryIt) {
+        const QString& category = categoryIt.key();
+        const QJsonObject categoryObj = categoryIt.value().toObject();
+
+        // Iterate through properties in this category
+        for (auto propIt = categoryObj.constBegin(); propIt != categoryObj.constEnd(); ++propIt) {
+            const QString& key = propIt.key();
+            QVariant value = propIt.value().toVariant();
+
+            // Send each property with its category
+            setWallpaperValue(key, value, category, false);
+            qInfo() << "Sync:" << category << key << value;
+        }
+    }
+}
+
 /*!
     \brief  Connects to ScreenPlay. Start a alive ping check for every
             GlobalVariables::contentPingAliveIntervalMS seconds.
@@ -305,6 +311,7 @@ void ScreenPlayWallpaper::setSDKConnection(std::unique_ptr<SDKConnection> connec
     qInfo() << "[4/4] SDKConnection (Wallpaper) saved!";
     setIsConnected(true);
     setState(ScreenPlayEnums::AppState::Active);
+    syncAllProperties();
 
     QObject::connect(m_connection.get(), &SDKConnection::disconnected, this, [this]() {
         setIsConnected(false);
@@ -313,7 +320,7 @@ void ScreenPlayWallpaper::setSDKConnection(std::unique_ptr<SDKConnection> connec
         qInfo() << "Wallpaper:" << m_connection->appID() << "disconnected";
     });
 
-    QTimer::singleShot(1000, this, [this]() {
+    QTimer::singleShot(4000, this, [this]() {
         QObject::connect(&m_pingAliveTimer, &QTimer::timeout, this, [this]() {
             // qInfo() << "For " << m_pingAliveTimer.interval() << "ms no alive signal received. This means the Wallpaper is dead and likely crashed!";
             // setState(ScreenPlayEnums::AppState::Closing);
@@ -379,7 +386,6 @@ bool ScreenPlayWallpaper::replaceLive(
         qWarning() << "Cannot sendMessage:" << obj;
         return false;
     }
-    emit requestSave();
     return success;
 }
 }

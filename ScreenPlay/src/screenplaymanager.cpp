@@ -152,7 +152,8 @@ QCoro::QmlTask ScreenPlayManager::setWallpaperAtMonitorTimelineIndex(
                               // if the wallpaper
                               // m_screenPlayTimelineManager.updateMonitorListModelData(selectedTimelineIndex());
                               requestSaveProfiles();
-                              emit this->notifyUiWallpaperAdded();
+                              m_screenPlayTimelineManager.updateMonitorListModelData(timelineIndex);
+                              emit this->notifyUiReloadTimelinePreviewImage();
                               co_return Result { success };
                           });
         co_return result;
@@ -281,6 +282,8 @@ QCoro::QmlTask ScreenPlayManager::removeWallpaperAt(int timelineIndex, QString s
                                   result.setMessage(msg);
                                   co_return result;
                               }
+                              m_screenPlayTimelineManager.updateMonitorListModelData(timelineIndex);
+                              emit this->notifyUiReloadTimelinePreviewImage();
                               requestSaveProfiles();
                               co_return Result { success };
                           });
@@ -380,7 +383,7 @@ bool ScreenPlayManager::setAllWallpaperValue(const QString& key, const QVariant&
         return false;
     }
     for (auto& wallpaper : activeTimelineSection->wallpaperList) {
-        if (!wallpaper->setWallpaperValue(key, value, true))
+        if (!wallpaper->setWallpaperValue(key, value, "", true))
             return false;
     }
     return true;

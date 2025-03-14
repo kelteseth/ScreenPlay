@@ -54,7 +54,14 @@ WallpaperExit::Code BaseWindow::setup()
     }
 
     setupLiveReloading();
+    return WallpaperExit::Code::Ok;
+}
 
+/*!
+ \brief .
+ */
+void BaseWindow::connectToMainApp()
+{
     // Debug mode means we start the ScreenPlayWallpaper
     // directly without an running ScreenPlay
     if (!debugMode()) {
@@ -62,10 +69,9 @@ WallpaperExit::Code BaseWindow::setup()
         m_sdk->setMainAppPID(m_mainAppPID);
         connect(m_sdk.get(), &ScreenPlaySDK::incommingMessage, this, &BaseWindow::messageReceived);
         connect(m_sdk.get(), &ScreenPlaySDK::replaceWallpaper, this, &BaseWindow::replaceWallpaper);
+        connect(m_sdk.get(), &ScreenPlaySDK::sdkDisconnected, this, &BaseWindow::destroyThis);
         sdk()->start();
     }
-
-    return WallpaperExit::Code::Ok;
 }
 
 /*!
@@ -122,7 +128,8 @@ void BaseWindow::replaceWallpaper(
     const float volume,
     const QString fillMode,
     const QString type,
-    const bool checkWallpaperVisible)
+    const bool checkWallpaperVisible,
+    const QJsonObject wallpaperProperties)
 {
     const ScreenPlay::ContentTypes::InstalledType oldType = this->type();
     setCheckWallpaperVisible(checkWallpaperVisible);
@@ -147,6 +154,15 @@ void BaseWindow::replaceWallpaper(
 
     if (m_type == ScreenPlay::ContentTypes::InstalledType::GifWallpaper)
         emit reloadGIF(oldType);
+
+    if (!wallpaperProperties.isEmpty()) {
+        for (auto it = wallpaperProperties.constBegin(); it != wallpaperProperties.constEnd(); ++it) {
+            qDebug() << "New values: " << it.key() << it.value();
+            // Convert to QVariant first for proper type handling
+            QVariant value = it.value().toVariant();
+            emit qmlSceneValueReceived(it.key(), value.toString());
+        }
+    }
 }
 
 /*!

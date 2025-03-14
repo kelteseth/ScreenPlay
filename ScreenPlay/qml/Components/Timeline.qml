@@ -83,7 +83,7 @@ Control {
 
         Connections {
             target: App.screenPlayManager
-            function onNotifyUiWallpaperAdded() {
+            function onNotifyUiReloadTimelinePreviewImage() {
                 timeline.setActiveWallpaperPreviewImage();
             }
             function onActiveTimelineIndexChanged(activeTimelineIndex: int) {

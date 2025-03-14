@@ -157,6 +157,7 @@ int main(int argc, char* argv[])
     QString pid = parser.value(mainAppPidOption);
 
     ScreenPlay::Util util;
+    logging = std::make_unique<const ScreenPlayCore::LoggingHandler>("ScreenPlayWallpaper_" + parser.value(appIDOption));
 
     auto activeScreensList = util.parseStringToIntegerList(screens);
     if (!activeScreensList.has_value()) {
@@ -212,7 +213,15 @@ int main(int argc, char* argv[])
     }
     quickView->loadFromModule("ScreenPlayWallpaper", "ScreenPlayWallpaperMain");
     emit window->qmlStart();
-    logging = std::make_unique<const ScreenPlayCore::LoggingHandler>("ScreenPlayWallpaper_" + parser.value(appIDOption));
+
+    // Explicit order when to connect:
+    // Make sure to load the wallpaper first and only then
+    // connect to the main app. This is needed, because the
+    // main app sends all user defined property settings
+    // on successful connection. At this time, the qml engine
+    // must be ready to receive them in onQmlSceneValueReceived(key, value)
+    window->connectToMainApp();
+
     const int status = app.exec();
     logging.reset();
     return status;

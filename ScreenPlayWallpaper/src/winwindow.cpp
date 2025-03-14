@@ -26,9 +26,7 @@ WallpaperExit::Code WinWindow::start()
         },
         Qt::QueuedConnection);
     auto* guiAppInst = dynamic_cast<QGuiApplication*>(QGuiApplication::instance());
-    if (!debugMode()) {
-        connect(m_sdk.get(), &ScreenPlaySDK::sdkDisconnected, this, &WinWindow::destroyThis);
-    }
+
     connect(guiAppInst, &QGuiApplication::screenAdded, this, &WinWindow::configureWindowGeometry);
     connect(guiAppInst, &QGuiApplication::screenRemoved, this, &WinWindow::configureWindowGeometry);
     connect(guiAppInst, &QGuiApplication::primaryScreenChanged, this, &WinWindow::configureWindowGeometry);

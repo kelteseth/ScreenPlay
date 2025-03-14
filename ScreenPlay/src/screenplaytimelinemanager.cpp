@@ -508,59 +508,29 @@ void ScreenPlayTimelineManager::updateMonitorListModelData(const int selectedTim
     }
 
     const auto& timeline = m_wallpaperTimelineSectionsList[selectedTimelineIndex];
-    auto monitors = MonitorListModel::getSystemMonitors();
+    const auto monitors = MonitorListModel::getSystemMonitors();
 
     // Iterate through each monitor for wallpaper data in case the timeline is not
     // the active one
     for (const auto& monitor : monitors) {
+        using enum MonitorListModel::MonitorRole;
         QModelIndex modelIndex = m_monitorListModel->index(monitor.m_monitorIndex);
         auto wallpaperDataOpt = timeline->getWallpaperDataForMonitor(monitor.m_monitorIndex);
+        auto wallpaperOpt = timeline->screenPlayWallpaperByMonitorIndex(monitor.m_monitorIndex);
         if (wallpaperDataOpt.has_value()) {
             const auto wallpaperData = wallpaperDataOpt.value();
-            const auto previewImg = wallpaperData.absolutePath() + "/"
-                + wallpaperData.previewImage();
-            m_monitorListModel->setData(modelIndex,
-                previewImg,
-                (int)MonitorListModel::MonitorRole::PreviewImage);
-            m_monitorListModel->setData(modelIndex,
-                (int)wallpaperData.type(),
-                (int)MonitorListModel::MonitorRole::InstalledType);
+            const auto previewImg = wallpaperData.absolutePath() + "/" + wallpaperData.previewImage();
+            auto activeWallpaper = wallpaperOpt.value();
+
+            m_monitorListModel->setData(modelIndex, previewImg, (int)PreviewImage);
+            m_monitorListModel->setData(modelIndex, (int)wallpaperData.type(), (int)InstalledType);
+            m_monitorListModel->setData(modelIndex, activeWallpaper->appID(), (int)AppID);
+            m_monitorListModel->setData(modelIndex, (int)activeWallpaper->state(), (int)AppState);
         } else {
-            m_monitorListModel->setData(modelIndex,
-                "",
-                (int)MonitorListModel::MonitorRole::PreviewImage);
-            m_monitorListModel->setData(modelIndex,
-                0,
-                (int)MonitorListModel::MonitorRole::InstalledType);
-        }
-    }
-
-    auto activeTimelineSection = findTimelineSectionForCurrentTime();
-    const bool selectedTimelineIsActive = activeTimelineSection->index == selectedTimelineIndex;
-    if (!selectedTimelineIsActive)
-        return;
-
-    // Now iterate again for active connection states for the running
-    // wallpaper
-    for (const auto& monitor : monitors) {
-        QModelIndex modelIndex = m_monitorListModel->index(monitor.m_monitorIndex);
-        auto activeWallpaperOpt = timeline->screenPlayWallpaperByMonitorIndex(monitor.m_monitorIndex);
-
-        if (activeWallpaperOpt.has_value()) {
-            auto activeWallpaper = activeWallpaperOpt.value();
-            m_monitorListModel->setData(modelIndex,
-                activeWallpaper->appID(),
-                (int)MonitorListModel::MonitorRole::AppID);
-            m_monitorListModel->setData(modelIndex,
-                (int)activeWallpaper->state(),
-                (int)MonitorListModel::MonitorRole::AppState);
-        } else {
-            m_monitorListModel->setData(modelIndex,
-                "",
-                (int)MonitorListModel::MonitorRole::AppID);
-            m_monitorListModel->setData(modelIndex,
-                (int)ScreenPlayEnums::AppState::NotSet,
-                (int)MonitorListModel::MonitorRole::AppState);
+            m_monitorListModel->setData(modelIndex, "", (int)PreviewImage);
+            m_monitorListModel->setData(modelIndex, 0, (int)InstalledType);
+            m_monitorListModel->setData(modelIndex, "", (int)AppID);
+            m_monitorListModel->setData(modelIndex, (int)ScreenPlayEnums::AppState::NotSet, (int)AppState);
         }
     }
 }
@@ -928,7 +898,7 @@ QCoro::Task<bool> ScreenPlayTimelineManager::setValueAtMonitorTimelineIndex(
     // get propagated to the running wallpaper.
     for (auto& activeWallpaper : wallpaperSection->wallpaperList) {
         if (activeWallpaper->monitors().contains(monitorIndex)) {
-            const auto success = activeWallpaper->setWallpaperValue(key, value);
+            const auto success = activeWallpaper->setWallpaperValue(key, value, category);
             co_return success;
         }
     }

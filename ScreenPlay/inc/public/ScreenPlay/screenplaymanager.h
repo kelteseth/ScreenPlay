@@ -27,7 +27,7 @@ class ScreenPlayManager : public QObject {
     Q_PROPERTY(int activeWidgetsCounter READ activeWidgetsCounter WRITE setActiveWidgetsCounter NOTIFY activeWidgetsCounterChanged FINAL)
     Q_PROPERTY(int selectedTimelineIndex READ selectedTimelineIndex WRITE setSelectedTimelineIndex NOTIFY selectedTimelineIndexChanged FINAL)
     Q_PROPERTY(int activeTimelineIndex READ activeTimelineIndex WRITE setActiveTimelineIndex NOTIFY activeTimelineIndexChanged FINAL)
-    Q_PROPERTY(ProjectSettingsListModel* projectSettingsListModel READ projectSettingsListModel WRITE setProjectSettingsListModel NOTIFY projectSettingsListModelChanged FINAL)
+    Q_PROPERTY(ScreenPlay::ProjectSettingsListModel* projectSettingsListModel READ projectSettingsListModel WRITE setProjectSettingsListModel NOTIFY projectSettingsListModelChanged FINAL)
 
 public:
     explicit ScreenPlayManager(QObject* parent = nullptr);
@@ -117,13 +117,12 @@ signals:
     void selectedTimelineIndexChanged(int selectedTimelineIndex);
     void activeTimelineIndexChanged(int activeTimelineIndex);
     void monitorConfigurationChanged();
-    void projectSettingsListModelResult(ScreenPlay::ProjectSettingsListModel* li = nullptr);
     void requestRaise();
     void profilesSaved();
     void printQmlTimeline();
     void displayErrorPopup(const QString& msg);
-    void notifyUiWallpaperAdded();
-    void projectSettingsListModelChanged(ProjectSettingsListModel* projectSettingsListModel);
+    void notifyUiReloadTimelinePreviewImage();
+    void projectSettingsListModelChanged(ScreenPlay::ProjectSettingsListModel* projectSettingsListModel);
 
 private slots:
     bool saveProfiles();

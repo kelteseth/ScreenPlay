@@ -127,9 +127,6 @@ void WallpaperTimelineSection::addWallpaper(const WallpaperData wallpaperData)
         wallpaperData,
         settings);
 
-    QObject::connect(screenPlayWallpaper.get(), &ScreenPlayWallpaper::requestSave, this, [this]() {
-        emit requestSaveProfiles();
-    });
     QObject::connect(screenPlayWallpaper.get(), &ScreenPlayWallpaper::stateChanged, this, &WallpaperTimelineSection::requestUpdateMonitorListModel);
     QObject::connect(screenPlayWallpaper.get(), &ScreenPlayWallpaper::requestClose, this, [this]() {
         // , &ScreenPlayManager::removeWallpaper); TODO
