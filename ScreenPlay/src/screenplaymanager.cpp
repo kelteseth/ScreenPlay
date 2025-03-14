@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
 #include "ScreenPlay/screenplaymanager.h"
-#include "QCoro/qcorotask.h"
 #include "ScreenPlayCore/util.h"
 #include "core/qcorothread.h"
+#include "qcorotask.h"
 
 #include <QScopeGuard>
 namespace ScreenPlay {
