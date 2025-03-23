@@ -157,41 +157,36 @@ bool ScreenPlayWallpaper::start()
 /*!
     \brief Sends command quit to the wallpaper.
 */
-QCoro::Task<bool> ScreenPlayWallpaper::close()
+QCoro::Task<Result> ScreenPlayWallpaper::close()
 {
     setState(ScreenPlayEnums::AppState::Closing);
     qInfo() << "Close wallpaper with appID:" << m_appID;
-
     m_pingAliveTimer.stop(); // Stop the timer when closing
-
     // When the wallpaper never connected, this is invalid
     if (!m_connection) {
         qCritical() << "Cannot request quit, wallpaper never connected!";
         setState(ScreenPlayEnums::AppState::Inactive);
-        co_return false;
+        co_return Result { false, {}, "Cannot request quit, wallpaper never connected" };
     }
-
     if (!m_connection->close()) {
         qCritical() << "Cannot close wallpaper!";
         setState(ScreenPlayEnums::AppState::Inactive);
-        co_return false;
+        co_return Result { false, {}, "Failed to close connection to wallpaper" };
     }
-
     QTimer timer;
     timer.start(250);
     const int maxRetries = 30;
-
     for (int i = 1; i <= maxRetries; ++i) {
         // Wait for the timer to tick
         co_await timer;
         if (!isConnected()) {
             setState(ScreenPlayEnums::AppState::Inactive);
-            co_return true;
+            co_return Result { true };
         }
     }
-
-    co_return false;
+    co_return Result { false, {}, QString("Wallpaper with appID '%1' failed to disconnect after %2 attempts").arg(m_appID).arg(maxRetries) };
 }
+
 /*!
     \brief Prints the exit code if != 0.
 */
@@ -259,8 +254,8 @@ bool ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QVariant& 
         // Set the updated properties
         m_wallpaperData.setProperties(properties);
     }
-    qDebug() << "sending New values:" << QJsonDocument(obj).toJson(QJsonDocument::Compact);
     const bool success = m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
+    qDebug() << "sending New values:" << (success ? "✅" : "❌") << absolutePath() << QJsonDocument(obj).toJson(QJsonDocument::Compact);
     return success;
 }
 

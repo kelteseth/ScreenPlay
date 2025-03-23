@@ -281,8 +281,14 @@ Rectangle {
                     icon.height: root.iconHeight
                     onClicked: {
                         App.screenPlayManager.removeAllRunningWidgets(false);
-                        // Saves profiles.json
-                        App.screenPlayManager.removeAllRunningWallpapers(true);
+                        // true -> saves profiles.json
+                        App.screenPlayManager.removeAllRunningWallpapers(true).then(result => {
+                            if (!result.success) {
+                                InstantPopup.openErrorPopup(root, result.message);
+                                btnReset.resetting = false;
+                                return;
+                            }
+                        });
                         miStopAll.isPlaying = true;
                         miMuteAll.soundEnabled = true;
                     }

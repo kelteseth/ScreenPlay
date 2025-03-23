@@ -82,6 +82,26 @@ public:
     void setMessage(const QString& message) { m_message = message; }
     QVariant status() const { return m_status; }
     void setStatus(const QVariant& status) { m_status = status; }
+    Q_INVOKABLE QString toString()
+    {
+        QString result;
+
+        if (m_success) {
+            result += "✅ Success";
+        } else {
+            result += "❌ Failure";
+        }
+
+        if (!m_status.isNull() && m_status.isValid()) {
+            result += " | Status: " + m_status.toString();
+        }
+
+        if (!m_message.isEmpty()) {
+            result += " | Message: " + m_message;
+        }
+
+        return result;
+    }
 
 private:
     bool m_success = true;

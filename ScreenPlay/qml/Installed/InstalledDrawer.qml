@@ -8,7 +8,7 @@ import QtQuick.Controls.Material
 import QtQuick.Controls.Material.impl
 import ScreenPlay
 import ScreenPlayCore
-import "../../../ScreenPlayCore/qml/InstantPopup.js" as InstantPopup
+import "qrc:/qt/qml/ScreenPlayCore/qml/InstantPopup.js" as InstantPopup
 import "../ContentSettings"
 import "../Components"
 

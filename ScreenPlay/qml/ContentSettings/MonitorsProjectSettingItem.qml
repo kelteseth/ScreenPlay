@@ -5,6 +5,7 @@ import QtQuick.Layouts
 import QtQuick.Dialogs
 import Qt5Compat.GraphicalEffects
 import ScreenPlay
+import "qrc:/qt/qml/ScreenPlayCore/qml/InstantPopup.js" as InstantPopup
 
 Item {
     id: root
@@ -96,7 +97,13 @@ Item {
                     const sectionIdentifier = root.sectionIdentifier;
                     const key = root.name;
                     const value = obj.value;
-                    App.screenPlayManager.setValueAtMonitorTimelineIndex(monitorIndex, timelineIndex, sectionIdentifier, key, value, root.category);
+
+                    App.screenPlayManager.setValueAtMonitorTimelineIndex(monitorIndex, timelineIndex, sectionIdentifier, key, value, root.category).then(result => {
+                        settingValue = false;
+                        if (!result.success) {
+                            InstantPopup.openErrorPopup(root, result.message);
+                        }
+                    });
                 }
 
                 target: loader.item

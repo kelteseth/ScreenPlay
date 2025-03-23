@@ -101,7 +101,7 @@ signals:
     void stateChanged(ScreenPlay::ScreenPlayEnums::AppState state);
 
 public slots:
-    QCoro::Task<bool> close();
+    QCoro::Task<Result> close();
     void processExit(int exitCode, QProcess::ExitStatus exitStatus);
     bool setWallpaperValue(const QString& key, const QVariant& value, const QString& category, const bool save = false);
 

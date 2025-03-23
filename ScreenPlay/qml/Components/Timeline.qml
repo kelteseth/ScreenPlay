@@ -5,7 +5,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import ScreenPlay
 import ScreenPlayCore
-import "../../../ScreenPlayCore/qml/InstantPopup.js" as InstantPopup
+import "qrc:/qt/qml/ScreenPlayCore/qml/InstantPopup.js" as InstantPopup
 
 Control {
     id: root
@@ -572,7 +572,7 @@ Control {
                     App.screenPlayManager.removeAllTimlineSections().then(result => {
                         btnReset.resetting = false;
                         if (!result.success) {
-                            console.error("removeAllTimlineSections failed");
+                            InstantPopup.openErrorPopup(timeline, result.message);
                             return;
                         }
                         timeline.removeAll();

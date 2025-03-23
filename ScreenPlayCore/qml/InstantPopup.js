@@ -10,7 +10,6 @@ var errorPopup
   We cannot access window in here, so the developer must provide it...
 */
 function openErrorPopup(parent, errorMsg) {
-    console.error(errorMsg)
     // Check if parent is a valid QML Item
     if (!(parent instanceof QtQ.Item)) {
         console.error(

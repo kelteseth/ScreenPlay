@@ -865,11 +865,11 @@ QCoro::QmlTask Util::exportGodotProject(const QString& absolutePath, const QStri
         std::optional<QJsonObject> projectOpt = openJsonFileToObject(projectPath + "/project.json");
         QJsonObject projectJson;
         if (!projectOpt.has_value()) {
-            co_return Result { false };
+            co_return Result { false, {}, "Unable to open project.json" };
         }
         projectJson = projectOpt.value();
         if (!projectJson.contains("version"))
-            co_return Result { false };
+            co_return Result { false, {}, "Unable to read version in project.json" };
 
         const quint64 version = projectJson.value("version").toInt();
         const QString packageFileName = QString("project-v%1.zip").arg(version);

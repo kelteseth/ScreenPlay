@@ -4,6 +4,7 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 import ScreenPlay
 import ScreenPlayCore
+import "qrc:/qt/qml/ScreenPlayCore/qml/InstantPopup.js" as InstantPopup
 
 ColumnLayout {
     id: root
@@ -54,10 +55,8 @@ ColumnLayout {
             App.screenPlayManager.setValueAtMonitorTimelineIndex(root.monitorIndex, root.timelineIndex, root.sectionIdentifier, "volume", newVolume, category).then(result => {
                 settingValue = false;
                 if (!result.success) {
-                    console.error("setValueAtMonitorTimelineIndex failed");
-                    return;
+                    InstantPopup.openErrorPopup(root, result.message);
                 }
-                console.debug("OK setValueAtMonitorTimelineIndex ");
             });
         }
     }
@@ -116,7 +115,13 @@ ColumnLayout {
                 }
             }
             onActivated: {
-                App.screenPlayManager.setWallpaperFillModeAtMonitorIndex(root.monitorIndex, root.timelineIndex, root.sectionIdentifier, settingsComboBox.currentValue);
+                App.screenPlayManager.setWallpaperFillModeAtMonitorIndex(root.monitorIndex, root.timelineIndex, root.sectionIdentifier, settingsComboBox.currentValue).then(result => {
+                    settingValue = false;
+                    if (!result.success) {
+                        InstantPopup.openErrorPopup(root, result.message);
+                    }
+                });
+
             }
         }
 

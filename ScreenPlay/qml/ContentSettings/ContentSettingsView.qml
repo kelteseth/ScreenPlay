@@ -6,7 +6,7 @@ import QtQuick.Effects
 import QtQuick.Controls.Material.impl
 import ScreenPlay
 import ScreenPlayCore as Util
-import "../../../ScreenPlayCore/qml/InstantPopup.js" as InstantPopup
+import "qrc:/qt/qml/ScreenPlayCore/qml/InstantPopup.js" as InstantPopup
 import "../Components"
 
 Popup {
@@ -236,8 +236,11 @@ Popup {
                         font.family: App.settings.font
                         enabled: App.screenPlayManager.activeWallpaperCounter > 0
                         onClicked: {
-                            if (!App.screenPlayManager.removeAllRunningWallpapers(true))
-                                print("Unable to close all wallpaper!");
+                            App.screenPlayManager.removeAllRunningWallpapers(true).then(result => {
+                                if (!result.success) {
+                                    InstantPopup.openErrorPopup(timeline, result.message);
+                                }
+                            });
                         }
                     }
 

@@ -13,7 +13,7 @@ Popup {
     contentItem: Column {
         spacing: 10
         Label {
-            text: qsTr("⚠️ Fatal error encountered:\n")
+            text: qsTr("⚠️ Fatal error encountered:")
             font.pointSize: 16
             font.bold: true
         }
