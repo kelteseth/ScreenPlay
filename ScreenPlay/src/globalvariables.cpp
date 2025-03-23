@@ -2,6 +2,8 @@
 
 #include "ScreenPlay/globalvariables.h"
 #include "CMakeVariables.h"
+#include "ScreenPlay/steamdlcchecker.h"
+#include <QGuiApplication>
 #include <QMetaType>
 #include <QStandardPaths>
 
@@ -14,18 +16,58 @@ namespace ScreenPlay {
 */
 
 /*!
-    \brief Constructs the global variabls.
+    \brief Constructs the global variables.
 */
 GlobalVariables::GlobalVariables(QObject* parent)
     : QObject(parent)
 {
     setLocalSettingsPath(QUrl { QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) });
+    const bool startedViaSteam = QGuiApplication::instance()->arguments().contains("--steam");
 
+    // Check if we're running the Steam version
     if (SCREENPLAY_STEAM_VERSION) {
-        setVersion(ScreenPlayEnums::Version::OpenSourceSteam); // TODO OpenSourceProSteam OpenSourceSteam
+        // Always check dlc status is started with the --steam flag, to check
+        // for dlc status changes
+        if (startedViaSteam) {
+            SteamDLCChecker dlcChecker;
+            auto versionResult = dlcChecker.checkDLCStatus();
+            if (versionResult) {
+                // Successfully determined version based on DLC ownership
+                setVersion(versionResult.value());
+                m_licenseManager.setVersion(versionResult.value());
+                qInfo() << "Version set from Steam DLC status:" << QVariant::fromValue(m_version).toString();
+            } else {
+                // Failed to check DLC status, fall back to local license
+                qWarning() << "Steam DLC check failed with error:" << static_cast<int>(versionResult.error());
+
+                if (m_licenseManager.checkLocalLicense()) {
+                    // Use version from local license as fallback
+                    setVersion(m_licenseManager.getVersion());
+                    qInfo() << "Fallback to local license, version:" << QVariant::fromValue(m_version).toString();
+                } else {
+                    // No valid local license, set default Steam version
+                    setVersion(ScreenPlayEnums::Version::OpenSourceSteam);
+                    qInfo() << "Using default OpenSourceSteam version";
+                }
+            }
+        } else {
+            // Not launched through Steam, ALWAYS check license on disk first
+            if (m_licenseManager.checkLocalLicense()) {
+                // License is valid, use the version from the license manager
+                setVersion(m_licenseManager.getVersion());
+                qInfo() << "Version set from local license:" << QVariant::fromValue(m_version).toString();
+            } else {
+                // No valid local license found, use default Steam version
+                setVersion(ScreenPlayEnums::Version::OpenSourceSteam);
+                qInfo() << "No valid license found, using default OpenSourceSteam version";
+            }
+        }
     } else {
         setVersion(ScreenPlayEnums::Version::OpenSourceStandalone);
     }
+
+    // Log the determined version
+    qInfo() << "ScreenPlay version set to:" << QVariant::fromValue(m_version).toString();
 }
 
 bool GlobalVariables::isBasicVersion() const

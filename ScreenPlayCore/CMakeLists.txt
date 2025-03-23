@@ -54,12 +54,15 @@ set(SOURCES
     src/logginghandler.cpp
     src/processmanager.cpp
     src/projectfile.cpp
+    src/licensemanager.cpp
     src/steamenumsgenerated.cpp
     src/util.cpp)
 
 set(HEADER
+
     # cmake-format: sort
     inc/public/ScreenPlayCore/archive.h
+    inc/public/ScreenPlayCore/licensemanager.h
     inc/public/ScreenPlayCore/contenttypes.h
     inc/public/ScreenPlayCore/exitcodes.h
     inc/public/ScreenPlayCore/globalenums.h

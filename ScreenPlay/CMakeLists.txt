@@ -9,7 +9,9 @@ set(CMAKE_AUTOMOC ON)
 include(GenerateCMakeVariableHeader)
 
 set(SOURCES
+
     # cmake-format: sort
+    src/steamdlcchecker.cpp
     src/app.cpp
     src/create.cpp
     src/createimportvideo.cpp
@@ -31,7 +33,9 @@ set(SOURCES
     src/wizards.cpp)
 
 set(HEADER
+
     # cmake-format: sort
+    inc/public/ScreenPlay/steamdlcchecker.h
     inc/public/ScreenPlay/app.h
     inc/public/ScreenPlay/create.h
     inc/public/ScreenPlay/createimportstates.h
@@ -55,6 +59,7 @@ set(HEADER
     inc/public/ScreenPlay/wizards.h)
 
 set(QML
+
     # cmake-format: sort
     qml/Community/CommunityNavItem.qml
     qml/Community/CommunityView.qml
@@ -109,6 +114,7 @@ set(QML
     qml/Workshop/WorkshopView.qml)
 
 set(TS_FILES
+
     # cmake-format: sort
     translations/ScreenPlay_.ts
     translations/ScreenPlay_de_DE.ts
@@ -125,6 +131,7 @@ set(TS_FILES
     translations/ScreenPlay_zh_CN.ts)
 
 set(RESOURCES
+
     # cmake-format: sort
     "legal/Font Awesome Free License.txt"
     "legal/Qt LGPLv3.txt"

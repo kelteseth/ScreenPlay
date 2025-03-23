@@ -1,11 +1,13 @@
 #include "licensemanager.h"
-#include "ScreenPlaySysInfo/cpu.h"
+
+#include <QCryptographicHash>
 #include <QDebug>
 #include <QDir>
 #include <QFile>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QStandardPaths>
+#include <QSysInfo>
 #include <QTextStream>
 #include <QVariant>
 
@@ -18,24 +20,64 @@ LicenseManager::LicenseManager(QObject* parent)
 
 bool LicenseManager::checkLocalLicense()
 {
-    CPU cpu;
-    cpu.refreshCPUInfo();
+    QByteArray machineId = QSysInfo::machineUniqueId();
     QString userName = qgetenv("USERNAME");
-    QString licenseKey = generateLicenseKey(cpu.name(), userName);
-    return verifyLicenseFile(licenseKey);
+
+    // Check if we got a valid machine ID
+    if (machineId.isEmpty()) {
+        qFatal("Unable to load QSysInfo::machineUniqueId");
+    }
+
+    // Convert the byte array to a string for license key generation
+    QString machineIdStr = machineId.toHex();
+
+    // Generate keys for all possible versions to check which one matches
+    QMap<ScreenPlayEnums::Version, QString> possibleKeys;
+    ScreenPlayEnums::Version originalVersion = m_version;
+
+    // Store the current version
+    possibleKeys[m_version] = generateLicenseKey(machineIdStr, userName);
+
+    // Try all possible versions
+    m_version = ScreenPlayEnums::Version::OpenSourceStandalone;
+    possibleKeys[m_version] = generateLicenseKey(machineIdStr, userName);
+
+    m_version = ScreenPlayEnums::Version::OpenSourceSteam;
+    possibleKeys[m_version] = generateLicenseKey(machineIdStr, userName);
+
+    m_version = ScreenPlayEnums::Version::OpenSourceProStandalone;
+    possibleKeys[m_version] = generateLicenseKey(machineIdStr, userName);
+
+    m_version = ScreenPlayEnums::Version::OpenSourceProSteam;
+    possibleKeys[m_version] = generateLicenseKey(machineIdStr, userName);
+
+    m_version = ScreenPlayEnums::Version::OpenSourceUltraStandalone;
+    possibleKeys[m_version] = generateLicenseKey(machineIdStr, userName);
+
+    m_version = ScreenPlayEnums::Version::OpenSourceUltraSteam;
+    possibleKeys[m_version] = generateLicenseKey(machineIdStr, userName);
+
+    // Restore original version
+    m_version = originalVersion;
+
+    // Analyze the license file and determine which version it's for
+    return analyzeLicenseFile(possibleKeys);
 }
 
-QString LicenseManager::generateLicenseKey(const QString& cpuName, const QString& userName)
+QString LicenseManager::generateLicenseKey(const QString& machineId, const QString& userName)
 {
-    QString combined = cpuName + "|" + userName + "|" + QVariant::fromValue(ScreenPlayEnums::Version::OpenSourceProSteam).toString();
-    QByteArray hash = QCryptographicHash::hash(combined.toUtf8(), QCryptographicHash::Sha256);
-    return hash.toHex();
+    QString combined = machineId + "|" + userName + "|" + QVariant::fromValue(m_version).toString();
+    QByteArray key = QCryptographicHash::hash(combined.toUtf8(), QCryptographicHash::Sha256);
+    return key.toHex();
 }
+
+// Rest of the class implementation remains the same...
 
 QString LicenseManager::getLicenseFilePath() const
 {
     QString path = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
     QDir().mkpath(path);
+
     return path + "/license.json";
 }
 
@@ -45,7 +87,6 @@ bool LicenseManager::saveLicenseFile(const QString& licenseKey)
     licenseData["configVersion"] = "1.0.0";
     licenseData["licenseKey"] = licenseKey;
     licenseData["licenseVersion"] = QVariant::fromValue(m_version).toString();
-    licenseData["licenseHash"] = generateLicenseHash();
 
     QJsonDocument doc(licenseData);
     QFile file(getLicenseFilePath());
@@ -58,10 +99,11 @@ bool LicenseManager::saveLicenseFile(const QString& licenseKey)
     return file.write(doc.toJson()) != -1;
 }
 
-bool LicenseManager::verifyLicenseFile(const QString& expectedKey)
+bool LicenseManager::analyzeLicenseFile(const QMap<ScreenPlayEnums::Version, QString>& possibleKeys)
 {
     QFile file(getLicenseFilePath());
     if (!file.open(QIODevice::ReadOnly)) {
+        qWarning() << "License file not found";
         return false;
     }
 
@@ -72,35 +114,86 @@ bool LicenseManager::verifyLicenseFile(const QString& expectedKey)
     }
 
     QJsonObject licenseData = doc.object();
-    QString storedConfigVersion = licenseData["version"].toString();
+    // We bump the version when we (ever) add a new dlc, to force
+    // a recheck
+    QString storedConfigVersion = licenseData["configVersion"].toString();
     QString storedKey = licenseData["licenseKey"].toString();
     QString storedVersion = licenseData["licenseVersion"].toString();
-    QString storedHash = licenseData["licenseHash"].toString();
 
-    // Verify license key
-    if (storedKey != expectedKey) {
+    // Output the stored license key
+    qDebug() << "Stored license key:" << storedKey;
+    qDebug() << "Stated license version in file:" << storedVersion;
+
+    // Check which version this key is valid for
+    ScreenPlayEnums::Version detectedVersion = ScreenPlayEnums::Version::OpenSourceStandalone;
+    bool foundValidVersion = false;
+
+    // Iterate through all possible versions to see which one the key is valid for
+    QMap<ScreenPlayEnums::Version, QString>::const_iterator i;
+    for (i = possibleKeys.constBegin(); i != possibleKeys.constEnd(); ++i) {
+        if (i.value() == storedKey) {
+            detectedVersion = i.key();
+            foundValidVersion = true;
+            qDebug() << "Key matches version:" << QVariant::fromValue(detectedVersion).toString();
+            break;
+        }
+    }
+
+    if (!foundValidVersion) {
+        qWarning() << "License key does not match any valid version for this user/machine";
         return false;
     }
 
-    // Verify version
+    // Check if the stored version matches the detected version
     QVariant storedVersionVar = QVariant(storedVersion);
-    ScreenPlay::ScreenPlayEnums::Version version;
+    ScreenPlayEnums::Version parsedStoredVersion;
     bool ok = storedVersionVar.convert(QMetaType::fromType<ScreenPlay::ScreenPlayEnums::Version>());
-    if (!ok || storedVersionVar.value<ScreenPlay::ScreenPlayEnums::Version>() != m_version) {
-        return false;
+
+    if (ok && storedVersionVar.value<ScreenPlayEnums::Version>() != detectedVersion) {
+        qWarning() << "Stored version does not match the version for which this key is valid";
+        qDebug() << "Stored version: " << storedVersion;
+        qDebug() << "Actual key version: " << QVariant::fromValue(detectedVersion).toString();
     }
 
-    // Verify hash
-    return storedHash == generateLicenseHash();
+    // Set the actual detected version
+    m_version = detectedVersion;
+
+    return true;
 }
 
 QString LicenseManager::generateLicenseHash() const
 {
-    CPU cpu;
-    cpu.refreshCPUInfo();
+    // Implementation for license hash generation
+    QString combined = QVariant::fromValue(m_version).toString();
+    QByteArray hash = QCryptographicHash::hash(combined.toUtf8(), QCryptographicHash::Sha256);
+    return hash.toHex();
+}
+
+void LicenseManager::setVersion(ScreenPlayEnums::Version version)
+{
+    if (m_version == version) {
+        return; // No change, do nothing
+    }
+
+    m_version = version;
+
+    // Generate a new license key and save it
+    QByteArray machineId = QSysInfo::machineUniqueId();
     QString userName = qgetenv("USERNAME");
-    QString combined = cpu.name() + "|" + userName + "|" + QVariant::fromValue(m_version).toString();
-    return QCryptographicHash::hash(combined.toUtf8(), QCryptographicHash::Sha256).toHex();
+
+    if (machineId.isEmpty()) {
+        qWarning() << "Failed to get machine ID when updating license";
+        return;
+    }
+
+    QString machineIdStr = machineId.toHex();
+    QString licenseKey = generateLicenseKey(machineIdStr, userName);
+
+    if (saveLicenseFile(licenseKey)) {
+        qInfo() << "License updated for version:" << QVariant::fromValue(m_version).toString();
+    } else {
+        qWarning() << "Failed to save license file for version:" << QVariant::fromValue(m_version).toString();
+    }
 }
 
 }

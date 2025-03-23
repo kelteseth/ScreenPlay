@@ -1,8 +1,6 @@
 #pragma once
 #include "ScreenPlayCore/globalenums.h"
-#include <QCryptographicHash>
 #include <QObject>
-#include <QQmlEngine>
 #include <QString>
 
 namespace ScreenPlay {
@@ -16,15 +14,11 @@ public:
 
     ScreenPlayEnums::Version getVersion() const { return m_version; }
     void setVersion(ScreenPlayEnums::Version version);
-    enum class Status {
-        None,
-    };
-    Q_ENUM(Status)
 
 private:
     QString generateLicenseKey(const QString& cpuName, const QString& userName);
     bool saveLicenseFile(const QString& licenseKey);
-    bool verifyLicenseFile(const QString& licenseKey);
+    bool analyzeLicenseFile(const QMap<ScreenPlayEnums::Version, QString>& possibleKeys);
     QString getLicenseFilePath() const;
     QString generateLicenseHash() const;
 

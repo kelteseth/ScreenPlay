@@ -74,5 +74,6 @@ private:
     QUrl m_godotWallpaperExecutablePath;
     QUrl m_godotEditorExecutablePath;
     ScreenPlayEnums::Version m_version = ScreenPlayEnums::Version::OpenSourceStandalone;
+    LicenseManager m_licenseManager;
 };
 }
