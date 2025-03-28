@@ -97,7 +97,7 @@ SystemTrayIcon {
             text: qsTr("Frequently Asked Questions (FAQ)")
             icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_help_center.svg"
             onTriggered: {
-                Qt.openUrlExternally("https://kelteseth.gitlab.io/ScreenPlayDocs/Frequently%20Asked%20Questions/");
+                Qt.openUrlExternally("https://kelteseth.gitlab.io/ScreenPlayDocs/frequently-asked-questions/");
             }
         }
         MenuItem {
