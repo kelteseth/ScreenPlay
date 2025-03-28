@@ -16,7 +16,7 @@ Item {
     required property string fillMode
     property bool loops: false
     property int crossFadeDuration: 500
-    property bool isPlaying: false
+    property bool isPlaying
     property real normalizedPosition: 0
 
     property int _activePlayer: CrossFadeVideoPlayer.Player.One
@@ -35,7 +35,6 @@ Item {
             mediaPlayer1.source = root.source;
             mediaPlayer1.play();
             root._initialized = true;
-            root.isPlaying = true;
             return;
         }
 
@@ -78,11 +77,15 @@ Item {
     }
 
     onIsPlayingChanged: {
-        if (isPlaying) {
-            root._activePlayer === CrossFadeVideoPlayer.Player.One ? mediaPlayer1.play() : mediaPlayer2.play();
-        } else {
-            mediaPlayer1.pause();
-            mediaPlayer2.pause();
+        // Only respond to the isPlaying property for controlling playback
+        // after initialization
+        if (_initialized) {
+            if (isPlaying) {
+                root._activePlayer === CrossFadeVideoPlayer.Player.One ? mediaPlayer1.play() : mediaPlayer2.play();
+            } else {
+                mediaPlayer1.pause();
+                mediaPlayer2.pause();
+            }
         }
     }
 
