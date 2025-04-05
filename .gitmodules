@@ -1,4 +1,0 @@
-[submodule "ScreenPlayWallpaper/Godot/GDExtention/extern/godot-cpp"]
-	path = ScreenPlayWallpaper/Godot/GDExtention/extern/godot-cpp
-	url = https://github.com/kelteseth/godot-cpp-screenplay
-	branch = master

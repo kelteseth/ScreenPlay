@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.22)
 # Main project information
 project(ScreenPlayGodotWallpaper LANGUAGES CXX)
 find_package(Catch2 CONFIG REQUIRED)
+find_package(unofficial-godot-cpp CONFIG REQUIRED)
 
 set(SOURCES
     src/ScreenPlayGodotWallpaper.h
@@ -12,7 +13,7 @@ set(SOURCES
     src/RegisterExtension.cpp)
 
 # Create our library
-add_library(${PROJECT_NAME} STATIC ${SOURCES})
+add_library(${PROJECT_NAME} SHARED ${SOURCES})
 
 if(WIN32)
     # Ensure both Debug and Release configurations use dynamic runtime
@@ -20,16 +21,20 @@ if(WIN32)
 
     # Set iterator debug level consistently
     target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<CONFIG:Debug>:_ITERATOR_DEBUG_LEVEL=2>
-                                                       $<$<CONFIG:Release>:_ITERATOR_DEBUG_LEVEL=0>)
+        $<$<CONFIG:Release>:_ITERATOR_DEBUG_LEVEL=0>)
 endif()
 
-target_link_libraries(${PROJECT_NAME} PUBLIC godot::cpp ScreenPlayWallpaperLib)
+target_link_libraries(${PROJECT_NAME} PUBLIC unofficial::godot::cpp ScreenPlayWallpaperWindowsIntegration )
+if(WIN32)
+    target_link_libraries(${PROJECT_NAME} PUBLIC ScreenPlayCoreWindowsExtrasLib)
+endif()
 target_include_directories(${PROJECT_NAME} PRIVATE "src")
 
-# # Runs after compilation Enable executing python scripts find_package(Python COMPONENTS Interpreter)
+set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX "d")
 
-# add_custom_command( TARGET ${PROJECT_NAME} POST_BUILD WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/Tools" COMMAND "${Python_EXECUTABLE}"
-# "build_godot.py" "--build_path" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" COMMENT "Running post-build step")
-
-add_subdirectory(src)
-add_subdirectory(extern/godot-cpp)
+# To make it also work inside ScreenPlay dir
+add_custom_command(TARGET ScreenPlayGodotWallpaper POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+        "$<TARGET_FILE:ScreenPlayGodotWallpaper>"
+        "${CMAKE_BINARY_DIR}/ScreenPlay/"
+)

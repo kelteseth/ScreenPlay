@@ -281,15 +281,15 @@ endif()
 find_package(
     Qt6
     COMPONENTS Core
-               Quick
-               QuickControls2
-               Gui
-               Widgets
-               WebSockets
-               Svg
-               Xml
-               LinguistTools
-               Test)
+    Quick
+    QuickControls2
+    Gui
+    Widgets
+    WebSockets
+    Svg
+    Xml
+    LinguistTools
+    Test)
 
 qt_standard_project_setup(REQUIRES 6.8)
 
@@ -322,20 +322,20 @@ qt_add_qml_module(
 target_link_libraries(
     ScreenPlayLib
     PUBLIC ScreenPlaySDKLib
-           LibArchive::LibArchive
-           ScreenPlayCoreLib
-           ScreenPlayCoreLibplugin
-           QArchive
-           Threads::Threads
-           QCoro6::Qml
-           Qt6::Quick
-           Qt6::Gui
-           Qt6::Widgets
-           Qt6::Core
-           Qt6::WebSockets
-           Qt6::Svg
-           Qt6::QuickControls2
-           Qt6::Xml)
+    LibArchive::LibArchive
+    ScreenPlayCoreLib
+    ScreenPlayCoreLibplugin
+    QArchive
+    Threads::Threads
+    QCoro6::Qml
+    Qt6::Quick
+    Qt6::Gui
+    Qt6::Widgets
+    Qt6::Core
+    Qt6::WebSockets
+    Qt6::Svg
+    Qt6::QuickControls2
+    Qt6::Xml)
 
 if(${SCREENPLAY_STEAM})
     target_link_libraries(ScreenPlayLib PUBLIC ScreenPlayWorkshopLibplugin ScreenPlayWorkshopLib)
@@ -413,28 +413,28 @@ if(APPLE)
     set_target_properties(
         ScreenPlayApp
         PROPERTIES OUTPUT_NAME "ScreenPlay" # This controls the .app name
-                   MACOSX_BUNDLE TRUE
-                   MACOSX_BUNDLE_BUNDLE_NAME "ScreenPlay" # This controls the bundle name
-                   RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
-                   MACOSX_RPATH TRUE
-                   MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist
-                   MACOSX_FRAMEWORK_IDENTIFIER app.screenplay
-                   XCODE_ATTRIBUTE_LD_RUNPATH_SEARCH_PATHS "@loader_path/Libraries"
-                   RESOURCE "${RESOURCE_FILES};${APP_ICON_MACOSX}"
-                   XCODE_ATTRIBUTE_ENABLE_HARDENED_RUNTIME TRUE
-                   XCODE_ATTRIBUTE_EXECUTABLE_NAME "ScreenPlay") # This controls the executable name inside the bundle
+        MACOSX_BUNDLE TRUE
+        MACOSX_BUNDLE_BUNDLE_NAME "ScreenPlay" # This controls the bundle name
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
+        MACOSX_RPATH TRUE
+        MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist
+        MACOSX_FRAMEWORK_IDENTIFIER app.screenplay
+        XCODE_ATTRIBUTE_LD_RUNPATH_SEARCH_PATHS "@loader_path/Libraries"
+        RESOURCE "${RESOURCE_FILES};${APP_ICON_MACOSX}"
+        XCODE_ATTRIBUTE_ENABLE_HARDENED_RUNTIME TRUE
+        XCODE_ATTRIBUTE_EXECUTABLE_NAME "ScreenPlay") # This controls the executable name inside the bundle
 
     add_custom_command(
         TARGET ScreenPlayApp
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/ffmpeg"
-                "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/")
+        "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/")
 
     add_custom_command(
         TARGET ScreenPlayApp
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/ffprobe"
-                "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/")
+        "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/")
 
     # fonts
     include(CopyRecursive)
@@ -466,15 +466,24 @@ if(APPLE)
     add_dependencies(ScreenPlayApp screenplay_translations)
 endif()
 
+if(WIN32 AND ${SCREENPLAY_GODOT})
+    # Todo: Add Linux and Mac support
+    set(GODOT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/Godot")
+
+    configure_file(${GODOT_PATH}/${GODOT_EDITOR_NAME} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ COPYONLY)
+endif()
+
 if(${SCREENPLAY_STEAM})
     if(APPLE)
         # Add post-build commands for Steam integration
         add_custom_command(
             TARGET ScreenPlayApp
             POST_BUILD
+
             # Copy Steam API library
             COMMAND ${CMAKE_COMMAND} -E copy_if_different "${STEAM_BINARY_PATH}"
-                    "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/${STEAM_BINARY}"
+            "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/${STEAM_BINARY}"
+
             # Create Steam App ID file
             COMMAND ${CMAKE_COMMAND} -E echo "672870" > "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/steam_appid.txt"
             COMMENT "Copying Steam files from ${STEAM_BINARY_PATH} to bundle...")

@@ -38,7 +38,6 @@ func _ready():
 		return
 		
 	var path
-	var args = OS.get_cmdline_args()
 	if not parse_args():
 		get_tree().quit()
 		return
@@ -56,10 +55,12 @@ func _ready():
 	var ok = screen_play_wallpaper.init(screen_play_wallpaper.get_activeScreensList()[0])
 	if not ok:
 		printerr("Unable to setup screen")
+		get_tree().quit()
+		return
 	if not screen_play_wallpaper.get_pipeConnected():
-		var ok_connect_to_named_pipe = screen_play_wallpaper.connect_to_named_pipe()
+		var _ok_connect_to_named_pipe = screen_play_wallpaper.connect_to_named_pipe()
 		
-func _process(delta):
+func _process(_delta):
 	
 	if not send_welcome:
 		if not screen_play_wallpaper.get_screenPlayConnected():
@@ -163,4 +164,3 @@ func parse_args():
 		  " ", screen_play_wallpaper.get_checkWallpaperVisible())
 
 	return true
-

@@ -25,12 +25,13 @@ QT_VERSION = "6.8.2"
 QT_BIN_PATH = QT_PATH.joinpath(f"{QT_VERSION}/{QT_PLATFORM}/bin")
 QT_TOOLS_PATH = QT_PATH.joinpath("Tools/")
 QT_IFW_VERSION = "4.8.1"
-# 13.12.2024 https://github.com/microsoft/vcpkg :
-VCPKG_VERSION = "3b57fb2"
+# 20.03.2024 https://github.com/microsoft/vcpkg :
+VCPKG_VERSION = "a7d06b3"
 VCPKG_BASE_PACKAGES =  [
         "curl",
         "openssl",
         "libarchive",
+        "godot-cpp",
         "fmt",
         "catch2"
     ]
@@ -38,7 +39,7 @@ PYTHON_EXECUTABLE = "python" if sys.platform == "win32" else "python3"
 FFMPEG_VERSION_MAC = "7.1"
 FFMPEG_VERSION_WIN = "7.1"
 # None stable version omit patch: 4.3-rc2 or stable
-GODOT_VERSION = "4.3"
+GODOT_VERSION = "4.4.1"
 GODOT_RELEASE_TYPE = "stable"
 GODOT_DOWNLOAD_SERVER = "https://github.com/godotengine/godot-builds/releases/download"
 if sys.platform == "win32":

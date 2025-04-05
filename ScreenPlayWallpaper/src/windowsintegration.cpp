@@ -230,13 +230,13 @@ WindowsIntegration::MonitorResult WindowsIntegration::setupWallpaperForOneScreen
     std::function<void(int, int)> updateWindowSize)
 {
 
-    SetWindowText(m_windowHandle, L"ScreenPlayWallpaper");
+    // SetWindowText(m_windowHandle, L"ScreenPlayWallpaper");
     if (!IsWindow(m_windowHandle)) {
         std::cout << "Could not get a valid window handle!";
         return { std::nullopt, MonitorResultStatus::WindowHandleInvalidError };
     }
     if (!IsWindow(m_windowHandleWorker)) {
-        std::cout << "Could not get a valid window handle worker!";
+        std::cout << "WindowsIntegration : Could not get a valid window handle worker!";
         return { std::nullopt, MonitorResultStatus::WorkerWindowHandleInvalidError };
     }
 

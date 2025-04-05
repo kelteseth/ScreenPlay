@@ -51,12 +51,20 @@ set(QML
 
 set(RESOURCES qtquickcontrols2.conf index.html)
 
-set(LIB_SOURCES)
-set(LIB_HEADER)
-
+# Create a separate Windows Integration library
 if(WIN32)
-    set(LIB_SOURCES src/windowsintegration.cpp)
-    set(LIB_HEADER src/windowsintegration.h)
+    qt_add_library(ScreenPlayWallpaperWindowsIntegration STATIC)
+    target_sources(ScreenPlayWallpaperWindowsIntegration
+        PRIVATE
+            src/windowsintegration.cpp
+        PUBLIC
+            src/windowsintegration.h
+    )
+    target_compile_features(ScreenPlayWallpaperWindowsIntegration PRIVATE cxx_std_23)
+    target_include_directories(ScreenPlayWallpaperWindowsIntegration PUBLIC src)
+
+    # Used for query windows monitor data
+    target_link_libraries(ScreenPlayWallpaperWindowsIntegration PUBLIC ScreenPlayCoreWindowsExtrasLib shcore.lib)
 endif()
 
 qt_add_library(ScreenPlayWallpaperLib STATIC)
@@ -64,11 +72,6 @@ target_compile_features(ScreenPlayWallpaperLib PRIVATE cxx_std_23)
 
 # qml_typeregistration
 target_include_directories(ScreenPlayWallpaperLib PUBLIC src)
-
-if(WIN32)
-    # Used for query windows monitor data
-    target_link_libraries(ScreenPlayWallpaperLib PUBLIC shcore.lib)
-endif()
 
 qt_add_qml_module(
     ScreenPlayWallpaperLib
@@ -79,8 +82,6 @@ qt_add_qml_module(
     QML_FILES
     ${QML}
     SOURCES
-    ${LIB_SOURCES}
-    ${LIB_HEADER}
     ${SOURCES}
     ${HEADER}
     RESOURCES
@@ -102,7 +103,11 @@ target_link_libraries(
            Qt6::WebEngineQuick)
 
 if(WIN32)
-    target_link_libraries(ScreenPlayWallpaperLib PUBLIC ScreenPlaySysInfoLibplugin ScreenPlayCoreWindowsExtrasLib)
+    target_link_libraries(ScreenPlayWallpaperLib
+        PUBLIC
+            ScreenPlayWallpaperWindowsIntegration
+            ScreenPlaySysInfoLibplugin
+            ScreenPlayCoreWindowsExtrasLib)
 elseif(UNIX AND NOT APPLE)
     target_link_libraries(ScreenPlayWallpaperLib PRIVATE X11)
 endif()

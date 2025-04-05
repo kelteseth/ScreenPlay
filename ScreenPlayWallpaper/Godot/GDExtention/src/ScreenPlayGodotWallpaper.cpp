@@ -73,8 +73,8 @@ bool ScreenPlayGodotWallpaper::configureWindowGeometry()
         UtilityFunctions::print("No worker window found");
         return false;
     }
-    if (!IsWindow(m_windowsIntegration.windowHandleWorker())) {
-        UtilityFunctions::print("Could not get a valid window handle worker!");
+    if (!IsWindow(m_windowsIntegration.windowHandle())) {
+        UtilityFunctions::print("GD: Could not get a valid window handle worker!");
         return false;
     }
     // WARNING: Setting Window flags must be called *here*!
@@ -96,7 +96,7 @@ bool ScreenPlayGodotWallpaper::init(int activeScreen)
         UtilityFunctions::print("ScreenPlayGodotWallpaper::init Could not get a valid window handle !", activeScreen, handle_int);
         UtilityFunctions::print("init hwnd: ", (int64_t)hwnd, activeScreen, handle_int);
 
-        std::vector<Monitor> monitors = m_windowsIntegration.getAllMonitors();
+        std::vector<ScreenPlay::WindowsMonitor> monitors = ScreenPlay::WindowsUtils().getAllMonitors();
         for (const auto& monitor : monitors) {
             UtilityFunctions::print(monitor.toString().c_str());
         }
@@ -111,14 +111,14 @@ bool ScreenPlayGodotWallpaper::init(int activeScreen)
         displayServer->window_set_size(godot::Vector2((real_t)width, (real_t)height));
     };
 
-    WindowsIntegration::MonitorResult monitor = m_windowsIntegration.setupWallpaperForOneScreen(activeScreen, updateWindowSize);
-    if (monitor.status != WindowsIntegration::MonitorResultStatus::Ok) {
+    ScreenPlay::WindowsIntegration::MonitorResult monitor = m_windowsIntegration.setupWallpaperForOneScreen(activeScreen, updateWindowSize);
+    if (monitor.status != ScreenPlay::WindowsIntegration::MonitorResultStatus::Ok) {
         UtilityFunctions::print("setupWallpaperForOneScreen failed status: ", (int)monitor.status);
         return false;
     }
     displayServer->window_set_size(godot::Vector2((real_t)monitor.monitor->size.cx, (real_t)monitor.monitor->size.cy));
 
-    SetWindowText(m_windowsIntegration.windowHandle(), "ScreenPlayWallpaperGodot");
+    // SetWindowText(m_windowsIntegration.windowHandle(), "ScreenPlayWallpaperGodot");
     ShowWindow(m_windowsIntegration.windowHandle(), SW_SHOW);
 
     // m_windowsIntegration.setupWindowMouseHook();

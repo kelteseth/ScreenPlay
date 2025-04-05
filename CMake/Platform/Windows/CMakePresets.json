@@ -127,7 +127,7 @@
                 "SCREENPLAY_DEPLOY": "ON",
                 "SCREENPLAY_INSTALLER": "OFF",
                 "SCREENPLAY_TESTS": "OFF",
-                "SCREENPLAY_GODOT": "OFF"
+                "SCREENPLAY_GODOT": "ON"
             },
             "displayName": "Deploy Release (windows)",
             "description": "Deploy Release build with QML dependencies"

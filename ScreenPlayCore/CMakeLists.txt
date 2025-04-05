@@ -83,7 +83,7 @@ endif()
 if(WIN32)
     add_library(ScreenPlayCoreWindowsExtrasLib STATIC inc/public/ScreenPlayCore/windowsutils.h src/windowsutils.cpp)
     target_link_libraries(ScreenPlayCoreWindowsExtrasLib PUBLIC shcore.lib)
-    target_include_directories(ScreenPlayCoreWindowsExtrasLib PUBLIC inc/public/ScreenPlayCore)
+    target_include_directories(ScreenPlayCoreWindowsExtrasLib PUBLIC inc/public/)
 endif()
 
 set(RESOURCES # cmake-format: sort
