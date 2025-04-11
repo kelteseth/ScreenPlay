@@ -72,8 +72,6 @@ Rectangle {
                 return;
             if (Wallpaper.width === 0)
                 return;
-            if (Wallpaper.width > Wallpaper.windowsDesktopProperties.defaultWallpaperSize.width)
-                return;
 
             // Windows does some weird top margin if the Wallpaper
             // is bigger than the monitor. So instead of centering
