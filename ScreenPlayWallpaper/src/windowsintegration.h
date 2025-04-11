@@ -78,7 +78,7 @@ public:
     HWND windowHandle() const;
     HWND windowHandleWorker() const;
     void setWindowHandle(HWND windowHandle);
-
+    void exit();
     void setupWindowMouseHook();
     void setupWindowKeyboardHook();
     // Unhook methods

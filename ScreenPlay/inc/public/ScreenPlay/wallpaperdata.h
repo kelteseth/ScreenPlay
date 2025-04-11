@@ -54,6 +54,7 @@ public:
     void setTitle(const QString& title) { m_title = title; }
 
     Q_INVOKABLE QString toString() const;
+    Q_INVOKABLE bool hasContent();
 
     QJsonObject serialize() const;
     static std::optional<WallpaperData> loadTimelineWallpaperConfig(const QJsonObject& wallpaperObj);

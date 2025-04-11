@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "ScreenPlayGodotWallpaper.h"
 #include "godot_cpp/classes/display_server.hpp"
-#include "godot_cpp/classes/global_constants.hpp"
-#include "godot_cpp/classes/label.hpp"
-#include "godot_cpp/classes/os.hpp"
+#include "godot_cpp/classes/engine.hpp"
+#include "godot_cpp/classes/scene_tree.hpp"
 #include "godot_cpp/core/class_db.hpp"
 #include "godot_cpp/variant/utility_functions.hpp"
 
@@ -16,11 +15,15 @@ ScreenPlayGodotWallpaper::ScreenPlayGodotWallpaper()
 
 ScreenPlayGodotWallpaper::~ScreenPlayGodotWallpaper()
 {
+    UtilityFunctions::print("~ScreenPlayGodotWallpaper");
 }
 
 void ScreenPlayGodotWallpaper::_bind_methods()
 {
     UtilityFunctions::print("ScreenPlayGodotWallpaper _bind_methods");
+    ClassDB::bind_method(D_METHOD("_ready"), &ScreenPlayGodotWallpaper::_ready);
+    ClassDB::bind_method(D_METHOD("_on_pipe_read_timer_timeout"), &ScreenPlayGodotWallpaper::_on_pipe_read_timer_timeout);
+
     ClassDB::bind_method(godot::D_METHOD("init"), &ScreenPlayGodotWallpaper::init);
     ClassDB::bind_method(godot::D_METHOD("connect_to_named_pipe"), &ScreenPlayGodotWallpaper::connect_to_named_pipe);
     ClassDB::bind_method(godot::D_METHOD("send_welcome"), &ScreenPlayGodotWallpaper::send_welcome);
@@ -47,6 +50,41 @@ void ScreenPlayGodotWallpaper::_bind_methods()
 
     ClassDB::bind_method(godot::D_METHOD("get_checkWallpaperVisible"), &ScreenPlayGodotWallpaper::get_checkWallpaperVisible);
     ClassDB::bind_method(godot::D_METHOD("set_checkWallpaperVisible", "visible"), &ScreenPlayGodotWallpaper::set_checkWallpaperVisible);
+
+    ADD_SIGNAL(MethodInfo("scene_value_received",
+        PropertyInfo(Variant::STRING, "key"),
+        PropertyInfo(Variant::STRING, "value")));
+}
+
+void ScreenPlayGodotWallpaper::_ready()
+{
+    m_pipeReadTimer = memnew(godot::Timer);
+    add_child(m_pipeReadTimer);
+
+    m_pipeReadTimer->set_wait_time(0.1);
+    m_pipeReadTimer->set_one_shot(false);
+    m_pipeReadTimer->set_autostart(false);
+
+    m_pipeReadTimer->connect("timeout", godot::Callable(this, "_on_pipe_read_timer_timeout"));
+}
+
+void ScreenPlayGodotWallpaper::_on_pipe_read_timer_timeout()
+{
+    if (m_pipeConnected) {
+        godot::String message = read_from_pipe();
+        if (!message.is_empty()) {
+            // Process the received message
+            std::string stdMessage = message.utf8().get_data();
+
+            // Parse the message (assuming format "key=value")
+            size_t separatorPos = stdMessage.find('=');
+            if (separatorPos != std::string::npos) {
+                std::string key = stdMessage.substr(0, separatorPos);
+                std::string value = stdMessage.substr(separatorPos + 1);
+                messageReceived(key, value);
+            }
+        }
+    }
 }
 
 void ScreenPlayGodotWallpaper::hideFromTaskbar(HWND hwnd)
@@ -86,6 +124,7 @@ bool ScreenPlayGodotWallpaper::configureWindowGeometry()
 
 bool ScreenPlayGodotWallpaper::init(int activeScreen)
 {
+    UtilityFunctions::print("ScreenPlayGodotWallpaper::init ");
     auto* displayServer = DisplayServer::get_singleton();
 
     int64_t handle_int = displayServer->window_get_native_handle(godot::DisplayServer::HandleType::WINDOW_HANDLE);
@@ -121,38 +160,6 @@ bool ScreenPlayGodotWallpaper::init(int activeScreen)
     // SetWindowText(m_windowsIntegration.windowHandle(), "ScreenPlayWallpaperGodot");
     ShowWindow(m_windowsIntegration.windowHandle(), SW_SHOW);
 
-    // m_windowsIntegration.setupWindowMouseHook();
-    //  Set up the mouse event handler
-    // m_windowsIntegration.setMouseEventHandler([this](DWORD mouseButton, UINT type, POINT p) {
-    //     Ref<InputEventMouseButton> mouse_event;
-    //     Ref<InputEventMouseMotion> motion_event;
-    //     switch (type) {
-    //     case WM_LBUTTONDOWN:
-    //     case WM_LBUTTONUP:
-    //     case WM_RBUTTONDOWN:
-    //     case WM_RBUTTONUP:
-    //         mouse_event.instantiate();
-    //         mouse_event->set_position(Vector2(p.x, p.y));
-    //         mouse_event->set_global_position(Vector2(p.x, p.y)); // Assuming global == local for this context
-    //         mouse_event->set_button_index(
-    //             type == WM_LBUTTONDOWN || type == WM_LBUTTONUP ? MOUSE_BUTTON_LEFT : MOUSE_BUTTON_RIGHT);
-    //         mouse_event->set_pressed(type == WM_LBUTTONDOWN || type == WM_RBUTTONDOWN);
-    //         break;
-    //     case WM_MOUSEMOVE:
-    //         motion_event.instantiate();
-    //         motion_event->set_position(Vector2(p.x, p.y));
-    //         motion_event->set_global_position(Vector2(p.x, p.y));
-    //         break;
-    //         // Add more cases as needed
-    //     }
-
-    //     if (mouse_event.is_valid()) {
-    //         get_tree()->get_root()->get_viewport()->push_input(mouse_event);
-    //     }
-    //     if (motion_event.is_valid()) {
-    //         get_tree()->get_root()->get_viewport()->push_input(motion_event);
-    //     }
-    // }); 2
     return true;
 }
 
@@ -215,35 +222,36 @@ bool ScreenPlayGodotWallpaper::send_welcome()
 
 void ScreenPlayGodotWallpaper::messageReceived(const std::string& key, const std::string& value)
 {
-    try {
-        if (key == "volume") {
-            m_volume = std::stof(value);
-            return;
-        }
-        if (key == "appID") {
-            m_appID = godot::String(value.c_str());
-            return;
-        }
+    if (key.starts_with("command=")) {
+        std::string_view commandView { key };
+        constexpr std::string_view prefix { "command=" };
+        // Remove the prefix efficiently without copying
+        commandView.remove_prefix(prefix.size());
+        std::string command { commandView };
+        if (command == std::string_view { "quit" }) {
+            exit();
+            // Get the MainLoop and cast it to SceneTree
+            godot::MainLoop* main_loop = godot::Engine::get_singleton()->get_main_loop();
+            godot::SceneTree* scene_tree = godot::Object::cast_to<godot::SceneTree>(main_loop);
 
-        if (key == "projectPath") {
-            m_projectPath = godot::String(value.c_str());
-            return;
+            if (scene_tree) {
+                scene_tree->quit();
+            }
         }
-
-        // If none of the keys match
-        // Assuming sceneValueReceived is a signal you've defined
-        emit_signal("sceneValueReceived", key.c_str(), value.c_str());
-
-    } catch (const std::invalid_argument& ia) {
-        // Invalid argument passed to stof/stoi. Handle error as necessary.
-        std::cerr << "Invalid argument: " << ia.what() << std::endl;
-    } catch (const std::out_of_range& oor) {
-        // Converted number is out of range for float/int. Handle error as necessary.
-        std::cerr << "Out of range: " << oor.what() << std::endl;
     }
+
+    // If none of the keys match
+    // Assuming sceneValueReceived is a signal you've defined
+    emit_signal("scene_value_received", key.c_str(), value.c_str());
 }
 bool ScreenPlayGodotWallpaper::exit()
 {
+    UtilityFunctions::print("exit");
+    // Stop the timer
+    if (m_pipeReadTimer) {
+        m_pipeReadTimer->stop();
+    }
+
     // Somehow this gets called at editor startup
     // so just return if not initialized
 
@@ -251,8 +259,8 @@ bool ScreenPlayGodotWallpaper::exit()
 
     // Force refresh so that we display the regular
     // desktop wallpaper again
-    ShowWindow(m_windowsIntegration.windowHandleWorker(), SW_SHOW);
     ShowWindow(m_windowsIntegration.windowHandleWorker(), SW_HIDE);
+    ShowWindow(m_windowsIntegration.windowHandleWorker(), SW_SHOW);
     return true;
 }
 void ScreenPlayGodotWallpaper::set_checkWallpaperVisible(bool visible)
@@ -302,5 +310,7 @@ void ScreenPlayGodotWallpaper::set_activeScreensList(const godot::PackedInt64Arr
 }
 PackedInt64Array ScreenPlayGodotWallpaper::get_activeScreensList() const
 {
+
+    UtilityFunctions::print("get_activeScreensList", m_activeScreensList);
     return m_activeScreensList;
 }

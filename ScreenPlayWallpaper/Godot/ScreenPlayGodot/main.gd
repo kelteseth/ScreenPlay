@@ -22,16 +22,24 @@ func terminate():
 func check_messages():
 	var msg = screen_play_wallpaper.read_from_pipe()
 	if not msg.is_empty():
-		if "quit" in msg:
-			return terminate()
+		var json_parser = JSON.new()
+		var error = json_parser.parse(msg)
+		if error == OK:
+			var data = json_parser.get_data()
+			if typeof(data) == TYPE_DICTIONARY and data.has("command") and data["command"] == "quit":
+				return terminate()
 			
-
+func _on_scene_value_received(key: String, value: String):
+	print("todo", key, value)
+	
 func _ready():
 	ping_alive_timer.wait_time = 0.5
 	ping_alive_timer.timeout.connect(ping_alive)
 	
 	check_messages_timer.wait_time = 0.5
 	check_messages_timer.timeout.connect(check_messages)
+	
+	screen_play_wallpaper.scene_value_received.connect(_on_scene_value_received)
 	
 	if not screen_play_wallpaper:
 		printerr("ERROR INVALID SCREENPLAY OBJECT")

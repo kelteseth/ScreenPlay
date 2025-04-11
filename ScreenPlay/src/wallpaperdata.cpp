@@ -86,6 +86,11 @@ QString WallpaperData::toString() const
         .arg(title());
 }
 
+bool WallpaperData::hasContent()
+{
+    return !m_absolutePath.isEmpty();
+}
+
 std::optional<ScreenPlay::WallpaperData> ScreenPlay::WallpaperData::loadTimelineWallpaperConfig(const QJsonObject& wallpaperObj)
 {
     if (wallpaperObj.empty())

@@ -79,7 +79,7 @@ int main(int argc, char* argv[])
             "/wallpaper_video_astronaut_vp9", // 4
             "/wallpaper_video_nebula_h264" // 5
         };
-        const int index = 1;
+        const int index = 5;
         QString projectPath = exampleContentPath + contentFolder.at(index);
 
         argumentList.append(
@@ -93,7 +93,7 @@ int main(int argc, char* argv[])
                 "--fillmode", "Contain",
                 "--type", "VideoWallpaper",
                 "--check", "0",
-                "--mainapppid", "1" });
+                "--mainapppid", "-1" });
     } else {
         argumentList = app.arguments();
     }
@@ -200,7 +200,7 @@ int main(int argc, char* argv[])
     window->setFillMode(fillmode);
     window->setType(installedType.value());
     window->setCheckWallpaperVisible(checkWallpaperVisible);
-    window->setDebugMode(false);
+    window->setDebugMode(mainAppPidInt == -1);
     window->setMainAppPID(mainAppPidInt);
 
     const auto setupStatus = window->setup();

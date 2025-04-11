@@ -470,6 +470,19 @@ void WindowsIntegration::setWindowHandle(HWND windowHandle)
     m_windowHandle = windowHandle;
 }
 
+void WindowsIntegration::exit()
+{
+    // Somehow this gets called at editor startup
+    // so just return if not initialized
+
+    ShowWindow(m_windowHandle, SW_HIDE);
+
+    // Force refresh so that we display the regular
+    // desktop wallpaper again
+    ShowWindow(m_windowHandleWorker, SW_SHOW);
+    ShowWindow(m_windowHandleWorker, SW_HIDE);
+}
+
 BOOL GetMonitorByHandle(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData)
 {
     UNUSED(hdcMonitor);

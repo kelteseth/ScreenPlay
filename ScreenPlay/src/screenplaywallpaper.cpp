@@ -162,11 +162,10 @@ QCoro::Task<Result> ScreenPlayWallpaper::close()
     setState(ScreenPlayEnums::AppState::Closing);
     qInfo() << "Close wallpaper with appID:" << m_appID;
     m_pingAliveTimer.stop(); // Stop the timer when closing
-    // When the wallpaper never connected, this is invalid
     if (!m_connection) {
-        qCritical() << "Cannot request quit, wallpaper never connected!";
+        qInfo() << "Cannot request quit, wallpaper never connected!";
         setState(ScreenPlayEnums::AppState::Inactive);
-        co_return Result { false, {}, "Cannot request quit, wallpaper never connected" };
+        co_return Result { true, {}, "Quit wallpaper (it was never connected)" };
     }
     if (!m_connection->close()) {
         qCritical() << "Cannot close wallpaper!";

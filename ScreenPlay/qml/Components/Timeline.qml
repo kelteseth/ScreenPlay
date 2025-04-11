@@ -134,6 +134,11 @@ Control {
         }
 
         function setActiveWallpaperPreviewImage(): void {
+            if(timeline.sectionsList.length == 0) {
+                console.error("Cannot set preview image with an empty section list")
+                return
+            }
+
             let timelineSectionList = App.screenPlayManager.timelineSections();
             for (var i = 0; i < timelineSectionList.length; i++) {
                 let timelineSection = timelineSectionList[i];

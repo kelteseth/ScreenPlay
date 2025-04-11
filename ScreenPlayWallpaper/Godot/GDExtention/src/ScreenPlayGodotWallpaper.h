@@ -5,24 +5,15 @@
 #define NOMINMAX
 #endif
 
-#include "godot_cpp/classes/control.hpp"
-#include "godot_cpp/classes/engine.hpp"
-#include "godot_cpp/classes/global_constants.hpp"
-#include "godot_cpp/classes/input_event_key.hpp"
-#include "godot_cpp/classes/input_event_mouse_button.hpp"
-#include "godot_cpp/classes/input_event_mouse_motion.hpp"
 #include "godot_cpp/classes/node.hpp"
 #include "godot_cpp/classes/scene_tree.hpp"
 #include "godot_cpp/classes/timer.hpp"
 #include "godot_cpp/classes/viewport.hpp"
 #include "godot_cpp/classes/window.hpp"
-#include "godot_cpp/core/binder_common.hpp"
 #include "godot_cpp/variant/string.hpp"
 #include "godot_cpp/variant/vector2.hpp"
 
-#include <memory>
 #include <string>
-#include <vector>
 
 #include "ScreenPlayGodotWallpaper.h"
 #include "WindowsPipe.h"
@@ -59,6 +50,7 @@ public:
 
     godot::String get_projectPackageFile() const;
     void set_projectPackageFile(const godot::String& projectPackageFile);
+    void _ready() override;
 
 protected:
     static void _bind_methods();
@@ -66,6 +58,7 @@ protected:
 private:
     bool configureWindowGeometry();
     void hideFromTaskbar(HWND hwnd);
+    void _on_pipe_read_timer_timeout();
 
 private:
     OVERLAPPED overlappedRead = {};
@@ -79,6 +72,7 @@ private:
     bool m_pipeConnected = false;
     bool m_screenPlayConnected = false;
     WindowsPipe m_windowsPipe;
+    godot::Timer* m_pipeReadTimer = nullptr;
 
     godot::PackedInt64Array m_activeScreensList;
     float m_volume = 1.0f;
