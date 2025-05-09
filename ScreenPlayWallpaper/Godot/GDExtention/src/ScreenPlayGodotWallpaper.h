@@ -23,9 +23,6 @@ class ScreenPlayGodotWallpaper : public godot::Node {
     GDCLASS(ScreenPlayGodotWallpaper, Node)
 
 public:
-    ScreenPlayGodotWallpaper();
-    ~ScreenPlayGodotWallpaper() override;
-
     bool init(int activeScreen);
     bool connect_to_named_pipe();
     bool send_welcome();
@@ -46,7 +43,7 @@ public:
     bool get_screenPlayConnected() const;
     bool get_pipeConnected() const;
     bool send_ping();
-    bool exit();
+    void exit();
 
     godot::String get_projectPackageFile() const;
     void set_projectPackageFile(const godot::String& projectPackageFile);

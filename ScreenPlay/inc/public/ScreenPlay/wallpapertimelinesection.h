@@ -44,7 +44,7 @@ public:
     // Check if currentTime falls within the timeline section
     bool containsTime(const QTime& time) const;
     bool init(const QJsonArray wallpaperConfig);
-    void addWallpaper(const WallpaperData wallpaperData);
+    std::shared_ptr<ScreenPlayWallpaper> addWallpaper(const WallpaperData wallpaperData);
     std::optional<WallpaperData> getWallpaperDataForMonitor(const int monitorIndex) const;
     std::optional<std::shared_ptr<ScreenPlayWallpaper>> screenPlayWallpaperByMonitorIndex(const int monitorIndex) const;
     std::optional<std::shared_ptr<ScreenPlayWallpaper>> takeScreenPlayWallpaperByMonitorIndex(const QVector<int>& monitors);

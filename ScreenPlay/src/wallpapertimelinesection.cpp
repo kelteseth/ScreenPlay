@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "ScreenPlay/wallpapertimelinesection.h"
 #include "ScreenPlay/screenplaywallpaper.h"
 #include "ScreenPlay/wallpaperdata.h"
@@ -114,7 +115,7 @@ QJsonObject WallpaperTimelineSection::serialize() const
     return data;
 }
 
-void WallpaperTimelineSection::addWallpaper(const WallpaperData wallpaperData)
+std::shared_ptr<ScreenPlayWallpaper> WallpaperTimelineSection::addWallpaper(const WallpaperData wallpaperData)
 {
     // This id is used for IPC identification to send commands
     // between ScreenPlay and the wallpaper
@@ -135,6 +136,7 @@ void WallpaperTimelineSection::addWallpaper(const WallpaperData wallpaperData)
         updateActiveWallpaperCounter();
     });
     wallpaperList.push_back(screenPlayWallpaper);
+    return screenPlayWallpaper;
 }
 
 void WallpaperTimelineSection::updateActiveWallpaperCounter()

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "windowsintegration.h"
 #include <VersionHelpers.h>
 
@@ -289,6 +290,10 @@ WindowsIntegration::MonitorResult WindowsIntegration::setupWallpaperForOneScreen
             }
         }
 
+        if (!IsWindowVisible(m_windowHandleWorker)) {
+            ShowWindow(m_windowHandleWorker, SW_SHOW);
+        }
+
         // Set parent relationship
         SetParent(m_windowHandle, m_windowHandleWorker);
 
@@ -481,6 +486,7 @@ void WindowsIntegration::exit()
     // desktop wallpaper again
     ShowWindow(m_windowHandleWorker, SW_SHOW);
     ShowWindow(m_windowHandleWorker, SW_HIDE);
+    ShowWindow(m_windowHandleWorker, SW_SHOW);
 }
 
 BOOL GetMonitorByHandle(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData)

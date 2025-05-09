@@ -226,7 +226,7 @@ Item {
                     value: root.value
                     onVisualPositionChanged: root.text = (slider.visualPosition * root.to).toFixed(0)
 
-                    onValueChanged:{
+                    onValueChanged: {
                         const value = parseFloat(slider.value.toFixed(2));
                         root.text = value;
                         let obj = {

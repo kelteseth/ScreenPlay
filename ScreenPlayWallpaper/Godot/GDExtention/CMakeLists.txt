@@ -32,9 +32,29 @@ target_include_directories(${PROJECT_NAME} PRIVATE "src")
 
 set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX "d")
 
+file(REAL_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../" SPGodot_BASE_PATH EXPAND_TILDE)
+set(OUT_BASE_PATH "${SPGodot_BASE_PATH}/Godot/ScreenPlayGodot/ScreenPlayGodotWallpaper/lib/")
+
+if(WIN32)
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY_DEBUG "${OUT_BASE_PATH}/Windows-AMD64"
+        RUNTIME_OUTPUT_DIRECTORY_RELEASE "${OUT_BASE_PATH}/Windows-AMD64"
+        LIBRARY_OUTPUT_DIRECTORY_DEBUG "${OUT_BASE_PATH}/Windows-AMD64"
+        LIBRARY_OUTPUT_DIRECTORY_RELEASE "${OUT_BASE_PATH}/Windows-AMD64"
+    )
+else()
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY_DEBUG "${OUT_BASE_PATH}/Linux-x86_64"
+        RUNTIME_OUTPUT_DIRECTORY_RELEASE "${OUT_BASE_PATH}/Linux-x86_64"
+        LIBRARY_OUTPUT_DIRECTORY_DEBUG "${OUT_BASE_PATH}/Linux-x86_64"
+        LIBRARY_OUTPUT_DIRECTORY_RELEASE "${OUT_BASE_PATH}/Linux-x86_64"
+    )
+endif()
+
 # To make it also work inside ScreenPlay dir
 add_custom_command(TARGET ScreenPlayGodotWallpaper POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
         "$<TARGET_FILE:ScreenPlayGodotWallpaper>"
         "${CMAKE_BINARY_DIR}/ScreenPlay/"
 )
+

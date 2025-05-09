@@ -43,6 +43,7 @@ class MonitorListModel : public QAbstractListModel {
     Q_OBJECT
     QML_ELEMENT
     QML_UNCREATABLE("")
+    Q_PROPERTY(int selectedIndex READ selectedIndex WRITE setSelectedIndex NOTIFY selectedIndexChanged FINAL)
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
 
 public:
@@ -63,17 +64,24 @@ public:
 
     QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
-    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
+    Q_INVOKABLE QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     Q_INVOKABLE void reset();
     Q_INVOKABLE QRect absoluteDesktopSize() const;
     Q_INVOKABLE QSize totalDesktopSize() const;
 
     bool setData(const QModelIndex& index, const QVariant& value, int role) override;
     static QVector<Monitor> getSystemMonitors();
+
+    int selectedIndex() const;
+public slots:
+    void setSelectedIndex(int newSelectedIndex);
+
 signals:
     void monitorReloadCompleted();
     void setNewActiveMonitor(int index, QString path);
     void monitorConfigurationChanged();
+
+    void selectedIndexChanged(int selectedIndex);
 
 private slots:
 
@@ -95,5 +103,6 @@ private:
     QVector<Monitor> m_monitorList;
     bool m_useMockMonitors = false;
     QVector<QVector<Monitor>> m_mockMonitorList;
+    int m_selectedIndex = -1;
 };
 }

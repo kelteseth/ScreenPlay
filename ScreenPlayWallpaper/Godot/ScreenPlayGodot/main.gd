@@ -13,8 +13,7 @@ func ping_alive():
 		terminate()
 
 func terminate():
-	var exit = screen_play_wallpaper.exit()
-	print("exit ", exit)
+	screen_play_wallpaper.exit()
 	get_tree().quit()
 	
 # Checks for messages from the main ScreenPlay instance 

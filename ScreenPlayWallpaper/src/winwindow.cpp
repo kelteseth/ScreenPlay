@@ -235,7 +235,6 @@ void WinWindow::configureWindowGeometry()
     } else if (activeScreensList().length() > 1) {
         setupWallpaperForMultipleScreens(activeScreensList());
     }
-    m_quickView->show();
 }
 
 std::tuple<int, QString> WinWindow::mapVirtualKeyToQtKey(UINT vkCode)

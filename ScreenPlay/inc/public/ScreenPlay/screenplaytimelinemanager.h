@@ -84,12 +84,12 @@ signals:
     void activeTimelineIndexChanged(int activeTimelineIndex);
 
 private:
-    QCoro::Task<Result> setWallpaperAtMonitorActiveTimelineIndex(
+    QCoro::Task<Result> setWallpaperAtActiveMonitorTimelineIndex(
         WallpaperData wallpaperData,
         const int timelineIndex,
         const QString& sectionIdentifier,
         const QVector<int> monitorIndex);
-    QCoro::Task<Result> setWallpaperAtMonitorInactiveTimelineIndex(
+    QCoro::Task<Result> setWallpaperAtInactiveMonitorTimelineIndex(
         WallpaperData wallpaperData,
         const int timelineIndex,
         const QString& sectionIdentifier,

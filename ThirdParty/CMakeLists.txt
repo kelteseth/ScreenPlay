@@ -7,6 +7,8 @@ FetchContent_Populate(
     # Workaround because: 1. QtCreator cannot handle QML_ELEMENT stuff when it is in bin folder
     # https://bugreports.qt.io/browse/QTCREATORBUG-27083
     SOURCE_DIR ${THIRD_PARTY_PATH}/QArchive)
+
+# Do not use vcpkg qcoro. This will add all of Qt as a vcpkg dependcy.
 FetchContent_Populate(
     qcoro
     GIT_REPOSITORY https://github.com/danvratil/qcoro.git
@@ -14,6 +16,7 @@ FetchContent_Populate(
     # Workaround because: 1. QtCreator cannot handle QML_ELEMENT stuff when it is in bin folder
     # https://bugreports.qt.io/browse/QTCREATORBUG-27083
     SOURCE_DIR ${THIRD_PARTY_PATH}/qqcoro)
+
 add_subdirectory(QArchive)
 add_subdirectory(qqcoro)
 add_subdirectory(Steam)

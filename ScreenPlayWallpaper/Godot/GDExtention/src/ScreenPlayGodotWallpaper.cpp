@@ -9,19 +9,9 @@
 //// ScreenPlayWallpaper
 using namespace godot;
 
-ScreenPlayGodotWallpaper::ScreenPlayGodotWallpaper()
-{
-}
-
-ScreenPlayGodotWallpaper::~ScreenPlayGodotWallpaper()
-{
-    UtilityFunctions::print("~ScreenPlayGodotWallpaper");
-}
-
 void ScreenPlayGodotWallpaper::_bind_methods()
 {
     UtilityFunctions::print("ScreenPlayGodotWallpaper _bind_methods");
-    ClassDB::bind_method(D_METHOD("_ready"), &ScreenPlayGodotWallpaper::_ready);
     ClassDB::bind_method(D_METHOD("_on_pipe_read_timer_timeout"), &ScreenPlayGodotWallpaper::_on_pipe_read_timer_timeout);
 
     ClassDB::bind_method(godot::D_METHOD("init"), &ScreenPlayGodotWallpaper::init);
@@ -111,7 +101,7 @@ bool ScreenPlayGodotWallpaper::configureWindowGeometry()
         UtilityFunctions::print("No worker window found");
         return false;
     }
-    if (!IsWindow(m_windowsIntegration.windowHandle())) {
+    if (!IsWindow(m_windowsIntegration.windowHandleWorker())) {
         UtilityFunctions::print("GD: Could not get a valid window handle worker!");
         return false;
     }
@@ -124,7 +114,7 @@ bool ScreenPlayGodotWallpaper::configureWindowGeometry()
 
 bool ScreenPlayGodotWallpaper::init(int activeScreen)
 {
-    UtilityFunctions::print("ScreenPlayGodotWallpaper::init ");
+    UtilityFunctions::print("ScreenPlayGodotWallpaper::init at ", Variant(activeScreen));
     auto* displayServer = DisplayServer::get_singleton();
 
     int64_t handle_int = displayServer->window_get_native_handle(godot::DisplayServer::HandleType::WINDOW_HANDLE);
@@ -158,7 +148,7 @@ bool ScreenPlayGodotWallpaper::init(int activeScreen)
     displayServer->window_set_size(godot::Vector2((real_t)monitor.monitor->size.cx, (real_t)monitor.monitor->size.cy));
 
     // SetWindowText(m_windowsIntegration.windowHandle(), "ScreenPlayWallpaperGodot");
-    ShowWindow(m_windowsIntegration.windowHandle(), SW_SHOW);
+    ShowWindow(hwnd, SW_SHOWNORMAL);
 
     return true;
 }
@@ -230,13 +220,6 @@ void ScreenPlayGodotWallpaper::messageReceived(const std::string& key, const std
         std::string command { commandView };
         if (command == std::string_view { "quit" }) {
             exit();
-            // Get the MainLoop and cast it to SceneTree
-            godot::MainLoop* main_loop = godot::Engine::get_singleton()->get_main_loop();
-            godot::SceneTree* scene_tree = godot::Object::cast_to<godot::SceneTree>(main_loop);
-
-            if (scene_tree) {
-                scene_tree->quit();
-            }
         }
     }
 
@@ -244,25 +227,29 @@ void ScreenPlayGodotWallpaper::messageReceived(const std::string& key, const std
     // Assuming sceneValueReceived is a signal you've defined
     emit_signal("scene_value_received", key.c_str(), value.c_str());
 }
-bool ScreenPlayGodotWallpaper::exit()
+void ScreenPlayGodotWallpaper::exit()
 {
-    UtilityFunctions::print("exit");
-    // Stop the timer
+    m_windowsIntegration.exit();
+    // Get the MainLoop and cast it to SceneTree
+    godot::MainLoop* main_loop = godot::Engine::get_singleton()->get_main_loop();
+    godot::SceneTree* scene_tree = godot::Object::cast_to<godot::SceneTree>(main_loop);
+
+    if (!scene_tree) {
+        UtilityFunctions::print("Unable to exit with invalid scene_tree");
+        m_windowsPipe.writeToPipe("Unable to exit with invalid scene_tree");
+        return;
+    }
+    m_windowsPipe.writeToPipe("ScreenPlayGodotWallpaper::exit");
+    UtilityFunctions::print("ScreenPlayGodotWallpaper::exit");
     if (m_pipeReadTimer) {
         m_pipeReadTimer->stop();
     }
 
-    // Somehow this gets called at editor startup
-    // so just return if not initialized
+    scene_tree->quit();
 
-    ShowWindow(m_windowsIntegration.windowHandle(), SW_HIDE);
-
-    // Force refresh so that we display the regular
-    // desktop wallpaper again
-    ShowWindow(m_windowsIntegration.windowHandleWorker(), SW_HIDE);
-    ShowWindow(m_windowsIntegration.windowHandleWorker(), SW_SHOW);
-    return true;
+    return;
 }
+
 void ScreenPlayGodotWallpaper::set_checkWallpaperVisible(bool visible)
 {
     m_checkWallpaperVisible = visible;

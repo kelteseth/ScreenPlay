@@ -102,13 +102,15 @@ Item {
             text: {
                 switch (root.appState) {
                 case ScreenPlayEnums.AppState.NotSet:
-                    return qsTr("Not Set");
+                    return "";
                 case ScreenPlayEnums.AppState.Inactive:
                     return qsTr("Inactive");
                 case ScreenPlayEnums.AppState.Starting:
                     return qsTr("Starting");
                 case ScreenPlayEnums.AppState.StartingFailed:
                     return qsTr("StartingFailed");
+                case ScreenPlayEnums.AppState.ClosingFailed:
+                    return qsTr("ClosingFailed");
                 case ScreenPlayEnums.AppState.Closing:
                     return qsTr("Closing");
                 case ScreenPlayEnums.AppState.Active:

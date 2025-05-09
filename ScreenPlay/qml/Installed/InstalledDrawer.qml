@@ -26,6 +26,7 @@ Drawer {
         timeline.reset();
         monitorSelection.resize();
         monitorSelection.selectOnly(0);
+        btnLaunchContent.updateButtonEnabledState(0);
     }
     property bool hasPreviewGif: false
     property var type: ContentTypes.InstalledType.QMLWallpaper
@@ -170,6 +171,10 @@ Drawer {
                 MonitorSelection {
                     id: monitorSelection
                     objectName: "monitorSelection"
+                    onSelected: function (index) {
+                        App.monitorListModel.setSelectedIndex(index);
+                    }
+
                     onRequestRemoveWallpaper: monitorIndex => {
                         const selectedTimeline = timeline.getSelectedTimeline();
                         if (selectedTimeline === undefined) {
@@ -282,13 +287,47 @@ Drawer {
                     objectName: "btnLaunchContent"
 
                     text: {
+                        // TODO check if it is active timline
                         if (App.globalVariables.isBasicVersion()) {
-                            qsTr("2. Set Wallpaper");
+                            return qsTr("2. Start Wallpaper now");
                         } else {
-                            qsTr("3. Set Wallpaper");
+                            if (App.screenPlayManager.selectedTimelineIndex == App.screenPlayManager.activeTimelineIndex) {
+                                return qsTr("3. Start Wallpaper now");
+                            } else {
+                                return qsTr("3. Set Wallpaper");
+                            }
                         }
                     }
-                    enabled: monitorSelection.isSelected && timeline.selectedTimelineIndex > -1
+                    Connections {
+                        target: App.monitorListModel
+                        // Disable start button while busy
+                        function onSelectedIndexChanged(index) {
+                            btnLaunchContent.updateButtonEnabledState();
+                        }
+                        function onDataChanged(topLeft, bottomRight, roles) {
+                            // Check if the AppState role changed
+                            print("datachaged:", topLeft, bottomRight, roles);
+                            if (roles.indexOf(MonitorListModel.MonitorRole.AppState) !== -1) {
+                                btnLaunchContent.updateButtonEnabledState();
+                            }
+                        }
+                    }
+                    function updateButtonEnabledState() {
+                        const selectedAndValid = monitorSelection.isSelected && timeline.selectedTimelineIndex > -1;
+
+                        // Create a proper model index using the index() method
+                        const modelIndex = App.monitorListModel.index(App.monitorListModel.selectedIndex, 0);
+
+                        // Now use this model index with the data() method
+                        const state = App.monitorListModel.data(modelIndex, MonitorListModel.MonitorRole.AppState);
+                        print("onSelectedIndexChanged state: ", state, btnLaunchContent.enabled);
+                        if (state == ScreenPlayEnums.AppState.NotSet || state == ScreenPlayEnums.AppState.Active) {
+                            btnLaunchContent.enabled = selectedAndValid;
+                            return;
+                        }
+                        btnLaunchContent.enabled = false;
+                    }
+
                     icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_plus.svg"
                     icon.color: "white"
                     font.pointSize: 12

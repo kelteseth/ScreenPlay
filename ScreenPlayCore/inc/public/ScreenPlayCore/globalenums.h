@@ -22,9 +22,10 @@ public:
         Starting,
         StartingFailed,
         Closing,
+        ClosingFailed,
         Active,
-        Timeout,
         ErrorOccouredWhileActive,
+        Timeout,
     };
     Q_ENUM(AppState)
     /*!

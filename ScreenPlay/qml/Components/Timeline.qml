@@ -134,14 +134,19 @@ Control {
         }
 
         function setActiveWallpaperPreviewImage(): void {
-            if(timeline.sectionsList.length == 0) {
-                console.error("Cannot set preview image with an empty section list")
-                return
+            if (timeline.sectionsList.length == 0) {
+                console.error("Cannot set preview image with an empty section list");
+                return;
             }
 
             let timelineSectionList = App.screenPlayManager.timelineSections();
             for (var i = 0; i < timelineSectionList.length; i++) {
                 let timelineSection = timelineSectionList[i];
+                if (!timeline.sectionsList[i]) {
+                    console.error("No sectionList item at index:", i, " of ", timeline.sectionsList.length);
+                    return;
+                }
+
                 let lineIndicator = timeline.sectionsList[i].lineIndicator;
 
                 // Reset the preview image

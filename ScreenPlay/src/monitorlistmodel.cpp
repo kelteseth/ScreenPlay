@@ -286,6 +286,19 @@ QVector<Monitor> MonitorListModel::getSystemMonitors()
 
     return monitors;
 }
+
+int MonitorListModel::selectedIndex() const
+{
+    return m_selectedIndex;
+}
+
+void MonitorListModel::setSelectedIndex(int newSelectedIndex)
+{
+    if (m_selectedIndex == newSelectedIndex)
+        return;
+    m_selectedIndex = newSelectedIndex;
+    emit selectedIndexChanged(m_selectedIndex);
+}
 }
 
 #include "moc_monitorlistmodel.cpp"

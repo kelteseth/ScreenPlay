@@ -79,7 +79,7 @@ ApplicationWindow {
     Connections {
         target: App
         function onRequestExit() {
-            crashOnExitWorkaround.forceActiveFocus()
+            crashOnExitWorkaround.forceActiveFocus();
             Qt.exit(0);
         }
     }

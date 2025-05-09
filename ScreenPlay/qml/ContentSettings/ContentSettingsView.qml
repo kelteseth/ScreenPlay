@@ -166,6 +166,10 @@ Popup {
                     width: parent.width * 0.9
                     multipleMonitorsSelectable: false
                     monitorWithoutContentSelectable: false
+                    onSelected: function (index) {
+                        App.monitorListModel.setSelectedIndex(index);
+                    }
+
                     onDeselected: function () {
                         defaultVideoControls.visible = false;
                         customPropertiesGridView.visible = false;

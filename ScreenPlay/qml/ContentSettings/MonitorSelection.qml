@@ -28,7 +28,7 @@ Rectangle {
         name: "MonitorSelection"
         defaultLogLevel: LoggingCategory.Debug
     }
-
+    signal selected(int index)
     signal requestProjectSettings(int index, var installedType, string appID)
     signal requestRemoveWallpaper(int index)
     signal deselected
@@ -48,6 +48,7 @@ Rectangle {
             rp.itemAt(i).isSelected = false;
         }
         updateActiveMonitors();
+        root.selected(index);
     }
 
     function getSelectedMonitorIndex(): int {

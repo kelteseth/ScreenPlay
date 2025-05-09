@@ -106,7 +106,6 @@ Item {
                 webView.runJavaScript("var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = " + volume + ";");
         }
 
-
         function onVisualsPausedChanged(visualsPaused) {
             if (visualsPaused) {
                 // Wait until Wallpaper animation is finsihed
