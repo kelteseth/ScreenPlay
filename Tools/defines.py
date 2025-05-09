@@ -21,7 +21,7 @@ elif sys.platform == "linux":
 REPO_PATH =  Path(__file__, "../../").resolve()
 THIRDPATH_PATH =  Path(REPO_PATH, "ThirdParty").resolve()
 QT_PATH = path = Path(REPO_PATH, "../aqt").resolve()
-QT_VERSION = "6.8.2"
+QT_VERSION = "6.9.0"
 QT_BIN_PATH = QT_PATH.joinpath(f"{QT_VERSION}/{QT_PLATFORM}/bin")
 QT_TOOLS_PATH = QT_PATH.joinpath("Tools/")
 QT_IFW_VERSION = "4.8.1"

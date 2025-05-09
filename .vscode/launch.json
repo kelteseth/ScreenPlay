@@ -17,7 +17,7 @@
             "environment": [
                 {
                     "name": "Path",
-                    "value": "${env:Path};${workspaceFolder}\\..\\aqt\\6.8.2\\msvc2022_64\\bin\\;${workspaceFolder}\\..\\aqt\\6.8.2\\msvc2022_64\\plugins\\;${workspaceFolder}\\..\\aqt\\6.8.2\\msvc2022_64\\qml\\;${workspaceFolder}\\..\\vcpkg\\installed\\x64-windows\\debug\\bin;"
+                    "value": "${env:Path};${workspaceFolder}\\..\\aqt\\6.9.0\\msvc2022_64\\bin\\;${workspaceFolder}\\..\\aqt\\6.9.0\\msvc2022_64\\plugins\\;${workspaceFolder}\\..\\aqt\\6.9.0\\msvc2022_64\\qml\\;${workspaceFolder}\\..\\vcpkg\\installed\\x64-windows\\debug\\bin;"
                 }
             ],
             "logging": {
@@ -33,10 +33,10 @@
             "args": [],
             "cwd": "${command:cmake.buildDirectory}/bin",
             "env": {
-              "LD_LIBRARY_PATH": "${workspaceFolder}/../aqt/6.8.2/gcc_64/lib:${workspaceFolder}/../aqt/6.8.2/gcc_64/plugins:${command:cmake.buildDirectory}/ThirdParty/qqcoro/lib:${command:cmake.buildDirectory}/ThirdParty/QArchive:${command:cmake.buildDirectory}/lib:${env:LD_LIBRARY_PATH}",
-              "Path": "${env:Path};${workspaceFolder}/../aqt/6.8.2/gcc_64/bin/;${workspaceFolder}/../aqt/6.8.2/gcc_64/lib/;${workspaceFolder}/../aqt/6.8.2/gcc_64/modules/;${workspaceFolder}/../aqt/6.8.2/gcc_64/qml/;${workspaceFolder}/../vcpkg/installed/x64-linux/debug/lib;"
+                "LD_LIBRARY_PATH": "${workspaceFolder}/../aqt/6.9.0/gcc_64/lib:${workspaceFolder}/../aqt/6.9.0/gcc_64/plugins:${command:cmake.buildDirectory}/ThirdParty/qqcoro/lib:${command:cmake.buildDirectory}/ThirdParty/QArchive:${command:cmake.buildDirectory}/lib:${env:LD_LIBRARY_PATH}",
+                "Path": "${env:Path};${workspaceFolder}/../aqt/6.9.0/gcc_64/bin/;${workspaceFolder}/../aqt/6.9.0/gcc_64/lib/;${workspaceFolder}/../aqt/6.9.0/gcc_64/modules/;${workspaceFolder}/../aqt/6.9.0/gcc_64/qml/;${workspaceFolder}/../vcpkg/installed/x64-linux/debug/lib;"
             }
-           },
+        },
         {
             "name": "🍏macOS",
             "type": "lldb",
@@ -45,10 +45,10 @@
             "args": [],
             "cwd": "${command:cmake.buildDirectory}",
             "env": {
-                "DYLD_FRAMEWORK_PATH": "${workspaceFolder}/../aqt/6.8.2/macos/lib:${workspaceFolder}/../aqt/6.8.2/macos/plugins",
-                "DYLD_LIBRARY_PATH": "${workspaceFolder}/../aqt/6.8.2/macos/lib:${workspaceFolder}/../aqt/6.8.2/macos/plugins",
-                "QML2_IMPORT_PATH": "${workspaceFolder}/../aqt/6.8.2/macos/qml",
-                "Path": "${env:Path}:${workspaceFolder}/../aqt/6.8.2/macos/bin:${workspaceFolder}/../aqt/6.8.2/macos/lib:${workspaceFolder}/../aqt/6.8.2/macos/qml"
+                "DYLD_FRAMEWORK_PATH": "${workspaceFolder}/../aqt/6.9.0/macos/lib:${workspaceFolder}/../aqt/6.9.0/macos/plugins",
+                "DYLD_LIBRARY_PATH": "${workspaceFolder}/../aqt/6.9.0/macos/lib:${workspaceFolder}/../aqt/6.9.0/macos/plugins",
+                "QML2_IMPORT_PATH": "${workspaceFolder}/../aqt/6.9.0/macos/qml",
+                "Path": "${env:Path}:${workspaceFolder}/../aqt/6.9.0/macos/bin:${workspaceFolder}/../aqt/6.9.0/macos/lib:${workspaceFolder}/../aqt/6.9.0/macos/qml"
             }
         },
         {

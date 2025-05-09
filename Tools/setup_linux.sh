@@ -85,7 +85,7 @@ main() {
     cd layer-shell-qt
     
     # Set up Qt paths
-    local QT_DIR="../../../aqt/6.8.2/gcc_64"
+    local QT_DIR="../../../aqt/6.9.0/gcc_64"
     local QT_PATHS="$QT_DIR/bin:$PATH"
     
     # Verify Qt directory exists
