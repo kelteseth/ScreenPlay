@@ -932,16 +932,16 @@ QCoro::Task<Result> ScreenPlayTimelineManager::setWallpaperAtActiveMonitorTimeli
         m_contentTimer.start();
     });
 
-    auto timelineOpt = wallpaperSection(timelineIndex, sectionIdentifier);
-    if (!timelineOpt.has_value()) {
+    auto wallpaperTimelineSectionOpt = wallpaperSection(timelineIndex, sectionIdentifier);
+    if (!wallpaperTimelineSectionOpt.has_value()) {
         co_return Result { false, {}, "Unable to find timeline section for current time" };
     }
-    auto timeline = timelineOpt.value();
+    auto wallpaperTimelineSection = wallpaperTimelineSectionOpt.value();
     auto runningWallpaperOpt = screenPlayWallpaperAt(timelineIndex, sectionIdentifier, wallpaperData.monitors());
 
     // When we have no wallpaper active, we can simply add and start
     if (!runningWallpaperOpt.has_value()) {
-        timeline->addWallpaper(wallpaperData);
+        wallpaperTimelineSection->addWallpaper(wallpaperData);
         const Result startWallpaperResult = co_await startWallpaper(
             timelineIndex,
             sectionIdentifier,
@@ -950,14 +950,17 @@ QCoro::Task<Result> ScreenPlayTimelineManager::setWallpaperAtActiveMonitorTimeli
     } else {
         auto runningWallpaper = runningWallpaperOpt.value();
         if (m_util.isSameWallpaperRuntime(wallpaperData.type(), runningWallpaper->type())) {
-            auto runningScreenPlayWallpaperOpt = timeline->takeScreenPlayWallpaperByMonitorIndex(runningWallpaper->monitors());
+            auto runningScreenPlayWallpaperOpt = wallpaperTimelineSection->screenPlayWallpaperByMonitorIndex(runningWallpaper->monitors().first());
             if (!runningScreenPlayWallpaperOpt.has_value()) {
-                qCritical() << "No takeScreenPlayWallpaperByMonitorIndex";
-                co_return Result { false, {}, "Unable to takeScreenPlayWallpaperByMonitorIndex" };
+                qCritical() << "No screenPlayWallpaperByMonitorIndex";
+                co_return Result { false, {}, "Unable to screenPlayWallpaperByMonitorIndex" };
             }
             auto runningScreenPlayWallpaper = runningScreenPlayWallpaperOpt.value();
-            runningScreenPlayWallpaper->replaceLive(wallpaperData);
-            if (!timeline->replaceScreenPlayWallpaperAtMonitorIndex(runningWallpaper->monitors(), runningScreenPlayWallpaper)) {
+            const bool success = runningScreenPlayWallpaper->replaceLive(wallpaperData);
+            if (!success)
+                co_return Result { false, {}, "Unable to replaceLive" };
+
+            if (!wallpaperTimelineSection->replaceScreenPlayWallpaperAtMonitorIndex(runningWallpaper->monitors(), runningScreenPlayWallpaper)) {
                 qCritical() << "No replaceScreenPlayWallpaperAtMonitorIndex";
                 co_return Result { false, {}, "Unable to replaceScreenPlayWallpaperAtMonitorIndex" };
             }
@@ -965,12 +968,12 @@ QCoro::Task<Result> ScreenPlayTimelineManager::setWallpaperAtActiveMonitorTimeli
         } else {
             auto runningWallpaper = runningWallpaperOpt.value();
             const Result removeWallpaperResult = co_await removeWallpaper(
-                timeline->index,
-                timeline->identifier,
+                wallpaperTimelineSection->index,
+                wallpaperTimelineSection->identifier,
                 runningWallpaper->monitors());
             if (!removeWallpaperResult.success())
                 co_return removeWallpaperResult;
-            auto screenPlayWallpaper = timeline->addWallpaper(wallpaperData);
+            auto screenPlayWallpaper = wallpaperTimelineSection->addWallpaper(wallpaperData);
             const Result startWallpaperResult = co_await startWallpaper(screenPlayWallpaper);
             if (!startWallpaperResult.success())
                 co_return startWallpaperResult;
