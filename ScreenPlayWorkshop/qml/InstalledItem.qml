@@ -1,5 +1,5 @@
 import QtQuick
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 import QtQuick.Controls
 
 Item {
@@ -106,17 +106,18 @@ Item {
         }
     }
 
-    RectangularGlow {
+    // Replaced RectangularGlow with MultiEffect
+    MultiEffect {
         id: effect
 
-        height: parent.height
         width: parent.width
-        cached: true
-        glowRadius: 3
-        spread: 0.2
-        color: "black"
-        opacity: 0.4
-        cornerRadius: 15
+        height: parent.height
+        source: Item { anchors.fill: parent }
+        shadowEnabled: true
+        shadowBlur: 1.0
+        shadowColor: "black"
+        shadowOpacity: 0.4
+        paddingRect: Qt.rect(-3, -3, 6, 6)
 
         anchors {
             top: parent.top
@@ -145,7 +146,6 @@ Item {
             id: itemWrapper
 
             anchors.fill: parent
-            visible: false
 
             InstalledItemImage {
                 id: screenPlayItemImage
@@ -182,29 +182,37 @@ Item {
             }
         }
 
-        OpacityMask {
+        MultiEffect {
+            id: maskEffect
             anchors.fill: itemWrapper
             source: itemWrapper
+            maskEnabled: true
             maskSource: mask
+            // Default values for other mask properties:
+            maskSpreadAtMin: 0.0
+            maskSpreadAtMax: 0.0
+            maskThresholdMin: 0.0
+            maskThresholdMax: 1.0
+        }
 
-            MouseArea {
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                acceptedButtons: Qt.LeftButton | Qt.RightButton
-                onEntered: {
-                    if (!screenPlayItem.hasMenuOpen)
-                        screenPlayItem.state = "hover";
-                }
-                onExited: {
-                    if (!screenPlayItem.hasMenuOpen)
-                        screenPlayItem.state = "visible";
-                }
-                onClicked: function (mouse) {
-                    checkBox.toggle();
-                    if (mouse.button === Qt.LeftButton)
-                        itemClicked(screenPlayItem.folderName, type, checkBox.checkState === Qt.Checked);
-                }
+        // Since MultiEffect can't contain MouseArea, we need to place it alongside
+        MouseArea {
+            anchors.fill: itemWrapper
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            acceptedButtons: Qt.LeftButton | Qt.RightButton
+            onEntered: {
+                if (!screenPlayItem.hasMenuOpen)
+                    screenPlayItem.state = "hover";
+            }
+            onExited: {
+                if (!screenPlayItem.hasMenuOpen)
+                    screenPlayItem.state = "visible";
+            }
+            onClicked: function (mouse) {
+                checkBox.toggle();
+                if (mouse.button === Qt.LeftButton)
+                    itemClicked(screenPlayItem.folderName, type, checkBox.checkState === Qt.Checked);
             }
         }
 

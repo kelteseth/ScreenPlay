@@ -43,7 +43,17 @@ Item {
         id: handleCircle
         visible: !root.isLast
         radius: width
-        color: dragHandler.active ? "orange" : "white"
+        color: {
+            if (dragHandler.active) {
+                return Material.color(Material.Orange);
+            }
+
+            if (Material.theme === Material.Dark) {
+                return Material.color(Material.Grey, Material.Shade400);
+            } else {
+                return Material.color(Material.BlueGrey, Material.Shade400);
+            }
+        }
         x: -(width * .5)
         width: 20
         height: width

@@ -4,12 +4,11 @@
  * (THE BSD 2-CLAUSE LICENSE)
  */
 import QtQuick
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 import QtQuick.Controls.Material
 
 Item {
     id: root
-
     property alias radius: mask.radius
     property color color: Material.accent
     property var target
@@ -35,7 +34,6 @@ Item {
 
     Rectangle {
         id: mask
-
         anchors.fill: parent
         color: "black"
         visible: false
@@ -43,23 +41,21 @@ Item {
 
     Item {
         id: container
-
         anchors.fill: parent
         visible: false
     }
 
-    OpacityMask {
+    MultiEffect {
         anchors.fill: parent
         source: container
+        maskEnabled: true
         maskSource: mask
     }
 
     Component {
         id: ripple
-
         Rectangle {
             id: ink
-
             property int startX
             property int startY
             property int maxRadius: 150
@@ -76,6 +72,7 @@ Item {
             y: startY - radius
             width: radius * 2
             height: radius * 2
+
             Component.onCompleted: {
                 growAnimation.start();
                 if (!fadeAnimation.running)
@@ -84,7 +81,6 @@ Item {
 
             NumberAnimation {
                 id: growAnimation
-
                 target: ink
                 property: "radius"
                 from: 0
@@ -95,7 +91,6 @@ Item {
 
             SequentialAnimation {
                 id: fadeAnimation
-
                 NumberAnimation {
                     target: ink
                     property: "opacity"
@@ -103,7 +98,6 @@ Item {
                     to: 0
                     duration: root.duration
                 }
-
                 ScriptAction {
                     script: ink.destroy()
                 }

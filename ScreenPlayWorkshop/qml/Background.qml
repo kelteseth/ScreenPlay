@@ -1,5 +1,5 @@
 import QtQuick
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 
 Rectangle {
     id: root
@@ -80,13 +80,14 @@ Rectangle {
         }
     }
 
-    FastBlur {
+    MultiEffect {
         id: blur
-
         anchors.fill: bgImage
         source: bgImage
-        radius: 16
-        cached: true
+        blurEnabled: true
+        blurMax: 64
+        blur: 0.25 // Equivalent to radius 16 in FastBlur when blurMax is 64
+        autoPaddingEnabled: true
         opacity: 0
     }
 
@@ -133,7 +134,7 @@ Rectangle {
             PropertyChanges {
                 target: blur
                 opacity: 0
-                radius: 16
+                blur: 0.25 // Equivalent to radius 16
             }
         },
         State {
@@ -152,7 +153,7 @@ Rectangle {
             PropertyChanges {
                 target: blur
                 opacity: 1
-                radius: 16
+                blur: 0.25 // Equivalent to radius 16
             }
         },
         State {
@@ -171,7 +172,7 @@ Rectangle {
             PropertyChanges {
                 target: blur
                 opacity: 1
-                radius: 64
+                blur: 1.0 // Equivalent to radius 64
             }
         }
     ]
@@ -216,7 +217,7 @@ Rectangle {
                 target: blur
                 duration: 300
                 easing.type: Easing.InOutQuart
-                property: "radius"
+                property: "blur" // Changed from "radius" to "blur"
             }
         }
     ]

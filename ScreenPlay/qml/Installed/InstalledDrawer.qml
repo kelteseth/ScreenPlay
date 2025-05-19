@@ -1,9 +1,6 @@
 import QtQuick
-import Qt5Compat.GraphicalEffects
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick.Dialogs
-import QtQuick.Effects
 import QtQuick.Controls.Material
 import QtQuick.Controls.Material.impl
 import ScreenPlay
@@ -19,7 +16,7 @@ Drawer {
     closePolicy: Popup.NoAutoClose
     edge: Qt.BottomEdge
     background: Rectangle {
-        color: Material.color(Material.Grey, Material.Shade900)
+        color: Material.theme === Material.Dark ? Material.color(Material.Grey, Material.Shade900) : Material.color(Material.Grey, Material.Shade100)
     }
     onAboutToShow: {
         print("setInstalledDrawerItem onAboutToShow");

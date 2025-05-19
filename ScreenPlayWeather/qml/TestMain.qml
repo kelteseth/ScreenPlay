@@ -3,7 +3,6 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Controls.Material.impl
-import Qt5Compat.GraphicalEffects
 import ScreenPlayWeather
 
 Window {

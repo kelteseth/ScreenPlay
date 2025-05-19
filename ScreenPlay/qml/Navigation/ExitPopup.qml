@@ -6,9 +6,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import ScreenPlay
-
 import ScreenPlayCore as Util
-import Qt5Compat.GraphicalEffects
 
 Popup {
     id: root

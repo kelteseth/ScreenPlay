@@ -1,5 +1,5 @@
 import QtQuick
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
@@ -23,23 +23,23 @@ Item {
         anchors.fill: parent
     }
 
-    RectangularGlow {
+    RectangularShadow {        // Replace RectangularGlow with RectangularShadow
         id: effect
 
         height: wrapper.height
         width: wrapper.width
         cached: true
-        glowRadius: 3
+        blur: 3                // Replace glowRadius with blur
         spread: 0.2
         color: "black"
         opacity: 0.4
-        cornerRadius: 15
+        radius: 15             // Replace cornerRadius with radius
+        offset: Qt.vector2d(0, 3)  // Add offset to replace the topMargin in anchors
 
         anchors {
             top: wrapper.top
             left: wrapper.left
             right: wrapper.right
-            topMargin: 3
         }
     }
 
@@ -85,6 +85,7 @@ Item {
             }
         }
     }
+
 
     states: [
         State {

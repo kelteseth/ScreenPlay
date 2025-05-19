@@ -4,7 +4,7 @@ import QtQuick.Dialogs
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 import ScreenPlay
 import ScreenPlayCore
 
@@ -392,19 +392,19 @@ Item {
                                 GrowIconLink {
                                     iconSource: "qrc:/qt/qml/ScreenPlay/assets/icons/brand_github.svg"
                                     url: "https://github.com/kelteseth"
-                                    color: "#333333"
+                                    iconColor: "#333333"
                                 }
 
                                 GrowIconLink {
                                     iconSource: "qrc:/qt/qml/ScreenPlay/assets/icons/brand_gitlab.svg"
                                     url: "https://gitlab.com/kelteseth"
-                                    color: "#FC6D26"
+                                    iconColor: "#FC6D26"
                                 }
 
                                 GrowIconLink {
                                     iconSource: "qrc:/qt/qml/ScreenPlay/assets/icons/brand_bluesky.svg"
                                     url: "https://bsky.app/profile/kelteseth.bsky.social"
-                                    color: "#1DA1F2"
+                                    iconColor: "#1DA1F2"
                                 }
 
                                 GrowIconLink {
@@ -416,7 +416,7 @@ Item {
                                 GrowIconLink {
                                     iconSource: "qrc:/qt/qml/ScreenPlay/assets/icons/brand_reddit.svg"
                                     url: "https://www.reddit.com/r/ScreenPlayApp/"
-                                    color: "#FF4500"
+                                    iconColor: "#FF4500"
                                 }
                             }
 
@@ -448,13 +448,12 @@ Item {
                                 visible: false
                             }
 
-                            OpacityMask {
+                            MultiEffect {
                                 id: opacityMask
-
                                 anchors.fill: imgLogoHead
                                 source: imgLogoHead
+                                maskEnabled: true
                                 maskSource: mask
-                                smooth: true
                             }
                         }
                     }

@@ -1,85 +1,71 @@
 import QtQuick
 import QtQuick.Layouts
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 import ScreenPlay
 
 Item {
     id: settingsHeader
-
     property color background: "#FFAB00"
     property string text: "HEADLINE"
     property url image: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_settings.svg"
-
     state: "out"
     Component.onCompleted: state = "in"
     width: parent.width
     height: 70
-
     Rectangle {
         id: radiusWorkaround
-
         height: 5
         radius: 4
         color: settingsHeader.background
-
         anchors {
             top: parent.top
             right: parent.right
             left: parent.left
         }
     }
-
     Rectangle {
         color: settingsHeader.background
         height: 47
-
         anchors {
             top: radiusWorkaround.bottom
             topMargin: -2
             right: parent.right
             left: parent.left
         }
-
         Item {
             anchors {
                 fill: parent
                 margins: 10
                 leftMargin: 20
             }
-
             Image {
                 id: imgIcon
-
                 source: settingsHeader.image
                 height: 20
                 width: 20
                 sourceSize: Qt.size(20, 20)
-
                 anchors {
                     top: parent.top
                     topMargin: 3
                     left: parent.left
                     leftMargin: 0
                 }
+                visible: false // Hide the source item as recommended in MultiEffect docs
             }
-
-            ColorOverlay {
-                id: iconColorOverlay
-
+            MultiEffect {
+                id: iconColorEffect
                 anchors.fill: imgIcon
                 source: imgIcon
-                color: "#ffffff"
+                colorizationColor: "#ffffff"
+                colorization: 1.0 // Full colorization to match ColorOverlay behavior
             }
-
             Text {
                 id: txtHeadline
-
                 text: settingsHeader.text
                 font.pointSize: 12
                 color: "white"
                 verticalAlignment: Text.AlignTop
                 font.family: App.settings.font
-
                 anchors {
                     top: parent.top
                     topMargin: 0
@@ -89,17 +75,14 @@ Item {
             }
         }
     }
-
     states: [
         State {
             name: "out"
-
             PropertyChanges {
                 target: imgIcon
                 anchors.leftMargin: -10
                 opacity: 0
             }
-
             PropertyChanges {
                 target: txtHeadline
                 anchors.topMargin: 10
@@ -108,13 +91,11 @@ Item {
         },
         State {
             name: "in"
-
             PropertyChanges {
                 target: imgIcon
                 anchors.leftMargin: 3
                 opacity: 1
             }
-
             PropertyChanges {
                 target: txtHeadline
                 anchors.topMargin: 2
@@ -127,7 +108,6 @@ Item {
             from: "in"
             to: "out"
             reversible: true
-
             NumberAnimation {
                 targets: [imgIcon, txtHeadline]
                 properties: "opacity, anchors.topMargin, anchors.leftMargin"

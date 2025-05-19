@@ -1,11 +1,7 @@
 import QtQuick
-import QtQuick.Controls
-import QtQuick.Layouts
 import QtQuick.Controls.Material
-import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
 import ScreenPlay
-
 import ScreenPlayCore
 
 Item {

@@ -1,7 +1,5 @@
 import QtQuick
-import Qt5Compat.GraphicalEffects
-import QtQuick.Controls
-import QtQuick.Controls.Material
+import QtQuick.Effects  // Changed
 import ScreenPlayWorkshop
 
 Item {
@@ -45,17 +43,18 @@ Item {
         }
     ]
 
-    RectangularGlow {
+    // Replaced RectangularGlow with MultiEffect
+    MultiEffect {
         id: effect
 
-        height: parent.height
         width: parent.width
-        cached: true
-        glowRadius: 3
-        spread: 0.2
-        color: "black"
-        opacity: 0.4
-        cornerRadius: 15
+        height: parent.height
+        source: Item { anchors.fill: parent }
+        shadowEnabled: true
+        shadowBlur: 1.0
+        shadowColor: "black"
+        shadowOpacity: 0.4
+        paddingRect: Qt.rect(-3, -3, 6, 6)
 
         anchors {
             top: parent.top
@@ -133,8 +132,6 @@ Item {
 
         Item {
             id: itemWrapper
-
-            visible: false
 
             anchors {
                 fill: parent
@@ -218,50 +215,61 @@ Item {
             }
         }
 
-        OpacityMask {
+        MultiEffect {
+            id: maskEffect
             anchors.fill: itemWrapper
             source: itemWrapper
+            maskEnabled: true
             maskSource: mask
+            // Default values for other mask properties:
+            maskSpreadAtMin: 0.0
+            maskSpreadAtMax: 0.0
+            maskThresholdMin: 0.0
+            maskThresholdMax: 1.0
+        }
 
-            MouseArea {
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                onContainsMouseChanged: {
-                    if (!isDownloading) {
-                        if (containsMouse)
-                            root.state = "hover";
-                        else
-                            root.state = "";
-                    }
-                }
-                onClicked: {
-                    root.clicked(root.publishedFileID, root.imgUrl);
+        // Since MultiEffect can't contain MouseArea, we need to place them separately
+        MouseArea {
+            anchors.fill: itemWrapper
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            onContainsMouseChanged: {
+                if (!isDownloading) {
+                    if (containsMouse)
+                        root.state = "hover";
+                    else
+                        root.state = "";
                 }
             }
-
-            MouseArea {
-                height: 20
-                width: 20
-                cursorShape: Qt.PointingHandCursor
-                onClicked: {
-                    Qt.openUrlExternally("steam://url/CommunityFilePage/" + root.publishedFileID);
-                }
-
-                anchors {
-                    margins: 10
-                    top: parent.top
-                    right: parent.right
-                }
+            onClicked: {
+                root.clicked(root.publishedFileID, root.imgUrl);
             }
         }
 
-        FastBlur {
+        MouseArea {
+            height: 20
+            width: 20
+            cursorShape: Qt.PointingHandCursor
+            onClicked: {
+                Qt.openUrlExternally("steam://url/CommunityFilePage/" + root.publishedFileID);
+            }
+
+            anchors {
+                margins: 10
+                top: itemWrapper.top
+                right: itemWrapper.right
+            }
+        }
+
+        // Replaced FastBlur with MultiEffect
+        MultiEffect {
             id: effBlur
 
             anchors.fill: itemWrapper
             source: itemWrapper
-            radius: 0
+            blurEnabled: true
+            blurMax: 64
+            blur: 0  // Initially 0, will be changed in states
         }
 
         Item {
@@ -319,7 +327,7 @@ Item {
 
             PropertyChanges {
                 target: effBlur
-                radius: 0
+                blur: 0
             }
         },
         State {
@@ -342,7 +350,7 @@ Item {
 
             PropertyChanges {
                 target: effBlur
-                radius: 64
+                blur: 1.0  // Full blur with blurMax: 64
             }
 
             PropertyChanges {
@@ -366,7 +374,7 @@ Item {
 
             PropertyChanges {
                 target: effBlur
-                radius: 64
+                blur: 1.0  // Full blur with blurMax: 64
             }
 
             PropertyChanges {
@@ -426,7 +434,7 @@ Item {
                 PropertyAnimation {
                     target: effBlur
                     duration: 500
-                    properties: "radius"
+                    properties: "blur"  // Changed from "radius" to "blur"
                 }
 
                 PropertyAnimation {

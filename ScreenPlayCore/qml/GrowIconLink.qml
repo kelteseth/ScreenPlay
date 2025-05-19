@@ -1,13 +1,12 @@
 import QtQuick
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 import QtQuick.Controls.Material
 
 Rectangle {
     id: root
-
     property alias iconSource: icon.source
     property string url
-    property alias color: overlay.color
+    property alias iconColor: overlay.colorizationColor
 
     color: Material.theme === Material.Light ? Material.backgroundColor : Qt.darker(Material.backgroundColor)
     width: 42
@@ -16,20 +15,18 @@ Rectangle {
 
     Image {
         id: icon
-
         sourceSize: Qt.size(28, 28)
         anchors.centerIn: parent
-        visible: false
         smooth: true
         source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_info.svg"
+        visible: false
     }
 
-    ColorOverlay {
+    MultiEffect {
         id: overlay
-
         anchors.fill: icon
         source: icon
-        color: Material.accent
+        colorization: 1.0
     }
 
     MouseArea {
@@ -44,7 +41,6 @@ Rectangle {
     states: [
         State {
             name: "hover"
-
             PropertyChanges {
                 target: icon
                 width: 34
@@ -53,12 +49,12 @@ Rectangle {
             }
         }
     ]
+
     transitions: [
         Transition {
             from: ""
             to: "hover"
             reversible: true
-
             PropertyAnimation {
                 target: icon
                 properties: "width,height,sourceSize"

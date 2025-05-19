@@ -219,6 +219,7 @@ set(RESOURCES
     assets/images/trayIcon_osx.png
     assets/images/trayIcon_windows.png
     assets/images/Window.svg
+    assets/images/installed_item_mask.png
     assets/licenses/Apache2.txt
     assets/licenses/OFL.txt
     assets/macos/app.screenplay.plist

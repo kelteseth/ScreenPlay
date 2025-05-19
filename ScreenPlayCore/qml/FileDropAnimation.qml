@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls.Material
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 
 Item {
     id: root
@@ -23,13 +23,14 @@ Item {
         mipmap: true
         source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/attach_file.svg"
         sourceSize: Qt.size(width, width)
-        layer {
-            enabled: true
-            smooth: true
-            effect: ColorOverlay {
-                color: Material.iconColor
-            }
+
+        MultiEffect {
+            anchors.fill: parent
+            source: parent
+            colorization: 1.0
+            colorizationColor: Material.iconColor
         }
+
         anchors {
             top: parent.top
             topMargin: 150
@@ -37,6 +38,7 @@ Item {
             leftMargin: -root.secondaryIconSize
         }
     }
+
     Image {
         id: fileLeft
         opacity: 0
@@ -44,13 +46,14 @@ Item {
         height: root.secondaryIconSize
         source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/description.svg"
         sourceSize: Qt.size(width, width)
-        layer {
-            enabled: true
-            smooth: true
-            effect: ColorOverlay {
-                color: Material.iconColor
-            }
+
+        MultiEffect {
+            anchors.fill: parent
+            source: parent
+            colorization: 1.0
+            colorizationColor: Material.iconColor
         }
+
         rotation: 5
         smooth: true
         antialiasing: true
@@ -62,6 +65,7 @@ Item {
             rightMargin: -root.secondaryIconSize
         }
     }
+
     Image {
         id: fileCenter
         opacity: 0
@@ -69,13 +73,14 @@ Item {
         height: root.centerIconSize
         source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/folder.svg"
         sourceSize: Qt.size(width, width)
-        layer {
-            enabled: true
-            smooth: true
-            effect: ColorOverlay {
-                color: Material.color(Material.Orange)
-            }
+
+        MultiEffect {
+            anchors.fill: parent
+            source: parent
+            colorization: 1.0
+            colorizationColor: Material.color(Material.Orange)
         }
+
         smooth: true
         antialiasing: true
         mipmap: true

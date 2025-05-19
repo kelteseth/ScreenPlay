@@ -1,5 +1,5 @@
 import QtQuick
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import ScreenPlay
@@ -92,52 +92,31 @@ Item {
         }
 
         OpacityAnimator {
-            target: effect
+            target: effectWrapper
             from: 0
-            to: 0.4
+            to: 1
             duration: 800
             easing.type: Easing.OutCirc
         }
     }
 
-    RectangularGlow {
-        id: effect
 
-        height: parent.height
-        width: parent.width
-        cached: true
-        glowRadius: 3
-        spread: 0.2
-        color: "black"
+    Item {
+        id: effectWrapper
+        anchors.fill: parent
         opacity: 0
-        cornerRadius: 15
-
-        anchors {
-            top: parent.top
-            topMargin: 3
-        }
     }
 
     Item {
         id: screenPlayItemWrapper
-
         width: 320
         height: 180
         opacity: 0
-
-        Image {
-            id: mask
-
-            source: "qrc:/qt/qml/ScreenPlay/assets/images/Window.svg"
-            sourceSize: Qt.size(root.width, root.height)
-            visible: false
-            smooth: true
-            fillMode: Image.PreserveAspectFit
-        }
+        // Only needed for the NEW sign
+        // clip: root.isNew
 
         Item {
             id: itemWrapper
-
             visible: false
             anchors.fill: parent
 
@@ -170,14 +149,12 @@ Item {
 
             Image {
                 id: icnAudio
-
                 width: 20
                 height: 20
                 opacity: 0.25
                 visible: root.containsAudio
                 source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_contains_audio.svg"
                 sourceSize: Qt.size(20, 20)
-
                 anchors {
                     top: parent.top
                     left: icnType.right
@@ -187,13 +164,11 @@ Item {
 
             Image {
                 id: icnType
-
                 width: 20
                 height: 20
                 opacity: 0.25
                 source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_movie.svg"
                 sourceSize: Qt.size(20, 20)
-
                 anchors {
                     top: parent.top
                     left: parent.left
@@ -202,7 +177,6 @@ Item {
             }
 
             Rectangle {
-
                 width: 120
                 height: 20
                 anchors {
@@ -245,10 +219,21 @@ Item {
             }
         }
 
-        OpacityMask {
-            anchors.fill: itemWrapper
+        MultiEffect {
+            anchors.fill: parent
             source: itemWrapper
-            maskSource: mask
+            // TODO: Mask no longer works when enable shadow
+            // shadowEnabled: true
+            // shadowBlur: 0.3
+            // shadowColor: "black"
+            // shadowVerticalOffset: 3
+            maskEnabled: true
+            maskSource: Image {
+                source: "qrc:/qt/qml/ScreenPlay/assets/images/installed_item_mask.png"
+                sourceSize: Qt.size(root.width, root.height)
+                width: root.width
+                height: root.height
+            }
 
             MouseArea {
                 id: hoverArea
@@ -316,6 +301,7 @@ Item {
             }
         }
     }
+
     transitions: [
         Transition {
             from: ""
@@ -323,15 +309,15 @@ Item {
 
             ScaleAnimator {
                 target: screenPlayItemWrapper
-                duration: 2000
+                duration: 300
                 from: 1
                 to: 1.05
                 easing.type: Easing.OutQuart
             }
 
             ScaleAnimator {
-                target: effect
-                duration: 2000
+                target: effectWrapper
+                duration: 300
                 from: 1
                 to: 1.05
                 easing.type: Easing.OutQuart
@@ -339,7 +325,7 @@ Item {
 
             OpacityAnimator {
                 target: icnType
-                duration: 2000
+                duration: 300
                 from: 0.25
                 to: 0.8
                 easing.type: Easing.OutQuart
@@ -347,16 +333,16 @@ Item {
 
             OpacityAnimator {
                 target: icnAudio
-                duration: 2000
+                duration: 300
                 from: 0.25
                 to: 0.8
                 easing.type: Easing.OutQuart
             }
 
             OpacityAnimator {
-                target: effect
+                target: effectWrapper
                 duration: 2000
-                from: 0.6
+                from: 0.4
                 to: 1
                 easing.type: Easing.OutQuart
             }
@@ -366,15 +352,15 @@ Item {
             to: ""
             ScaleAnimator {
                 target: screenPlayItemWrapper
-                duration: 2000
+                duration: 300
                 from: 1.05
                 to: 1
                 easing.type: Easing.OutQuart
             }
 
             ScaleAnimator {
-                target: effect
-                duration: 2000
+                target: effectWrapper
+                duration: 300
                 from: 1.05
                 to: 1
                 easing.type: Easing.OutQuart
@@ -382,7 +368,7 @@ Item {
 
             OpacityAnimator {
                 target: icnType
-                duration: 2000
+                duration: 300
                 from: 0.8
                 to: 0.25
                 easing.type: Easing.OutQuart
@@ -390,17 +376,17 @@ Item {
 
             OpacityAnimator {
                 target: icnAudio
-                duration: 2000
+                duration: 300
                 from: 0.8
                 to: 0.25
                 easing.type: Easing.OutQuart
             }
 
             OpacityAnimator {
-                target: effect
-                duration: 2000
+                target: effectWrapper
+                duration: 300
                 from: 1
-                to: 0.5
+                to: 0.4
                 easing.type: Easing.OutQuart
             }
         }

@@ -1,8 +1,6 @@
 import QtQuick
 import QtQuick.Controls as QQC
-import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material
-import QtQuick.Layouts
 import ScreenPlayCore
 
 QQC.Popup {

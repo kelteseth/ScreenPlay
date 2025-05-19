@@ -4,8 +4,6 @@ import QtQuick.Dialogs
 import QtQuick.Layouts
 import QtQuick.Effects
 import QtQuick.Controls.Material
-import Qt5Compat.GraphicalEffects
-import QtQuick.Controls.Material.impl
 import QtCore as QCore
 import ScreenPlay
 import ScreenPlayCore as Util

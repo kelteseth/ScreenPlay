@@ -57,7 +57,7 @@ func _ready():
 		# yet setup via screenplay_manager.init()
 		get_tree().quit()
 		return
-	Engine.set_max_fps(144)
+	Engine.set_max_fps(30)
 	
 	var ok = screen_play_wallpaper.init(screen_play_wallpaper.get_activeScreensList()[0])
 	if not ok:
