@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Effects
 import ScreenPlay
+import ScreenPlayCore
 
 Item {
     id: settingsHeader
@@ -38,11 +39,12 @@ Item {
                 margins: 10
                 leftMargin: 20
             }
-            Image {
+            ColorImage {
                 id: imgIcon
                 source: settingsHeader.image
                 height: 20
                 width: 20
+                color: "white"
                 sourceSize: Qt.size(20, 20)
                 anchors {
                     top: parent.top
@@ -50,14 +52,6 @@ Item {
                     left: parent.left
                     leftMargin: 0
                 }
-                visible: false // Hide the source item as recommended in MultiEffect docs
-            }
-            MultiEffect {
-                id: iconColorEffect
-                anchors.fill: imgIcon
-                source: imgIcon
-                colorizationColor: "#ffffff"
-                colorization: 1.0 // Full colorization to match ColorOverlay behavior
             }
             Text {
                 id: txtHeadline

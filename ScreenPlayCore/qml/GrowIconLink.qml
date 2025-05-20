@@ -6,28 +6,21 @@ Rectangle {
     id: root
     property alias iconSource: icon.source
     property string url
-    property alias iconColor: overlay.colorizationColor
+    property alias iconColor: icon.color
 
     color: Material.theme === Material.Light ? Material.backgroundColor : Qt.darker(Material.backgroundColor)
     width: 42
     height: width
     radius: width
 
-    Image {
+    ColorImage {
         id: icon
         sourceSize: Qt.size(28, 28)
         anchors.centerIn: parent
         smooth: true
         source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_info.svg"
-        visible: false
     }
 
-    MultiEffect {
-        id: overlay
-        anchors.fill: icon
-        source: icon
-        colorization: 1.0
-    }
 
     MouseArea {
         hoverEnabled: true

@@ -392,7 +392,7 @@ Item {
                                 GrowIconLink {
                                     iconSource: "qrc:/qt/qml/ScreenPlay/assets/icons/brand_github.svg"
                                     url: "https://github.com/kelteseth"
-                                    iconColor: "#333333"
+                                    iconColor: "#eeeeee"
                                 }
 
                                 GrowIconLink {

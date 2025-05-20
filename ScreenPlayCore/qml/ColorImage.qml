@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls.Material
-import QtQuick.Effects
+import ScreenPlayCore
+
 /*!
    \qmltype ColorImage
    \inqmlmodule Common
@@ -15,11 +16,13 @@ Image {
         The color of the image.
     */
     property color color: Material.iconColor
+
     layer {
         enabled: true
-        effect: MultiEffect {
-            colorizationColor: root.color
-            colorization: 1.0
+        effect: ShaderEffect {
+            property color overlayColor: root.color
+            // Must import import ScreenPlayCore?
+            fragmentShader: "/qml/shaders/color_image.frag.qsb"
         }
     }
 }

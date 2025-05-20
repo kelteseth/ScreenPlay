@@ -12,7 +12,7 @@ find_package(Threads REQUIRED)
 find_package(LibArchive REQUIRED)
 find_package(
     Qt6
-    COMPONENTS Core Quick Gui
+    COMPONENTS Core Quick Gui ShaderTools
     REQUIRED)
 
 qt_standard_project_setup(REQUIRES 6.8)
@@ -75,6 +75,10 @@ set(HEADER
     inc/public/ScreenPlayCore/steamenumsgenerated.h
     inc/public/ScreenPlayCore/util.h)
 
+set(SHADER
+    # cmake-format: sort
+    qml/shaders/color_image.frag)
+
 if(APPLE)
     list(APPEND SOURCES src/macutils.mm)
     list(APPEND HEADER inc/public/ScreenPlayCore/macutils.h)
@@ -92,6 +96,7 @@ set(RESOURCES # cmake-format: sort
 qt_add_library(ScreenPlayCoreLib STATIC)
 target_compile_features(ScreenPlayCoreLib PRIVATE cxx_std_23)
 
+
 qt_add_qml_module(
     ScreenPlayCoreLib
     URI
@@ -105,6 +110,17 @@ qt_add_qml_module(
     SOURCES
     ${SOURCES}
     ${HEADER})
+
+# https://doc.qt.io/qt-6/qtshadertools-build.html
+qt6_add_shaders(
+    ScreenPlayCoreLibplugin
+    "ScreenPlayCoreLib_shaders"
+    PREFIX
+        "/"
+    BATCHABLE
+    PRECOMPILE
+    FILES
+    ${SHADER})
 
 target_include_directories(
     ScreenPlayCoreLib

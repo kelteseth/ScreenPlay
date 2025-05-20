@@ -71,7 +71,7 @@ Item {
         }
         Text {
             text: root.geometry.width + "x" + root.geometry.height + "," + root.name
-            color: Material.foreground
+            color: "white"
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             font.pointSize: 10
