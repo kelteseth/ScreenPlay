@@ -164,6 +164,7 @@ public:
         K_EResultPhoneNumberIsVOIP = 127,
         K_EResultNotSupported = 128,
         K_EResultFamilySizeLimitExceeded = 129,
+        K_EResultOfflineAppCacheInvalid = 130,
     };
     Q_ENUM(EResult)
 
@@ -464,18 +465,6 @@ public:
         K_EFriendFlagAll = 65535,
     };
     Q_ENUM(EFriendFlags)
-
-    enum class EUserRestriction {
-        K_nUserRestrictionNone = 0,
-        K_nUserRestrictionUnknown = 1,
-        K_nUserRestrictionAnyChat = 2,
-        K_nUserRestrictionVoiceChat = 4,
-        K_nUserRestrictionGroupChat = 8,
-        K_nUserRestrictionRating = 16,
-        K_nUserRestrictionGameInvites = 32,
-        K_nUserRestrictionTrading = 64,
-    };
-    Q_ENUM(EUserRestriction)
 
     enum class EOverlayToStoreFlag {
         K_EOverlayToStoreFlag_None = 0,
@@ -1313,7 +1302,11 @@ public:
         K_EInputActionOrigin_SteamDeck_Reserved18 = 403,
         K_EInputActionOrigin_SteamDeck_Reserved19 = 404,
         K_EInputActionOrigin_SteamDeck_Reserved20 = 405,
-        K_EInputActionOrigin_Count = 406,
+        K_EInputActionOrigin_Horipad_M1 = 406,
+        K_EInputActionOrigin_Horipad_M2 = 407,
+        K_EInputActionOrigin_Horipad_L4 = 408,
+        K_EInputActionOrigin_Horipad_R4 = 409,
+        K_EInputActionOrigin_Count = 410,
         K_EInputActionOrigin_MaximumPossibleValue = 32767,
     };
     Q_ENUM(EInputActionOrigin)
@@ -1817,7 +1810,11 @@ public:
         K_EControllerActionOrigin_PS5_RightGrip = 383,
         K_EControllerActionOrigin_PS5_LeftFn = 384,
         K_EControllerActionOrigin_PS5_RightFn = 385,
-        K_EControllerActionOrigin_Count = 386,
+        K_EControllerActionOrigin_Horipad_M1 = 386,
+        K_EControllerActionOrigin_Horipad_M2 = 387,
+        K_EControllerActionOrigin_Horipad_L4 = 388,
+        K_EControllerActionOrigin_Horipad_R4 = 389,
+        K_EControllerActionOrigin_Count = 390,
         K_EControllerActionOrigin_MaximumPossibleValue = 32767,
     };
     Q_ENUM(EControllerActionOrigin)
@@ -2009,6 +2006,138 @@ public:
     };
     Q_ENUM(ESteamDeviceFormFactor)
 
+    enum class ERemotePlayInputType {
+        K_ERemotePlayInputUnknown = 0,
+        K_ERemotePlayInputMouseMotion = 1,
+        K_ERemotePlayInputMouseButtonDown = 2,
+        K_ERemotePlayInputMouseButtonUp = 3,
+        K_ERemotePlayInputMouseWheel = 4,
+        K_ERemotePlayInputKeyDown = 5,
+        K_ERemotePlayInputKeyUp = 6,
+    };
+    Q_ENUM(ERemotePlayInputType)
+
+    enum class ERemotePlayMouseButton {
+        K_ERemotePlayMouseButtonLeft = 1,
+        K_ERemotePlayMouseButtonRight = 2,
+        K_ERemotePlayMouseButtonMiddle = 16,
+        K_ERemotePlayMouseButtonX1 = 32,
+        K_ERemotePlayMouseButtonX2 = 64,
+    };
+    Q_ENUM(ERemotePlayMouseButton)
+
+    enum class ERemotePlayMouseWheelDirection {
+        K_ERemotePlayMouseWheelUp = 1,
+        K_ERemotePlayMouseWheelDown = 2,
+        K_ERemotePlayMouseWheelLeft = 3,
+        K_ERemotePlayMouseWheelRight = 4,
+    };
+    Q_ENUM(ERemotePlayMouseWheelDirection)
+
+    enum class ERemotePlayScancode {
+        K_ERemotePlayScancodeUnknown = 0,
+        K_ERemotePlayScancodeA = 4,
+        K_ERemotePlayScancodeB = 5,
+        K_ERemotePlayScancodeC = 6,
+        K_ERemotePlayScancodeD = 7,
+        K_ERemotePlayScancodeE = 8,
+        K_ERemotePlayScancodeF = 9,
+        K_ERemotePlayScancodeG = 10,
+        K_ERemotePlayScancodeH = 11,
+        K_ERemotePlayScancodeI = 12,
+        K_ERemotePlayScancodeJ = 13,
+        K_ERemotePlayScancodeK = 14,
+        K_ERemotePlayScancodeL = 15,
+        K_ERemotePlayScancodeM = 16,
+        K_ERemotePlayScancodeN = 17,
+        K_ERemotePlayScancodeO = 18,
+        K_ERemotePlayScancodeP = 19,
+        K_ERemotePlayScancodeQ = 20,
+        K_ERemotePlayScancodeR = 21,
+        K_ERemotePlayScancodeS = 22,
+        K_ERemotePlayScancodeT = 23,
+        K_ERemotePlayScancodeU = 24,
+        K_ERemotePlayScancodeV = 25,
+        K_ERemotePlayScancodeW = 26,
+        K_ERemotePlayScancodeX = 27,
+        K_ERemotePlayScancodeY = 28,
+        K_ERemotePlayScancodeZ = 29,
+        K_ERemotePlayScancode1 = 30,
+        K_ERemotePlayScancode2 = 31,
+        K_ERemotePlayScancode3 = 32,
+        K_ERemotePlayScancode4 = 33,
+        K_ERemotePlayScancode5 = 34,
+        K_ERemotePlayScancode6 = 35,
+        K_ERemotePlayScancode7 = 36,
+        K_ERemotePlayScancode8 = 37,
+        K_ERemotePlayScancode9 = 38,
+        K_ERemotePlayScancode0 = 39,
+        K_ERemotePlayScancodeReturn = 40,
+        K_ERemotePlayScancodeEscape = 41,
+        K_ERemotePlayScancodeBackspace = 42,
+        K_ERemotePlayScancodeTab = 43,
+        K_ERemotePlayScancodeSpace = 44,
+        K_ERemotePlayScancodeMinus = 45,
+        K_ERemotePlayScancodeEquals = 46,
+        K_ERemotePlayScancodeLeftBracket = 47,
+        K_ERemotePlayScancodeRightBracket = 48,
+        K_ERemotePlayScancodeBackslash = 49,
+        K_ERemotePlayScancodeSemicolon = 51,
+        K_ERemotePlayScancodeApostrophe = 52,
+        K_ERemotePlayScancodeGrave = 53,
+        K_ERemotePlayScancodeComma = 54,
+        K_ERemotePlayScancodePeriod = 55,
+        K_ERemotePlayScancodeSlash = 56,
+        K_ERemotePlayScancodeCapsLock = 57,
+        K_ERemotePlayScancodeF1 = 58,
+        K_ERemotePlayScancodeF2 = 59,
+        K_ERemotePlayScancodeF3 = 60,
+        K_ERemotePlayScancodeF4 = 61,
+        K_ERemotePlayScancodeF5 = 62,
+        K_ERemotePlayScancodeF6 = 63,
+        K_ERemotePlayScancodeF7 = 64,
+        K_ERemotePlayScancodeF8 = 65,
+        K_ERemotePlayScancodeF9 = 66,
+        K_ERemotePlayScancodeF10 = 67,
+        K_ERemotePlayScancodeF11 = 68,
+        K_ERemotePlayScancodeF12 = 69,
+        K_ERemotePlayScancodeInsert = 73,
+        K_ERemotePlayScancodeHome = 74,
+        K_ERemotePlayScancodePageUp = 75,
+        K_ERemotePlayScancodeDelete = 76,
+        K_ERemotePlayScancodeEnd = 77,
+        K_ERemotePlayScancodePageDown = 78,
+        K_ERemotePlayScancodeRight = 79,
+        K_ERemotePlayScancodeLeft = 80,
+        K_ERemotePlayScancodeDown = 81,
+        K_ERemotePlayScancodeUp = 82,
+        K_ERemotePlayScancodeLeftControl = 224,
+        K_ERemotePlayScancodeLeftShift = 225,
+        K_ERemotePlayScancodeLeftAlt = 226,
+        K_ERemotePlayScancodeLeftGUI = 227,
+        K_ERemotePlayScancodeRightControl = 228,
+        K_ERemotePlayScancodeRightShift = 229,
+        K_ERemotePlayScancodeRightALT = 230,
+        K_ERemotePlayScancodeRightGUI = 231,
+    };
+    Q_ENUM(ERemotePlayScancode)
+
+    enum class ERemotePlayKeyModifier {
+        K_ERemotePlayKeyModifierNone = 0,
+        K_ERemotePlayKeyModifierLeftShift = 1,
+        K_ERemotePlayKeyModifierRightShift = 2,
+        K_ERemotePlayKeyModifierLeftControl = 64,
+        K_ERemotePlayKeyModifierRightControl = 128,
+        K_ERemotePlayKeyModifierLeftAlt = 256,
+        K_ERemotePlayKeyModifierRightAlt = 512,
+        K_ERemotePlayKeyModifierLeftGUI = 1024,
+        K_ERemotePlayKeyModifierRightGUI = 2048,
+        K_ERemotePlayKeyModifierNumLock = 4096,
+        K_ERemotePlayKeyModifierCapsLock = 8192,
+        K_ERemotePlayKeyModifierMask = 65535,
+    };
+    Q_ENUM(ERemotePlayKeyModifier)
+
     enum class ESteamNetworkingAvailability {
         K_ESteamNetworkingAvailability_CannotTry = -102,
         K_ESteamNetworkingAvailability_Failed = -101,
@@ -2028,7 +2157,6 @@ public:
         K_ESteamNetworkingIdentityType_SteamID = 16,
         K_ESteamNetworkingIdentityType_XboxPairwiseID = 17,
         K_ESteamNetworkingIdentityType_SonyPSN = 18,
-        K_ESteamNetworkingIdentityType_GoogleStadia = 19,
         K_ESteamNetworkingIdentityType_IPAddress = 1,
         K_ESteamNetworkingIdentityType_GenericString = 2,
         K_ESteamNetworkingIdentityType_GenericBytes = 3,
@@ -2138,10 +2266,17 @@ public:
         K_ESteamNetworkingConfig_LocalVirtualPort = 38,
         K_ESteamNetworkingConfig_DualWifi_Enable = 39,
         K_ESteamNetworkingConfig_EnableDiagnosticsUI = 46,
+        K_ESteamNetworkingConfig_SendTimeSincePreviousPacket = 59,
         K_ESteamNetworkingConfig_FakePacketLoss_Send = 2,
         K_ESteamNetworkingConfig_FakePacketLoss_Recv = 3,
         K_ESteamNetworkingConfig_FakePacketLag_Send = 4,
         K_ESteamNetworkingConfig_FakePacketLag_Recv = 5,
+        K_ESteamNetworkingConfig_FakePacketJitter_Send_Avg = 53,
+        K_ESteamNetworkingConfig_FakePacketJitter_Send_Max = 54,
+        K_ESteamNetworkingConfig_FakePacketJitter_Send_Pct = 55,
+        K_ESteamNetworkingConfig_FakePacketJitter_Recv_Avg = 56,
+        K_ESteamNetworkingConfig_FakePacketJitter_Recv_Max = 57,
+        K_ESteamNetworkingConfig_FakePacketJitter_Recv_Pct = 58,
         K_ESteamNetworkingConfig_FakePacketReorder_Send = 6,
         K_ESteamNetworkingConfig_FakePacketReorder_Recv = 7,
         K_ESteamNetworkingConfig_FakePacketReorder_Time = 8,

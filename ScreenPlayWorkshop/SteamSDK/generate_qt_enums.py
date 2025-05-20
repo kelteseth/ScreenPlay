@@ -30,7 +30,7 @@ if __name__ == '__main__':
     file_begin = """// GENERATED FILE DO NOT EDIT
 // TO REGENERATE:
 // > python.exe generate_qt_enums.py
-// Copy to ScreenPlayUtil/inc/public/ScreenPlayUtil/steamenumsgenerated.h
+// Copy to ScreenPlayCore/inc/public/ScreenPlayCore/steamenumsgenerated.h
 
 #pragma once
 #include <QObject>
