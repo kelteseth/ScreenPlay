@@ -5,6 +5,9 @@ Item {
     id: root
     property Item sourceItem
     property bool hideSource: true
+    property alias blurMax: effect.blurMax
+    property alias blur: effect.blur
+    property alias colorOverlayOpacity: colorOverlay.opacity
 
     ShaderEffectSource {
         id: effectSource
@@ -12,10 +15,11 @@ Item {
         sourceItem: root.sourceItem
         live: false
         hideSource: root.hideSource
-        visible: false // Hide the source as MultiEffect will display it
+        visible: false
     }
 
     MultiEffect {
+        id: effect
         anchors.fill: parent
         source: effectSource
         blurEnabled: true
@@ -25,6 +29,7 @@ Item {
     }
 
     Rectangle {
+        id: colorOverlay
         anchors.fill: parent
         opacity: 0.5
         color: "black"

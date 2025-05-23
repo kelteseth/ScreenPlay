@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
@@ -14,6 +15,7 @@ Rectangle {
     property alias listView: listView
     property alias model: listView.model
     property StackView stackView
+    property Item modalSource
 
     width: 340
     state: expanded ? "" : "inactive"
@@ -71,7 +73,7 @@ Rectangle {
             }
 
             ListElement {
-                headline: qsTr("3D Engine Wallpaper (Godot 4.2)")
+                headline: qsTr("🚀 3D Engine Wallpaper (Godot 4.4)")
                 source: "qrc:/qt/qml/ScreenPlay/qml/Create/Wizards/GodotWallpaper.qml"
                 category: "3D Engine & \nCode Wallpaper"
                 proFeature: true
@@ -119,13 +121,15 @@ Rectangle {
         }
 
         section.delegate: Item {
+            id: sectionHeadline
             height: headline.contentHeight + 20
+            required property string section
 
             Text {
                 id: headline
+                text: sectionHeadline.section
                 font.pointSize: 18
                 color: Material.primaryTextColor
-                text: section
 
                 anchors {
                     bottom: parent.bottom
@@ -137,21 +141,28 @@ Rectangle {
 
         delegate: Button {
             id: listItem
-            objectName: model.objectName
+
+            required property string headline
+            required property bool proFeature
+            required property string source
+            required property string objectName
+            required property int index
+
             width: listView.width - 40
             height: 45
             highlighted: ListView.isCurrentItem
             text: headline
             onClicked: {
-                if (proFeature && App.globalVariables.isBasicVersion())
+                if (listItem.proFeature && App.globalVariables.isBasicVersion())
                     return screenPlayProView.open();
                 listView.currentIndex = index;
-                const item = stackView.push(source);
+                const item = root.stackView.push(source);
                 loaderConnections.target = item;
             }
+
             ToolButton {
                 enabled: false
-                visible: proFeature && App.globalVariables.isBasicVersion()
+                visible: listItem.proFeature && App.globalVariables.isBasicVersion()
                 icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/font-awsome/lock-solid.svg"
                 icon.width: 10
                 icon.height: 10
@@ -167,6 +178,7 @@ Rectangle {
     }
     ScreenPlayProPopup {
         id: screenPlayProView
+        modalSource: root.modalSource
     }
     layer.effect: ElevationEffect {
         elevation: 6
@@ -177,18 +189,16 @@ Rectangle {
             name: ""
 
             PropertyChanges {
-                target: root
-                anchors.leftMargin: 0
-                opacity: 1
+                root.anchors.leftMargin: 0
+                root.opacity: 1
             }
         },
         State {
             name: "inactive"
 
             PropertyChanges {
-                target: root
-                opacity: 0
-                anchors.leftMargin: -root.width
+                root.opacity: 0
+                root.anchors.leftMargin: -root.width
             }
         }
     ]

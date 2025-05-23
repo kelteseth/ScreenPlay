@@ -6,6 +6,7 @@ import ScreenPlay
 import ScreenPlayCore as Util
 import QtQuick.Window
 
+
 Item {
     id: root
 
@@ -112,8 +113,6 @@ Item {
         width: 320
         height: 180
         opacity: 0
-        // Only needed for the NEW sign
-        // clip: root.isNew
 
         Item {
             id: itemWrapper
@@ -234,69 +233,68 @@ Item {
                 width: root.width
                 height: root.height
             }
+        }
+        MouseArea {
+            id: hoverArea
+            anchors.fill: parent
+            hoverEnabled: !root.isScrolling && !showAnim.running && root.hasLicense
+            cursorShape: Qt.PointingHandCursor
+            acceptedButtons: Qt.LeftButton | Qt.RightButton
+            onEntered: handleMouseEnter()
+            onExited: handleMouseExit()
+            onClicked: function (mouse) {
+                if (!root.hasLicense) {
+                    root.openOpenLicensePopup();
+                    return;
+                }
+                if (App.util.isWidget(root.type))
+                    return;
+                if (mouse.button === Qt.LeftButton)
+                    root.clicked(root.folderName, root.type);
+                else if (mouse.button === Qt.RightButton)
+                    root.openContextMenu(Qt.point(mouseX, mouseY));
+            }
+            function handleMouseEnter() {
+                if (!root.hasLicense)
+                    return;
+                root.state = "hover";
+                screenPlayItemImage.state = "hover";
+                screenPlayItemImage.enter();
+            }
+            function handleMouseExit() {
+                if (widgetStartButton.enabled && widgetStartButton.hovered)
+                    return;
+                root.state = "";
+                screenPlayItemImage.state = "loaded";
+                screenPlayItemImage.exit();
+            }
+        }
 
-            MouseArea {
-                id: hoverArea
-                anchors.fill: parent
-                hoverEnabled: !root.isScrolling && !showAnim.running && root.hasLicense
-                cursorShape: Qt.PointingHandCursor
-                acceptedButtons: Qt.LeftButton | Qt.RightButton
-                onEntered: handleMouseEnter()
-                onExited: handleMouseExit()
-                onClicked: function (mouse) {
-                    if (!root.hasLicense) {
-                        root.openOpenLicensePopup();
-                        return;
-                    }
-                    if (App.util.isWidget(root.type))
-                        return;
-                    if (mouse.button === Qt.LeftButton)
-                        root.clicked(root.folderName, root.type);
-                    else if (mouse.button === Qt.RightButton)
-                        root.openContextMenu(Qt.point(mouseX, mouseY));
-                }
-                function handleMouseEnter() {
-                    if (!root.hasLicense)
-                        return;
-                    root.state = "hover";
-                    screenPlayItemImage.state = "hover";
-                    screenPlayItemImage.enter();
-                }
-                function handleMouseExit() {
-                    if (widgetStartButton.enabled && widgetStartButton.hovered)
-                        return;
-                    root.state = "";
-                    screenPlayItemImage.state = "loaded";
-                    screenPlayItemImage.exit();
-                }
+        Button {
+            id: widgetStartButton
+            enabled: App.util.isWidget(root.type)
+            hoverEnabled: enabled
+            text: qsTr("Start")
+            opacity: enabled && (widgetStartButton.hovered || hoverArea.containsMouse) ? 1 : 0
+            onClicked: {
+                App.screenPlayManager.startWidget(root.type, Qt.point(0, 0), root.absoluteStoragePath, root.preview, {}, true);
+            }
+            onHoveredChanged: {
+                if (hovered)
+                    hoverArea.handleMouseEnter();
+                else
+                    hoverArea.handleMouseExit();
             }
 
-            Button {
-                id: widgetStartButton
-                enabled: App.util.isWidget(root.type)
-                hoverEnabled: enabled
-                text: qsTr("Start")
-                opacity: enabled && (widgetStartButton.hovered || hoverArea.containsMouse) ? 1 : 0
-                onClicked: {
-                    App.screenPlayManager.startWidget(root.type, Qt.point(0, 0), root.absoluteStoragePath, root.preview, {}, true);
-                }
-                onHoveredChanged: {
-                    if (hovered)
-                        hoverArea.handleMouseEnter();
-                    else
-                        hoverArea.handleMouseExit();
-                }
-
-                anchors {
-                    horizontalCenter: parent.horizontalCenter
-                    bottom: parent.bottom
-                    bottomMargin: 5
-                }
-                Behavior on opacity {
-                    PropertyAnimation {
-                        property: "opacity"
-                        duration: 250
-                    }
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+                bottom: parent.bottom
+                bottomMargin: 5
+            }
+            Behavior on opacity {
+                PropertyAnimation {
+                    property: "opacity"
+                    duration: 250
                 }
             }
         }

@@ -1,5 +1,4 @@
 import QtQuick
-import QtQuick.Effects
 import QtQuick.Controls.Material
 
 Rectangle {
@@ -25,7 +24,7 @@ Rectangle {
     MouseArea {
         hoverEnabled: true
         anchors.fill: parent
-        onClicked: Qt.openUrlExternally(url)
+        onClicked: Qt.openUrlExternally(root.url)
         onEntered: root.state = "hover"
         onExited: root.state = ""
         cursorShape: Qt.PointingHandCursor

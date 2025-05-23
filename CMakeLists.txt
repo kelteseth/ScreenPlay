@@ -167,12 +167,15 @@ endif()
 add_subdirectory(ThirdParty)
 add_subdirectory(CMake)
 add_subdirectory(Tools)
+
+# Note that the order is important for qt_add_qml_module  DEPENDENCIES TARGET
+add_subdirectory(ScreenPlayCore)
+
 add_subdirectory(ScreenPlay)
 add_subdirectory(ScreenPlaySDK)
 add_subdirectory(ScreenPlayShader)
 add_subdirectory(ScreenPlayWallpaper)
 add_subdirectory(ScreenPlayWidget)
-add_subdirectory(ScreenPlayCore)
 add_subdirectory(ScreenPlayWeather)
 # Only add target SteamSDKQtEnums
 add_subdirectory(ScreenPlayWorkshop/SteamSDK)

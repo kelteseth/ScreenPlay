@@ -215,6 +215,7 @@ set(RESOURCES
     assets/images/rocket_3d.png
     assets/images/scale_window_indicator.png
     assets/images/steam_offline.png
+    assets/images/star.png
     assets/images/timeline_mask.png
     assets/images/trayIcon_osx.png
     assets/images/trayIcon_windows.png

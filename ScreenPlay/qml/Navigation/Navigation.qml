@@ -169,6 +169,7 @@ Rectangle {
 
             ScreenPlayProPopup {
                 id: screenPlayProView
+                modalSource: root.modalSource
             }
 
             contentItem: ToolButton {

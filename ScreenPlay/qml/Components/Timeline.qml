@@ -22,6 +22,7 @@ Control {
     // Do not use this directly, see https://bugreports.qt.io/browse/QTBUG-127633
     property var selectedTimeline: timeline.sectionsList[root.selectedTimelineIndex]
     property int length: timeline.sectionsList.length
+    property Item modalSource
 
     function getSelectedTimeline() {
         return timeline.sectionsList[root.selectedTimelineIndex];
@@ -527,6 +528,7 @@ Control {
 
                 ScreenPlayProPopup {
                     id: screenPlayProView
+                    modalSource: root.modalSource
                 }
 
                 x: hoverHandler.point.position.x - width * .5

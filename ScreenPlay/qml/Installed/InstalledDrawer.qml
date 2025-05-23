@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Effects
 import QtQuick.Layouts
 import QtQuick.Controls.Material
 import QtQuick.Controls.Material.impl
@@ -28,6 +29,7 @@ Drawer {
     property bool hasPreviewGif: false
     property var type: ContentTypes.InstalledType.QMLWallpaper
     property string contentFolderName
+    property Item modalSource
 
     function setInstalledDrawerItem(folderName: string, type: int): void {
 
@@ -114,7 +116,7 @@ Drawer {
                     Layout.leftMargin: 20
                     text: {
                         if (App.globalVariables.isBasicVersion()) {
-                            qsTr("🚀You need ScreenPlay Pro or compile it yourself");
+                            qsTr("🚀You need ScreenPlay Pro (or compile it yourself)");
                         } else {
                             qsTr("1. Set the duration your wallpaper should be visible");
                         }
@@ -127,19 +129,60 @@ Drawer {
                 }
                 Item {
 
-                    Layout.topMargin: 50
+                    Layout.topMargin: 10
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     Timeline {
                         id: timeline
+                        modalSource: root.modalSource
                         anchors.fill: parent
+                        visible: !App.globalVariables.isBasicVersion()
+                    }
 
-                        Text {
-                            anchors.centerIn: parent
-                            color: Material.secondaryTextColor
-                            font.pointSize: 16
-                            text: qsTr("Work in progress...👷")
+                    Item {
+                        anchors.fill: parent
+                        visible: App.globalVariables.isBasicVersion()
+
+                        MultiEffect {
+                            anchors.fill: parent
+                            source: timeline
+                            blurEnabled: true
+                            blur: 0.8
+                            blurMax: 32
+                            brightness: -0.1
                             visible: App.globalVariables.isBasicVersion()
+                        }
+
+                        Column {
+                            anchors{
+                                horizontalCenter: parent.horizontalCenter
+                                bottom: parent.bottom
+                                bottomMargin: 5
+                            }
+
+                            spacing: 10
+                            visible: App.globalVariables.isBasicVersion()
+
+                            Text {
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                color: Material.secondaryTextColor
+                                font.pointSize: 16
+                                text: qsTr("Get Pro version to unlock timeline wallpaper")
+                                horizontalAlignment: Text.AlignHCenter
+                            }
+
+                            Button {
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                text: qsTr("Learn More")
+                                onClicked: {
+                                    screenPlayProView.open()
+                                }
+                            }
+                        }
+
+                        ScreenPlayProPopup {
+                            id: screenPlayProView
+                            modalSource: root.modalSource
                         }
                     }
                 }
@@ -279,7 +322,7 @@ Drawer {
 
                 Button {
                     id: btnLaunchContent
-                    Layout.fillWidth: true
+                    Layout.preferredWidth: 250
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
                     objectName: "btnLaunchContent"
 
@@ -302,8 +345,6 @@ Drawer {
                             btnLaunchContent.updateButtonEnabledState();
                         }
                         function onDataChanged(topLeft, bottomRight, roles) {
-                            // Check if the AppState role changed
-                            print("datachaged:", topLeft, bottomRight, roles);
                             if (roles.indexOf(MonitorListModel.MonitorRole.AppState) !== -1) {
                                 btnLaunchContent.updateButtonEnabledState();
                             }

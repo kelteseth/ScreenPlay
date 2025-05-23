@@ -7,58 +7,46 @@ import ScreenPlayCore
 
 Item {
     id: root
-
     property Item modalSource
-
     StackView.onActivated: {
         wizardContentWrapper.state = "in";
         stackView.push("qrc:/qt/qml/ScreenPlay/qml/Create/StartInfo.qml");
     }
-
     CreateSidebar {
         id: sidebar
-
         stackView: stackView
-
+        modalSource: root.modalSource
         anchors {
             top: parent.top
             left: parent.left
             bottom: parent.bottom
         }
     }
-
     Item {
         id: wizardContentWrapper
-
         width: parent.width - (sidebar.width + (anchors.margins * 2))
         height: parent.height - (anchors.margins * 2)
         opacity: 0
-
         anchors {
             margins: 10
             top: parent.top
             right: parent.right
             topMargin: 200
         }
-
         Rectangle {
             radius: 4
             layer.enabled: true
             color: Material.theme === Material.Light ? "white" : Material.background
-
             anchors {
                 fill: parent
                 margins: 10
             }
-
             StackView {
                 id: stackView
-
                 anchors {
                     fill: parent
                     margins: 20
                 }
-
                 pushEnter: Transition {
                     PropertyAnimation {
                         property: "opacity"
@@ -67,7 +55,6 @@ Item {
                         duration: 400
                         easing.type: Easing.InOutQuart
                     }
-
                     PropertyAnimation {
                         property: "scale"
                         from: 0.8
@@ -76,7 +63,6 @@ Item {
                         easing.type: Easing.InOutQuart
                     }
                 }
-
                 pushExit: Transition {
                     PropertyAnimation {
                         property: "opacity"
@@ -85,7 +71,6 @@ Item {
                         duration: 200
                         easing.type: Easing.InOutQuart
                     }
-
                     PropertyAnimation {
                         property: "scale"
                         from: 1
@@ -95,20 +80,16 @@ Item {
                     }
                 }
             }
-
             layer.effect: ElevationEffect {
                 elevation: 6
             }
         }
-
         states: [
             State {
                 name: "in"
-
                 PropertyChanges {
-                    target: wizardContentWrapper
-                    anchors.topMargin: wizardContentWrapper.anchors.margins
-                    opacity: 1
+                    wizardContentWrapper.anchors.topMargin: wizardContentWrapper.anchors.margins
+                    wizardContentWrapper.opacity: 1
                 }
             }
         ]
@@ -117,7 +98,6 @@ Item {
                 from: ""
                 to: "in"
                 reversible: true
-
                 SequentialAnimation {
                     PropertyAnimation {
                         target: wizardContentWrapper
@@ -125,7 +105,6 @@ Item {
                         easing.type: Easing.OutCubic
                         properties: "anchors.topMargin, opacity"
                     }
-
                     ScriptAction {
                         script: {
                             wizardContentWrapper.anchors.left = sidebar.right;

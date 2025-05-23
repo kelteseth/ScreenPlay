@@ -16,7 +16,7 @@ Popup {
     property int selectedTimelineIndex
     property int selectedMonitorIndex
     property int selectedInstallType
-    property var modalSource
+    property Item modalSource
     property int maxWidth: 1200
     width: Math.min(Math.max(modalSource.width - 20, applicationWindow.minimumWidth), maxWidth)
     height: Math.min(Math.max(modalSource.height - 20, applicationWindow.minimumHeight), 800)
@@ -95,6 +95,10 @@ Popup {
 
                 Timeline {
                     id: timeline
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    visible: !App.globalVariables.isBasicVersion()
+                    modalSource: root.modalSource
                     onSelectedTimelineIndexChanged: {
                         const selectedTimeline = timeline.getSelectedTimeline();
                         print("onSelectedTimelineIndexChanged");
@@ -106,16 +110,49 @@ Popup {
                         root.selectedSectionIdentifier = selectedTimeline.identifier;
                         wallpaperControlsWrapper.updateControls();
                     }
-
+                }
+                Item {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+                    visible: App.globalVariables.isBasicVersion()
 
-                    Text {
-                        anchors.centerIn: parent
-                        color: Material.secondaryTextColor
-                        font.pointSize: 16
-                        text: qsTr("Work in progress...👷")
-                        visible: App.globalVariables.isBasicVersion()
+                    MultiEffect {
+                        anchors.fill: parent
+                        source: timeline
+                        blurEnabled: true
+                        blur: 0.8
+                        blurMax: 32
+                        brightness: -0.1
+                    }
+
+                    Column {
+                        anchors {
+                            horizontalCenter: parent.horizontalCenter
+                            bottom: parent.bottom
+                            bottomMargin: 5
+                        }
+                        spacing: 10
+
+                        Text {
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            color: Material.secondaryTextColor
+                            font.pointSize: 16
+                            text: qsTr("Get Pro version to unlock timeline wallpaper")
+                            horizontalAlignment: Text.AlignHCenter
+                        }
+
+                        Button {
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            text: qsTr("Learn More")
+                            onClicked: {
+                                screenPlayProView.open()
+                            }
+                        }
+                    }
+
+                    ScreenPlayProPopup {
+                        id: screenPlayProView
+                        modalSource: root.modalSource
                     }
                 }
             }

@@ -112,7 +112,7 @@ Item {
             clip: true
             font.pointSize: 12
             font.capitalization: Font.Capitalize
-            text: qsTr("Set your own preview image")
+            text: qsTr("Custom preview")
             font.family: App.settings.font
             wrapMode: Text.WordWrap
             color: Material.secondaryTextColor

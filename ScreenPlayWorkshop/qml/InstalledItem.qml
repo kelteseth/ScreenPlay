@@ -3,17 +3,18 @@ import QtQuick.Effects
 import QtQuick.Controls
 
 Item {
-    id: screenPlayItem
+    id: root
 
+    required property string preview
+    required property string absoluteStoragePath
+    required property string type
+    // Must be var to make it work wit 64bit ints
+    required property var publishedFileID
+    required property int itemIndex
+    required property string folderName
     property alias checkBox: checkBox
-    property string preview: screenPreview
     property bool isSelected: false
-    property string absoluteStoragePath
-    property string type
     property bool hasMenuOpen: false
-    property var publishedFileID: 0
-    property int itemIndex
-    property string folderName
 
     signal itemClicked(var folderName, var type, var isActive)
 
@@ -28,14 +29,14 @@ Item {
             icnType.source = "icons/icon_code.svg";
     }
     Component.onCompleted: {
-        screenPlayItem.state = "visible";
+        root.state = "visible";
     }
     transform: [
         Rotation {
             id: rt
 
-            origin.x: screenPlayItem.width * 0.5
-            origin.y: screenPlayItem.height * 0.5
+            origin.x: root.width * 0.5
+            origin.y: root.height * 0.5
             angle: 0
 
             axis {
@@ -50,15 +51,15 @@ Item {
         Scale {
             id: sc
 
-            origin.x: screenPlayItem.width * 0.5
-            origin.y: screenPlayItem.height * 0.5
+            origin.x: root.width * 0.5
+            origin.y: root.height * 0.5
         }
     ]
 
     Timer {
         id: timerAnim
 
-        interval: 40 * screenPlayItem.itemIndex * Math.random()
+        interval: 40 * root.itemIndex * Math.random()
         running: true
         repeat: false
         onTriggered: showAnim.start()
@@ -79,7 +80,7 @@ Item {
         }
 
         PropertyAnimation {
-            target: screenPlayItem
+            target: root
             from: 0
             to: 1
             duration: 500
@@ -136,7 +137,7 @@ Item {
             id: mask
 
             source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/images/window.svg"
-            sourceSize: Qt.size(screenPlayItem.width, screenPlayItem.height)
+            sourceSize: Qt.size(root.width, root.height)
             visible: false
             smooth: true
             fillMode: Image.PreserveAspectFit
@@ -151,7 +152,7 @@ Item {
                 id: screenPlayItemImage
 
                 anchors.fill: parent
-                sourceImage: Qt.resolvedUrl(screenPlayItem.absoluteStoragePath + "/" + screenPlayItem.screenPreview)
+                sourceImage: Qt.resolvedUrl(root.absoluteStoragePath + "/" + root.preview)
             }
 
             Image {
@@ -202,17 +203,17 @@ Item {
             cursorShape: Qt.PointingHandCursor
             acceptedButtons: Qt.LeftButton | Qt.RightButton
             onEntered: {
-                if (!screenPlayItem.hasMenuOpen)
-                    screenPlayItem.state = "hover";
+                if (!root.hasMenuOpen)
+                    root.state = "hover";
             }
             onExited: {
-                if (!screenPlayItem.hasMenuOpen)
-                    screenPlayItem.state = "visible";
+                if (!root.hasMenuOpen)
+                    root.state = "visible";
             }
             onClicked: function (mouse) {
                 checkBox.toggle();
                 if (mouse.button === Qt.LeftButton)
-                    itemClicked(screenPlayItem.folderName, type, checkBox.checkState === Qt.Checked);
+                    itemClicked(root.folderName, root.type, checkBox.checkState === Qt.Checked);
             }
         }
 
@@ -221,9 +222,9 @@ Item {
 
             onCheckStateChanged: {
                 if (checkState == Qt.Checked)
-                    screenPlayItem.isSelected = true;
+                    root.isSelected = true;
                 else
-                    screenPlayItem.isSelected = false;
+                    root.isSelected = false;
             }
 
             anchors {
@@ -239,56 +240,49 @@ Item {
             name: "invisible"
 
             PropertyChanges {
-                target: screenPlayItemWrapper
-                y: -10
-                opacity: 0
+                screenPlayItemWrapper.y: -10
+                screenPlayItemWrapper.opacity: 0
             }
 
             PropertyChanges {
-                target: effect
-                opacity: 0
+                effect.opacity: 0
             }
         },
         State {
             name: "visible"
 
             PropertyChanges {
-                target: effect
-                opacity: 0.4
+                effect.opacity: 0.4
             }
 
             PropertyChanges {
-                target: screenPlayItemWrapper
-                y: 0
-                opacity: 1
+                screenPlayItemWrapper.y: 0
+                screenPlayItemWrapper.opacity: 1
             }
 
             PropertyChanges {
-                target: screenPlayItem
-                width: 320
-                height: 180
+                root.width: 320
+                root.height: 180
             }
 
             PropertyChanges {
-                target: icnType
-                opacity: 0
+                icnType.opacity: 0
             }
         },
         State {
             name: "selected"
 
             PropertyChanges {
-                target: screenPlayItemWrapper
-                y: 0
-                opacity: 1
+                screenPlayItemWrapper.y: 0
+                screenPlayItemWrapper.opacity: 1
             }
 
             PropertyChanges {
-                target: icnType
-                opacity: 0.5
+                icnType.opacity: 0.5
             }
         }
     ]
+
     transitions: [
         Transition {
             from: "invisible"

@@ -10,7 +10,7 @@ import ScreenPlayCore as Util
 
 Popup {
     id: root
-    property var modalSource
+    property Item modalSource
     property ApplicationWindow applicationWindow
     anchors.centerIn: root.modalSource
     onAboutToHide: {

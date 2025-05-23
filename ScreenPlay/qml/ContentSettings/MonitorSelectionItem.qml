@@ -81,8 +81,8 @@ Item {
             anchors {
                 left: parent.left
                 top: parent.top
-                topMargin: 2
-                leftMargin: 2
+                topMargin: 5
+                leftMargin: 5
             }
         }
 

@@ -37,6 +37,7 @@ Item {
         id: installedDrawer
         objectName: "installedDrawer"
         width: root.width
+        modalSource: root.modalSource
     }
 
     StackView.onActivated: {
@@ -68,6 +69,7 @@ Item {
 
     ScreenPlayProPopup {
         id: screenPlayProView
+        modalSource: root.modalSource
     }
 
     Connections {
