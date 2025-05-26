@@ -22,7 +22,7 @@ function(get_project_version VERSION_VAR)
         )
 
         message(STATUS "Parsing git tag: ${GIT_VERSION}")
-        string(REPLACE "v" "" STRIPPED_VERSION "${GIT_VERSION}") # Remove the 'v' prefix
+        string(REGEX REPLACE "^[vV]" "" STRIPPED_VERSION "${GIT_VERSION}") # Remove the 'v/V' prefix
         string(REPLACE "-" ";" VERSION_LIST ${STRIPPED_VERSION})
         list(GET VERSION_LIST 0 VERSION_STRING)
 
