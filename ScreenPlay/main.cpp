@@ -3,9 +3,7 @@
 #include "CMakeVariables.h"
 #include "ScreenPlay/app.h"
 #include "ScreenPlayCore/logginghandler.h"
-#include "qcorotask.h"
 #include "qml/qcoroqml.h"
-#include "qml/qcoroqmltask.h"
 #include <QCommandLineParser>
 #include <QDebug>
 #include <QGuiApplication>
@@ -60,11 +58,10 @@ int main(int argc, char* argv[])
     auto logging = std::make_unique<const ScreenPlayCore::LoggingHandler>("ScreenPlay");
 
     QQuickStyle::setStyle("Material");
-    auto qmlApplicationEngine = std::make_shared<QQmlApplicationEngine>();
-    App app;
-    app.setEngine(qmlApplicationEngine);
-    qmlRegisterSingletonInstance("ScreenPlay", 1, 0, "App", &app);
-    qmlApplicationEngine->loadFromModule("ScreenPlay", "ScreenPlayMain");
+    auto engine = std::make_shared<QQmlApplicationEngine>();
+    auto app = engine->singletonInstance<App*>("ScreenPlay", "App");
+    app->setEngine(engine);
+    engine->loadFromModule("ScreenPlay", "ScreenPlayMain");
     const int status = qtGuiApp.exec();
 #if defined(Q_OS_WIN)
     sentry_shutdown();

@@ -26,6 +26,8 @@ namespace ScreenPlay {
 
 class App : public QObject {
     Q_OBJECT
+    QML_SINGLETON
+    QML_ELEMENT
 
     // We must add the namespace here to make
     // it work with QtC autocompletion, see QTCREATORBUG-30197
@@ -103,5 +105,6 @@ private:
     std::shared_ptr<ProfileListModel> m_profileListModel;
     std::shared_ptr<InstalledListFilter> m_installedListFilter;
     std::shared_ptr<UiAppStateSignals> m_uiAppStateSignals;
+    static int typeId;
 };
 }
