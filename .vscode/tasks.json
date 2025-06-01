@@ -16,9 +16,9 @@
         {
             "type": "process",
             "label": "🛫 Run setup.py",
-            "command": "python3",
+            "command": "${workspaceFolder}/.venv/bin/python",
             "windows": {
-                "command": "python"
+                "command": "${workspaceFolder}/.venv/Scripts/python.exe"
             },
             "group": {
                 "kind": "build",
@@ -34,9 +34,9 @@
         {
             "type": "process",
             "label": "⚙️ Build Godot Wallpaper plugin",
-            "command": "python3",
+            "command": "${workspaceFolder}/.venv/bin/python",
             "windows": {
-                "command": "python"
+                "command": "${workspaceFolder}/.venv/Scripts/python.exe"
             },
             "group": {
                 "kind": "build",
@@ -54,9 +54,9 @@
         {
             "type": "process",
             "label": "⚙️ Build ScreenPlay release, with deploy and steam enabled",
-            "command": "python3",
+            "command": "${workspaceFolder}/.venv/bin/python",
             "windows": {
-                "command": "python"
+                "command": "${workspaceFolder}/.venv/Scripts/python.exe"
             },
             "group": {
                 "kind": "build",
@@ -83,9 +83,9 @@
         {
             "type": "process",
             "label": "📃 Format Cpp files",
-            "command": "python3",
+            "command": "${workspaceFolder}/.venv/bin/python",
             "windows": {
-                "command": "python"
+                "command": "${workspaceFolder}/.venv/Scripts/python.exe"
             },
             "group": {
                 "kind": "build",
@@ -101,9 +101,9 @@
         {
             "type": "process",
             "label": "📃 Format CMake files",
-            "command": "python3",
+            "command": "${workspaceFolder}/.venv/bin/python",
             "windows": {
-                "command": "python"
+                "command": "${workspaceFolder}/.venv/Scripts/python.exe"
             },
             "group": {
                 "kind": "build",
@@ -119,9 +119,9 @@
         {
             "type": "process",
             "label": "📃 Format Qml files",
-            "command": "python3",
+            "command": "${workspaceFolder}/.venv/bin/python",
             "windows": {
-                "command": "python"
+                "command": "${workspaceFolder}/.venv/Scripts/python.exe"
             },
             "group": {
                 "kind": "build",
@@ -137,9 +137,9 @@
         {
             "type": "process",
             "label": "🗨️ Update Qt *.ts translations",
-            "command": "python3",
+            "command": "${workspaceFolder}/.venv/bin/python",
             "windows": {
-                "command": "python"
+                "command": "${workspaceFolder}/.venv/Scripts/python.exe"
             },
             "group": {
                 "kind": "build",

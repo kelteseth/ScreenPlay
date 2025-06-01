@@ -4,18 +4,27 @@ from pathlib import Path
 
 class BuildResult:
     def __init__(self):
-        # Windows example with absolute paths:
-        # [...]/build-x64-windows-release/
+        # CMAKE_BINARY_DIR - where CMake builds
+        # Example: C:/Code/cpp/ScreenPlay/ScreenPlay/Build/MSVC_Release
         self.build: Path
-        # [...]/build-x64-windows-release/bin
+        
+        # CMAKE_INSTALL_PREFIX - where CMake installs (for distribution)
+        # Example: C:/Code/cpp/ScreenPlay/ScreenPlay/Build/Deploy
+        self.install: Path
+        
+        # Binary directory within install folder
+        # Example: C:/Code/cpp/ScreenPlay/ScreenPlay/Build/Deploy/bin
         self.bin: Path
-        # [...]/build-x64-windows-release/ScreenPlay-Installer.exe
+        
+        # Distribution artifacts (all relative to install folder)
+        # Example: C:/Code/cpp/ScreenPlay/ScreenPlay/Build/Deploy/ScreenPlay-Installer.exe
         self.installer: Path
-        # [...]/build-x64-windows-release/ScreenPlay-Installer.zip
+        # Example: C:/Code/cpp/ScreenPlay/ScreenPlay/Build/Deploy/ScreenPlay-Installer.zip
         self.installer_zip: Path
-        # [...]/build-x64-windows-release/ScreenPlay-0.X.0-RCX-x64-windows-release.zip
+        # Example: C:/Code/cpp/ScreenPlay/ScreenPlay/Build/Deploy/ScreenPlay-0.X.0-RCX-x64-windows-release.zip
         self.build_zip: Path
-        # [...]/build-x64-windows-release/ScreenPlay-0.X.0-RCX-x64-windows-release.txt :sha256, needed for scoop
+        # Example: C:/Code/cpp/ScreenPlay/ScreenPlay/Build/Deploy/ScreenPlay-0.X.0-RCX-x64-windows-release.txt
         self.build_hash: Path
-        # x64, arm64, universal
+        
+        # Architecture info
         self.build_arch: str

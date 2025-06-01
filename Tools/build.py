@@ -81,13 +81,13 @@ def execute(
     # Sets all platform spesific paths, arguments etc.
     [build_config, build_result] = setup(build_config)
 
-    build_result.build = Path(build_config.bin_dir) # TODO remove me?
+    build_result.build = Path(build_config.build_folder)
     build_result.bin = Path(build_config.bin_dir)
 
     # Make sure to always delete everything first.
     # 3rd party tools like the crashreporter create local
     # temporary files in the build directory.
-    clean_build_dir(build_config)
+    # clean_build_dir(build_config)
 
     # Runs cmake configure and cmake build
     step_time = time.time()
@@ -188,6 +188,10 @@ def setup(build_config: BuildConfig) -> Tuple[BuildConfig, BuildResult]:
     build_config.qt_ifw_version = defines.QT_IFW_VERSION
     build_config.qt_bin_path = defines.QT_BIN_PATH
     
+    # Set paths from preset info
+    build_config.build_folder = cmake_vars.get('CMAKE_BINARY_DIR', None)
+    build_config.install_folder = cmake_vars.get('CMAKE_INSTALL_PREFIX', None)
+    
     # For deploy builds, binaries are in the install prefix
     if build_config.install_folder:
         if platform.system() == "Darwin":
@@ -212,78 +216,89 @@ def setup(build_config: BuildConfig) -> Tuple[BuildConfig, BuildResult]:
         build_config.executable_file_ending = ".exe"
 
 
+    
     build_result = BuildResult()
-    # if platform.system() == "Windows":
-    #     build_result.installer = Path(build_config.build_folder).joinpath(
-    #         "ScreenPlay-Installer.exe")
-    # elif platform.system() == "Darwin":
-    #     build_result.installer = Path(
-    #         build_config.build_folder).joinpath("ScreenPlay.dmg")
-    # elif platform.system() == "Linux":
-    #     build_result.installer = Path(build_config.build_folder).joinpath(
-    #         "ScreenPlay-Installer.run")
+    
+    # Set up result paths
+    build_result.build = Path(build_config.build_folder)
+    build_result.install = Path(build_config.install_folder)
+    build_result.bin = Path(build_config.bin_dir)
+    
+    # Distribution artifacts go in install folder
+    if platform.system() == "Windows":
+        build_result.installer = build_result.install.joinpath("ScreenPlay-Installer.exe")
+    elif platform.system() == "Darwin":
+        build_result.installer = build_result.install.joinpath("ScreenPlay.dmg")
+    elif platform.system() == "Linux":
+        build_result.installer = build_result.install.joinpath("ScreenPlay-Installer.run")
 
     return build_config, build_result
 
 
 def build(build_config: BuildConfig, build_result: BuildResult) -> BuildResult:
-    # First configure with configure preset
+    # Configure
     cmake_configure = f'cmake --preset={build_config.preset_name}'
     print(f"cmake configure: {cmake_configure} at {build_config.root_path}")
     run(cmake_configure, cwd=build_config.root_path)
 
-    # Then build using build preset with same name
+    # Build
     cmake_build = f'cmake --build --preset={build_config.preset_name}'
     print(f"cmake build: {cmake_build} at {build_config.root_path}")
     run(cmake_build, cwd=build_config.root_path)
+    
+    # Install (this populates the install folder)
+    cmake_install = f'cmake --install {build_config.build_folder}'
+    print(f"cmake install: {cmake_install}")
+    run(cmake_install, cwd=build_config.root_path)
 
-    build_result.bin = Path(build_config.bin_dir)
     return build_result
 
 
 def copy_vcpkg_libraries(build_config: BuildConfig):
-
-    # Some dlls like openssl do no longer get copied automatically.
-    # Lets just copy all of them into bin.
+    # Copy to install folder, not build folder
     if platform.system() == "Windows":
         vcpkg_bin_path = Path(
             f"{build_config.root_path}/../vcpkg/installed/x64-windows/bin").resolve()
+        install_bin_path = Path(build_config.install_folder).joinpath("bin")
+        
         for file in vcpkg_bin_path.iterdir():
             if file.suffix == ".dll" and file.is_file():
-                print("Copy: ", file, build_config.install_folder)
-                shutil.copy2(file, build_config.install_folder + "/bin")
+                print("Copy: ", file, install_bin_path)
+                shutil.copy2(file, install_bin_path)
 
 def build_installer(build_config: BuildConfig, build_result: BuildResult):
-    os.chdir(build_result.build)
-    print("Running cpack at: ", os.getcwd())
-    run("cpack", cwd=build_config.build_folder)
+    print("Running cpack at: ", build_result.build)
+    run("cpack", cwd=build_result.build)
 
 
 def zip(build_config: BuildConfig, build_result: BuildResult) -> BuildResult:
     zipName = f"ScreenPlay-{build_config.screenplay_version}-{build_config.cmake_target_triplet}-{build_config.build_type}.zip"
-    build_result.build_zip = Path(build_result.build).joinpath(zipName)
+    
+    # Create zip in install folder
+    build_result.build_zip = build_result.install.joinpath(zipName)
     print(f"Creating bin folder zip file: {build_result.build_zip}")
-    os.chdir(build_config.build_folder)
+    
+    # Change to install folder and zip the bin directory
+    os.chdir(build_result.install)
     with zipfile.ZipFile(zipName, 'w', zipfile.ZIP_DEFLATED) as zipf:
-        zipdir(build_config.bin_dir, zipf)
+        zipdir(build_result.bin, zipf)
 
-    zip_file_path = os.path.join(build_result.build, zipName)
-    build_hash = sha256(zip_file_path)
-    build_result.build_hash = Path(
-        build_result.build).joinpath(zipName + ".sha256.txt")
+    # Create hash file in install folder
+    zip_file_path = build_result.build_zip
+    build_hash = sha256(str(zip_file_path))
+    build_result.build_hash = build_result.install.joinpath(zipName + ".sha256.txt")
     print(f"Create sha256 hash: {build_result.build_hash}")
-    f = open(build_result.build_hash, "a")
-    f.write(build_hash)
-    f.close()
+    
+    with open(build_result.build_hash, "w") as f:
+        f.write(build_hash)
 
-    # Some weird company firewalls do not allow direct .exe downloads
-    # lets just zip the installer lol
+    # Zip installer if needed
     if build_config.create_installer == "ON":
-        build_result.installer_zip = Path(build_result.build).joinpath(
+        build_result.installer_zip = build_result.install.joinpath(
             build_result.installer.stem + ".zip")
         print(f"Create zip from installer: {build_result.installer_zip}")
-        zipfile.ZipFile(build_result.installer_zip, 'w').write(
-            build_result.installer, build_result.installer.name)
+        with zipfile.ZipFile(build_result.installer_zip, 'w') as zipf:
+            zipf.write(build_result.installer, build_result.installer.name)
 
     return build_result
 
