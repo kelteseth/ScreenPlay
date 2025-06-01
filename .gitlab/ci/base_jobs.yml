@@ -61,6 +61,8 @@
     # Make sure to use the correct Python version
     - export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
     - which python3
+    - python3 -m venv .venv
+    - source .venv/bin/activate
     - pip3 install -U pip
     - pip3 install -U -r Tools/requirements.txt
     - python3 Tools/setup.py
