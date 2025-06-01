@@ -174,7 +174,6 @@ def setup(build_config: BuildConfig) -> Tuple[BuildConfig, BuildResult]:
     build_config.osx_bundle = cmake_vars.get('SCREENPLAY_OSX_BUNDLE', 'OFF')
 
     # vcpkg
-    build_config.build_architecture = cmake_vars.get('VCPKG_OSX_ARCHITECTURES', '')
     build_config.cmake_target_triplet = cmake_vars.get('VCPKG_TARGET_TRIPLET', '')
 
     # Build configuration, toolchain and paths

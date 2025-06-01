@@ -20,7 +20,6 @@
             ],
             "cacheVariables": {
                 "CMAKE_PREFIX_PATH": "${sourceDir}/../aqt/6.9.0/macos",
-                "VCPKG_OSX_ARCHITECTURES": "arm64;x86_64",
                 "VCPKG_TARGET_TRIPLET": "64-osx-universal"
             }
         },

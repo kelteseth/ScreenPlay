@@ -27,7 +27,6 @@ class BuildConfig:
         self.build_tests = "OFF"
         self.build_deploy = "OFF"
         self.build_type = "Release"
-        self.build_architecture = None
         self.build_godot = "OFF"
         self.create_installer = "OFF"
         self.sign_osx = False
@@ -37,7 +36,6 @@ class BuildConfig:
             "🔧 Build Configuration": {
                 "Preset": self.preset_name,
                 "Type": self.build_type,
-                "Architecture": self.build_architecture,
                 "Target Triplet": self.cmake_target_triplet,
                 "Version": self.screenplay_version,
                 "Toolchain": self.cmake_toolchain_file

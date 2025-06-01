@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.22.0)
+cmake_minimum_required(VERSION 3.24.0)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -7,6 +7,10 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
 
 include(GetProjectVersion)
 get_project_version(SCREENPLAY_VERSION)
+
+# Get build information (date, git branch, commit hash)
+include(GetBuildInfo)
+get_build_info()
 
 # This must be set before project()
 if(APPLE)
@@ -22,6 +26,12 @@ project(
     HOMEPAGE_URL "https://screen-play.app/"
     LANGUAGES CXX)
 
+# Add this section after your existing find_package calls
+find_package(LibArchive REQUIRED)
+find_package(BZip2 REQUIRED)
+find_package(LibXml2 REQUIRED)
+find_package(ZLIB REQUIRED)
+find_package(LibLZMA REQUIRED)
 find_package(
     Qt6
     COMPONENTS Core
@@ -115,18 +125,12 @@ if(${SCREENPLAY_STEAM})
 
     set(STEAM_BINARY_PATH "${STEAM_ROOT}/${STEAM_BINARY}")
 endif()
+
 # Gitlab CI has many ENV variables. We use this one to check if the current build happens inside the CI
 if(DEFINED ENV{CI_COMMIT_MESSAGE})
     set(GITLAB_CI true)
 endif()
 
-if(WIN32)
-    set(DATE_COMMAND "CMD")
-    set(DATE_ARG "/c date /t")
-else()
-    set(DATE_COMMAND "date")
-    set(DATE_ARG "")
-endif()
 
 if(UNIX AND NOT APPLE)
     # Fixes QWebEngine linker errors on Ubuntu 22.04
@@ -134,23 +138,7 @@ if(UNIX AND NOT APPLE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fuse-ld=gold")
 endif()
 
-execute_process(
-    COMMAND ${DATE_COMMAND} ${DATE_ARG}
-    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-    OUTPUT_VARIABLE BUILD_DATE
-    OUTPUT_STRIP_TRAILING_WHITESPACE)
 
-execute_process(
-    COMMAND "${GIT_EXECUTABLE}" rev-parse --abbrev-ref HEAD
-    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-    OUTPUT_VARIABLE GIT_BRANCH_NAME
-    OUTPUT_STRIP_TRAILING_WHITESPACE)
-
-execute_process(
-    COMMAND "${GIT_EXECUTABLE}" rev-parse --short HEAD
-    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-    OUTPUT_VARIABLE GIT_COMMIT_HASH
-    OUTPUT_STRIP_TRAILING_WHITESPACE)
 
 if(${SCREENPLAY_TESTS})
     enable_testing()

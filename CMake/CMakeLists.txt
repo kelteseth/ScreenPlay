@@ -3,6 +3,7 @@ project(CMake)
 set(FILES
     CMakeVariables.h.in
     GetProjectVersion.cmake
+    GetBuildInfo.cmake
     GenerateCMakeVariableHeader.cmake
     CopyRecursive.cmake
     QtDeploy.cmake
