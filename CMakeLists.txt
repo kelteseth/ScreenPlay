@@ -170,7 +170,7 @@ add_subdirectory(Tools)
 
 # Note that the order is important for qt_add_qml_module  DEPENDENCIES TARGET
 add_subdirectory(ScreenPlayCore)
-
+# ScreenPlay must come first, see ScreenPlay register_qt_main_deployment order
 add_subdirectory(ScreenPlay)
 add_subdirectory(ScreenPlaySDK)
 add_subdirectory(ScreenPlayShader)
@@ -204,25 +204,28 @@ endif()
 generate_qt_deployment_script()
 
 message(STATUS "[PROJECT] CMAKE_MODULE_PATH            = ${CMAKE_MODULE_PATH}")
-message(STATUS "[PROJECT] CMAKE_VERSION                = ${CMAKE_VERSION}")
-message(STATUS "[PROJECT] SCREENPLAY_QML_MODULES_PATH  = ${SCREENPLAY_QML_MODULES_PATH}")
+message(STATUS "[PROJECT] CMAKE_BUILD_TYPE             = ${CMAKE_BUILD_TYPE}")
+message(STATUS "[PROJECT] CMAKE_BINARY_DIR             = ${CMAKE_BINARY_DIR}")
+message(STATUS "[PROJECT] CMAKE_INSTALL_PREFIX         = ${CMAKE_INSTALL_PREFIX}")
 message(STATUS "[PROJECT] CMAKE_TOOLCHAIN_FILE         = ${CMAKE_TOOLCHAIN_FILE}")
+message(STATUS "[PROJECT] CMAKE_VERSION                = ${CMAKE_VERSION}")
+message(STATUS "[PROJECT] CMAKE_PREFIX_PATH            = ${CMAKE_PREFIX_PATH}")
 message(STATUS "[PROJECT] VCPKG_PATH                   = ${VCPKG_PATH}")
-message(STATUS "[PROJECT] CMAKE_MODULE_PATH            = ${CMAKE_MODULE_PATH}")
 message(STATUS "[PROJECT] VCPKG_TARGET_TRIPLET         = ${VCPKG_TARGET_TRIPLET}")
 message(STATUS "[PROJECT] QT_QML_GENERATE_QMLLS_INI    = ${QT_QML_GENERATE_QMLLS_INI}")
 message(STATUS "[PROJECT] QT_QML_DEBUG                 = ${QT_QML_DEBUG}")
-message(STATUS "[PROJECT] CMAKE_PREFIX_PATH            = ${CMAKE_PREFIX_PATH}")
 message(STATUS "[PROJECT] GODOT_VERSION                = ${GODOT_VERSION}")
 message(STATUS "[PROJECT] GODOT_EDITOR_NAME            = ${GODOT_EDITOR_NAME}")
 message(STATUS "[PROJECT] SCREENPLAY_VERSION           = ${SCREENPLAY_VERSION}")
+
 message(STATUS "[OPTION] SCREENPLAY_DEPLOY             = ${SCREENPLAY_DEPLOY}")
 message(STATUS "[OPTION] SCREENPLAY_INSTALLER          = ${SCREENPLAY_INSTALLER}")
 message(STATUS "[OPTION] SCREENPLAY_STEAM              = ${SCREENPLAY_STEAM}")
 message(STATUS "[OPTION] SCREENPLAY_TESTS              = ${SCREENPLAY_TESTS}")
 message(STATUS "[OPTION] SCREENPLAY_GODOT              = ${SCREENPLAY_GODOT}")
-message(STATUS "[DEFINE] BUILD_TYPE                    = ${CMAKE_BUILD_TYPE}")
+
 message(STATUS "[DEFINE] GIT_COMMIT_HASH               = ${GIT_COMMIT_HASH}")
+
 message(STATUS "[CPP DEFINE] DEPLOY_VERSION            = ${DEPLOY_VERSION}")
 message(STATUS "[CPP DEFINE] SOURCE_DIR                = ${CMAKE_CURRENT_SOURCE_DIR}")
 message(STATUS "[CPP DEFINE] BUILD_DATE                = ${BUILD_DATE}")

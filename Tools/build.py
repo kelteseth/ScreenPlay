@@ -82,7 +82,7 @@ def execute(
     [build_config, build_result] = setup(build_config)
 
     # build_result.build = Path(build_config.build_folder)
-    # build_result.bin = Path(build_config.bin_dir)
+    build_result.bin = Path(build_config.bin_dir)
 
     # Make sure to always delete everything first.
     # 3rd party tools like the crashreporter create local
@@ -96,7 +96,6 @@ def execute(
     print(f"⏱️ build_duration: {build_duration}s")
     if platform.system() == "Windows":
         copy_vcpkg_libraries(build_config)
-    return
     
     # Build Godot Wallpaper
     # Note: This must happen after building ScreenPlay!
@@ -170,7 +169,6 @@ def setup(build_config: BuildConfig) -> Tuple[BuildConfig, BuildResult]:
     build_config.create_installer = cmake_vars.get('SCREENPLAY_CREATE_INSTALLER', 'OFF')
     build_config.build_steam = cmake_vars.get('SCREENPLAY_BUILD_STEAM', 'OFF')
     build_config.build_tests = cmake_vars.get('SCREENPLAY_BUILD_TESTS', 'OFF')
-    build_config.build_deploy = cmake_vars.get('SCREENPLAY_BUILD_DEPLOY', 'OFF')
     build_config.build_godot = cmake_vars.get('SCREENPLAY_BUILD_GODOT', 'OFF')
     build_config.package = cmake_vars.get('SCREENPLAY_PACKAGE', 'OFF') == 'ON'
     build_config.osx_bundle = cmake_vars.get('SCREENPLAY_OSX_BUNDLE', 'OFF')
@@ -190,7 +188,13 @@ def setup(build_config: BuildConfig) -> Tuple[BuildConfig, BuildResult]:
     build_config.qt_version = defines.QT_VERSION
     build_config.qt_ifw_version = defines.QT_IFW_VERSION
     build_config.qt_bin_path = defines.QT_BIN_PATH
-    build_config.bin_dir = build_config.build_folder # TODO
+    
+    # For deploy builds, binaries are in the install prefix
+    if build_config.install_folder:
+        if platform.system() == "Darwin":
+            build_config.bin_dir = Path(build_config.install_folder)
+        else:
+            build_config.bin_dir = Path(build_config.install_folder).joinpath("bin")
     
     print(build_config)
 
@@ -210,15 +214,15 @@ def setup(build_config: BuildConfig) -> Tuple[BuildConfig, BuildResult]:
 
 
     build_result = BuildResult()
-    if platform.system() == "Windows":
-        build_result.installer = Path(build_config.build_folder).joinpath(
-            "ScreenPlay-Installer.exe")
-    elif platform.system() == "Darwin":
-        build_result.installer = Path(
-            build_config.build_folder).joinpath("ScreenPlay.dmg")
-    elif platform.system() == "Linux":
-        build_result.installer = Path(build_config.build_folder).joinpath(
-            "ScreenPlay-Installer.run")
+    # if platform.system() == "Windows":
+    #     build_result.installer = Path(build_config.build_folder).joinpath(
+    #         "ScreenPlay-Installer.exe")
+    # elif platform.system() == "Darwin":
+    #     build_result.installer = Path(
+    #         build_config.build_folder).joinpath("ScreenPlay.dmg")
+    # elif platform.system() == "Linux":
+    #     build_result.installer = Path(build_config.build_folder).joinpath(
+    #         "ScreenPlay-Installer.run")
 
     return build_config, build_result
 
@@ -249,18 +253,6 @@ def copy_vcpkg_libraries(build_config: BuildConfig):
             if file.suffix == ".dll" and file.is_file():
                 print("Copy: ", file, build_config.install_folder)
                 shutil.copy2(file, build_config.install_folder + "/bin")
-
-# TODO probaply not needed anymore
-# def cleanup_macos(build_config: BuildConfig):
-#     if not platform.system() == "Darwin":
-#         file_endings = [".ninja_deps", ".ninja", ".ninja_log", ".lib", ".a", ".exp",
-#                         ".manifest", ".cmake", ".cbp", "CMakeCache.txt"]
-#         for file_ending in file_endings:
-#             for file in build_config.bin_dir.rglob("*" + file_ending):
-#                 if file.is_file():
-#                     print("Remove: %s" % file.resolve())
-#                     file.unlink()
-
 
 def build_installer(build_config: BuildConfig, build_result: BuildResult):
     os.chdir(build_result.build)

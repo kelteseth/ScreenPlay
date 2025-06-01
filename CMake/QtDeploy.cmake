@@ -3,6 +3,13 @@ find_package(Qt6 REQUIRED COMPONENTS Core)
 # Initialize global properties
 set_property(GLOBAL PROPERTY QT_DEPLOY_TARGETS "")
 set_property(GLOBAL PROPERTY QT_DEPLOY_MAIN_TARGET "")
+# It is called ScreenPlay.app and not ScreenPlayApp.app
+set_property(GLOBAL PROPERTY QT_DEPLOY_MAIN_APP_NAME "")
+
+# Function to register main target name
+function(register_qt_mac_app_name TARGET_NAME)
+    set_property(GLOBAL PROPERTY QT_DEPLOY_MAIN_APP_NAME ${TARGET_NAME})
+endfunction()
 
 # Function to register main target for deployment
 function(register_qt_main_deployment TARGET_NAME)
@@ -16,31 +23,22 @@ function(register_qt_additional_deployment TARGET_NAME)
     set_property(GLOBAL PROPERTY QT_DEPLOY_TARGETS "${targets}")
     
     if(APPLE)
-        get_property(main_target GLOBAL PROPERTY QT_DEPLOY_MAIN_TARGET)
-        if(NOT main_target)
+        get_property(mac_app_name GLOBAL PROPERTY QT_DEPLOY_MAIN_APP_NAME)
+        if(NOT mac_app_name)
             message(FATAL_ERROR "No main target registered. Call register_qt_main_deployment first.")
         endif()
         
-        # Get the bundle name from the main target
-        get_target_property(bundle_name ${main_target} OUTPUT_NAME)
-        if(NOT bundle_name)
-            get_target_property(bundle_name ${main_target} MACOSX_BUNDLE_BUNDLE_NAME)
-        endif()
-        if(NOT bundle_name)
-            set(bundle_name ${main_target})
-        endif()
-        
-        # Set output directories using the bundle name
+        # Important: Set output directories to be within the app bundle
         set_target_properties(${TARGET_NAME} PROPERTIES
             MACOSX_BUNDLE FALSE
-            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${bundle_name}.app/Contents/MacOS"
-            LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${bundle_name}.app/Contents/Frameworks"
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${mac_app_name}.app/Contents/MacOS"
+            LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${mac_app_name}.app/Contents/Frameworks"
         )
         
-        # Install using the bundle name
+        # Install directly into the app bundle
         install(TARGETS ${TARGET_NAME}
-            RUNTIME DESTINATION "${bundle_name}.app/Contents/MacOS"
-            LIBRARY DESTINATION "${bundle_name}.app/Contents/Frameworks"
+            RUNTIME DESTINATION "${mac_app_name}.app/Contents/MacOS"
+            LIBRARY DESTINATION "${mac_app_name}.app/Contents/Frameworks"
         )
     else()
         install(TARGETS ${TARGET_NAME}
@@ -61,7 +59,7 @@ function(generate_qt_deployment_script)
     endif()
     
     # Get actual bundle name from target properties
-    get_target_property(bundle_name ${main_target} OUTPUT_NAME)
+    get_property(bundle_name GLOBAL PROPERTY QT_DEPLOY_MAIN_APP_NAME)
     if(NOT bundle_name)
         get_target_property(bundle_name ${main_target} MACOSX_BUNDLE_BUNDLE_NAME)
     endif()

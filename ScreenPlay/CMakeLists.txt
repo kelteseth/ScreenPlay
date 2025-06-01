@@ -523,4 +523,5 @@ install(
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
+register_qt_mac_app_name("ScreenPlay")
 register_qt_main_deployment(ScreenPlayApp)
