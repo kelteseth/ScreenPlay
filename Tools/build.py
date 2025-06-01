@@ -23,7 +23,8 @@ stdout.reconfigure(encoding='utf-8')
 
 
 def get_preset_info(preset_name, cwd):
-    result = subprocess.run(['cmake', '--preset', preset_name, '-N'], 
+    # gitlab.kitware.com/cmake/cmake/-/issues/26968#note_1665033
+    result = subprocess.run(['cmake', '--preset', preset_name, '-N', '--log-level=VERBOSE'], 
                           capture_output=True, text=True, cwd=cwd)
     
     if result.returncode != 0:
