@@ -81,7 +81,7 @@ def execute(
     # Sets all platform spesific paths, arguments etc.
     [build_config, build_result] = setup(build_config)
 
-    # build_result.build = Path(build_config.build_folder)
+    build_result.build = Path(build_config.bin_dir) # TODO remove me?
     build_result.bin = Path(build_config.bin_dir)
 
     # Make sure to always delete everything first.
