@@ -6,7 +6,6 @@ import ScreenPlay
 import ScreenPlayCore as Util
 import QtQuick.Window
 
-
 Item {
     id: root
 
@@ -100,7 +99,6 @@ Item {
             easing.type: Easing.OutCirc
         }
     }
-
 
     Item {
         id: effectWrapper

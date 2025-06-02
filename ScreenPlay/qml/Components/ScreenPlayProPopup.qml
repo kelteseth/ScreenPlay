@@ -36,9 +36,9 @@ Popup {
         property real mouseX: 0
         property real mouseY: 0
 
-        onPositionChanged: function(mouse) {
-            mouseX = mouse.x
-            mouseY = mouse.y
+        onPositionChanged: function (mouse) {
+            mouseX = mouse.x;
+            mouseY = mouse.y;
         }
     }
 
@@ -78,11 +78,23 @@ Popup {
             opacity: .2
 
             gradient: Gradient {
-                   GradientStop { position: 0.0; color: "#0a1a3f" } // Dark blue
-                   GradientStop { position: 0.4; color: "#1f3b75" } // Medium blue
-                   GradientStop { position: 0.7; color: "#3a5998" } // Lighter blue
-                   GradientStop { position: 1.0; color: Material.backgroundColor } // Bottom matches material background
-               }
+                GradientStop {
+                    position: 0.0
+                    color: "#0a1a3f"
+                } // Dark blue
+                GradientStop {
+                    position: 0.4
+                    color: "#1f3b75"
+                } // Medium blue
+                GradientStop {
+                    position: 0.7
+                    color: "#3a5998"
+                } // Lighter blue
+                GradientStop {
+                    position: 1.0
+                    color: Material.backgroundColor
+                } // Bottom matches material background
+            }
         }
     }
 
@@ -141,7 +153,9 @@ Popup {
         opacity: root.visible ? 1 : 0
 
         Behavior on opacity {
-             NumberAnimation { duration: 500 }
+            NumberAnimation {
+                duration: 500
+            }
         }
 
         ImageParticle {
@@ -228,12 +242,12 @@ Popup {
         }
     }
 
-     RowLayout {
-         anchors {
-             fill: parent
-             leftMargin: 40
-             rightMargin: 40
-         }
+    RowLayout {
+        anchors {
+            fill: parent
+            leftMargin: 40
+            rightMargin: 40
+        }
         spacing: 50
 
         ColumnLayout {
@@ -309,7 +323,7 @@ Popup {
                     text: qsTr("🚀 Get Pro Now")
                     highlighted: true
                     onClicked: {
-                        root.close()
+                        root.close();
                     }
                 }
 
@@ -358,18 +372,18 @@ Popup {
             }
         }
     }
-     ToolButton {
-         width: 32
-         height: width
-         icon.width: 16
-         icon.height: 16
-         icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/font-awsome/close.svg"
-         icon.color: Material.iconColor
-         onClicked: root.close()
+    ToolButton {
+        width: 32
+        height: width
+        icon.width: 16
+        icon.height: 16
+        icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/font-awsome/close.svg"
+        icon.color: Material.iconColor
+        onClicked: root.close()
 
-         anchors {
-             top: parent.top
-             right: parent.right
-         }
-     }
+        anchors {
+            top: parent.top
+            right: parent.right
+        }
+    }
 }

@@ -54,12 +54,10 @@ set(RESOURCES qtquickcontrols2.conf index.html)
 # Create a separate Windows Integration library
 if(WIN32)
     qt_add_library(ScreenPlayWallpaperWindowsIntegration STATIC)
-    target_sources(ScreenPlayWallpaperWindowsIntegration
-        PRIVATE
-            src/windowsintegration.cpp
-        PUBLIC
-            src/windowsintegration.h
-    )
+    target_sources(
+        ScreenPlayWallpaperWindowsIntegration
+        PRIVATE src/windowsintegration.cpp
+        PUBLIC src/windowsintegration.h)
     target_compile_features(ScreenPlayWallpaperWindowsIntegration PRIVATE cxx_std_23)
     target_include_directories(ScreenPlayWallpaperWindowsIntegration PUBLIC src)
 
@@ -103,11 +101,8 @@ target_link_libraries(
            Qt6::WebEngineQuick)
 
 if(WIN32)
-    target_link_libraries(ScreenPlayWallpaperLib
-        PUBLIC
-            ScreenPlayWallpaperWindowsIntegration
-            ScreenPlaySysInfoLibplugin
-            ScreenPlayCoreWindowsExtrasLib)
+    target_link_libraries(ScreenPlayWallpaperLib PUBLIC ScreenPlayWallpaperWindowsIntegration ScreenPlaySysInfoLibplugin
+                                                        ScreenPlayCoreWindowsExtrasLib)
 elseif(UNIX AND NOT APPLE)
     target_link_libraries(ScreenPlayWallpaperLib PRIVATE X11)
 endif()

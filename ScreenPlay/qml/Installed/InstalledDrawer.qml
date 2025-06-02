@@ -154,7 +154,7 @@ Drawer {
                         }
 
                         Column {
-                            anchors{
+                            anchors {
                                 horizontalCenter: parent.horizontalCenter
                                 bottom: parent.bottom
                                 bottomMargin: 5
@@ -175,7 +175,7 @@ Drawer {
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 text: qsTr("Learn More")
                                 onClicked: {
-                                    screenPlayProView.open()
+                                    screenPlayProView.open();
                                 }
                             }
                         }

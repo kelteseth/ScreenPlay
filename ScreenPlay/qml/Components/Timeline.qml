@@ -399,9 +399,7 @@ Control {
 
         Rectangle {
             id: addHandleWrapper
-            color: Material.theme === Material.Dark
-                   ? Material.color(Material.Grey, Material.Shade900)
-                   : Material.color(Material.Grey, Material.Shade100)
+            color: Material.theme === Material.Dark ? Material.color(Material.Grey, Material.Shade900) : Material.color(Material.Grey, Material.Shade100)
             height: 30
             anchors {
                 left: parent.left
@@ -416,9 +414,7 @@ Control {
             // Current time indicator
             Rectangle {
                 id: currentTimeIndicator
-                color: Material.theme === Material.Dark
-                       ? Qt.alpha(Material.color(Material.BlueGrey), 0.5)
-                       : Qt.alpha(Material.color(Material.BlueGrey, Material.Shade400), 0.6)
+                color: Material.theme === Material.Dark ? Qt.alpha(Material.color(Material.BlueGrey), 0.5) : Qt.alpha(Material.color(Material.BlueGrey, Material.Shade400), 0.6)
                 width: 2
                 height: 30
                 y: (addHandleWrapper.height - height) / 2 // Vertically center within addHandleWrapper
@@ -442,9 +438,7 @@ Control {
 
             Text {
                 id: currentTimeText
-                color: Material.theme === Material.Dark
-                       ? Material.color(Material.Grey)
-                       : Material.color(Material.Grey, Material.Shade700)
+                color: Material.theme === Material.Dark ? Material.color(Material.Grey) : Material.color(Material.Grey, Material.Shade700)
                 text: Qt.formatTime(new Date(), "hh:mm:ss")
                 font.pointSize: 12
                 anchors {
@@ -490,9 +484,7 @@ Control {
                         x: timelineIndicatorItem.index * width
                         Text {
                             id: txtHours
-                            color: Material.theme === Material.Dark
-                                   ? Material.color(Material.Grey)
-                                   : Material.color(Material.Grey, Material.Shade800)
+                            color: Material.theme === Material.Dark ? Material.color(Material.Grey) : Material.color(Material.Grey, Material.Shade800)
                             text: timelineIndicatorItem.index + 1
                             anchors {
                                 horizontalCenter: indicator.horizontalCenter
@@ -501,9 +493,7 @@ Control {
 
                         Rectangle {
                             id: indicator
-                            color: Material.theme === Material.Dark
-                                   ? Material.color(Material.Grey)
-                                   : Material.color(Material.Grey, Material.Shade700)
+                            color: Material.theme === Material.Dark ? Material.color(Material.Grey) : Material.color(Material.Grey, Material.Shade700)
                             width: 1
                             height: 10
                             anchors {
@@ -555,9 +545,7 @@ Control {
         }
         Rectangle {
             height: 20
-            color: Material.theme === Material.Dark
-                   ? Material.color(Material.Grey)
-                   : Material.color(Material.Grey, Material.Shade700)
+            color: Material.theme === Material.Dark ? Material.color(Material.Grey) : Material.color(Material.Grey, Material.Shade700)
             width: 1
             anchors {
                 right: parent.left
@@ -567,9 +555,7 @@ Control {
         Rectangle {
             height: 20
             width: 1
-            color: Material.theme === Material.Dark
-                   ? Material.color(Material.Grey)
-                   : Material.color(Material.Grey, Material.Shade700)
+            color: Material.theme === Material.Dark ? Material.color(Material.Grey) : Material.color(Material.Grey, Material.Shade700)
             anchors {
                 right: parent.right
                 verticalCenter: lineIndicatorWrapper.verticalCenter

@@ -6,6 +6,7 @@ import QtQuick.Window
 import QtQuick.Effects
 import ScreenPlay
 import ScreenPlayCore as Util
+
 Util.Dialog {
     id: root
     property ApplicationWindow applicationWindow

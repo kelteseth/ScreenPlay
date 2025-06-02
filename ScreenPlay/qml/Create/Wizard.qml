@@ -86,7 +86,6 @@ Item {
         }
     }
 
-
     states: [
         State {
             name: "out"

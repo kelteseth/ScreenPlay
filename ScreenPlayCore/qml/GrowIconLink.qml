@@ -20,7 +20,6 @@ Rectangle {
         source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_info.svg"
     }
 
-
     MouseArea {
         hoverEnabled: true
         anchors.fill: parent

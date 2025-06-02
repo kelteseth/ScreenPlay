@@ -120,5 +120,4 @@ std::expected<ScreenPlayEnums::Version, SteamError> SteamDLCChecker::checkDLCSta
     return version;
 }
 
-
 } // namespace ScreenPlay

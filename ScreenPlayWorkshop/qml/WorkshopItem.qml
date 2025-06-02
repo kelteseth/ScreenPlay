@@ -49,7 +49,9 @@ Item {
 
         width: parent.width
         height: parent.height
-        source: Item { anchors.fill: parent }
+        source: Item {
+            anchors.fill: parent
+        }
         shadowEnabled: true
         shadowBlur: 1.0
         shadowColor: "black"

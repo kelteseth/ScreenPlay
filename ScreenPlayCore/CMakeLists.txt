@@ -12,7 +12,10 @@ find_package(Threads REQUIRED)
 find_package(LibArchive REQUIRED)
 find_package(
     Qt6
-    COMPONENTS Core Quick Gui ShaderTools
+    COMPONENTS Core
+               Quick
+               Gui
+               ShaderTools
     REQUIRED)
 
 qt_standard_project_setup(REQUIRES 6.8)
@@ -51,22 +54,21 @@ set(SOURCES
     src/archive.cpp
     src/contenttypes.cpp
     src/exitcodes.cpp
+    src/licensemanager.cpp
     src/logginghandler.cpp
     src/processmanager.cpp
     src/projectfile.cpp
-    src/licensemanager.cpp
     src/steamenumsgenerated.cpp
     src/util.cpp)
 
 set(HEADER
-
     # cmake-format: sort
     inc/public/ScreenPlayCore/archive.h
-    inc/public/ScreenPlayCore/licensemanager.h
     inc/public/ScreenPlayCore/contenttypes.h
     inc/public/ScreenPlayCore/exitcodes.h
     inc/public/ScreenPlayCore/globalenums.h
     inc/public/ScreenPlayCore/HelpersCommon.h
+    inc/public/ScreenPlayCore/licensemanager.h
     inc/public/ScreenPlayCore/ListPropertyHelper.h
     inc/public/ScreenPlayCore/logginghandler.h
     inc/public/ScreenPlayCore/processmanager.h
@@ -75,9 +77,8 @@ set(HEADER
     inc/public/ScreenPlayCore/steamenumsgenerated.h
     inc/public/ScreenPlayCore/util.h)
 
-set(SHADER
-    # cmake-format: sort
-    qml/shaders/color_image.frag)
+set(SHADER # cmake-format: sort
+           qml/shaders/color_image.frag)
 
 if(APPLE)
     list(APPEND SOURCES src/macutils.mm)
@@ -95,7 +96,6 @@ set(RESOURCES # cmake-format: sort
 
 qt_add_library(ScreenPlayCoreLib STATIC)
 target_compile_features(ScreenPlayCoreLib PRIVATE cxx_std_23)
-
 
 qt_add_qml_module(
     ScreenPlayCoreLib
@@ -116,7 +116,7 @@ qt6_add_shaders(
     ScreenPlayCoreLibplugin
     "ScreenPlayCoreLib_shaders"
     PREFIX
-        "/"
+    "/"
     BATCHABLE
     PRECOMPILE
     FILES
