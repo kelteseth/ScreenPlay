@@ -12,12 +12,11 @@ def combine_sha256():
     # Get the repo root path as a Path object
     root_path = Path(util.repo_root_path())
 
+    # Files are now in the Build/ directory
     files = [
-        Path(
-            f"{root_path}/build-x64-windows-release/ScreenPlay-{tag}-x64-windows-release.zip"),
-        Path(
-            f"{root_path}/build-x64-linux-release/ScreenPlay-{tag}-x64-linux-release.zip"),
-        Path(f"{root_path}/build-64-osx-universal-release/ScreenPlay-{tag}-64-osx-universal-release.zip")
+        Path(f"{root_path}/Build/ScreenPlay-{tag}-x64-windows-Release.zip"),  # Note: capital R in Release
+        Path(f"{root_path}/Build/ScreenPlay-{tag}-x64-linux-release.zip"),
+        Path(f"{root_path}/Build/ScreenPlay-{tag}-64-osx-universal-release.zip")
     ]
 
     with open('SHA512-SUMS.txt', 'w') as f_out:

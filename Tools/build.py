@@ -87,7 +87,7 @@ def execute(
     # Make sure to always delete everything first.
     # 3rd party tools like the crashreporter create local
     # temporary files in the build directory.
-    # clean_build_dir(build_config)
+    clean_build_dir(build_config)
 
     # Runs cmake configure and cmake build
     step_time = time.time()
@@ -274,19 +274,20 @@ def build_installer(build_config: BuildConfig, build_result: BuildResult):
 def zip(build_config: BuildConfig, build_result: BuildResult) -> BuildResult:
     zipName = f"ScreenPlay-{build_config.screenplay_version}-{build_config.cmake_target_triplet}-{build_config.build_type}.zip"
     
-    # Create zip in install folder
-    build_result.build_zip = build_result.install.joinpath(zipName)
-    print(f"Creating bin folder zip file: {build_result.build_zip}")
+    # Create zip in Build folder (parent of Deploy/install folder)
+    build_parent = build_result.install.parent
+    build_result.build_zip = build_parent.joinpath(zipName)
+    print(f"Creating Deploy folder zip file: {build_result.build_zip}")
     
-    # Change to install folder and zip the bin directory
-    os.chdir(build_result.install)
+    # Change to Build folder and zip the entire Deploy directory
+    os.chdir(build_parent)
     with zipfile.ZipFile(zipName, 'w', zipfile.ZIP_DEFLATED) as zipf:
-        zipdir(build_result.bin, zipf)
+        zipdir(build_result.install, zipf)
 
-    # Create hash file in install folder
+    # Create hash file in Build folder (next to zip)
     zip_file_path = build_result.build_zip
     build_hash = sha256(str(zip_file_path))
-    build_result.build_hash = build_result.install.joinpath(zipName + ".sha256.txt")
+    build_result.build_hash = build_parent.joinpath(zipName + ".sha256.txt")
     print(f"Create sha256 hash: {build_result.build_hash}")
     
     with open(build_result.build_hash, "w") as f:
@@ -294,7 +295,7 @@ def zip(build_config: BuildConfig, build_result: BuildResult) -> BuildResult:
 
     # Zip installer if needed
     if build_config.create_installer == "ON":
-        build_result.installer_zip = build_result.install.joinpath(
+        build_result.installer_zip = build_parent.joinpath(
             build_result.installer.stem + ".zip")
         print(f"Create zip from installer: {build_result.installer_zip}")
         with zipfile.ZipFile(build_result.installer_zip, 'w') as zipf:

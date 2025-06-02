@@ -8,8 +8,8 @@ steam_linux:
     - if: "$CI_COMMIT_TAG"
   artifacts:
     paths:
-      - Build/Deploy/ScreenPlay-$CI_COMMIT_TAG-x64-linux-release.zip
-      - Build/Deploy/ScreenPlay-$CI_COMMIT_TAG-x64-linux-release.zip.sha256.txt
+      - Build/ScreenPlay-$CI_COMMIT_TAG-x64-linux-release.zip
+      - Build/ScreenPlay-$CI_COMMIT_TAG-x64-linux-release.zip.sha256.txt
 
 steam_windows:
   stage: release_build
@@ -21,8 +21,8 @@ steam_windows:
     - if: "$CI_COMMIT_TAG"
   artifacts:
     paths:
-      - Build/Deploy/ScreenPlay-$CI_COMMIT_TAG-x64-windows-Release.zip
-      - Build/Deploy/ScreenPlay-$CI_COMMIT_TAG-x64-windows-Release.zip.sha256.txt
+      - Build/ScreenPlay-$CI_COMMIT_TAG-x64-windows-Release.zip
+      - Build/ScreenPlay-$CI_COMMIT_TAG-x64-windows-Release.zip.sha256.txt
 
 steam_osx:
   stage: release_build
@@ -34,8 +34,8 @@ steam_osx:
     - if: "$CI_COMMIT_TAG"
   artifacts:
     paths:
-      - Build/Deploy/ScreenPlay-$CI_COMMIT_TAG-64-osx-universal-release.zip
-      - Build/Deploy/ScreenPlay-$CI_COMMIT_TAG-64-osx-universal-release.zip.sha256.txt
+      - Build/ScreenPlay-$CI_COMMIT_TAG-64-osx-universal-release.zip
+      - Build/ScreenPlay-$CI_COMMIT_TAG-64-osx-universal-release.zip.sha256.txt
 
 release_job:
   interruptible: true
@@ -62,9 +62,9 @@ release_job:
     - ssh-keyscan 91.204.46.10 >> ~/.ssh/known_hosts
     - sshpass -p $GETSP_PASSWORD ssh $GETSP_USERNAME@91.204.46.10 "rm -rf /getsp.de/httpdocs/releases/$CI_COMMIT_TAG; mkdir /getsp.de/httpdocs/releases/$CI_COMMIT_TAG;"
     # 3. Upload files to the remote folder
-    - sshpass -p $GETSP_PASSWORD scp Build/Deploy/ScreenPlay-$CI_COMMIT_TAG-x64-linux-release.zip $GETSP_USERNAME@91.204.46.10:/getsp.de/httpdocs/releases/$CI_COMMIT_TAG/
-    - sshpass -p $GETSP_PASSWORD scp Build/Deploy/ScreenPlay-$CI_COMMIT_TAG-x64-windows-Release.zip $GETSP_USERNAME@91.204.46.10:/getsp.de/httpdocs/releases/$CI_COMMIT_TAG/
-    - sshpass -p $GETSP_PASSWORD scp Build/Deploy/ScreenPlay-$CI_COMMIT_TAG-64-osx-universal-release.zip $GETSP_USERNAME@91.204.46.10:/getsp.de/httpdocs/releases/$CI_COMMIT_TAG/
+    - sshpass -p $GETSP_PASSWORD scp Build/ScreenPlay-$CI_COMMIT_TAG-x64-linux-release.zip $GETSP_USERNAME@91.204.46.10:/getsp.de/httpdocs/releases/$CI_COMMIT_TAG/
+    - sshpass -p $GETSP_PASSWORD scp Build/ScreenPlay-$CI_COMMIT_TAG-x64-windows-Release.zip $GETSP_USERNAME@91.204.46.10:/getsp.de/httpdocs/releases/$CI_COMMIT_TAG/
+    - sshpass -p $GETSP_PASSWORD scp Build/ScreenPlay-$CI_COMMIT_TAG-64-osx-universal-release.zip $GETSP_USERNAME@91.204.46.10:/getsp.de/httpdocs/releases/$CI_COMMIT_TAG/
     - sshpass -p $GETSP_PASSWORD scp SHA512-SUMS.txt $GETSP_USERNAME@91.204.46.10:/getsp.de/httpdocs/releases/$CI_COMMIT_TAG/
   release:
     tag_name: $CI_COMMIT_TAG

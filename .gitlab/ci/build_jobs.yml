@@ -6,8 +6,8 @@ standalone_windows:
     - python Tools/build.py --preset=windows-deploy-release
   artifacts:
     paths:
-      - Build/Deploy/ScreenPlay-*-x64-windows-Release.zip
-      - Build/Deploy/ScreenPlay-*-x64-windows-Release.zip.sha256.txt
+      - Build/ScreenPlay-*-x64-windows-Release.zip
+      - Build/ScreenPlay-*-x64-windows-Release.zip.sha256.txt
     expire_in: 1 week
 
 standalone_osx:
@@ -18,8 +18,8 @@ standalone_osx:
     - python3 Tools/build.py --preset=mac-deploy-release
   artifacts:
     paths:
-      - Build/Deploy/ScreenPlay-*-64-osx-universal-release.zip
-      - Build/Deploy/ScreenPlay-*-64-osx-universal-release.zip.sha256.txt
+      - Build/ScreenPlay-*-64-osx-universal-release.zip
+      - Build/ScreenPlay-*-64-osx-universal-release.zip.sha256.txt
     expire_in: 1 week
 
 standalone_linux:
@@ -30,6 +30,6 @@ standalone_linux:
     - python3 Tools/build.py --preset=linux-deploy-release
   artifacts:
     paths:
-      - Build/Deploy/ScreenPlay-*-x64-linux-release.zip
-      - Build/Deploy/ScreenPlay-*-x64-linux-release.zip.sha256.txt
+      - Build/ScreenPlay-*-x64-linux-release.zip
+      - Build/ScreenPlay-*-x64-linux-release.zip.sha256.txt
     expire_in: 1 week
