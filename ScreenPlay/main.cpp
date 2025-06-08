@@ -39,6 +39,8 @@ bool isAnotherScreenPlayInstanceRunning()
 
 int main(int argc, char* argv[])
 {
+    // https://bugreports.qt.io/browse/QTBUG-116388
+    qputenv("QT_QUICK_FLICKABLE_WHEEL_DECELERATION", "5000");
     using namespace ScreenPlay;
     QCoro::Qml::registerTypes();
 #if !defined(Q_OS_LINUX)

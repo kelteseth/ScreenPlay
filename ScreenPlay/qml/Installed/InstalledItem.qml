@@ -1,171 +1,160 @@
 import QtQuick
-import QtQuick.Effects
 import QtQuick.Controls
 import QtQuick.Controls.Material
+import QtQuick.Effects
 import ScreenPlay
 import ScreenPlayCore as Util
-import QtQuick.Window
 
 Item {
     id: root
-
+    // Required properties - using readonly for better performance where appropriate
     required property string title
     required property string folderName
     required property string absoluteStoragePath
     required property int type
-    // Must be var to make it work wit 64bit ints
-    required property var publishedFileID
-    required property bool isScrolling
+    required property var publishedFileID  // var for 64-bit support
     required property bool isNew
     required property bool containsAudio
     required property string previewGIF
     required property string preview
     required property int index
-    property bool hasLicense: {
-        if (App.globalVariables.isBasicVersion() && root.type === Util.ContentTypes.InstalledType.GodotWallpaper) {
+    required property int itemsPerRow
+    readonly property int rowIndex: Math.floor(root.index / root.itemsPerRow)
+    readonly property int columnIndex: root.index % itemsPerRow
+    property bool isScrolling: false
+
+    // Using readonly properties avoids creating bindings when values are static
+    readonly property bool hasLicense: {
+        if (App.globalVariables.isBasicVersion()) {
             return false;
         }
         return true;
     }
 
+    // Pre-compute image sources to avoid repeated string concatenation
+    readonly property string primaryImageSource: root.preview === "" ?
+        "qrc:/qt/qml/ScreenPlay/assets/images/missingPreview.png" :
+        Qt.resolvedUrl(root.absoluteStoragePath + "/" + root.preview)
+
+    readonly property string gifImageSource: root.previewGIF === "" ?
+        "" : Qt.resolvedUrl(root.absoluteStoragePath + "/" + root.previewGIF)
+
+    // Compute type icon once to avoid repeated checks
+    readonly property string typeIconSource: {
+        if (App.util.isWidget(type)) {
+            return "qrc:/qt/qml/ScreenPlay/assets/icons/icon_widgets.svg";
+        }
+        if (App.util.isScene(type)) {
+            return "qrc:/qt/qml/ScreenPlay/assets/icons/icon_code.svg";
+        }
+        return "qrc:/qt/qml/ScreenPlay/assets/icons/icon_movie.svg";
+    }
+
+    // Performance flags
+    readonly property bool enableAnimations: !root.isScrolling
+
     signal clicked(var folderName, var type)
     signal openContextMenu(var point)
     signal openOpenLicensePopup
 
+
+    property bool isInitialLoad: true
+
+
+    Component.onCompleted: {
+        root.isInitialLoad = root.index < 20;
+        showAnimation.start();
+    }
+
     width: 320
     height: 180
-    onTypeChanged: {
-        if (App.util.isWidget(type)) {
-            icnType.source = "qrc:/qt/qml/ScreenPlay/assets/icons/icon_widgets.svg";
-            return;
-        }
-        if (App.util.isScene(type)) {
-            icnType.source = "qrc:/qt/qml/ScreenPlay/assets/icons/icon_code.svg";
-            return;
-        }
-        if (App.util.isVideo(type)) {
-            icnType.source = "qrc:/qt/qml/ScreenPlay/assets/icons/icon_movie.svg";
-            return;
-        }
-    }
-
-    Timer {
-        running: true
-        onTriggered: showAnim.start()
-        interval: {
-            var itemIndexMax = root.index;
-            if (root.index > 30)
-                itemIndexMax = 3;
-            5 * itemIndexMax * Math.random();
-        }
-    }
-
-    SequentialAnimation {
-        id: showAnim
-
-        running: false
-
-        ParallelAnimation {
-            OpacityAnimator {
-                target: screenPlayItemWrapper
-                from: 0
-                to: 1
-                duration: 600
-                easing.type: Easing.OutCirc
-            }
-
-            YAnimator {
-                target: screenPlayItemWrapper
-                from: 80
-                to: 0
-                duration: 500
-                easing.type: Easing.OutCirc
-            }
-
-            ScaleAnimator {
-                target: screenPlayItemWrapper
-                from: 0.5
-                to: 1
-                duration: 200
-                easing.type: Easing.OutCirc
-            }
-        }
-
-        OpacityAnimator {
-            target: effectWrapper
-            from: 0
-            to: 1
-            duration: 800
-            easing.type: Easing.OutCirc
-        }
-    }
 
     Item {
-        id: effectWrapper
+        id: animatedContainer
         anchors.fill: parent
-        opacity: 0
-    }
+        clip: root.isNew // Only needed for NEW orange banner
+        opacity: 0  // Start invisible for entrance animation
 
-    Item {
-        id: screenPlayItemWrapper
-        width: 320
-        height: 180
-        opacity: 0
-
-        Item {
+        Rectangle {
             id: itemWrapper
-            visible: false
             anchors.fill: parent
+            color: Material.backgroundColor
 
-            Rectangle {
+            Image {
+                id: primaryImage
                 anchors.fill: parent
-                color: Material.backgroundColor
+                asynchronous: true
+                cache: true
+                sourceSize: Qt.size(320, 180)
+                fillMode: Image.PreserveAspectCrop
+                smooth: false
+
+                source: root.primaryImageSource
+                opacity: root.hasLicense ? 1 : 0.3
+                visible: root.preview !== ""
+
+                // Handle loading states efficiently
+                onStatusChanged: {
+                    if (status === Image.Error) {
+                        source = "qrc:/qt/qml/ScreenPlay/assets/images/missingPreview.png";
+                    }
+                }
             }
 
+            AnimatedImage {
+                id: gifImage
+                anchors.fill: parent
+                asynchronous: true
+                playing: gifImage.enabled
+                sourceSize: Qt.size(320, 180)
+                fillMode: Image.PreserveAspectCrop
+                source: root.gifImageSource
+                opacity: gifImage.enabled ? 1 : 0
+                enabled: !root.isScrolling && hoverArea.hovered && root.gifImageSource !== ""
+
+                OpacityAnimator {
+                    running: gifImage.enabled
+                    to: gifImage.enabled ? 1 : 0
+                    duration: 400
+                    easing.type: Easing.OutQuart
+                }
+            }
+
+            // Fallback text for items without images
             Text {
                 text: root.title
                 font.family: App.settings.font
                 font.pointSize: 16
-                visible: !screenPlayItemImage.visible && root.hasLicense
+                visible: !primaryImage.visible && root.hasLicense
                 color: Material.primaryTextColor
                 anchors.centerIn: parent
                 horizontalAlignment: Text.AlignHCenter
             }
 
-            InstalledItemImage {
-                id: screenPlayItemImage
-                opacity: root.hasLicense ? 1 : 0.3
-                anchors.fill: parent
-                enabled: visible
-                visible: root.preview !== "" || root.previewGIF !== ""
-                sourceImage: root.preview
-                sourceImageGIF: root.previewGIF
-                type: root.type
-                absoluteStoragePath: root.absoluteStoragePath
-            }
-
             Image {
-                id: icnAudio
+                id: audioIcon
                 width: 20
                 height: 20
                 opacity: 0.25
                 visible: root.containsAudio
                 source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_contains_audio.svg"
                 sourceSize: Qt.size(20, 20)
+                asynchronous: true
                 anchors {
                     top: parent.top
-                    left: icnType.right
+                    left: typeIcon.right
                     margins: 10
                 }
             }
 
             Image {
-                id: icnType
+                id: typeIcon
                 width: 20
                 height: 20
                 opacity: 0.25
-                source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_movie.svg"
+                source: root.typeIconSource
                 sourceSize: Qt.size(20, 20)
+                cache: true
                 anchors {
                     top: parent.top
                     left: parent.left
@@ -176,17 +165,17 @@ Item {
             Rectangle {
                 width: 120
                 height: 20
+                visible: root.isNew
+                color: Material.color(Material.Orange)
+
                 anchors {
                     top: parent.top
                     right: parent.right
                     rightMargin: -60
                     topMargin: -20
                 }
-                color: Material.color(Material.Orange)
-                transform: Rotation {
-                    angle: 45
-                }
-                visible: root.isNew
+
+                transform: Rotation { angle: 45 }
 
                 Text {
                     font.family: App.settings.font
@@ -196,11 +185,11 @@ Item {
                     text: qsTr("NEW")
                     smooth: true
                     antialiasing: true
-                    visible: root.isNew
                     anchors.centerIn: parent
                 }
             }
 
+            // License lock indicator
             ToolButton {
                 enabled: false
                 visible: !root.hasLicense
@@ -216,175 +205,155 @@ Item {
             }
         }
 
-        MultiEffect {
-            anchors.fill: parent
-            source: itemWrapper
-            // TODO: Mask no longer works when enable shadow
-            // shadowEnabled: true
-            // shadowBlur: 0.3
-            // shadowColor: "black"
-            // shadowVerticalOffset: 3
-            maskEnabled: true
-            maskSource: Image {
-                source: "qrc:/qt/qml/ScreenPlay/assets/images/installed_item_mask.png"
-                sourceSize: Qt.size(root.width, root.height)
-                width: root.width
-                height: root.height
-            }
-        }
-        MouseArea {
-            id: hoverArea
-            anchors.fill: parent
-            hoverEnabled: !root.isScrolling && !showAnim.running && root.hasLicense
-            cursorShape: Qt.PointingHandCursor
-            acceptedButtons: Qt.LeftButton | Qt.RightButton
-            onEntered: handleMouseEnter()
-            onExited: handleMouseExit()
-            onClicked: function (mouse) {
-                if (!root.hasLicense) {
-                    root.openOpenLicensePopup();
-                    return;
-                }
-                if (App.util.isWidget(root.type))
-                    return;
-                if (mouse.button === Qt.LeftButton)
-                    root.clicked(root.folderName, root.type);
-                else if (mouse.button === Qt.RightButton)
-                    root.openContextMenu(Qt.point(mouseX, mouseY));
-            }
-            function handleMouseEnter() {
-                if (!root.hasLicense)
-                    return;
-                root.state = "hover";
-                screenPlayItemImage.state = "hover";
-                screenPlayItemImage.enter();
-            }
-            function handleMouseExit() {
-                if (widgetStartButton.enabled && widgetStartButton.hovered)
-                    return;
-                root.state = "";
-                screenPlayItemImage.state = "loaded";
-                screenPlayItemImage.exit();
-            }
-        }
 
         Button {
-            id: widgetStartButton
-            enabled: App.util.isWidget(root.type)
-            hoverEnabled: enabled
+            id: widgetButton
             text: qsTr("Start")
-            opacity: enabled && (widgetStartButton.hovered || hoverArea.containsMouse) ? 1 : 0
-            onClicked: {
-                App.screenPlayManager.startWidget(root.type, Qt.point(0, 0), root.absoluteStoragePath, root.preview, {}, true);
-            }
-            onHoveredChanged: {
-                if (hovered)
-                    hoverArea.handleMouseEnter();
-                else
-                    hoverArea.handleMouseExit();
-            }
+            visible: widgetButton.enabled
+            opacity: hoverArea.hovered ? 1:0
+            enabled: App.util.isWidget(root.type) && hoverArea.hovered
 
             anchors {
                 horizontalCenter: parent.horizontalCenter
                 bottom: parent.bottom
                 bottomMargin: 5
             }
-            Behavior on opacity {
-                PropertyAnimation {
-                    property: "opacity"
-                    duration: 250
-                }
+
+            onClicked: {
+                App.screenPlayManager.startWidget(
+                    root.type,
+                    Qt.point(0, 0),
+                    root.absoluteStoragePath,
+                    root.preview,
+                    {},
+                    true
+                );
             }
         }
     }
 
-    transitions: [
-        Transition {
-            from: ""
-            to: "hover"
+    HoverHandler {
+        id: hoverArea
+        target: parent
+        acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
+        cursorShape: root.isScrolling ? Qt.ArrowCursor : Qt.PointingHandCursor
+    }
 
-            ScaleAnimator {
-                target: screenPlayItemWrapper
-                duration: 300
-                from: 1
-                to: 1.05
-                easing.type: Easing.OutQuart
+    MouseArea {
+        anchors.fill: parent
+        enabled: !root.isScrolling
+        // hoverEnabled: !root.isScrolling
+        // // cursorShape also changes even when hoverArea is disabled
+        // cursorShape: root.isScrolling ? Qt.ArrowCursor : Qt.PointingHandCursor
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
+
+        onClicked: function(mouse) {
+            if (!root.hasLicense) {
+                root.openOpenLicensePopup();
+                return;
             }
 
-            ScaleAnimator {
-                target: effectWrapper
-                duration: 300
-                from: 1
-                to: 1.05
-                easing.type: Easing.OutQuart
+            if (mouse.button === Qt.LeftButton && !App.util.isWidget(root.type)) {
+                root.clicked(root.folderName, root.type);
+            } else if (mouse.button === Qt.RightButton) {
+                root.openContextMenu(Qt.point(mouseX, mouseY));
             }
+        }
+    }
 
-            OpacityAnimator {
-                target: icnType
-                duration: 300
-                from: 0.25
-                to: 0.8
-                easing.type: Easing.OutQuart
-            }
+    states: [
+        State {
+            name: "hover"
+            when: hoverArea.hovered && root.enableAnimations
 
-            OpacityAnimator {
-                target: icnAudio
-                duration: 300
-                from: 0.25
-                to: 0.8
-                easing.type: Easing.OutQuart
+            PropertyChanges {
+                animatedContainer.scale: 1.05
             }
-
-            OpacityAnimator {
-                target: effectWrapper
-                duration: 2000
-                from: 0.4
-                to: 1
-                easing.type: Easing.OutQuart
+            PropertyChanges {
+                typeIcon.opacity: 0.8
             }
-        },
-        Transition {
-            from: "hover"
-            to: ""
-            ScaleAnimator {
-                target: screenPlayItemWrapper
-                duration: 300
-                from: 1.05
-                to: 1
-                easing.type: Easing.OutQuart
-            }
-
-            ScaleAnimator {
-                target: effectWrapper
-                duration: 300
-                from: 1.05
-                to: 1
-                easing.type: Easing.OutQuart
-            }
-
-            OpacityAnimator {
-                target: icnType
-                duration: 300
-                from: 0.8
-                to: 0.25
-                easing.type: Easing.OutQuart
-            }
-
-            OpacityAnimator {
-                target: icnAudio
-                duration: 300
-                from: 0.8
-                to: 0.25
-                easing.type: Easing.OutQuart
-            }
-
-            OpacityAnimator {
-                target: effectWrapper
-                duration: 300
-                from: 1
-                to: 0.4
-                easing.type: Easing.OutQuart
+            PropertyChanges {
+                audioIcon.opacity: 0.8
             }
         }
     ]
+
+    transitions: [
+        Transition {
+            enabled: root.enableAnimations
+
+            ParallelAnimation {
+                ScaleAnimator {
+                    target: animatedContainer
+                    duration: 300
+                    easing.type: Easing.OutQuart
+                }
+
+                OpacityAnimator {
+                    target: typeIcon
+                    duration: 300
+                    easing.type: Easing.OutQuart
+                }
+
+                OpacityAnimator {
+                    target: audioIcon
+                    duration: 300
+                    easing.type: Easing.OutQuart
+                }
+            }
+        }
+    ]
+
+    SequentialAnimation {
+        id: showAnimation
+        running: false
+
+
+        PauseAnimation {
+        duration: {
+                  if (root.isInitialLoad) {
+                      // Use wave effect for initial load
+                      return Math.max(0, (root.rowIndex * 100) + (root.columnIndex * 50));
+                  } else {
+                      // For scrolled items, use minimal delay or no delay
+                      return Math.max(0, root.columnIndex * 100); // Just a small column-based delay
+                  }
+              }
+          }
+
+
+        ParallelAnimation {
+            OpacityAnimator {
+                target: animatedContainer
+                from: 0
+                to: 1
+                duration: 600
+                easing.type: Easing.OutCirc
+            }
+
+            YAnimator {
+                target: animatedContainer
+                from: 80
+                to: 0
+                duration: 500
+                easing.type: Easing.OutCirc
+            }
+
+            ScaleAnimator {
+                target: animatedContainer
+                from: 0.3
+                to: 1
+                duration: 250
+                easing.type: Easing.OutCirc
+            }
+            RotationAnimator {
+                 target: animatedContainer
+                 from: -5
+                 to: 0
+                 duration: 400
+                 easing.type: Easing.OutBack
+             }
+        }
+    }
+
 }

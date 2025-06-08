@@ -93,7 +93,6 @@ set(QML
     qml/Create/Wizards/WizardPage.qml
     qml/Installed/InstalledDrawer.qml
     qml/Installed/InstalledItem.qml
-    qml/Installed/InstalledItemImage.qml
     qml/Installed/InstalledNavigation.qml
     qml/Installed/InstalledView.qml
     qml/Installed/InstalledWelcomeScreen.qml

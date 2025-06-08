@@ -88,15 +88,53 @@ Item {
         property bool isDragging: false
         property bool isScrolling: gridView.verticalVelocity !== 0
 
+        readonly property int itemsPerRow: Math.floor(gridView.width / gridView.cellWidth)
+
         anchors.fill: parent
         cellWidth: 340
         cellHeight: 200
-        cacheBuffer: 160
+        // cacheBuffer: 300
         interactive: root.enabled
-        // flickDeceleration: 0.00001
+        flickDeceleration: 0.001
+        maximumFlickVelocity: 4000
         onDragStarted: isDragging = true
         onDragEnded: isDragging = false
         model: App.installedListFilter
+        delegate: InstalledItem {
+            id: delegate
+            // objectName: "installedItem" + index
+            isScrolling: gridView.isScrolling
+            focus: true
+            itemsPerRow: gridView.itemsPerRow
+            onClicked: function (folderName, type) {
+                installedDrawer.setInstalledDrawerItem(folderName, type);
+            }
+
+            onOpenOpenLicensePopup: function () {
+                screenPlayProView.open();
+            }
+
+            onOpenContextMenu: function (position) {
+                // Set the menu to the current item informations
+                contextMenu.publishedFileID = delegate.publishedFileID;
+                contextMenu.absoluteStoragePath = delegate.absoluteStoragePath;
+                contextMenu.fileName = delegate.title;
+                contextMenu.type = delegate.type;
+                print(delegate.publishedFileID);
+                if (contextMenu.godotItem)
+                    contextMenu.godotItem.destroy();
+                const pos = delegate.mapToItem(root, position.x, position.y);
+                // Disable duplicate opening. The can happen if we
+                // call popup when we are in the closing animtion.
+                if (contextMenu.visible || contextMenu.opened)
+                    return;
+                if (delegate.type === Util.ContentTypes.InstalledType.GodotWallpaper) {
+                    contextMenu.godotItem = editGodotWallpaperComp.createObject();
+                    contextMenu.insertItem(0, contextMenu.godotItem);
+                }
+                contextMenu.popup(pos.x, pos.y);
+            }
+        }
         removeDisplaced: Transition {
             SequentialAnimation {
                 PauseAnimation {
@@ -127,17 +165,7 @@ Item {
                 }
             }
         }
-        onContentYChanged: {
-            if (contentY <= -180)
-                gridView.headerItem.isVisible = true;
-            else
-                gridView.headerItem.isVisible = false;
-            //Pull to refresh
-            if (contentY <= -180 && root.installedLoadingFinished && !isDragging) {
-                root.installedLoadingFinished = false;
-                App.installedListModel.reset();
-            }
-        }
+
 
         anchors {
             topMargin: 0
@@ -146,47 +174,8 @@ Item {
         }
 
         header: Item {
-            property bool isVisible: false
-
             height: 82
-            width: parent.width - gridView.leftMargin
-            opacity: 0
-            onIsVisibleChanged: {
-                if (isVisible) {
-                    txtHeader.color = Material.accent;
-                    txtHeader.text = qsTr("Refreshing!");
-                } else {
-                    txtHeader.color = "gray";
-                    txtHeader.text = qsTr("Pull to refresh!");
-                }
-            }
-
-            Timer {
-                interval: 150
-                running: true
-                onTriggered: {
-                    animFadeIn.start();
-                }
-            }
-
-            Text {
-                id: txtHeader
-
-                text: qsTr("Pull to refresh!")
-                font.family: App.settings.font
-                anchors.centerIn: parent
-                color: "gray"
-                font.pointSize: 18
-            }
-
-            PropertyAnimation on opacity {
-                id: animFadeIn
-
-                from: 0
-                to: 1
-                running: false
-                duration: 1000
-            }
+            width: root.width - gridView.leftMargin
         }
 
         // To not cover the items on the botton when the
@@ -211,40 +200,7 @@ Item {
             }
         }
 
-        delegate: InstalledItem {
-            id: delegate
-            // objectName: "installedItem" + index
-            isScrolling: gridView.isScrolling
-            focus: true
-            onClicked: function (folderName, type) {
-                installedDrawer.setInstalledDrawerItem(folderName, type);
-            }
 
-            onOpenOpenLicensePopup: function () {
-                screenPlayProView.open();
-            }
-
-            onOpenContextMenu: function (position) {
-                // Set the menu to the current item informations
-                contextMenu.publishedFileID = delegate.publishedFileID;
-                contextMenu.absoluteStoragePath = delegate.absoluteStoragePath;
-                contextMenu.fileName = delegate.title;
-                contextMenu.type = delegate.type;
-                print(delegate.publishedFileID);
-                if (contextMenu.godotItem)
-                    contextMenu.godotItem.destroy();
-                const pos = delegate.mapToItem(root, position.x, position.y);
-                // Disable duplicate opening. The can happen if we
-                // call popup when we are in the closing animtion.
-                if (contextMenu.visible || contextMenu.opened)
-                    return;
-                if (delegate.type === Util.ContentTypes.InstalledType.GodotWallpaper) {
-                    contextMenu.godotItem = editGodotWallpaperComp.createObject();
-                    contextMenu.insertItem(0, contextMenu.godotItem);
-                }
-                contextMenu.popup(pos.x, pos.y);
-            }
-        }
 
         ScrollBar.vertical: ScrollBar {
             snapMode: ScrollBar.SnapOnRelease
