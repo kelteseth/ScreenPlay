@@ -1,6 +1,8 @@
+# SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 function(get_build_info)
     # Find Git executable
     find_package(Git QUIET)
+
     if(NOT GIT_FOUND)
         message(WARNING "Git not found. Git-related variables will be empty.")
     endif()

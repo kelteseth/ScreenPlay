@@ -1,8 +1,10 @@
+# SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 find_package(Qt6 REQUIRED COMPONENTS Core)
 
 # Initialize global properties
 set_property(GLOBAL PROPERTY QT_DEPLOY_TARGETS "")
 set_property(GLOBAL PROPERTY QT_DEPLOY_MAIN_TARGET "")
+
 # It is called ScreenPlay.app and not ScreenPlayApp.app
 set_property(GLOBAL PROPERTY QT_DEPLOY_MAIN_APP_NAME "")
 
@@ -21,20 +23,21 @@ function(register_qt_additional_deployment TARGET_NAME)
     get_property(targets GLOBAL PROPERTY QT_DEPLOY_TARGETS)
     list(APPEND targets ${TARGET_NAME})
     set_property(GLOBAL PROPERTY QT_DEPLOY_TARGETS "${targets}")
-    
+
     if(APPLE)
         get_property(mac_app_name GLOBAL PROPERTY QT_DEPLOY_MAIN_APP_NAME)
+
         if(NOT mac_app_name)
             message(FATAL_ERROR "No main target registered. Call register_qt_main_deployment first.")
         endif()
-        
+
         # Important: Set output directories to be within the app bundle
         set_target_properties(${TARGET_NAME} PROPERTIES
             MACOSX_BUNDLE FALSE
             RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${mac_app_name}.app/Contents/MacOS"
             LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${mac_app_name}.app/Contents/Frameworks"
         )
-        
+
         # Install directly into the app bundle
         install(TARGETS ${TARGET_NAME}
             RUNTIME DESTINATION "${mac_app_name}.app/Contents/MacOS"
@@ -52,23 +55,25 @@ endfunction()
 function(generate_qt_deployment_script)
     get_property(main_target GLOBAL PROPERTY QT_DEPLOY_MAIN_TARGET)
     get_property(additional_targets GLOBAL PROPERTY QT_DEPLOY_TARGETS)
-    
+
     if(NOT main_target)
         message(FATAL_ERROR "No main target registered for deployment")
         return()
     endif()
-    
+
     # Get actual bundle name from target properties
     get_property(bundle_name GLOBAL PROPERTY QT_DEPLOY_MAIN_APP_NAME)
+
     if(NOT bundle_name)
         get_target_property(bundle_name ${main_target} MACOSX_BUNDLE_BUNDLE_NAME)
     endif()
+
     if(NOT bundle_name)
         set(bundle_name ${main_target})
     endif()
-    
+
     set(deploy_script "${CMAKE_BINARY_DIR}/qt_deploy_all.cmake")
-    
+
     # Generate deployment script content
     set(script_content "
     include(\"${QT_DEPLOY_SUPPORT}\")
@@ -82,7 +87,7 @@ function(generate_qt_deployment_script)
     
     # Deploy QML imports for additional targets
     set(all_plugins \${main_plugins_found})")
-    
+
     foreach(target ${additional_targets})
         string(APPEND script_content "
         qt_deploy_qml_imports(
@@ -92,16 +97,17 @@ function(generate_qt_deployment_script)
         )
         list(APPEND all_plugins \${${target}_plugins_found})")
     endforeach()
-    
+
     if(APPLE)
         set(bundle_path "${CMAKE_INSTALL_PREFIX}/${bundle_name}.app")
-        
+
         # Create list of additional executables
         set(additional_exes "")
+
         foreach(target ${additional_targets})
             list(APPEND additional_exes "${bundle_name}.app/Contents/MacOS/$<TARGET_FILE_NAME:${target}>")
         endforeach()
-        
+
         string(APPEND script_content "
         
         # Deploy runtime dependencies including all QML plugins
@@ -129,7 +135,7 @@ function(generate_qt_deployment_script)
             QML_DIR qml
         )")
     endif()
-    
+
     file(GENERATE OUTPUT ${deploy_script} CONTENT "${script_content}")
     install(SCRIPT ${deploy_script})
 endfunction()

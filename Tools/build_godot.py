@@ -12,7 +12,7 @@ import argparse
 def main():
     # Parse build folder as arugment
 
-    parser = argparse.ArgumentParser(description='Build K3000Map to the bin build folder: D:/Backup/Code/Qt/build_ScreenPlay_Qt_6.9.0_MSVC_Debug/bin')
+    parser = argparse.ArgumentParser(description='Build SP to the bin build folder: D:/Backup/Code/Qt/build_ScreenPlay_Qt_6.9.0_MSVC_Debug/bin')
     parser.add_argument('--build_path', dest="build_path", type=str,  help='Build folder')
     parser.add_argument('--skip_if_exists', dest="skip_if_exists", default=False, action="store_true",   help='Skips the build if the index.html file exists. This is used for faster CMake configure')
  

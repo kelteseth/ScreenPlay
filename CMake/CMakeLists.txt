@@ -3,6 +3,7 @@ project(CMake)
 set(FILES
     CMakeVariables.h.in
     GetProjectVersion.cmake
+    ExportGodot.cmake
     GetBuildInfo.cmake
     GenerateCMakeVariableHeader.cmake
     CopyRecursive.cmake
