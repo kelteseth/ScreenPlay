@@ -371,7 +371,7 @@ if(WIN32)
     target_link_libraries(ScreenPlayLib PUBLIC CURL::libcurl sentry::sentry ScreenPlayWallpaperLib)
 
     # Icon
-    target_sources(ScreenPlayLib PRIVATE ScreenPlay.rc)
+    target_sources(ScreenPlayApp PRIVATE ScreenPlay.rc)
 
     # Needed for the installscript.qs Windows entry
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/assets/icons/app.ico ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
