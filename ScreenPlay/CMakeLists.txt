@@ -252,15 +252,16 @@ set(RESOURCES
     legal/OFL.txt
     legal/OpenSSL.txt
     profiles.json
-    qml/Create/WizardsFiles/Godot_v5/export_presets.cfg
-    qml/Create/WizardsFiles/Godot_v5/project.godot
-    qml/Create/WizardsFiles/Godot_v5/spinner.gd
-    qml/Create/WizardsFiles/Godot_v5/wallpaper.tscn
-    qml/Create/WizardsFiles/HTMLWallpaperMain.html
-    qml/Create/WizardsFiles/HTMLWidgetMain.html
-    qml/Create/WizardsFiles/QmlProject.qmlproject
-    qml/Create/WizardsFiles/QMLWallpaperMain.qml
-    qml/Create/WizardsFiles/QMLWidgetMain.qml
+    assets/wizardfiles/godot/export_presets.cfg
+    assets/wizardfiles/godot/project.godot
+    assets/wizardfiles/godot/spinner.gd
+    assets/wizardfiles/godot/spinner.gd.uid
+    assets/wizardfiles/godot/wallpaper.tscn
+    assets/wizardfiles/HTMLWallpaperMain.html
+    assets/wizardfiles/HTMLWidgetMain.html
+    assets/wizardfiles/QmlProject.qmlproject
+    assets/wizardfiles/QMLWallpaperMain.qml
+    assets/wizardfiles/QMLWidgetMain.qml
     qtquickcontrols2.conf)
 
 # Needed on macos

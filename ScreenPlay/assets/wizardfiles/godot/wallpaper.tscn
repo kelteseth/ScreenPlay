@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://d105uliklnkd5"]
 
-[ext_resource type="Script" path="res://spinner.gd" id="1_ggnsn"]
+[ext_resource type="Script" uid="uid://dmgxbymhppihy" path="res://spinner.gd" id="1_ggnsn"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_e2y6e"]
 sky_top_color = Color(0.0431373, 0.431373, 0.490196, 1)

@@ -269,3 +269,4 @@ cython_debug/
 /.vs/slnx.sqlite
 /.vs/VSWorkspaceState.json
 Build/*
+/ScreenPlay/assets/wizardfiles/godot/.godot/*
