@@ -19,6 +19,7 @@ qt_standard_project_setup(REQUIRES 6.8)
 set(QML qml/TestMain.qml)
 
 set(QML_PLUGIN_SOURCES
+
     # cmake-format: sort
     src/cpu.cpp
     src/gpu.cpp
@@ -34,6 +35,7 @@ if(WIN32)
 endif()
 
 set(QML_PLUGIN_HEADER
+
     # cmake-format: sort
     inc/public/ScreenPlaySysInfo/cpu.h
     inc/public/ScreenPlaySysInfo/gpu.h
@@ -54,9 +56,9 @@ target_compile_features(ScreenPlaySysInfoLib PRIVATE cxx_std_23)
 target_link_libraries(
     ScreenPlaySysInfoLib
     PRIVATE Qt::NetworkPrivate
-            Qt6::Core
-            Qt6::Quick
-            infoware)
+    Qt6::Core
+    Qt6::Quick
+    infoware)
 
 target_include_directories(ScreenPlaySysInfoLib PUBLIC inc/public)
 
@@ -80,9 +82,3 @@ qt_add_qml_module(
     SOURCES
     ${QML_PLUGIN_SOURCES}
     ${QML_PLUGIN_HEADER})
-
-# if(${SCREENPLAY_TESTS}) qt_add_executable(tst_ScreenPlaySysInfo src/TestMain.cpp) target_link_libraries(tst_ScreenPlaySysInfo PRIVATE
-# Qt6::Quick ScreenPlaySysInfoLibplugin) if(WIN32) target_link_libraries(tst_ScreenPlaySysInfo PUBLIC Qt6::AxContainer ole32.lib winmm.lib)
-# target_compile_definitions(tst_ScreenPlaySysInfo PUBLIC WIN32_LEAN_AND_MEAN _WINSOCKAPI_ NOMINMAX) endif()
-
-# endif()

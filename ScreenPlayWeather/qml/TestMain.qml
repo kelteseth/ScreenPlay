@@ -132,13 +132,13 @@ Window {
                         sourceSize: Qt.size(height, height)
                         layer {
                             enabled: true
-                            effect: ColorOverlay {
-                                color: Material.primaryColor
-                            }
+                            // effect: ColorOverlay {
+                            //     color: Material.primaryColor
+                            // }
                         }
                         Layout.alignment: Qt.AlignCenter
                         horizontalAlignment: Image.AlignHCenter
-                        source: "qrc:/qml/ScreenPlayWeather/assets/icons/" + root.mapWeatherCode(weatherCode) + ".svg"
+                        source: "qrc:/qt/qml/ScreenPlayWeather/assets/icons/" + root.mapWeatherCode(weatherCode) + ".svg"
                     }
                     TextItem {
                         text: "Weather Code"

@@ -348,12 +348,15 @@ qt_add_executable(ScreenPlayApp main.cpp)
 target_link_libraries(ScreenPlayApp PRIVATE ScreenPlayLib ScreenPlayLibplugin)
 
 if(${SCREENPLAY_TESTS})
-    qt_add_executable(tst_ScreenPlay tests/tst_main.cpp)
+    qt_add_executable(tst_ScreenPlay tests/tst_ScreenPlay.cpp)
     target_link_libraries(tst_ScreenPlay PRIVATE ScreenPlayLib ScreenPlayLibplugin Qt6::Test)
+
+    # Generate CMakeVariables.h before building the test
     generate_cmake_variable_header(tst_ScreenPlay)
+    add_dependencies(tst_ScreenPlay ScreenPlayLib)
 
     if(${SCREENPLAY_STEAM})
-        target_link_libraries(tst_ScreenPlay PUBLIC ScreenPlayWorkshopplugin ScreenPlayWorkshop)
+        target_link_libraries(tst_ScreenPlay PUBLIC ScreenPlayWorkshopLib ScreenPlayWorkshopLibplugin)
     endif()
 endif()
 
@@ -514,6 +517,7 @@ endif()
 
 if(${SCREENPLAY_GODOT})
     include(ExportGodot)
+
     if(WIN32)
         check_and_build_godot("${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
     elseif(APPLE)

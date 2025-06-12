@@ -23,6 +23,7 @@ set(QML_PLUGIN_SOURCES src/screenplayweather.cpp)
 set(QML_PLUGIN_HEADER src/day.h src/screenplayweather.h)
 
 set(RESOURCES
+
     # cmake-format: sort
     assets/icons/wi-alien.svg
     assets/icons/wi-barometer.svg
@@ -264,12 +265,12 @@ qt_add_qml_module(
     ${RESOURCES})
 
 if(${SCREENPLAY_TESTS})
-    qt_add_executable(tst_ScreenPlayWeather src/TestMain.cpp)
+    qt_add_executable(tst_ScreenPlayWeather src/tst_ScreenPlayWeather.cpp)
     target_link_libraries(
         tst_ScreenPlayWeather
         PRIVATE Qt6::Quick
-                ScreenPlayWeatherLib
-                ScreenPlayWeatherLibplugin
-                ScreenPlayCoreLib
-                ScreenPlayCoreLibplugin)
+        ScreenPlayWeatherLib
+        ScreenPlayWeatherLibplugin
+        ScreenPlayCoreLib
+        ScreenPlayCoreLibplugin)
 endif()

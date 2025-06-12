@@ -12,13 +12,7 @@
 #include "ScreenPlay/app.h"
 #include "ScreenPlay/create.h"
 
-#include "ScreenPlay/CMakeVariables.h"
-
-#include <QQmlEngineExtensionPlugin>
-Q_IMPORT_QML_PLUGIN(ScreenPlayCoreLibPlugin)
-#ifdef SCREENPLAY_STEAM
-Q_IMPORT_QML_PLUGIN(ScreenPlayWorkshopLibPlugin)
-#endif
+#include "CMakeVariables.h"
 
 class ScreenPlayTest : public QObject {
     Q_OBJECT
@@ -27,7 +21,7 @@ private slots:
     void initTestCase()
     {
 
-        app.init();
+        // app.init();
         // m_window = qobject_cast<QQmlApplicationEngine*>(app.mainWindowEngine()->rootObjects().first());
 
         m_window->addImportPath(QGuiApplication::instance()->applicationDirPath() + "/qml");
@@ -208,4 +202,4 @@ void ScreenPlayTest::start_shutdown_wallpaper()
 
 QTEST_MAIN(ScreenPlayTest)
 
-#include "tst_main.moc"
+#include "tst_ScreenPlay.moc"

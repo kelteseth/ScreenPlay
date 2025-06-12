@@ -128,19 +128,32 @@ qt_add_qml_module(
 
 if(${SCREENPLAY_STEAM})
     if(APPLE)
-        # set(MACOS_FRAMEWORKS_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ScreenPlay.app/Contents/MacOS/) file(MAKE_DIRECTORY
-        # ${MACOS_FRAMEWORKS_DIR})
+        set(MACOS_FRAMEWORKS_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ScreenPlay.app/Contents/MacOS/)
+        file(MAKE_DIRECTORY ${MACOS_FRAMEWORKS_DIR})
 
-        # configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${MACOS_FRAMEWORKS_DIR} COPYONLY) configure_file(${STEAM_BIN}
-        # ${MACOS_FRAMEWORKS_DIR} COPYONLY) else() configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt
-        # ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY) configure_file(${STEAM_BIN} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY) endif()
+        configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${MACOS_FRAMEWORKS_DIR} COPYONLY)
+        configure_file(${STEAM_BINARY_PATH} ${MACOS_FRAMEWORKS_DIR} COPYONLY)
+    else()
+        configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
+        configure_file(${STEAM_BINARY_PATH} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
+    endif()
 
-        # if(${SCREENPLAY_TESTS}) qt_add_executable(tst_ScreenPlayWorkshop src/TestMain.cpp) target_link_libraries( tst_ScreenPlayWorkshop
-        # PRIVATE Qt6::Quick Qt6::Widgets Qt6::QuickControls2 ScreenPlayWorkshopLibplugin ScreenPlayCoreLibplugin #ScreenPlayLibplugin #
-        # Only needed for the test app SteamSDK)
+    if(${SCREENPLAY_TESTS})
+        qt_add_executable(tst_ScreenPlayWorkshop src/tst_ScreenPlayWorkshop.cpp)
+        target_link_libraries( tst_ScreenPlayWorkshop
+            PRIVATE
+            Qt6::Quick
+            Qt6::QuickControls2
+            ScreenPlayLib
+            ScreenPlayLibplugin
+            ScreenPlayWorkshopLib
+            ScreenPlayWorkshopLibplugin
+            ScreenPlayCoreLib
+            ScreenPlayCoreLibplugin
+        )
 
-        # if(APPLE) set_target_properties(tst_ScreenPlayWorkshop PROPERTIES RUNTIME_OUTPUT_DIRECTORY
-        # "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
-        # endif() endif()
+        if(APPLE)
+            set_target_properties(tst_ScreenPlayWorkshop PROPERTIES RUNTIME_OUTPUT_DIRECTORY"${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
+        endif()
     endif()
 endif()
