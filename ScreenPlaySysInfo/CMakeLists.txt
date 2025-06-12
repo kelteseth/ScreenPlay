@@ -82,3 +82,12 @@ qt_add_qml_module(
     SOURCES
     ${QML_PLUGIN_SOURCES}
     ${QML_PLUGIN_HEADER})
+
+if(${SCREENPLAY_TESTS})
+    qt_add_executable(tst_ScreenPlaySysInfo src/tst_ScreenPlaySysInfo.cpp)
+    target_link_libraries(
+        tst_ScreenPlaySysInfo
+        PRIVATE Qt6::Quick
+        ScreenPlaySysInfoLib
+        ScreenPlaySysInfoLibplugin)
+endif()
