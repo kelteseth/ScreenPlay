@@ -103,24 +103,29 @@ Item {
                 switch (root.appState) {
                 case ScreenPlayEnums.AppState.NotSet:
                     return "";
-                case ScreenPlayEnums.AppState.Inactive:
-                    return qsTr("Inactive");
                 case ScreenPlayEnums.AppState.Starting:
                     return qsTr("Starting");
                 case ScreenPlayEnums.AppState.StartingFailed:
-                    return qsTr("StartingFailed");
-                case ScreenPlayEnums.AppState.ClosingFailed:
-                    return qsTr("ClosingFailed");
-                case ScreenPlayEnums.AppState.Closing:
-                    return qsTr("Closing");
+                    return qsTr("Starting Failed");
                 case ScreenPlayEnums.AppState.Active:
                     return qsTr("Active");
                 case ScreenPlayEnums.AppState.Timeout:
                     return qsTr("Timeout");
-                case ScreenPlayEnums.AppState.ErrorOccouredWhileActive:
-                    return qsTr("Error Occoured While Active");
+                case ScreenPlayEnums.AppState.Crashed:
+                    return qsTr("Crashed");
+                case ScreenPlayEnums.AppState.ErrorOccurred:
+                    return qsTr("Error Occurred");
+                case ScreenPlayEnums.AppState.PostActiveHandling:
+                    return qsTr("Recovering");
+                case ScreenPlayEnums.AppState.Closing:
+                    return qsTr("Closing");
+                case ScreenPlayEnums.AppState.ClosingFailed:
+                    return qsTr("Closing Failed");
+                case ScreenPlayEnums.AppState.ClosedGracefully:
+                    return qsTr("Closed");
                 default:
-                    console.error("Invalid state");
+                    console.error("Invalid state:", root.appState);
+                    return "";
                 }
             }
         }

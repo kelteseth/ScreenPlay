@@ -70,9 +70,9 @@ void ScreenPlaySDK::connected()
         return;
     }
 
-    // QObject::disconnect(&m_pingAliveTimer, &QTimer::timeout, this, &ScreenPlaySDK::pingAlive);
-    // QObject::connect(&m_pingAliveTimer, &QTimer::timeout, this, &ScreenPlaySDK::pingAlive);
-    // m_pingAliveTimer.start(1000);
+    QObject::disconnect(&m_pingAliveTimer, &QTimer::timeout, this, &ScreenPlaySDK::pingAlive);
+    QObject::connect(&m_pingAliveTimer, &QTimer::timeout, this, &ScreenPlaySDK::pingAlive);
+    m_pingAliveTimer.start(1000);
 
     setIsConnected(true);
     emit sdkConnected();
@@ -80,8 +80,8 @@ void ScreenPlaySDK::connected()
 
 void ScreenPlaySDK::disconnected()
 {
-    // m_pingAliveTimer.stop();
-    // QObject::disconnect(&m_pingAliveTimer, &QTimer::timeout, this, &ScreenPlaySDK::pingAlive);
+    m_pingAliveTimer.stop();
+    QObject::disconnect(&m_pingAliveTimer, &QTimer::timeout, this, &ScreenPlaySDK::pingAlive);
     setIsConnected(false);
     emit sdkDisconnected();
 }
@@ -179,17 +179,17 @@ void ScreenPlaySDK::redirectMessage(QByteArray& msg)
 
 void ScreenPlaySDK::pingAlive()
 {
-    // m_socket.write("ping;");
-    // if (!m_socket.waitForBytesWritten(500)) {
-    //     qInfo() << "Cannot ping to main application. Closing!";
-    //     emit sdkDisconnected();
-    // }
+    m_socket.write("ping;");
+    if (!m_socket.waitForBytesWritten(500)) {
+        qInfo() << "Cannot ping to main application. Closing!";
+        emit sdkDisconnected();
+    }
 
-    // // Instead of waiting, check the socket state
-    // if (m_socket.state() != QLocalSocket::ConnectedState) {
-    //     qInfo() << "Socket no longer connected. Closing!";
-    //     emit sdkDisconnected();
-    // }
+    // Instead of waiting, check the socket state
+    if (m_socket.state() != QLocalSocket::ConnectedState) {
+        qInfo() << "Socket no longer connected. Closing!";
+        emit sdkDisconnected();
+    }
 
     // Check if a PID is set first
     if (m_mainAppPID != 0) {

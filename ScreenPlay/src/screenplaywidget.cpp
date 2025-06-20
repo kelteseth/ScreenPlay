@@ -7,17 +7,6 @@
 
 namespace ScreenPlay {
 
-/*!
-    \class ScreenPlay::ScreenPlayWidget
-    \inmodule ScreenPlay
-    \brief A Single Object to manage a Widget.
-
-    This class is only for managing the QProcess to an extern ScreenPlayWidget!
-*/
-
-/*!
-  \brief Constructs a ScreenPlayWidget
-*/
 ScreenPlayWidget::ScreenPlayWidget(
     const QString& appID,
     const std::shared_ptr<GlobalVariables>& globalVariables,
@@ -26,15 +15,9 @@ ScreenPlayWidget::ScreenPlayWidget(
     const QString& previewImage,
     const QJsonObject& properties,
     const ContentTypes::InstalledType type)
-    : QObject { nullptr }
-    , m_globalVariables { globalVariables }
-    , m_previewImage { previewImage }
-    , m_appID { appID }
-    , m_position { position }
-    , m_type { type }
-    , m_absolutePath { absolutePath }
+    : ScreenPlayExternalProcess(appID, globalVariables, absolutePath, previewImage, type)
+    , m_position(position)
 {
-
     QJsonObject projectSettingsListModelProperties;
 
     if (properties.isEmpty()) {
@@ -46,20 +29,17 @@ ScreenPlayWidget::ScreenPlayWidget(
         projectSettingsListModelProperties = properties;
     }
 
-    if (!projectSettingsListModelProperties.isEmpty())
-        m_projectSettingsListModel.init(type, projectSettingsListModelProperties);
+    if (!projectSettingsListModelProperties.isEmpty()) {
+        m_projectSettingsListModel = std::make_shared<ProjectSettingsListModel>();
+        m_projectSettingsListModel->init(type, projectSettingsListModelProperties);
+    }
 
     m_appArgumentsList = QStringList {
-        "--projectpath",
-        m_absolutePath,
-        "--appID",
-        m_appID,
-        "--type",
-        QVariant::fromValue(m_type).toString(),
-        "--posX",
-        QString::number(m_position.x()),
-        "--posY",
-        QString::number(m_position.y()),
+        "--projectpath", m_absolutePath,
+        "--appID", m_appID,
+        "--type", QVariant::fromValue(m_type).toString(),
+        "--posX", QString::number(m_position.x()),
+        "--posY", QString::number(m_position.y()),
         "--mainapppid", QString::number(m_processManager.getCurrentPID())
     };
 }
@@ -69,11 +49,9 @@ bool ScreenPlayWidget::start()
     m_process.setArguments(m_appArgumentsList);
     m_process.setProgram(m_globalVariables->widgetExecutablePath().toString());
 
-    QObject::connect(&m_process, &QProcess::errorOccurred, this, [](QProcess::ProcessError error) {
-        qDebug() << "error: " << error;
-    });
     const bool success = m_process.startDetached(&m_processID);
-    qInfo() << "Starting ScreenPlayWidget detached: " << (success ? "success" : "failed!");
+    qInfo() << "Starting ScreenPlayWidget detached:" << (success ? "success" : "failed!");
+
     if (!success) {
         emit error(QString("Could not start Widget: " + m_process.errorString()));
         return false;
@@ -82,28 +60,30 @@ bool ScreenPlayWidget::start()
     return success;
 }
 
-/*!
-    \brief Sends command quit to the widget.
-*/
-void ScreenPlayWidget::close()
+QCoro::Task<Result> ScreenPlayWidget::close()
 {
-    // When the wallpaper never connected, this is invalid
     if (!m_connection) {
         qCritical() << "Cannot request quit, widget never connected!";
+        co_return Result { true, {}, "Widget was never connected" };
+    }
+
+    if (!m_connection->close()) {
+        co_return Result { false, {}, "Failed to close widget connection" };
+    }
+
+    co_return Result { true, {}, "Widget closed successfully" };
+}
+
+void ScreenPlayWidget::setupSDKConnection()
+{
+    ScreenPlayExternalProcess::setupSDKConnection();
+
+    if (!m_connection) {
         return;
     }
 
-    m_connection->close();
-}
+    qInfo() << "[3/3] SDKConnected (Widget) saved!";
 
-/*!
-    \brief Connects to ScreenPlay. Start a alive ping check for every
-           GlobalVariables::contentPingAliveIntervalMS  seconds.
-*/
-void ScreenPlayWidget::setSDKConnection(std::unique_ptr<SDKConnection> connection)
-{
-    m_connection = std::move(connection);
-    qInfo() << "[3/3] SDKConnected (Widged) saved!";
     QObject::connect(m_connection.get(), &SDKConnection::jsonMessageReceived, this, [this](const QJsonObject obj) {
         if (obj.value("messageType") == "positionUpdate") {
             setPosition({ obj.value("positionX").toInt(0), obj.value("positionY").toInt(0) });
@@ -112,36 +92,34 @@ void ScreenPlayWidget::setSDKConnection(std::unique_ptr<SDKConnection> connectio
         }
     });
 
-    // Check every X seconds if the widget is still alive
     QObject::connect(m_connection.get(), &SDKConnection::pingAliveReceived, this, [this]() {
         m_pingAliveTimer.stop();
         m_pingAliveTimer.start(GlobalVariables::contentPingAliveIntervalMS);
         std::optional<bool> running = m_processManager.isRunning(m_processID);
-
         if (running.has_value()) {
-            // qInfo() << "running:" << running.value();
+            // Process is running normally
         } else {
-            qInfo() << "INVALID PID:" << m_processID;
+            qInfo() << "Widget process" << m_processID << "not found - widget may have terminated";
+            emit requestClose(m_appID);
         }
     });
 
     QObject::connect(&m_pingAliveTimer, &QTimer::timeout, this, [this]() {
-        qInfo() << "For " << m_pingAliveTimer.interval() << "ms no alive signal received. This means the Widget is dead and likely crashed!";
+        qInfo() << "For" << m_pingAliveTimer.interval() << "ms no alive signal received. This means the Widget is dead and likely crashed!";
         emit requestClose(m_appID);
     });
     m_pingAliveTimer.start(GlobalVariables::contentPingAliveIntervalMS);
 }
 
-/*!
-    \brief Loads the project.json content.
-*/
 QJsonObject ScreenPlayWidget::getActiveSettingsJson()
 {
     QJsonObject obj;
 
-    auto properties = m_projectSettingsListModel.getActiveSettingsJson();
-    if (!properties.isEmpty())
-        obj.insert("properties", properties);
+    if (m_projectSettingsListModel) {
+        auto properties = m_projectSettingsListModel->getActiveSettingsJson();
+        if (!properties.isEmpty())
+            obj.insert("properties", properties);
+    }
 
     obj.insert("previewImage", m_previewImage);
     obj.insert("absolutePath", m_absolutePath);
@@ -150,6 +128,16 @@ QJsonObject ScreenPlayWidget::getActiveSettingsJson()
     obj.insert("type", QVariant::fromValue(m_type).toString());
     return obj;
 }
+
+void ScreenPlayWidget::setPosition(QPoint position)
+{
+    if (m_position == position)
+        return;
+
+    m_position = position;
+    emit positionChanged(m_position);
+}
+
 }
 
 #include "moc_screenplaywidget.cpp"

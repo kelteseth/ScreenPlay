@@ -63,4 +63,32 @@ const qint64 ProcessManager::getCurrentPID() const
     return static_cast<qint64>(getpid());
 #endif
 }
+
+ProcessManager::ProcessState ProcessManager::getProcessState(const qint64 pid) const
+{
+    if (pid <= 0)
+        return ProcessState::InvalidPID;
+
+#if defined(Q_OS_WIN)
+    HANDLE process = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, pid);
+    if (process) {
+        DWORD exitCode;
+        if (GetExitCodeProcess(process, &exitCode)) {
+            CloseHandle(process);
+            return exitCode == STILL_ACTIVE ? ProcessState::Running : ProcessState::NotRunning;
+        }
+        CloseHandle(process);
+    }
+    return ProcessState::NotRunning; // Process doesn't exist or can't be accessed
+#elif defined(Q_OS_LINUX) || defined(Q_OS_MAC)
+    int status = kill(pid, 0);
+    if (status == 0)
+        return ProcessState::Running;
+    if (errno == ESRCH)
+        return ProcessState::NotRunning; // Process doesn't exist
+    if (errno == EPERM)
+        return ProcessState::Running; // Process exists, but no permission to signal it
+    return ProcessState::InvalidPID;
+#endif
+}
 }

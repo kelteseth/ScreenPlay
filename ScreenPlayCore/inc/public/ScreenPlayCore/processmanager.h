@@ -18,5 +18,12 @@ public:
     std::optional<bool> isRunning(const qint64 pid) const;
     bool terminateProcess(const qint64 pid) const;
     const qint64 getCurrentPID() const;
+
+    enum class ProcessState {
+        Running,
+        NotRunning,
+        InvalidPID
+    };
+    ProcessState getProcessState(const qint64 pid) const;
 };
 }

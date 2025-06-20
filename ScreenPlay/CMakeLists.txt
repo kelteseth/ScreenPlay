@@ -12,6 +12,7 @@ set(SOURCES
 
     # cmake-format: sort
     src/app.cpp
+    src/screenplayexternalprocess.cpp
     src/create.cpp
     src/createimportvideo.cpp
     src/globalvariables.cpp
@@ -36,6 +37,7 @@ set(HEADER
 
     # cmake-format: sort
     inc/public/ScreenPlay/app.h
+    inc/public/ScreenPlay/screenplayexternalprocess.h
     inc/public/ScreenPlay/create.h
     inc/public/ScreenPlay/createimportstates.h
     inc/public/ScreenPlay/createimportvideo.h
