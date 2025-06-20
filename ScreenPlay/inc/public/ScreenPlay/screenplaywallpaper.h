@@ -211,7 +211,7 @@ private:
     std::shared_ptr<ProjectSettingsListModel> m_projectSettingsListModel;
     QProcess m_process;
     QString m_appID;
-    ScreenPlay::ScreenPlayEnums::AppState m_state = ScreenPlay::ScreenPlayEnums::AppState::Inactive;
+    ScreenPlay::ScreenPlayEnums::AppState m_state = ScreenPlay::ScreenPlayEnums::AppState::NotSet;
 
     WallpaperData m_wallpaperData;
 

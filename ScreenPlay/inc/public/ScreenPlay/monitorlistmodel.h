@@ -35,7 +35,7 @@ struct Monitor {
     QString m_wallpaperPreviewImage;
     QString m_appID;
     QString m_name;
-    ScreenPlayEnums::AppState m_appState = ScreenPlayEnums::AppState::Inactive;
+    ScreenPlayEnums::AppState m_appState = ScreenPlayEnums::AppState::NotSet;
     ContentTypes::InstalledType m_installedType = ContentTypes::InstalledType::Unknown;
 };
 

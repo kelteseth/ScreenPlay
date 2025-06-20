@@ -205,6 +205,27 @@ Item {
             }
         }
 
+        MouseArea {
+            anchors.fill: parent
+            enabled: !root.isScrolling
+            // hoverEnabled: !root.isScrolling
+            // // cursorShape also changes even when hoverArea is disabled
+            // cursorShape: root.isScrolling ? Qt.ArrowCursor : Qt.PointingHandCursor
+            acceptedButtons: Qt.LeftButton | Qt.RightButton
+
+            onClicked: function(mouse) {
+                if (!root.hasLicense) {
+                    root.openOpenLicensePopup();
+                    return;
+                }
+
+                if (mouse.button === Qt.LeftButton && !App.util.isWidget(root.type)) {
+                    root.clicked(root.folderName, root.type);
+                } else if (mouse.button === Qt.RightButton) {
+                    root.openContextMenu(Qt.point(mouseX, mouseY));
+                }
+            }
+        }
 
         Button {
             id: widgetButton
@@ -230,36 +251,16 @@ Item {
                 );
             }
         }
-    }
-
-    HoverHandler {
-        id: hoverArea
-        target: parent
-        acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
-        cursorShape: root.isScrolling ? Qt.ArrowCursor : Qt.PointingHandCursor
-    }
-
-    MouseArea {
-        anchors.fill: parent
-        enabled: !root.isScrolling
-        // hoverEnabled: !root.isScrolling
-        // // cursorShape also changes even when hoverArea is disabled
-        // cursorShape: root.isScrolling ? Qt.ArrowCursor : Qt.PointingHandCursor
-        acceptedButtons: Qt.LeftButton | Qt.RightButton
-
-        onClicked: function(mouse) {
-            if (!root.hasLicense) {
-                root.openOpenLicensePopup();
-                return;
-            }
-
-            if (mouse.button === Qt.LeftButton && !App.util.isWidget(root.type)) {
-                root.clicked(root.folderName, root.type);
-            } else if (mouse.button === Qt.RightButton) {
-                root.openContextMenu(Qt.point(mouseX, mouseY));
-            }
+        HoverHandler {
+            id: hoverArea
+            target: parent
+            acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
+            cursorShape: root.isScrolling ? Qt.ArrowCursor : Qt.PointingHandCursor
         }
+
     }
+
+
 
     states: [
         State {

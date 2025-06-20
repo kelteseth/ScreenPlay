@@ -80,8 +80,29 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
     }
 
     QObject::connect(&m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &ScreenPlayWallpaper::processExit);
-    QObject::connect(&m_process, &QProcess::errorOccurred, this, [this]() {
-        setState(ScreenPlay::ScreenPlayEnums::AppState::ErrorOccouredWhileActive);
+    QObject::connect(&m_process, &QProcess::errorOccurred, this, [this](QProcess::ProcessError error) {
+        qWarning() << "QProcess error occurred for wallpaper" << m_appID << ":" << error;
+
+        switch (error) {
+        case QProcess::FailedToStart:
+            qCritical() << "Process failed to start for wallpaper" << m_appID;
+            setState(ScreenPlay::ScreenPlayEnums::AppState::StartingFailed);
+            break;
+        case QProcess::Crashed:
+            qCritical() << "Process crashed for wallpaper" << m_appID;
+            setState(ScreenPlay::ScreenPlayEnums::AppState::Crashed);
+            break;
+        case QProcess::Timedout:
+            qWarning() << "Process timeout for wallpaper" << m_appID;
+            setState(ScreenPlay::ScreenPlayEnums::AppState::Timeout);
+            break;
+        case QProcess::ReadError:
+        case QProcess::WriteError:
+        case QProcess::UnknownError:
+            qWarning() << "Process I/O or unknown error for wallpaper" << m_appID;
+            setState(ScreenPlay::ScreenPlayEnums::AppState::ErrorOccurred);
+            break;
+        }
     });
 
     QString tmpScreenNumber;
@@ -164,12 +185,12 @@ QCoro::Task<Result> ScreenPlayWallpaper::close()
     m_pingAliveTimer.stop(); // Stop the timer when closing
     if (!m_connection) {
         qInfo() << "Cannot request quit, wallpaper never connected!";
-        setState(ScreenPlayEnums::AppState::Inactive);
+        setState(ScreenPlayEnums::AppState::ClosingFailed);
         co_return Result { true, {}, "Quit wallpaper (it was never connected)" };
     }
     if (!m_connection->close()) {
         qCritical() << "Cannot close wallpaper!";
-        setState(ScreenPlayEnums::AppState::Inactive);
+        setState(ScreenPlayEnums::AppState::ClosingFailed);
         co_return Result { false, {}, "Failed to close connection to wallpaper" };
     }
     QTimer timer;
@@ -178,9 +199,15 @@ QCoro::Task<Result> ScreenPlayWallpaper::close()
     for (int i = 1; i <= maxRetries; ++i) {
         // Wait for the timer to tick
         co_await timer;
-        if (!isConnected()) {
-            setState(ScreenPlayEnums::AppState::Inactive);
-            co_return Result { true };
+        std::optional<bool> running = m_processManager.isRunning(m_processID);
+        if (running.has_value()) {
+            const auto isRunning = running.value();
+            if (!isRunning) {
+                setState(ScreenPlayEnums::AppState::ClosedGracefully);
+                co_return Result { true, {}, "Quit wallpaper gracefully" };
+            }
+        } else {
+            qInfo() << "INVALID PID:" << m_processID;
         }
     }
     co_return Result { false, {}, QString("Wallpaper with appID '%1' failed to disconnect after %2 attempts").arg(m_appID).arg(maxRetries) };
@@ -191,11 +218,12 @@ QCoro::Task<Result> ScreenPlayWallpaper::close()
 */
 void ScreenPlayWallpaper::processExit(int exitCode, QProcess::ExitStatus exitStatus)
 {
-    setState(ScreenPlay::ScreenPlayEnums::AppState::Inactive);
     if (exitCode != 0) {
         qCritical() << "ERROR: Wallpaper closed with appID: " << m_appID << " EXIT CODE: " << exitCode << exitStatus;
+        setState(ScreenPlay::ScreenPlayEnums::AppState::Crashed);
         return;
     }
+    setState(ScreenPlay::ScreenPlayEnums::AppState::ClosedGracefully);
     qDebug() << "Wallpaper closed with appID: " << m_appID;
 }
 
@@ -265,7 +293,11 @@ ScreenPlay::ScreenPlayEnums::AppState ScreenPlayWallpaper::state() const
 
 void ScreenPlayWallpaper::setState(ScreenPlay::ScreenPlayEnums::AppState state)
 {
+    if (m_state == state)
+        return;
+
     m_state = state;
+    emit stateChanged(m_state);
 }
 
 void ScreenPlayWallpaper::syncAllProperties()
@@ -309,7 +341,7 @@ void ScreenPlayWallpaper::setSDKConnection(std::unique_ptr<SDKConnection> connec
 
     QObject::connect(m_connection.get(), &SDKConnection::disconnected, this, [this]() {
         setIsConnected(false);
-        setState(ScreenPlayEnums::AppState::Inactive);
+        setState(ScreenPlayEnums::AppState::Timeout);
         m_pingAliveTimer.stop(); // Stop the timer when disconnected
         qInfo() << "Wallpaper:" << m_connection->appID() << "disconnected";
     });

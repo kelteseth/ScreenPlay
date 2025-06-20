@@ -24,19 +24,19 @@ Control {
     property int length: timeline.sectionsList.length
     property Item modalSource
 
-    function getSelectedTimeline() {
+    function getSelectedTimeline(): TimelineSection {
         return timeline.sectionsList[root.selectedTimelineIndex];
     }
 
-    function setActiveWallpaperPreviewImage() {
+    function setActiveWallpaperPreviewImage(): void {
         timeline.setActiveWallpaperPreviewImage();
     }
 
-    function removeAll() {
+    function removeAll(): void {
         timeline.removeAll();
     }
 
-    function reset() {
+    function reset(): void {
         timeline.reset();
         timeline.load();
         root.ready();
@@ -50,7 +50,7 @@ Control {
 
     Connections {
         target: App.screenPlayManager
-        function onPrintQmlTimeline() {
+        function onPrintQmlTimeline(): void {
             console.debug(timelineLogging, "################# qml:");
             for (var i = 0; i < timeline.sectionsList.length; i++) {
                 console.debug(timelineLogging, timeline.sectionsList[i].index, timeline.sectionsList[i].identifier, timeline.sectionsList[i].relativeLinePosition);
@@ -84,10 +84,10 @@ Control {
 
         Connections {
             target: App.screenPlayManager
-            function onNotifyUiReloadTimelinePreviewImage() {
+            function onNotifyUiReloadTimelinePreviewImage(): void {
                 timeline.setActiveWallpaperPreviewImage();
             }
-            function onActiveTimelineIndexChanged(activeTimelineIndex: int) {
+            function onActiveTimelineIndexChanged(activeTimelineIndex: int): void {
                 timeline.updateActiveTimelineIndex(activeTimelineIndex);
             }
         }

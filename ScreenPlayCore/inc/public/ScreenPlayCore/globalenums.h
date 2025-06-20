@@ -14,18 +14,31 @@ class ScreenPlayEnums : public QObject {
 
 public:
     /*!
-        \brief
+        \brief Application state enum representing the complete lifecycle of a wallpaper or widget process.
     */
     enum class AppState {
-        NotSet,
-        Inactive,
-        Starting,
-        StartingFailed,
-        Closing,
-        ClosingFailed,
-        Active,
-        ErrorOccouredWhileActive,
-        Timeout,
+        // Initial States
+        NotSet, // Default uninitialized state, should transition to Inactive
+
+        // Starting States
+        Starting, // Process launching, attempting initial connection
+        StartingFailed, // Failed to start process or connect within timeout period
+
+        // Active States
+        Active, // Process running and connected successfully
+
+        // Error States (while running)
+        Timeout, // Lost connection, process may still be running
+        Crashed, // Process terminated unexpectedly (non-zero exit code)
+        ErrorOccurred, // General error occurred while running
+
+        // Transition States
+        PostActiveHandling, // Temporary state while handling post-Active recovery
+
+        // Closing States
+        Closing, // Shutdown initiated, waiting for graceful exit
+        ClosingFailed, // Failed to close gracefully within timeout
+        ClosedGracefully, /// Exit code 0
     };
     Q_ENUM(AppState)
     /*!

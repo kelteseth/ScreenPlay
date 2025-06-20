@@ -22,6 +22,8 @@ std::optional<bool> ProcessManager::isRunning(const qint64 pid) const
         return true;
     if (errno == ESRCH)
         return false;
+    if (errno == EPERM)
+        return true; // Process exists, but no permission to signal it
 #endif
     return std::nullopt;
 }

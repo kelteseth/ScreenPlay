@@ -1275,7 +1275,7 @@ QCoro::Task<Result> ScreenPlayTimelineManager::removeWallpaper(const int timelin
         for (const auto& monitor : monitorIndex) {
             QModelIndex modelIndex = m_monitorListModel->index(monitor);
             m_monitorListModel->setData(modelIndex,
-                (int)ScreenPlayEnums::AppState::Inactive,
+                (int)ScreenPlayEnums::AppState::NotSet,
                 (int)MonitorListModel::MonitorRole::AppState);
             m_monitorListModel->setData(modelIndex,
                 "",
