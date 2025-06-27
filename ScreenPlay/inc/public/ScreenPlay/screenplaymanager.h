@@ -17,6 +17,7 @@
 #include "ScreenPlayCore/util.h"
 
 namespace ScreenPlay {
+class ErrorManager;
 
 class ScreenPlayManager : public QObject {
     Q_OBJECT
@@ -31,11 +32,11 @@ class ScreenPlayManager : public QObject {
 
 public:
     explicit ScreenPlayManager(QObject* parent = nullptr);
-
     void init(
         const std::shared_ptr<GlobalVariables>& globalVariables,
         const std::shared_ptr<MonitorListModel>& mlm,
-        const std::shared_ptr<Settings>& settings);
+        const std::shared_ptr<Settings>& settings,
+        const std::shared_ptr<ErrorManager>& errorManager);
 
     QCoro::Task<Result> shutdown();
 
@@ -141,6 +142,7 @@ private:
     std::shared_ptr<GlobalVariables> m_globalVariables;
     std::shared_ptr<MonitorListModel> m_monitorListModel;
     std::shared_ptr<Settings> m_settings;
+    std::shared_ptr<ErrorManager> m_errorManager;
     std::unique_ptr<QLocalServer> m_server;
     std::shared_ptr<ProjectSettingsListModel> m_projectSettingsListModel;
     QVector<std::shared_ptr<ScreenPlayWidget>> m_screenPlayWidgets;

@@ -83,14 +83,26 @@ bool WallpaperTimelineSection::replaceScreenPlayWallpaperAtMonitorIndex(const QV
     return false;
 }
 
-bool WallpaperTimelineSection::init(const QJsonArray wallpaperConfigList)
+QString WallpaperTimelineSection::initErrorToString(InitError error)
+{
+    switch (error) {
+    case InitError::None:
+        return QObject::tr("No error");
+    case InitError::WallpaperDataLoadFailed:
+        return QObject::tr("Failed to load wallpaper data from configuration");
+    }
+    return QObject::tr("Unknown error");
+}
+
+std::expected<bool, WallpaperTimelineSection::InitError> WallpaperTimelineSection::init(const QJsonArray wallpaperConfigList)
 {
     for (const auto& wallpaperConfig : wallpaperConfigList) {
-        auto wallpaperDataOpt = WallpaperData::loadTimelineWallpaperConfig(wallpaperConfig.toObject());
-        if (!wallpaperDataOpt.has_value()) {
-            continue;
+        auto wallpaperDataResult = WallpaperData::loadTimelineWallpaperConfig(wallpaperConfig.toObject());
+        if (!wallpaperDataResult.has_value()) {
+            qWarning() << "Failed to load wallpaper data:" << WallpaperData::loadErrorToString(wallpaperDataResult.error());
+            return std::unexpected(InitError::WallpaperDataLoadFailed);
         }
-        auto wallpaperData = wallpaperDataOpt.value();
+        auto wallpaperData = wallpaperDataResult.value();
         addWallpaper(wallpaperData);
     }
     return true;

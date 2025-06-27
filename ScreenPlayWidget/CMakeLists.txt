@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 project(ScreenPlayWidget LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 

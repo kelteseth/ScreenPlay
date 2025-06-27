@@ -8,6 +8,7 @@ import ScreenPlayCore
 import QtCore as QCore
 import "ContentSettings" as ContentSettings
 import "Navigation" as Navigation
+import "Components" as Components
 
 ApplicationWindow {
     id: applicationWindow
@@ -145,6 +146,11 @@ ApplicationWindow {
 
         TrayIcon {
             applicationWindow: applicationWindow
+        }
+
+        Components.ErrorManagerPopup {
+            id: errorManagerPopup
+            modalSource: content
         }
 
         Connections {

@@ -411,6 +411,11 @@ Drawer {
                                 return;
                             }
                             const selectedTimeline = timeline.getSelectedTimeline();
+                            if(selectedTimeline === null) {
+                                InstantPopup.openErrorPopup(timeline, qsTr("Error: Selected timeline is invalid."));
+                                return
+                            }
+
                             const file = item.file;
                             App.screenPlayManager.setWallpaperAtMonitorTimelineIndex(root.type, absoluteStoragePath, previewImage, file, title, activeMonitors, selectedTimeline.index, selectedTimeline.identifier, true).then(result => {
                                 btnLaunchContent.enabled = true;

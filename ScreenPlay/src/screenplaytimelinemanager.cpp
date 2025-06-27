@@ -101,13 +101,31 @@ std::shared_ptr<WallpaperTimelineSection> ScreenPlayTimelineManager::findTimelin
         ]
     },
 */
-bool ScreenPlayTimelineManager::addTimelineFromSettings(const QJsonObject& timelineObj)
+
+QString ScreenPlayTimelineManager::timelineManagerErrorToString(TimelineManagerError error)
+{
+    switch (error) {
+    case TimelineManagerError::None:
+        return QObject::tr("No error");
+    case TimelineManagerError::InvalidTimeFormat:
+        return QObject::tr("Invalid time format in timeline configuration");
+    case TimelineManagerError::TimelineSectionInitFailed:
+        return QObject::tr("Failed to initialize timeline section");
+    case TimelineManagerError::MissingRequiredFields:
+        return QObject::tr("Missing required fields in timeline configuration");
+    case TimelineManagerError::InvalidConfiguration:
+        return QObject::tr("Invalid timeline configuration");
+    }
+    return QObject::tr("Unknown timeline error");
+}
+
+std::expected<bool, ScreenPlayTimelineManager::TimelineManagerError> ScreenPlayTimelineManager::addTimelineFromSettings(const QJsonObject& timelineObj)
 {
     const QTime startTime = QTime::fromString(timelineObj.value("startTime").toString(), m_timelineTimeFormat);
     const QTime endTime = QTime::fromString(timelineObj.value("endTime").toString(), m_timelineTimeFormat);
     if (startTime > endTime) {
         qCritical() << "Invalid time, start time is later than end time: " << startTime.toString() << endTime.toString();
-        return false;
+        return std::unexpected(TimelineManagerError::InvalidTimeFormat);
     }
 
     // If this is basic version and we already have a timeline, ignore additional ones
@@ -148,7 +166,12 @@ bool ScreenPlayTimelineManager::addTimelineFromSettings(const QJsonObject& timel
             << newTimelineSection->startTime
             << newTimelineSection->endTime;
 
-    newTimelineSection->init(timelineObj.value("wallpaper").toArray());
+    auto initResult = newTimelineSection->init(timelineObj.value("wallpaper").toArray());
+    if (!initResult.has_value()) {
+        qWarning() << "Timeline section init failed:" << WallpaperTimelineSection::initErrorToString(initResult.error());
+        return std::unexpected(TimelineManagerError::TimelineSectionInitFailed);
+    }
+
     m_wallpaperTimelineSectionsList.append(newTimelineSection);
     return true;
 }

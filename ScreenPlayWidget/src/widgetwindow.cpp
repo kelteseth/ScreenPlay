@@ -6,7 +6,6 @@
 #include <QSysInfo>
 
 #include "ScreenPlayCore/contenttypes.h"
-#include "ScreenPlayCore/processmanager.h"
 #include "ScreenPlayCore/util.h"
 
 namespace ScreenPlay {

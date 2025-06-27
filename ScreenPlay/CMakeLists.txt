@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 project(ScreenPlay LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 
@@ -15,6 +15,7 @@ set(SOURCES
     src/screenplayexternalprocess.cpp
     src/create.cpp
     src/createimportvideo.cpp
+    src/errormanager.cpp
     src/globalvariables.cpp
     src/installedlistfilter.cpp
     src/installedlistmodel.cpp
@@ -41,6 +42,7 @@ set(HEADER
     inc/public/ScreenPlay/create.h
     inc/public/ScreenPlay/createimportstates.h
     inc/public/ScreenPlay/createimportvideo.h
+    inc/public/ScreenPlay/errormanager.h
     inc/public/ScreenPlay/globalvariables.h
     inc/public/ScreenPlay/installedlistfilter.h
     inc/public/ScreenPlay/installedlistmodel.h
@@ -68,6 +70,7 @@ set(QML
     qml/Community/XMLNewsfeed.qml
     qml/Components/LineHandle.qml
     qml/Components/LineIndicator.qml
+    qml/Components/ErrorManagerPopup.qml
     qml/Components/ScreenPlayProPopup.qml
     qml/Components/Timeline.qml
     qml/Components/TimelineSection.qml

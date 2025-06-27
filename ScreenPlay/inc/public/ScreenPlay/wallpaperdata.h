@@ -14,6 +14,7 @@
 #include <QString>
 #include <QStringList>
 #include <QUuid>
+#include <expected>
 
 namespace ScreenPlay {
 
@@ -31,6 +32,17 @@ class WallpaperData {
     Q_PROPERTY(ScreenPlay::Video::FillMode fillMode READ fillMode WRITE setFillMode)
     Q_PROPERTY(QVector<int> monitors READ monitors WRITE setMonitors)
 public:
+    enum class LoadError {
+        None,
+        EmptyConfiguration,
+        InvalidMonitorNumber,
+        DuplicateMonitor,
+        MonitorDoesNotExist,
+        WallpaperFileDoesNotExist
+    };
+    Q_ENUM(LoadError)
+
+    static QString loadErrorToString(LoadError error);
     bool isLooping() const { return m_isLooping; }
     QString absolutePath() const { return m_absolutePath; }
     QString previewImage() const { return m_previewImage; }
@@ -57,7 +69,7 @@ public:
     Q_INVOKABLE bool hasContent();
 
     QJsonObject serialize() const;
-    static std::optional<WallpaperData> loadTimelineWallpaperConfig(const QJsonObject& wallpaperObj);
+    static std::expected<WallpaperData, LoadError> loadTimelineWallpaperConfig(const QJsonObject& wallpaperObj);
 
 private:
     bool m_isLooping = true;

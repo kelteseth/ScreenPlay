@@ -23,7 +23,7 @@
 #include <qt_windows.h>
 #endif
 
-#include "ScreenPlayCore/util.h"
+#include "ScreenPlayCore/contenttypes.h"
 #include "ScreenPlaySDK/screenplaysdk.h"
 #include <memory>
 

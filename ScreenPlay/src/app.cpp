@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
 #include "ScreenPlay/app.h"
+#include "ScreenPlay/errormanager.h"
 
 #include <QDir>
 #include <QElapsedTimer>
@@ -60,9 +61,9 @@ App::App(QObject* parent)
     } else {
         qWarning() << "Unable to load font from: " << fontsPath;
     }
-
     using std::make_shared, std::make_unique;
 
+    m_errorManager = make_shared<ErrorManager>();
     m_uiAppStateSignals = make_unique<UiAppStateSignals>();
     m_screenPlayManager = make_unique<ScreenPlayManager>();
     m_globalVariables = make_shared<GlobalVariables>();
@@ -117,8 +118,8 @@ App::App(QObject* parent)
         settings()->setSilentStart(true);
     }
 
-    // Must be called last to display a error message on startup by the qml engine
-    m_screenPlayManager->init(m_globalVariables, m_monitorListModel, m_settings);
+    // Must be called last to display an error message on startup by the qml engine
+    m_screenPlayManager->init(m_globalVariables, m_monitorListModel, m_settings, m_errorManager);
 
     // TODO
     // QObject::connect(
@@ -309,9 +310,28 @@ void App::setWizards(Wizards* wizards)
     emit wizardsChanged(m_wizards.get());
 }
 
+/*!
+    \property App::errorManager
+    \brief Error manager for handling and displaying application errors.
+*/
+void App::setErrorManager(ErrorManager* errorManager)
+{
+    if (m_errorManager.get() == errorManager)
+        return;
+
+    m_errorManager.reset(errorManager);
+    emit errorManagerChanged(m_errorManager.get());
+}
+
 void App::setEngine(std::shared_ptr<QQmlApplicationEngine> engine)
 {
     m_engine = engine;
+
+    // Mark the error manager as ready once QML engine is set
+    if (m_errorManager) {
+        m_errorManager->setQmlReady(true);
+    }
+
     QObject::connect(
         m_settings.get(),
         &Settings::requestRetranslation,

@@ -7,6 +7,7 @@
 #include <QObject>
 #include <QString>
 #include <QTimer>
+#include <expected>
 
 #include "ScreenPlay/globalvariables.h"
 #include "ScreenPlay/settings.h"
@@ -29,6 +30,14 @@ public:
         Failed, // Failed to start/crashed - needs recovery
     };
     Q_ENUM(State)
+    
+    enum class InitError {
+        None,
+        WallpaperDataLoadFailed
+    };
+    Q_ENUM(InitError)
+
+    static QString initErrorToString(InitError error);
     State state = State::Inactive;
     QString identifier;
     int index = 0; // Needed to check
@@ -43,7 +52,7 @@ public:
 
     // Check if currentTime falls within the timeline section
     bool containsTime(const QTime& time) const;
-    bool init(const QJsonArray wallpaperConfig);
+    std::expected<bool, InitError> init(const QJsonArray wallpaperConfig);
     std::shared_ptr<ScreenPlayWallpaper> addWallpaper(const WallpaperData wallpaperData);
     std::optional<WallpaperData> getWallpaperDataForMonitor(const int monitorIndex) const;
     std::optional<std::shared_ptr<ScreenPlayWallpaper>> screenPlayWallpaperByMonitorIndex(const int monitorIndex) const;

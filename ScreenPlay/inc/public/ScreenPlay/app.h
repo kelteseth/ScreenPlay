@@ -2,6 +2,7 @@
 
 #pragma once
 #include "ScreenPlay/create.h"
+#include "ScreenPlay/errormanager.h"
 #include "ScreenPlay/globalvariables.h"
 #include "ScreenPlay/installedlistfilter.h"
 #include "ScreenPlay/installedlistmodel.h"
@@ -11,6 +12,7 @@
 #include "ScreenPlay/settings.h"
 #include "ScreenPlay/uiappstatesignals.h"
 #include "ScreenPlay/wizards.h"
+
 #include "ScreenPlayCore/util.h"
 
 #include <QQmlApplicationEngine>
@@ -42,6 +44,7 @@ class App : public QObject {
     Q_PROPERTY(ScreenPlay::MonitorListModel* monitorListModel READ monitorListModel WRITE setMonitorListModel NOTIFY monitorListModelChanged FINAL)
     Q_PROPERTY(ScreenPlay::ProfileListModel* profileListModel READ profileListModel WRITE setProfileListModel NOTIFY profileListModelChanged FINAL)
     Q_PROPERTY(ScreenPlay::UiAppStateSignals* uiAppStateSignals READ uiAppStateSignals WRITE setUiAppStateSignals NOTIFY uiAppStateSignalsChanged FINAL)
+    Q_PROPERTY(ScreenPlay::ErrorManager* errorManager READ errorManager WRITE setErrorManager NOTIFY errorManagerChanged FINAL)
 
 public:
     explicit App(QObject* parent = nullptr);
@@ -60,6 +63,7 @@ public:
     InstalledListFilter* installedListFilter() const { return m_installedListFilter.get(); }
     Wizards* wizards() const { return m_wizards.get(); }
     UiAppStateSignals* uiAppStateSignals() const { return m_uiAppStateSignals.get(); }
+    ErrorManager* errorManager() const { return m_errorManager.get(); }
 
     void setEngine(std::shared_ptr<QQmlApplicationEngine> engine);
 
@@ -75,6 +79,7 @@ signals:
     void installedListFilterChanged(ScreenPlay::InstalledListFilter* installedListFilter);
     void uiAppStateSignalsChanged(ScreenPlay::UiAppStateSignals* uiAppStateSignals);
     void wizardsChanged(ScreenPlay::Wizards* wizards);
+    void errorManagerChanged(ScreenPlay::ErrorManager* errorManager);
     void requestExit();
     void requestRetranslation();
 
@@ -90,6 +95,7 @@ public slots:
     void setInstalledListFilter(InstalledListFilter* installedListFilter);
     void setUiAppStateSignals(UiAppStateSignals* uiAppStateSignals);
     void setWizards(Wizards* wizards);
+    void setErrorManager(ErrorManager* errorManager);
 
 private:
     std::shared_ptr<QQmlApplicationEngine> m_engine;
@@ -105,6 +111,7 @@ private:
     std::shared_ptr<ProfileListModel> m_profileListModel;
     std::shared_ptr<InstalledListFilter> m_installedListFilter;
     std::shared_ptr<UiAppStateSignals> m_uiAppStateSignals;
+    std::shared_ptr<ErrorManager> m_errorManager;
     static int typeId;
 };
 }

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
 #include "ScreenPlay/screenplaymanager.h"
+#include "ScreenPlay/errormanager.h"
 #include "ScreenPlayCore/util.h"
 #include "core/qcorothread.h"
 #include "qcorotask.h"
@@ -53,11 +54,13 @@ ScreenPlayManager::ScreenPlayManager(
 void ScreenPlayManager::init(
     const std::shared_ptr<GlobalVariables>& globalVariables,
     const std::shared_ptr<MonitorListModel>& mlm,
-    const std::shared_ptr<Settings>& settings)
+    const std::shared_ptr<Settings>& settings,
+    const std::shared_ptr<ErrorManager>& errorManager)
 {
     m_globalVariables = globalVariables;
     m_monitorListModel = mlm;
     m_settings = settings;
+    m_errorManager = errorManager;
 
     m_screenPlayTimelineManager.setGlobalVariables(m_globalVariables);
     m_screenPlayTimelineManager.setSettings(m_settings);
@@ -631,18 +634,23 @@ bool ScreenPlayManager::saveProfiles()
 */
 bool ScreenPlayManager::loadProfiles()
 {
-
     const auto configObj = m_util.openJsonFileToObject(m_globalVariables->localSettingsPath().toString() + "/profiles.json");
 
     if (!configObj) {
         qWarning() << "Could not load active profiles at path: " << m_globalVariables->localSettingsPath().toString() + "/profiles.json";
+        if (m_errorManager) {
+            m_errorManager->displayError("Could not load profiles.json file. Using default settings.");
+        }
         return false;
     }
-
     std::optional<QVersionNumber> version = m_util.getVersionNumberFromString(configObj->value("version").toString());
     QVersionNumber requiredVersion = m_settings->getProfilesVersion();
     if (version && *version != requiredVersion) {
         qWarning() << "Version missmatch fileVersion: " << version->toString() << "m_version: " << requiredVersion.toString();
+        if (m_errorManager) {
+            m_errorManager->displayError(QString("Profile version mismatch. Expected %1, found %2. Some settings may be reset.")
+                    .arg(requiredVersion.toString(), version->toString()));
+        }
         return false;
     }
 
@@ -654,32 +662,74 @@ bool ScreenPlayManager::loadProfiles()
     }
 
     bool containsInvalidData = false;
-    for (const QJsonValueRef wallpaper : activeProfilesTmp) {
+    bool hasTimelines = false;
+    
+    for (const QJsonValueRef profile : activeProfilesTmp) {
 
         // TODO right now we limit ourself to one default profile
-        if (wallpaper.toObject().value("name").toString() != "default")
+        if (profile.toObject().value("name").toString() != "default")
             continue;
 
-        for (QJsonValueRef timelineWallpaper : wallpaper.toObject().value("timelineWallpaper").toArray()) {
+        for (QJsonValueRef timelineWallpaper : profile.toObject().value("timelineWallpaper").toArray()) {
             QJsonObject wallpaperObj = timelineWallpaper.toObject();
-            if (!m_screenPlayTimelineManager.addTimelineFromSettings(wallpaperObj)) {
-                qCritical() << "Unable to add wallpaper timeline";
+            auto result = m_screenPlayTimelineManager.addTimelineFromSettings(wallpaperObj);
+            if (!result.has_value()) {
+                QString errorMessage = QString("Failed to load timeline wallpaper: %1")
+                    .arg(ScreenPlayTimelineManager::timelineManagerErrorToString(result.error()));
+                qCritical() << "Unable to add wallpaper timeline:" << errorMessage;
+                if (m_errorManager) {
+                    m_errorManager->displayError(errorMessage);
+                }
                 containsInvalidData = true;
                 continue;
             }
+            hasTimelines = true;
         }
 
-        for (const QJsonValueRef widget : wallpaper.toObject().value("widgets").toArray()) {
+        for (const QJsonValueRef widget : profile.toObject().value("widgets").toArray()) {
             QJsonObject widgetObj = widget.toObject();
-            if (!loadWidgetConfig(widgetObj))
+            if (!loadWidgetConfig(widgetObj)) {
+                QString widgetPath = widgetObj.value("absolutePath").toString();
+                QString errorMessage = QString("Failed to load widget from: %1").arg(widgetPath);
+                qWarning() << errorMessage;
+                if (m_errorManager) {
+                    m_errorManager->displayError(errorMessage);
+                }
                 containsInvalidData = true;
+            }
         }
+    }
+
+    // Create default timeline if no timelines were loaded
+    if (!hasTimelines) {
+        qInfo() << "No timelines found in profiles, creating default timeline";
+        QJsonObject defaultTimelineObj;
+        defaultTimelineObj.insert("startTime", "00:00:00");
+        defaultTimelineObj.insert("endTime", "23:59:59");
+        defaultTimelineObj.insert("wallpaper", QJsonArray());
+        
+        auto result = m_screenPlayTimelineManager.addTimelineFromSettings(defaultTimelineObj);
+        if (!result.has_value()) {
+            QString errorMessage = QString("Failed to create default timeline: %1")
+                .arg(ScreenPlayTimelineManager::timelineManagerErrorToString(result.error()));
+            qCritical() << errorMessage;
+            if (m_errorManager) {
+                m_errorManager->displayError(errorMessage);
+            }
+            return false;
+        }
+        
+        // Save the default timeline to profiles
+        saveProfiles();
     }
 
     // The can happen if the user unpluggs a wallpaper but it still exists
     // in the profiles.json. For this we save all profiles with now active
     // content.
     if (containsInvalidData) {
+        if (m_errorManager) {
+            m_errorManager->displayError("Some wallpapers or widgets from profiles.json could not be loaded. This may happen if files have been moved or monitors have been disconnected. The configuration will be updated automatically.");
+        }
         saveProfiles();
     } else {
         m_screenPlayTimelineManager.startup();

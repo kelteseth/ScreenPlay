@@ -18,9 +18,17 @@ class ScreenPlayTimelineManager : public QObject {
     Q_PROPERTY(int activeTimelineIndex READ activeTimelineIndex WRITE setActiveTimelineIndex NOTIFY activeTimelineIndexChanged FINAL)
 
 public:
+    enum class TimelineManagerError {
+        None,
+        InvalidTimeFormat,
+        TimelineSectionInitFailed,
+        MissingRequiredFields,
+        InvalidConfiguration
+    };
+
     explicit ScreenPlayTimelineManager(QObject* parent = nullptr);
 
-    bool addTimelineFromSettings(const QJsonObject& timelineObj);
+    std::expected<bool, ScreenPlayTimelineManager::TimelineManagerError> addTimelineFromSettings(const QJsonObject& timelineObj);
     bool moveTimelineAt(const int index, const QString identifier, const float relativeLinePosition, QString positionTimeString);
     bool addTimelineAt(const int index, const float reltiaveLinePosition, QString identifier);
     QCoro::Task<Result> removeTimelineAt(const int index);
@@ -68,6 +76,8 @@ public:
     void validateTimelineSections() const;
     void sortAndUpdateIndices();
     const std::vector<WallpaperData> wallpaperData() const;
+    
+    static QString timelineManagerErrorToString(TimelineManagerError error);
 
 public slots:
     void setSelectedTimelineIndex(int selectedTimelineIndex);

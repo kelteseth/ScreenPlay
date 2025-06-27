@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "wallpaperdata.h"
+#include "ScreenPlay/monitorlistmodel.h"
 #include "ScreenPlayCore/util.h"
 
 namespace ScreenPlay {
@@ -92,11 +93,31 @@ bool WallpaperData::hasContent()
     return !m_absolutePath.isEmpty();
 }
 
-std::optional<ScreenPlay::WallpaperData> ScreenPlay::WallpaperData::loadTimelineWallpaperConfig(const QJsonObject& wallpaperObj)
+QString WallpaperData::loadErrorToString(LoadError error)
+{
+    switch (error) {
+    case LoadError::None:
+        return QObject::tr("No error");
+    case LoadError::EmptyConfiguration:
+        return QObject::tr("Empty wallpaper configuration provided");
+    case LoadError::InvalidMonitorNumber:
+        return QObject::tr("Invalid monitor number found in configuration");
+    case LoadError::DuplicateMonitor:
+        return QObject::tr("Duplicate monitor configuration detected");
+    case LoadError::MonitorDoesNotExist:
+        return QObject::tr("Monitor specified in configuration no longer exists");
+    case LoadError::WallpaperFileDoesNotExist:
+        return QObject::tr("Wallpaper file specified in configuration does not exist");
+    }
+    return QObject::tr("Unknown error");
+}
+
+std::expected<ScreenPlay::WallpaperData, ScreenPlay::WallpaperData::LoadError> ScreenPlay::WallpaperData::loadTimelineWallpaperConfig(const QJsonObject& wallpaperObj)
 {
     if (wallpaperObj.empty())
-        return std::nullopt;
+        return std::unexpected(LoadError::EmptyConfiguration);
 
+    const auto systemMonitors = MonitorListModel::getSystemMonitors();
     QJsonArray monitorsArray = wallpaperObj.value("monitors").toArray();
 
     QVector<int> monitors;
@@ -104,13 +125,26 @@ std::optional<ScreenPlay::WallpaperData> ScreenPlay::WallpaperData::loadTimeline
         int value = monitorNumber.toInt(-1);
         if (value == -1) {
             qWarning() << "Could not parse monitor number to display content at";
-            return std::nullopt;
+            return std::unexpected(LoadError::InvalidMonitorNumber);
         }
 
         if (monitors.contains(value)) {
             qWarning() << "The monitor: " << value << " is sharing the config multiple times. ";
-            return std::nullopt;
+            return std::unexpected(LoadError::DuplicateMonitor);
         }
+
+        bool match = false;
+        for (const auto systemMonitor : systemMonitors) {
+            if (systemMonitor.m_monitorIndex == value) {
+                match = true;
+                break;
+            }
+        }
+        if (!match) {
+            qWarning() << "The monitor: " << value << " does not longer exists. Removing timeline.";
+            return std::unexpected(LoadError::MonitorDoesNotExist);
+        }
+
         monitors.append(value);
     }
 
@@ -139,6 +173,11 @@ std::optional<ScreenPlay::WallpaperData> ScreenPlay::WallpaperData::loadTimeline
             ContentTypes::InstalledType::VideoWallpaper));
     wallpaperData.setFillMode(
         QStringToEnum<Video::FillMode>(fillModeString, Video::FillMode::Cover));
+
+    if (!QFileInfo(wallpaperData.absolutePath() + "/" + wallpaperData.file()).exists()) {
+        qWarning() << "Requested wallpaper file does not exists";
+        return std::unexpected(LoadError::WallpaperFileDoesNotExist);
+    }
 
     return wallpaperData;
 }
