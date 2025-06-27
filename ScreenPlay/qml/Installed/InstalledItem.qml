@@ -25,7 +25,7 @@ Item {
 
     // Using readonly properties avoids creating bindings when values are static
     readonly property bool hasLicense: {
-        if (App.globalVariables.isBasicVersion()) {
+        if (App.globalVariables.isBasicVersion() && root.type === Util.ContentTypes.InstalledType.GodotWallpaper) {
             return false;
         }
         return true;
