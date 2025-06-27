@@ -34,6 +34,7 @@ class Settings : public QObject {
     Q_PROPERTY(ScreenPlay::Settings::DesktopEnvironment desktopEnvironment READ desktopEnvironment WRITE setDesktopEnvironment NOTIFY desktopEnvironmentChanged FINAL)
     Q_PROPERTY(ScreenPlay::Settings::Language language READ language WRITE setLanguage NOTIFY languageChanged FINAL)
     Q_PROPERTY(ScreenPlay::Settings::Theme theme READ theme WRITE setTheme NOTIFY themeChanged FINAL)
+    Q_PROPERTY(ScreenPlay::Settings::GodotFps godotFps READ godotFps WRITE setGodotFps NOTIFY godotFpsChanged FINAL)
 
     Q_PROPERTY(QString decoder READ decoder WRITE setDecoder NOTIFY decoderChanged FINAL)
     Q_PROPERTY(QString buildInfos READ buildInfos WRITE setBuildInfos NOTIFY buildInfosChanged FINAL)
@@ -85,6 +86,18 @@ public:
     };
     Q_ENUM(Theme)
 
+    enum class GodotFps {
+        Fps1,
+        Fps24,
+        Fps30,
+        Fps60,
+        Fps120,
+        Fps144,
+        Unlimited,
+        Vsync
+    };
+    Q_ENUM(GodotFps)
+
     bool autostart() const { return m_autostart; }
     bool highPriorityStart() const { return m_highPriorityStart; }
     QString decoder() const { return m_decoder; }
@@ -95,6 +108,7 @@ public:
     ScreenPlay::Settings::Language language() const { return m_language; }
     QString font() const { return m_font; }
     ScreenPlay::Settings::Theme theme() const { return m_theme; }
+    ScreenPlay::Settings::GodotFps godotFps() const { return m_godotFps; }
     ScreenPlay::Settings::DesktopEnvironment desktopEnvironment() const { return m_desktopEnvironment; }
     const QString& buildInfos() const { return m_buildInfos; }
     bool showDefaultContent() const { return m_showDefaultContent; }
@@ -124,6 +138,7 @@ signals:
     void buildInfosChanged(const QString& buildInfos);
     void showDefaultContentChanged(bool showDefaultContent);
     void startWallpaperMutedChanged(bool startWallpaperMuted);
+    void godotFpsChanged(ScreenPlay::Settings::GodotFps godotFps);
 
 public slots:
     void setupLanguage();
@@ -147,6 +162,7 @@ public slots:
     void setDesktopEnvironment(ScreenPlay::Settings::DesktopEnvironment desktopEnvironment);
     void setBuildInfos(const QString& buildInfos);
     void setStartWallpaperMuted(bool startWallpaperMuted);
+    void setGodotFps(ScreenPlay::Settings::GodotFps godotFps);
 
 private:
     void setupInstalledPath();
@@ -172,6 +188,7 @@ private:
     ScreenPlay::Video::FillMode m_videoFillMode { ScreenPlay::Video::FillMode::Cover };
     ScreenPlay::Settings::Language m_language { Language::En_US };
     ScreenPlay::Settings::Theme m_theme { Theme::System };
+    ScreenPlay::Settings::GodotFps m_godotFps { GodotFps::Fps60 };
     ScreenPlay::Settings::DesktopEnvironment m_desktopEnvironment { DesktopEnvironment::Unknown };
     QString m_font { "Roboto" };
     QString m_decoder;

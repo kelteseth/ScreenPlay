@@ -311,6 +311,63 @@ Item {
                             }
                         }
                     }
+
+                    SettingsHorizontalSeperator {}
+
+                    SettingsComboBox {
+                        id: cbGodotFps
+
+                        headline: qsTr("Godot Wallpaper FPS")
+                        description: qsTr("Set the target framerate for Godot-based wallpapers. Higher values provide smoother animation but use more system resources.")
+                        proFeature: true
+                        comboBox {
+                            Component.onCompleted: {
+                                if (App.globalVariables.isBasicVersion()) {
+                                    // For basic version, default to 60 FPS
+                                    comboBox.currentIndex = comboBox.indexOfValue(Settings.GodotFps.Fps60);
+                                } else {
+                                    comboBox.currentIndex = comboBox.indexOfValue(App.settings.godotFps);
+                                }
+                            }
+                            model: ListModel {
+                                ListElement {
+                                    value: Settings.GodotFps.Fps1
+                                    text: "1 FPS"
+                                }
+                                ListElement {
+                                    value: Settings.GodotFps.Fps24
+                                    text: "24 FPS"
+                                }
+                                ListElement {
+                                    value: Settings.GodotFps.Fps30
+                                    text: "30 FPS"
+                                }
+                                ListElement {
+                                    value: Settings.GodotFps.Fps60
+                                    text: "60 FPS"
+                                }
+                                ListElement {
+                                    value: Settings.GodotFps.Fps120
+                                    text: "120 FPS"
+                                }
+                                ListElement {
+                                    value: Settings.GodotFps.Fps144
+                                    text: "144 FPS"
+                                }
+                                ListElement {
+                                    value: Settings.GodotFps.Unlimited
+                                    text: qsTr("Unlimited")
+                                }
+                                ListElement {
+                                    value: Settings.GodotFps.Vsync
+                                    text: qsTr("VSync")
+                                }
+                            }
+                            onActivated: {
+                                App.settings.setGodotFps(cbGodotFps.comboBox.currentValue);
+                            }
+                        }
+                    }
                 }
             }
 

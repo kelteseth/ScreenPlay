@@ -57,7 +57,6 @@ func _ready():
 		# yet setup via screenplay_manager.init()
 		get_tree().quit()
 		return
-	Engine.set_max_fps(30)
 	
 	var ok = screen_play_wallpaper.init(screen_play_wallpaper.get_activeScreensList()[0])
 	if not ok:
@@ -109,7 +108,8 @@ func parse_args():
 				"--screens", "{0}", 
 				"--volume", "1", 
 				"--check", "0",
-				"--projectPackageFile","project-v1.zip"
+				"--projectPackageFile","project-v1.zip",
+				"--fps", "60"
 				]
 				
 	 # Remove the first argument if it's the main.tscn file
@@ -137,6 +137,27 @@ func parse_args():
 		if not arg_dict.has(req_arg):
 			print("Missing argument:", req_arg)
 			return false
+
+	# Handle optional fps argument
+	if arg_dict.has("fps"):
+		var fps_value = arg_dict["fps"]
+		if fps_value == "vsync":
+			DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
+			print("VSync enabled")
+		elif fps_value == "0":
+			Engine.set_max_fps(0)  # Unlimited FPS
+			print("FPS set to unlimited")
+		elif fps_value.is_valid_int():
+			var fps_int = fps_value.to_int()
+			Engine.set_max_fps(fps_int)
+			print("FPS set to: ", fps_int)
+		else:
+			print("Invalid fps value, using default 60")
+			Engine.set_max_fps(60)
+	else:
+		# Default to 60 FPS if no fps argument provided
+		Engine.set_max_fps(60)
+		print("No fps argument provided, using default 60 FPS")
 
 	# Parse the 'screens' argument
 	var activeScreensList = []

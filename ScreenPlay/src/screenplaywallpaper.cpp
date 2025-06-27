@@ -102,6 +102,36 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
             const QString packageFileName = QString("project-v%1.zip").arg(version);
             m_appArgumentsList.append({ "--projectPackageFile", packageFileName });
         }
+        
+        // Add FPS limit argument for Godot wallpapers
+        QString fpsValue;
+        switch (m_settings->godotFps()) {
+        case Settings::GodotFps::Fps1:
+            fpsValue = "1";
+            break;
+        case Settings::GodotFps::Fps24:
+            fpsValue = "24";
+            break;
+        case Settings::GodotFps::Fps30:
+            fpsValue = "30";
+            break;
+        case Settings::GodotFps::Fps60:
+            fpsValue = "60";
+            break;
+        case Settings::GodotFps::Fps120:
+            fpsValue = "120";
+            break;
+        case Settings::GodotFps::Fps144:
+            fpsValue = "144";
+            break;
+        case Settings::GodotFps::Unlimited:
+            fpsValue = "0"; // 0 typically means unlimited in Godot
+            break;
+        case Settings::GodotFps::Vsync:
+            fpsValue = "vsync";
+            break;
+        }
+        m_appArgumentsList.append({ "--fps", fpsValue });
     }
 }
 

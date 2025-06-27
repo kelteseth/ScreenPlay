@@ -118,6 +118,13 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
         setTheme(Theme::Dark);
     }
 
+    if (m_qSettings.contains("GodotFps")) {
+        auto value = m_qSettings.value("GodotFps").toString();
+        setGodotFps(QStringToEnum<GodotFps>(value, GodotFps::Fps60));
+    } else {
+        setGodotFps(GodotFps::Fps60);
+    }
+
     setAnonymousTelemetry(m_qSettings.value("AnonymousTelemetry", true).toBool());
 
     setupProfilesSettings();
@@ -692,6 +699,17 @@ void Settings::setStartWallpaperMuted(bool startWallpaperMuted)
     m_startWallpaperMuted = startWallpaperMuted;
     setqSetting("startWallpaperMuted", m_startWallpaperMuted);
     emit startWallpaperMutedChanged(m_startWallpaperMuted);
+}
+
+void Settings::setGodotFps(ScreenPlay::Settings::GodotFps godotFps)
+{
+    if (m_godotFps == godotFps)
+        return;
+
+    setqSetting("GodotFps", QVariant::fromValue(godotFps).toString());
+
+    m_godotFps = godotFps;
+    emit godotFpsChanged(m_godotFps);
 }
 }
 
