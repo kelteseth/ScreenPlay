@@ -242,10 +242,8 @@ Item {
 
             onClicked: {
                 App.screenPlayManager.startWidget(
-                    root.type,
-                    Qt.point(0, 0),
                     root.absoluteStoragePath,
-                    root.preview,
+                    Qt.point(0, 0),
                     {},
                     true
                 );

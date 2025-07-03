@@ -10,16 +10,12 @@ namespace ScreenPlay {
 ScreenPlayExternalProcess::ScreenPlayExternalProcess(
     const QString& appID,
     const std::shared_ptr<GlobalVariables>& globalVariables,
-    const QString& absolutePath,
-    const QString& previewImage,
-    const ContentTypes::InstalledType type,
+    const InstalledContentData& contentData,
     QObject* parent)
     : QObject(parent)
     , m_globalVariables(globalVariables)
     , m_appID(appID)
-    , m_absolutePath(absolutePath)
-    , m_previewImage(previewImage)
-    , m_type(type)
+    , m_contentData(contentData)
 {
     QObject::connect(&m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
         this, &ScreenPlayExternalProcess::processExit);
@@ -30,9 +26,9 @@ ScreenPlayExternalProcess::ScreenPlayExternalProcess(
     m_restartDelayTimer.setSingleShot(true);
     QObject::connect(&m_restartDelayTimer, &QTimer::timeout, this, [this]() {
         if (!attemptRestart()) {
-            // If restart attempt failed, emit failure signal
-            QString errorMsg = QString("Failed to restart %1 (attempt %2 of %3). Process could not be started.")
-                .arg(m_appID)
+            // If restart attempt failed, emit failure signal with user-facing title
+            QString errorMsg = QString("Failed to restart '%1' (attempt %2 of %3). Process could not be started.")
+                .arg(m_contentData.title().isEmpty() ? m_appID : m_contentData.title())
                 .arg(m_retryCount)
                 .arg(MAX_RESTART_ATTEMPTS);
             qCritical() << errorMsg;
@@ -158,30 +154,6 @@ void ScreenPlayExternalProcess::setIsConnected(bool isConnected)
     emit isConnectedChanged(m_isConnected);
 }
 
-void ScreenPlayExternalProcess::setAbsolutePath(QString absolutePath)
-{
-    if (m_absolutePath == absolutePath)
-        return;
-    m_absolutePath = absolutePath;
-    emit absolutePathChanged(m_absolutePath);
-}
-
-void ScreenPlayExternalProcess::setPreviewImage(QString previewImage)
-{
-    if (m_previewImage == previewImage)
-        return;
-    m_previewImage = previewImage;
-    emit previewImageChanged(m_previewImage);
-}
-
-void ScreenPlayExternalProcess::setType(ContentTypes::InstalledType type)
-{
-    if (m_type == type)
-        return;
-    m_type = type;
-    emit typeChanged(m_type);
-}
-
 void ScreenPlayExternalProcess::setState(ScreenPlay::ScreenPlayEnums::AppState state)
 {
     if (m_state == state)
@@ -210,12 +182,12 @@ void ScreenPlayExternalProcess::handleTimeoutOrCrash()
         // Start restart delay timer
         m_restartDelayTimer.start(RESTART_DELAY_MS);
     } else {
-        // Max attempts reached, emit failure signal
+        // Max attempts reached, emit failure signal with user-facing title
         m_isRestartingInProgress = false;
-        QString errorMsg = QString("Process %1 failed after %2 restart attempts. Type: %3")
-            .arg(m_appID)
+        QString errorMsg = QString("Process '%1' failed after %2 restart attempts. Type: %3")
+            .arg(m_contentData.title().isEmpty() ? m_appID : m_contentData.title())
             .arg(MAX_RESTART_ATTEMPTS)
-            .arg(static_cast<int>(m_type));
+            .arg(static_cast<int>(m_contentData.type()));
         qCritical() << errorMsg;
         emit restartFailed(m_appID, errorMsg);
     }

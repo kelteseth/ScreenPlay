@@ -27,11 +27,13 @@ set(SOURCES
     src/screenplaywallpaper.cpp
     src/screenplaywidget.cpp
     src/sdkconnection.cpp
+    src/installedcontentdata.cpp
     src/settings.cpp
     src/steamdlcchecker.cpp
     src/uiappstatesignals.cpp
     src/wallpaperdata.cpp
     src/wallpapertimelinesection.cpp
+    src/widgetdata.cpp
     src/wizards.cpp)
 
 set(HEADER
@@ -44,6 +46,7 @@ set(HEADER
     inc/public/ScreenPlay/createimportvideo.h
     inc/public/ScreenPlay/errormanager.h
     inc/public/ScreenPlay/globalvariables.h
+    inc/public/ScreenPlay/installedcontentdata.h
     inc/public/ScreenPlay/installedlistfilter.h
     inc/public/ScreenPlay/installedlistmodel.h
     inc/public/ScreenPlay/monitorlistmodel.h
@@ -60,6 +63,7 @@ set(HEADER
     inc/public/ScreenPlay/uiappstatesignals.h
     inc/public/ScreenPlay/wallpaperdata.h
     inc/public/ScreenPlay/wallpapertimelinesection.h
+    inc/public/ScreenPlay/widgetdata.h
     inc/public/ScreenPlay/wizards.h)
 
 set(QML

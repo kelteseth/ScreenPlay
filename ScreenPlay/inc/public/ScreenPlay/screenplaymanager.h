@@ -63,22 +63,15 @@ public:
         const QString sectionIdentifier,
         const int monitorIndex);
     Q_INVOKABLE QCoro::QmlTask setWallpaperAtMonitorTimelineIndex(
-        const ScreenPlay::ContentTypes::InstalledType type,
-        const QString& absolutePath,
-        const QString& previewImage,
-        const QString& file,
-        const QString& title,
+        const QString& absoluteStoragePath,
         const QVector<int>& monitorIndex,
         const int timelineIndex,
         const QString& identifier,
         const bool saveToProfilesConfigFile);
 
     Q_INVOKABLE bool startWidget(
-        // moc needs full enum namespace info see QTBUG-58454
-        const ScreenPlay::ContentTypes::InstalledType type,
-        const QPoint& position,
         const QString& absoluteStoragePath,
-        const QString& previewImage,
+        const QPoint& position,
         const QJsonObject& properties,
         const bool saveToProfilesConfigFile);
 

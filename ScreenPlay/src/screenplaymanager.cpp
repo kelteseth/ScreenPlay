@@ -2,6 +2,8 @@
 
 #include "ScreenPlay/screenplaymanager.h"
 #include "ScreenPlay/errormanager.h"
+#include "ScreenPlay/widgetdata.h"
+#include "ScreenPlayCore/projectfile.h"
 #include "ScreenPlayCore/util.h"
 #include "core/qcorothread.h"
 #include "qcorotask.h"
@@ -93,35 +95,49 @@ QCoro::Task<Result> ScreenPlayManager::shutdown()
     \brief Sets the wallpaper at a specific timeline.
 */
 QCoro::QmlTask ScreenPlayManager::setWallpaperAtMonitorTimelineIndex(
-    const ScreenPlay::ContentTypes::InstalledType type,
-    const QString& absolutePath,
-    const QString& previewImage,
-    const QString& file,
-    const QString& title,
+    const QString& absoluteStoragePath,
     const QVector<int>& monitorIndex,
     const int timelineIndex,
     const QString& identifier,
     const bool saveToProfilesConfigFile)
 {
+    return QCoro::QmlTask([this, absoluteStoragePath, monitorIndex, timelineIndex, identifier, saveToProfilesConfigFile]() -> QCoro::Task<Result> {
+        const QString path = QUrl::fromUserInput(absoluteStoragePath).toLocalFile();
+        
+        if (path.isEmpty()) {
+            Result result;
+            result.setSuccess(false);
+            result.setMessage("AbsolutePath to project is empty");
+            co_return result;
+        }
 
-    WallpaperData wallpaperData;
+        // Load project data from project.json
+        using namespace ScreenPlay;
+        ProjectFile projectFile;
+        projectFile.projectJsonFilePath = QFileInfo(path + "/project.json");
+        if (!projectFile.init()) {
+            Result result;
+            result.setSuccess(false);
+            result.setMessage(QString("Invalid project at %1").arg(path));
+            co_return result;
+        }
 
-    if (m_settings->startWallpaperMuted()) {
-        wallpaperData.setVolume(0.0f);
-    } else {
-        wallpaperData.setVolume(1.0f);
-    }
+        WallpaperData wallpaperData;
 
-    wallpaperData.setType(type);
-    wallpaperData.setAbsolutePath(
-        QUrl::fromUserInput(absolutePath).toLocalFile()); // Remove file:///
-    wallpaperData.setPreviewImage(previewImage);
-    wallpaperData.setFile(file);
-    wallpaperData.setTitle(title);
-    wallpaperData.setMonitors(monitorIndex);
-    wallpaperData.setFillMode(m_settings->videoFillMode());
+        if (m_settings->startWallpaperMuted()) {
+            wallpaperData.setVolume(0.0f);
+        } else {
+            wallpaperData.setVolume(1.0f);
+        }
 
-    return QCoro::QmlTask([this, wallpaperData, timelineIndex, identifier, monitorIndex]() -> QCoro::Task<Result> {
+        // Set data from project file
+        wallpaperData.setType(projectFile.type);
+        wallpaperData.setAbsolutePath(path);
+        wallpaperData.setPreviewImage(projectFile.preview);
+        wallpaperData.setFile(projectFile.file);
+        wallpaperData.setTitle(projectFile.title);
+        wallpaperData.setMonitors(monitorIndex);
+        wallpaperData.setFillMode(m_settings->videoFillMode());
         if (wallpaperData.absolutePath().isEmpty()) {
             const QString msg = QString("AbsolutePath to project is empty");
             Result result;
@@ -141,7 +157,7 @@ QCoro::QmlTask ScreenPlayManager::setWallpaperAtMonitorTimelineIndex(
 
         auto result = co_await m_screenPlayTimelineManager
                           .setWallpaperAtMonitorTimelineIndex(wallpaperData, timelineIndex, identifier, monitorIndex)
-                          .then([this, timelineIndex](Result result) -> QCoro::Task<Result> {
+                          .then([this, timelineIndex, saveToProfilesConfigFile](Result result) -> QCoro::Task<Result> {
                               if (!result.success()) {
                                   m_screenPlayTimelineManager.printTimelines();
                                   emit printQmlTimeline();
@@ -151,7 +167,9 @@ QCoro::QmlTask ScreenPlayManager::setWallpaperAtMonitorTimelineIndex(
                               // ScreenPlayTimelineManager::checkActiveWallpaperTimeline decide
                               // if the wallpaper
                               // m_screenPlayTimelineManager.updateMonitorListModelData(selectedTimelineIndex());
-                              requestSaveProfiles();
+                              if (saveToProfilesConfigFile) {
+                                  requestSaveProfiles();
+                              }
                               m_screenPlayTimelineManager.updateMonitorListModelData(timelineIndex);
                               emit this->notifyUiReloadTimelinePreviewImage();
                               co_return result;
@@ -164,10 +182,8 @@ QCoro::QmlTask ScreenPlayManager::setWallpaperAtMonitorTimelineIndex(
   \brief Creates a ScreenPlayWidget object via a \a absoluteStoragePath and a \a preview image (relative path).
 */
 bool ScreenPlayManager::startWidget(
-    const ContentTypes::InstalledType type,
-    const QPoint& position,
     const QString& absoluteStoragePath,
-    const QString& previewImage,
+    const QPoint& position,
     const QJsonObject& properties,
     const bool saveToProfilesConfigFile)
 {
@@ -186,14 +202,39 @@ bool ScreenPlayManager::startWidget(
         return false;
     }
 
+    // Load project data from project.json
+    using namespace ScreenPlay;
+    ProjectFile projectFile;
+    projectFile.projectJsonFilePath = QFileInfo(path + "/project.json");
+    if (!projectFile.init()) {
+        qWarning() << "Invalid project at " << path;
+        return false;
+    }
+
+    // Create WidgetData object from project file
+    WidgetData widgetData;
+    widgetData.setAbsolutePath(path);
+    widgetData.setTitle(projectFile.title);
+    widgetData.setPreviewImage(projectFile.preview);
+    widgetData.setFile(projectFile.file);
+    widgetData.setType(projectFile.type);
+    widgetData.setPosition(position);
+    
+    // Use provided properties or load from project file
+    if (!properties.isEmpty()) {
+        widgetData.setProperties(properties);
+    } else {
+        // Load properties from project.json
+        if (auto projectObj = Util().openJsonFileToObject(path + "/project.json")) {
+            QJsonObject projectProperties = projectObj->value("properties").toObject();
+            widgetData.setProperties(projectProperties);
+        }
+    }
+
     auto widget = std::make_shared<ScreenPlayWidget>(
         appID,
         m_globalVariables,
-        position,
-        path,
-        previewImage,
-        properties,
-        type);
+        widgetData);
 
     QObject::connect(widget.get(), &ScreenPlayWidget::requestSave, this, &ScreenPlayManager::requestSaveProfiles);
     QObject::connect(widget.get(), &ScreenPlayWidget::requestClose, this, &ScreenPlayManager::removeWidget);
@@ -757,18 +798,15 @@ bool ScreenPlayManager::loadWidgetConfig(const QJsonObject& widgetObj)
         return false;
 
     const QString absolutePath = widgetObj.value("absolutePath").toString();
-    const QString previewImage = widgetObj.value("previewImage").toString();
-    const QString typeString = widgetObj.value("type").toString();
     const int positionX = widgetObj.value("positionX").toInt(0);
     const int positionY = widgetObj.value("positionY").toInt(0);
     const QPoint position { positionX, positionY };
-    const auto type = QStringToEnum<ContentTypes::InstalledType>(typeString, ContentTypes::InstalledType::QMLWidget);
     const QJsonObject properties = widgetObj.value("properties").toObject();
 
-    const bool success = startWidget(type, position, absolutePath, previewImage, properties, false);
+    const bool success = startWidget(absolutePath, position, properties, false);
 
     if (!success) {
-        qWarning() << "Unable to start Widget! " << type << position << absolutePath;
+        qWarning() << "Unable to start Widget! " << position << absolutePath;
         return false;
     }
     return true;

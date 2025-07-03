@@ -10,36 +10,33 @@ namespace ScreenPlay {
 ScreenPlayWidget::ScreenPlayWidget(
     const QString& appID,
     const std::shared_ptr<GlobalVariables>& globalVariables,
-    const QPoint& position,
-    const QString& absolutePath,
-    const QString& previewImage,
-    const QJsonObject& properties,
-    const ContentTypes::InstalledType type)
-    : ScreenPlayExternalProcess(appID, globalVariables, absolutePath, previewImage, type)
-    , m_position(position)
+    const WidgetData& widgetData,
+    QObject* parent)
+    : ScreenPlayExternalProcess(appID, globalVariables, widgetData, parent)
+    , m_widgetData(widgetData)
 {
     QJsonObject projectSettingsListModelProperties;
 
-    if (properties.isEmpty()) {
-        if (auto obj = Util().openJsonFileToObject(absolutePath + "/project.json")) {
+    if (widgetData.properties().isEmpty()) {
+        if (auto obj = Util().openJsonFileToObject(widgetData.absolutePath() + "/project.json")) {
             if (obj->contains("properties"))
                 projectSettingsListModelProperties = obj->value("properties").toObject();
         }
     } else {
-        projectSettingsListModelProperties = properties;
+        projectSettingsListModelProperties = widgetData.properties();
     }
 
     if (!projectSettingsListModelProperties.isEmpty()) {
         m_projectSettingsListModel = std::make_shared<ProjectSettingsListModel>();
-        m_projectSettingsListModel->init(type, projectSettingsListModelProperties);
+        m_projectSettingsListModel->init(m_widgetData.type(), projectSettingsListModelProperties);
     }
 
     m_appArgumentsList = QStringList {
-        "--projectpath", m_absolutePath,
+        "--projectpath", m_widgetData.absolutePath(),
         "--appID", m_appID,
-        "--type", QVariant::fromValue(m_type).toString(),
-        "--posX", QString::number(m_position.x()),
-        "--posY", QString::number(m_position.y()),
+        "--type", QVariant::fromValue(m_widgetData.type()).toString(),
+        "--posX", QString::number(m_widgetData.position().x()),
+        "--posY", QString::number(m_widgetData.position().y()),
         "--mainapppid", QString::number(m_processManager.getCurrentPID())
     };
 }
@@ -121,21 +118,21 @@ QJsonObject ScreenPlayWidget::getActiveSettingsJson()
             obj.insert("properties", properties);
     }
 
-    obj.insert("previewImage", m_previewImage);
-    obj.insert("absolutePath", m_absolutePath);
-    obj.insert("positionX", m_position.x());
-    obj.insert("positionY", m_position.y());
-    obj.insert("type", QVariant::fromValue(m_type).toString());
+    obj.insert("previewImage", m_widgetData.previewImage());
+    obj.insert("absolutePath", m_widgetData.absolutePath());
+    obj.insert("positionX", m_widgetData.position().x());
+    obj.insert("positionY", m_widgetData.position().y());
+    obj.insert("type", QVariant::fromValue(m_widgetData.type()).toString());
     return obj;
 }
 
 void ScreenPlayWidget::setPosition(QPoint position)
 {
-    if (m_position == position)
+    if (m_widgetData.position() == position)
         return;
 
-    m_position = position;
-    emit positionChanged(m_position);
+    m_widgetData.setPosition(position);
+    emit positionChanged(m_widgetData.position());
 }
 
 }

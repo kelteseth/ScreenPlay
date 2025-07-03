@@ -396,7 +396,7 @@ Drawer {
                                         const file = item.file;
                                         const selectedTimeline = timeline.getSelectedTimeline();
                                         const saveToProfilesConfigFile = true;
-                                        App.screenPlayManager.setWallpaperAtMonitorTimelineIndex(root.type, absoluteStoragePath, previewImage, file, title, activeMonitors, selectedTimeline.index, selectedTimeline.identifier, saveToProfilesConfigFile).then(result => {
+                                        App.screenPlayManager.setWallpaperAtMonitorTimelineIndex(absoluteStoragePath, activeMonitors, selectedTimeline.index, selectedTimeline.identifier, saveToProfilesConfigFile).then(result => {
                                             btnLaunchContent.enabled = true;
                                             if (!result.success) {
                                                 InstantPopup.openErrorPopup(timeline, result.message);
@@ -417,7 +417,7 @@ Drawer {
                             }
 
                             const file = item.file;
-                            App.screenPlayManager.setWallpaperAtMonitorTimelineIndex(root.type, absoluteStoragePath, previewImage, file, title, activeMonitors, selectedTimeline.index, selectedTimeline.identifier, true).then(result => {
+                            App.screenPlayManager.setWallpaperAtMonitorTimelineIndex(absoluteStoragePath, activeMonitors, selectedTimeline.index, selectedTimeline.identifier, true).then(result => {
                                 btnLaunchContent.enabled = true;
                                 if (!result.success) {
                                     InstantPopup.openErrorPopup(timeline, result.message);

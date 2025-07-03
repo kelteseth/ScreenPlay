@@ -3,6 +3,7 @@
 #pragma once
 
 #include "ScreenPlay/screenplayexternalprocess.h"
+#include "ScreenPlay/widgetdata.h"
 #include <QPoint>
 
 namespace ScreenPlay {
@@ -16,15 +17,13 @@ public:
     explicit ScreenPlayWidget(
         const QString& appID,
         const std::shared_ptr<GlobalVariables>& globalVariables,
-        const QPoint& position,
-        const QString& absolutePath,
-        const QString& previewImage, const QJsonObject& properties,
-        const ContentTypes::InstalledType type);
+        const WidgetData& widgetData,
+        QObject* parent = nullptr);
 
     bool start() override;
     QCoro::Task<Result> close() override;
 
-    QPoint position() const { return m_position; }
+    QPoint position() const { return m_widgetData.position(); }
     QJsonObject getActiveSettingsJson();
 
 signals:
@@ -38,6 +37,6 @@ protected:
     void setupSDKConnection() override;
 
 private:
-    QPoint m_position;
+    WidgetData m_widgetData;
 };
 }

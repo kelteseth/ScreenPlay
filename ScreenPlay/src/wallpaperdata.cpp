@@ -33,15 +33,9 @@ namespace ScreenPlay {
 */
 QJsonObject WallpaperData::serialize() const
 {
-    QJsonObject data;
+    QJsonObject data = serializeBase();
     data.insert("isLooping", isLooping());
-    data.insert("absolutePath", absolutePath());
-    data.insert("previewImage", previewImage());
-    data.insert("title", title());
     data.insert("volume", QString::number(volume(), 'f', 2).toDouble());
-    data.insert("file", file());
-    data.insert("properties", properties());
-    data.insert("type", QVariant::fromValue(type()).toString());
     data.insert("fillMode", QVariant::fromValue(fillMode()).toString());
 
     // Serialize QVector<int> monitors
@@ -68,13 +62,13 @@ QString WallpaperData::toString() const
     isLooping: %1
     absolutePath: %2
     previewImage: %3
-    volume: %3
-    file: %4
-    properties: %5
-    type: %6
-    fillMode: %7
-    monitors: %8
-    title: %9
+    volume: %4
+    file: %5
+    properties: %6
+    type: %7
+    fillMode: %8
+    monitors: %9
+    title: %10
 })")
         .arg(isLooping() ? "true" : "false")
         .arg(absolutePath())
@@ -90,7 +84,7 @@ QString WallpaperData::toString() const
 
 bool WallpaperData::hasContent()
 {
-    return !m_absolutePath.isEmpty();
+    return InstalledContentData::hasContent();
 }
 
 QString WallpaperData::loadErrorToString(LoadError error)
@@ -154,23 +148,11 @@ std::expected<ScreenPlay::WallpaperData, ScreenPlay::WallpaperData::LoadError> S
         volume = 1.0f;
 
     WallpaperData wallpaperData;
+    wallpaperData.loadBaseFromJson(wallpaperObj);
     wallpaperData.setMonitors(monitors);
     wallpaperData.setVolume(volume);
 
-    // Remove file:///
-    wallpaperData.setAbsolutePath(
-        QUrl::fromUserInput(wallpaperObj.value("absolutePath").toString()).toLocalFile());
-    wallpaperData.setPreviewImage(wallpaperObj.value("previewImage").toString());
-    wallpaperData.setFile(wallpaperObj.value("file").toString());
-    wallpaperData.setTitle(wallpaperObj.value("title").toString());
-    wallpaperData.setProperties(wallpaperObj.value("properties").toObject());
-
     const QString fillModeString = wallpaperObj.value("fillMode").toString();
-    const QString typeString = wallpaperObj.value("type").toString();
-
-    wallpaperData.setType(
-        QStringToEnum<ContentTypes::InstalledType>(typeString,
-            ContentTypes::InstalledType::VideoWallpaper));
     wallpaperData.setFillMode(
         QStringToEnum<Video::FillMode>(fillModeString, Video::FillMode::Cover));
 

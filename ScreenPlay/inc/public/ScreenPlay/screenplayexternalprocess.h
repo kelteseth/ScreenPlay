@@ -11,6 +11,7 @@
 #include <memory>
 
 #include "ScreenPlay/globalvariables.h"
+#include "ScreenPlay/installedcontentdata.h"
 #include "ScreenPlay/projectsettingslistmodel.h"
 #include "ScreenPlay/sdkconnection.h"
 #include "ScreenPlayCore/globalenums.h"
@@ -27,18 +28,16 @@ class ScreenPlayExternalProcess : public QObject {
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged FINAL)
     Q_PROPERTY(qint64 processID READ processID WRITE setProcessID NOTIFY processIDChanged FINAL)
     Q_PROPERTY(bool isConnected READ isConnected WRITE setIsConnected NOTIFY isConnectedChanged FINAL)
-    Q_PROPERTY(QString absolutePath READ absolutePath WRITE setAbsolutePath NOTIFY absolutePathChanged FINAL)
-    Q_PROPERTY(QString previewImage READ previewImage WRITE setPreviewImage NOTIFY previewImageChanged FINAL)
-    Q_PROPERTY(ContentTypes::InstalledType type READ type WRITE setType NOTIFY typeChanged FINAL)
+    Q_PROPERTY(QString absolutePath READ absolutePath NOTIFY absolutePathChanged FINAL)
+    Q_PROPERTY(QString previewImage READ previewImage NOTIFY previewImageChanged FINAL)
+    Q_PROPERTY(ContentTypes::InstalledType type READ type NOTIFY typeChanged FINAL)
     Q_PROPERTY(ScreenPlay::ScreenPlayEnums::AppState state READ state WRITE setState NOTIFY stateChanged FINAL)
 
 public:
     explicit ScreenPlayExternalProcess(
         const QString& appID,
         const std::shared_ptr<GlobalVariables>& globalVariables,
-        const QString& absolutePath,
-        const QString& previewImage,
-        const ContentTypes::InstalledType type,
+        const InstalledContentData& contentData,
         QObject* parent = nullptr);
 
     virtual ~ScreenPlayExternalProcess() = default;
@@ -53,10 +52,13 @@ public:
     QString appID() const { return m_appID; }
     qint64 processID() const { return m_processID; }
     bool isConnected() const { return m_isConnected; }
-    QString absolutePath() const { return m_absolutePath; }
-    QString previewImage() const { return m_previewImage; }
-    ContentTypes::InstalledType type() const { return m_type; }
+    QString absolutePath() const { return m_contentData.absolutePath(); }
+    QString previewImage() const { return m_contentData.previewImage(); }
+    ContentTypes::InstalledType type() const { return m_contentData.type(); }
     ScreenPlay::ScreenPlayEnums::AppState state() const { return m_state; }
+    
+    // Access to content data for error reporting
+    const InstalledContentData& contentData() const { return m_contentData; }
 
 signals:
     void appIDChanged(QString appID);
@@ -86,9 +88,6 @@ public slots:
     void setAppID(QString appID);
     void setProcessID(qint64 processID);
     void setIsConnected(bool isConnected);
-    void setAbsolutePath(QString absolutePath);
-    void setPreviewImage(QString previewImage);
-    void setType(ContentTypes::InstalledType type);
     void setState(ScreenPlay::ScreenPlayEnums::AppState state);
 
 protected:
@@ -126,9 +125,7 @@ protected:
     QStringList m_appArgumentsList;
 
     QString m_appID;
-    QString m_absolutePath;
-    QString m_previewImage;
-    ContentTypes::InstalledType m_type { ContentTypes::InstalledType::Unknown };
+    InstalledContentData m_contentData;
     ScreenPlay::ScreenPlayEnums::AppState m_state = ScreenPlay::ScreenPlayEnums::AppState::NotSet;
 
     bool m_isConnected { false };

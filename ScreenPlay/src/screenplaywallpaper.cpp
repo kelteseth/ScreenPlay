@@ -14,7 +14,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
     const WallpaperData wallpaperData,
     const std::shared_ptr<Settings>& settings,
     QObject* parent)
-    : ScreenPlayExternalProcess(appID, globalVariables, wallpaperData.absolutePath(), wallpaperData.previewImage(), wallpaperData.type(), parent)
+    : ScreenPlayExternalProcess(appID, globalVariables, wallpaperData, parent)
     , m_settings(settings)
     , m_wallpaperData(wallpaperData)
 {
