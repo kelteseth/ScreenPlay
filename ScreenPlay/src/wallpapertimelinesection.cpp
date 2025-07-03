@@ -147,6 +147,7 @@ std::shared_ptr<ScreenPlayWallpaper> WallpaperTimelineSection::addWallpaper(cons
     QObject::connect(screenPlayWallpaper.get(), &ScreenPlayWallpaper::isConnectedChanged, this, [this]() {
         updateActiveWallpaperCounter();
     });
+    QObject::connect(screenPlayWallpaper.get(), &ScreenPlayWallpaper::restartFailed, this, &WallpaperTimelineSection::wallpaperRestartFailed);
     wallpaperList.push_back(screenPlayWallpaper);
     return screenPlayWallpaper;
 }

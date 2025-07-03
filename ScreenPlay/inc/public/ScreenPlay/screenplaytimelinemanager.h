@@ -92,6 +92,7 @@ signals:
     void activeWallpaperCountChanged(const int count);
     void selectedTimelineIndexChanged(int selectedTimelineIndex);
     void activeTimelineIndexChanged(int activeTimelineIndex);
+    void wallpaperRestartFailed(const QString& appID, const QString& message);
 
 private:
     QCoro::Task<Result> setWallpaperAtActiveMonitorTimelineIndex(

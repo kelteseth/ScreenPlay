@@ -45,6 +45,9 @@ public:
     The ErrorManager queues errors that occur before QML is ready and provides
     a model for displaying them in a QML popup. It prevents spamming the user
     with multiple popups by collecting errors and showing them in a single dialog.
+    
+    The ErrorManager also handles critical errors from external processes such as
+    wallpapers and widgets that fail to restart after multiple attempts.
 */
 class ErrorManager : public QAbstractListModel {
     Q_OBJECT

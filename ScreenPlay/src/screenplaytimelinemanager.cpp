@@ -153,6 +153,7 @@ std::expected<bool, ScreenPlayTimelineManager::TimelineManagerError> ScreenPlayT
     });
     QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::requestSaveProfiles, this, &ScreenPlayTimelineManager::requestSaveProfiles);
     QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::activeWallpaperCountChanged, this, &ScreenPlayTimelineManager::activeWallpaperCountChanged);
+    QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::wallpaperRestartFailed, this, &ScreenPlayTimelineManager::wallpaperRestartFailed);
 
     newTimelineSection->startTime = startTime;
     newTimelineSection->endTime = endTime;
@@ -631,6 +632,7 @@ bool ScreenPlayTimelineManager::addTimelineAt(const int index, const float relat
     auto newTimelineSection = std::make_shared<WallpaperTimelineSection>();
     QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::requestSaveProfiles, this, &ScreenPlayTimelineManager::requestSaveProfiles);
     QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::activeWallpaperCountChanged, this, &ScreenPlayTimelineManager::activeWallpaperCountChanged);
+    QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::wallpaperRestartFailed, this, &ScreenPlayTimelineManager::wallpaperRestartFailed);
     newTimelineSection->settings = m_settings;
     newTimelineSection->globalVariables = m_globalVariables;
     newTimelineSection->index = index;

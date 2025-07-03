@@ -31,6 +31,11 @@ ScreenPlayManager::ScreenPlayManager(
     QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::activeTimelineIndexChanged, this, &ScreenPlayManager::setActiveTimelineIndex);
     QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::requestSaveProfiles, this, &ScreenPlayManager::requestSaveProfiles);
     QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::activeWallpaperCountChanged, this, &ScreenPlayManager::setActiveWallpaperCounter);
+    QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::wallpaperRestartFailed, this, [this](const QString& appID, const QString& message) {
+        if (m_errorManager) {
+            m_errorManager->displayError(message);
+        }
+    });
 
     QObject::connect(this, &ScreenPlayManager::selectedTimelineIndexChanged, &m_screenPlayTimelineManager, &ScreenPlayTimelineManager::setSelectedTimelineIndex);
     QObject::connect(this, &ScreenPlayManager::selectedTimelineIndexChanged, &m_screenPlayTimelineManager, &ScreenPlayTimelineManager::updateMonitorListModelData);
@@ -193,6 +198,11 @@ bool ScreenPlayManager::startWidget(
     QObject::connect(widget.get(), &ScreenPlayWidget::requestSave, this, &ScreenPlayManager::requestSaveProfiles);
     QObject::connect(widget.get(), &ScreenPlayWidget::requestClose, this, &ScreenPlayManager::removeWidget);
     QObject::connect(widget.get(), &ScreenPlayWidget::error, this, &ScreenPlayManager::displayErrorPopup);
+    QObject::connect(widget.get(), &ScreenPlayWidget::restartFailed, this, [this](const QString& appID, const QString& message) {
+        if (m_errorManager) {
+            m_errorManager->displayError(message);
+        }
+    });
     if (!widget->start()) {
         return false;
     }

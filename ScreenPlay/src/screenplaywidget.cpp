@@ -100,13 +100,13 @@ void ScreenPlayWidget::setupSDKConnection()
             // Process is running normally
         } else {
             qInfo() << "Widget process" << m_processID << "not found - widget may have terminated";
-            emit requestClose(m_appID);
+            handleTimeoutOrCrash();
         }
     });
 
     QObject::connect(&m_pingAliveTimer, &QTimer::timeout, this, [this]() {
         qInfo() << "For" << m_pingAliveTimer.interval() << "ms no alive signal received. This means the Widget is dead and likely crashed!";
-        emit requestClose(m_appID);
+        handleTimeoutOrCrash();
     });
     m_pingAliveTimer.start(GlobalVariables::contentPingAliveIntervalMS);
 }
