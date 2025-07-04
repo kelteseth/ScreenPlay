@@ -1,4 +1,3 @@
-
 #include <QGuiApplication>
 #include <QObject>
 #include <QStringList>
@@ -11,6 +10,7 @@
 #include "ScreenPlayCore/exitcodes.h"
 #include "ScreenPlayCore/logginghandler.h"
 #include "ScreenPlayCore/util.h"
+#include "ScreenPlayCore/globalenums.h"
 
 #include <QQmlEngine>
 
@@ -25,6 +25,7 @@
 
 int main(int argc, char* argv[])
 {
+    // Graphics API will be set later based on command line arguments
     using namespace ScreenPlay;
     QtWebEngineQuick::initialize();
 
@@ -93,7 +94,8 @@ int main(int argc, char* argv[])
                 "--fillmode", "Contain",
                 "--type", "VideoWallpaper",
                 "--check", "0",
-                "--mainapppid", "-1" });
+                "--mainapppid", "-1",
+                "--graphicsapi", QString::number(static_cast<int>(ScreenPlayEnums::GraphicsApi::Auto)) });
     } else {
         argumentList = app.arguments();
     }
@@ -111,6 +113,7 @@ int main(int argc, char* argv[])
     QCommandLineOption typeOption("type", "Set the type.", "type");
     QCommandLineOption checkOption("check", "Set check value.", "check");
     QCommandLineOption mainAppPidOption("mainapppid", "pid of the main ScreenPlay app. User to check if we are still alive.", "mainapppid");
+    QCommandLineOption graphicsApiOption("graphicsapi", "Set the graphics API.", "graphicsapi");
 
     // Add the options to the parser
     parser.addOption(pathOption);
@@ -121,6 +124,7 @@ int main(int argc, char* argv[])
     parser.addOption(typeOption);
     parser.addOption(checkOption);
     parser.addOption(mainAppPidOption);
+    parser.addOption(graphicsApiOption);
 
     // Process the actual command line arguments given by the user
     parser.process(argumentList);
@@ -155,9 +159,44 @@ int main(int argc, char* argv[])
     QString type = parser.value(typeOption);
     QString check = parser.value(checkOption);
     QString pid = parser.value(mainAppPidOption);
+    QString graphicsApi = parser.value(graphicsApiOption); // Optional parameter
 
     ScreenPlay::Util util;
     logging = std::make_unique<const ScreenPlayCore::LoggingHandler>("ScreenPlayWallpaper_" + parser.value(appIDOption));
+
+    // Set graphics API before any graphics-related initialization
+    if (!graphicsApi.isEmpty()) {
+        bool ok;
+        int enumValue = graphicsApi.toInt(&ok);
+        if (ok) {
+            auto apiEnum = static_cast<ScreenPlayEnums::GraphicsApi>(enumValue);
+            switch (apiEnum) {
+            case ScreenPlayEnums::GraphicsApi::DirectX11:
+#ifdef Q_OS_WIN
+                QQuickWindow::setGraphicsApi(QSGRendererInterface::Direct3D11Rhi);
+                qInfo() << "Graphics API set to Direct3D11";
+#else
+                qWarning() << "DirectX11 is only available on Windows, falling back to default";
+#endif
+                break;
+            case ScreenPlayEnums::GraphicsApi::OpenGL:
+                QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGLRhi);
+                qInfo() << "Graphics API set to OpenGL";
+                break;
+            case ScreenPlayEnums::GraphicsApi::Auto:
+                // Don't set anything, let Qt decide
+                qInfo() << "Graphics API set to Auto (Qt default)";
+                break;
+            default:
+                qWarning() << "Unknown graphics API enum value:" << enumValue << "- using default";
+                break;
+            }
+        } else {
+            qWarning() << "Invalid graphics API value:" << graphicsApi << "- using default";
+        }
+    } else {
+        qInfo() << "No graphics API specified, using Qt default";
+    }
 
     auto activeScreensList = util.parseStringToIntegerList(screens);
     if (!activeScreensList.has_value()) {

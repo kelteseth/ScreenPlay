@@ -53,6 +53,16 @@ public:
         OpenSourceUltraSteam
     };
     Q_ENUM(Version)
+
+    /*!
+        \brief Graphics API enum for wallpaper rendering.
+    */
+    enum class GraphicsApi {
+        Auto,      // Let Qt decide (default)
+        OpenGL,    // Force OpenGL
+        DirectX11  // Force DirectX11 (Windows only)
+    };
+    Q_ENUM(GraphicsApi)
 };
 
 }

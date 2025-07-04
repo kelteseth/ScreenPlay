@@ -95,6 +95,9 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
     // Fixes issue 84 media key overlay in Qt apps
     if (m_wallpaperData.type() != ContentTypes::InstalledType::GodotWallpaper) {
         m_appArgumentsList.append(" --disable-features=HardwareMediaKeyHandling");
+        
+        // Add graphics API argument (not for Godot wallpapers)
+        m_appArgumentsList.append({ "--graphicsapi", QString::number(static_cast<int>(m_settings->graphicsApi())) });
     }
     if (m_wallpaperData.type() == ContentTypes::InstalledType::GodotWallpaper) {
         if (m_projectJson.contains("version")) {

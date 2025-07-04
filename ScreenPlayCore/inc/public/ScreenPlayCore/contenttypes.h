@@ -16,6 +16,7 @@ class ContentTypes : public QObject {
     */
 public:
     ContentTypes(QObject* parent = nullptr);
+
     enum class SearchType {
         All,
         Text,
@@ -44,6 +45,10 @@ public:
         HTMLWidget,
     };
     Q_ENUM(InstalledType)
+
+public:
+    // Static utility function to convert content type enum to user-friendly translatable string
+    static QString toString(ScreenPlay::ContentTypes::InstalledType type);
 };
 
 class Video : public QObject {

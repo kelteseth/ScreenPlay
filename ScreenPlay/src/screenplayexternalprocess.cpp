@@ -26,12 +26,27 @@ ScreenPlayExternalProcess::ScreenPlayExternalProcess(
     m_restartDelayTimer.setSingleShot(true);
     QObject::connect(&m_restartDelayTimer, &QTimer::timeout, this, [this]() {
         if (!attemptRestart()) {
-            // If restart attempt failed, emit failure signal with user-facing title
-            QString errorMsg = QString("Failed to restart '%1' (attempt %2 of %3). Process could not be started.")
-                .arg(m_contentData.title().isEmpty() ? m_appID : m_contentData.title())
+            // If restart attempt failed, emit failure signal with user-friendly message
+            QString contentTitle = m_contentData.title().isEmpty() 
+                ? tr("Untitled Content") 
+                : m_contentData.title();
+            QString contentTypeStr = ContentTypes::toString(m_contentData.type());
+            
+            // Include path info for better identification if title is generic
+            QString locationInfo;
+            if (!m_contentData.absolutePath().isEmpty()) {
+                QFileInfo pathInfo(m_contentData.absolutePath());
+                locationInfo = tr(" from '%1'").arg(pathInfo.fileName());
+            }
+            
+            QString errorMsg = tr("'%1' (%2)%3 could not be restarted (attempt %4 of %5).")
+                .arg(contentTitle)
+                .arg(contentTypeStr)
+                .arg(locationInfo)
                 .arg(m_retryCount)
                 .arg(MAX_RESTART_ATTEMPTS);
-            qCritical() << errorMsg;
+                
+            qCritical() << "Restart attempt failed for" << m_appID << ":" << errorMsg;
             emit restartFailed(m_appID, errorMsg);
         }
     });
@@ -182,13 +197,21 @@ void ScreenPlayExternalProcess::handleTimeoutOrCrash()
         // Start restart delay timer
         m_restartDelayTimer.start(RESTART_DELAY_MS);
     } else {
-        // Max attempts reached, emit failure signal with user-facing title
+        // Max attempts reached, emit failure signal with user-facing message
         m_isRestartingInProgress = false;
-        QString errorMsg = QString("Process '%1' failed after %2 restart attempts. Type: %3")
-            .arg(m_contentData.title().isEmpty() ? m_appID : m_contentData.title())
-            .arg(MAX_RESTART_ATTEMPTS)
-            .arg(static_cast<int>(m_contentData.type()));
-        qCritical() << errorMsg;
+        
+        // Create user-friendly error message with title and content type
+        QString contentTitle = m_contentData.title().isEmpty() 
+            ? tr("Untitled Content") 
+            : m_contentData.title();
+        QString contentTypeStr = ContentTypes::toString(m_contentData.type());
+        
+        QString errorMsg = tr("'%1' (%2) failed to restart after %3 attempts and has been stopped.")
+            .arg(contentTitle)
+            .arg(contentTypeStr)
+            .arg(MAX_RESTART_ATTEMPTS);
+            
+        qCritical() << "Restart failed for" << m_appID << ":" << errorMsg;
         emit restartFailed(m_appID, errorMsg);
     }
 }

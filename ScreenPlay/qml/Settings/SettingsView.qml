@@ -368,6 +368,35 @@ Item {
                             }
                         }
                     }
+
+                    SettingsHorizontalSeperator {}
+
+                    SettingsComboBox {
+                        id: cbGraphicsApi
+
+                        headline: qsTr("Wallpaper Graphics API")
+                        description: qsTr("Set the graphics API for wallpapers (Note: Godot wallpapers are not affected by this setting). DirectX11 may provide better performance on AMD hardware. You must restart the wallpaper to take effect.")
+                        comboBox {
+                            Component.onCompleted: comboBox.currentIndex = comboBox.indexOfValue(App.settings.graphicsApi)
+                            model: ListModel {
+                                ListElement {
+                                    value: ScreenPlayEnums.GraphicsApi.Auto
+                                    text: qsTr("Auto (Qt Default)")
+                                }
+                                ListElement {
+                                    value: ScreenPlayEnums.GraphicsApi.OpenGL
+                                    text: qsTr("OpenGL")
+                                }
+                                ListElement {
+                                    value: ScreenPlayEnums.GraphicsApi.DirectX11
+                                    text: qsTr("DirectX11 (Windows Only)")
+                                }
+                            }
+                            onActivated: {
+                                App.settings.setGraphicsApi(cbGraphicsApi.comboBox.currentValue);
+                            }
+                        }
+                    }
                 }
             }
 

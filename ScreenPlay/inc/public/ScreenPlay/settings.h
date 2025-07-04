@@ -11,6 +11,7 @@
 
 #include "ScreenPlay/globalvariables.h"
 #include "ScreenPlayCore/contenttypes.h"
+#include "ScreenPlayCore/globalenums.h"
 #include <memory>
 
 namespace ScreenPlay {
@@ -35,6 +36,7 @@ class Settings : public QObject {
     Q_PROPERTY(ScreenPlay::Settings::Language language READ language WRITE setLanguage NOTIFY languageChanged FINAL)
     Q_PROPERTY(ScreenPlay::Settings::Theme theme READ theme WRITE setTheme NOTIFY themeChanged FINAL)
     Q_PROPERTY(ScreenPlay::Settings::GodotFps godotFps READ godotFps WRITE setGodotFps NOTIFY godotFpsChanged FINAL)
+    Q_PROPERTY(ScreenPlay::ScreenPlayEnums::GraphicsApi graphicsApi READ graphicsApi WRITE setGraphicsApi NOTIFY graphicsApiChanged FINAL)
 
     Q_PROPERTY(QString decoder READ decoder WRITE setDecoder NOTIFY decoderChanged FINAL)
     Q_PROPERTY(QString buildInfos READ buildInfos WRITE setBuildInfos NOTIFY buildInfosChanged FINAL)
@@ -109,6 +111,7 @@ public:
     QString font() const { return m_font; }
     ScreenPlay::Settings::Theme theme() const { return m_theme; }
     ScreenPlay::Settings::GodotFps godotFps() const { return m_godotFps; }
+    ScreenPlay::ScreenPlayEnums::GraphicsApi graphicsApi() const { return m_graphicsApi; }
     ScreenPlay::Settings::DesktopEnvironment desktopEnvironment() const { return m_desktopEnvironment; }
     const QString& buildInfos() const { return m_buildInfos; }
     bool showDefaultContent() const { return m_showDefaultContent; }
@@ -139,6 +142,7 @@ signals:
     void showDefaultContentChanged(bool showDefaultContent);
     void startWallpaperMutedChanged(bool startWallpaperMuted);
     void godotFpsChanged(ScreenPlay::Settings::GodotFps godotFps);
+    void graphicsApiChanged(ScreenPlay::ScreenPlayEnums::GraphicsApi graphicsApi);
 
 public slots:
     void setupLanguage();
@@ -163,6 +167,7 @@ public slots:
     void setBuildInfos(const QString& buildInfos);
     void setStartWallpaperMuted(bool startWallpaperMuted);
     void setGodotFps(ScreenPlay::Settings::GodotFps godotFps);
+    void setGraphicsApi(ScreenPlay::ScreenPlayEnums::GraphicsApi graphicsApi);
 
 private:
     void setupInstalledPath();
@@ -189,6 +194,7 @@ private:
     ScreenPlay::Settings::Language m_language { Language::En_US };
     ScreenPlay::Settings::Theme m_theme { Theme::System };
     ScreenPlay::Settings::GodotFps m_godotFps { GodotFps::Fps60 };
+    ScreenPlay::ScreenPlayEnums::GraphicsApi m_graphicsApi { ScreenPlayEnums::GraphicsApi::Auto };
     ScreenPlay::Settings::DesktopEnvironment m_desktopEnvironment { DesktopEnvironment::Unknown };
     QString m_font { "Roboto" };
     QString m_decoder;

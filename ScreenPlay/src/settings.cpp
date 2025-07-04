@@ -125,6 +125,13 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
         setGodotFps(GodotFps::Fps60);
     }
 
+    if (m_qSettings.contains("GraphicsApi")) {
+        auto value = m_qSettings.value("GraphicsApi").toString();
+        setGraphicsApi(QStringToEnum<ScreenPlayEnums::GraphicsApi>(value, ScreenPlayEnums::GraphicsApi::Auto));
+    } else {
+        setGraphicsApi(ScreenPlayEnums::GraphicsApi::Auto);
+    }
+
     setAnonymousTelemetry(m_qSettings.value("AnonymousTelemetry", true).toBool());
 
     setupProfilesSettings();
@@ -710,6 +717,17 @@ void Settings::setGodotFps(ScreenPlay::Settings::GodotFps godotFps)
 
     m_godotFps = godotFps;
     emit godotFpsChanged(m_godotFps);
+}
+
+void Settings::setGraphicsApi(ScreenPlay::ScreenPlayEnums::GraphicsApi graphicsApi)
+{
+    if (m_graphicsApi == graphicsApi)
+        return;
+
+    setqSetting("GraphicsApi", QVariant::fromValue(graphicsApi).toString());
+
+    m_graphicsApi = graphicsApi;
+    emit graphicsApiChanged(m_graphicsApi);
 }
 }
 

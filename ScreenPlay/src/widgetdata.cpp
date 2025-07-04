@@ -37,7 +37,7 @@ QString WidgetData::toString() const
         .arg(previewImage())
         .arg(file())
         .arg(QString(QJsonDocument(properties()).toJson(QJsonDocument::Compact)))
-        .arg(QString::number(static_cast<int>(type())))
+        .arg(ContentTypes::toString(type()))
         .arg(position().x())
         .arg(position().y());
 }
