@@ -303,8 +303,8 @@ Rectangle {
 
         Button {
             id: miConfig
-            Layout.maximumHeight: 55
-            Layout.minimumHeight: 55
+            Layout.maximumHeight: 57
+            Layout.minimumHeight: 57
             icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_video_settings.svg"
             icon.width: root.iconWidth
             icon.height: root.iconHeight
