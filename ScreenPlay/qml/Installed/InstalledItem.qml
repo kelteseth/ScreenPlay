@@ -32,12 +32,9 @@ Item {
     }
 
     // Pre-compute image sources to avoid repeated string concatenation
-    readonly property string primaryImageSource: root.preview === "" ?
-        "qrc:/qt/qml/ScreenPlay/assets/images/missingPreview.png" :
-        Qt.resolvedUrl(root.absoluteStoragePath + "/" + root.preview)
+    readonly property string primaryImageSource: root.preview === "" ? "qrc:/qt/qml/ScreenPlay/assets/images/missingPreview.png" : Qt.resolvedUrl(root.absoluteStoragePath + "/" + root.preview)
 
-    readonly property string gifImageSource: root.previewGIF === "" ?
-        "" : Qt.resolvedUrl(root.absoluteStoragePath + "/" + root.previewGIF)
+    readonly property string gifImageSource: root.previewGIF === "" ? "" : Qt.resolvedUrl(root.absoluteStoragePath + "/" + root.previewGIF)
 
     // Compute type icon once to avoid repeated checks
     readonly property string typeIconSource: {
@@ -57,9 +54,7 @@ Item {
     signal openContextMenu(var point)
     signal openOpenLicensePopup
 
-
     property bool isInitialLoad: true
-
 
     Component.onCompleted: {
         root.isInitialLoad = root.index < 20;
@@ -175,7 +170,9 @@ Item {
                     topMargin: -20
                 }
 
-                transform: Rotation { angle: 45 }
+                transform: Rotation {
+                    angle: 45
+                }
 
                 Text {
                     font.family: App.settings.font
@@ -213,7 +210,7 @@ Item {
             // cursorShape: root.isScrolling ? Qt.ArrowCursor : Qt.PointingHandCursor
             acceptedButtons: Qt.LeftButton | Qt.RightButton
 
-            onClicked: function(mouse) {
+            onClicked: function (mouse) {
                 if (!root.hasLicense) {
                     root.openOpenLicensePopup();
                     return;
@@ -231,7 +228,7 @@ Item {
             id: widgetButton
             text: qsTr("Start")
             visible: widgetButton.enabled
-            opacity: hoverArea.hovered ? 1:0
+            opacity: hoverArea.hovered ? 1 : 0
             enabled: App.util.isWidget(root.type) && hoverArea.hovered
 
             anchors {
@@ -241,12 +238,7 @@ Item {
             }
 
             onClicked: {
-                App.screenPlayManager.startWidget(
-                    root.absoluteStoragePath,
-                    Qt.point(0, 0),
-                    {},
-                    true
-                );
+                App.screenPlayManager.startWidget(root.absoluteStoragePath, Qt.point(0, 0), {}, true);
             }
         }
         HoverHandler {
@@ -255,10 +247,7 @@ Item {
             acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
             cursorShape: root.isScrolling ? Qt.ArrowCursor : Qt.PointingHandCursor
         }
-
     }
-
-
 
     states: [
         State {
@@ -307,19 +296,17 @@ Item {
         id: showAnimation
         running: false
 
-
         PauseAnimation {
-        duration: {
-                  if (root.isInitialLoad) {
-                      // Use wave effect for initial load
-                      return Math.max(0, (root.rowIndex * 100) + (root.columnIndex * 50));
-                  } else {
-                      // For scrolled items, use minimal delay or no delay
-                      return Math.max(0, root.columnIndex * 100); // Just a small column-based delay
-                  }
-              }
-          }
-
+            duration: {
+                if (root.isInitialLoad) {
+                    // Use wave effect for initial load
+                    return Math.max(0, (root.rowIndex * 100) + (root.columnIndex * 50));
+                } else {
+                    // For scrolled items, use minimal delay or no delay
+                    return Math.max(0, root.columnIndex * 100); // Just a small column-based delay
+                }
+            }
+        }
 
         ParallelAnimation {
             OpacityAnimator {
@@ -346,13 +333,12 @@ Item {
                 easing.type: Easing.OutCirc
             }
             RotationAnimator {
-                 target: animatedContainer
-                 from: -5
-                 to: 0
-                 duration: 400
-                 easing.type: Easing.OutBack
-             }
+                target: animatedContainer
+                from: -5
+                to: 0
+                duration: 400
+                easing.type: Easing.OutBack
+            }
         }
     }
-
 }

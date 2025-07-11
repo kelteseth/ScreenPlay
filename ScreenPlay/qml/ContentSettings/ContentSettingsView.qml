@@ -420,15 +420,13 @@ Popup {
                 }
             }
 
-            SaveNotification {
-                id: saveNotification
-
-                width: parent.width - 40
+            Util.MaterialSnackBar {
+                id: snackBar
 
                 Connections {
                     function onProfilesSaved() {
                         if (root.opened)
-                            saveNotification.open();
+                            snackBar.show(qsTr("Profile saved successfully!"));
                     }
 
                     target: App.screenPlayManager

@@ -931,6 +931,51 @@ QCoro::QmlTask Util::exportGodotProject(const QString& absolutePath, const QStri
         co_return Result { true };
     }());
 }
+
+/*!
+  \brief Copies a directory recursively from source to target.
+*/
+bool Util::copyRecursively(const QString& sourcePath, const QString& targetPath)
+{
+    QDir sourceDir(sourcePath);
+    QDir targetDir(targetPath);
+
+    if (!sourceDir.exists()) {
+        qWarning() << "Source directory does not exist:" << sourcePath;
+        return false;
+    }
+
+    if (!targetDir.exists()) {
+        if (!targetDir.mkpath(targetPath)) {
+            qWarning() << "Could not create target directory:" << targetPath;
+            return false;
+        }
+    }
+
+    // Get all files and directories
+    const QStringList entries = sourceDir.entryList(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot);
+    
+    for (const QString& entry : entries) {
+        const QString sourceEntryPath = sourceDir.absoluteFilePath(entry);
+        const QString targetEntryPath = targetDir.absoluteFilePath(entry);
+        
+        if (QFileInfo(sourceEntryPath).isDir()) {
+            // Recursively copy subdirectory
+            if (!copyRecursively(sourceEntryPath, targetEntryPath)) {
+                return false;
+            }
+        } else {
+            // Copy file
+            if (!QFile::copy(sourceEntryPath, targetEntryPath)) {
+                qWarning() << "Could not copy file from" << sourceEntryPath << "to" << targetEntryPath;
+                return false;
+            }
+        }
+    }
+    
+    return true;
+}
+
 }
 
 #include "moc_util.cpp"

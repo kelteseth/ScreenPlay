@@ -99,6 +99,11 @@ public:
         const QUrl& url,
         const QVector<QString>& tags);
 
+    Q_INVOKABLE QCoro::QmlTask copyExampleContent(
+        const QString& examplePath);
+
+    Q_INVOKABLE QVector<QVariantMap> getExampleContent() const;
+
 private:
     void createPreviewImage(const QString& name, const QString& targetPath);
 

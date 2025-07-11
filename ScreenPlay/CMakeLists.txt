@@ -103,6 +103,7 @@ set(QML
     qml/Create/Wizards/QMLWidget.qml
     qml/Create/Wizards/WebsiteWallpaper.qml
     qml/Create/Wizards/WizardPage.qml
+    qml/Create/Wizards/ExampleContent.qml
     qml/Installed/InstalledDrawer.qml
     qml/Installed/InstalledItem.qml
     qml/Installed/InstalledNavigation.qml
@@ -457,6 +458,25 @@ if(APPLE)
     copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.ttf")
     copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.otf")
 endif()
+
+# Copy Content folder with examples
+if(WIN32)
+    set(CONTENT_OUT_DIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Content")
+elseif(APPLE)
+    set(CONTENT_OUT_DIR "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/Resources/Content")
+elseif(UNIX)
+    set(CONTENT_OUT_DIR "${CMAKE_BINARY_DIR}/ScreenPlay/Content")
+endif()
+
+# Copy Content folder only if it has changed
+add_custom_command(
+    TARGET ScreenPlayApp
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    "${CMAKE_CURRENT_SOURCE_DIR}/../Content"
+    "${CONTENT_OUT_DIR}"
+    COMMENT "Copying Content folder to output directory"
+)
 
 # Must be set before qt_add_lrelease
 if(NOT APPLE)

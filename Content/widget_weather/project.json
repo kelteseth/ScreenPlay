@@ -1,9 +1,13 @@
 {
-    "description": "weather",
+    "description": "Weather widget displaying current conditions and forecast",
     "file": "main.qml",
     "preview": "preview.png",
     "tags": [
-        "weather"
+        "weather",
+        "forecast",
+        "conditions",
+        "api",
+        "qml"
     ],
     "title": "weather",
     "type": "qmlWidget"

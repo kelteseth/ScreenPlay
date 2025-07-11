@@ -17,7 +17,7 @@ Rectangle {
     property StackView stackView
     property Item modalSource
 
-    width: 340
+    width: 320
     state: expanded ? "" : "inactive"
     layer.enabled: true
     Component.onCompleted: expanded = true
@@ -29,7 +29,8 @@ Rectangle {
 
         anchors.fill: parent
         anchors.margins: 20
-        spacing: 5
+        anchors.rightMargin: 0
+        spacing: 2
         section.property: "category"
 
         Connections {
@@ -50,6 +51,13 @@ Rectangle {
         }
 
         model: ListModel {
+
+            ListElement {
+                headline: qsTr("Example Content")
+                source: "qrc:/qt/qml/ScreenPlay/qml/Create/Wizards/ExampleContent.qml"
+                category: "Home"
+                proFeature: false
+            }
             ListElement {
                 headline: qsTr("Tools Overview")
                 source: "qrc:/qt/qml/ScreenPlay/qml/Create/StartInfo.qml"

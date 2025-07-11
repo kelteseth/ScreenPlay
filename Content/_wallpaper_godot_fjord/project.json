@@ -1,0 +1,16 @@
+{
+    "description": "Beautiful fjord landscape wallpaper created with Godot engine",
+    "file": "main.qml",
+    "preview": "preview.png",
+    "tags": [
+        "godot",
+        "landscape",
+        "nature",
+        "fjord",
+        "3d",
+        "scenic"
+    ],
+    "title": "Godot Wallpaper",
+    "type": "godotWallpaper",
+    "visibility": "public"
+}

@@ -1,9 +1,14 @@
 {
-    "description": "Widget that shows the latest xkcd",
+    "description": "Widget displaying the latest XKCD comic with navigation",
     "file": "main.qml",
     "preview": "preview.png",
     "tags": [
-        "XKCD"
+        "xkcd",
+        "comic",
+        "web",
+        "api",
+        "humor",
+        "qml"
     ],
     "title": "XKCD",
     "type": "qmlWidget"

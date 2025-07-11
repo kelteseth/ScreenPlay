@@ -1,9 +1,13 @@
 {
-    "description": "interactive",
+    "description": "Simple interactive QML wallpaper with clickable button and text field",
     "file": "main.qml",
     "preview": "preview.png",
     "tags": [
-        "interactive"
+        "interactive",
+        "qml",
+        "button",
+        "textfield",
+        "beginner"
     ],
     "title": "QML interactive",
     "type": "qmlWallpaper",

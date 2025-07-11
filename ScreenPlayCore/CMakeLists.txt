@@ -39,6 +39,7 @@ set(QML
     qml/InstantPopup.js
     qml/LabelSlider.qml
     qml/LicenseSelector.qml
+    qml/MaterialSnackBar.qml
     qml/ModalBackgroundBlur.qml
     qml/MouseHoverBlocker.qml
     qml/RainbowGradient.qml

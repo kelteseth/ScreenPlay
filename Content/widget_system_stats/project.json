@@ -1,9 +1,15 @@
 {
-    "description": "system_stats",
+    "description": "System monitoring widget showing CPU, memory, and performance stats",
     "file": "main.qml",
     "preview": "preview.png",
     "tags": [
-        "system_stats"
+        "system",
+        "monitoring",
+        "cpu",
+        "memory",
+        "performance",
+        "stats",
+        "qml"
     ],
     "title": "system_stats",
     "type": "qmlWidget"

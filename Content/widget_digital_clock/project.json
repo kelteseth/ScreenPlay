@@ -1,12 +1,15 @@
 {
     "title": "Digital Clock",
-    "description": "",
+    "description": "Digital clock widget displaying current time and date",
     "file": "main.qml",
     "preview": "preview.png",
     "type": "qmlWidget",
     "tags": [
-        "example",
         "clock",
-        "digital"
+        "digital",
+        "time",
+        "date",
+        "simple",
+        "qml"
     ]
 }

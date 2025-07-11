@@ -27,17 +27,17 @@ Dialog {
     onAboutToHide: {
         // Fixes the ugly transition with
         // our ModalBackgroundBlur on exit
-        modal = false
+        modal = false;
     }
 
     onAboutToShow: {
-        modal = true
+        modal = true;
     }
 
     Component.onCompleted: {
         // When we have errors before qml is loaded:
         if (App.errorManager.hasErrors) {
-            openDelayTimer.start()
+            openDelayTimer.start();
         }
     }
     Timer {
@@ -45,7 +45,7 @@ Dialog {
         id: openDelayTimer
         interval: 1000
         onTriggered: {
-            root.open()
+            root.open();
         }
     }
 
@@ -55,7 +55,7 @@ Dialog {
 
         function onShowErrorPopup() {
             if (!root.opened) {
-                root.open()
+                root.open();
             }
         }
 
@@ -101,8 +101,7 @@ Dialog {
             }
             Text {
                 id: errorCountText
-                Layout.preferredWidth: Math.max(
-                                           24, errorCountText.implicitWidth + 8)
+                Layout.preferredWidth: Math.max(24, errorCountText.implicitWidth + 8)
                 Layout.preferredHeight: 24
                 text: App.errorManager?.errorCount ?? 0
                 color: Material.color(Material.Red)
@@ -144,12 +143,7 @@ Dialog {
                     width: ListView.view.width
                     height: errorLayout.implicitHeight + 24
 
-                    color: Material.theme
-                           === Material.Dark ? Material.color(
-                                                   Material.Grey,
-                                                   Material.Shade800) : Material.color(
-                                                   Material.Grey,
-                                                   Material.Shade50)
+                    color: Material.theme === Material.Dark ? Material.color(Material.Grey, Material.Shade800) : Material.color(Material.Grey, Material.Shade50)
                     // radius: 12
                     // clip: true
                     Rectangle {
@@ -188,7 +182,7 @@ Dialog {
                 // Auto-scroll to bottom when new errors are added
                 onCountChanged: {
                     if (count > 0) {
-                        positionViewAtEnd()
+                        positionViewAtEnd();
                     }
                 }
             }
@@ -209,12 +203,7 @@ Dialog {
                     width: 48
                     height: 48
                     radius: 24
-                    color: Material.theme
-                           === Material.Dark ? Material.color(
-                                                   Material.Grey,
-                                                   Material.Shade700) : Material.color(
-                                                   Material.Grey,
-                                                   Material.Shade200)
+                    color: Material.theme === Material.Dark ? Material.color(Material.Grey, Material.Shade700) : Material.color(Material.Grey, Material.Shade200)
 
                     Text {
                         anchors.centerIn: parent
@@ -266,7 +255,7 @@ Dialog {
             }
             Button {
                 text: qsTr("Ask about it in the forums")
-                onClicked: Qt.openUrlExternally("https://forum.screen-play.app/");
+                onClicked: Qt.openUrlExternally("https://forum.screen-play.app/")
                 Material.background: Material.primary
                 Material.foreground: Material.primaryTextColor
             }

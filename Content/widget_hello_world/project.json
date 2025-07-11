@@ -1,9 +1,14 @@
 {
-    "description": "Hello World Widget",
+    "description": "Simple widget with interactive slider and animated rectangle",
     "file": "main.qml",
     "preview": "preview.png",
     "tags": [
-        "widget_hello_world"
+        "hello world",
+        "beginner",
+        "slider",
+        "rectangle",
+        "animation",
+        "qml"
     ],
     "title": "widget_hello_world",
     "type": "qmlWidget"

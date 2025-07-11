@@ -8,6 +8,7 @@
 #include <QFileInfo>
 #include <QFont>
 #include <QFutureWatcher>
+#include <QDateTime>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -552,6 +553,120 @@ void Wizards::createPreviewImage(const QString& name, const QString& targetPath)
     // Step 5: Save Image
     image.save(targetPath + "/preview.png");
 }
+
+/*!
+  \brief Copies example content to the user's installed content folder.
+*/
+QCoro::QmlTask Wizards::copyExampleContent(
+    const QString& examplePath)
+{
+    return QCoro::QmlTask([this, examplePath]() -> QCoro::Task<Result> {
+        const QString sourcePath = QCoreApplication::applicationDirPath() + "/Content/" + examplePath;
+        
+        // Create unique target folder name with current date time
+        const QString currentTime = QDateTime::currentDateTime().toString("yyyy_MM_dd_hhmmss_zzz");
+        const QString targetFolderName = examplePath + "_" + currentTime;
+        const QString targetPath = m_util.toLocal(m_globalVariables->localStoragePath().toString() + "/" + targetFolderName);
+
+        QDir sourceDir(sourcePath);
+        if (!sourceDir.exists()) {
+            QString errorMessage = tr("Example content source path does not exist: %1").arg(sourcePath);
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::CopyError), errorMessage };
+        }
+
+        QDir targetDir(targetPath);
+        if (!targetDir.mkpath(targetPath)) {
+            QString errorMessage = tr("Could not create target directory: %1").arg(targetPath);
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::CreateProjectFolderError), errorMessage };
+        }
+
+        // Copy all files from source to target
+        if (!m_util.copyRecursively(sourcePath, targetPath)) {
+            QString errorMessage = tr("Could not copy example content from %1 to %2").arg(sourcePath, targetPath);
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::CopyError), errorMessage };
+        }
+
+        co_return Result { true };
+    }());
 }
 
-#include "moc_wizards.cpp"
+/*!
+  \brief Gets all available example content from the Content folder.
+*/
+QVector<QVariantMap> Wizards::getExampleContent() const
+{
+    QVector<QVariantMap> examples;
+    const QString contentPath = QCoreApplication::applicationDirPath() + "/Content";
+    
+    QDir contentDir(contentPath);
+    if (!contentDir.exists()) {
+        qWarning() << "Content directory does not exist:" << contentPath;
+        return examples;
+    }
+
+    const QStringList subdirs = contentDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+    
+    for (const QString& subdir : subdirs) {
+        // Skip folders that begin with underscore (not ready yet)
+        if (subdir.startsWith("_")) {
+            continue;
+        }
+        
+        const QString subdirPath = contentPath + "/" + subdir;
+        QDir exampleDir(subdirPath);
+        
+        // Check if project.json exists
+        if (!exampleDir.exists("project.json")) {
+            continue;
+        }
+        
+        // Read project.json
+        QFile projectFile(subdirPath + "/project.json");
+        if (!projectFile.open(QIODevice::ReadOnly)) {
+            continue;
+        }
+        
+        QJsonParseError error;
+        QJsonDocument doc = QJsonDocument::fromJson(projectFile.readAll(), &error);
+        if (error.error != QJsonParseError::NoError) {
+            continue;
+        }
+        
+        QJsonObject obj = doc.object();
+        QVariantMap example;
+        example["folderName"] = subdir;
+        example["title"] = obj["title"].toString();
+        example["description"] = obj["description"].toString();
+        example["type"] = obj["type"].toString();
+        example["preview"] = "file:///" + subdirPath + "/" + obj["preview"].toString();
+        example["tags"] = obj["tags"].toVariant();
+        
+        // Read README.md if it exists
+        QString readmePath = subdirPath + "/Readme.md";
+        if (QFile::exists(readmePath)) {
+            QFile readmeFile(readmePath);
+            if (readmeFile.open(QIODevice::ReadOnly)) {
+                example["readme"] = QString::fromUtf8(readmeFile.readAll());
+            }
+        }
+        
+        // Determine category based on type
+        QString type = obj["type"].toString();
+        if (type.contains("wallpaper", Qt::CaseInsensitive)) {
+            example["category"] = "Wallpapers";
+        } else if (type.contains("widget", Qt::CaseInsensitive)) {
+            example["category"] = "Widgets";
+        } else {
+            example["category"] = "Other";
+        }
+        
+        examples.append(example);
+    }
+    
+    return examples;
+}
+
+}

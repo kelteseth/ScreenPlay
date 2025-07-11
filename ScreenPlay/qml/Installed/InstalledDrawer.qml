@@ -411,9 +411,9 @@ Drawer {
                                 return;
                             }
                             const selectedTimeline = timeline.getSelectedTimeline();
-                            if(selectedTimeline === null) {
+                            if (selectedTimeline === null) {
                                 InstantPopup.openErrorPopup(timeline, qsTr("Error: Selected timeline is invalid."));
-                                return
+                                return;
                             }
 
                             const file = item.file;

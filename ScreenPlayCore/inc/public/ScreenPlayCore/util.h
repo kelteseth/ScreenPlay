@@ -170,6 +170,7 @@ public:
     Q_INVOKABLE float calculateRelativePosition(const QTime& endTime) const;
 
     Q_INVOKABLE QString getTimeString(double relativeLinePosition);
+    Q_INVOKABLE bool copyRecursively(const QString& sourcePath, const QString& targetPath);
 
 signals:
     void extractionProgressChanged(QString file, int proc, int total, qint64 br, qint64 bt);

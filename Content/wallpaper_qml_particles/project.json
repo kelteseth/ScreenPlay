@@ -1,5 +1,5 @@
 {
-    "description": "Quiet particles",
+    "description": "Interactive particle system wallpaper with mouse attraction effects",
     "file": "main.qml",
     "preview": "preview.png",
     "properties": {
@@ -66,7 +66,12 @@
         }
     },
     "tags": [
-        "particles"
+        "particles",
+        "interactive",
+        "physics",
+        "mouse",
+        "animation",
+        "qml"
     ],
     "title": "QML particles",
     "type": "qmlWallpaper",

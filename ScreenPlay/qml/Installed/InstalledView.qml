@@ -166,7 +166,6 @@ Item {
             }
         }
 
-
         anchors {
             topMargin: 0
             rightMargin: 0
@@ -199,8 +198,6 @@ Item {
                 }
             }
         }
-
-
 
         ScrollBar.vertical: ScrollBar {
             snapMode: ScrollBar.SnapOnRelease

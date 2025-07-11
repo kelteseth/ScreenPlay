@@ -1,9 +1,15 @@
 {
     "createdBy": "",
+    "description": "HTML wallpaper example with web technologies",
     "file": "index.html",
     "preview": "preview.png",
     "license": "Creative Commons - Attribution-ShareAlike 4.0",
     "tags": [
+        "html",
+        "web",
+        "javascript",
+        "css",
+        "example"
     ],
     "title": "test",
     "type": "HTMLWallpaper"

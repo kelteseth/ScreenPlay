@@ -1,9 +1,14 @@
 {
-    "description": "Widget that shows the latest Detusche Welle feed",
+    "description": "RSS feed widget displaying latest Deutsche Welle news",
     "file": "main.qml",
     "preview": "preview.png",
     "tags": [
-        "dw"
+        "rss",
+        "news",
+        "deutsche welle",
+        "feed",
+        "web",
+        "qml"
     ],
     "title": "dw",
     "type": "qmlWidget"

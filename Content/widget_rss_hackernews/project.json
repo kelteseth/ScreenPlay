@@ -1,11 +1,15 @@
 {
-    "description": "Widget that shows the latest hackernews feed",
+    "description": "RSS feed widget displaying latest Hacker News stories",
     "file": "main.qml",
     "preview": "preview.png",
     "tags": [
         "hackernews",
         "rss",
-        "feed"
+        "feed",
+        "tech",
+        "news",
+        "web",
+        "qml"
     ],
     "title": "hackernews",
     "type": "qmlWidget"

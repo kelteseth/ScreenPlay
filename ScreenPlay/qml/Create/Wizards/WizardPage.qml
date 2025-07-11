@@ -4,6 +4,7 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Window
 import ScreenPlay
+import ScreenPlayCore
 
 FocusScope {
     id: root
@@ -11,6 +12,7 @@ FocusScope {
     property Component sourceComponent
     property alias savePopup: savePopup
     property bool ready: false
+    property bool showSaveButton: true
 
     // Signals for the Sidebar
     signal wizardStarted
@@ -67,6 +69,7 @@ FocusScope {
             objectName: "btnSave"
             text: qsTr("Save")
             enabled: root.ready
+            visible: root.showSaveButton
             Material.background: Material.accent
             Material.foreground: "white"
             Layout.alignment: Qt.AlignRight
