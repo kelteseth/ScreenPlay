@@ -3,12 +3,12 @@
 #include "CMakeVariables.h"
 #include "ScreenPlayCore/util.h"
 
+#include <QDateTime>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
 #include <QFont>
 #include <QFutureWatcher>
-#include <QDateTime>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -562,7 +562,7 @@ QCoro::QmlTask Wizards::copyExampleContent(
 {
     return QCoro::QmlTask([this, examplePath]() -> QCoro::Task<Result> {
         const QString sourcePath = QCoreApplication::applicationDirPath() + "/Content/" + examplePath;
-        
+
         // Create unique target folder name with current date time
         const QString currentTime = QDateTime::currentDateTime().toString("yyyy_MM_dd_hhmmss_zzz");
         const QString targetFolderName = examplePath + "_" + currentTime;
@@ -600,7 +600,7 @@ QVector<QVariantMap> Wizards::getExampleContent() const
 {
     QVector<QVariantMap> examples;
     const QString contentPath = QCoreApplication::applicationDirPath() + "/Content";
-    
+
     QDir contentDir(contentPath);
     if (!contentDir.exists()) {
         qWarning() << "Content directory does not exist:" << contentPath;
@@ -608,33 +608,33 @@ QVector<QVariantMap> Wizards::getExampleContent() const
     }
 
     const QStringList subdirs = contentDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-    
+
     for (const QString& subdir : subdirs) {
         // Skip folders that begin with underscore (not ready yet)
         if (subdir.startsWith("_")) {
             continue;
         }
-        
+
         const QString subdirPath = contentPath + "/" + subdir;
         QDir exampleDir(subdirPath);
-        
+
         // Check if project.json exists
         if (!exampleDir.exists("project.json")) {
             continue;
         }
-        
+
         // Read project.json
         QFile projectFile(subdirPath + "/project.json");
         if (!projectFile.open(QIODevice::ReadOnly)) {
             continue;
         }
-        
+
         QJsonParseError error;
         QJsonDocument doc = QJsonDocument::fromJson(projectFile.readAll(), &error);
         if (error.error != QJsonParseError::NoError) {
             continue;
         }
-        
+
         QJsonObject obj = doc.object();
         QVariantMap example;
         example["folderName"] = subdir;
@@ -643,7 +643,7 @@ QVector<QVariantMap> Wizards::getExampleContent() const
         example["type"] = obj["type"].toString();
         example["preview"] = "file:///" + subdirPath + "/" + obj["preview"].toString();
         example["tags"] = obj["tags"].toVariant();
-        
+
         // Read README.md if it exists
         QString readmePath = subdirPath + "/Readme.md";
         if (QFile::exists(readmePath)) {
@@ -652,7 +652,7 @@ QVector<QVariantMap> Wizards::getExampleContent() const
                 example["readme"] = QString::fromUtf8(readmeFile.readAll());
             }
         }
-        
+
         // Determine category based on type
         QString type = obj["type"].toString();
         if (type.contains("wallpaper", Qt::CaseInsensitive)) {
@@ -662,10 +662,10 @@ QVector<QVariantMap> Wizards::getExampleContent() const
         } else {
             example["category"] = "Other";
         }
-        
+
         examples.append(example);
     }
-    
+
     return examples;
 }
 

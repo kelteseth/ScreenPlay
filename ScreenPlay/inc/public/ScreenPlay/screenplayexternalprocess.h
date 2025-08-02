@@ -56,7 +56,7 @@ public:
     QString previewImage() const { return m_contentData.previewImage(); }
     ContentTypes::InstalledType type() const { return m_contentData.type(); }
     ScreenPlay::ScreenPlayEnums::AppState state() const { return m_state; }
-    
+
     // Access to content data for error reporting
     const InstalledContentData& contentData() const { return m_contentData; }
 
@@ -70,13 +70,13 @@ signals:
     void stateChanged(ScreenPlay::ScreenPlayEnums::AppState state);
     void requestClose(const QString& appID);
     void error(const QString& msg);
-    
+
     /*!
         \brief Emitted when the external process fails to restart after multiple attempts.
-        
+
         \param appID The application ID of the failed process
         \param message A descriptive error message for the user
-        
+
         This signal is emitted when the process has crashed or timed out and all
         restart attempts have failed. The message should be displayed to the user
         to inform them of the issue.
@@ -93,21 +93,21 @@ public slots:
 protected:
     virtual void setupSDKConnection();
     virtual void handleProcessError(QProcess::ProcessError error);
-    
+
     /*!
         \brief Handles timeout or crash events by attempting to restart the process.
-        
+
         This method is called when the external process times out or crashes. It will
         attempt to restart the process up to MAX_RESTART_ATTEMPTS times. If all attempts
         fail, it emits the restartFailed signal.
     */
     virtual void handleTimeoutOrCrash();
-    
+
     /*!
         \brief Attempts to restart the external process.
-        
+
         \return true if the restart was successful, false otherwise.
-        
+
         This method cleans up the existing process and attempts to start a new one.
         If successful, it resets the retry count and updates the state.
     */
@@ -132,7 +132,7 @@ protected:
     qint64 m_processID { 0 };
     int m_retryCount { 0 };
     bool m_isRestartingInProgress { false };
-    
+
     // Maximum number of restart attempts before giving up
     static constexpr int MAX_RESTART_ATTEMPTS = 2;
     // Delay between restart attempts in milliseconds

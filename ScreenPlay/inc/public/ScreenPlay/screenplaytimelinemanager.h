@@ -76,7 +76,7 @@ public:
     void validateTimelineSections() const;
     void sortAndUpdateIndices();
     const std::vector<WallpaperData> wallpaperData() const;
-    
+
     static QString timelineManagerErrorToString(TimelineManagerError error);
 
 public slots:

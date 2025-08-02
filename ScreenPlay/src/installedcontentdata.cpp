@@ -49,7 +49,7 @@ void InstalledContentData::loadBaseFromJson(const QJsonObject& obj)
     setPreviewImage(obj.value("previewImage").toString());
     setFile(obj.value("file").toString());
     setProperties(obj.value("properties").toObject());
-    
+
     const QString typeString = obj.value("type").toString();
     setType(QStringToEnum<ContentTypes::InstalledType>(typeString,
         ContentTypes::InstalledType::VideoWallpaper));

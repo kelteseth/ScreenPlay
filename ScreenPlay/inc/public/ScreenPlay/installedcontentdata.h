@@ -11,7 +11,7 @@ namespace ScreenPlay {
 
 /*!
     \brief Base class for installed content data (wallpapers and widgets).
-    
+
     This class contains all the shared properties that both wallpapers and widgets
     have in common, such as title, absolutePath, previewImage, type, file, and properties.
     This enables better error reporting using user-facing titles instead of internal appIDs.
@@ -49,7 +49,7 @@ public:
 protected:
     // Helper method for serialization of common properties
     QJsonObject serializeBase() const;
-    
+
     // Helper method for loading common properties from JSON
     void loadBaseFromJson(const QJsonObject& obj);
 

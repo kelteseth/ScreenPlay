@@ -30,7 +30,7 @@ public:
         Failed, // Failed to start/crashed - needs recovery
     };
     Q_ENUM(State)
-    
+
     enum class InitError {
         None,
         WallpaperDataLoadFailed

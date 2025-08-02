@@ -8,9 +8,9 @@
 #include "CMakeVariables.h"
 
 #include "ScreenPlayCore/exitcodes.h"
+#include "ScreenPlayCore/globalenums.h"
 #include "ScreenPlayCore/logginghandler.h"
 #include "ScreenPlayCore/util.h"
-#include "ScreenPlayCore/globalenums.h"
 
 #include <QQmlEngine>
 

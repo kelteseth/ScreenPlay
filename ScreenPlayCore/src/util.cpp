@@ -954,11 +954,11 @@ bool Util::copyRecursively(const QString& sourcePath, const QString& targetPath)
 
     // Get all files and directories
     const QStringList entries = sourceDir.entryList(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot);
-    
+
     for (const QString& entry : entries) {
         const QString sourceEntryPath = sourceDir.absoluteFilePath(entry);
         const QString targetEntryPath = targetDir.absoluteFilePath(entry);
-        
+
         if (QFileInfo(sourceEntryPath).isDir()) {
             // Recursively copy subdirectory
             if (!copyRecursively(sourceEntryPath, targetEntryPath)) {
@@ -972,7 +972,7 @@ bool Util::copyRecursively(const QString& sourcePath, const QString& targetPath)
             }
         }
     }
-    
+
     return true;
 }
 

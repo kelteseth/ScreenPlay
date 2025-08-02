@@ -62,7 +62,7 @@ std::expected<WidgetData, WidgetData::LoadError> WidgetData::loadWidgetConfig(co
 
     WidgetData widgetData;
     widgetData.loadBaseFromJson(widgetObj);
-    
+
     // Load widget-specific properties
     int x = widgetObj.value("x").toInt(0);
     int y = widgetObj.value("y").toInt(0);

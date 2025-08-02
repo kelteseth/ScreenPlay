@@ -3,15 +3,15 @@
 #pragma once
 
 #include "ScreenPlay/installedcontentdata.h"
-#include <QPoint>
 #include <QJsonObject>
+#include <QPoint>
 #include <expected>
 
 namespace ScreenPlay {
 
 /*!
     \brief Data class for widget content.
-    
+
     This class extends InstalledContentData with widget-specific properties
     like position. It provides serialization, deserialization, and validation
     for widget configurations.
@@ -31,7 +31,7 @@ public:
     Q_ENUM(LoadError)
 
     static QString loadErrorToString(LoadError error);
-    
+
     // Widget-specific properties
     QPoint position() const { return m_position; }
     void setPosition(const QPoint& position) { m_position = position; }

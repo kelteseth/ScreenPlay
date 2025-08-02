@@ -21,36 +21,36 @@ ScreenPlayExternalProcess::ScreenPlayExternalProcess(
         this, &ScreenPlayExternalProcess::processExit);
     QObject::connect(&m_process, &QProcess::errorOccurred,
         this, &ScreenPlayExternalProcess::handleProcessError);
-    
+
     // Setup restart delay timer
     m_restartDelayTimer.setSingleShot(true);
     QObject::connect(&m_restartDelayTimer, &QTimer::timeout, this, [this]() {
         if (!attemptRestart()) {
             // If restart attempt failed, emit failure signal with user-friendly message
-            QString contentTitle = m_contentData.title().isEmpty() 
-                ? tr("Untitled Content") 
+            QString contentTitle = m_contentData.title().isEmpty()
+                ? tr("Untitled Content")
                 : m_contentData.title();
             QString contentTypeStr = ContentTypes::toString(m_contentData.type());
-            
+
             // Include path info for better identification if title is generic
             QString locationInfo;
             if (!m_contentData.absolutePath().isEmpty()) {
                 QFileInfo pathInfo(m_contentData.absolutePath());
                 locationInfo = tr(" from '%1'").arg(pathInfo.fileName());
             }
-            
+
             QString errorMsg = tr("'%1' (%2)%3 could not be restarted (attempt %4 of %5).")
-                .arg(contentTitle)
-                .arg(contentTypeStr)
-                .arg(locationInfo)
-                .arg(m_retryCount)
-                .arg(MAX_RESTART_ATTEMPTS);
-                
+                                   .arg(contentTitle)
+                                   .arg(contentTypeStr)
+                                   .arg(locationInfo)
+                                   .arg(m_retryCount)
+                                   .arg(MAX_RESTART_ATTEMPTS);
+
             qCritical() << "Restart attempt failed for" << m_appID << ":" << errorMsg;
             emit restartFailed(m_appID, errorMsg);
         }
     });
-    
+
     // Setup stability timer - only reset retry count after process is stable
     m_stabilityTimer.setSingleShot(true);
     QObject::connect(&m_stabilityTimer, &QTimer::timeout, this, [this]() {
@@ -65,14 +65,14 @@ void ScreenPlayExternalProcess::setSDKConnection(std::unique_ptr<SDKConnection> 
 {
     m_connection = std::move(connection);
     setIsConnected(true);
-    
+
     // Don't reset retry count immediately - start stability timer instead
     if (m_retryCount > 0) {
         qInfo() << "Connection established for" << m_appID << "after" << m_retryCount << "restart attempts, starting stability timer";
         m_stabilityTimer.start(STABILITY_PERIOD_MS);
     }
     m_isRestartingInProgress = false;
-    
+
     setupSDKConnection();
 }
 
@@ -182,35 +182,35 @@ void ScreenPlayExternalProcess::handleTimeoutOrCrash()
     // Stop timers to prevent further checks
     m_pingAliveTimer.stop();
     m_stabilityTimer.stop(); // Stop stability timer as process is no longer stable
-    
+
     // Prevent multiple concurrent restart attempts
     if (m_isRestartingInProgress) {
         qDebug() << "Restart already in progress for" << m_appID;
         return;
     }
-    
+
     // Only attempt restart if we haven't exceeded max attempts
     if (m_retryCount < MAX_RESTART_ATTEMPTS) {
         m_isRestartingInProgress = true;
         qInfo() << "Process" << m_appID << "failed, initiating restart attempt" << (m_retryCount + 1) << "of" << MAX_RESTART_ATTEMPTS;
-        
+
         // Start restart delay timer
         m_restartDelayTimer.start(RESTART_DELAY_MS);
     } else {
         // Max attempts reached, emit failure signal with user-facing message
         m_isRestartingInProgress = false;
-        
+
         // Create user-friendly error message with title and content type
-        QString contentTitle = m_contentData.title().isEmpty() 
-            ? tr("Untitled Content") 
+        QString contentTitle = m_contentData.title().isEmpty()
+            ? tr("Untitled Content")
             : m_contentData.title();
         QString contentTypeStr = ContentTypes::toString(m_contentData.type());
-        
+
         QString errorMsg = tr("'%1' (%2) failed to restart after %3 attempts and has been stopped.")
-            .arg(contentTitle)
-            .arg(contentTypeStr)
-            .arg(MAX_RESTART_ATTEMPTS);
-            
+                               .arg(contentTitle)
+                               .arg(contentTypeStr)
+                               .arg(MAX_RESTART_ATTEMPTS);
+
         qCritical() << "Restart failed for" << m_appID << ":" << errorMsg;
         emit restartFailed(m_appID, errorMsg);
     }
@@ -221,20 +221,20 @@ bool ScreenPlayExternalProcess::attemptRestart()
     // Increment retry count at the start of actual restart attempt
     m_retryCount++;
     qInfo() << "Attempting to restart process for appID:" << m_appID << "- Attempt" << m_retryCount << "of" << MAX_RESTART_ATTEMPTS;
-    
+
     // Clean up existing process
     if (m_process.state() != QProcess::NotRunning) {
         m_process.kill();
         m_process.waitForFinished(3000);
     }
-    
+
     // Reset connection state
     setIsConnected(false);
     m_connection.reset();
-    
+
     // Attempt to restart
     bool success = start();
-    
+
     if (success) {
         qInfo() << "Successfully restarted process for appID:" << m_appID;
         // Don't reset retry count yet - wait for successful connection
@@ -243,10 +243,10 @@ bool ScreenPlayExternalProcess::attemptRestart()
         qWarning() << "Failed to restart process for appID:" << m_appID;
         setState(ScreenPlay::ScreenPlayEnums::AppState::StartingFailed);
     }
-    
+
     // Reset the restart flag regardless of success/failure
     m_isRestartingInProgress = false;
-    
+
     return success;
 }
 

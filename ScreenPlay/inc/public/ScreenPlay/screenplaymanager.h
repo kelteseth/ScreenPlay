@@ -11,7 +11,6 @@
 #include "ScreenPlay/monitorlistmodel.h"
 #include "ScreenPlay/projectsettingslistmodel.h"
 #include "ScreenPlay/screenplaytimelinemanager.h"
-#include "ScreenPlay/screenplaywallpaper.h"
 #include "ScreenPlay/screenplaywidget.h"
 #include "ScreenPlay/settings.h"
 #include "ScreenPlayCore/util.h"

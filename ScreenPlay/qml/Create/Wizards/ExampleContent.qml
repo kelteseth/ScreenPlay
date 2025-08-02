@@ -10,7 +10,7 @@ FocusScope {
     id: root
 
     property bool showSaveButton: false
-    
+
     // Signals to maintain compatibility with wizard system
     signal wizardStarted
     signal wizardExited
@@ -66,135 +66,135 @@ FocusScope {
             focus: true
             interactive: true
             clip: true
-            
+
             section.property: "category"
             section.criteria: ViewSection.FullString
             section.delegate: Rectangle {
-                    id: sectionDelegate
-                    width: listView.width
-                    height: 40
-                    color: Material.theme === Material.Light ? "#f5f5f5" : "#2a2a2a"
-                    
-                    required property string section
-                    
-                    Text {
-                        text: sectionDelegate.section
-                        font.pointSize: 14
-                        font.bold: true
-                        color: Material.primaryTextColor
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.left: parent.left
-                        anchors.leftMargin: 15
-                    }
+                id: sectionDelegate
+                width: listView.width
+                height: 40
+                color: Material.theme === Material.Light ? "#f5f5f5" : "#2a2a2a"
+
+                required property string section
+
+                Text {
+                    text: sectionDelegate.section
+                    font.pointSize: 14
+                    font.bold: true
+                    color: Material.primaryTextColor
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: parent.left
+                    anchors.leftMargin: 15
                 }
+            }
 
             delegate: Rectangle {
-                    id: delegateItem
-                    width: listView.width
-                    height: Math.max(120, contentLayout.implicitHeight + 20)
-                    color: "transparent"
-                    border.color: "transparent"
-                    border.width: 1
-                    radius: 8
-                    
-                    required property var model
-                    
-                    RowLayout {
-                        id: contentLayout
-                        anchors.fill: parent
-                        anchors.margins: 10
-                        spacing: 15
+                id: delegateItem
+                width: listView.width
+                height: Math.max(120, contentLayout.implicitHeight + 20)
+                color: "transparent"
+                border.color: "transparent"
+                border.width: 1
+                radius: 8
 
-                        // Preview image
-                        Rectangle {
-                            Layout.preferredWidth: 100
-                            Layout.preferredHeight: 80
-                            color: Material.backgroundDimColor
-                            radius: 6
-                            
-                            Image {
+                required property var model
+
+                RowLayout {
+                    id: contentLayout
+                    anchors.fill: parent
+                    anchors.margins: 10
+                    spacing: 15
+
+                    // Preview image
+                    Rectangle {
+                        Layout.preferredWidth: 100
+                        Layout.preferredHeight: 80
+                        color: Material.backgroundDimColor
+                        radius: 6
+
+                        Image {
+                            anchors.fill: parent
+                            source: delegateItem.model.preview
+                            fillMode: Image.PreserveAspectCrop
+
+                            Rectangle {
                                 anchors.fill: parent
-                                source: delegateItem.model.preview
-                                fillMode: Image.PreserveAspectCrop
-                                
-                                Rectangle {
-                                    anchors.fill: parent
-                                    color: "transparent"
-                                    border.color: Material.dividerColor
-                                    border.width: 1
-                                    radius: 6
-                                }
+                                color: "transparent"
+                                border.color: Material.dividerColor
+                                border.width: 1
+                                radius: 6
                             }
                         }
+                    }
 
-                        // Content info
-                        ColumnLayout {
+                    // Content info
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        Layout.maximumHeight: delegateItem.height - 20
+                        spacing: 5
+
+                        Text {
+                            text: delegateItem.model.title
+                            font.pointSize: 14
+                            font.bold: true
+                            color: Material.primaryTextColor
+                            elide: Text.ElideRight
                             Layout.fillWidth: true
-                            Layout.fillHeight: true
-                            Layout.maximumHeight: delegateItem.height - 20
+                        }
+
+                        Text {
+                            text: delegateItem.model.description || qsTr("No description available")
+                            font.pointSize: 10
+                            color: Material.secondaryTextColor
+                            elide: Text.ElideRight
+                            Layout.fillWidth: true
+                        }
+
+                        // Tags
+                        Flow {
+                            Layout.fillWidth: true
                             spacing: 5
 
-                            Text {
-                                text: delegateItem.model.title
-                                font.pointSize: 14
-                                font.bold: true
-                                color: Material.primaryTextColor
-                                elide: Text.ElideRight
-                                Layout.fillWidth: true
-                            }
+                            Repeater {
+                                model: delegateItem.model.tags
 
-                            Text {
-                                text: delegateItem.model.description || qsTr("No description available")
-                                font.pointSize: 10
-                                color: Material.secondaryTextColor
-                                elide: Text.ElideRight
-                                Layout.fillWidth: true
-                            }
+                                delegate: Rectangle {
+                                    required property var modelData
 
-                            // Tags
-                            Flow {
-                                Layout.fillWidth: true
-                                spacing: 5
-                                
-                                Repeater {
-                                    model: delegateItem.model.tags
-                                    
-                                    delegate: Rectangle {
-                                        required property var modelData
-                                        
-                                        width: tagText.width + 16
-                                        height: 20
-                                        color: Material.color(Material.Grey)
-                                        radius: 10
-                                        
-                                        Text {
-                                            id: tagText
-                                            anchors.centerIn: parent
-                                            text: parent.modelData
-                                            font.pointSize: 8
-                                            color: "white"
-                                        }
+                                    width: tagText.width + 16
+                                    height: 20
+                                    color: Material.color(Material.Grey)
+                                    radius: 10
+
+                                    Text {
+                                        id: tagText
+                                        anchors.centerIn: parent
+                                        text: parent.modelData
+                                        font.pointSize: 8
+                                        color: "white"
                                     }
                                 }
                             }
                         }
+                    }
 
-                        // Add to Collection button
-                        Button {
-                            Layout.minimumWidth: 120
-                            Layout.preferredWidth: implicitWidth + 20
-                            Layout.preferredHeight: 40
-                            Layout.alignment: Qt.AlignVCenter
-                            text: qsTr("Add to Collection")
-                            onClicked: rightWrapper.addToCollection(delegateItem.model)
-                        }
+                    // Add to Collection button
+                    Button {
+                        Layout.minimumWidth: 120
+                        Layout.preferredWidth: implicitWidth + 20
+                        Layout.preferredHeight: 40
+                        Layout.alignment: Qt.AlignVCenter
+                        text: qsTr("Add to Collection")
+                        onClicked: rightWrapper.addToCollection(delegateItem.model)
                     }
                 }
             }
         }
-
-        // Snackbar for success/error messages
-        Util.MaterialSnackBar {
-            id: snackBar
-        }
     }
+
+    // Snackbar for success/error messages
+    Util.MaterialSnackBar {
+        id: snackBar
+    }
+}
