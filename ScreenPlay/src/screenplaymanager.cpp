@@ -2,6 +2,7 @@
 
 #include "ScreenPlay/screenplaymanager.h"
 #include "ScreenPlay/errormanager.h"
+#include "ScreenPlay/screenplaywallpaper.h"
 #include "ScreenPlay/widgetdata.h"
 #include "ScreenPlayCore/projectfile.h"
 #include "ScreenPlayCore/util.h"
@@ -103,7 +104,7 @@ QCoro::QmlTask ScreenPlayManager::setWallpaperAtMonitorTimelineIndex(
 {
     return QCoro::QmlTask([this, absoluteStoragePath, monitorIndex, timelineIndex, identifier, saveToProfilesConfigFile]() -> QCoro::Task<Result> {
         const QString path = QUrl::fromUserInput(absoluteStoragePath).toLocalFile();
-        
+
         if (path.isEmpty()) {
             Result result;
             result.setSuccess(false);
@@ -219,7 +220,7 @@ bool ScreenPlayManager::startWidget(
     widgetData.setFile(projectFile.file);
     widgetData.setType(projectFile.type);
     widgetData.setPosition(position);
-    
+
     // Use provided properties or load from project file
     if (!properties.isEmpty()) {
         widgetData.setProperties(properties);
@@ -242,6 +243,17 @@ bool ScreenPlayManager::startWidget(
     QObject::connect(widget.get(), &ScreenPlayWidget::restartFailed, this, [this](const QString& appID, const QString& message) {
         if (m_errorManager) {
             m_errorManager->displayError(message);
+        }
+    });
+
+    // Connect to state changes to automatically remove widgets that close gracefully
+    QObject::connect(widget.get(), &ScreenPlayWidget::stateChanged, this, [this](ScreenPlay::ScreenPlayEnums::AppState state) {
+        if (state == ScreenPlay::ScreenPlayEnums::AppState::ClosedGracefully) {
+            auto* sender = qobject_cast<ScreenPlayWidget*>(QObject::sender());
+            if (sender) {
+                qInfo() << "Widget" << sender->appID() << "closed gracefully, removing from manager";
+                removeWidget(sender->appID());
+            }
         }
     });
     if (!widget->start()) {
@@ -714,7 +726,7 @@ bool ScreenPlayManager::loadProfiles()
 
     bool containsInvalidData = false;
     bool hasTimelines = false;
-    
+
     for (const QJsonValueRef profile : activeProfilesTmp) {
 
         // TODO right now we limit ourself to one default profile
@@ -726,7 +738,7 @@ bool ScreenPlayManager::loadProfiles()
             auto result = m_screenPlayTimelineManager.addTimelineFromSettings(wallpaperObj);
             if (!result.has_value()) {
                 QString errorMessage = QString("Failed to load timeline wallpaper: %1")
-                    .arg(ScreenPlayTimelineManager::timelineManagerErrorToString(result.error()));
+                                           .arg(ScreenPlayTimelineManager::timelineManagerErrorToString(result.error()));
                 qCritical() << "Unable to add wallpaper timeline:" << errorMessage;
                 if (m_errorManager) {
                     m_errorManager->displayError(errorMessage);
@@ -758,18 +770,18 @@ bool ScreenPlayManager::loadProfiles()
         defaultTimelineObj.insert("startTime", "00:00:00");
         defaultTimelineObj.insert("endTime", "23:59:59");
         defaultTimelineObj.insert("wallpaper", QJsonArray());
-        
+
         auto result = m_screenPlayTimelineManager.addTimelineFromSettings(defaultTimelineObj);
         if (!result.has_value()) {
             QString errorMessage = QString("Failed to create default timeline: %1")
-                .arg(ScreenPlayTimelineManager::timelineManagerErrorToString(result.error()));
+                                       .arg(ScreenPlayTimelineManager::timelineManagerErrorToString(result.error()));
             qCritical() << errorMessage;
             if (m_errorManager) {
                 m_errorManager->displayError(errorMessage);
             }
             return false;
         }
-        
+
         // Save the default timeline to profiles
         saveProfiles();
     }

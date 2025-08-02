@@ -126,6 +126,7 @@ void WidgetWindow::setSize(QSize size)
 
 void WidgetWindow::destroyThis()
 {
+    sendCloseMessage();
     QCoreApplication::quit();
 }
 
@@ -202,31 +203,16 @@ void WidgetWindow::show()
     m_quickView->show();
 }
 
-/*!
- \brief This public slot is for QML usage. We limit the change event updates
-        to every 50ms, because the filesystem can be very trigger happy
-        with multiple change events per second.
- */
-void WidgetWindow::setupLiveReloading()
+void WidgetWindow::sendCloseMessage()
 {
-    auto reloadQMLLambda = [this]() {
-        m_liveReloadLimiter.stop();
-        emit reloadQML(type());
-    };
-    auto timeoutLambda = [this]() {
-        m_liveReloadLimiter.start(50);
-    };
-
-    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, timeoutLambda);
-    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, timeoutLambda);
-    QObject::connect(&m_liveReloadLimiter, &QTimer::timeout, this, reloadQMLLambda);
-
-    QDirIterator projectFilesIter(projectPath(), { "*.qml", "*.html", "*.css", "*.js" }, QDir::Files | QDir::NoSymLinks, QDirIterator::Subdirectories);
-    m_fileSystemWatcher.addPath({ projectPath() });
-    while (projectFilesIter.hasNext()) {
-        m_fileSystemWatcher.addPath(projectFilesIter.next());
+    // Send an explicit close message to let the main app know we're closing intentionally
+    if (m_sdk && m_sdk->isConnected()) {
+        QJsonObject closeMessage;
+        closeMessage.insert("messageType", "widgetClose");
+        m_sdk->sendMessage(closeMessage);
     }
 }
+
 qint64 WidgetWindow::mainAppPID() const
 {
     return m_mainAppPID;
@@ -238,6 +224,17 @@ void WidgetWindow::setMainAppPID(qint64 mainAppPID)
         return;
     m_mainAppPID = mainAppPID;
     emit mainAppPIDChanged(m_mainAppPID);
+}
+
+void WidgetWindow::setupLiveReloading()
+{
+    QDirIterator projectFilesIter(projectPath(), { "*.qml", "*.html", "*.css", "*.js" }, QDir::Files | QDir::NoSymLinks, QDirIterator::Subdirectories);
+    m_fileSystemWatcher.addPath(projectPath());
+    while (projectFilesIter.hasNext()) {
+        m_fileSystemWatcher.addPath(projectFilesIter.next());
+    }
+
+    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, &WidgetWindow::clearComponentCache);
 }
 }
 #include "moc_widgetwindow.cpp"

@@ -87,6 +87,16 @@ void ScreenPlayWidget::setupSDKConnection()
             emit requestSave();
             return;
         }
+
+        if (obj.value("messageType") == "widgetClose") {
+            qInfo() << "Widget" << m_appID << "is closing intentionally";
+            // Stop the ping timer and stability timer to prevent restart attempts
+            m_pingAliveTimer.stop();
+            m_stabilityTimer.stop();
+            // Set state to gracefully closed to prevent restart logic
+            setState(ScreenPlay::ScreenPlayEnums::AppState::ClosedGracefully);
+            return;
+        }
     });
 
     QObject::connect(m_connection.get(), &SDKConnection::pingAliveReceived, this, [this]() {

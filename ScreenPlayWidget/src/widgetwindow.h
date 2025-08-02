@@ -89,6 +89,7 @@ public slots:
     void setWidgetSize(const int with, const int height);
     void clearComponentCache();
     void show();
+    void sendCloseMessage();
 
     void setAppID(QString appID)
     {

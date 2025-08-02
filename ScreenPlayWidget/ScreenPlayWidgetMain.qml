@@ -16,6 +16,8 @@ Item {
     Connections {
         target: Widget
         function onQmlExit() {
+            // Send close message before starting the exit animation
+            Widget.sendCloseMessage();
             if (Qt.platform.os === "windows")
                 Widget.setWindowBlur(0);
             loader.source = "";
@@ -167,6 +169,8 @@ Item {
             onEntered: imgClose.state = "iconHover"
             onExited: imgClose.state = ""
             onClicked: {
+                // Send close message before starting the exit animation
+                Widget.sendCloseMessage();
                 if (Qt.platform.os === "windows")
                     Widget.setWindowBlur(0);
                 animFadeOut.start();
