@@ -1,5 +1,5 @@
 {
-    "description": "Countdown widget displaying time remaining until a target date",
+    "description": "Countdown widget displaying time remaining until the end of the year",
     "file": "main.qml",
     "preview": "preview.png",
     "tags": [
