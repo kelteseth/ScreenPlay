@@ -1,0 +1,1 @@
+Widget that displays The Guardian's world news RSS feed with article titles, descriptions, and publication dates.

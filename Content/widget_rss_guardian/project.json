@@ -1,15 +1,14 @@
 {
-    "description": "RSS feed widget displaying latest Deutsche Welle news",
+    "description": "Widget that displays The Guardian's world news RSS feed with article titles, descriptions, and publication dates.",
     "file": "main.qml",
     "preview": "preview.png",
     "tags": [
         "rss",
         "news",
-        "deutsche welle",
         "feed",
         "web",
         "qml"
     ],
-    "title": "dw",
+    "title": "The Guardian",
     "type": "qmlWidget"
 }
