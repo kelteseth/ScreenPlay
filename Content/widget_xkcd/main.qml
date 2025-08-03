@@ -1,17 +1,10 @@
 // SPDX-License-Identifier: BSD-3-Clause
 import QtQuick
-import QtQuick.Controls
-import QtQuick.Controls.Material
-import QtQuick.Effects
-import QtQuick.Particles
 
 Item {
     id: root
-    state: "normal"
-    implicitWidth: defaultWidth
-    implicitHeight: defaultHeight
-    property int defaultWidth: 200
-    property int defaultHeight: 200
+    implicitWidth: 300
+    implicitHeight: 200
 
     function request(url, callback) {
         var xhr = new XMLHttpRequest();
@@ -29,7 +22,6 @@ Item {
         request("http://xkcd.com/info.0.json", function (o) {
             if (o.status === 200) {
                 var d = eval('new Object(' + o.responseText + ')');
-                console.log(o.responseText);
                 img.source = d.img;
             } else {
                 console.log("Some error has occurred");
@@ -37,54 +29,49 @@ Item {
         });
     }
 
-    Image {
-        id: img
+    Flickable {
+        id: flickable
         anchors.fill: parent
-        fillMode: Image.PreserveAspectCrop
-        property size imgSize: Qt.size(root.defaultWidth, defaultHeight)
-        onStatusChanged: {
-            if (img.status !== Image.Ready)
-                return;
-            if (img.sourceSize.width === 0 || img.sourceSize.height === 0)
-                return;
-            root.implicitWidth = img.sourceSize.width;
-            root.implicitHeight = img.sourceSize.height;
-            print(img.status, img.sourceSize.width, img.sourceSize.height);
-            img.imgSize = Qt.size(img.sourceSize.width, img.sourceSize.height);
-            print("img.size", img.imgSize);
-        }
-    }
+        contentWidth: img.width
+        contentHeight: img.height
+        interactive: true
+        clip: true
 
-    MouseArea {
-        anchors.fill: parent
-        onClicked: {
-            root.state = root.state === "expanded" ? "normal" : "expanded";
-            print(root.state, root.implicitHeight, root.implicitWidth);
+        Image {
+            id: img
+            width: Math.min(sourceSize.width, root.width)
+            height: Math.min(sourceSize.height, root.height)
+            fillMode: Image.PreserveAspectFit
         }
-    }
 
-    states: [
-        State {
-            PropertyChanges {
-                name: "normal"
-                root {
-                    width: root.defaultWidth
-                    height: root.defaultHeight
-                    implicitWidth: root.defaultWidth
-                    implicitHeight: root.defaultHeight
+        MouseArea {
+            anchors.fill: img
+            onDoubleClicked: {
+                if (flickable.contentWidth > flickable.width || flickable.contentHeight > flickable.height) {
+                    // Zoom out to fit
+                    img.width = Math.min(img.sourceSize.width, root.width)
+                    img.height = Math.min(img.sourceSize.height, root.height)
+                } else {
+                    // Zoom in to actual size
+                    img.width = img.sourceSize.width
+                    img.height = img.sourceSize.height
                 }
             }
-        },
-        State {
-            name: "expanded"
-            PropertyChanges {
-                root {
-                    width: img.imgSize.width
-                    height: img.imgSize.height
-                    implicitWidth: img.imgSize.width
-                    implicitHeight: img.imgSize.height
+
+            onWheel: function(wheel) {
+                var scaleFactor = wheel.angleDelta.y > 0 ? 1.1 : 0.9
+                var newWidth = img.width * scaleFactor
+                var newHeight = img.height * scaleFactor
+
+                // Limit zoom range
+                var minScale = Math.min(root.width / img.sourceSize.width, root.height / img.sourceSize.height)
+                var maxScale = 3.0
+
+                if (newWidth >= img.sourceSize.width * minScale && newWidth <= img.sourceSize.width * maxScale) {
+                    img.width = newWidth
+                    img.height = newHeight
                 }
             }
         }
-    ]
+    }
 }

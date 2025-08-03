@@ -1,1 +1,1 @@
-Widget that shows the latest xkcd
+Widget that shows the latest xkcd comic with zoom support using mouse wheel and double-click to toggle between fit-to-widget and actual size. 
