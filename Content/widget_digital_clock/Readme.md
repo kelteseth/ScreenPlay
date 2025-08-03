@@ -1,1 +1,1 @@
-Digital Clock
+Digital clock widget displaying current time and date.
