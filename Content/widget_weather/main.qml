@@ -3,28 +3,20 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Controls.Material
-import QtQuick.Controls.Material.impl
-import Qt5Compat.GraphicalEffects
 import ScreenPlayWeather
+import ScreenPlayCore as Core
 
 Item {
     id: root
     implicitWidth: 900
     implicitHeight: 650
 
-    Material.theme: Material.Dark
-    Material.accent: Material.DeepOrange
-
     ScreenPlayWeather {
         id: weather
         city: "Friedrichshafen"
         onReady: {
             rp.model = weather.days;
-            // Qt bug https://bugreports.qt.io/browse/QTBUG-105137
-            test();
         }
-    }
-    function test() {
     }
 
     function mapWeatherCode(code) {
@@ -75,20 +67,17 @@ Item {
 
     ColumnLayout {
         id: wrapper
-        anchors.centerIn: parent
-        width: implicitWidth + 100
-        height: implicitHeight + 100
+        anchors.fill: parent
         TextField {
             Layout.alignment: Qt.AlignCenter
             horizontalAlignment: Text.AlignHCenter
-            color: Material.primaryTextColor
             onEditingFinished: weather.setCity(text)
             text: "Friedrichshafen"
         }
-        Text {
+
+        Label {
             Layout.alignment: Qt.AlignCenter
             horizontalAlignment: Text.AlignHCenter
-            color: Material.primaryTextColor
             text: "longtitude: " + weather.longtitude + " - latitude: " + weather.latitude + " - elevation: " + weather.elevation + "m - population: " + weather.population
         }
 
@@ -96,8 +85,6 @@ Item {
             Layout.alignment: Qt.AlignHCenter
             Repeater {
                 id: rp
-                onModelChanged: print("MODEL CHANGED")
-                onCountChanged: print(count)
                 ColumnLayout {
                     id: cl
                     spacing: 20
@@ -115,19 +102,14 @@ Item {
                         value: sunset
                     }
 
-                    Image {
+                    Core.ColorImage {
                         height: 64
                         width: height
                         sourceSize: Qt.size(height, height)
-                        layer {
-                            enabled: true
-                            effect: ColorOverlay {
-                                color: Material.primaryColor
-                            }
-                        }
+                        color: Material.primaryColor
                         Layout.alignment: Qt.AlignCenter
                         horizontalAlignment: Image.AlignHCenter
-                        source: "qrc:/qml/ScreenPlayWeather/assets/icons/" + root.mapWeatherCode(weatherCode) + ".svg"
+                        source: "qrc:/qt/qml/ScreenPlayWeather/assets/icons/" + root.mapWeatherCode(weatherCode) + ".svg"
                     }
                     TextItem {
                         text: "Weather Code"
@@ -141,16 +123,6 @@ Item {
                         text: "Temperature max"
                         value: temperature_2m_max
                     }
-
-                    //                    TextItem {
-                    //                        text: "Precipitation Sum"
-                    //                        value: precipitationSum
-                    //                    }
-
-                    //                    TextItem {
-                    //                        text: "Precipitation Hours"
-                    //                        value: precipitationHours
-                    //                    }
                 }
             }
         }
@@ -160,14 +132,14 @@ Item {
         property alias value: value.text
         property alias text: description.text
         Layout.preferredWidth: 120
-        Text {
+        Label {
             id: value
             width: 120
             font.pointSize: 16
-            horizontalAlignment: Text.AlignHCenter
             color: Material.primaryTextColor
+            horizontalAlignment: Text.AlignHCenter
         }
-        Text {
+        Label {
             id: description
             horizontalAlignment: Text.AlignHCenter
             color: Material.secondaryTextColor
