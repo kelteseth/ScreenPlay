@@ -16,12 +16,9 @@ Item {
     }
     property string description
     onDescriptionChanged: {
-        print("description");
         // See https://hnrss.org/frontpage <description> content
         // We need to manually parse it here to get the points and comments
-        points = parsePoints(description);
         commentCount = parseCommentCount(description);
-        print(points, commentCount);
     }
 
     function parseCommentCount(raw) {

@@ -1,3 +1,1 @@
-Widget that shows the latest dw feed
-
-https://corporate.dw.com/en/rss/s-31500
+Widget that shows Hacker News RSS feeds with selectable categories (Best, Front Page, Jobs, Newest > 100 pts) and displays posts with points, comments, and publication dates.

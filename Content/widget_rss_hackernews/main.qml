@@ -77,7 +77,6 @@ Item {
         source: combo.currentValue
         query: "/rss/channel/item"
         function load() {
-            print(":load");
             var tempSource = rssModel.source;
             rssModel.source = "";
             rssModel.source = tempSource;
