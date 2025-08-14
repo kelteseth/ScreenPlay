@@ -82,10 +82,6 @@ Popup {
                 color: Material.primaryTextColor
             }
 
-            QCore.Settings {
-                id: settings
-            }
-
             RowLayout {
                 Layout.alignment: Qt.AlignHCenter
                 Layout.fillWidth: true
@@ -105,9 +101,7 @@ Popup {
                     highlighted: true
                     text: qsTr("Always minimize ScreenPlay")
                     onClicked: {
-                        settings.setValue("alwaysMinimize", true);
-                        settings.sync();
-                        print(settings.value("alwaysMinimize"));
+                        App.settings.setAlwaysMinimize(true);
                         App.showDockIcon(false);
                         applicationWindow.hide();
                         root.close();

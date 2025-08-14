@@ -133,6 +133,7 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
     }
 
     setAnonymousTelemetry(m_qSettings.value("AnonymousTelemetry", true).toBool());
+    setAlwaysMinimize(m_qSettings.value("alwaysMinimize", false).toBool());
 
     setupProfilesSettings();
     setupInstalledPath();
@@ -706,6 +707,15 @@ void Settings::setStartWallpaperMuted(bool startWallpaperMuted)
     m_startWallpaperMuted = startWallpaperMuted;
     setqSetting("startWallpaperMuted", m_startWallpaperMuted);
     emit startWallpaperMutedChanged(m_startWallpaperMuted);
+}
+
+void Settings::setAlwaysMinimize(bool alwaysMinimize)
+{
+    if (m_alwaysMinimize == alwaysMinimize)
+        return;
+    m_alwaysMinimize = alwaysMinimize;
+    setqSetting("alwaysMinimize", m_alwaysMinimize);
+    emit alwaysMinimizeChanged(m_alwaysMinimize);
 }
 
 void Settings::setGodotFps(ScreenPlay::Settings::GodotFps godotFps)

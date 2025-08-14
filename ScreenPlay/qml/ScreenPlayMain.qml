@@ -96,20 +96,12 @@ ApplicationWindow {
             return;
     }
 
-    QCore.Settings {
-        id: settings
-    }
-
     onClosing: close => {
         close.accepted = false;
         if (App.screenPlayManager.activeWallpaperCounter === 0 && App.screenPlayManager.activeWidgetsCounter === 0) {
             App.exit();
         }
-        const alwaysMinimize = settings.value("alwaysMinimize", null);
-        if (alwaysMinimize === null) {
-            console.error("Unable to retreive alwaysMinimize setting");
-        }
-        if (alwaysMinimize === "true") {
+        if (App.settings.alwaysMinimize) {
             applicationWindow.hide();
             App.showDockIcon(false);
             return;

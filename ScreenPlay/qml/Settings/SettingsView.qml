@@ -62,6 +62,17 @@ Item {
                         }
                     }
 
+                    SettingsHorizontalSeperator {}
+
+                    SettingBool {
+                        headline: qsTr("Always minimize to system tray")
+                        description: qsTr("When enabled, ScreenPlay will automatically minimize to the system tray instead of showing the exit dialog when closing the main window.")
+                        isChecked: App.settings.alwaysMinimize
+                        onCheckboxChanged: function (checked) {
+                            App.settings.setAlwaysMinimize(checked);
+                        }
+                    }
+
                     // SettingsHorizontalSeperator {
                     // }
 
