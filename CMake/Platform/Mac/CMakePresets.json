@@ -18,8 +18,12 @@
                 "ninja",
                 "host-mac"
             ],
+            "environment": {
+                "LANG": "en_US.UTF-8",
+                "LC_ALL": "en_US.UTF-8"
+            },
             "cacheVariables": {
-                "CMAKE_PREFIX_PATH": "${sourceDir}/../aqt/6.9.0/macos",
+                "CMAKE_PREFIX_PATH": "${sourceDir}/../aqt/6.9.1/macos",
                 "VCPKG_TARGET_TRIPLET": "64-osx-universal"
             }
         },

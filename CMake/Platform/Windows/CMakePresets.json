@@ -39,7 +39,7 @@
                 "windows-base"
             ],
             "cacheVariables": {
-                "CMAKE_PREFIX_PATH": "${sourceDir}/../aqt/6.9.0/msvc2022_64"
+                "CMAKE_PREFIX_PATH": "${sourceDir}/../aqt/6.9.1/msvc2022_64"
             }
         },
         {
