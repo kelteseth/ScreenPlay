@@ -9,7 +9,7 @@
         "textfield",
         "beginner"
     ],
-    "title": "QML interactive",
+    "title": "Hello World QML Wallpaper",
     "type": "qmlWallpaper",
     "visibility": "public"
 }

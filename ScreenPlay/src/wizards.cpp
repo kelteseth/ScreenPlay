@@ -644,15 +644,6 @@ QVector<QVariantMap> Wizards::getExampleContent() const
         example["preview"] = "file:///" + subdirPath + "/" + obj["preview"].toString();
         example["tags"] = obj["tags"].toVariant();
 
-        // Read README.md if it exists
-        QString readmePath = subdirPath + "/Readme.md";
-        if (QFile::exists(readmePath)) {
-            QFile readmeFile(readmePath);
-            if (readmeFile.open(QIODevice::ReadOnly)) {
-                example["readme"] = QString::fromUtf8(readmeFile.readAll());
-            }
-        }
-
         // Determine category based on type
         QString type = obj["type"].toString();
         if (type.contains("wallpaper", Qt::CaseInsensitive)) {

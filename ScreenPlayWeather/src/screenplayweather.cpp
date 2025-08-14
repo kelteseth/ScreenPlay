@@ -51,7 +51,6 @@ void ScreenPlayWeather::updateLatitudeLongtitude(const QString& city)
         if (result.contains("population"))
             setPopulation(result.value("population").toInt());
     });
-    QObject::connect(reply, &QNetworkReply::finished, this, []() { qInfo() << "updateLatitudeLongtitude finished!"; });
     QObject::connect(reply, &QNetworkReply::errorOccurred, this, []() { qInfo() << "errorOccurred!"; });
 }
 
@@ -78,7 +77,6 @@ void ScreenPlayWeather::update()
 
     QUrl url = m_weather_open_metro_v1 + query;
     request.setUrl(url);
-    qInfo() << url;
     auto* reply = m_networkAccessManager.get(request);
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() {
         const QByteArray data = reply->readAll();

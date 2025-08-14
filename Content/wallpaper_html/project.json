@@ -1,9 +1,7 @@
 {
-    "createdBy": "",
     "description": "HTML wallpaper example with web technologies",
     "file": "index.html",
     "preview": "preview.png",
-    "license": "Creative Commons - Attribution-ShareAlike 4.0",
     "tags": [
         "html",
         "web",
@@ -11,6 +9,6 @@
         "css",
         "example"
     ],
-    "title": "test",
+    "title": "Hello World HTML Wallpaper",
     "type": "HTMLWallpaper"
 }

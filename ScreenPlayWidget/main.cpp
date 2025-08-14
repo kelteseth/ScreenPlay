@@ -40,14 +40,14 @@ int main(int argc, char* argv[])
             { "/widget_weather", ContentTypes::InstalledType::QMLWidget }, // 0
             { "/widget_system_stats", ContentTypes::InstalledType::QMLWidget }, // 1 (Note: Windows only)
             { "/widget_hello_world", ContentTypes::InstalledType::QMLWidget }, // 2
-            { "/widget_year_count_down", ContentTypes::InstalledType::QMLWidget }, // 3
+            { "/widget_year_countdown", ContentTypes::InstalledType::QMLWidget }, // 3
             { "/widget_analog_clock", ContentTypes::InstalledType::QMLWidget }, // 4
             { "/widget_digital_clock", ContentTypes::InstalledType::QMLWidget }, // 5
             { "/widget_rss_hackernews", ContentTypes::InstalledType::QMLWidget }, // 6
-            { "/widget_rss_guardian_news", ContentTypes::InstalledType::QMLWidget }, // 7
+            { "/widget_rss_guardian", ContentTypes::InstalledType::QMLWidget }, // 7
             { "/widget_xkcd", ContentTypes::InstalledType::QMLWidget }, // 8
         };
-        const int index = 5;
+        const int index = 6;
         QString projectPath = exampleContentPath + contentFolder.at(index).first;
 
         // Lets center the widget
