@@ -16,7 +16,8 @@ set(RESOURCES
     assets/icons/baseline-close-24px.svg
     assets/icons/baseline-opacity-24px.svg
     assets/icons/baseline-settings-20px.svg
-    assets/image/noisy-texture-3.png)
+    assets/image/noisy-texture-3.png
+    qtquickcontrols2.conf)
 
 find_package(
     Qt6

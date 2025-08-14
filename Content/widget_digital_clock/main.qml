@@ -66,6 +66,4 @@ Item {
             horizontalAlignment: Text.AlignHCenter
         }
     }
-
-
 }

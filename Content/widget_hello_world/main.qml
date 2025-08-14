@@ -14,7 +14,7 @@ Item {
         anchors.fill: parent
         anchors.margins: 20
         RowLayout {
-            spacing : 20
+            spacing: 20
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignHCenter

@@ -9,25 +9,24 @@ set(CMAKE_AUTOMOC ON)
 include(GenerateCMakeVariableHeader)
 
 set(SOURCES
-
     # cmake-format: sort
     src/app.cpp
-    src/screenplayexternalprocess.cpp
     src/create.cpp
     src/createimportvideo.cpp
     src/errormanager.cpp
     src/globalvariables.cpp
+    src/installedcontentdata.cpp
     src/installedlistfilter.cpp
     src/installedlistmodel.cpp
     src/monitorlistmodel.cpp
     src/profilelistmodel.cpp
     src/projectsettingslistmodel.cpp
+    src/screenplayexternalprocess.cpp
     src/screenplaymanager.cpp
     src/screenplaytimelinemanager.cpp
     src/screenplaywallpaper.cpp
     src/screenplaywidget.cpp
     src/sdkconnection.cpp
-    src/installedcontentdata.cpp
     src/settings.cpp
     src/steamdlcchecker.cpp
     src/uiappstatesignals.cpp
@@ -37,10 +36,8 @@ set(SOURCES
     src/wizards.cpp)
 
 set(HEADER
-
     # cmake-format: sort
     inc/public/ScreenPlay/app.h
-    inc/public/ScreenPlay/screenplayexternalprocess.h
     inc/public/ScreenPlay/create.h
     inc/public/ScreenPlay/createimportstates.h
     inc/public/ScreenPlay/createimportvideo.h
@@ -53,6 +50,7 @@ set(HEADER
     inc/public/ScreenPlay/profile.h
     inc/public/ScreenPlay/profilelistmodel.h
     inc/public/ScreenPlay/projectsettingslistmodel.h
+    inc/public/ScreenPlay/screenplayexternalprocess.h
     inc/public/ScreenPlay/screenplaymanager.h
     inc/public/ScreenPlay/screenplaytimelinemanager.h
     inc/public/ScreenPlay/screenplaywallpaper.h
@@ -67,14 +65,13 @@ set(HEADER
     inc/public/ScreenPlay/wizards.h)
 
 set(QML
-
     # cmake-format: sort
     qml/Community/CommunityNavItem.qml
     qml/Community/CommunityView.qml
     qml/Community/XMLNewsfeed.qml
+    qml/Components/ErrorManagerPopup.qml
     qml/Components/LineHandle.qml
     qml/Components/LineIndicator.qml
-    qml/Components/ErrorManagerPopup.qml
     qml/Components/ScreenPlayProPopup.qml
     qml/Components/Timeline.qml
     qml/Components/TimelineSection.qml
@@ -90,6 +87,7 @@ set(QML
     qml/Create/StartInfo.qml
     qml/Create/StartInfoLinkImage.qml
     qml/Create/Wizard.qml
+    qml/Create/Wizards/ExampleContent.qml
     qml/Create/Wizards/GifWallpaper.qml
     qml/Create/Wizards/GodotWallpaper.qml
     qml/Create/Wizards/HTMLWallpaper.qml
@@ -103,7 +101,6 @@ set(QML
     qml/Create/Wizards/QMLWidget.qml
     qml/Create/Wizards/WebsiteWallpaper.qml
     qml/Create/Wizards/WizardPage.qml
-    qml/Create/Wizards/ExampleContent.qml
     qml/Installed/InstalledDrawer.qml
     qml/Installed/InstalledItem.qml
     qml/Installed/InstalledNavigation.qml
@@ -123,7 +120,6 @@ set(QML
     qml/Workshop/WorkshopView.qml)
 
 set(TS_FILES
-
     # cmake-format: sort
     translations/ScreenPlay_.ts
     translations/ScreenPlay_de_DE.ts
@@ -140,7 +136,6 @@ set(TS_FILES
     translations/ScreenPlay_zh_CN.ts)
 
 set(RESOURCES
-
     # cmake-format: sort
     "legal/Font Awesome Free License.txt"
     "legal/Qt LGPLv3.txt"
@@ -252,6 +247,16 @@ set(RESOURCES
     assets/startinfo/sharex.png
     assets/startinfo/unsplash.png
     assets/startinfo/vscode.png
+    assets/wizardfiles/godot/export_presets.cfg
+    assets/wizardfiles/godot/project.godot
+    assets/wizardfiles/godot/spinner.gd
+    assets/wizardfiles/godot/spinner.gd.uid
+    assets/wizardfiles/godot/wallpaper.tscn
+    assets/wizardfiles/HTMLWallpaperMain.html
+    assets/wizardfiles/HTMLWidgetMain.html
+    assets/wizardfiles/QmlProject.qmlproject
+    assets/wizardfiles/QMLWallpaperMain.qml
+    assets/wizardfiles/QMLWidgetMain.qml
     assets/wizards/example_html.png
     assets/wizards/example_qml.png
     assets/wizards/License_All_Rights_Reserved_1.0.txt
@@ -267,16 +272,6 @@ set(RESOURCES
     legal/OFL.txt
     legal/OpenSSL.txt
     profiles.json
-    assets/wizardfiles/godot/export_presets.cfg
-    assets/wizardfiles/godot/project.godot
-    assets/wizardfiles/godot/spinner.gd
-    assets/wizardfiles/godot/spinner.gd.uid
-    assets/wizardfiles/godot/wallpaper.tscn
-    assets/wizardfiles/HTMLWallpaperMain.html
-    assets/wizardfiles/HTMLWidgetMain.html
-    assets/wizardfiles/QmlProject.qmlproject
-    assets/wizardfiles/QMLWallpaperMain.qml
-    assets/wizardfiles/QMLWidgetMain.qml
     qtquickcontrols2.conf)
 
 # Needed on macos
@@ -293,15 +288,15 @@ endif()
 find_package(
     Qt6
     COMPONENTS Core
-    Quick
-    QuickControls2
-    Gui
-    Widgets
-    WebSockets
-    Svg
-    Xml
-    LinguistTools
-    Test)
+               Quick
+               QuickControls2
+               Gui
+               Widgets
+               WebSockets
+               Svg
+               Xml
+               LinguistTools
+               Test)
 
 qt_standard_project_setup(REQUIRES 6.8)
 
@@ -334,20 +329,20 @@ qt_add_qml_module(
 target_link_libraries(
     ScreenPlayLib
     PUBLIC ScreenPlaySDKLib
-    LibArchive::LibArchive
-    ScreenPlayCoreLib
-    ScreenPlayCoreLibplugin
-    QArchive
-    Threads::Threads
-    QCoro6::Qml
-    Qt6::Quick
-    Qt6::Gui
-    Qt6::Widgets
-    Qt6::Core
-    Qt6::WebSockets
-    Qt6::Svg
-    Qt6::QuickControls2
-    Qt6::Xml)
+           LibArchive::LibArchive
+           ScreenPlayCoreLib
+           ScreenPlayCoreLibplugin
+           QArchive
+           Threads::Threads
+           QCoro6::Qml
+           Qt6::Quick
+           Qt6::Gui
+           Qt6::Widgets
+           Qt6::Core
+           Qt6::WebSockets
+           Qt6::Svg
+           Qt6::QuickControls2
+           Qt6::Xml)
 
 if(${SCREENPLAY_STEAM})
     target_link_libraries(ScreenPlayLib PUBLIC ScreenPlayWorkshopLibplugin ScreenPlayWorkshopLib)
@@ -426,43 +421,42 @@ if(APPLE)
     set_target_properties(
         ScreenPlayApp
         PROPERTIES OUTPUT_NAME "ScreenPlay" # This controls the .app name
-        MACOSX_BUNDLE TRUE
-        MACOSX_BUNDLE_BUNDLE_NAME "ScreenPlay" # This controls the bundle name
-        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
-        MACOSX_RPATH TRUE
-        MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist
-        MACOSX_FRAMEWORK_IDENTIFIER app.screenplay
-        XCODE_ATTRIBUTE_LD_RUNPATH_SEARCH_PATHS "@loader_path/Libraries"
-        RESOURCE "${RESOURCE_FILES};${APP_ICON_MACOSX}"
-        XCODE_ATTRIBUTE_ENABLE_HARDENED_RUNTIME TRUE
-        XCODE_ATTRIBUTE_EXECUTABLE_NAME "ScreenPlay") # This controls the executable name inside the bundle
+                   MACOSX_BUNDLE TRUE
+                   MACOSX_BUNDLE_BUNDLE_NAME "ScreenPlay" # This controls the bundle name
+                   RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
+                   MACOSX_RPATH TRUE
+                   MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist
+                   MACOSX_FRAMEWORK_IDENTIFIER app.screenplay
+                   XCODE_ATTRIBUTE_LD_RUNPATH_SEARCH_PATHS "@loader_path/Libraries"
+                   RESOURCE "${RESOURCE_FILES};${APP_ICON_MACOSX}"
+                   XCODE_ATTRIBUTE_ENABLE_HARDENED_RUNTIME TRUE
+                   XCODE_ATTRIBUTE_EXECUTABLE_NAME "ScreenPlay") # This controls the executable name inside the bundle
 
     add_custom_command(
         TARGET ScreenPlayApp
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/ffmpeg"
-        "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/")
+                "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/")
 
     add_custom_command(
         TARGET ScreenPlayApp
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/ffprobe"
-        "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/")
+                "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/")
 
     # Copy app icon to bundle
     add_custom_command(
         TARGET ScreenPlayApp
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${APP_ICON_MACOSX}"
-        "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/Resources/ScreenPlay.icns")
+                "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/Resources/ScreenPlay.icns")
 
     # Copy fonts to bundle
     add_custom_command(
         TARGET ScreenPlayApp
         POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different
-        "${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts"
-        "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/Resources/fonts"
+        COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts"
+                "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/Resources/fonts"
         COMMENT "Copying fonts to macOS bundle")
 endif()
 
@@ -479,11 +473,8 @@ endif()
 add_custom_command(
     TARGET ScreenPlayApp
     POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-    "${CMAKE_CURRENT_SOURCE_DIR}/../Content"
-    "${CONTENT_OUT_DIR}"
-    COMMENT "Copying Content folder to output directory"
-)
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/../Content" "${CONTENT_OUT_DIR}"
+    COMMENT "Copying Content folder to output directory")
 
 # Must be set before qt_add_lrelease
 if(NOT APPLE)
@@ -520,11 +511,9 @@ if(${SCREENPLAY_STEAM})
         add_custom_command(
             TARGET ScreenPlayApp
             POST_BUILD
-
             # Copy Steam API library
             COMMAND ${CMAKE_COMMAND} -E copy_if_different "${STEAM_BINARY_PATH}"
-            "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/${STEAM_BINARY}"
-
+                    "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/${STEAM_BINARY}"
             # Create Steam App ID file
             COMMAND ${CMAKE_COMMAND} -E echo "672870" > "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/steam_appid.txt"
             COMMENT "Copying Steam files from ${STEAM_BINARY_PATH} to bundle...")
@@ -558,24 +547,12 @@ if(${SCREENPLAY_GODOT})
             POST_BUILD
             COMMAND uv run Tools/build_godot.py --build_path "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
             WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-            COMMENT "Building ScreenPlayWallpaperGodot for Windows"
-        )
-    # elseif(APPLE)
-    #     add_custom_command(
-    #         TARGET ScreenPlayApp
-    #         POST_BUILD
-    #         COMMAND uv run Tools/build_godot.py --build_path "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS"
-    #         WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-    #         COMMENT "Building ScreenPlayWallpaperGodot for macOS"
-    #     )
-    # elseif(UNIX)
-    #     add_custom_command(
-    #         TARGET ScreenPlayApp
-    #         POST_BUILD
-    #         COMMAND uv run Tools/build_godot.py --build_path "${CMAKE_BINARY_DIR}/ScreenPlay"
-    #         WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-    #         COMMENT "Building ScreenPlayWallpaperGodot for Linux"
-    #     )
+            COMMENT "Building ScreenPlayWallpaperGodot for Windows")
+        # elseif(APPLE) add_custom_command( TARGET ScreenPlayApp POST_BUILD COMMAND uv run Tools/build_godot.py --build_path
+        # "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS" WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" COMMENT "Building
+        # ScreenPlayWallpaperGodot for macOS" ) elseif(UNIX) add_custom_command( TARGET ScreenPlayApp POST_BUILD COMMAND uv run
+        # Tools/build_godot.py --build_path "${CMAKE_BINARY_DIR}/ScreenPlay" WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" COMMENT "Building
+        # ScreenPlayWallpaperGodot for Linux" )
     endif()
 endif()
 

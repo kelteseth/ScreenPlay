@@ -49,27 +49,27 @@ Item {
             onDoubleClicked: {
                 if (flickable.contentWidth > flickable.width || flickable.contentHeight > flickable.height) {
                     // Zoom out to fit
-                    img.width = Math.min(img.sourceSize.width, root.width)
-                    img.height = Math.min(img.sourceSize.height, root.height)
+                    img.width = Math.min(img.sourceSize.width, root.width);
+                    img.height = Math.min(img.sourceSize.height, root.height);
                 } else {
                     // Zoom in to actual size
-                    img.width = img.sourceSize.width
-                    img.height = img.sourceSize.height
+                    img.width = img.sourceSize.width;
+                    img.height = img.sourceSize.height;
                 }
             }
 
-            onWheel: function(wheel) {
-                var scaleFactor = wheel.angleDelta.y > 0 ? 1.1 : 0.9
-                var newWidth = img.width * scaleFactor
-                var newHeight = img.height * scaleFactor
+            onWheel: function (wheel) {
+                var scaleFactor = wheel.angleDelta.y > 0 ? 1.1 : 0.9;
+                var newWidth = img.width * scaleFactor;
+                var newHeight = img.height * scaleFactor;
 
                 // Limit zoom range
-                var minScale = Math.min(root.width / img.sourceSize.width, root.height / img.sourceSize.height)
-                var maxScale = 3.0
+                var minScale = Math.min(root.width / img.sourceSize.width, root.height / img.sourceSize.height);
+                var maxScale = 3.0;
 
                 if (newWidth >= img.sourceSize.width * minScale && newWidth <= img.sourceSize.width * maxScale) {
-                    img.width = newWidth
-                    img.height = newHeight
+                    img.width = newWidth;
+                    img.height = newHeight;
                 }
             }
         }

@@ -133,10 +133,10 @@ if(${SCREENPLAY_STEAM})
             TARGET ScreenPlayWorkshopLib
             POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/"
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt" "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/"
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt"
+                    "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/"
             COMMAND ${CMAKE_COMMAND} -E copy_if_different "${STEAM_BINARY_PATH}" "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/"
-            COMMENT "Copying Steam files to macOS bundle"
-        )
+            COMMENT "Copying Steam files to macOS bundle")
     else()
         configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
         configure_file(${STEAM_BINARY_PATH} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
@@ -144,20 +144,20 @@ if(${SCREENPLAY_STEAM})
 
     if(${SCREENPLAY_TESTS})
         qt_add_executable(tst_ScreenPlayWorkshop src/tst_ScreenPlayWorkshop.cpp)
-        target_link_libraries( tst_ScreenPlayWorkshop
-            PRIVATE
-            Qt6::Quick
-            Qt6::QuickControls2
-            ScreenPlayLib
-            ScreenPlayLibplugin
-            ScreenPlayWorkshopLib
-            ScreenPlayWorkshopLibplugin
-            ScreenPlayCoreLib
-            ScreenPlayCoreLibplugin
-        )
+        target_link_libraries(
+            tst_ScreenPlayWorkshop
+            PRIVATE Qt6::Quick
+                    Qt6::QuickControls2
+                    ScreenPlayLib
+                    ScreenPlayLibplugin
+                    ScreenPlayWorkshopLib
+                    ScreenPlayWorkshopLibplugin
+                    ScreenPlayCoreLib
+                    ScreenPlayCoreLibplugin)
 
         if(APPLE)
-            set_target_properties(tst_ScreenPlayWorkshop PROPERTIES RUNTIME_OUTPUT_DIRECTORY"${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
+            set_target_properties(tst_ScreenPlayWorkshop
+                                  PROPERTIES RUNTIME_OUTPUT_DIRECTORY"${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
         endif()
     endif()
 endif()

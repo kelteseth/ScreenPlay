@@ -14,7 +14,8 @@ def format_file_function(file):
     executable = "cmake-format"
     if os.name == 'nt':
         executable += ".exe"
-    os.system(" %s -c ../.cmake-format.py -i %s" % (executable, file))
+    config_path = os.path.join(util.repo_root_path(), ".cmake-format.py")
+    os.system(" %s -c %s -i %s" % (executable, config_path, file))
     print("Format: ", file)
 
 
@@ -22,8 +23,9 @@ def check_format_file_function(file):
     executable = "cmake-format"
     if os.name == 'nt':
         executable += ".exe"
-    result = os.system(" %s -c ../.cmake-format.py --check %s" %
-                       (executable, file))
+    config_path = os.path.join(util.repo_root_path(), ".cmake-format.py")
+    result = os.system(" %s -c %s --check %s" %
+                       (executable, config_path, file))
 
     # If the return code is non-zero, the file isn't formatted correctly
     if result != 0:

@@ -59,8 +59,8 @@ public:
     };
     Q_ENUM(ScreenPlayItem)
 
-    QUrl absoluteStoragePath() const   {        return m_absoluteStoragePath;    }
-        void init();
+    QUrl absoluteStoragePath() const { return m_absoluteStoragePath; }
+    void init();
 
 public slots:
     void loadInstalledContent();

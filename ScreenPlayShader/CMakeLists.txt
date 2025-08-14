@@ -22,7 +22,6 @@ set(QML_PLUGIN_SOURCES src/shaderlibrary.cpp)
 set(QML_PLUGIN_HEADER src/shaderlibrary.h)
 
 set(SHADER
-
     # cmake-format: sort
     shaders/lightning.frag
     shaders/lightning.vert
@@ -31,7 +30,6 @@ set(SHADER
     shaders/wobble.frag)
 
 set(RESOURCES
-
     # cmake-format: sort
     assets/mask_01.png
     assets/Shadertoy_Bayer.png
@@ -41,7 +39,12 @@ set(RESOURCES
 
 qt_add_library(ScreenPlayShaderLib STATIC)
 target_compile_features(ScreenPlayShaderLib PRIVATE cxx_std_23)
-target_link_libraries(ScreenPlayShaderLib PUBLIC Qt6::Core Qt6::Quick ScreenPlayCoreLib ScreenPlayCoreLibplugin)
+target_link_libraries(
+    ScreenPlayShaderLib
+    PUBLIC Qt6::Core
+           Qt6::Quick
+           ScreenPlayCoreLib
+           ScreenPlayCoreLibplugin)
 target_include_directories(ScreenPlayShaderLib PUBLIC src/)
 
 qt_add_qml_module(
@@ -74,8 +77,8 @@ if(${SCREENPLAY_TESTS})
     target_link_libraries(
         tst_ScreenPlayShader
         PRIVATE Qt::Quick
-        ScreenPlayShaderLib
-        ScreenPlayShaderLibplugin
-        ScreenPlayCoreLib
-        ScreenPlayCoreLibplugin)
+                ScreenPlayShaderLib
+                ScreenPlayShaderLibplugin
+                ScreenPlayCoreLib
+                ScreenPlayCoreLibplugin)
 endif()
