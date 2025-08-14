@@ -49,7 +49,6 @@ WallpaperExit::Code WinWindow::start()
     }
     qRegisterMetaType<WindowsDesktopProperties*>();
     qRegisterMetaType<WinWindow*>();
-    // qmlRegisterSingletonInstance<WinWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", this);
 
     m_quickView->setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
     configureWindowGeometry();
