@@ -9,9 +9,9 @@ Item {
     id: root
     property Item modalSource
     StackView.onActivated: {
-        wizardContentWrapper.state = "in";
         stackView.push("qrc:/qt/qml/ScreenPlay/qml/Create/Wizards/ExampleContent.qml");
     }
+
     CreateSidebar {
         id: sidebar
         stackView: stackView
@@ -24,14 +24,12 @@ Item {
     }
     Item {
         id: wizardContentWrapper
-        width: parent.width - (sidebar.width + (anchors.margins * 2))
-        height: parent.height - (anchors.margins * 2)
-        opacity: 0
         anchors {
             margins: 10
+            left: sidebar.right
             top: parent.top
             right: parent.right
-            topMargin: 200
+            bottom: parent.bottom
         }
         Rectangle {
             radius: 4
@@ -47,6 +45,7 @@ Item {
                     fill: parent
                     margins: 20
                 }
+                initialItem: Item {} // Needed for some reason for animation to trigger with StackView.onActivated
                 pushEnter: Transition {
                     PropertyAnimation {
                         property: "opacity"
@@ -84,34 +83,5 @@ Item {
                 elevation: 6
             }
         }
-        states: [
-            State {
-                name: "in"
-                PropertyChanges {
-                    wizardContentWrapper.anchors.topMargin: wizardContentWrapper.anchors.margins
-                    wizardContentWrapper.opacity: 1
-                }
-            }
-        ]
-        transitions: [
-            Transition {
-                from: ""
-                to: "in"
-                reversible: true
-                SequentialAnimation {
-                    PropertyAnimation {
-                        target: wizardContentWrapper
-                        duration: 400
-                        easing.type: Easing.OutCubic
-                        properties: "anchors.topMargin, opacity"
-                    }
-                    ScriptAction {
-                        script: {
-                            wizardContentWrapper.anchors.left = sidebar.right;
-                        }
-                    }
-                }
-            }
-        ]
     }
 }
