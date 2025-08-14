@@ -422,8 +422,6 @@ if(APPLE)
     # Specify the name of the icon file for the bundle
     set(MACOSX_BUNDLE_ICON_FILE ScreenPlay.icns) # Only the file name
 
-    # Fore some reason this only works with maually copy configure_file(${APP_ICON_MACOSX} "${RESOURCES_DIR}/ScreenPlay.icns" COPYONLY)
-
     # Creates a ScreenPlay.app Note: Do NOT set MACOSX_BUNDLE TRUE for additional targets
     set_target_properties(
         ScreenPlayApp
@@ -451,12 +449,21 @@ if(APPLE)
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/ffprobe"
         "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/")
 
-    # fonts
-    include(CopyRecursive)
-    set(FONTS_OUT_DIR "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/Resources/fonts")
-    file(MAKE_DIRECTORY ${FONTS_OUT_DIR})
-    copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.ttf")
-    copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.otf")
+    # Copy app icon to bundle
+    add_custom_command(
+        TARGET ScreenPlayApp
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${APP_ICON_MACOSX}"
+        "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/Resources/ScreenPlay.icns")
+
+    # Copy fonts to bundle
+    add_custom_command(
+        TARGET ScreenPlayApp
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different
+        "${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts"
+        "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/Resources/fonts"
+        COMMENT "Copying fonts to macOS bundle")
 endif()
 
 # Copy Content folder with examples

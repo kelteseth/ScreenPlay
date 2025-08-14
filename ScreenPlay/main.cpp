@@ -53,7 +53,6 @@ int main(int argc, char* argv[])
     QGuiApplication::setApplicationName("ScreenPlay");
     QGuiApplication::setApplicationVersion(QString(SCREENPLAY_VERSION));
     QGuiApplication::setQuitOnLastWindowClosed(false);
-    QGuiApplication::setWindowIcon(QIcon(":/qt/qml/ScreenPlay/assets/icons/app.ico"));
     if (isAnotherScreenPlayInstanceRunning()) {
         return -5;
     }
