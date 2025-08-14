@@ -128,11 +128,15 @@ qt_add_qml_module(
 
 if(${SCREENPLAY_STEAM})
     if(APPLE)
-        set(MACOS_FRAMEWORKS_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ScreenPlay.app/Contents/MacOS/)
-        file(MAKE_DIRECTORY ${MACOS_FRAMEWORKS_DIR})
-
-        configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${MACOS_FRAMEWORKS_DIR} COPYONLY)
-        configure_file(${STEAM_BINARY_PATH} ${MACOS_FRAMEWORKS_DIR} COPYONLY)
+        # Copy Steam files after the ScreenPlayApp target is built (when the .app bundle exists)
+        add_custom_command(
+            TARGET ScreenPlayWorkshopLib
+            POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/"
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt" "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/"
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${STEAM_BINARY_PATH}" "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/"
+            COMMENT "Copying Steam files to macOS bundle"
+        )
     else()
         configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
         configure_file(${STEAM_BINARY_PATH} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)

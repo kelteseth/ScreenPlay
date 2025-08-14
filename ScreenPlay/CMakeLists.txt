@@ -545,14 +545,30 @@ if(${SCREENPLAY_STEAM})
 endif()
 
 if(${SCREENPLAY_GODOT})
-    include(ExportGodot)
-
     if(WIN32)
-        check_and_build_godot("${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
-    elseif(APPLE)
-        check_and_build_godot("$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS")
-    elseif(UNIX)
-        check_and_build_godot("${CMAKE_BINARY_DIR}/ScreenPlay")
+        add_custom_command(
+            TARGET ScreenPlayApp
+            POST_BUILD
+            COMMAND uv run Tools/build_godot.py --build_path "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
+            WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+            COMMENT "Building ScreenPlayWallpaperGodot for Windows"
+        )
+    # elseif(APPLE)
+    #     add_custom_command(
+    #         TARGET ScreenPlayApp
+    #         POST_BUILD
+    #         COMMAND uv run Tools/build_godot.py --build_path "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS"
+    #         WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+    #         COMMENT "Building ScreenPlayWallpaperGodot for macOS"
+    #     )
+    # elseif(UNIX)
+    #     add_custom_command(
+    #         TARGET ScreenPlayApp
+    #         POST_BUILD
+    #         COMMAND uv run Tools/build_godot.py --build_path "${CMAKE_BINARY_DIR}/ScreenPlay"
+    #         WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+    #         COMMENT "Building ScreenPlayWallpaperGodot for Linux"
+    #     )
     endif()
 endif()
 
