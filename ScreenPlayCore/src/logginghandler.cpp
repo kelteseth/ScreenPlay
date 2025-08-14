@@ -64,15 +64,21 @@ void LoggingHandler::start()
 {
     Q_ASSERT(!m_logFileName.isEmpty());
 
-    QDir directory;
+#ifdef Q_OS_MACOS
+    QString cacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+    QString logDirPath = cacheDir + "/Logs";
+#else
     QString cacheDir = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
-    directory = QDir(cacheDir + "/ScreenPlay/Logs");
-    if (!directory.exists()) {
-        if (!directory.mkpath(directory.path())) {
-            qCritical() << "Unable to create logging path at:" << directory.path();
-            return;
-        }
+    QString logDirPath = cacheDir + "/ScreenPlay/Logs";
+#endif
+    
+    QDir directory;
+    if (!directory.mkpath(logDirPath)) {
+        qCritical() << "Unable to create logging path at:" << logDirPath;
+        return;
     }
+    
+    directory = QDir(logDirPath);
 
     QString filePath;
     for (++logFileCounter(); logFileCounter() < 1000; ++logFileCounter()) {
