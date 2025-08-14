@@ -270,3 +270,4 @@ cython_debug/
 /.vs/VSWorkspaceState.json
 Build/*
 /ScreenPlay/assets/wizardfiles/godot/.godot/*
+uv.lock

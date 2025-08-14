@@ -3,7 +3,7 @@ standalone_windows:
   extends:
     - .base_windows_build
   script:
-    - python Tools/build.py --preset=windows-deploy-release
+    - uv run python Tools/build.py --preset=windows-deploy-release
   artifacts:
     paths:
       - Build/ScreenPlay-*-x64-windows-Release.zip
@@ -15,7 +15,7 @@ standalone_osx:
   extends:
     - .base_osx_build
   script:
-    - python3 Tools/build.py --preset=mac-deploy-release
+    - uv run python Tools/build.py --preset=mac-deploy-release
   artifacts:
     paths:
       - Build/ScreenPlay-*-64-osx-universal-release.zip
@@ -27,7 +27,7 @@ standalone_linux:
   extends:
     - .base_linux_build
   script:
-    - python3 Tools/build.py --preset=linux-deploy-release
+    - uv run python Tools/build.py --preset=linux-deploy-release
   artifacts:
     paths:
       - Build/ScreenPlay-*-x64-linux-release.zip

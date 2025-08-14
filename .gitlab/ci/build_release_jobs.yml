@@ -3,7 +3,7 @@ steam_linux:
   extends:
     - .base_linux_build
   script:
-    - python3 Tools/build.py --preset=linux-deploy-release
+    - uv run python Tools/build.py --preset=linux-deploy-release
   rules:
     - if: "$CI_COMMIT_TAG"
   artifacts:
@@ -16,7 +16,7 @@ steam_windows:
   extends:
     - .base_windows_build
   script:
-    - python Tools/build.py --preset=windows-deploy-release
+    - uv run python Tools/build.py --preset=windows-deploy-release
   rules:
     - if: "$CI_COMMIT_TAG"
   artifacts:
@@ -29,7 +29,7 @@ steam_osx:
   extends:
     - .base_osx_build
   script:
-    - python3 Tools/build.py --preset=mac-deploy-release --sign_osx
+    - uv run python Tools/build.py --preset=mac-deploy-release --sign_osx
   rules:
     - if: "$CI_COMMIT_TAG"
   artifacts:
@@ -52,8 +52,11 @@ release_job:
     - if: "$CI_COMMIT_TAG" # Run this job when a tag is created
       when: on_success # Only when all previous jobs succeed
   script:
+    # Install uv
+    - curl -LsSf https://astral.sh/uv/install.sh | sh
+    - source $HOME/.local/bin/env
     # 1. Combining sha256 files into a SHA512-SUMS.txt
-    - python3 Tools/create_sha512.py
+    - uv run python Tools/create_sha512.py
       # 2. Install dependencies and handle the folder
     - apt update
     - apt install -y sshpass ssh curl

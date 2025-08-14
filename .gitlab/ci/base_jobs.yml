@@ -2,9 +2,9 @@
   interruptible: true
   dependencies: []
   before_script:
-    - python -m pip install -U pip wheel
-    - python -m pip install -U -r Tools/requirements.txt
-    - python Tools/setup.py
+    - powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+    - uv sync
+    - uv run python Tools/setup.py
     - git submodule sync --recursive
     - git submodule update --init --recursive
   tags:
@@ -35,11 +35,11 @@
     - echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ noble main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null
     - apt update -y
     - apt install cmake -y
-    - python3 -m venv env
-    - source env/bin/activate
-    - python3 -m pip install -U pip
-    - python3 -m pip install -U -r Tools/requirements.txt
-    - python3 Tools/setup.py
+    # Install uv
+    - curl -LsSf https://astral.sh/uv/install.sh | sh
+    - source $HOME/.local/bin/env
+    - uv sync
+    - uv run python Tools/setup.py
     - git submodule sync --recursive
     - git submodule update --init --recursive
     - chmod +x Tools/setup_linux.sh 
@@ -61,11 +61,11 @@
     # Make sure to use the correct Python version
     - export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
     - which python3
-    - python3 -m venv .venv
-    - source .venv/bin/activate
-    - pip3 install -U pip
-    - pip3 install -U -r Tools/requirements.txt
-    - python3 Tools/setup.py
+    # Install uv
+    - curl -LsSf https://astral.sh/uv/install.sh | sh
+    - source $HOME/.local/bin/env
+    - uv sync
+    - uv run python Tools/setup.py
     - git submodule sync --recursive
     - git submodule update --init --recursive
   tags:

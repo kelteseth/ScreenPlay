@@ -14,143 +14,47 @@
             "detail": "CMake template build task"
         },
         {
-            "type": "process",
+            "type": "shell",
             "label": "🛫 Run setup.py",
-            "command": "${workspaceFolder}/.venv/bin/python",
-            "windows": {
-                "command": "${workspaceFolder}/.venv/Scripts/python.exe"
-            },
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "options": {
-                "cwd": "${workspaceFolder}/Tools"
-            },
-            "args": [
-                "setup.py"
-            ]
+            "command": "uv run Tools/setup.py",
         },
         {
-            "type": "process",
+            "type": "shell",
             "label": "⚙️ Build Godot Wallpaper plugin",
-            "command": "${workspaceFolder}/.venv/bin/python",
-            "windows": {
-                "command": "${workspaceFolder}/.venv/Scripts/python.exe"
-            },
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "options": {
-                "cwd": "${workspaceFolder}/Tools"
-            },
-            "args": [
-                "build_godot.py",
-                "--build_path",
-                "${command:cmake.buildDirectory}/bin"
-            ]
+            "command": "uv run Tools/build_godot.py --build_path ${command:cmake.buildDirectory}/bin",
         },
         {
-            "type": "process",
+            "type": "shell",
             "label": "⚙️ Build ScreenPlay release, with deploy and steam enabled",
-            "command": "${workspaceFolder}/.venv/bin/python",
             "windows": {
-                "command": "${workspaceFolder}/.venv/Scripts/python.exe"
+                "command": "uv run Tools/build.py  --preset=windows-deploy-release"
             },
-            "group": {
-                "kind": "build",
-                "isDefault": true
+            "linux":{
+                "command": "uv run Tools/build.py  --preset=linux-deploy-release"
             },
-            "options": {
-                "cwd": "${workspaceFolder}/Tools"
-            },
-            "osx": {
-                "args": [
-                    "build.py",
-                    "--type=release",
-                    "--deploy-version",
-                    "--steam"
-                ]
-            },
-            "args": [
-                "build.py",
-                "--type=release",
-                "--deploy-version",
-                "--steam"
-            ]
+            "osx":{
+                "command": "uv run Tools/build.py  --preset=mac-deploy-release"
+            }
         },
         {
-            "type": "process",
+            "type": "shell",
             "label": "📃 Format Cpp files",
-            "command": "${workspaceFolder}/.venv/bin/python",
-            "windows": {
-                "command": "${workspaceFolder}/.venv/Scripts/python.exe"
-            },
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "options": {
-                "cwd": "${workspaceFolder}/Tools"
-            },
-            "args": [
-                "check_format_cpp.py"
-            ]
+            "command": "uv run Tools/check_format_cpp.py",
         },
         {
-            "type": "process",
+            "type": "shell",
             "label": "📃 Format CMake files",
-            "command": "${workspaceFolder}/.venv/bin/python",
-            "windows": {
-                "command": "${workspaceFolder}/.venv/Scripts/python.exe"
-            },
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "options": {
-                "cwd": "${workspaceFolder}/Tools"
-            },
-            "args": [
-                "check_format_cmake.py"
-            ]
+            "command": "uv run Tools/check_format_cmake.py",
         },
         {
-            "type": "process",
+            "type": "shell",
             "label": "📃 Format Qml files",
-            "command": "${workspaceFolder}/.venv/bin/python",
-            "windows": {
-                "command": "${workspaceFolder}/.venv/Scripts/python.exe"
-            },
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "options": {
-                "cwd": "${workspaceFolder}/Tools"
-            },
-            "args": [
-                "check_format_qml.py"
-            ]
+            "command": "uv run Tools/check_format_qml.py",
         },
         {
-            "type": "process",
+            "type": "shell",
             "label": "🗨️ Update Qt *.ts translations",
-            "command": "${workspaceFolder}/.venv/bin/python",
-            "windows": {
-                "command": "${workspaceFolder}/.venv/Scripts/python.exe"
-            },
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "options": {
-                "cwd": "${workspaceFolder}/Tools"
-            },
-            "args": [
-                "update_translations.py"
-            ]
+            "command": "uv run Tools/update_translations.py",
         }
     ]
 }

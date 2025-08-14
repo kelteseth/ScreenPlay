@@ -1,0 +1,15 @@
+[project]
+name = "screenplay-tools"
+version = "0.1.0"
+description = "ScreenPlay build and development tools"
+requires-python = ">=3.8"
+dependencies = [
+    "cmake-format",
+    "aqtinstall", 
+    "requests",
+    "setuptools",  # distutils
+    "termcolor",
+]
+
+[tool.uv]
+package = false
