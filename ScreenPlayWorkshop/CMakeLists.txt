@@ -137,9 +137,21 @@ if(${SCREENPLAY_STEAM})
                     "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/"
             COMMAND ${CMAKE_COMMAND} -E copy_if_different "${STEAM_BINARY_PATH}" "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/"
             COMMENT "Copying Steam files to macOS bundle")
+        
+        # Install Steam files for macOS
+        install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt"
+                DESTINATION "ScreenPlay.app/Contents/MacOS/")
+        install(FILES "${STEAM_BINARY_PATH}"
+                DESTINATION "ScreenPlay.app/Contents/MacOS/")
     else()
         configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
         configure_file(${STEAM_BINARY_PATH} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
+        
+        # Install Steam files for Windows/Linux
+        install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt"
+                DESTINATION "${CMAKE_INSTALL_BINDIR}")
+        install(FILES "${STEAM_BINARY_PATH}"
+                DESTINATION "${CMAKE_INSTALL_BINDIR}" )
     endif()
 
     if(${SCREENPLAY_TESTS})

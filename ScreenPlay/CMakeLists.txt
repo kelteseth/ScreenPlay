@@ -498,13 +498,6 @@ if(APPLE)
     add_dependencies(ScreenPlayApp screenplay_translations)
 endif()
 
-if(WIN32 AND ${SCREENPLAY_GODOT})
-    # Todo: Add Linux and Mac support
-    set(GODOT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/Godot")
-
-    configure_file(${GODOT_PATH}/${GODOT_EDITOR_NAME} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ COPYONLY)
-endif()
-
 if(${SCREENPLAY_STEAM})
     if(APPLE)
         # Add post-build commands for Steam integration
@@ -537,22 +530,6 @@ if(${SCREENPLAY_STEAM})
             COMMAND ${CMAKE_COMMAND} -E copy_if_different "${STEAM_BINARY_PATH}" "${OUT_DIR}")
 
         file(WRITE "${OUT_DIR}/steam_appid.txt" "672870")
-    endif()
-endif()
-
-if(${SCREENPLAY_GODOT})
-    if(WIN32)
-        add_custom_command(
-            TARGET ScreenPlayApp
-            POST_BUILD
-            COMMAND uv run Tools/build_godot.py --build_path "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
-            WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-            COMMENT "Building ScreenPlayWallpaperGodot for Windows")
-        # elseif(APPLE) add_custom_command( TARGET ScreenPlayApp POST_BUILD COMMAND uv run Tools/build_godot.py --build_path
-        # "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS" WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" COMMENT "Building
-        # ScreenPlayWallpaperGodot for macOS" ) elseif(UNIX) add_custom_command( TARGET ScreenPlayApp POST_BUILD COMMAND uv run
-        # Tools/build_godot.py --build_path "${CMAKE_BINARY_DIR}/ScreenPlay" WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" COMMENT "Building
-        # ScreenPlayWallpaperGodot for Linux" )
     endif()
 endif()
 
