@@ -18,8 +18,8 @@ standalone_osx:
     - uv run python Tools/build.py --preset=mac-deploy-release
   artifacts:
     paths:
-      - Build/ScreenPlay-*-64-osx-universal-release.zip
-      - Build/ScreenPlay-*-64-osx-universal-release.zip.sha256.txt
+      - Build/ScreenPlay-*-64-osx-universal-Release.zip
+      - Build/ScreenPlay-*-64-osx-universal-Release.zip.sha256.txt
     expire_in: 1 week
 
 standalone_linux:
@@ -30,6 +30,6 @@ standalone_linux:
     - uv run python Tools/build.py --preset=linux-deploy-release
   artifacts:
     paths:
-      - Build/ScreenPlay-*-x64-linux-release.zip
-      - Build/ScreenPlay-*-x64-linux-release.zip.sha256.txt
+      - Build/ScreenPlay-*-x64-linux-Release.zip
+      - Build/ScreenPlay-*-x64-linux-Release.zip.sha256.txt
     expire_in: 1 week
