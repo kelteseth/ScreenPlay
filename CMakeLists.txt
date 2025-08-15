@@ -92,7 +92,6 @@ else()
     set(GODOT_VERSION "v${GODOT_VERSION_MAJOR}.${GODOT_VERSION_MINOR}.${GODOT_VERSION_PATCH}-${GODOT_RELEASE_TYPE}")
 endif()
 
-
 option(QCORO_BUILD_TESTING "Build QCoro tests" OFF)
 option(QCORO_BUILD_EXAMPLES "Build QCoro examples" OFF)
 option(SCREENPLAY_STEAM "For FOSS distribution so we do not bundle proprietary code." ON)
@@ -166,14 +165,6 @@ endif()
 
 if(WIN32)
     add_subdirectory(ScreenPlaySysInfo)
-endif()
-
-if(${SCREENPLAY_INSTALLER})
-    if(APPLE)
-        include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/CreateDmgInstaller.cmake)
-    else()
-        include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/CreateIFWInstaller.cmake)
-    endif()
 endif()
 
 # Generate single deployment script after all targets are defined

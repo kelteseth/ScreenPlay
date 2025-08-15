@@ -544,5 +544,23 @@ install(
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
+# Install Content folder alongside the executable
+if(WIN32)
+    install(
+        DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../Content/"
+        DESTINATION "${CMAKE_INSTALL_BINDIR}/Content"
+        OPTIONAL)
+elseif(APPLE)
+    install(
+        DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../Content/"
+        DESTINATION "ScreenPlay.app/Contents/Resources/Content"
+        OPTIONAL)
+elseif(UNIX)
+    install(
+        DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../Content/"
+        DESTINATION "${CMAKE_INSTALL_BINDIR}/Content"
+        OPTIONAL)
+endif()
+
 register_qt_mac_app_name("ScreenPlay")
 register_qt_main_deployment(ScreenPlayApp)
