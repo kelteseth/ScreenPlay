@@ -28,7 +28,7 @@
     </message>
     <message>
         <source>Issue Tracker</source>
-        <translation>Rastreador de Problemas</translation>
+        <translation>Rastreador de problema</translation>
     </message>
     <message>
         <source>Contribute</source>
@@ -36,22 +36,22 @@
     </message>
     <message>
         <source>Steam Workshop</source>
-        <translation>Workshop do Steam</translation>
+        <translation>Oficina Steam</translation>
     </message>
 </context>
 <context>
     <name>ContentSettingsView</name>
     <message>
         <source>Timeline</source>
-        <translation>Linha do Tempo</translation>
+        <translation>Linha do tempo</translation>
     </message>
     <message>
         <source>Wallpaper Configuration</source>
-        <translation>Configuração de Papel de Parede</translation>
+        <translation>Configuração de Wallpaper</translation>
     </message>
     <message>
         <source>No active Wallpaper</source>
-        <translation>Nenhum papel de parede ativo</translation>
+        <translation>Nenhum Wallpaper ativo</translation>
     </message>
     <message>
         <source>Remove all</source>
@@ -59,7 +59,7 @@
     </message>
     <message>
         <source>running Wallpaper</source>
-        <translation>papel de parede em execução</translation>
+        <translation>Wallpaper em execução</translation>
     </message>
     <message>
         <source>No active Widgets</source>
@@ -74,15 +74,15 @@
     <name>CreateSidebar</name>
     <message>
         <source>Tools Overview</source>
-        <translation>Visão Geral das Ferramentas</translation>
+        <translation>Visão geral das ferramentas</translation>
     </message>
     <message>
         <source>GIF Wallpaper</source>
-        <translation>Papel de Parede GIF</translation>
+        <translation>Wallpaper GIF</translation>
     </message>
     <message>
         <source>QML Wallpaper</source>
-        <translation>Papel de Parede QML</translation>
+        <translation>Wallpaper QML</translation>
     </message>
     <message>
         <source>HTML5 Wallpaper</source>
@@ -90,7 +90,7 @@
     </message>
     <message>
         <source>Website Wallpaper</source>
-        <translation>Fundo para o Site</translation>
+        <translation>Wallpaper de site</translation>
     </message>
     <message>
         <source>QML Widget</source>
@@ -102,7 +102,7 @@
     </message>
     <message>
         <source>3D Engine Wallpaper (Godot 4.2)</source>
-        <translation>Papel de parede do Motor 3D (Godot 4.2)</translation>
+        <translation>Wallpaper de motor 3D (Godot 4.2)</translation>
     </message>
     <message>
         <source>Import Video</source>
@@ -113,23 +113,23 @@
     <name>CreateWallpaperFileSelect</name>
     <message>
         <source>Import Video Wallpaper</source>
-        <translation>Importar Papel de Parede em Vídeo</translation>
+        <translation>Importar Wallpaper de Vídeo</translation>
     </message>
     <message>
         <source>Invalid file type. Must be valid video!</source>
-        <translation>Tipo de arquivo inválido. Deve ser um vídeo válido!</translation>
+        <translation>Tipo de arquivo inválido. Deve ser um Vídeo válido!</translation>
     </message>
     <message>
         <source>Drag and drop your video here. Supported video formats are:
 
 %1</source>
-        <translation>Arraste e solte seu vídeo aqui. Os formatos de vídeo suportados são:
+        <translation>Arraste e solte seu Vídeo aqui. Os formatos de Vídeo suportados são:
 
 %1</translation>
     </message>
     <message>
         <source>Open Documentation</source>
-        <translation>Abrir Documentação</translation>
+        <translation>Abrir documentação</translation>
     </message>
     <message>
         <source>Select file</source>
@@ -155,15 +155,15 @@
     <name>CreateWallpaperSettings</name>
     <message>
         <source>Import Video Wallpaper - Select Codec</source>
-        <translation>Importar Papel de Parede em Vídeo - Selecionar Codec</translation>
+        <translation>Importar Wallpaper de Vídeo - Selecionar Codec</translation>
     </message>
     <message>
         <source>Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. We skip encoding if the input format matches the ouput format.</source>
-        <translation>Dependendo da configuração do seu PC, é melhor converter o seu papel de parede para um codec de vídeo específico. Nós pulamos a codificação se o formato de entrada corresponder ao formato de saída.</translation>
+        <translation>Dependendo da configuração do seu PC, é melhor converter o seu Wallpaper para um codec de Vídeo específico. Nós pulamos a codificação se o formato de entrada corresponder ao formato de saída.</translation>
     </message>
     <message>
         <source>Set your preffered video codec:</source>
-        <translation>Defina seu codec de vídeo preferido:</translation>
+        <translation>Defina seu codec de Vídeo preferido:</translation>
     </message>
     <message>
         <source>✨h.264 (Better for all hardware)</source>
@@ -179,11 +179,11 @@
     </message>
     <message>
         <source>Set video quality. Lower value means better quality.</source>
-        <translation>Defina a qualidade do vídeo. Um valor mais baixo significa melhor qualidade.</translation>
+        <translation>Defina a qualidade do Vídeo. Um valor mais baixo significa melhor qualidade.</translation>
     </message>
     <message>
         <source>Open Documentation</source>
-        <translation>Abrir Documentação</translation>
+        <translation>Abrir documentação</translation>
     </message>
     <message>
         <source>Start import</source>
@@ -198,15 +198,15 @@
     </message>
     <message>
         <source>Generating preview image...</source>
-        <translation>Gerando pré-visualização...</translation>
+        <translation>Gerando imagem de pré-visualização...</translation>
     </message>
     <message>
         <source>Generating preview thumbnail image...</source>
-        <translation>Gerando pré-visualização de miniaturas...</translation>
+        <translation>Gerando miniatura de pré-visualização...</translation>
     </message>
     <message>
         <source>Generating 5 second preview video...</source>
-        <translation>Gerando pré-visualização de vídeo de 5 segundos...</translation>
+        <translation>Gerando pré-visualização de Vídeo de 5 segundos...</translation>
     </message>
     <message>
         <source>Generating preview gif...</source>
@@ -218,23 +218,23 @@
     </message>
     <message>
         <source>Converting Video... This can take some time!</source>
-        <translation>Convertendo vídeo... Isso pode levar algum tempo!</translation>
+        <translation>Convertendo Vídeo... Isso pode levar algum tempo!</translation>
     </message>
     <message>
         <source>Converting Video ERROR!</source>
-        <translation>Erro de conversão de vídeo!</translation>
+        <translation>Erro de conversão de Vídeo!</translation>
     </message>
     <message>
         <source>Analyse Video ERROR!</source>
-        <translation>Erro de análise de vídeo!</translation>
+        <translation>Erro de análise de Vídeo!</translation>
     </message>
     <message>
         <source>Convert a video to a wallpaper</source>
-        <translation>Converter um vídeo para um plano de fundo</translation>
+        <translation>Converter um Vídeo para um Wallpaper</translation>
     </message>
     <message>
         <source>Generating preview video...</source>
-        <translation>Gerando vídeo de pré-visualização...</translation>
+        <translation>Gerando Vídeo de pré-visualização...</translation>
     </message>
     <message>
         <source>Name (required!)</source>
@@ -258,7 +258,7 @@
     </message>
     <message>
         <source>Save Wallpaper...</source>
-        <translation>Salvar o papel de parede...</translation>
+        <translation>Salvar o Wallpaper...</translation>
     </message>
 </context>
 <context>
@@ -269,7 +269,7 @@
     </message>
     <message>
         <source>Current Video Time</source>
-        <translation>Tempo atual do vídeo</translation>
+        <translation>Tempo atual do Vídeo</translation>
     </message>
     <message>
         <source>Fill Mode</source>
@@ -285,15 +285,15 @@
     </message>
     <message>
         <source>Contain</source>
-        <translation>Contém</translation>
+        <translation>Conter</translation>
     </message>
     <message>
         <source>Cover</source>
-        <translation>Capa</translation>
+        <translation>Cobrir</translation>
     </message>
     <message>
         <source>Scale Down</source>
-        <translation>Reduzir Escala</translation>
+        <translation>Reduzir escala</translation>
     </message>
 </context>
 <context>
@@ -309,8 +309,8 @@
     <message>
         <source>You have active Wallpaper.
 ScreenPlay will only quit if no Wallpaper are running.</source>
-        <translation>Você tem papel de parede ativo.
-O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</translation>
+        <translation>Você tem Wallpaper ativo.
+O ScreenPlay só fechará se nenhum Wallpaper estiver em execução.</translation>
     </message>
     <message>
         <source>You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the bottom right Tray-Icon.</source>
@@ -329,7 +329,7 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     <name>GifWallpaper</name>
     <message>
         <source>Import a Gif Wallpaper</source>
-        <translation>Importar um Papel de Parede Gif</translation>
+        <translation>Importar um Wallpaper Gif</translation>
     </message>
     <message>
         <source>Drop a *.gif file here or use 'Select file' below.</source>
@@ -345,11 +345,11 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     </message>
     <message>
         <source>Wallpaper name</source>
-        <translation>Nome do papel de parede</translation>
+        <translation>Nome do Wallpaper</translation>
     </message>
     <message>
         <source>Created By</source>
-        <translation>Criado Por</translation>
+        <translation>Criado por</translation>
     </message>
     <message>
         <source>Tags</source>
@@ -360,7 +360,7 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     <name>GodotWallpaper</name>
     <message>
         <source>Create a Godot Wallpaper</source>
-        <translation>Criar um Papel de Parede Godot</translation>
+        <translation>Criar um Wallpaper Godot</translation>
     </message>
     <message>
         <source>General</source>
@@ -368,42 +368,11 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     </message>
     <message>
         <source>Wallpaper name</source>
-        <translation>Nome do papel de parede</translation>
+        <translation>Nome do Wallpaper</translation>
     </message>
     <message>
         <source>Created By</source>
-        <translation>Criado Por</translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <translation>Descrição</translation>
-    </message>
-    <message>
-        <source>License &amp; Tags</source>
-        <translation>Licença &amp; Etiquetas</translation>
-    </message>
-    <message>
-        <source>Preview Image</source>
-        <translation>Imagem de Pré-visualização</translation>
-    </message>
-</context>
-<context>
-    <name>HTMLWallpaper</name>
-    <message>
-        <source>Create a HTML Wallpaper</source>
-        <translation>Criar um Papel de Parede HTML</translation>
-    </message>
-    <message>
-        <source>General</source>
-        <translation>Geral</translation>
-    </message>
-    <message>
-        <source>Wallpaper name</source>
-        <translation>Nome do papel de parede</translation>
-    </message>
-    <message>
-        <source>Created By</source>
-        <translation>Criado Por</translation>
+        <translation>Criado por</translation>
     </message>
     <message>
         <source>Description</source>
@@ -415,14 +384,45 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     </message>
     <message>
         <source>Preview Image</source>
-        <translation>Imagem de Pré-Visualização</translation>
+        <translation>Imagem de pré-visualização</translation>
+    </message>
+</context>
+<context>
+    <name>HTMLWallpaper</name>
+    <message>
+        <source>Create a HTML Wallpaper</source>
+        <translation>Criar um Wallpaper HTML</translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>Geral</translation>
+    </message>
+    <message>
+        <source>Wallpaper name</source>
+        <translation>Nome do Wallpaper</translation>
+    </message>
+    <message>
+        <source>Created By</source>
+        <translation>Criado por</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>Descrição</translation>
+    </message>
+    <message>
+        <source>License &amp; Tags</source>
+        <translation>Licença &amp; Tags</translation>
+    </message>
+    <message>
+        <source>Preview Image</source>
+        <translation>Imagem de pré-visualização</translation>
     </message>
 </context>
 <context>
     <name>HTMLWidget</name>
     <message>
-        <source>Create a HTML widget</source>
-        <translation>Criar um widget HTML</translation>
+        <source>Create a HTML Widget</source>
+        <translation>Criar um Widget HTML</translation>
     </message>
     <message>
         <source>General</source>
@@ -430,7 +430,7 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     </message>
     <message>
         <source>Widget name</source>
-        <translation>Nome do widget</translation>
+        <translation>Nome do Widget</translation>
     </message>
     <message>
         <source>Created by</source>
@@ -463,7 +463,7 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     </message>
     <message>
         <source>1. Set the duration your wallpaper should be visible</source>
-        <translation>1. Defina a duração que o seu papel de parede deve ficar visível</translation>
+        <translation>1. Defina a duração que o seu Wallpaper deve ficar visível</translation>
     </message>
     <message>
         <source>1. Set a Monitor to display the content</source>
@@ -471,11 +471,11 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     </message>
     <message>
         <source>2. Set a Monitor to display the content</source>
-        <translation>2. Defina um Monitor para exibir o conteúdo</translation>
+        <translation>2. Defina um monitor para exibir o conteúdo</translation>
     </message>
     <message>
         <source>No active timeline to remove wallpaper</source>
-        <translation>Nenhuma linha do tempo ativa para remover o papel de parede</translation>
+        <translation>Nenhuma linha do tempo ativa para remover o Wallpaper</translation>
     </message>
     <message>
         <source>Headline</source>
@@ -483,11 +483,11 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     </message>
     <message>
         <source>2. Set Wallpaper</source>
-        <translation>2. Definir Papel de Parede</translation>
+        <translation>2. Definir Wallpaper</translation>
     </message>
     <message>
         <source>3. Set Wallpaper</source>
-        <translation>3. Definir Papel de Parede</translation>
+        <translation>3. Definir Wallpaper</translation>
     </message>
     <message>
         <source>You are not allowed to do that!</source>
@@ -525,7 +525,7 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     </message>
     <message>
         <source>Search for Wallpaper &amp; Widgets</source>
-        <translation>Buscar Papéis de Parede e Widgets</translation>
+        <translation>Buscar Wallpapers &amp; Widgets</translation>
     </message>
 </context>
 <context>
@@ -540,15 +540,15 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     </message>
     <message>
         <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
-        <translation>Obtenha mais papel de parede e widgets através da oficina do Steam!</translation>
+        <translation>Obtenha mais Wallpaper &amp; Widgets através da oficina do Steam!</translation>
     </message>
     <message>
         <source>Edit Wallpaper</source>
-        <translation>Editar Papel de Parede</translation>
+        <translation>Editar Wallpaper</translation>
     </message>
     <message>
         <source>Open containing folder</source>
-        <translation>Abrir pasta contendo</translation>
+        <translation>Abrir local do arquivo</translation>
     </message>
     <message>
         <source>Export</source>
@@ -556,15 +556,15 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     </message>
     <message>
         <source>Remove Item</source>
-        <translation>Remover Item</translation>
+        <translation>Remover item</translation>
     </message>
     <message>
         <source>Remove via Workshop</source>
-        <translation>Remover via Workshop</translation>
+        <translation>Remover via oficina</translation>
     </message>
     <message>
         <source>Open Workshop Page</source>
-        <translation>Abrir Página do Workshop</translation>
+        <translation>Abrir página da oficina</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this item?</source>
@@ -572,7 +572,7 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     </message>
     <message>
         <source>Export Content...</source>
-        <translation>Exportar Conteúdo...</translation>
+        <translation>Exportar conteúdo...</translation>
     </message>
     <message>
         <source>We only support adding one item at once.</source>
@@ -584,18 +584,18 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     </message>
     <message>
         <source>Import Content...</source>
-        <translation>Importar Conteúdo...</translation>
+        <translation>Importar conteúdo...</translation>
     </message>
 </context>
 <context>
     <name>InstalledWelcomeScreen</name>
     <message>
         <source>Get free Widgets and Wallpaper via the Steam Workshop</source>
-        <translation>Obtenha widgets e papéis de parede gratuitos através da Oficina Steam</translation>
+        <translation>Obtenha Widgets e Wallpapers gratuitos através da Oficina Steam</translation>
     </message>
     <message>
         <source>Browse the Steam Workshop</source>
-        <translation>Navegar na Oficina Steam</translation>
+        <translation>Navegar na oficina Steam</translation>
     </message>
     <message>
         <source>Get content via our forum</source>
@@ -609,8 +609,8 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
 <context>
     <name>LineIndicator</name>
     <message>
-        <source>You cannot remove the last timeline. There must always be 🌩️ a timeline wallpaper.</source>
-        <translation>Você não pode remover a última linha do tempo. Sempre deve haver 🌩️ um papel de parede da linha do tempo.</translation>
+        <source>You cannot remove the last timeline. There must always be 🌩 a timeline wallpaper.</source>
+        <translation>Você não pode remover a última linha do tempo. Sempre deve haver 🌩 um Wallpaper da linha do tempo.</translation>
     </message>
 </context>
 <context>
@@ -667,42 +667,42 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     </message>
     <message>
         <source>Mute/Unmute all Wallpaper</source>
-        <translation>Silenciar/Ativar Som de Todos os Papéis de Parede</translation>
+        <translation>Silenciar/Ativar som de todos os Wallpapers</translation>
     </message>
     <message>
         <source>Pause/Play all Wallpaper</source>
-        <translation>Pausar/Reproduzir todos os Papéis de Parede</translation>
+        <translation>Pausar/Reproduzir todos os Wallpapers</translation>
     </message>
     <message>
         <source>Get ScreenPlay Pro 3D Wallpaper and Timelines!</source>
-        <translation>Baixe o Wallpaper e os Cronogramas do ScreenPlay Pro 3D!</translation>
+        <translation>Baixe o Wallpaper e os cronogramas do ScreenPlay Pro 3D!</translation>
     </message>
     <message>
         <source>ScreenPlay Pro Active</source>
-        <translation>ScreenPlay Pro Ativo</translation>
+        <translation>ScreenPlay Pro ativo</translation>
     </message>
     <message>
         <source>ScreenPlay ULTRA Active</source>
-        <translation>ScreenPlay ULTRA Ativo</translation>
+        <translation>ScreenPlay ULTRA ativo</translation>
     </message>
     <message>
         <source>Stop All Running Content</source>
-        <translation>Parar Todo Conteúdo em Execução</translation>
+        <translation>Parar todo conteúdo em execução</translation>
     </message>
     <message>
         <source>Configure Content</source>
-        <translation>Configurar Conteúdo</translation>
+        <translation>Configurar conteúdo</translation>
     </message>
     <message>
         <source>No Active Content</source>
-        <translation>Nenhum Conteúdo Ativo</translation>
+        <translation>Nenhum conteúdo ativo</translation>
     </message>
 </context>
 <context>
     <name>QMLWallpaper</name>
     <message>
         <source>Create a QML Wallpaper</source>
-        <translation>Criar um Papel de Parede QML</translation>
+        <translation>Criar um Wallpaper QML</translation>
     </message>
     <message>
         <source>General</source>
@@ -710,11 +710,11 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     </message>
     <message>
         <source>Wallpaper name</source>
-        <translation>Nome do papel de parede</translation>
+        <translation>Nome do Wallpaper</translation>
     </message>
     <message>
         <source>Created By</source>
-        <translation>Criado Por</translation>
+        <translation>Criado por</translation>
     </message>
     <message>
         <source>Description</source>
@@ -722,25 +722,25 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     </message>
     <message>
         <source>License &amp; Tags</source>
-        <translation>Licença e Etiquetas</translation>
+        <translation>Licença &amp; Tags</translation>
     </message>
     <message>
         <source>Preview Image</source>
-        <translation>Imagem de Pré-visualização</translation>
+        <translation>Imagem de pré-visualização</translation>
     </message>
 </context>
 <context>
     <name>QMLWallpaperMain</name>
     <message>
         <source>My ScreenPlay Wallpaper 🚀</source>
-        <translation>Meu Papel de Parede ScreenPlay 🚀</translation>
+        <translation>Meu Wallpaper ScreenPlay 🚀</translation>
     </message>
 </context>
 <context>
     <name>QMLWidget</name>
     <message>
-        <source>Create a QML widget</source>
-        <translation>Criar um widget QML</translation>
+        <source>Create a QML Widget</source>
+        <translation>Criar um Widget QML</translation>
     </message>
     <message>
         <source>General</source>
@@ -748,7 +748,7 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     </message>
     <message>
         <source>Widget name</source>
-        <translation>Nome do widget</translation>
+        <translation>Nome do Widget</translation>
     </message>
     <message>
         <source>Created by</source>
@@ -781,7 +781,7 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     </message>
     <message>
         <source>Could not write %1</source>
-        <translation>Não foi possível escrever %1</translation>
+        <translation>Não foi possível gravar %1</translation>
     </message>
     <message>
         <source>Could not write main.qml</source>
@@ -797,11 +797,11 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     </message>
     <message>
         <source>Could not write index.html</source>
-        <translation>Não foi possível escrever index.html</translation>
+        <translation>Não foi possível gravar index.html</translation>
     </message>
     <message>
-        <source>Could copy preview thumbnail</source>
-        <translation>Poderia copiar a miniatura de pré-visualização</translation>
+        <source>Could not copy preview thumbnail</source>
+        <translation>Não foi possível copiar a miniatura de pré-visualização</translation>
     </message>
     <message>
         <source>Could not write QmlProject.qmlproject</source>
@@ -817,15 +817,15 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     </message>
     <message>
         <source>Could not write wallpaper.tscn</source>
-        <translation>Não foi possível escrever wallpaper.tscn</translation>
+        <translation>Não foi possível gravar wallpaper.tscn</translation>
     </message>
     <message>
         <source>Could not write export_presets.cfg</source>
-        <translation>Não foi possível escrever export_presets.cfg</translation>
+        <translation>Não foi possível gravar export_presets.cfg</translation>
     </message>
     <message>
         <source>Could not copy gif</source>
-        <translation>Não foi possível copiar o gif</translation>
+        <translation>Não foi possível copiar o GIF</translation>
     </message>
 </context>
 <context>
@@ -833,8 +833,8 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     <message>
         <source>✅ 3D Wallpaper
 ✅ Wallpaper Timeline</source>
-        <translation>✅ Papel de Parede 3D
-✅ Linha do Tempo do Papel de Parede</translation>
+        <translation>✅ Wallpaper 3D
+✅ Linha do Tempo do Wallpaper</translation>
     </message>
     <message>
         <source>Get ScreenPlay Pro</source>
@@ -904,7 +904,7 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     </message>
     <message>
         <source>System Default</source>
-        <translation>Padrão do Sistema</translation>
+        <translation>Padrão do sistema</translation>
     </message>
     <message>
         <source>Dark</source>
@@ -916,23 +916,23 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     </message>
     <message>
         <source>Wallpaper and Widgets</source>
-        <translation>Papel de parede e Widgets</translation>
+        <translation>Wallpaper e Widgets</translation>
     </message>
     <message>
         <source>Pause wallpaper video rendering while another app is in the foreground.</source>
-        <translation>Pausar a renderização do vídeo de fundo enquanto outro aplicativo está em primeiro plano.</translation>
+        <translation>Pausar a renderização do Wallpaper de Vídeo enquanto outro aplicativo está em primeiro plano.</translation>
     </message>
     <message>
         <source>Limitations: This setting is Windows only, currently only works if you have exactly one monitor connected, and is limited to wallpapers with no audio. Wallpaper restart is required, when changing this setting!</source>
-        <translation>Limitações: Esta configuração é exclusiva para Windows, atualmente funciona apenas se você tiver exatamente um monitor conectado e é limitada a papéis de parede sem áudio. É necessário reiniciar o papel de parede ao mudar esta configuração!</translation>
+        <translation>Limitações: Esta configuração é exclusiva para Windows, atualmente funciona apenas se você tiver exatamente um monitor conectado e é limitada a Wallpapers sem áudio. É necessário reiniciar o Wallpaper ao mudar esta configuração!</translation>
     </message>
     <message>
         <source>Default Wallpaper Fill Mode</source>
-        <translation>Modo Padrão de Preenchimento de Papel de Parede</translation>
+        <translation>Modo padrão de preenchimento de Wallpaper</translation>
     </message>
     <message>
         <source>Set this property to define how the video is scaled to fit the target area.</source>
-        <translation>Defina esta propriedade para determinar como o vídeo é escalado para se ajustar à área de destino.</translation>
+        <translation>Defina esta propriedade para determinar como o Vídeo é escalado para se ajustar à área de destino.</translation>
     </message>
     <message>
         <source>Stretch</source>
@@ -944,15 +944,15 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     </message>
     <message>
         <source>Contain</source>
-        <translation>Contém</translation>
+        <translation>Conter</translation>
     </message>
     <message>
         <source>Cover</source>
-        <translation>Capa</translation>
+        <translation>Cobrir</translation>
     </message>
     <message>
-        <source>Scale-Down</source>
-        <translation>Reduzir Escala</translation>
+        <source>Scale Down</source>
+        <translation>Reduzir escala</translation>
     </message>
     <message>
         <source>About</source>
@@ -972,11 +972,11 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     </message>
     <message>
         <source>Open Changelog</source>
-        <translation>Abrir Registro de Mudanças</translation>
+        <translation>Abrir registro de mudanças</translation>
     </message>
     <message>
         <source>Third Party Software</source>
-        <translation>Software de Terceiros</translation>
+        <translation>Software de terceiros</translation>
     </message>
     <message>
         <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
@@ -1000,7 +1000,7 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     </message>
     <message>
         <source>Data Protection</source>
-        <translation>Proteção de Dados</translation>
+        <translation>Proteção de dados</translation>
     </message>
     <message>
         <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
@@ -1015,11 +1015,11 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     <name>StartInfo</name>
     <message>
         <source>Free tools to help you to create wallpaper</source>
-        <translation>Ferramentas gratuitas para te ajudar a criar papel de parede</translation>
+        <translation>Ferramentas gratuitas para te ajudar a criar Wallpaper</translation>
     </message>
     <message>
-        <source>Below you can find tools to create wallaper, beyond the tools that ScreenPlay provides for you!</source>
-        <translation>Abaixo você pode encontrar ferramentas para criar papéis de parede, além das ferramentas que o ScreenPlay oferece para você!</translation>
+        <source>Below you can find tools to create wallpaper, beyond the tools that ScreenPlay provides for you!</source>
+        <translation>Abaixo você pode encontrar ferramentas para criar Wallpaper, além das ferramentas que o ScreenPlay oferece para você!</translation>
     </message>
 </context>
 <context>
@@ -1034,7 +1034,7 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     </message>
     <message>
         <source>❌ Reset</source>
-        <translation>❌ Redefinir</translation>
+        <translation>❌ Reiniciar</translation>
     </message>
 </context>
 <context>
@@ -1069,15 +1069,15 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     </message>
     <message>
         <source>Change Wallpaper settings</source>
-        <translation>Alterar configurações de papel de parede</translation>
+        <translation>Alterar configurações de Wallpaper</translation>
     </message>
     <message>
         <source>Browse Workshop</source>
-        <translation>Navegar na Oficina</translation>
+        <translation>Navegar na oficina</translation>
     </message>
     <message>
         <source>Create new Wallpaper or Widgets</source>
-        <translation>Criar novo Papel de Parede ou Widgets</translation>
+        <translation>Criar novo Wallpaper ou Widgets</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -1085,18 +1085,18 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     </message>
     <message>
         <source>Forums and Help</source>
-        <translation>Fóruns e Ajuda</translation>
+        <translation>Fóruns e ajuda</translation>
     </message>
     <message>
         <source>Frequently Asked Questions (FAQ)</source>
-        <translation>Perguntas Frequentes (FAQ)</translation>
+        <translation>Perguntas frequentes (FAQ)</translation>
     </message>
 </context>
 <context>
     <name>WebsiteWallpaper</name>
     <message>
         <source>Create a Website Wallpaper</source>
-        <translation>Criar um Papel de Parede de Website</translation>
+        <translation>Criar um Wallpaper de site</translation>
     </message>
     <message>
         <source>General</source>
@@ -1104,11 +1104,11 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     </message>
     <message>
         <source>Wallpaper name</source>
-        <translation>Nome do papel de parede</translation>
+        <translation>Nome do Wallpaper</translation>
     </message>
     <message>
         <source>Created By</source>
-        <translation>Criado Por</translation>
+        <translation>Criado por</translation>
     </message>
     <message>
         <source>Description</source>
@@ -1120,7 +1120,7 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     </message>
     <message>
         <source>Preview Image</source>
-        <translation>Imagem de Prévia</translation>
+        <translation>Imagem de pré-visualização</translation>
     </message>
 </context>
 <context>
@@ -1138,7 +1138,7 @@ O ScreenPlay só fechará se nenhum papel de parede estiver em execução.</tran
     <name>XMLNewsfeed</name>
     <message>
         <source>News &amp; Patchnotes</source>
-        <translation>Notícias &amp; Atualizações</translation>
+        <translation>Notícias &amp; Notas de atualização</translation>
     </message>
 </context>
 <context>
