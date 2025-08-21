@@ -47,7 +47,13 @@ std::string GetManufacturerName(const std::string& monitorID)
 
 std::string GetMonitorModelFromDeviceID(const std::wstring& deviceID)
 {
-    std::string deviceIDStr(deviceID.begin(), deviceID.end());
+    // Convert wide string to narrow string properly
+    int size = WideCharToMultiByte(CP_UTF8, 0, deviceID.c_str(), -1, nullptr, 0, nullptr, nullptr);
+    if (size <= 0) return "";
+    
+    std::string deviceIDStr(size - 1, '\0');
+    WideCharToMultiByte(CP_UTF8, 0, deviceID.c_str(), -1, &deviceIDStr[0], size, nullptr, nullptr);
+    
     std::cout << "Parsing device ID: " << deviceIDStr << std::endl;
 
     // Extract monitor ID from DISPLAY#XXXXX# pattern
@@ -112,10 +118,15 @@ BOOL MonitorEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPAR
             size_t endPos = deviceID.find(L"\\", startPos + 8);
             if (endPos != std::wstring::npos) {
                 monitorIDW = deviceID.substr(startPos + 8, endPos - (startPos + 8));
-                std::string monitorID(monitorIDW.begin(), monitorIDW.end());
-                std::string manufacturer = GetManufacturerName(monitorID.substr(0, 3));
-                if (!manufacturer.empty()) {
-                    monitorName = manufacturer + " " + monitorID.substr(3);
+                // Convert wide string to narrow string properly
+                int size = WideCharToMultiByte(CP_UTF8, 0, monitorIDW.c_str(), -1, nullptr, 0, nullptr, nullptr);
+                if (size > 0) {
+                    std::string monitorID(size - 1, '\0');
+                    WideCharToMultiByte(CP_UTF8, 0, monitorIDW.c_str(), -1, &monitorID[0], size, nullptr, nullptr);
+                    std::string manufacturer = GetManufacturerName(monitorID.substr(0, 3));
+                    if (!manufacturer.empty()) {
+                        monitorName = manufacturer + " " + monitorID.substr(3);
+                    }
                 }
             }
         }
