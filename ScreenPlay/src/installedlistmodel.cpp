@@ -266,15 +266,6 @@ void InstalledListModel::loadInstalledContent()
                 counter += 1;
             }
         };
-        QString defaultContentPath;
-        if (SCREENPLAY_DEPLOY_VERSION) {
-            defaultContentPath = QGuiApplication::instance()->applicationDirPath() + "/Content";
-        } else {
-            defaultContentPath = QString(SCREENPLAY_SOURCE_DIR) + "/Content";
-        }
-        if (m_settings->showDefaultContent()) {
-            loadFiles(defaultContentPath);
-        }
         const QString installedPath = m_globalVariables->localStoragePath().toLocalFile();
         loadFiles(installedPath);
 

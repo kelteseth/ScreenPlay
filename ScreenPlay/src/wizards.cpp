@@ -561,7 +561,7 @@ QCoro::QmlTask Wizards::copyExampleContent(
     const QString& examplePath)
 {
     return QCoro::QmlTask([this, examplePath]() -> QCoro::Task<Result> {
-        const QString sourcePath = QCoreApplication::applicationDirPath() + "/Content/" + examplePath;
+        const QString sourcePath = QCoreApplication::applicationDirPath() + "/../Content/" + examplePath;
 
         // Create unique target folder name with current date time
         const QString currentTime = QDateTime::currentDateTime().toString("yyyy_MM_dd_hhmmss_zzz");
@@ -599,7 +599,7 @@ QCoro::QmlTask Wizards::copyExampleContent(
 QVector<QVariantMap> Wizards::getExampleContent() const
 {
     QVector<QVariantMap> examples;
-    const QString contentPath = QCoreApplication::applicationDirPath() + "/Content";
+    const QString contentPath = QCoreApplication::applicationDirPath() + "/../Content";
 
     QDir contentDir(contentPath);
     if (!contentDir.exists()) {

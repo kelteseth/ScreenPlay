@@ -393,7 +393,7 @@ if(WIN32)
     # https://stackoverflow.com/questions/8249028/how-do-i-keep-my-qt-c-program-from-opening-a-console-in-windows
     set_property(TARGET ScreenPlayApp PROPERTY WIN32_EXECUTABLE true)
 
-    # Copy ffmpeg. If the ffmpeg files are missing, start the install_dependencies_XXX for your system!
+    # Copy ffmpeg. If the ffmpeg files are missing, run the setup.py!
     file(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/*")
 
     foreach(filename ${files})
@@ -459,22 +459,6 @@ if(APPLE)
                 "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/Resources/fonts"
         COMMENT "Copying fonts to macOS bundle")
 endif()
-
-# Copy Content folder with examples
-if(WIN32)
-    set(CONTENT_OUT_DIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Content")
-elseif(APPLE)
-    set(CONTENT_OUT_DIR "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/Resources/Content")
-elseif(UNIX)
-    set(CONTENT_OUT_DIR "${CMAKE_BINARY_DIR}/ScreenPlay/Content")
-endif()
-
-# Copy Content folder only if it has changed
-add_custom_command(
-    TARGET ScreenPlayApp
-    POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/../Content" "${CONTENT_OUT_DIR}"
-    COMMENT "Copying Content folder to output directory")
 
 # Must be set before qt_add_lrelease
 if(NOT APPLE)
@@ -548,7 +532,7 @@ install(
 if(WIN32)
     install(
         DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../Content/"
-        DESTINATION "${CMAKE_INSTALL_BINDIR}/Content"
+        DESTINATION "${CMAKE_INSTALL_BINDIR}/../Content"
         OPTIONAL)
 elseif(APPLE)
     install(
@@ -558,7 +542,7 @@ elseif(APPLE)
 elseif(UNIX)
     install(
         DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../Content/"
-        DESTINATION "${CMAKE_INSTALL_BINDIR}/Content"
+        DESTINATION "${CMAKE_INSTALL_BINDIR}/../Content"
         OPTIONAL)
 endif()
 

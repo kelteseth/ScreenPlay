@@ -119,7 +119,7 @@ Item {
         icon.width: 16
         icon.height: 16
         font.family: App.settings.font
-        onClicked: Qt.openUrlExternally("https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/#performance")
+        onClicked: Qt.openUrlExternally("https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/#video-wallpaper-performance")
 
         anchors {
             bottom: parent.bottom

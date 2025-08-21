@@ -73,19 +73,6 @@ Item {
                         }
                     }
 
-                    // SettingsHorizontalSeperator {
-                    // }
-
-                    // SettingBool {
-                    //     headline: qsTr("Show default installed content")
-                    //     description: qsTr("ScreenPlay will show build in content.")
-                    //     isChecked: App.settings.showDefaultContent
-                    //     onCheckboxChanged: function (checked) {
-                    //         App.settings.setShowDefaultContent(checked);
-                    //         App.installedListModel.reset();
-                    //     }
-                    // }
-
                     SettingsHorizontalSeperator {}
 
                     SettingBool {
@@ -385,7 +372,7 @@ Item {
                     SettingsComboBox {
                         id: cbGraphicsApi
 
-                        headline: qsTr("Wallpaper Graphics API")
+                        headline: qsTr("Video Wallpaper Graphics API")
                         description: qsTr("Set the graphics API for wallpapers (Note: Godot wallpapers are not affected by this setting). DirectX11 may provide better performance on AMD hardware. You must restart the wallpaper to take effect.")
                         comboBox {
                             Component.onCompleted: comboBox.currentIndex = comboBox.indexOfValue(App.settings.graphicsApi)

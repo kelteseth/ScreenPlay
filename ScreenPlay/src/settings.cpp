@@ -263,12 +263,6 @@ void Settings::setupInstalledPath()
         return m_globalVariables->setLocalStoragePath(QUrl::fromUserInput(contentPath));
     }
 
-    if (SCREENPLAY_DEPLOY_VERSION == 0) {
-        QString exampleContentPath = QString(SCREENPLAY_SOURCE_DIR) + "/Content";
-        qWarning() << "Development version without set contentPath defaults to:" << exampleContentPath;
-        return m_globalVariables->setLocalStoragePath(QUrl::fromUserInput(exampleContentPath));
-    }
-
     if (m_globalVariables->isSteamVersion()) {
         initSteamInstalledPath();
     } else {
@@ -403,13 +397,6 @@ bool Settings::retranslateUI()
     return false;
 }
 
-void Settings::setShowDefaultContent(bool showDefaultContent)
-{
-    if (m_showDefaultContent == showDefaultContent)
-        return;
-    m_showDefaultContent = showDefaultContent;
-    emit showDefaultContentChanged(showDefaultContent);
-}
 
 void Settings::setqSetting(const QString& key, const QVariant& value)
 {

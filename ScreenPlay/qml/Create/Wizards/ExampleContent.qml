@@ -50,7 +50,7 @@ FocusScope {
         }
 
         Text {
-            text: qsTr("Choose from a variety of example wallpapers and widgets to install in your collection.")
+            text: qsTr("Choose from a variety of example wallpapers and widgets to install in your collection and remix.")
             font.pointSize: 11
             color: Material.secondaryTextColor
             wrapMode: Text.Wrap
@@ -105,26 +105,11 @@ FocusScope {
                     anchors.margins: 10
                     spacing: 15
 
-                    // Preview image
-                    Rectangle {
-                        Layout.preferredWidth: 100
-                        Layout.preferredHeight: 80
-                        color: Material.backgroundDimColor
-                        radius: 6
-
-                        Image {
-                            anchors.fill: parent
-                            source: delegateItem.model.preview
-                            fillMode: Image.PreserveAspectCrop
-
-                            Rectangle {
-                                anchors.fill: parent
-                                color: "transparent"
-                                border.color: Material.dividerColor
-                                border.width: 1
-                                radius: 6
-                            }
-                        }
+                    Image {
+                        Layout.preferredWidth: 144
+                        Layout.preferredHeight: 81
+                        source: delegateItem.model.preview
+                        fillMode: Image.PreserveAspectCrop
                     }
 
                     // Content info

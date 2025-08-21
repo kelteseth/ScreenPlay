@@ -23,7 +23,6 @@ class Settings : public QObject {
     QML_UNCREATABLE("")
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
 
-    Q_PROPERTY(bool showDefaultContent READ showDefaultContent WRITE setShowDefaultContent NOTIFY showDefaultContentChanged FINAL)
     Q_PROPERTY(bool anonymousTelemetry READ anonymousTelemetry WRITE setAnonymousTelemetry NOTIFY anonymousTelemetryChanged FINAL)
     Q_PROPERTY(bool silentStart READ silentStart WRITE setSilentStart NOTIFY silentStartChanged FINAL)
     Q_PROPERTY(bool autostart READ autostart WRITE setAutostart NOTIFY autostartChanged FINAL)
@@ -115,7 +114,6 @@ public:
     ScreenPlay::ScreenPlayEnums::GraphicsApi graphicsApi() const { return m_graphicsApi; }
     ScreenPlay::Settings::DesktopEnvironment desktopEnvironment() const { return m_desktopEnvironment; }
     const QString& buildInfos() const { return m_buildInfos; }
-    bool showDefaultContent() const { return m_showDefaultContent; }
     bool startWallpaperMuted() const { return m_startWallpaperMuted; }
     bool alwaysMinimize() const { return m_alwaysMinimize; }
     void writeDefaultProfiles();
@@ -141,7 +139,6 @@ signals:
     void steamVersionChanged(bool steamVersion);
     void desktopEnvironmentChanged(ScreenPlay::Settings::DesktopEnvironment desktopEnvironment);
     void buildInfosChanged(const QString& buildInfos);
-    void showDefaultContentChanged(bool showDefaultContent);
     void startWallpaperMutedChanged(bool startWallpaperMuted);
     void godotFpsChanged(ScreenPlay::Settings::GodotFps godotFps);
     void graphicsApiChanged(ScreenPlay::ScreenPlayEnums::GraphicsApi graphicsApi);
@@ -153,7 +150,6 @@ public slots:
     void setupWidgetAndWindowPaths();
     bool retranslateUI();
 
-    void setShowDefaultContent(bool showDefaultContent);
     void setqSetting(const QString& key, const QVariant& value);
     void setAutostart(bool autostart);
     void setHighPriorityStart(bool highPriorityStart);
@@ -192,7 +188,6 @@ private:
     bool m_startWallpaperMuted { false };
     bool m_silentStart { false };
     bool m_anonymousTelemetry { true };
-    bool m_showDefaultContent { false };
     bool m_alwaysMinimize { false };
 
     ScreenPlay::Video::FillMode m_videoFillMode { ScreenPlay::Video::FillMode::Cover };
