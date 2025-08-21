@@ -1,6 +1,6 @@
 include(FetchContent)
 
-FetchContent_Populate(
+FetchContent_Declare(
     QArchive
     GIT_REPOSITORY https://github.com/antony-jr/QArchive.git
     GIT_TAG e587f30507c0e6d92f79a2dc1a6aa7ebb1f8e679
@@ -9,7 +9,7 @@ FetchContent_Populate(
     SOURCE_DIR ${THIRD_PARTY_PATH}/QArchive)
 
 # Do not use vcpkg qcoro. This will add all of Qt as a vcpkg dependcy.
-FetchContent_Populate(
+FetchContent_Declare(
     qcoro
     GIT_REPOSITORY https://github.com/danvratil/qcoro.git
     GIT_TAG 3a6efdb
@@ -17,8 +17,8 @@ FetchContent_Populate(
     # https://bugreports.qt.io/browse/QTCREATORBUG-27083
     SOURCE_DIR ${THIRD_PARTY_PATH}/qqcoro)
 
-add_subdirectory(QArchive)
-add_subdirectory(qqcoro)
+FetchContent_MakeAvailable(QArchive qcoro)
+
 add_subdirectory(Steam)
 
 qcoro_enable_coroutines()
