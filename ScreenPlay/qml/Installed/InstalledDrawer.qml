@@ -116,9 +116,9 @@ Drawer {
                     Layout.leftMargin: 20
                     text: {
                         if (App.globalVariables.isBasicVersion()) {
-                            qsTr("🚀You need ScreenPlay Pro (or compile it yourself)");
+                            return ""
                         } else {
-                            qsTr("1. Set the duration your wallpaper should be visible");
+                            return qsTr("1. Set the duration your wallpaper should be visible");
                         }
                     }
 
@@ -153,32 +153,20 @@ Drawer {
                             visible: App.globalVariables.isBasicVersion()
                         }
 
-                        Column {
-                            anchors {
-                                horizontalCenter: parent.horizontalCenter
-                                bottom: parent.bottom
-                                bottomMargin: 5
-                            }
-
-                            spacing: 10
-                            visible: App.globalVariables.isBasicVersion()
-
-                            Text {
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                color: Material.secondaryTextColor
-                                font.pointSize: 16
-                                text: qsTr("Get Pro version to unlock timeline wallpaper")
-                                horizontalAlignment: Text.AlignHCenter
-                            }
 
                             Button {
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                text: qsTr("Learn More")
+                                visible: App.globalVariables.isBasicVersion()
+                                enabled: visible
+                                anchors {
+                                    horizontalCenter: parent.horizontalCenter
+                                    bottom: parent.bottom
+                                    bottomMargin: 10
+                                }
+                                text: qsTr("🚀Unlock with ScreenPlay Pro (or compile it yourself)")
                                 onClicked: {
                                     screenPlayProView.open();
                                 }
                             }
-                        }
 
                         ScreenPlayProPopup {
                             id: screenPlayProView
