@@ -63,7 +63,6 @@ Item {
                 text: "Subreddit"
                 image: "qrc:/qt/qml/ScreenPlay/assets/startinfo/reddit.png"
                 link: "https://www.reddit.com/r/ScreenPlayApp/"
-                description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
                 category: "Community"
             }
 
@@ -71,15 +70,13 @@ Item {
                 text: "Forums"
                 image: "qrc:/qt/qml/ScreenPlay/assets/startinfo/forums.png"
                 link: "https://forum.screen-play.app/"
-                description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
                 category: "Community"
             }
 
             ListElement {
                 text: "QML Online Editor"
                 image: "qrc:/qt/qml/ScreenPlay/assets/startinfo/qml_online.png"
-                link: "https://qmlonline.kde.org/"
-                description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+                link: "https://patrickelectric.work/qmlonline/"
                 category: "Tools"
             }
 
@@ -87,7 +84,6 @@ Item {
                 text: "Godot"
                 image: "qrc:/qt/qml/ScreenPlay/assets/startinfo/godot.png"
                 link: "https://godotengine.org/"
-                description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
                 category: "Tools"
             }
 
@@ -95,7 +91,6 @@ Item {
                 text: "Handbreak"
                 image: "qrc:/qt/qml/ScreenPlay/assets/startinfo/handbreak.png"
                 link: "https://handbrake.fr/"
-                description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes,"
                 category: "Tools"
             }
 
@@ -111,7 +106,6 @@ Item {
                 text: "OBS Studio"
                 image: "qrc:/qt/qml/ScreenPlay/assets/startinfo/obs.png"
                 link: "https://obsproject.com/"
-                description: ""
                 category: "Tools"
             }
 
@@ -119,7 +113,6 @@ Item {
                 text: "Krita"
                 image: "qrc:/qt/qml/ScreenPlay/assets/startinfo/krita.png"
                 link: "https://krita.org/"
-                description: ""
                 category: "Tools"
             }
 
@@ -135,7 +128,6 @@ Item {
                 text: "Inscape"
                 image: "qrc:/qt/qml/ScreenPlay/assets/startinfo/inkscape.png"
                 link: "https://inkscape.org/"
-                description: ""
                 category: "Tools"
             }
 
@@ -143,7 +135,6 @@ Item {
                 text: "Kdenlive"
                 image: "qrc:/qt/qml/ScreenPlay/assets/startinfo/kdeenlive.png"
                 link: "https://kdenlive.org/"
-                description: ""
                 category: "Tools"
             }
 
@@ -151,7 +142,6 @@ Item {
                 text: "ShareX"
                 image: "qrc:/qt/qml/ScreenPlay/assets/startinfo/sharex.png"
                 link: "https://getsharex.com/"
-                description: ""
                 category: "Tools"
             }
 
@@ -159,7 +149,6 @@ Item {
                 text: "GitLab"
                 image: "qrc:/qt/qml/ScreenPlay/assets/startinfo/gitlab.png"
                 link: "https://about.gitlab.com/"
-                description: ""
                 category: "Tools"
             }
 
@@ -167,7 +156,6 @@ Item {
                 text: "Git Extensions - Git UI for Windows"
                 image: "qrc:/qt/qml/ScreenPlay/assets/startinfo/git_extentions.png"
                 link: "https://gitextensions.github.io/"
-                description: ""
                 category: "Tools"
             }
 
@@ -175,7 +163,6 @@ Item {
                 text: "Visual Studio Code"
                 image: "qrc:/qt/qml/ScreenPlay/assets/startinfo/vscode.png"
                 link: "https://code.visualstudio.com/"
-                description: ""
                 category: "Tools"
             }
 
@@ -183,7 +170,6 @@ Item {
                 text: "Shadertoy"
                 image: "qrc:/qt/qml/ScreenPlay/assets/startinfo/shadertoy.png"
                 link: "https://www.shadertoy.com/"
-                description: ""
                 category: "Resources"
             }
 
@@ -191,7 +177,6 @@ Item {
                 text: "Flaticon"
                 image: "qrc:/qt/qml/ScreenPlay/assets/startinfo/flaticon.png"
                 link: "https://www.flaticon.com/"
-                description: ""
                 category: "Resources"
             }
 
@@ -199,7 +184,6 @@ Item {
                 text: "Unsplash"
                 image: "qrc:/qt/qml/ScreenPlay/assets/startinfo/unsplash.png"
                 link: "https://unsplash.com/"
-                description: ""
                 category: "Resources"
             }
 
@@ -207,7 +191,6 @@ Item {
                 text: "FreeSound"
                 image: "qrc:/qt/qml/ScreenPlay/assets/startinfo/freesound.png"
                 link: "https://freesound.org/"
-                description: ""
                 category: "Resources"
             }
         }
