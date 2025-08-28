@@ -239,7 +239,11 @@ bool ScreenPlayManager::startWidget(
 
     QObject::connect(widget.get(), &ScreenPlayWidget::requestSave, this, &ScreenPlayManager::requestSaveProfiles);
     QObject::connect(widget.get(), &ScreenPlayWidget::requestClose, this, &ScreenPlayManager::removeWidget);
-    QObject::connect(widget.get(), &ScreenPlayWidget::error, this, &ScreenPlayManager::displayErrorPopup);
+    QObject::connect(widget.get(), &ScreenPlayWidget::error, this, [this](const QString& message) {
+        if (m_errorManager) {
+            m_errorManager->displayError(message);
+        }
+    });
     QObject::connect(widget.get(), &ScreenPlayWidget::restartFailed, this, [this](const QString& appID, const QString& message) {
         if (m_errorManager) {
             m_errorManager->displayError(message);
@@ -281,6 +285,9 @@ QCoro::QmlTask ScreenPlayManager::removeAllRunningWallpapers(bool saveToProfile)
                                   result.setMessage(msg);
                                   co_return result;
                               }
+
+                              m_screenPlayTimelineManager.updateMonitorListModelData(m_screenPlayTimelineManager.activeTimelineIndex());
+                              emit this->notifyUiReloadTimelinePreviewImage();
                               qDebug() << "Task: removeAllWallpaperFromActiveTimlineSections" << result.success();
                               if (saveToProfile)
                                   requestSaveProfiles();

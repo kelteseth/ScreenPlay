@@ -5,7 +5,7 @@ import QtQuick.Layouts
 import QtQuick.Controls.Material
 import QtQuick.Controls.Material.impl
 import ScreenPlay
-import ScreenPlayCore
+import ScreenPlayCore as Util
 import "qrc:/qt/qml/ScreenPlayCore/qml/InstantPopup.js" as InstantPopup
 import "../ContentSettings"
 import "../Components"
@@ -27,7 +27,7 @@ Drawer {
         btnLaunchContent.updateButtonEnabledState(0);
     }
     property bool hasPreviewGif: false
-    property var type: ContentTypes.InstalledType.QMLWallpaper
+    property int type: Util.ContentTypes.InstalledType.QMLWallpaper
     property string contentFolderName
     property Item modalSource
 
@@ -62,7 +62,7 @@ Drawer {
         } else {
             imagePreview.source = previewImageFilePath;
         }
-        if (type === ContentTypes.InstalledType.VideoWallpaper)
+        if (type === Util.ContentTypes.InstalledType.VideoWallpaper)
             installedDrawerWrapper.state = "wallpaper";
         else
             installedDrawerWrapper.state = "scene";
@@ -78,11 +78,75 @@ Drawer {
         console.warn("⚠️⚠️⚠️ CLEAR InstalledDrawer");
         root.close();
         root.contentFolderName = "";
-        root.type = ContentTypes.InstalledType.Unknown;
+        root.type = Util.ContentTypes.InstalledType.Unknown;
         imagePreview.source = "";
         animatedImagePreview.source = "";
         txtHeadline.text = "";
         installedDrawerWrapper.state = "inactive";
+    }
+
+    Util.Dialog {
+        id: updateGodotWallpaperDialog
+        modal: true
+        anchors.centerIn: Overlay.overlay
+        width: 400
+        focus: true
+        modalSource: root.modalSource
+        closePolicy: Popup.NoAutoClose
+        property string absoluteStoragePath
+        property var activeMonitors
+        property int selectedTimelineIndex
+        property string selectedTimelineIdentifier
+        property bool saveToProfilesConfigFile
+        onClosed: {
+            updateGodotWallpaperDialog.absoluteStoragePath = ""
+            updateGodotWallpaperDialog.activeMonitors = []
+            updateGodotWallpaperDialog.selectedTimelineIndex = -1
+            updateGodotWallpaperDialog.selectedTimelineIdentifier = ""
+            updateGodotWallpaperDialog.saveToProfilesConfigFile = false
+        }
+
+        onOpened: {
+            const overwrite = false
+            App.util.exportGodotProject(updateGodotWallpaperDialog.absoluteStoragePath, App.globalVariables.godotEditorExecutablePath, overwrite).then(result => {
+                   if (!result.success) {
+                       btnLaunchContent.enabled = true;
+                       InstantPopup.openErrorPopup(timeline, result.message);
+                   } else {
+                       App.screenPlayManager.setWallpaperAtMonitorTimelineIndex(
+                                                    updateGodotWallpaperDialog.absoluteStoragePath,
+                                                    updateGodotWallpaperDialog.activeMonitors,
+                                                    updateGodotWallpaperDialog.selectedTimelineIndex,
+                                                    updateGodotWallpaperDialog.selectedTimelineIdentifier,
+                                                    updateGodotWallpaperDialog.saveToProfilesConfigFile).then(result => {
+
+                           btnLaunchContent.enabled = true;
+                           if (!result.success) {
+                               InstantPopup.openErrorPopup(timeline, result.message);
+                               return;
+                           }
+                       });
+                   }
+                updateGodotWallpaperDialog.close()
+            });
+        }
+
+        ColumnLayout {
+            width: parent.width
+            spacing: 20
+
+            Text {
+                text: qsTr("Updating Godot Wallpaper...")
+                color: Material.primaryTextColor
+                font.pointSize: 18
+                Layout.fillWidth: true
+                horizontalAlignment: Text.AlignHCenter
+            }
+            BusyIndicator {
+                id: busyIndicator
+                Layout.alignment: Qt.AlignHCenter
+            }
+        }
     }
 
     Connections {
@@ -116,7 +180,7 @@ Drawer {
                     Layout.leftMargin: 20
                     text: {
                         if (App.globalVariables.isBasicVersion()) {
-                            return ""
+                            return "";
                         } else {
                             return qsTr("1. Set the duration your wallpaper should be visible");
                         }
@@ -153,20 +217,19 @@ Drawer {
                             visible: App.globalVariables.isBasicVersion()
                         }
 
-
-                            Button {
-                                visible: App.globalVariables.isBasicVersion()
-                                enabled: visible
-                                anchors {
-                                    horizontalCenter: parent.horizontalCenter
-                                    bottom: parent.bottom
-                                    bottomMargin: 10
-                                }
-                                text: qsTr("🚀Unlock with ScreenPlay Pro (or compile it yourself)")
-                                onClicked: {
-                                    screenPlayProView.open();
-                                }
+                        Button {
+                            visible: App.globalVariables.isBasicVersion()
+                            enabled: visible
+                            anchors {
+                                horizontalCenter: parent.horizontalCenter
+                                bottom: parent.bottom
+                                bottomMargin: 10
                             }
+                            text: qsTr("🚀Unlock with ScreenPlay Pro (or compile it yourself)")
+                            onClicked: {
+                                screenPlayProView.open();
+                            }
+                        }
 
                         ScreenPlayProPopup {
                             id: screenPlayProView
@@ -347,7 +410,7 @@ Drawer {
                         // Now use this model index with the data() method
                         const state = App.monitorListModel.data(modelIndex, MonitorListModel.MonitorRole.AppState);
                         print("onSelectedIndexChanged state: ", state, btnLaunchContent.enabled);
-                        if (state == ScreenPlayEnums.AppState.NotSet || state == ScreenPlayEnums.AppState.Active) {
+                        if (state == Util.ScreenPlayEnums.AppState.NotSet || state == Util.ScreenPlayEnums.AppState.Active) {
                             btnLaunchContent.enabled = selectedAndValid;
                             return;
                         }
@@ -357,54 +420,45 @@ Drawer {
                     icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_plus.svg"
                     icon.color: "white"
                     font.pointSize: 12
+
+
                     onClicked: {
+                        if (type === Util.ContentTypes.InstalledType.GodotWallpaper) {
+                            if (App.globalVariables.isBasicVersion()) {
+                                InstantPopup.openErrorPopup(timeline, qsTr("You are not allowed to do that!"));
+                                installedDrawerWrapper.state = "inactive";
+                                return;
+                            }
+                        }
+
                         // Close only the basic version, where the user only can select
                         // one wallpaper anyway...
                         const isBasicVersion = App.globalVariables.isBasicVersion();
-                        btnLaunchContent.enabled = false;
+
                         const item = App.installedListModel.get(root.contentFolderName);
                         const absoluteStoragePath = item.absoluteStoragePath;
                         const previewImage = item.preview;
                         const title = item.title;
+                        const activeMonitors = monitorSelection.getActiveMonitors();
+                        const selectedTimeline = timeline.getSelectedTimeline();
+                        if (selectedTimeline === null) {
+                            InstantPopup.openErrorPopup(timeline, qsTr("Error: Selected timeline is invalid."));
+                            return;
+                        }
                         if (App.util.isWallpaper(root.type)) {
-                            if (type === ContentTypes.InstalledType.GodotWallpaper) {
-                                if (App.globalVariables.isBasicVersion()) {
-                                    InstantPopup.openErrorPopup(timeline, qsTr("You are not allowed to do that!"));
-                                    installedDrawerWrapper.state = "inactive";
+                            if (type === Util.ContentTypes.InstalledType.GodotWallpaper) {
+                                if(!App.util.godotProjectExportExists(absoluteStoragePath)){
+                                    updateGodotWallpaperDialog.absoluteStoragePath = absoluteStoragePath
+                                    updateGodotWallpaperDialog.activeMonitors = activeMonitors
+                                    updateGodotWallpaperDialog.selectedTimelineIndex = selectedTimeline.index
+                                    updateGodotWallpaperDialog.selectedTimelineIdentifier = selectedTimeline.identifier
+                                    updateGodotWallpaperDialog.saveToProfilesConfigFile = true
+                                    updateGodotWallpaperDialog.open()
                                     return;
                                 }
                             }
-                            let activeMonitors = monitorSelection.getActiveMonitors();
-                            if (type === ContentTypes.InstalledType.GodotWallpaper) {
-                                App.util.exportGodotProject(absoluteStoragePath, App.globalVariables.godotEditorExecutablePath).then(result => {
-                                    if (!result.success) {
-                                        btnLaunchContent.enabled = true;
-                                        InstantPopup.openErrorPopup(timeline, result.message);
-                                    } else {
-                                        const file = item.file;
-                                        const selectedTimeline = timeline.getSelectedTimeline();
-                                        const saveToProfilesConfigFile = true;
-                                        App.screenPlayManager.setWallpaperAtMonitorTimelineIndex(absoluteStoragePath, activeMonitors, selectedTimeline.index, selectedTimeline.identifier, saveToProfilesConfigFile).then(result => {
-                                            btnLaunchContent.enabled = true;
-                                            if (!result.success) {
-                                                InstantPopup.openErrorPopup(timeline, result.message);
-                                                return;
-                                            }
-                                        });
-                                    }
-                                });
-                                if (isBasicVersion) {
-                                    root.close();
-                                }
-                                return;
-                            }
-                            const selectedTimeline = timeline.getSelectedTimeline();
-                            if (selectedTimeline === null) {
-                                InstantPopup.openErrorPopup(timeline, qsTr("Error: Selected timeline is invalid."));
-                                return;
-                            }
 
-                            const file = item.file;
+                            btnLaunchContent.enabled = false;
                             App.screenPlayManager.setWallpaperAtMonitorTimelineIndex(absoluteStoragePath, activeMonitors, selectedTimeline.index, selectedTimeline.identifier, true).then(result => {
                                 btnLaunchContent.enabled = true;
                                 if (!result.success) {
@@ -413,7 +467,6 @@ Drawer {
                                 }
                             });
                         }
-                        btnLaunchContent.enabled = true;
                         if (isBasicVersion) {
                             root.close();
                         }

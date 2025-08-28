@@ -166,6 +166,7 @@ set(RESOURCES
     assets/icons/icon_done.svg
     assets/icons/icon_download.svg
     assets/icons/icon_edit.svg
+    assets/icons/icon_cached.svg
     assets/icons/icon_emptyWidget.svg
     assets/icons/icon_folder_open.svg
     assets/icons/icon_forum.svg

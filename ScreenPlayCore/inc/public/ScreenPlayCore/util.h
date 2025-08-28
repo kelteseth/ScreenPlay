@@ -123,8 +123,8 @@ public:
     std::optional<ScreenPlay::ContentTypes::InstalledType> getInstalledTypeFromString(const QString& type);
     std::optional<ScreenPlay::Video::VideoCodec> getVideoCodecFromString(const QString& type);
     std::optional<QJsonObject> parseQByteArrayToQJsonObject(const QByteArray& byteArray);
-    std::optional<QJsonObject> openJsonFileToObject(const QString& path);
-    std::optional<QString> openJsonFileToString(const QString& path);
+    std::optional<QJsonObject> openJsonFileToObject(const QString& path) const;
+    std::optional<QString> openJsonFileToString(const QString& path) const;
     std::optional<QVersionNumber> getVersionNumberFromString(const QString& str);
     bool writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObject& object, bool truncate = true);
     bool writeSettings(const QJsonObject& obj, const QString& absolutePath);
@@ -154,7 +154,8 @@ public:
     // QML callable functions
     Q_INVOKABLE QString toLocal(const QString& urlString) const;
     Q_INVOKABLE QString toLocal(const QUrl& url) const;
-    Q_INVOKABLE QCoro::QmlTask exportGodotProject(const QString& absolutePath, const QString& godotEditorExecutablePath);
+    Q_INVOKABLE QCoro::QmlTask exportGodotProject(const QString& absolutePath, const QString& godotEditorExecutablePath, const bool overwrite = false);
+    Q_INVOKABLE bool godotProjectExportExists(const QString& absolutePath) const;
 
     Q_INVOKABLE bool isWallpaper(const ScreenPlay::ContentTypes::InstalledType type) const;
     Q_INVOKABLE bool isWidget(const ScreenPlay::ContentTypes::InstalledType type) const;
@@ -182,6 +183,7 @@ signals:
     void allDataProtectionLoaded(QString dataProtectionText);
 
 private:
+    std::optional<QFileInfo> getGodotProjectExportFile(const QString& absolutePath) const;
     QFuture<void> m_requestAllLicensesFuture;
 };
 }

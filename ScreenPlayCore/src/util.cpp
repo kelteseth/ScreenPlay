@@ -31,7 +31,7 @@ Util::Util(
   \brief Opens a json file (absolute path) and tries to convert it to a QJsonObject.
   Returns std::nullopt when not successful.
 */
-std::optional<QJsonObject> Util::openJsonFileToObject(const QString& path)
+std::optional<QJsonObject> Util::openJsonFileToObject(const QString& path) const
 {
     auto jsonString = openJsonFileToString(path);
 
@@ -150,7 +150,7 @@ bool Util::writeFileFromQrc(const QString& qrcPath, const QString& absolutePath)
   \brief  Opens a json file (absolute path) and tries to convert it to a QString.
   Returns std::nullopt when not successful.
 */
-std::optional<QString> Util::openJsonFileToString(const QString& path)
+std::optional<QString> Util::openJsonFileToString(const QString& path) const
 {
     QFile file;
     file.setFileName(path);
@@ -621,13 +621,18 @@ bool Util::isSameWallpaperRuntime(
     if (!isWallpaper(type1) || !isWallpaper(type2)) {
         return false;
     }
+
     // If either type is Unknown, they're not compatible
     if (type1 == ScreenPlay::ContentTypes::InstalledType::Unknown || type2 == ScreenPlay::ContentTypes::InstalledType::Unknown) {
         return false;
     }
 
-    // Check if both are Qt-based or both are Godot
-    return (isQtBasedWallpaper(type1) && isQtBasedWallpaper(type2)) || (isGodotWallpaper(type1) && isGodotWallpaper(type2));
+    // Not yet supported
+    if (isGodotWallpaper(type1) && isGodotWallpaper(type2)) {
+        return false;
+    }
+
+    return (isQtBasedWallpaper(type1) && isQtBasedWallpaper(type2));
 }
 
 /*!
@@ -858,27 +863,51 @@ bool Util::copyPreviewThumbnail(QJsonObject& obj, const QString& previewThumbnai
     return true;
 }
 
-QCoro::QmlTask Util::exportGodotProject(const QString& absolutePath, const QString& godotEditorExecutablePath)
+/*!
+  \brief Helper function that parses the project.json and returns a QFileInfo for the Godot export package.
+  Returns std::nullopt if the project.json cannot be read or parsed.
+*/
+std::optional<QFileInfo> Util::getGodotProjectExportFile(const QString& absolutePath) const
 {
-    return QCoro::QmlTask([this, absolutePath, godotEditorExecutablePath]() -> QCoro::Task<Result> {
+    QString projectPath = toLocal(absolutePath);
+    std::optional<QJsonObject> projectOpt = openJsonFileToObject(projectPath + "/project.json");
+    if (!projectOpt.has_value()) {
+        return std::nullopt;
+    }
+    
+    QJsonObject projectJson = projectOpt.value();
+    if (!projectJson.contains("version")) {
+        return std::nullopt;
+    }
+
+    const quint64 version = projectJson.value("version").toInt();
+    const QString packageFileName = QString("project-v%1.zip").arg(version);
+    return QFileInfo(projectPath + "/" + packageFileName);
+}
+
+QCoro::QmlTask Util::exportGodotProject(const QString& absolutePath, const QString& godotEditorExecutablePath, const bool overwrite)
+{
+    return QCoro::QmlTask([this, absolutePath, godotEditorExecutablePath, overwrite]() -> QCoro::Task<Result> {
         QString projectPath = toLocal(absolutePath);
-        std::optional<QJsonObject> projectOpt = openJsonFileToObject(projectPath + "/project.json");
-        QJsonObject projectJson;
-        if (!projectOpt.has_value()) {
-            co_return Result { false, {}, "Unable to open project.json" };
+        
+        std::optional<QFileInfo> godotPackageFileOpt = getGodotProjectExportFile(absolutePath);
+        if (!godotPackageFileOpt.has_value()) {
+            co_return Result { false, {}, "Unable to read project.json or missing version field" };
         }
-        projectJson = projectOpt.value();
-        if (!projectJson.contains("version"))
-            co_return Result { false, {}, "Unable to read version in project.json" };
-
-        const quint64 version = projectJson.value("version").toInt();
-        const QString packageFileName = QString("project-v%1.zip").arg(version);
-        QFileInfo godotPackageFile(projectPath + "/" + packageFileName);
-        // Skip reexport
-        if (godotPackageFile.exists())
-            co_return Result { true };
-
-        qInfo() << "No suitable version found for Godot package" << packageFileName << " at" << godotPackageFile.absoluteFilePath() << " exporting a new pck as zip.";
+        
+        QFileInfo godotPackageFile = godotPackageFileOpt.value();
+        QString packageFileName = godotPackageFile.fileName();
+        
+        if (godotPackageFile.exists()) {
+            if (overwrite) {
+                if (!QFile::moveToTrash(godotPackageFile.absoluteFilePath())) {
+                    co_return Result { false, {}, QString("Unable to delte old export: %1").arg(godotPackageFile.absoluteFilePath()) };
+                }
+            } else {
+                // Skip reexport
+                co_return Result { true };
+            }
+        }
 
         // Prepare the Godot export command
         const QList<QString>
@@ -930,6 +959,21 @@ QCoro::QmlTask Util::exportGodotProject(const QString& absolutePath, const QStri
         qInfo() << "exportGodotProject END";
         co_return Result { true };
     }());
+}
+
+/*!
+  \brief Checks if a Godot project export file exists for the given project.
+  \param absolutePath The absolute path to the project directory
+  \return true if the export file exists, false otherwise
+*/
+bool Util::godotProjectExportExists(const QString& absolutePath) const
+{
+    std::optional<QFileInfo> godotPackageFileOpt = getGodotProjectExportFile(absolutePath);
+    if (!godotPackageFileOpt.has_value()) {
+        return false;
+    }
+    
+    return godotPackageFileOpt.value().exists();
 }
 
 /*!

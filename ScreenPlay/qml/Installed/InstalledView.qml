@@ -8,6 +8,7 @@ import QtCore as QCore
 import ScreenPlay
 import ScreenPlayCore as Util
 import "../Components"
+import "qrc:/qt/qml/ScreenPlayCore/qml/InstantPopup.js" as InstantPopup
 
 Item {
     id: root
@@ -120,17 +121,22 @@ Item {
                 contextMenu.absoluteStoragePath = delegate.absoluteStoragePath;
                 contextMenu.fileName = delegate.title;
                 contextMenu.type = delegate.type;
-                print(delegate.publishedFileID);
-                if (contextMenu.godotItem)
-                    contextMenu.godotItem.destroy();
+
+                if (contextMenu.editGodotItem)
+                    contextMenu.editGodotItem.destroy();
+                if (contextMenu.updateGodotItem)
+                    contextMenu.updateGodotItem.destroy();
+
                 const pos = delegate.mapToItem(root, position.x, position.y);
                 // Disable duplicate opening. The can happen if we
                 // call popup when we are in the closing animtion.
                 if (contextMenu.visible || contextMenu.opened)
                     return;
                 if (delegate.type === Util.ContentTypes.InstalledType.GodotWallpaper) {
-                    contextMenu.godotItem = editGodotWallpaperComp.createObject();
-                    contextMenu.insertItem(0, contextMenu.godotItem);
+                    contextMenu.editGodotItem = editGodotWallpaperComp.createObject();
+                    contextMenu.insertItem(0, contextMenu.editGodotItem);
+                    contextMenu.updateGodotItem = updateGodotWallpaperComp.createObject();
+                    contextMenu.insertItem(0, contextMenu.updateGodotItem);
                 }
                 contextMenu.popup(pos.x, pos.y);
             }
@@ -203,17 +209,73 @@ Item {
             snapMode: ScrollBar.SnapOnRelease
         }
     }
+
     Component {
         id: editGodotWallpaperComp
 
         MenuItem {
-            text: qsTr("Edit Wallpaper")
+            text: qsTr("Edit in Godot Editor")
             objectName: "editWallpaper"
             enabled: contextMenu.type === Util.ContentTypes.InstalledType.GodotWallpaper
             icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_edit.svg"
             onClicked: {
                 App.util.openGodotEditor(contextMenu.absoluteStoragePath, App.globalVariables.godotEditorExecutablePath);
             }
+        }
+    }
+
+    Util.Dialog {
+        id: updateGodotWallpaperDialog
+        modal: true
+        anchors.centerIn: Overlay.overlay
+        width: 400
+        focus: true
+        modalSource: root.modalSource
+        closePolicy: Popup.NoAutoClose
+        onOpened: {
+            const overwrite = true
+            App.util.exportGodotProject(contextMenu.absoluteStoragePath, App.globalVariables.godotEditorExecutablePath, overwrite).then(result => {
+                if (result.success){
+                    print(result.success)
+                } else {
+                    InstantPopup.openErrorPopup(root, result.message);
+                }
+                updateGodotWallpaperDialog.close()
+            });
+        }
+
+        ColumnLayout {
+            width: parent.width
+            spacing: 20
+
+            Text {
+                text: qsTr("Updating Godot Wallpaper...")
+                color: Material.primaryTextColor
+                font.pointSize: 18
+                Layout.fillWidth: true
+                horizontalAlignment: Text.AlignHCenter
+            }
+            BusyIndicator {
+                id: busyIndicator
+                Layout.alignment: Qt.AlignHCenter
+            }
+        }
+    }
+    Component {
+        id: updateGodotWallpaperComp
+
+
+
+        MenuItem {
+            text: qsTr("Update Godot Wallpaper")
+            objectName: "editWallpaper"
+            enabled: contextMenu.type === Util.ContentTypes.InstalledType.GodotWallpaper
+            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_cached.svg"
+            onClicked: updateGodotWallpaperDialog.open()
+            hoverEnabled: true
+            ToolTip.delay: 500
+            ToolTip.visible: hovered
+            ToolTip.text: qsTr("Godot Wallpaper must be exported to a zip file to be displayed. This must be done once after you are finished editing the Wallpaper.\nThe project will get automatically reexported if the version number has been increased in the project.json.")
         }
     }
     Menu {
@@ -226,7 +288,19 @@ Item {
         property string fileName
         // We need to dynamically add this menu item
         // if it is a Godot Wallpaper, see onOpenContextMenu
-        property var godotItem
+        property var editGodotItem
+        property var updateGodotItem
+
+        width: {
+            var result = 0;
+            var padding = 0;
+            for (var i = 0; i < count; ++i) {
+                var item = itemAt(i);
+                result = Math.max(item.contentItem.implicitWidth, result);
+                padding = Math.max(item.padding, padding);
+            }
+            return result + padding * 2;
+        }
 
         MenuItem {
             text: qsTr("Open containing folder")
@@ -238,7 +312,7 @@ Item {
         }
 
         MenuItem {
-            text: qsTr("Export")
+            text: qsTr("Export to zip")
             objectName: enabled ? "removeItem" : "removeWorkshopItem"
             icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_import_export_.svg"
             onClicked: {
