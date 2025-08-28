@@ -559,12 +559,6 @@ elseif(APPLE)
               "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/ffprobe"
         DESTINATION "ScreenPlay.app/Contents/MacOS"
         PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
-elseif(UNIX)
-    install(
-        FILES "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/ffmpeg"
-              "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/ffprobe"
-        DESTINATION "${CMAKE_INSTALL_BINDIR}"
-        PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
 endif()
 
 register_qt_mac_app_name("ScreenPlay")
