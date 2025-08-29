@@ -48,7 +48,7 @@
     name: ubuntu:24.04
   tags:
     - docker
-    - fedora
+    - docker_internal_vm
   artifacts:
     expire_in: "4 weeks"
     paths:

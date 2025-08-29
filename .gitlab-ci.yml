@@ -20,7 +20,7 @@ stages:
 documentation:
   tags:
     - docker
-    - fedora
+    - docker_internal_vm
   image:
     name: ubuntu:24.04
   dependencies: []

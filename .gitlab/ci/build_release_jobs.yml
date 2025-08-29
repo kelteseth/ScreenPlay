@@ -43,7 +43,7 @@ release_job:
   image: python:3.11
   tags:
   - docker
-  - fedora
+  - docker_internal_vm
   dependencies:
     - steam_linux
     - steam_windows

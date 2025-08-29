@@ -6,7 +6,7 @@ formatting:
     name: ubuntu:24.04
   tags:
     - docker
-    - fedora
+    - docker_internal_vm
   script:
     - apt update -y
     - apt install wget lsb-release software-properties-common gnupg curl -y
