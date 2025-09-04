@@ -7,14 +7,14 @@
 [![构建状态](https://gitlab.com/kelteseth/ScreenPlay/badges/master/pipeline.svg)](https://gitlab.com/kelteseth/ScreenPlay/-/commits/master) 
 [![文档构建](https://gitlab.com/kelteseth/ScreenPlayDeveloperDocs/badges/master/pipeline.svg)](https://gitlab.com/kelteseth/ScreenPlayDeveloperDocs/-/commits/master) 
 [![Crowdin](https://badges.crowdin.net/screenplay/localized.svg)](https://crowdin.com/project/screenplay) 
-[![论坛](https://img.shields.io/badge/Forum-Discussion-orange?style=flat-square&logo=discourse&logoColor=white)](https://forum.screen-play.app/)
 [![Twitter关注](https://img.shields.io/twitter/follow/kelteseth?style=flat-square&logo=twitter)](https://twitter.com/kelteseth) 
 [![Discord](https://img.shields.io/discord/516635043435773970?style=flat-square&logo=discord&logoColor=white)](https://discord.com/invite/4sY9d4f2DM)
 [![Reddit](https://img.shields.io/reddit/subreddit-subscribers/screenplayapp?style=flat-square&logo=reddit)](https://www.reddit.com/r/ScreenPlayApp/)
 
+[![论坛](https://img.shields.io/badge/论坛-加入讨论-orange?style=for-the-badge&logo=discourse&logoColor=white)](https://forum.screen-play.app/)
+
 [![Steam](https://img.shields.io/badge/Steam-Download-blue?style=for-the-badge&logo=steam&logoColor=white)](https://store.steampowered.com/app/672870/ScreenPlay/)
-[![Windows](https://img.shields.io/badge/Windows-Download-0078d4?style=for-the-badge&logo=windows&logoColor=white)](http://gitlab.com/kelteseth/ScreenPlay/-/jobs/artifacts/master/download?job=build:windows_release)
-[![macOS](https://img.shields.io/badge/macOS-Download-000000?style=for-the-badge&logo=apple&logoColor=white)](http://gitlab.com/kelteseth/ScreenPlay/-/jobs/artifacts/master/download?job=build:osx_release)
+[![直接下载](https://img.shields.io/badge/直接下载-Windows%20%26%20macOS-28a745?style=for-the-badge&logo=download&logoColor=white)](https://gitlab.com/kelteseth/ScreenPlay/-/releases)
 
 ![](/.gitlab/media/preview.webp) 
 
@@ -147,9 +147,11 @@ ScreenPlay 是一款开源、跨平台的视频壁纸与桌面组件应用程序
 <summary><strong>如何安装 ScreenPlay？</strong></summary>
 
 - **Steam（推荐）**: [从Steam下载](https://store.steampowered.com/app/672870/ScreenPlay/) 获得自动更新和创意工坊支持
-- **直接下载**: 
-  - [Windows](http://gitlab.com/kelteseth/ScreenPlay/-/jobs/artifacts/master/download?job=build:windows_release)
-  - [macOS](http://gitlab.com/kelteseth/ScreenPlay/-/jobs/artifacts/master/download?job=build:osx_release) (未签名)
+- **直接下载（非Steam版本）**: 
+  - [最新版本](https://gitlab.com/kelteseth/ScreenPlay/-/releases) - 不包含Steam创意工坊集成的Windows和macOS构建版本
+  - [getsp.de](https://getsp.de/) - 备用下载源
+
+*注意: Linux 构建版本即将推出！如需下载社区内容，请访问我们的[论坛](https://forum.screen-play.app/)，用户在那里分享壁纸和组件。*
 </details>
 
 <details>
@@ -174,5 +176,13 @@ ScreenPlay 是一款开源、跨平台的视频壁纸与桌面组件应用程序
 <summary><strong>我可以在多显示器上使用 ScreenPlay 吗？</strong></summary>
 
 可以！ScreenPlay 支持多显示器设置。您可以在每个显示器上设置不同的壁纸，并在显示器上任意位置放置组件。
+</details>
+
+<details>
+<summary><strong>我在哪里可以下载壁纸和组件？</strong></summary>
+
+- **Steam创意工坊**: 如果您使用Steam版本，可以直接通过Steam创意工坊浏览和下载内容
+- **社区论坛**: 访问我们的[论坛](https://forum.screen-play.app/)获取用户分享的内容 - 许多用户更喜欢为直接下载版本使用此方式
+- **创建自己的内容**: 查看我们的[内容创建指南](https://kelteseth.gitlab.io/ScreenPlayDocs/)来制作您自己的壁纸和组件
 </details>
 

@@ -7,14 +7,14 @@
 [![Pipeline Status](https://gitlab.com/kelteseth/ScreenPlay/badges/master/pipeline.svg)](https://gitlab.com/kelteseth/ScreenPlay/-/commits/master) 
 [![Docs Pipeline](https://gitlab.com/kelteseth/ScreenPlayDeveloperDocs/badges/master/pipeline.svg)](https://gitlab.com/kelteseth/ScreenPlayDeveloperDocs/-/commits/master) 
 [![Crowdin](https://badges.crowdin.net/screenplay/localized.svg)](https://crowdin.com/project/screenplay) 
-[![Forum](https://img.shields.io/badge/Forum-Discussion-orange?style=flat-square&logo=discourse&logoColor=white)](https://forum.screen-play.app/)
 [![Twitter Follow](https://img.shields.io/twitter/follow/kelteseth?style=flat-square&logo=twitter)](https://twitter.com/kelteseth) 
 [![Discord](https://img.shields.io/discord/516635043435773970?style=flat-square&logo=discord&logoColor=white)](https://discord.com/invite/4sY9d4f2DM)
 [![Reddit](https://img.shields.io/reddit/subreddit-subscribers/screenplayapp?style=flat-square&logo=reddit)](https://www.reddit.com/r/ScreenPlayApp/)
 
+[![Forum](https://img.shields.io/badge/Forum-Join%20Discussion-orange?style=for-the-badge&logo=discourse&logoColor=white)](https://forum.screen-play.app/)
+
 [![Steam](https://img.shields.io/badge/Steam-Download-blue?style=for-the-badge&logo=steam&logoColor=white)](https://store.steampowered.com/app/672870/ScreenPlay/)
-[![Windows](https://img.shields.io/badge/Windows-Download-0078d4?style=for-the-badge&logo=windows&logoColor=white)](http://gitlab.com/kelteseth/ScreenPlay/-/jobs/artifacts/master/download?job=build:windows_release)
-[![macOS](https://img.shields.io/badge/macOS-Download-000000?style=for-the-badge&logo=apple&logoColor=white)](http://gitlab.com/kelteseth/ScreenPlay/-/jobs/artifacts/master/download?job=build:osx_release)
+[![Download](https://img.shields.io/badge/None%20Steam%20Version-Windows%20%26%20macOS-28a745?style=for-the-badge&logo=download&logoColor=white)](https://gitlab.com/kelteseth/ScreenPlay/-/releases)
 
 ![](/.gitlab/media/preview.webp) 
 
@@ -147,9 +147,11 @@ Here are some ways you can contribute:
 <summary><strong>How do I install ScreenPlay?</strong></summary>
 
 - **Steam (Recommended)**: [Download from Steam](https://store.steampowered.com/app/672870/ScreenPlay/) for automatic updates and Workshop support
-- **Direct Download**: 
-  - [Windows](http://gitlab.com/kelteseth/ScreenPlay/-/jobs/artifacts/master/download?job=build:windows_release)
-  - [macOS](http://gitlab.com/kelteseth/ScreenPlay/-/jobs/artifacts/master/download?job=build:osx_release) (unsigned)
+- **Direct Download (Non-Steam Version)**: 
+  - [Latest Release](https://gitlab.com/kelteseth/ScreenPlay/-/releases) - Windows and macOS builds without Steam Workshop integration
+  - [getsp.de](https://getsp.de/) - Alternative download source
+  
+*Note: Linux builds are coming soon! For community content downloads, visit our [forums](https://forum.screen-play.app/) where users share wallpapers and widgets.*
 </details>
 
 <details>
@@ -174,5 +176,13 @@ Video wallpapers require a modern GPU. If you experience performance issues:
 <summary><strong>Can I use ScreenPlay on multiple monitors?</strong></summary>
 
 Yes! ScreenPlay supports multi-monitor setups. You can set different wallpapers on each monitor and position widgets anywhere across your displays.
+</details>
+
+<details>
+<summary><strong>Where can I download wallpapers and widgets?</strong></summary>
+
+- **Steam Workshop**: If you use the Steam version, browse and download content directly through Steam Workshop
+- **Community Forums**: Visit our [forums](https://forum.screen-play.app/) for user-shared content - many users prefer this for the direct download versions
+- **Create Your Own**: Check our [content creation guides](https://kelteseth.gitlab.io/ScreenPlayDocs/) to make your own wallpapers and widgets
 </details>
 
