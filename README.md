@@ -14,7 +14,7 @@
 [![Forum](https://img.shields.io/badge/Forum-Join%20Discussion-orange?style=for-the-badge&logo=discourse&logoColor=white)](https://forum.screen-play.app/)
 
 [![Steam](https://img.shields.io/badge/Steam-Download-blue?style=for-the-badge&logo=steam&logoColor=white)](https://store.steampowered.com/app/672870/ScreenPlay/)
-[![Download](https://img.shields.io/badge/None%20Steam%20Version-Windows%20%26%20macOS-28a745?style=for-the-badge&logo=download&logoColor=white)](https://gitlab.com/kelteseth/ScreenPlay/-/releases)
+[![Download](https://img.shields.io/badge/Non--Steam%20Version-Windows%20%26%20macOS-28a745?style=for-the-badge&logo=download&logoColor=white)](https://gitlab.com/kelteseth/ScreenPlay/-/releases)
 
 ![](/.gitlab/media/preview.webp) 
 
@@ -50,21 +50,6 @@ ScreenPlay is an Open Source cross-platform app for displaying Video Wallpaper &
 - 🎨 **Easy Content Creation** - No coding knowledge required for basic wallpapers
 - 🛠️ **Steam Workshop** - Easy sharing and downloading of community content
 
-## 📋 System Requirements
-
-### Minimum Requirements
-- **OS**: Windows 10 1909+, macOS 10.15+, or Linux with X11/Wayland
-- **RAM**: 4 GB
-- **GPU**: DirectX 11 compatible or OpenGL 3.3+ support
-- **Storage**: 500 MB free space
-
-### Recommended for Video Wallpapers
-- **GPU**: Dedicated graphics card (NVIDIA GTX 1060 / AMD RX 580 or better)
-- **RAM**: 8 GB+
-- **CPU**: Quad-core processor
-
-*Note: Performance varies based on wallpaper resolution and complexity. QML/HTML wallpapers are more lightweight than video wallpapers.*
-
 # Content Creation
 [Learn the basics of QML for Wallpapers and Widgets in 5 minutes](https://screen-play.app/blog/guide_learn_the_basics_of_qml/)
 <div>
@@ -89,36 +74,16 @@ Everyone can contribute with code, design, documentation or translation. Visit o
 ## 🚀 Quick Contributing Guide
 
 **New to contributing?** Start here:
-1. 🐛 [Report bugs](https://gitlab.com/kelteseth/ScreenPlay/-/issues) - Help us improve by reporting issues
-2. 🌐 [Translate](https://crowdin.com/project/screenplay) - Make ScreenPlay available in your language  
-3. 💡 [Request features](https://gitlab.com/kelteseth/ScreenPlay/-/issues) - Share your ideas
-4. 🎨 [Create content](https://kelteseth.gitlab.io/ScreenPlayDocs/) - Make wallpapers and widgets
+* 🐛 [Report bugs](https://gitlab.com/kelteseth/ScreenPlay/-/issues) - Help us improve by reporting issues
+* 🌐 [Translate](https://crowdin.com/project/screenplay) - Make ScreenPlay available in your language  
+* 💡 [Request features](https://gitlab.com/kelteseth/ScreenPlay/-/issues) - Share your ideas
+* 🎨 [Create content](https://kelteseth.gitlab.io/ScreenPlayDocs/) - Make wallpapers and widgets
 
 **For developers:**
-5. 🔧 [Fix bugs](https://gitlab.com/kelteseth/ScreenPlay/-/issues?label_name%5B%5D=Bug) - Help resolve existing issues
-6. ⭐ [Add features](https://gitlab.com/kelteseth/ScreenPlay/-/issues?label_name%5B%5D=Feature) - Implement new functionality
-7. 📚 [Improve docs](https://gitlab.com/kelteseth/ScreenPlayDocs) - Help other users and developers
 
-Here are some ways you can contribute:
-* by using prerelease versions / master branch or the Steam nightly builds
-* by [adding/fixing translation](https://crowdin.com/project/screenplay)
-* by [designing UI/UX](https://kelteseth.gitlab.io/ScreenPlayDocs/contribute/)
-* by [creating example HTML/QML/Javascript content](https://kelteseth.gitlab.io/ScreenPlayDocs/)
-* by [reporting bugs](https://gitlab.com/kelteseth/ScreenPlay/-/issues)
-* by [writing user documentation](https://gitlab.com/kelteseth/ScreenPlayDocs)
-* by [coding needed features](https://gitlab.com/kelteseth/ScreenPlay/-/issues?label_name%5B%5D=Feature)
-* by [refactoring code](https://gitlab.com/kelteseth/ScreenPlay/-/issues?label_name%5B%5D=Code+Quality)
-* by [reviewing merge requests](https://gitlab.com/kelteseth/ScreenPlay/-/merge_requests)
-* by [verifying issues](https://gitlab.com/kelteseth/ScreenPlay/-/issues?label_name%5B%5D=Unverified)
-
-# Development
-* [**Developer setup guide on how to download and compile ScreenPlay yourself.**](https://kelteseth.gitlab.io/ScreenPlayDocs/building-screenplay/)
- * If you want to contribute but don't know how to start, take a look at our open issues and WIP merge request.
- * If you need help don't hesitate to ask me (Kelteseth) via:
-     * [Create a forum topic with a detailed description](https://forum.screen-play.app/)
-     * [discord channel general](https://discord.gg/3RygPHZ)
- * [ScreenPlay project overview](Docs/ProjectOverview.md)
- * [Developer C++ Classes Documentation](https://kelteseth.gitlab.io/ScreenPlayDeveloperDocs/)
+* 🔧 [Fix bugs](https://gitlab.com/kelteseth/ScreenPlay/-/issues?label_name%5B%5D=Bug) - Help resolve existing issues
+* ⭐ [Add features](https://gitlab.com/kelteseth/ScreenPlay/-/issues?label_name%5B%5D=Feature) - Implement new functionality
+* 📚 [Improve docs](https://gitlab.com/kelteseth/ScreenPlayDocs) - Help other users and developers
 
 # Platform support
 
@@ -126,11 +91,11 @@ Here are some ways you can contribute:
 * ❌ Not working/Not implemented
 * ❓ Partially implemented/Not tested (help needed)
 
-<div align="center">
 
 | Feature                	    | Windows 	    | Linux (X11/Wayland) 	        | macOS 	|
 |------------------------	    |---------	    |-------	        |-------	|
 | **ScreenPlay Main App**       | ✅       	    | ✅     	        | ✅     	|
+| **Binaries**                  | ✅       	    | ❌     	        | ✅    	|
 | **Steam Binaries**            | ✅       	    | ❌     	        | ✅    	|
 | **Video Wallpapers**          | ✅       	    | ✅   | ✅    |
 | **QML/HTML Wallpapers**       | ✅       	    | ✅   | ✅    |
@@ -139,7 +104,6 @@ Here are some ways you can contribute:
 | **Workshop Integration**      | ✅       	    | ❌   	| ✅    	|
 | **Multilanguage Support**<br/>*(EN,DE,RU,FR,ES,KO,VI,ZH_CN,PT_BR)*     | ✅            	| ✅     	        |  ✅     	|
 
-</div>
 
 ## ❓ Frequently Asked Questions
 

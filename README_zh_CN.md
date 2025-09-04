@@ -14,7 +14,7 @@
 [![论坛](https://img.shields.io/badge/论坛-加入讨论-orange?style=for-the-badge&logo=discourse&logoColor=white)](https://forum.screen-play.app/)
 
 [![Steam](https://img.shields.io/badge/Steam-Download-blue?style=for-the-badge&logo=steam&logoColor=white)](https://store.steampowered.com/app/672870/ScreenPlay/)
-[![直接下载](https://img.shields.io/badge/直接下载-Windows%20%26%20macOS-28a745?style=for-the-badge&logo=download&logoColor=white)](https://gitlab.com/kelteseth/ScreenPlay/-/releases)
+[![下载](https://img.shields.io/badge/非Steam版本-Windows%20%26%20macOS-28a745?style=for-the-badge&logo=download&logoColor=white)](https://gitlab.com/kelteseth/ScreenPlay/-/releases)
 
 ![](/.gitlab/media/preview.webp) 
 
@@ -50,21 +50,6 @@ ScreenPlay 是一款开源、跨平台的视频壁纸与桌面组件应用程序
 - 🎨 **简单的内容创建** - 基础壁纸无需编程知识
 - 🛠️ **Steam创意工坊** - 轻松分享和下载社区内容
 
-## 📋 系统要求
-
-### 最低要求
-- **操作系统**: Windows 10 1909+, macOS 10.15+, 或带有 X11/Wayland 的 Linux
-- **内存**: 4 GB
-- **显卡**: 支持 DirectX 11 或 OpenGL 3.3+
-- **存储空间**: 500 MB 可用空间
-
-### 视频壁纸推荐配置
-- **显卡**: 独立显卡 (NVIDIA GTX 1060 / AMD RX 580 或更好)
-- **内存**: 8 GB+
-- **处理器**: 四核处理器
-
-*注意: 性能因壁纸分辨率和复杂度而异。QML/HTML 壁纸比视频壁纸更轻量。*
-
 # 内容创建
 [5分钟学会壁纸和组件的QML基础](https://screen-play.app/blog/guide_learn_the_basics_of_qml/)
 <div>
@@ -89,15 +74,16 @@ ScreenPlay 是一款开源、跨平台的视频壁纸与桌面组件应用程序
 ## 🚀 快速贡献指南
 
 **新手贡献者？** 从这里开始：
-1. 🐛 [报告错误](https://gitlab.com/kelteseth/ScreenPlay/-/issues) - 帮助我们通过报告问题来改进
-2. 🌐 [翻译](https://crowdin.com/project/screenplay) - 让 ScreenPlay 支持您的语言  
-3. 💡 [功能请求](https://gitlab.com/kelteseth/ScreenPlay/-/issues) - 分享您的想法
-4. 🎨 [创建内容](https://kelteseth.gitlab.io/ScreenPlayDocs/) - 制作壁纸和组件
+* 🐛 [报告错误](https://gitlab.com/kelteseth/ScreenPlay/-/issues) - 帮助我们通过报告问题来改进
+* 🌐 [翻译](https://crowdin.com/project/screenplay) - 让 ScreenPlay 支持您的语言  
+* 💡 [功能请求](https://gitlab.com/kelteseth/ScreenPlay/-/issues) - 分享您的想法
+* 🎨 [创建内容](https://kelteseth.gitlab.io/ScreenPlayDocs/) - 制作壁纸和组件
 
 **开发者:**
-5. 🔧 [修复错误](https://gitlab.com/kelteseth/ScreenPlay/-/issues?label_name%5B%5D=Bug) - 帮助解决现有问题
-6. ⭐ [添加功能](https://gitlab.com/kelteseth/ScreenPlay/-/issues?label_name%5B%5D=Feature) - 实现新功能
-7. 📚 [改进文档](https://gitlab.com/kelteseth/ScreenPlayDocs) - 帮助其他用户和开发者
+
+* 🔧 [修复错误](https://gitlab.com/kelteseth/ScreenPlay/-/issues?label_name%5B%5D=Bug) - 帮助解决现有问题
+* ⭐ [添加功能](https://gitlab.com/kelteseth/ScreenPlay/-/issues?label_name%5B%5D=Feature) - 实现新功能
+* 📚 [改进文档](https://gitlab.com/kelteseth/ScreenPlayDocs) - 帮助其他用户和开发者
 
 以下是一些贡献方式：
 * 使用预发布版本 / master 分支或 Steam 每夜构建版本
@@ -126,11 +112,10 @@ ScreenPlay 是一款开源、跨平台的视频壁纸与桌面组件应用程序
 * ❌ 不工作/尚未实现
 * ❓ 部分实现/尚未测试（需要帮助）
 
-<div align="center">
-
 | 功能                	    | Windows 	    | Linux (X11/Wayland) 	        | macOS 	|
 |------------------------	    |---------	    |-------	        |-------	|
 | **ScreenPlay 主程序**       | ✅       	    | ✅     	        | ✅     	|
+| **二进制文件**                  | ✅       	    | ❌     	        | ✅    	|
 | **Steam 二进制文件**            | ✅       	    | ❌     	        | ✅    	|
 | **视频壁纸**          | ✅       	    | ✅   | ✅    |
 | **QML/HTML 壁纸**       | ✅       	    | ✅   | ✅    |
@@ -139,7 +124,6 @@ ScreenPlay 是一款开源、跨平台的视频壁纸与桌面组件应用程序
 | **创意工坊集成**      | ✅       	    | ❌   	| ✅    	|
 | **多语言支持**<br/>*(EN,DE,RU,FR,ES,KO,VI,ZH_CN,PT_BR)*     | ✅            	| ✅     	        |  ✅     	|
 
-</div>
 
 ## ❓ 常见问题
 
