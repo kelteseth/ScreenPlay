@@ -154,6 +154,7 @@ set(RESOURCES
     assets/icons/icon_arrow_left.svg
     assets/icons/icon_arrow_right.svg
     assets/icons/icon_build.svg
+    assets/icons/icon_cached.svg
     assets/icons/icon_cake.afdesign
     assets/icons/icon_cake.svg
     assets/icons/icon_cancel_presentation.svg
@@ -166,7 +167,6 @@ set(RESOURCES
     assets/icons/icon_done.svg
     assets/icons/icon_download.svg
     assets/icons/icon_edit.svg
-    assets/icons/icon_cached.svg
     assets/icons/icon_emptyWidget.svg
     assets/icons/icon_folder_open.svg
     assets/icons/icon_forum.svg
@@ -552,13 +552,20 @@ if(WIN32)
     install(
         DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/"
         DESTINATION "${CMAKE_INSTALL_BINDIR}"
-        FILES_MATCHING PATTERN "*.exe")
+        FILES_MATCHING
+        PATTERN "*.exe")
 elseif(APPLE)
     install(
-        FILES "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/ffmpeg"
-              "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/ffprobe"
+        FILES "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/ffmpeg" "${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/ffmpeg/ffprobe"
         DESTINATION "ScreenPlay.app/Contents/MacOS"
-        PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
+        PERMISSIONS
+            OWNER_READ
+            OWNER_WRITE
+            OWNER_EXECUTE
+            GROUP_READ
+            GROUP_EXECUTE
+            WORLD_READ
+            WORLD_EXECUTE)
 endif()
 
 register_qt_mac_app_name("ScreenPlay")
