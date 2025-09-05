@@ -254,13 +254,48 @@ bool CreateImportVideo::analyzeVideo(const QJsonObject& obj)
     bool okParseNumberOfFrames { false };
     m_numberOfFrames = videoStream.value("nb_frames").toString().toInt(&okParseNumberOfFrames);
 
+    // FFmpeg 8+ doesn't always provide nb_frames for MKV files, so calculate from duration and frame rate
     if (!okParseNumberOfFrames) {
-        qDebug() << "Error parsing number of frames. Is this really a valid video File?";
-        emit processOutput("Error parsing number of frames. Is this really a valid video File?");
-        QJsonDocument tmpVideoStreamDoc(videoStream);
-        emit processOutput(tmpVideoStreamDoc.toJson());
-        emit createWallpaperStateChanged(Import::State::AnalyseVideoError);
-        return false;
+        qInfo() << "nb_frames not available, calculating from duration and frame rate";
+        
+        QJsonObject objFormat = obj.value("format").toObject();
+        
+        // Get video length
+        bool okParseDuration = false;
+        const float tmpLength = objFormat.value("duration").toVariant().toFloat(&okParseDuration);
+        
+        if (!okParseDuration) {
+            qDebug() << "Error parsing video length. Is this really a valid video File?";
+            emit processOutput("Error parsing video length. Is this really a valid video File?");
+            emit createWallpaperStateChanged(Import::State::AnalyseVideoError);
+            return false;
+        }
+        
+        m_length = static_cast<int>(tmpLength);
+        
+        // Get frame rate to calculate number of frames
+        const QString avgFrameRate = videoStream.value("avg_frame_rate").toVariant().toString();
+        const QStringList avgFrameRateList = avgFrameRate.split('/', Qt::SplitBehaviorFlags::SkipEmptyParts);
+        
+        if (avgFrameRateList.length() != 2) {
+            qDebug() << "Error could not parse frame rate with length: " << avgFrameRateList.length();
+            emit processOutput("Error could not parse frame rate with length: " + QString::number(avgFrameRateList.length()));
+            return false;
+        }
+        
+        const double first = avgFrameRateList.at(0).toDouble();
+        const double second = avgFrameRateList.at(1).toDouble();
+        m_framerate = std::ceil(first / second);
+        
+        // Calculate number of frames from duration and frame rate
+        m_numberOfFrames = static_cast<int>(std::ceil(tmpLength * m_framerate));
+        
+        qInfo() << "Calculated values - Duration:" << m_length << "Frame rate:" << m_framerate << "Number of frames:" << m_numberOfFrames;
+        
+        // If the video is too short
+        m_smallVideo = m_numberOfFrames < (m_framerate * 5);
+        
+        return true;
     }
 
     QJsonObject objFormat = obj.value("format").toObject();
@@ -534,8 +569,28 @@ bool CreateImportVideo::createWallpaperVideo()
 
     if (m_sourceCodec == m_targetCodec) {
         qInfo() << "Skip video convert because they are the same";
-        if (!QFile::copy(sourceFile.absoluteFilePath(), m_exportPath + "/" + sourceFile.fileName())) {
-            qDebug() << "Could not copy" << sourceFile.absoluteFilePath() << " to " << m_exportPath;
+        
+        // Determine the target file extension based on the target codec
+        QString targetFileEnding;
+        if (m_targetCodec == Video::VideoCodec::VP8) {
+            targetFileEnding = ".webm";
+        } else if (m_targetCodec == Video::VideoCodec::VP9) {
+            targetFileEnding = ".webm";
+        } else if (m_targetCodec == Video::VideoCodec::AV1) {
+            targetFileEnding = ".mkv";
+        } else if (m_targetCodec == Video::VideoCodec::H264) {
+            targetFileEnding = ".mp4";
+        } else if (m_targetCodec == Video::VideoCodec::H265) {
+            targetFileEnding = ".mp4";
+        } else {
+            // Default to original extension if unknown codec
+            targetFileEnding = "." + sourceFile.suffix();
+        }
+        
+        const QString targetFilePath = m_exportPath + "/" + sourceFile.completeBaseName() + targetFileEnding;
+        
+        if (!QFile::copy(sourceFile.absoluteFilePath(), targetFilePath)) {
+            qDebug() << "Could not copy" << sourceFile.absoluteFilePath() << " to " << targetFilePath;
             return false;
         }
         emit createWallpaperStateChanged(Import::State::Finished);
@@ -568,17 +623,28 @@ bool CreateImportVideo::createWallpaperVideo()
 
     QString targetCodec;
     QString targetFileEnding;
+    QString targetFormat;
+    bool usesTwoPassEncoding = false;
+    
     if (m_targetCodec == Video::VideoCodec::VP8) {
         targetCodec = "libvpx";
         targetFileEnding = ".webm";
+        targetFormat = "webm";
+        usesTwoPassEncoding = true;
     } else if (m_targetCodec == Video::VideoCodec::VP9) {
         targetCodec = "libvpx-vp9";
         targetFileEnding = ".webm";
+        targetFormat = "webm";
+        usesTwoPassEncoding = true;
     } else if (m_targetCodec == Video::VideoCodec::AV1) {
         targetCodec = "libaom-av1";
         targetFileEnding = ".mkv";
+        targetFormat = "matroska";
+        usesTwoPassEncoding = true;
     } else if (m_targetCodec == Video::VideoCodec::H264) {
         targetFileEnding = ".mp4";
+        targetFormat = "mp4";
+        usesTwoPassEncoding = false;
         if (QOperatingSystemVersion::currentType() == QOperatingSystemVersion::Windows) {
             targetCodec = "h264_mf";
         } else {
@@ -586,72 +652,101 @@ bool CreateImportVideo::createWallpaperVideo()
         }
     }
 
-    QStringList args;
-    args.append("-hide_banner");
-    args.append("-y");
-    args.append("-stats");
-    args.append("-i");
-    args.append(m_videoPath);
-    args.append("-c:v");
-    args.append(targetCodec);
-    args.append("-b:v");
-    args.append("13000k");
-    args.append("-threads");
-    args.append(QString::number(QThread::idealThreadCount()));
-    qInfo() << "threads" << QThread::idealThreadCount() << "m_quality" << m_quality;
-    args.append("-speed");
-    args.append("4");
-    args.append("-tile-columns");
-    args.append("0");
-    args.append("-frame-parallel");
-    args.append("0");
-    args.append("-crf");
-    args.append(QString::number(m_quality));
-    args.append("-pass");
-    args.append("1");
+    const QString convertedFileAbsolutePath { m_exportPath + "/" + sourceFile.completeBaseName() + targetFileEnding };
 
-    args.append("-an");
-    args.append("-f");
-    args.append("webm");
+    QStringList args;
+    if (usesTwoPassEncoding) {
+        // Two-pass encoding for VP8/VP9/AV1
+        args.append("-hide_banner");
+        args.append("-y");
+        args.append("-stats");
+        args.append("-i");
+        args.append(m_videoPath);
+        args.append("-c:v");
+        args.append(targetCodec);
+        args.append("-b:v");
+        args.append("13000k");
+        args.append("-threads");
+        args.append(QString::number(QThread::idealThreadCount()));
+        qInfo() << "threads" << QThread::idealThreadCount() << "m_quality" << m_quality;
+        
+        // VP9/VP8 specific parameters
+        if (m_targetCodec == Video::VideoCodec::VP8 || m_targetCodec == Video::VideoCodec::VP9) {
+            args.append("-speed");
+            args.append("4");
+            args.append("-tile-columns");
+            args.append("0");
+            args.append("-frame-parallel");
+            args.append("0");
+        }
+        
+        args.append("-crf");
+        args.append(QString::number(m_quality));
+        args.append("-pass");
+        args.append("1");
+        args.append("-an");
+        args.append("-f");
+        args.append(targetFormat);
 
 #ifdef Q_OS_WIN
-    args.append("NULL");
+        args.append("NULL");
 #else
-    args.append("/dev/null");
+        args.append("/dev/null");
 #endif
 
-    waitForFinished(args);
+        waitForFinished(args);
 
-    // Second pass
-
-    args.clear();
-    args.append("-hide_banner");
-    args.append("-y");
-    args.append("-stats");
-    args.append("-i");
-    args.append(m_videoPath);
-    args.append("-c:v");
-    args.append(targetCodec);
-    args.append("-b:v");
-    args.append("13000k");
-    args.append("-threads");
-    args.append(QString::number(QThread::idealThreadCount()));
-    args.append("-speed");
-    args.append("0");
-    args.append("-tile-columns");
-    args.append("0");
-    args.append("-frame-parallel");
-    args.append("0");
-    args.append("-auto-alt-ref");
-    args.append("1");
-    args.append("-lag-in-frames");
-    args.append("25");
-    args.append("-crf");
-    args.append(QString::number(m_quality));
-    args.append("-pass");
-    args.append("2");
-    const QString convertedFileAbsolutePath { m_exportPath + "/" + sourceFile.completeBaseName() + targetFileEnding };
-    args.append(convertedFileAbsolutePath);
+        // Second pass
+        args.clear();
+        args.append("-hide_banner");
+        args.append("-y");
+        args.append("-stats");
+        args.append("-i");
+        args.append(m_videoPath);
+        args.append("-c:v");
+        args.append(targetCodec);
+        args.append("-b:v");
+        args.append("13000k");
+        args.append("-threads");
+        args.append(QString::number(QThread::idealThreadCount()));
+        
+        // VP9/VP8 specific parameters for second pass
+        if (m_targetCodec == Video::VideoCodec::VP8 || m_targetCodec == Video::VideoCodec::VP9) {
+            args.append("-speed");
+            args.append("0");
+            args.append("-tile-columns");
+            args.append("0");
+            args.append("-frame-parallel");
+            args.append("0");
+            args.append("-auto-alt-ref");
+            args.append("1");
+            args.append("-lag-in-frames");
+            args.append("25");
+        }
+        
+        args.append("-crf");
+        args.append(QString::number(m_quality));
+        args.append("-pass");
+        args.append("2");
+        args.append(convertedFileAbsolutePath);
+    } else {
+        // Single-pass encoding for H.264
+        args.append("-hide_banner");
+        args.append("-y");
+        args.append("-stats");
+        args.append("-i");
+        args.append(m_videoPath);
+        args.append("-c:v");
+        args.append(targetCodec);
+        args.append("-crf");
+        args.append(QString::number(m_quality));
+        args.append("-preset");
+        args.append("medium");
+        args.append("-threads");
+        args.append(QString::number(QThread::idealThreadCount()));
+        qInfo() << "threads" << QThread::idealThreadCount() << "m_quality" << m_quality;
+        args.append(convertedFileAbsolutePath);
+    }
 
     const QString ffmpegOutput = waitForFinished(args);
 
