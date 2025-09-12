@@ -14,9 +14,9 @@ def combine_sha256():
 
     # Files are now in the Build/ directory
     files = [
-        Path(f"{root_path}/Build/ScreenPlay-{tag}-x64-windows-Release.zip"),  # Note: capital R in Release
-        Path(f"{root_path}/Build/ScreenPlay-{tag}-x64-linux-release.zip"),
-        Path(f"{root_path}/Build/ScreenPlay-{tag}-64-osx-universal-release.zip")
+        Path(f"{root_path}/Build/ScreenPlay-{tag}-x64-windows-Release.zip"),
+        Path(f"{root_path}/Build/ScreenPlay-{tag}-x64-linux-Release.zip"),
+        Path(f"{root_path}/Build/ScreenPlay-{tag}-64-osx-universal-Release.zip")
     ]
 
     with open('SHA512-SUMS.txt', 'w') as f_out:
