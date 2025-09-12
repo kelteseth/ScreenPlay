@@ -172,27 +172,6 @@ def semver_to_string(semver_dict):
     return version_str
 
 
-def is_prerelease_tag(tag):
-    """
-    Determine if a git tag represents a pre-release version.
-    Returns True for tags containing: alpha, beta, rc
-    
-    Examples:
-    - v1.0.0-alpha4 -> True
-    - v1.0.0-beta2 -> True
-    - v1.0.0-rc1 -> True
-    - v1.0.0 -> False
-    """
-    if not tag:
-        return False
-    
-    # Convert to lowercase for case-insensitive matching
-    tag_lower = tag.lower()
-    
-    # Check for alpha, beta, or rc
-    return 'alpha' in tag_lower or 'beta' in tag_lower or 'rc' in tag_lower
-
-
 def unzip(zip_path: str, destination_path: str, specific_file: str = None):
     with zipfile.ZipFile(zip_path, 'r') as zip_ref:
         if specific_file:

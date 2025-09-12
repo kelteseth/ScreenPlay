@@ -52,33 +52,19 @@ release_job:
   - if: "$CI_COMMIT_TAG" # Run this job when a tag is created
     when: on_success # Only when all previous jobs succeed
   script:
-  # Install uv
-  - curl -LsSf https://astral.sh/uv/install.sh | sh
-  - source $HOME/.local/bin/env
-  # 1. Combining sha256 files into a SHA512-SUMS.txt
-  - uv run python Tools/create_sha512.py
-  # 2. Check if this is a prerelease and set release name
-  - export IS_PRERELEASE=$(uv run python Tools/get_release_info.py)
-  - |
-    if [ "$IS_PRERELEASE" = "true" ]; then
-      export RELEASE_NAME="🚧 ScreenPlay $CI_COMMIT_TAG"
-      # Set description based on release type
-      if echo "$CI_COMMIT_TAG" | grep -qi "alpha"; then
-        export RELEASE_DESCRIPTION="🚧 Alpha snapshot for early testing and feature evaluation while ScreenPlay is still being worked on."
-      elif echo "$CI_COMMIT_TAG" | grep -qi "beta"; then
-        export RELEASE_DESCRIPTION="🚧 Beta snapshot for public testing to catch bugs before the stable release."
-      elif echo "$CI_COMMIT_TAG" | grep -qi "rc"; then
-        export RELEASE_DESCRIPTION="🚧 Release candidate focusing on finalizing the release and fixing remaining bugs."
-      else
-        export RELEASE_DESCRIPTION="🚧 Pre-release version for testing purposes."
-      fi
-    else
-      export RELEASE_NAME="ScreenPlay $CI_COMMIT_TAG Released!"
-      export RELEASE_DESCRIPTION="🎉 A Wild ScreenPlay Release Appeared!"
-    fi
-  - echo "Release name: $RELEASE_NAME"
-  - echo "Release description: $RELEASE_DESCRIPTION"
-  # 3. Install dependencies and handle the folder
+    # Install uv
+    - curl -LsSf https://astral.sh/uv/install.sh | sh
+    - source $HOME/.local/bin/env
+    # 1. Combining sha256 files into a SHA512-SUMS.txt
+    - uv run python Tools/create_sha512.py
+    # 2. Set release variables using CI release script
+    - export RELEASE_NAME=$(uv run python Tools/ci_release.py --name)
+    - export RELEASE_DESCRIPTION=$(uv run python Tools/ci_release.py --description)
+    - export IS_PRERELEASE=$(uv run python Tools/ci_release.py --is-pre-release)
+    - "echo \"Release name: $RELEASE_NAME\""
+    - "echo \"Release description: $RELEASE_DESCRIPTION\""
+    - "echo \"Is prerelease: $IS_PRERELEASE\""
+    # 3. Install dependencies and handle the folder
   - apt update
   - apt install -y sshpass ssh curl
   - curl --location --output /usr/local/bin/release-cli "https://gitlab.com/api/v4/projects/gitlab-org%2Frelease-cli/packages/generic/release-cli/latest/release-cli-linux-amd64"
