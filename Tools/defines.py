@@ -37,7 +37,7 @@ VCPKG_BASE_PACKAGES =  [
         "libxml2"
     ]
 PYTHON_EXECUTABLE = "python" if sys.platform == "win32" else "python3"
-FFMPEG_VERSION_MAC = "8.0.0"
+FFMPEG_VERSION_MAC = "8.0"
 FFMPEG_VERSION_WIN = "8.0.0"
 # None stable version omit patch: 4.3-rc2 or stable
 GODOT_VERSION = "4.4.1"
