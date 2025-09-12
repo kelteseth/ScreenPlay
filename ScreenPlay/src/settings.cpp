@@ -397,7 +397,6 @@ bool Settings::retranslateUI()
     return false;
 }
 
-
 void Settings::setqSetting(const QString& key, const QVariant& value)
 {
     m_qSettings.setValue(key, value);

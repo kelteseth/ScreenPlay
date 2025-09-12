@@ -99,35 +99,29 @@ Drawer {
         property string selectedTimelineIdentifier
         property bool saveToProfilesConfigFile
         onClosed: {
-            updateGodotWallpaperDialog.absoluteStoragePath = ""
-            updateGodotWallpaperDialog.activeMonitors = []
-            updateGodotWallpaperDialog.selectedTimelineIndex = -1
-            updateGodotWallpaperDialog.selectedTimelineIdentifier = ""
-            updateGodotWallpaperDialog.saveToProfilesConfigFile = false
+            updateGodotWallpaperDialog.absoluteStoragePath = "";
+            updateGodotWallpaperDialog.activeMonitors = [];
+            updateGodotWallpaperDialog.selectedTimelineIndex = -1;
+            updateGodotWallpaperDialog.selectedTimelineIdentifier = "";
+            updateGodotWallpaperDialog.saveToProfilesConfigFile = false;
         }
 
         onOpened: {
-            const overwrite = false
+            const overwrite = false;
             App.util.exportGodotProject(updateGodotWallpaperDialog.absoluteStoragePath, App.globalVariables.godotEditorExecutablePath, overwrite).then(result => {
-                   if (!result.success) {
-                       btnLaunchContent.enabled = true;
-                       InstantPopup.openErrorPopup(timeline, result.message);
-                   } else {
-                       App.screenPlayManager.setWallpaperAtMonitorTimelineIndex(
-                                                    updateGodotWallpaperDialog.absoluteStoragePath,
-                                                    updateGodotWallpaperDialog.activeMonitors,
-                                                    updateGodotWallpaperDialog.selectedTimelineIndex,
-                                                    updateGodotWallpaperDialog.selectedTimelineIdentifier,
-                                                    updateGodotWallpaperDialog.saveToProfilesConfigFile).then(result => {
-
-                           btnLaunchContent.enabled = true;
-                           if (!result.success) {
-                               InstantPopup.openErrorPopup(timeline, result.message);
-                               return;
-                           }
-                       });
-                   }
-                updateGodotWallpaperDialog.close()
+                if (!result.success) {
+                    btnLaunchContent.enabled = true;
+                    InstantPopup.openErrorPopup(timeline, result.message);
+                } else {
+                    App.screenPlayManager.setWallpaperAtMonitorTimelineIndex(updateGodotWallpaperDialog.absoluteStoragePath, updateGodotWallpaperDialog.activeMonitors, updateGodotWallpaperDialog.selectedTimelineIndex, updateGodotWallpaperDialog.selectedTimelineIdentifier, updateGodotWallpaperDialog.saveToProfilesConfigFile).then(result => {
+                        btnLaunchContent.enabled = true;
+                        if (!result.success) {
+                            InstantPopup.openErrorPopup(timeline, result.message);
+                            return;
+                        }
+                    });
+                }
+                updateGodotWallpaperDialog.close();
             });
         }
 
@@ -421,7 +415,6 @@ Drawer {
                     icon.color: "white"
                     font.pointSize: 12
 
-
                     onClicked: {
                         if (type === Util.ContentTypes.InstalledType.GodotWallpaper) {
                             if (App.globalVariables.isBasicVersion()) {
@@ -447,13 +440,13 @@ Drawer {
                         }
                         if (App.util.isWallpaper(root.type)) {
                             if (type === Util.ContentTypes.InstalledType.GodotWallpaper) {
-                                if(!App.util.godotProjectExportExists(absoluteStoragePath)){
-                                    updateGodotWallpaperDialog.absoluteStoragePath = absoluteStoragePath
-                                    updateGodotWallpaperDialog.activeMonitors = activeMonitors
-                                    updateGodotWallpaperDialog.selectedTimelineIndex = selectedTimeline.index
-                                    updateGodotWallpaperDialog.selectedTimelineIdentifier = selectedTimeline.identifier
-                                    updateGodotWallpaperDialog.saveToProfilesConfigFile = true
-                                    updateGodotWallpaperDialog.open()
+                                if (!App.util.godotProjectExportExists(absoluteStoragePath)) {
+                                    updateGodotWallpaperDialog.absoluteStoragePath = absoluteStoragePath;
+                                    updateGodotWallpaperDialog.activeMonitors = activeMonitors;
+                                    updateGodotWallpaperDialog.selectedTimelineIndex = selectedTimeline.index;
+                                    updateGodotWallpaperDialog.selectedTimelineIdentifier = selectedTimeline.identifier;
+                                    updateGodotWallpaperDialog.saveToProfilesConfigFile = true;
+                                    updateGodotWallpaperDialog.open();
                                     return;
                                 }
                             }

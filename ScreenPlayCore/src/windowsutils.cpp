@@ -49,11 +49,12 @@ std::string GetMonitorModelFromDeviceID(const std::wstring& deviceID)
 {
     // Convert wide string to narrow string properly
     int size = WideCharToMultiByte(CP_UTF8, 0, deviceID.c_str(), -1, nullptr, 0, nullptr, nullptr);
-    if (size <= 0) return "";
-    
+    if (size <= 0)
+        return "";
+
     std::string deviceIDStr(size - 1, '\0');
     WideCharToMultiByte(CP_UTF8, 0, deviceID.c_str(), -1, &deviceIDStr[0], size, nullptr, nullptr);
-    
+
     std::cout << "Parsing device ID: " << deviceIDStr << std::endl;
 
     // Extract monitor ID from DISPLAY#XXXXX# pattern

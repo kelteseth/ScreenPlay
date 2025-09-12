@@ -233,14 +233,14 @@ Item {
         modalSource: root.modalSource
         closePolicy: Popup.NoAutoClose
         onOpened: {
-            const overwrite = true
+            const overwrite = true;
             App.util.exportGodotProject(contextMenu.absoluteStoragePath, App.globalVariables.godotEditorExecutablePath, overwrite).then(result => {
-                if (result.success){
-                    print(result.success)
+                if (result.success) {
+                    print(result.success);
                 } else {
                     InstantPopup.openErrorPopup(root, result.message);
                 }
-                updateGodotWallpaperDialog.close()
+                updateGodotWallpaperDialog.close();
             });
         }
 
@@ -263,8 +263,6 @@ Item {
     }
     Component {
         id: updateGodotWallpaperComp
-
-
 
         MenuItem {
             text: qsTr("Update Godot Wallpaper")

@@ -257,44 +257,44 @@ bool CreateImportVideo::analyzeVideo(const QJsonObject& obj)
     // FFmpeg 8+ doesn't always provide nb_frames for MKV files, so calculate from duration and frame rate
     if (!okParseNumberOfFrames) {
         qInfo() << "nb_frames not available, calculating from duration and frame rate";
-        
+
         QJsonObject objFormat = obj.value("format").toObject();
-        
+
         // Get video length
         bool okParseDuration = false;
         const float tmpLength = objFormat.value("duration").toVariant().toFloat(&okParseDuration);
-        
+
         if (!okParseDuration) {
             qDebug() << "Error parsing video length. Is this really a valid video File?";
             emit processOutput("Error parsing video length. Is this really a valid video File?");
             emit createWallpaperStateChanged(Import::State::AnalyseVideoError);
             return false;
         }
-        
+
         m_length = static_cast<int>(tmpLength);
-        
+
         // Get frame rate to calculate number of frames
         const QString avgFrameRate = videoStream.value("avg_frame_rate").toVariant().toString();
         const QStringList avgFrameRateList = avgFrameRate.split('/', Qt::SplitBehaviorFlags::SkipEmptyParts);
-        
+
         if (avgFrameRateList.length() != 2) {
             qDebug() << "Error could not parse frame rate with length: " << avgFrameRateList.length();
             emit processOutput("Error could not parse frame rate with length: " + QString::number(avgFrameRateList.length()));
             return false;
         }
-        
+
         const double first = avgFrameRateList.at(0).toDouble();
         const double second = avgFrameRateList.at(1).toDouble();
         m_framerate = std::ceil(first / second);
-        
+
         // Calculate number of frames from duration and frame rate
         m_numberOfFrames = static_cast<int>(std::ceil(tmpLength * m_framerate));
-        
+
         qInfo() << "Calculated values - Duration:" << m_length << "Frame rate:" << m_framerate << "Number of frames:" << m_numberOfFrames;
-        
+
         // If the video is too short
         m_smallVideo = m_numberOfFrames < (m_framerate * 5);
-        
+
         return true;
     }
 
@@ -569,7 +569,7 @@ bool CreateImportVideo::createWallpaperVideo()
 
     if (m_sourceCodec == m_targetCodec) {
         qInfo() << "Skip video convert because they are the same";
-        
+
         // Determine the target file extension based on the target codec
         QString targetFileEnding;
         if (m_targetCodec == Video::VideoCodec::VP8) {
@@ -586,9 +586,9 @@ bool CreateImportVideo::createWallpaperVideo()
             // Default to original extension if unknown codec
             targetFileEnding = "." + sourceFile.suffix();
         }
-        
+
         const QString targetFilePath = m_exportPath + "/" + sourceFile.completeBaseName() + targetFileEnding;
-        
+
         if (!QFile::copy(sourceFile.absoluteFilePath(), targetFilePath)) {
             qDebug() << "Could not copy" << sourceFile.absoluteFilePath() << " to " << targetFilePath;
             return false;
@@ -625,7 +625,7 @@ bool CreateImportVideo::createWallpaperVideo()
     QString targetFileEnding;
     QString targetFormat;
     bool usesTwoPassEncoding = false;
-    
+
     if (m_targetCodec == Video::VideoCodec::VP8) {
         targetCodec = "libvpx";
         targetFileEnding = ".webm";
@@ -669,7 +669,7 @@ bool CreateImportVideo::createWallpaperVideo()
         args.append("-threads");
         args.append(QString::number(QThread::idealThreadCount()));
         qInfo() << "threads" << QThread::idealThreadCount() << "m_quality" << m_quality;
-        
+
         // VP9/VP8 specific parameters
         if (m_targetCodec == Video::VideoCodec::VP8 || m_targetCodec == Video::VideoCodec::VP9) {
             args.append("-speed");
@@ -679,7 +679,7 @@ bool CreateImportVideo::createWallpaperVideo()
             args.append("-frame-parallel");
             args.append("0");
         }
-        
+
         args.append("-crf");
         args.append(QString::number(m_quality));
         args.append("-pass");
@@ -709,7 +709,7 @@ bool CreateImportVideo::createWallpaperVideo()
         args.append("13000k");
         args.append("-threads");
         args.append(QString::number(QThread::idealThreadCount()));
-        
+
         // VP9/VP8 specific parameters for second pass
         if (m_targetCodec == Video::VideoCodec::VP8 || m_targetCodec == Video::VideoCodec::VP9) {
             args.append("-speed");
@@ -723,7 +723,7 @@ bool CreateImportVideo::createWallpaperVideo()
             args.append("-lag-in-frames");
             args.append("25");
         }
-        
+
         args.append("-crf");
         args.append(QString::number(m_quality));
         args.append("-pass");

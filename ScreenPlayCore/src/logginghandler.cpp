@@ -71,13 +71,13 @@ void LoggingHandler::start()
     QString cacheDir = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
     QString logDirPath = cacheDir + "/ScreenPlay/Logs";
 #endif
-    
+
     QDir directory;
     if (!directory.mkpath(logDirPath)) {
         qCritical() << "Unable to create logging path at:" << logDirPath;
         return;
     }
-    
+
     directory = QDir(logDirPath);
 
     QString filePath;

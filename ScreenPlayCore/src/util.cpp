@@ -874,7 +874,7 @@ std::optional<QFileInfo> Util::getGodotProjectExportFile(const QString& absolute
     if (!projectOpt.has_value()) {
         return std::nullopt;
     }
-    
+
     QJsonObject projectJson = projectOpt.value();
     if (!projectJson.contains("version")) {
         return std::nullopt;
@@ -889,15 +889,15 @@ QCoro::QmlTask Util::exportGodotProject(const QString& absolutePath, const QStri
 {
     return QCoro::QmlTask([this, absolutePath, godotEditorExecutablePath, overwrite]() -> QCoro::Task<Result> {
         QString projectPath = toLocal(absolutePath);
-        
+
         std::optional<QFileInfo> godotPackageFileOpt = getGodotProjectExportFile(absolutePath);
         if (!godotPackageFileOpt.has_value()) {
             co_return Result { false, {}, "Unable to read project.json or missing version field" };
         }
-        
+
         QFileInfo godotPackageFile = godotPackageFileOpt.value();
         QString packageFileName = godotPackageFile.fileName();
-        
+
         if (godotPackageFile.exists()) {
             if (overwrite) {
                 if (!QFile::moveToTrash(godotPackageFile.absoluteFilePath())) {
@@ -972,7 +972,7 @@ bool Util::godotProjectExportExists(const QString& absolutePath) const
     if (!godotPackageFileOpt.has_value()) {
         return false;
     }
-    
+
     return godotPackageFileOpt.value().exists();
 }
 

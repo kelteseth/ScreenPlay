@@ -22,7 +22,6 @@ void initializeExtension(godot::ModuleInitializationLevel p_level)
     if (p_level != godot::MODULE_INITIALIZATION_LEVEL_SCENE) {
         return;
     }
-
     godot::ClassDB::register_class<ScreenPlayGodotWallpaper>();
 }
 
