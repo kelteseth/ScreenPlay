@@ -138,8 +138,11 @@ Item {
 
         FileDialog {
             id: fileDialogImportVideo
+            Component.onCompleted:{
+                const filter = ["Video files (*)"].concat(root.allowedVideoFileEndings) ;
+                fileDialogImportVideo.nameFilters = filter
+            }
 
-            nameFilters: ["Video files (*.mp4)"]
             onAccepted: {
                 root.next(fileDialogImportVideo.currentFile);
             }
