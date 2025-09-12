@@ -96,11 +96,6 @@ def execute(
     print(f"⏱️ build_duration: {build_duration}s")
     if platform.system() == "Windows":
         copy_vcpkg_libraries(build_config)
-    
-    # Build Godot Wallpaper
-    # Note: This must happen after building ScreenPlay!
-    # if platform.system() == "Windows":
-    #     build_godot.build_godot(str(build_config.build_folder), build_config.build_type)
 
     if platform.system() == "Darwin":
         if (build_config.sign_osx):
@@ -137,11 +132,10 @@ def execute(
     #             macos_sign.sign_dmg(build_config)
 
     # Create a zip file of the build
-    if platform.system() != "Darwin":
-        step_time = time.time()
-        build_result = zip(build_config, build_result)
-        zip_duration = time.time() - step_time
-        print(f"⏱️ zip_duration: {zip_duration}s")
+    step_time = time.time()
+    build_result = zip(build_config, build_result)
+    zip_duration = time.time() - step_time
+    print(f"⏱️ zip_duration: {zip_duration}s")
 
     duration = time.time() - start_time
     print(f"⏱️ Build completed in: {duration}s")
@@ -279,10 +273,20 @@ def zip(build_config: BuildConfig, build_result: BuildResult) -> BuildResult:
     build_result.build_zip = build_parent.joinpath(zipName)
     print(f"Creating Deploy folder zip file: {build_result.build_zip}")
     
-    # Change to Build folder and zip the entire Deploy directory
+    # Change to Build folder and zip the content
     os.chdir(build_parent)
     with zipfile.ZipFile(zipName, 'w', zipfile.ZIP_DEFLATED) as zipf:
-        zipdir(build_result.install, zipf)
+        if platform.system() == "Darwin":
+            # On macOS, only zip the .app bundle
+            app_bundle = build_result.install / "ScreenPlay.app"
+            if app_bundle.exists():
+                zipdir(app_bundle, zipf)
+            else:
+                print(f"Warning: ScreenPlay.app not found at {app_bundle}")
+                zipdir(build_result.install, zipf)
+        else:
+            # On other platforms, zip the entire Deploy directory
+            zipdir(build_result.install, zipf)
 
     # Create hash file in Build folder (next to zip)
     zip_file_path = build_result.build_zip
