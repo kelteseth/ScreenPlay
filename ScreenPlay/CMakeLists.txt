@@ -382,6 +382,8 @@ if(UNIX AND NOT APPLE)
 endif()
 
 if(WIN32)
+    target_compile_definitions(ScreenPlayLib PRIVATE SENTRY_BACKEND_CRASHPAD CLIENT_STACKTRACES_ENABLED)
+
     target_link_libraries(ScreenPlayLib PUBLIC CURL::libcurl sentry::sentry ScreenPlayWallpaperLib)
 
     # Icon
