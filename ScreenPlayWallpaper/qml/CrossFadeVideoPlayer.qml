@@ -82,6 +82,11 @@ Item {
         if (_initialized) {
             if (isPlaying) {
                 root._activePlayer === CrossFadeVideoPlayer.Player.One ? mediaPlayer1.play() : mediaPlayer2.play();
+                if (root._activePlayer === CrossFadeVideoPlayer.Player.One) {
+                    mediaPlayer1.play();
+                } else if (root._activePlayer === CrossFadeVideoPlayer.Player.Two) {
+                    mediaPlayer2.play();
+                }
             } else {
                 mediaPlayer1.pause();
                 mediaPlayer2.pause();
