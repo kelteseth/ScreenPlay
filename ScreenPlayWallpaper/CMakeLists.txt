@@ -19,6 +19,11 @@ find_package(
                WebChannel
                Positioning)
 
+# Make sentry win only for now because it is constantly buggy on osx
+if(WIN32)
+    find_package(sentry CONFIG REQUIRED)
+endif()
+
 qt_standard_project_setup(REQUIRES 6.8)
 
 if(WIN32)
@@ -100,16 +105,28 @@ target_link_libraries(
            Qt6::WebEngineCore
            Qt6::WebEngineQuick)
 
-if(WIN32)
-    target_link_libraries(ScreenPlayWallpaperLib PUBLIC ScreenPlayWallpaperWindowsIntegration ScreenPlaySysInfoLibplugin
-                                                        ScreenPlayCoreWindowsExtrasLib)
-elseif(UNIX AND NOT APPLE)
-    target_link_libraries(ScreenPlayWallpaperLib PRIVATE X11)
-endif()
-
 qt_add_executable(SPWallpaper main.cpp)
 target_compile_features(SPWallpaper PRIVATE cxx_std_23)
 target_link_libraries(SPWallpaper PRIVATE ScreenPlayWallpaperLib ScreenPlayWallpaperLibplugin)
+
+if(WIN32)
+    target_link_libraries(
+        ScreenPlayWallpaperLib
+        PUBLIC ScreenPlayWallpaperWindowsIntegration
+               ScreenPlaySysInfoLibplugin
+               ScreenPlayCoreWindowsExtrasLib
+               sentry::sentry)
+    target_compile_definitions(SPWallpaper PRIVATE SENTRY_BACKEND_CRASHPAD CLIENT_STACKTRACES_ENABLED)
+    target_compile_definitions(ScreenPlayWallpaperLib PRIVATE SENTRY_BACKEND_CRASHPAD CLIENT_STACKTRACES_ENABLED)
+
+    configure_file(${VCPKG_INSTALLED_PATH}/tools/sentry-native/crashpad_handler.exe ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ COPYONLY)
+    configure_file(${VCPKG_INSTALLED_PATH}/tools/sentry-native/zlib1.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ COPYONLY)
+
+    configure_file(${VCPKG_BIN_PATH}/libssl-3-x64.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ COPYONLY)
+    configure_file(${VCPKG_BIN_PATH}/libcrypto-3-x64.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ COPYONLY)
+elseif(UNIX AND NOT APPLE)
+    target_link_libraries(ScreenPlayWallpaperLib PRIVATE X11)
+endif()
 
 if(UNIX AND NOT APPLE)
     find_package(

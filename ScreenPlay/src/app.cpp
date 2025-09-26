@@ -79,7 +79,7 @@ App::App(QObject* parent)
 #if defined(Q_OS_WIN)
 
         sentry_options_t* options = sentry_options_new();
-        sentry_options_set_dsn(options, "https://425ea0b77def4f91a5a9decc01b36ff4@o428218.ingest.sentry.io/5373419");
+        sentry_options_set_dsn(options, "https://e9481f935713b95a81c0c0a86806afe9@o428218.ingest.us.sentry.io/4510085149818880");
         QString environment = QGuiApplication::applicationVersion() + "";
         sentry_options_set_environment(options, QString(environment).toStdString().c_str());
 
@@ -128,6 +128,15 @@ App::App(QObject* parent)
     //     m_screenPlayManager.get(), [this]() {
     //         m_screenPlayManager->removeAllRunningWallpapers(true);
     //     });
+}
+
+App::~App()
+{
+#if defined(Q_OS_WIN)
+    if (settings()->anonymousTelemetry()) {
+        sentry_close();
+    }
+#endif
 }
 
 QString App::version() const

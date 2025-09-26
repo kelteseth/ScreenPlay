@@ -235,7 +235,8 @@ bool ScreenPlayManager::startWidget(
     auto widget = std::make_shared<ScreenPlayWidget>(
         appID,
         m_globalVariables,
-        widgetData);
+        widgetData,
+        m_settings);
 
     QObject::connect(widget.get(), &ScreenPlayWidget::requestSave, this, &ScreenPlayManager::requestSaveProfiles);
     QObject::connect(widget.get(), &ScreenPlayWidget::requestClose, this, &ScreenPlayManager::removeWidget);

@@ -32,6 +32,11 @@ find_package(
                WebChannel
                Positioning)
 
+# Make sentry win only for now because it is constantly buggy on osx
+if(WIN32)
+    find_package(sentry CONFIG REQUIRED)
+endif()
+
 qt_standard_project_setup(REQUIRES 6.8)
 
 qt_add_library(ScreenPlayWidgetLib STATIC)
@@ -53,10 +58,6 @@ target_link_libraries(
            Qt6::WebEngineCore
            Qt6::WebEngineQuick)
 
-if(WIN32)
-    target_link_libraries(ScreenPlayWidgetLib PUBLIC ScreenPlaySysInfoLibplugin)
-endif()
-
 qt_add_qml_module(
     ScreenPlayWidgetLib
     URI
@@ -76,9 +77,19 @@ target_compile_features(SPWidget PRIVATE cxx_std_23)
 target_link_libraries(SPWidget PRIVATE ScreenPlayWidgetLib ScreenPlayWidgetLibplugin)
 
 if(WIN32)
+    target_link_libraries(ScreenPlayWidgetLib PUBLIC ScreenPlaySysInfoLibplugin sentry::sentry)
+    target_compile_definitions(ScreenPlayWidgetLib PRIVATE SENTRY_BACKEND_CRASHPAD CLIENT_STACKTRACES_ENABLED)
+
     # Disable console window on Windows
     # https://stackoverflow.com/questions/8249028/how-do-i-keep-my-qt-c-program-from-opening-a-console-in-windows
     set_property(TARGET SPWidget PROPERTY WIN32_EXECUTABLE true)
+    target_compile_definitions(SPWidget PRIVATE SENTRY_BACKEND_CRASHPAD CLIENT_STACKTRACES_ENABLED)
+
+    configure_file(${VCPKG_INSTALLED_PATH}/tools/sentry-native/crashpad_handler.exe ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ COPYONLY)
+    configure_file(${VCPKG_INSTALLED_PATH}/tools/sentry-native/zlib1.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ COPYONLY)
+
+    configure_file(${VCPKG_BIN_PATH}/libssl-3-x64.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ COPYONLY)
+    configure_file(${VCPKG_BIN_PATH}/libcrypto-3-x64.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ COPYONLY)
 endif()
 
 # ##### USE CMAKE VARIABLES IN CODE #####

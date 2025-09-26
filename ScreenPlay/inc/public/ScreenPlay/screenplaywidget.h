@@ -3,6 +3,7 @@
 #pragma once
 
 #include "ScreenPlay/screenplayexternalprocess.h"
+#include "ScreenPlay/settings.h"
 #include "ScreenPlay/widgetdata.h"
 #include <QPoint>
 
@@ -18,6 +19,7 @@ public:
         const QString& appID,
         const std::shared_ptr<GlobalVariables>& globalVariables,
         const WidgetData& widgetData,
+        const std::shared_ptr<Settings>& settings,
         QObject* parent = nullptr);
 
     bool start() override;
@@ -38,5 +40,6 @@ protected:
 
 private:
     WidgetData m_widgetData;
+    std::shared_ptr<Settings> m_settings;
 };
 }

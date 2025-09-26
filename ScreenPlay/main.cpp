@@ -64,9 +64,6 @@ int main(int argc, char* argv[])
     app->setEngine(engine);
     engine->loadFromModule("ScreenPlay", "ScreenPlayMain");
     const int status = qtGuiApp.exec();
-#if defined(Q_OS_WIN)
-    sentry_shutdown();
-#endif
     logging.reset();
     return status;
 }

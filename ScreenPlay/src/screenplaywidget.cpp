@@ -11,9 +11,11 @@ ScreenPlayWidget::ScreenPlayWidget(
     const QString& appID,
     const std::shared_ptr<GlobalVariables>& globalVariables,
     const WidgetData& widgetData,
+    const std::shared_ptr<Settings>& settings,
     QObject* parent)
     : ScreenPlayExternalProcess(appID, globalVariables, widgetData, parent)
     , m_widgetData(widgetData)
+    , m_settings(settings)
 {
     QJsonObject projectSettingsListModelProperties;
 
@@ -37,7 +39,8 @@ ScreenPlayWidget::ScreenPlayWidget(
         "--type", QVariant::fromValue(m_widgetData.type()).toString(),
         "--posX", QString::number(m_widgetData.position().x()),
         "--posY", QString::number(m_widgetData.position().y()),
-        "--mainapppid", QString::number(m_processManager.getCurrentPID())
+        "--mainapppid", QString::number(m_processManager.getCurrentPID()),
+        "--anonymoustelemetry", m_settings->anonymousTelemetry() ? "true" : "false"
     };
 }
 

@@ -48,6 +48,7 @@ class App : public QObject {
 
 public:
     explicit App(QObject* parent = nullptr);
+    ~App();
     Q_INVOKABLE QString version() const;
     Q_INVOKABLE void showDockIcon(const bool show);
     Q_INVOKABLE QCoro::QmlTask exit();

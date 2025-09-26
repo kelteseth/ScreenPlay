@@ -14,6 +14,7 @@
 #include "src/widgetwindow.h"
 
 #if defined(Q_OS_WIN)
+#include <sentry.h>
 #endif
 #if defined(Q_OS_MACOS)
 #include "ScreenPlayCore/macutils.h"
@@ -65,7 +66,8 @@ int main(int argc, char* argv[])
                 "--type", type,
                 "--posX", QString::number(center.x()),
                 "--posY", QString::number(center.y()),
-                "--mainapppid", "1" });
+                "--mainapppid", "1",
+                "--anonymoustelemetry", "true" });
     } else {
         argumentList = app.arguments();
     }
@@ -79,6 +81,7 @@ int main(int argc, char* argv[])
     QCommandLineOption posXOption("posX", "X position", "positionX");
     QCommandLineOption posYOption("posY", "Y position", "positionY");
     QCommandLineOption mainAppPidOption("mainapppid", "pid of the main ScreenPlay app. User to check if we are still alive.", "mainapppid");
+    QCommandLineOption anonymousTelemetryOption("anonymoustelemetry", "Enable anonymous telemetry.", "anonymoustelemetry");
 
     // Add the options to the parser
     parser.addOption(pathOption);
@@ -87,6 +90,7 @@ int main(int argc, char* argv[])
     parser.addOption(posXOption);
     parser.addOption(posYOption);
     parser.addOption(mainAppPidOption);
+    parser.addOption(anonymousTelemetryOption);
 
     // Process the actual command line arguments given by the user
     parser.process(argumentList);
@@ -113,6 +117,7 @@ int main(int argc, char* argv[])
     QString appID = parser.value(appIDOption);
     QString projectPath = parser.value(pathOption);
     QString type = parser.value(typeOption);
+    QString anonymousTelemetry = parser.value(anonymousTelemetryOption); // Optional parameter
 
     bool okPosX = false, okPosY = false;
     const int positionX = parser.value(posXOption).toInt(&okPosX);
@@ -134,6 +139,29 @@ int main(int argc, char* argv[])
         return static_cast<int>(WidgetExit::Code::Invalid_PID);
     }
 
+    // Initialize Sentry for crash reporting if anonymousTelemetry is enabled
+    bool enableTelemetry = false;
+    if (!anonymousTelemetry.isEmpty()) {
+        enableTelemetry = (anonymousTelemetry.toLower() == "true");
+    }
+
+    if (enableTelemetry) {
+#if defined(Q_OS_WIN)
+        sentry_options_t* options = sentry_options_new();
+        sentry_options_set_dsn(options, "https://a1674017ae7dbb1ec71f64b023b36818@o428218.ingest.us.sentry.io/4510085140054016");
+        QString environment = QGuiApplication::applicationVersion() + "";
+        sentry_options_set_environment(options, QString(environment).toStdString().c_str());
+
+        const QString appPath = QGuiApplication::applicationDirPath();
+        sentry_options_set_handler_path(options, QString(appPath + "/crashpad_handler.exe").toStdString().c_str());
+        sentry_options_set_database_path(options, appPath.toStdString().c_str());
+        const int sentryInitStatus = sentry_init(options);
+        if (sentryInitStatus != 0) {
+            qWarning() << "Unable to init sentry crashhandler with statuscode: " << sentryInitStatus;
+        }
+#endif
+    }
+
     auto quickView = std::make_shared<QQuickView>();
     WidgetWindow spwmw(
         projectPath,
@@ -151,6 +179,11 @@ int main(int argc, char* argv[])
 #endif
     logging = std::make_unique<const ScreenPlayCore::LoggingHandler>("ScreenPlayWidget_" + appID);
     const int status = app.exec();
+#if defined(Q_OS_WIN)
+    if (enableTelemetry) {
+        sentry_close();
+    }
+#endif
     logging.reset();
     return status;
 }
