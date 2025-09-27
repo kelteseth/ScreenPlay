@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Effects
 import ScreenPlay
@@ -6,108 +7,47 @@ import ScreenPlayCore
 
 Item {
     id: settingsHeader
-    property color background: "#FFAB00"
     property string text: "HEADLINE"
     property url image: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_settings.svg"
-    state: "out"
-    Component.onCompleted: state = "in"
+
     width: parent.width
-    height: 70
+    height: 60
     Rectangle {
-        id: radiusWorkaround
-        height: 5
-        radius: 4
-        color: settingsHeader.background
+        color: Material.color(Material.Orange)
+        topLeftRadius: 5
+        topRightRadius: 5
         anchors {
-            top: parent.top
-            right: parent.right
-            left: parent.left
+            fill: parent
         }
-    }
-    Rectangle {
-        color: settingsHeader.background
-        height: 47
-        anchors {
-            top: radiusWorkaround.bottom
-            topMargin: -2
-            right: parent.right
-            left: parent.left
-        }
-        Item {
+        RowLayout {
             anchors {
                 fill: parent
-                margins: 10
-                leftMargin: 20
+                margins: 20
             }
+            spacing: 10
             ColorImage {
                 id: imgIcon
+                fillMode: Image.PreserveAspectFit
                 source: settingsHeader.image
                 height: 20
                 width: 20
                 color: "white"
-                sourceSize: Qt.size(20, 20)
-                anchors {
-                    top: parent.top
-                    topMargin: 3
-                    left: parent.left
-                    leftMargin: 0
-                }
+                sourceSize: Qt.size(width, width)
+                Layout.alignment: Qt.AlignVCenter
             }
             Text {
                 id: txtHeadline
                 text: settingsHeader.text
-                font.pointSize: 12
+                font.pointSize: 14
                 color: "white"
-                verticalAlignment: Text.AlignTop
+                verticalAlignment: Text.AlignVCenter
                 font.family: App.settings.font
-                anchors {
-                    top: parent.top
-                    topMargin: 0
-                    left: parent.left
-                    leftMargin: 30
-                }
+                Layout.alignment: Qt.AlignVCenter
+            }
+            Item {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
             }
         }
     }
-    states: [
-        State {
-            name: "out"
-            PropertyChanges {
-                target: imgIcon
-                anchors.leftMargin: -10
-                opacity: 0
-            }
-            PropertyChanges {
-                target: txtHeadline
-                anchors.topMargin: 10
-                opacity: 0
-            }
-        },
-        State {
-            name: "in"
-            PropertyChanges {
-                target: imgIcon
-                anchors.leftMargin: 3
-                opacity: 1
-            }
-            PropertyChanges {
-                target: txtHeadline
-                anchors.topMargin: 2
-                opacity: 1
-            }
-        }
-    ]
-    transitions: [
-        Transition {
-            from: "in"
-            to: "out"
-            reversible: true
-            NumberAnimation {
-                targets: [imgIcon, txtHeadline]
-                properties: "opacity, anchors.topMargin, anchors.leftMargin"
-                duration: 400
-                easing.type: Easing.InOutQuart
-            }
-        }
-    ]
 }

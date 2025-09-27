@@ -32,6 +32,8 @@ public:
     Q_INVOKABLE bool isSteamVersion() const;
     Q_INVOKABLE bool isProVersion() const;
     Q_INVOKABLE bool isUltraVersion() const;
+    Q_INVOKABLE QString getLicenseFilePath() const;
+    Q_INVOKABLE QString getLicenseFolderPath() const;
 
     ScreenPlay::ScreenPlayEnums::Version version() const { return m_version; }
     QUrl localStoragePath() const { return m_localStoragePath; }

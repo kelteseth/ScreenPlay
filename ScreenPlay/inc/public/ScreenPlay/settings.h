@@ -30,6 +30,7 @@ class Settings : public QObject {
     Q_PROPERTY(bool checkWallpaperVisible READ checkWallpaperVisible WRITE setCheckWallpaperVisible NOTIFY checkWallpaperVisibleChanged FINAL)
     Q_PROPERTY(bool startWallpaperMuted READ startWallpaperMuted WRITE setStartWallpaperMuted NOTIFY startWallpaperMutedChanged FINAL)
     Q_PROPERTY(bool alwaysMinimize READ alwaysMinimize WRITE setAlwaysMinimize NOTIFY alwaysMinimizeChanged FINAL)
+    Q_PROPERTY(bool isDeployVersion READ isDeployVersion NOTIFY isDeployVersionChanged FINAL)
 
     Q_PROPERTY(ScreenPlay::Video::FillMode videoFillMode READ videoFillMode WRITE setVideoFillMode NOTIFY videoFillModeChanged)
     Q_PROPERTY(ScreenPlay::Settings::DesktopEnvironment desktopEnvironment READ desktopEnvironment WRITE setDesktopEnvironment NOTIFY desktopEnvironmentChanged FINAL)
@@ -116,6 +117,7 @@ public:
     const QString& buildInfos() const { return m_buildInfos; }
     bool startWallpaperMuted() const { return m_startWallpaperMuted; }
     bool alwaysMinimize() const { return m_alwaysMinimize; }
+    bool isDeployVersion() const { return m_isDeployVersion; }
     void writeDefaultProfiles();
 
     QVersionNumber getProfilesVersion() const;
@@ -143,6 +145,7 @@ signals:
     void godotFpsChanged(ScreenPlay::Settings::GodotFps godotFps);
     void graphicsApiChanged(ScreenPlay::ScreenPlayEnums::GraphicsApi graphicsApi);
     void alwaysMinimizeChanged(bool alwaysMinimize);
+    void isDeployVersionChanged(bool isDeployVersion);
 
 public slots:
     void setupLanguage();
@@ -189,6 +192,7 @@ private:
     bool m_silentStart { false };
     bool m_anonymousTelemetry { true };
     bool m_alwaysMinimize { false };
+    bool m_isDeployVersion { false };
 
     ScreenPlay::Video::FillMode m_videoFillMode { ScreenPlay::Video::FillMode::Cover };
     ScreenPlay::Settings::Language m_language { Language::En_US };

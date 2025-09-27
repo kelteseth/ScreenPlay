@@ -102,6 +102,18 @@ bool GlobalVariables::isUltraVersion() const
         || m_version == ScreenPlayEnums::Version::OpenSourceUltraSteam);
 }
 
+QString GlobalVariables::getLicenseFilePath() const
+{
+    return m_licenseManager.getLicenseFilePath();
+}
+
+QString GlobalVariables::getLicenseFolderPath() const
+{
+    QString filePath = m_licenseManager.getLicenseFilePath();
+    QFileInfo fileInfo(filePath);
+    return fileInfo.dir().absolutePath();
+}
+
 void GlobalVariables::setLocalStoragePath(QUrl localStoragePath)
 {
     if (m_localStoragePath == localStoragePath)

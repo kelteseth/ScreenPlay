@@ -254,17 +254,6 @@ Item {
                     spacing: 20
 
                     SettingBool {
-                        headline: qsTr("Pause wallpaper video rendering while another app is in the foreground.")
-                        description: qsTr("Limitations: This setting is Windows only, currently only works if you have exactly one monitor connected, and is limited to wallpapers with no audio. Wallpaper restart is required, when changing this setting!")
-                        isChecked: App.settings.checkWallpaperVisible
-                        onCheckboxChanged: function (checked) {
-                            App.settings.setCheckWallpaperVisible(checked);
-                        }
-                    }
-
-                    SettingsHorizontalSeperator {}
-
-                    SettingBool {
                         headline: qsTr("Start Wallpaper Muted")
                         description: qsTr("Defaults to a muted wallpaper. You can always change this at a alter date in the Configure Content menu.")
                         isChecked: App.settings.startWallpaperMuted
@@ -393,6 +382,297 @@ Item {
                             onActivated: {
                                 App.settings.setGraphicsApi(cbGraphicsApi.comboBox.currentValue);
                             }
+                        }
+                    }
+                }
+            }
+
+            SettingsPage {
+
+                header: SettingsHeader {
+                    id: headerLicense
+
+                    text: qsTr("License & Support")
+                    image: "qrc:/qt/qml/ScreenPlay/assets/icons/font-awsome/lock-solid.svg"
+                }
+
+                ColumnLayout {
+                    anchors.fill: parent
+                    anchors.margins: 20
+                    spacing: 20
+
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: 20
+                        Layout.rightMargin: 20
+                        spacing: 20
+
+                        Text {
+                            text: qsTr("Current Version")
+                            color: Material.foreground
+                            font.family: App.settings.font
+                            font.pointSize: 14
+                            font.weight: Font.Medium
+                        }
+
+                        Rectangle {
+                            Layout.fillWidth: true
+                            height: 60
+                            color: Material.backgroundColor
+                            border.color: Material.dividerColor
+                            border.width: 1
+                            radius: 4
+
+                            Row {
+                                anchors {
+                                    left: parent.left
+                                    leftMargin: 15
+                                    verticalCenter: parent.verticalCenter
+                                }
+                                spacing: 15
+
+                                Rectangle {
+                                    width: 8
+                                    height: 8
+                                    radius: 4
+                                    color: App.globalVariables.isBasicVersion() ? Material.color(Material.Orange) : App.globalVariables.isProVersion() ? Material.color(Material.Blue) : Material.color(Material.Purple)
+                                    anchors.verticalCenter: parent.verticalCenter
+                                }
+
+                                Column {
+                                    spacing: 2
+                                    anchors.verticalCenter: parent.verticalCenter
+
+                                    Text {
+                                        text: {
+                                            var versionText = "";
+                                            switch (App.globalVariables.version) {
+                                            case ScreenPlayEnums.Version.OpenSourceStandalone:
+                                                versionText = "ScreenPlay Open Source (Standalone)";
+                                                break;
+                                            case ScreenPlayEnums.Version.OpenSourceSteam:
+                                                versionText = "ScreenPlay Open Source (Steam)";
+                                                break;
+                                            case ScreenPlayEnums.Version.OpenSourceProStandalone:
+                                                versionText = "ScreenPlay Pro (Standalone)";
+                                                break;
+                                            case ScreenPlayEnums.Version.OpenSourceProSteam:
+                                                versionText = "ScreenPlay Pro (Steam)";
+                                                break;
+                                            case ScreenPlayEnums.Version.OpenSourceUltraStandalone:
+                                                versionText = "ScreenPlay Ultra (Standalone)";
+                                                break;
+                                            case ScreenPlayEnums.Version.OpenSourceUltraSteam:
+                                                versionText = "ScreenPlay Ultra (Steam)";
+                                                break;
+                                            default:
+                                                versionText = "Unknown Version";
+                                            }
+                                            return versionText;
+                                        }
+                                        color: Material.foreground
+                                        font.family: App.settings.font
+                                        font.pointSize: 12
+                                        font.weight: Font.Medium
+                                    }
+
+                                    Text {
+                                        text: App.globalVariables.isBasicVersion() ? qsTr("Basic Features") : App.globalVariables.isProVersion() ? qsTr("Pro Features Unlocked") : qsTr("Ultra Features Unlocked")
+                                        color: Material.color(Material.Grey, Material.Shade600)
+                                        font.family: App.settings.font
+                                        font.pointSize: 10
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    SettingsButton {
+                        visible: !App.settings.isDeployVersion
+                        headline: qsTr("Open License File Location")
+                        description: qsTr("Opens the folder containing your ScreenPlay license file in Windows Explorer.")
+                        buttonText: qsTr("Open Folder")
+                        onButtonPressed: {
+                            App.util.openFolderInExplorer(App.globalVariables.getLicenseFolderPath());
+                        }
+                    }
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: 20
+                        Layout.rightMargin: 20
+                        spacing: 15
+
+                        // Main content area
+                        ColumnLayout {
+                            Layout.fillWidth: true
+                            Layout.horizontalStretchFactor: App.globalVariables.isProVersion() || App.globalVariables.isUltraVersion() ? 2 : 3
+                            spacing: 15
+
+                            Text {
+                                text: App.globalVariables.isProVersion() || App.globalVariables.isUltraVersion() ? qsTr("Thank you for supporting ScreenPlay!") : qsTr("ScreenPlay Premium Benefits")
+                                color: App.globalVariables.isProVersion() || App.globalVariables.isUltraVersion() ? Material.color(Material.LightGreen) : Material.foreground
+                                font.family: App.settings.font
+                                font.pointSize: 14
+                                font.weight: Font.Medium
+                                Layout.fillWidth: true
+                            }
+
+                            ColumnLayout {
+                                Layout.fillWidth: true
+                                Layout.leftMargin: 20
+                                spacing: 8
+
+                                RowLayout {
+                                    Layout.fillWidth: true
+                                    spacing: 10
+
+                                    Rectangle {
+                                        width: 6
+                                        height: 6
+                                        radius: 3
+                                        color: App.globalVariables.isProVersion() || App.globalVariables.isUltraVersion() ? Material.color(Material.LightGreen) : Material.accentColor
+                                        Layout.alignment: Qt.AlignTop
+                                        Layout.topMargin: 8
+                                    }
+
+                                    Text {
+                                        text: qsTr("🎮 Godot Engine 4 - Interactive 3D wallpapers")
+                                        color: Material.foreground
+                                        font.family: App.settings.font
+                                        font.pointSize: 11
+                                        wrapMode: Text.WordWrap
+                                        Layout.fillWidth: true
+                                    }
+                                }
+
+                                RowLayout {
+                                    Layout.fillWidth: true
+                                    spacing: 10
+
+                                    Rectangle {
+                                        width: 6
+                                        height: 6
+                                        radius: 3
+                                        color: App.globalVariables.isProVersion() || App.globalVariables.isUltraVersion() ? Material.color(Material.LightGreen) : Material.accentColor
+                                        Layout.alignment: Qt.AlignTop
+                                        Layout.topMargin: 8
+                                    }
+
+                                    Text {
+                                        text: qsTr("📅 Smart Timeline - Wallpapers that change with time")
+                                        color: Material.foreground
+                                        font.family: App.settings.font
+                                        font.pointSize: 11
+                                        wrapMode: Text.WordWrap
+                                        Layout.fillWidth: true
+                                    }
+                                }
+
+                                RowLayout {
+                                    Layout.fillWidth: true
+                                    spacing: 10
+
+                                    Rectangle {
+                                        width: 6
+                                        height: 6
+                                        radius: 3
+                                        color: App.globalVariables.isProVersion() || App.globalVariables.isUltraVersion() ? Material.color(Material.LightGreen) : Material.accentColor
+                                        Layout.alignment: Qt.AlignTop
+                                        Layout.topMargin: 8
+                                    }
+
+                                    Text {
+                                        text: qsTr("💖 Support independent open source development")
+                                        color: Material.foreground
+                                        font.family: App.settings.font
+                                        font.pointSize: 11
+                                        wrapMode: Text.WordWrap
+                                        Layout.fillWidth: true
+                                    }
+                                }
+
+                                RowLayout {
+                                    Layout.fillWidth: true
+                                    spacing: 10
+
+                                    Rectangle {
+                                        width: 6
+                                        height: 6
+                                        radius: 3
+                                        color: App.globalVariables.isProVersion() || App.globalVariables.isUltraVersion() ? Material.color(Material.LightGreen) : Material.accentColor
+                                        Layout.alignment: Qt.AlignTop
+                                        Layout.topMargin: 8
+                                    }
+
+                                    Text {
+                                        text: qsTr("💝 €19.99 - Sustains open source for everyone")
+                                        color: Material.foreground
+                                        font.family: App.settings.font
+                                        font.pointSize: 11
+                                        wrapMode: Text.WordWrap
+                                        Layout.fillWidth: true
+                                    }
+                                }
+                            }
+                        }
+
+                        // Spaceship area for Pro users
+                        Item {
+                            visible: App.globalVariables.isProVersion() || App.globalVariables.isUltraVersion()
+                            Layout.fillWidth: visible
+                            Layout.horizontalStretchFactor: visible ? 1 : 0
+                            Layout.preferredHeight: 120
+                            Layout.alignment: Qt.AlignBottom | Qt.AlignRight
+
+                            Image {
+                                id: proSpaceship
+                                source: "qrc:/qt/qml/ScreenPlay/assets/images/rocket_3d.png"
+                                width: Math.min(parent.width * 0.8, 80)
+                                height: width
+                                fillMode: Image.PreserveAspectFit
+                                anchors.bottom: parent.bottom
+                                anchors.right: parent.right
+                                anchors.rightMargin: 10
+
+                                SequentialAnimation {
+                                    running: proSpaceship.visible
+                                    loops: Animation.Infinite
+
+                                    NumberAnimation {
+                                        target: proSpaceship.anchors
+                                        property: "bottomMargin"
+                                        from: 0
+                                        to: 16
+                                        duration: 1000
+                                        easing.type: Easing.InOutQuad
+                                    }
+
+                                    NumberAnimation {
+                                        target: proSpaceship.anchors
+                                        property: "bottomMargin"
+                                        from: 16
+                                        to: 0
+                                        duration: 1000
+                                        easing.type: Easing.InOutQuad
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    Button {
+                        visible: !App.globalVariables.isProVersion() && !App.globalVariables.isUltraVersion()
+                        text: qsTr("🥰 Get ScreenPlay Pro")
+                        Material.background: Material.color(Material.Orange)
+                        Material.foreground: "white"
+                        font.family: App.settings.font
+                        font.pointSize: 11
+                        height: 50
+                        Layout.alignment: Qt.AlignHCenter
+
+                        onClicked: {
+                            Qt.openUrlExternally("https://screen-play.app/");
                         }
                     }
                 }

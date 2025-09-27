@@ -14,12 +14,12 @@ public:
 
     ScreenPlayEnums::Version getVersion() const { return m_version; }
     void setVersion(ScreenPlayEnums::Version version);
+    QString getLicenseFilePath() const;
 
 private:
     QString generateLicenseKey(const QString& cpuName, const QString& userName);
     bool saveLicenseFile(const QString& licenseKey);
     bool analyzeLicenseFile(const QMap<ScreenPlayEnums::Version, QString>& possibleKeys);
-    QString getLicenseFilePath() const;
     QString generateLicenseHash() const;
 
 private:

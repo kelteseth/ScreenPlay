@@ -215,6 +215,7 @@ void Settings::setupWidgetAndWindowPaths()
     const QString godotVersion = QString(SCREENPLAY_GODOT_VERSION);
     const QString godotReleaseType = QString(SCREENPLAY_GODOT_RELEASE_TYPE);
     const bool isDeployVersion = SCREENPLAY_DEPLOY_VERSION;
+    m_isDeployVersion = isDeployVersion;
     if (osType == "windows") {
         if (isDeployVersion) {
             m_globalVariables->setWidgetExecutablePath(QUrl(appDir.path() + "/SPWidget.exe"));

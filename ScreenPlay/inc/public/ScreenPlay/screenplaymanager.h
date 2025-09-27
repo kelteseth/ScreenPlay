@@ -113,7 +113,6 @@ signals:
     void requestRaise();
     void profilesSaved();
     void printQmlTimeline();
-    void displayErrorPopup(const QString& msg);
     void notifyUiReloadTimelinePreviewImage();
     void projectSettingsListModelChanged(ScreenPlay::ProjectSettingsListModel* projectSettingsListModel);
 

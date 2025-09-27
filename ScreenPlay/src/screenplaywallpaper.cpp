@@ -99,7 +99,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
         // Add graphics API argument (not for Godot wallpapers)
         m_appArgumentsList.append({ "--graphicsapi", QString::number(static_cast<int>(m_settings->graphicsApi())) });
     }
-    
+
     // Add anonymous telemetry setting
     m_appArgumentsList.append({ "--anonymoustelemetry", m_settings->anonymousTelemetry() ? "true" : "false" });
     if (m_wallpaperData.type() == ContentTypes::InstalledType::GodotWallpaper) {

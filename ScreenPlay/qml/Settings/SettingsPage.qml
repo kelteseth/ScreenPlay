@@ -10,7 +10,7 @@ Page {
 
     background: Rectangle {
         anchors.fill: parent
-        radius: 3
+        radius: 5
         layer.enabled: true
         color: Material.theme === Material.Light ? "white" : Material.background
 
