@@ -8,7 +8,7 @@ Item {
     property bool otherLineHandleActive: false // New property
     property string identifier
     property real lineWidth: 1
-    property real linePosition: Number((root.x / lineWidth).toFixed(6))
+    property real linePosition: Number((root.x / lineWidth).toFixed(12))
     property string timeString: {
         const normalized = root.x / root.lineWidth;
         return App.util.getTimeString(normalized);

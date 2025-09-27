@@ -183,8 +183,12 @@ std::expected<bool, ScreenPlayTimelineManager::TimelineManagerError> ScreenPlayT
 */
 bool ScreenPlayTimelineManager::moveTimelineAt(const int index, const QString identifier, const float relativePosition, QString positionTimeString)
 {
-    // Q_ASSERT(m_util.getTimeString(relativePosition) == positionTimeString);
-    // qDebug() << "Calculated time:" << m_util.getTimeString(relativePosition) << "Provided time:" << positionTimeString << relativePosition;
+    Q_ASSERT(m_util.getTimeString(relativePosition) == positionTimeString);
+    if (m_util.getTimeString(relativePosition) != positionTimeString) {
+        qDebug() << "Calculated time:" << m_util.getTimeString(relativePosition) << "Provided time:" << positionTimeString << relativePosition;
+        qCritical() << "Invalid time string";
+        return false;
+    }
 
     m_contentTimer.stop();
     auto updateTimer = qScopeGuard([this] { m_contentTimer.start(); });
