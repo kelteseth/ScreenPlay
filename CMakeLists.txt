@@ -36,6 +36,7 @@ find_package(
     Qt6
     COMPONENTS Core
                Quick
+               QmlPrivate
                QuickControls2
                Gui
                Widgets
@@ -79,8 +80,8 @@ set(VCPKG_BIN_PATH "${VCPKG_INSTALLED_PATH}/bin")
 
 # Godot Editor
 set(GODOT_VERSION_MAJOR "4")
-set(GODOT_VERSION_MINOR "4")
-set(GODOT_VERSION_PATCH "1")
+set(GODOT_VERSION_MINOR "5")
+set(GODOT_VERSION_PATCH "")
 set(GODOT_RELEASE_TYPE "stable")
 
 # Use an if statement to check if GODOT_VERSION_PATCH is empty or not

@@ -11,7 +11,7 @@ set(CMAKE_AUTOMOC ON)
 find_package(infoware CONFIG REQUIRED)
 find_package(
     Qt6
-    COMPONENTS Quick Core
+    COMPONENTS Quick Core NetworkPrivate
     REQUIRED)
 
 qt_standard_project_setup(REQUIRES 6.8)
