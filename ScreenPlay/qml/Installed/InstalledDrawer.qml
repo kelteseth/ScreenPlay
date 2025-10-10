@@ -107,8 +107,8 @@ Drawer {
         }
 
         onOpened: {
-            const overwrite = false;
-            App.util.exportGodotProject(updateGodotWallpaperDialog.absoluteStoragePath, App.globalVariables.godotEditorExecutablePath, overwrite).then(result => {
+            const overwrite = true;
+            App.godotHandler.exportGodotProject(updateGodotWallpaperDialog.absoluteStoragePath, App.globalVariables.godotEditorExecutablePath, overwrite).then(result => {
                 if (!result.success) {
                     btnLaunchContent.enabled = true;
                     InstantPopup.openErrorPopup(timeline, result.message);
@@ -440,7 +440,7 @@ Drawer {
                         }
                         if (App.util.isWallpaper(root.type)) {
                             if (type === Util.ContentTypes.InstalledType.GodotWallpaper) {
-                                if (!App.util.godotProjectExportExists(absoluteStoragePath)) {
+                                if (!App.godotHandler.godotProjectExportExists(absoluteStoragePath)) {
                                     updateGodotWallpaperDialog.absoluteStoragePath = absoluteStoragePath;
                                     updateGodotWallpaperDialog.activeMonitors = activeMonitors;
                                     updateGodotWallpaperDialog.selectedTimelineIndex = selectedTimeline.index;

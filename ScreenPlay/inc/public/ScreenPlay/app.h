@@ -13,6 +13,7 @@
 #include "ScreenPlay/uiappstatesignals.h"
 #include "ScreenPlay/wizards.h"
 
+#include "ScreenPlayCore/godothandler.h"
 #include "ScreenPlayCore/util.h"
 
 #include <QQmlApplicationEngine>
@@ -38,6 +39,7 @@ class App : public QObject {
     Q_PROPERTY(ScreenPlay::Create* create READ create WRITE setCreate NOTIFY createChanged FINAL)
     Q_PROPERTY(ScreenPlay::Wizards* wizards READ wizards WRITE setWizards NOTIFY wizardsChanged FINAL)
     Q_PROPERTY(ScreenPlay::Util* util READ util WRITE setUtil NOTIFY utilChanged FINAL)
+    Q_PROPERTY(ScreenPlay::GodotHandler* godotHandler READ godotHandler WRITE setGodotHandler NOTIFY godotHandlerChanged FINAL)
     Q_PROPERTY(ScreenPlay::Settings* settings READ settings WRITE setSettings NOTIFY settingsChanged FINAL)
     Q_PROPERTY(ScreenPlay::InstalledListModel* installedListModel READ installedListModel WRITE setInstalledListModel NOTIFY installedListModelChanged FINAL)
     Q_PROPERTY(ScreenPlay::InstalledListFilter* installedListFilter READ installedListFilter WRITE setInstalledListFilter NOTIFY installedListFilterChanged FINAL)
@@ -57,6 +59,7 @@ public:
     ScreenPlayManager* screenPlayManager() const { return m_screenPlayManager.get(); }
     Create* create() const { return m_create.get(); }
     Util* util() const { return m_util.get(); }
+    GodotHandler* godotHandler() const { return m_godotHandler.get(); }
     Settings* settings() const { return m_settings.get(); }
     InstalledListModel* installedListModel() const { return m_installedListModel.get(); }
     MonitorListModel* monitorListModel() const { return m_monitorListModel.get(); }
@@ -73,6 +76,7 @@ signals:
     void screenPlayManagerChanged(ScreenPlay::ScreenPlayManager* screenPlayManager);
     void createChanged(ScreenPlay::Create* create);
     void utilChanged(ScreenPlay::Util* util);
+    void godotHandlerChanged(ScreenPlay::GodotHandler* godotHandler);
     void settingsChanged(ScreenPlay::Settings* settings);
     void installedListModelChanged(ScreenPlay::InstalledListModel* installedListModel);
     void monitorListModelChanged(ScreenPlay::MonitorListModel* monitorListModel);
@@ -89,6 +93,7 @@ public slots:
     void setScreenPlayManager(ScreenPlayManager* screenPlayManager);
     void setCreate(Create* create);
     void setUtil(Util* util);
+    void setGodotHandler(GodotHandler* godotHandler);
     void setSettings(Settings* settings);
     void setInstalledListModel(InstalledListModel* installedListModel);
     void setMonitorListModel(MonitorListModel* monitorListModel);
@@ -104,6 +109,7 @@ private:
     std::unique_ptr<Wizards> m_wizards;
     std::unique_ptr<ScreenPlayManager> m_screenPlayManager;
     std::unique_ptr<Util> m_util;
+    std::unique_ptr<GodotHandler> m_godotHandler;
 
     std::shared_ptr<GlobalVariables> m_globalVariables;
     std::shared_ptr<Settings> m_settings;

@@ -2,6 +2,7 @@
 
 #include "ScreenPlay/app.h"
 #include "ScreenPlay/errormanager.h"
+#include "ScreenPlayCore/godothandler.h"
 
 #include <QDir>
 #include <QElapsedTimer>
@@ -69,6 +70,7 @@ App::App(QObject* parent)
     m_globalVariables = make_shared<GlobalVariables>();
     m_monitorListModel = make_shared<MonitorListModel>();
     m_util = make_unique<Util>();
+    m_godotHandler = make_unique<GodotHandler>();
     m_profileListModel = make_shared<ProfileListModel>(m_globalVariables);
     m_settings = make_shared<Settings>(m_globalVariables);
     m_installedListModel = make_shared<InstalledListModel>(m_globalVariables, m_settings);
@@ -217,6 +219,22 @@ void App::setUtil(Util* util)
     m_util.reset(util);
     emit utilChanged(m_util.get());
 }
+
+/*!
+    \property App::godotHandler
+    \brief .
+
+   .
+*/
+void App::setGodotHandler(GodotHandler* godotHandler)
+{
+    if (m_godotHandler.get() == godotHandler)
+        return;
+
+    m_godotHandler.reset(godotHandler);
+    emit godotHandlerChanged(m_godotHandler.get());
+}
+
 /*!
     \property App::settings
     \brief .

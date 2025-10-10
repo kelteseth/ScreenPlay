@@ -148,14 +148,11 @@ public:
     bool isSameWallpaperRuntime(
         const ScreenPlay::ContentTypes::InstalledType type1,
         const ScreenPlay::ContentTypes::InstalledType type2) const;
-    bool isGodotWallpaper(const ScreenPlay::ContentTypes::InstalledType type) const;
     QJsonObject flattenProperties(const QJsonObject& properties);
 
     // QML callable functions
     Q_INVOKABLE QString toLocal(const QString& urlString) const;
     Q_INVOKABLE QString toLocal(const QUrl& url) const;
-    Q_INVOKABLE QCoro::QmlTask exportGodotProject(const QString& absolutePath, const QString& godotEditorExecutablePath, const bool overwrite = false);
-    Q_INVOKABLE bool godotProjectExportExists(const QString& absolutePath) const;
 
     Q_INVOKABLE bool isWallpaper(const ScreenPlay::ContentTypes::InstalledType type) const;
     Q_INVOKABLE bool isWidget(const ScreenPlay::ContentTypes::InstalledType type) const;
@@ -164,7 +161,6 @@ public:
 
     Q_INVOKABLE void copyToClipboard(const QString& text) const;
     Q_INVOKABLE void openFolderInExplorer(const QString& url) const;
-    Q_INVOKABLE bool openGodotEditor(QString contentPath, QString godotEditorExecutablePath) const;
     Q_INVOKABLE void requestAllLicenses();
     Q_INVOKABLE void requestDataProtection();
     Q_INVOKABLE bool fileExists(const QString& filePath) const;
@@ -183,7 +179,6 @@ signals:
     void allDataProtectionLoaded(QString dataProtectionText);
 
 private:
-    std::optional<QFileInfo> getGodotProjectExportFile(const QString& absolutePath) const;
     QFuture<void> m_requestAllLicensesFuture;
 };
 }

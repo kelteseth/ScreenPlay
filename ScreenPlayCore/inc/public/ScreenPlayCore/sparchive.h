@@ -8,11 +8,11 @@
 
 namespace ScreenPlay {
 
-class Archive : public QObject {
+class SPArchive : public QObject {
     Q_OBJECT
     QML_ELEMENT
 public:
-    explicit Archive(QObject* parent = nullptr);
+    explicit SPArchive(QObject* parent = nullptr);
 
     Q_INVOKABLE bool importProject(QString archivePath, QString extractionPath);
     Q_INVOKABLE bool exportProject(QString contentPath, QString exportFileName);

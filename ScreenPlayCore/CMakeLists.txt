@@ -52,22 +52,25 @@ set(QML
 
 set(SOURCES
     # cmake-format: sort
-    src/archive.cpp
+    src/archivereader.cpp
     src/contenttypes.cpp
     src/exitcodes.cpp
+    src/godothandler.cpp
     src/licensemanager.cpp
     src/logginghandler.cpp
     src/processmanager.cpp
     src/projectfile.cpp
+    src/sparchive.cpp
     src/steamenumsgenerated.cpp
     src/util.cpp)
 
 set(HEADER
     # cmake-format: sort
-    inc/public/ScreenPlayCore/archive.h
+    inc/public/ScreenPlayCore/archivereader.h
     inc/public/ScreenPlayCore/contenttypes.h
     inc/public/ScreenPlayCore/exitcodes.h
     inc/public/ScreenPlayCore/globalenums.h
+    inc/public/ScreenPlayCore/godothandler.h
     inc/public/ScreenPlayCore/HelpersCommon.h
     inc/public/ScreenPlayCore/licensemanager.h
     inc/public/ScreenPlayCore/ListPropertyHelper.h
@@ -75,6 +78,7 @@ set(HEADER
     inc/public/ScreenPlayCore/processmanager.h
     inc/public/ScreenPlayCore/projectfile.h
     inc/public/ScreenPlayCore/PropertyHelpers.h
+    inc/public/ScreenPlayCore/sparchive.h
     inc/public/ScreenPlayCore/steamenumsgenerated.h
     inc/public/ScreenPlayCore/util.h)
 

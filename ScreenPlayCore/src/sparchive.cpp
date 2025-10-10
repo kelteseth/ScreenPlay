@@ -1,25 +1,25 @@
-#include "ScreenPlayCore/archive.h"
+#include "ScreenPlayCore/sparchive.h"
 #include "ScreenPlayCore/util.h"
 namespace ScreenPlay {
 
-Archive::Archive(QObject* parent)
+SPArchive::SPArchive(QObject* parent)
     : QObject { parent }
 {
 
     m_extractor = std::make_unique<QArchive::DiskExtractor>();
     m_compressor = std::make_unique<QArchive::DiskCompressor>();
-    QObject::connect(m_extractor.get(), &QArchive::DiskExtractor::progress, this, &Archive::extractionProgressChanged);
-    QObject::connect(m_extractor.get(), &QArchive::DiskExtractor::finished, this, &Archive::extractionFinished);
+    QObject::connect(m_extractor.get(), &QArchive::DiskExtractor::progress, this, &SPArchive::extractionProgressChanged);
+    QObject::connect(m_extractor.get(), &QArchive::DiskExtractor::finished, this, &SPArchive::extractionFinished);
 
-    QObject::connect(m_compressor.get(), &QArchive::DiskCompressor::progress, this, &Archive::compressionProgressChanged);
-    QObject::connect(m_compressor.get(), &QArchive::DiskCompressor::finished, this, &Archive::compressionFinished);
+    QObject::connect(m_compressor.get(), &QArchive::DiskCompressor::progress, this, &SPArchive::compressionProgressChanged);
+    QObject::connect(m_compressor.get(), &QArchive::DiskCompressor::finished, this, &SPArchive::compressionFinished);
 }
 
 /*!
   \brief Imports a given project from a .screenplay zip file. The argument extractionPath
          must be copied otherwise it will get reset in qml before extracting.
 */
-bool Archive::importProject(QString archivePath, QString extractionPath)
+bool SPArchive::importProject(QString archivePath, QString extractionPath)
 {
     m_extractor->clear();
     Util util;
@@ -57,7 +57,7 @@ bool Archive::importProject(QString archivePath, QString extractionPath)
 /*!
   \brief Exports a given project into a .screenplay 7Zip file.
 */
-bool Archive::exportProject(QString contentPath, QString exportFileName)
+bool SPArchive::exportProject(QString contentPath, QString exportFileName)
 {
     m_compressor->clear();
     Util util;
@@ -88,3 +88,5 @@ bool Archive::exportProject(QString contentPath, QString exportFileName)
     return true;
 }
 }
+
+#include "moc_sparchive.cpp"

@@ -1,13 +1,15 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "ScreenPlayCore/util.h"
+#include "core/qcoroprocess.h"
 
 #include <QDesktopServices>
+#include <QEventLoop>
 #include <QFile>
 #include <QGuiApplication>
 #include <QJsonParseError>
 #include <QRandomGenerator>
+#include <QTemporaryDir>
 
-#include "core/qcoroprocess.h"
 /*!
     \module ScreenPlayCore
     \title ScreenPlayCore
@@ -550,16 +552,6 @@ bool Util::isQtBasedWallpaper(const ScreenPlay::ContentTypes::InstalledType type
 }
 
 /*!
-    \brief Checks if the wallpaper type is Godot-based
-    \param type The InstalledType to check
-    \return true if the wallpaper is Godot-based, false otherwise
-*/
-bool Util::isGodotWallpaper(const ScreenPlay::ContentTypes::InstalledType type) const
-{
-    return type == ScreenPlay::ContentTypes::InstalledType::GodotWallpaper;
-}
-
-/*!
     \brief Flattens a hierarchical property structure into a single-level object.
 
     Takes a JSON object containing categorized properties and returns a new JSON object
@@ -627,9 +619,15 @@ bool Util::isSameWallpaperRuntime(
         return false;
     }
 
-    // Not yet supported
-    if (isGodotWallpaper(type1) && isGodotWallpaper(type2)) {
-        return false;
+    // Godot wallpapers are handled separately by GodotHandler
+    using IT = ScreenPlay::ContentTypes::InstalledType;
+    if ((type1 == IT::GodotWallpaper) && (type2 == IT::GodotWallpaper)) {
+        return true;
+    }
+    
+    // Qt-based wallpapers can switch between each other
+    if ((type1 == IT::GodotWallpaper) || (type2 == IT::GodotWallpaper)) {
+        return false; // No mixing between Qt and Godot
     }
 
     return (isQtBasedWallpaper(type1) && isQtBasedWallpaper(type2));
@@ -702,15 +700,6 @@ void Util::openFolderInExplorer(const QString& url) const
     }
 
     QDesktopServices::openUrl(QUrl::fromLocalFile(path));
-}
-
-bool Util::openGodotEditor(QString contentPath, QString godotEditorExecutablePath) const
-{
-    const QList<QString> godotCmd = { "--editor", "--path", toLocal(contentPath) };
-    QProcess process;
-    process.setProgram(godotEditorExecutablePath);
-    process.setArguments(godotCmd);
-    return process.startDetached();
 }
 
 /*!
@@ -861,119 +850,6 @@ bool Util::copyPreviewThumbnail(QJsonObject& obj, const QString& previewThumbnai
     obj.insert("preview", previewImageFile.fileName());
 
     return true;
-}
-
-/*!
-  \brief Helper function that parses the project.json and returns a QFileInfo for the Godot export package.
-  Returns std::nullopt if the project.json cannot be read or parsed.
-*/
-std::optional<QFileInfo> Util::getGodotProjectExportFile(const QString& absolutePath) const
-{
-    QString projectPath = toLocal(absolutePath);
-    std::optional<QJsonObject> projectOpt = openJsonFileToObject(projectPath + "/project.json");
-    if (!projectOpt.has_value()) {
-        return std::nullopt;
-    }
-
-    QJsonObject projectJson = projectOpt.value();
-    if (!projectJson.contains("version")) {
-        return std::nullopt;
-    }
-
-    const quint64 version = projectJson.value("version").toInt();
-    const QString packageFileName = QString("project-v%1.zip").arg(version);
-    return QFileInfo(projectPath + "/" + packageFileName);
-}
-
-QCoro::QmlTask Util::exportGodotProject(const QString& absolutePath, const QString& godotEditorExecutablePath, const bool overwrite)
-{
-    return QCoro::QmlTask([this, absolutePath, godotEditorExecutablePath, overwrite]() -> QCoro::Task<Result> {
-        QString projectPath = toLocal(absolutePath);
-
-        std::optional<QFileInfo> godotPackageFileOpt = getGodotProjectExportFile(absolutePath);
-        if (!godotPackageFileOpt.has_value()) {
-            co_return Result { false, {}, "Unable to read project.json or missing version field" };
-        }
-
-        QFileInfo godotPackageFile = godotPackageFileOpt.value();
-        QString packageFileName = godotPackageFile.fileName();
-
-        if (godotPackageFile.exists()) {
-            if (overwrite) {
-                if (!QFile::moveToTrash(godotPackageFile.absoluteFilePath())) {
-                    co_return Result { false, {}, QString("Unable to delte old export: %1").arg(godotPackageFile.absoluteFilePath()) };
-                }
-            } else {
-                // Skip reexport
-                co_return Result { true };
-            }
-        }
-
-        // Prepare the Godot export command
-        const QList<QString>
-            godotCmd
-            = { "--export-pack", "--headless", "Windows Desktop", packageFileName };
-
-        QProcess process;
-        process.setWorkingDirectory(projectPath);
-        process.setProgram(godotEditorExecutablePath);
-        process.setArguments(godotCmd);
-        using namespace QCoro;
-        auto coro_process = qCoro(process);
-        qInfo() << "Start" << process.program() << " " << process.arguments() << process.workingDirectory();
-        co_await coro_process.start();
-        co_await coro_process.waitForFinished();
-
-        // Capture the standard output and error
-        QString stdoutString = process.readAllStandardOutput();
-        QString stderrString = process.readAllStandardError();
-
-        // If you want to print the output to the console:
-        if (!stdoutString.isEmpty())
-            qDebug() << "Output:" << stdoutString;
-        if (!stderrString.isEmpty())
-            qDebug() << "Error:" << stderrString;
-
-        // Check for errors
-        if (process.exitStatus() != QProcess::NormalExit || process.exitCode() != 0) {
-            QString errorMessage = tr("Failed to export Godot project. Error: %1").arg(process.errorString());
-            qCritical() << errorMessage;
-            co_return Result { false, {}, errorMessage };
-        }
-
-        // Check if the project.zip file was created
-        QString zipPath = QDir(projectPath).filePath(packageFileName);
-        if (!QFile::exists(zipPath)) {
-            qCritical() << "Expected export file (" << packageFileName << ") was not created.";
-            co_return Result { false };
-        }
-
-        // Optional: Verify if the .zip file is valid
-        //     (A complete verification would involve extracting the file and checking its contents,
-        //     but for simplicity, we're just checking its size here)
-        QFileInfo zipInfo(zipPath);
-        if (zipInfo.size() <= 0) {
-            qCritical() << "The exported " << packageFileName << " file seems to be invalid.";
-            co_return Result { false };
-        }
-        qInfo() << "exportGodotProject END";
-        co_return Result { true };
-    }());
-}
-
-/*!
-  \brief Checks if a Godot project export file exists for the given project.
-  \param absolutePath The absolute path to the project directory
-  \return true if the export file exists, false otherwise
-*/
-bool Util::godotProjectExportExists(const QString& absolutePath) const
-{
-    std::optional<QFileInfo> godotPackageFileOpt = getGodotProjectExportFile(absolutePath);
-    if (!godotPackageFileOpt.has_value()) {
-        return false;
-    }
-
-    return godotPackageFileOpt.value().exists();
 }
 
 /*!

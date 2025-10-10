@@ -219,13 +219,13 @@ Item {
             enabled: contextMenu.type === Util.ContentTypes.InstalledType.GodotWallpaper
             icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_edit.svg"
             onClicked: {
-                App.util.openGodotEditor(contextMenu.absoluteStoragePath, App.globalVariables.godotEditorExecutablePath);
+                App.godotHandler.openGodotEditor(contextMenu.absoluteStoragePath, App.globalVariables.godotEditorExecutablePath);
             }
         }
     }
 
     Util.Dialog {
-        id: updateGodotWallpaperDialog
+        id: userManualUpdateGodotWallpaperDialog
         modal: true
         anchors.centerIn: Overlay.overlay
         width: 400
@@ -234,13 +234,13 @@ Item {
         closePolicy: Popup.NoAutoClose
         onOpened: {
             const overwrite = true;
-            App.util.exportGodotProject(contextMenu.absoluteStoragePath, App.globalVariables.godotEditorExecutablePath, overwrite).then(result => {
+            App.godotHandler.exportGodotProject(contextMenu.absoluteStoragePath, App.globalVariables.godotEditorExecutablePath, overwrite).then(result => {
                 if (result.success) {
                     print(result.success);
                 } else {
                     InstantPopup.openErrorPopup(root, result.message);
                 }
-                updateGodotWallpaperDialog.close();
+                userManualUpdateGodotWallpaperDialog.close();
             });
         }
 
@@ -269,7 +269,7 @@ Item {
             objectName: "editWallpaper"
             enabled: contextMenu.type === Util.ContentTypes.InstalledType.GodotWallpaper
             icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_cached.svg"
-            onClicked: updateGodotWallpaperDialog.open()
+            onClicked: userManualUpdateGodotWallpaperDialog.open()
             hoverEnabled: true
             ToolTip.delay: 500
             ToolTip.visible: hovered
@@ -408,7 +408,7 @@ Item {
         }
     }
 
-    Util.Archive {
+    Util.SPArchive {
         id: archive
     }
 
