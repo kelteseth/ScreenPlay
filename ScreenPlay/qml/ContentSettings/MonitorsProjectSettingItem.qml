@@ -46,32 +46,32 @@ Item {
         visible: !root.isHeadline
         Component.onCompleted: {
             if (root.isHeadline)
-                return;
-            console.log("MonitorsProjectSettingItem:", root.value["type"]);
+                return
+            console.log("MonitorsProjectSettingItem:", root.value["type"])
             switch (root.value["type"]) {
             case "slider":
-                loader.sourceComponent = compSlider;
-                loader.item.from = root.value["from"];
-                loader.item.to = root.value["to"];
-                loader.item.value = root.value["value"];
-                loader.item.stepSize = root.value["stepSize"];
-                const value = parseFloat(loader.item.value.toFixed(2));
-                loader.item.text = value;
-                break;
+                loader.sourceComponent = compSlider
+                loader.item.from = root.value["from"]
+                loader.item.to = root.value["to"]
+                loader.item.value = root.value["value"]
+                loader.item.stepSize = root.value["stepSize"]
+                const value = parseFloat(loader.item.value.toFixed(2))
+                loader.item.text = value
+                break
             case "bool":
-                loader.sourceComponent = compCheckbox;
-                loader.item.value = root.value["value"];
-                break;
+                loader.sourceComponent = compCheckbox
+                loader.item.value = root.value["value"]
+                break
             case "color":
-                loader.sourceComponent = compColorpicker;
-                loader.item.value = root.value["value"];
-                break;
+                loader.sourceComponent = compColorpicker
+                loader.item.value = root.value["value"]
+                break
             default:
-                console.error(name, " has an invalid type:" << root.value["type"]);
-                break;
+                console.error(name, " has an invalid type:" << root.value["type"])
+                break
             }
             if (root.value["text"])
-                txtDescription.text = root.value["text"];
+                txtDescription.text = root.value["text"]
         }
 
         anchors {
@@ -88,21 +88,21 @@ Item {
 
             Connections {
                 function onSave(obj) {
-                    print("on save value:", root.index, root.name, root.category, obj.value);
-                    root.projectSettingsListmodelRef.setValueAtIndex(root.index, root.name, root.category, obj.value);
+                    print("on save value:", root.index, root.name, root.category, obj.value)
+                    root.projectSettingsListmodelRef.setValueAtIndex(root.index, root.name, root.category, obj.value)
 
-                    const monitorIndex = root.selectedMonitorIndex;
-                    const timelineIndex = root.timelineIndex;
-                    const sectionIdentifier = root.sectionIdentifier;
-                    const key = root.name;
-                    const value = obj.value;
+                    const monitorIndex = root.selectedMonitorIndex
+                    const timelineIndex = root.timelineIndex
+                    const sectionIdentifier = root.sectionIdentifier
+                    const key = root.name
+                    const value = obj.value
 
                     App.screenPlayManager.setValueAtMonitorTimelineIndex(monitorIndex, timelineIndex, sectionIdentifier, key, value, root.category).then(result => {
-                        settingValue = false;
+                        settingValue = false
                         if (!result.success) {
-                            InstantPopup.openErrorPopup(root, result.message);
+                            InstantPopup.openErrorPopup(root, result.message)
                         }
-                    });
+                    })
                 }
 
                 target: loader.item
@@ -130,8 +130,8 @@ Item {
                         let obj = {
                             "value": checkbox.checked,
                             "type": "checkBox"
-                        };
-                        root.save(obj);
+                        }
+                        root.save(obj)
                     }
 
                     anchors {
@@ -188,12 +188,12 @@ Item {
 
                     title: qsTr("Please choose a color")
                     onAccepted: {
-                        rctPreviewColor.color = colorDialog.selectedColor;
+                        rctPreviewColor.color = colorDialog.selectedColor
                         let obj = {
                             "value": rctPreviewColor.color,
                             "type": "color"
-                        };
-                        root.save(obj);
+                        }
+                        root.save(obj)
                     }
                 }
             }
@@ -226,16 +226,16 @@ Item {
                     onVisualPositionChanged: root.text = (slider.visualPosition * root.to).toFixed(0)
 
                     onValueChanged: {
-                        const value = parseFloat(slider.value.toFixed(2));
-                        root.text = value;
+                        const value = parseFloat(slider.value.toFixed(2))
+                        root.text = value
                         let obj = {
                             "from": root.from,
                             "to": root.to,
                             "value": value,
                             "type": "slider",
                             "stepSize": root.stepSize
-                        };
-                        root.save(obj);
+                        }
+                        root.save(obj)
                     }
 
                     anchors {

@@ -21,21 +21,21 @@ Drawer {
     function setWorkshopItem(publishedFileID, imgUrl, videoPreview, subscriptionCount) {
         if (root.publishedFileID === publishedFileID) {
             if (!root.visible)
-                root.open();
+                root.open()
             else
-                root.close();
-            return;
+                root.close()
+            return
         }
-        root.publishedFileID = publishedFileID;
-        root.imgUrl = imgUrl;
-        root.subscriptionCount = subscriptionCount;
-        root.videoPreview = videoPreview;
-        root.subscribed = false;
-        txtVotesUp.highlighted = false;
-        txtVotesDown.highlighted = false;
+        root.publishedFileID = publishedFileID
+        root.imgUrl = imgUrl
+        root.subscriptionCount = subscriptionCount
+        root.videoPreview = videoPreview
+        root.subscribed = false
+        txtVotesUp.highlighted = false
+        txtVotesDown.highlighted = false
         if (!root.visible)
-            root.open();
-        steamWorkshop.requestWorkshopItemDetails(publishedFileID);
+            root.open()
+        steamWorkshop.requestWorkshopItemDetails(publishedFileID)
     }
 
     edge: Qt.RightEdge
@@ -54,23 +54,23 @@ Drawer {
                 for (var i in tags) {
                     tagListModel.append({
                         "name": tags[i]
-                    });
+                    })
                 }
-                rpTagList.model = tagListModel;
+                rpTagList.model = tagListModel
             } else {
-                rpTagList.model = null;
+                rpTagList.model = null
             }
-            txtTitle.text = title;
-            const size = Math.floor((1000 * ((fileSize / 1024) / 1000)) / 1000);
-            txtFileSize.text = qsTr("Size: ") + size + " MB";
-            pbVotes.to = votesDown + votesUp;
-            pbVotes.value = votesUp;
-            txtVotesDown.text = votesDown;
-            txtVotesUp.text = votesUp;
+            txtTitle.text = title
+            const size = Math.floor((1000 * ((fileSize / 1024) / 1000)) / 1000)
+            txtFileSize.text = qsTr("Size: ") + size + " MB"
+            pbVotes.to = votesDown + votesUp
+            pbVotes.value = votesUp
+            txtVotesDown.text = votesDown
+            txtVotesUp.text = votesUp
             if (description === "")
-                description = qsTr("No description...");
-            txtDescription.text = description;
-            pbVotes.hoverText = votesUp + " / " + votesDown;
+                description = qsTr("No description...")
+            txtDescription.text = description
+            pbVotes.hoverText = votesUp + " / " + votesDown
         }
 
         target: steamWorkshop
@@ -182,9 +182,9 @@ Drawer {
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("Click here if you like the content")
                         onClicked: {
-                            steamWorkshop.vote(root.publishedFileID, true);
-                            txtVotesUp.highlighted = true;
-                            txtVotesDown.highlighted = false;
+                            steamWorkshop.vote(root.publishedFileID, true)
+                            txtVotesUp.highlighted = true
+                            txtVotesDown.highlighted = false
                         }
                     }
 
@@ -197,9 +197,9 @@ Drawer {
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("Click here if you do not like the content")
                         onClicked: {
-                            steamWorkshop.vote(root.publishedFileID, false);
-                            txtVotesUp.highlighted = false;
-                            txtVotesDown.highlighted = true;
+                            steamWorkshop.vote(root.publishedFileID, false)
+                            txtVotesUp.highlighted = false
+                            txtVotesDown.highlighted = true
                         }
                     }
                 }
@@ -337,8 +337,8 @@ Drawer {
             icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_download.svg"
             text: root.subscribed ? qsTr("Subscribed!") : qsTr("Subscribe")
             onClicked: {
-                root.subscribed = true;
-                root.steamWorkshop.subscribeItem(root.publishedFileID);
+                root.subscribed = true
+                root.steamWorkshop.subscribeItem(root.publishedFileID)
             }
         }
     }

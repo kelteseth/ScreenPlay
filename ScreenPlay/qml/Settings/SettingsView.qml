@@ -58,7 +58,7 @@ Item {
                         description: qsTr("ScreenPlay will start with Windows and will setup your Desktop every time for you.")
                         isChecked: App.settings.autostart
                         onCheckboxChanged: function (checked) {
-                            App.settings.setAutostart(checked);
+                            App.settings.setAutostart(checked)
                         }
                     }
 
@@ -69,7 +69,7 @@ Item {
                         description: qsTr("When enabled, ScreenPlay will automatically minimize to the system tray instead of showing the exit dialog when closing the main window.")
                         isChecked: App.settings.alwaysMinimize
                         onCheckboxChanged: function (checked) {
-                            App.settings.setAlwaysMinimize(checked);
+                            App.settings.setAlwaysMinimize(checked)
                         }
                     }
 
@@ -81,7 +81,7 @@ Item {
                         description: qsTr("Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use <a href=\"https://sentry.io\">sentry.io</a> to collect and analyze this data. A <b>big thanks to them</b> for providing us with free premium support for open source projects!")
                         isChecked: App.settings.anonymousTelemetry
                         onCheckboxChanged: function (checked) {
-                            App.settings.setAnonymousTelemetry(checked);
+                            App.settings.setAnonymousTelemetry(checked)
                         }
                     }
 
@@ -92,21 +92,21 @@ Item {
                         buttonText: qsTr("Set location")
                         description: {
                             // Remove file:/// so the used does not get confused
-                            let path = App.globalVariables.localStoragePath + "";
+                            let path = App.globalVariables.localStoragePath + ""
                             if (path.length === 0)
-                                return qsTr("Your storage path is empty!");
+                                return qsTr("Your storage path is empty!")
                             else
-                                return path.replace('file:///', '');
+                                return path.replace('file:///', '')
                         }
                         onButtonPressed: {
-                            folderDialogSaveLocation.open();
+                            folderDialogSaveLocation.open()
                         }
 
                         FolderDialog {
                             id: folderDialogSaveLocation
                             currentFolder: App.globalVariables.localStoragePath
                             onAccepted: {
-                                App.settings.setLocalStoragePath(folderDialogSaveLocation.currentFolder);
+                                App.settings.setLocalStoragePath(folderDialogSaveLocation.currentFolder)
                             }
                         }
                     }
@@ -115,10 +115,10 @@ Item {
                         id: txtDirChangesInfo
 
                         text: {
-                            let text = qsTr("Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder! Example Steam paths:\n");
+                            let text = qsTr("Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder! Example Steam paths:\n")
                             if (App.globalVariables.isSteamVersion()) {
-                                text += "\n    C:\\Program Files (x86)\\Steam\\steamapps\\workshop\\content\\672870\\";
-                                text += "\n    F:\\SteamLibrary\\steamapps\\\workshop\\content\\672870\\";
+                                text += "\n    C:\\Program Files (x86)\\Steam\\steamapps\\workshop\\content\\672870\\"
+                                text += "\n    F:\\SteamLibrary\\steamapps\\\workshop\\content\\672870\\"
                             }
                         }
 
@@ -201,9 +201,9 @@ Item {
                                 }
                             }
                             onActivated: {
-                                let language = settingsLanguage.comboBox.currentValue;
-                                App.settings.setLanguage(language);
-                                App.settings.retranslateUI();
+                                let language = settingsLanguage.comboBox.currentValue
+                                App.settings.setLanguage(language)
+                                App.settings.retranslateUI()
                             }
                         }
                     }
@@ -232,7 +232,7 @@ Item {
                                 }
                             }
                             onActivated: {
-                                App.settings.setTheme(settingsTheme.comboBox.currentValue);
+                                App.settings.setTheme(settingsTheme.comboBox.currentValue)
                             }
                         }
                     }
@@ -258,7 +258,7 @@ Item {
                         description: qsTr("Defaults to a muted wallpaper. You can always change this at a alter date in the Configure Content menu.")
                         isChecked: App.settings.startWallpaperMuted
                         onCheckboxChanged: function (checked) {
-                            App.settings.setStartWallpaperMuted(checked);
+                            App.settings.setStartWallpaperMuted(checked)
                         }
                     }
 
@@ -294,7 +294,7 @@ Item {
                                 }
                             }
                             onActivated: {
-                                App.settings.setVideoFillMode(cbVideoFillMode.comboBox.currentValue);
+                                App.settings.setVideoFillMode(cbVideoFillMode.comboBox.currentValue)
                             }
                         }
                     }
@@ -311,9 +311,9 @@ Item {
                             Component.onCompleted: {
                                 if (App.globalVariables.isBasicVersion()) {
                                     // For basic version, default to 60 FPS
-                                    comboBox.currentIndex = comboBox.indexOfValue(Settings.GodotFps.Fps60);
+                                    comboBox.currentIndex = comboBox.indexOfValue(Settings.GodotFps.Fps60)
                                 } else {
-                                    comboBox.currentIndex = comboBox.indexOfValue(App.settings.godotFps);
+                                    comboBox.currentIndex = comboBox.indexOfValue(App.settings.godotFps)
                                 }
                             }
                             model: ListModel {
@@ -351,7 +351,7 @@ Item {
                                 }
                             }
                             onActivated: {
-                                App.settings.setGodotFps(cbGodotFps.comboBox.currentValue);
+                                App.settings.setGodotFps(cbGodotFps.comboBox.currentValue)
                             }
                         }
                     }
@@ -380,7 +380,7 @@ Item {
                                 }
                             }
                             onActivated: {
-                                App.settings.setGraphicsApi(cbGraphicsApi.comboBox.currentValue);
+                                App.settings.setGraphicsApi(cbGraphicsApi.comboBox.currentValue)
                             }
                         }
                     }
@@ -445,30 +445,30 @@ Item {
 
                                     Text {
                                         text: {
-                                            var versionText = "";
+                                            var versionText = ""
                                             switch (App.globalVariables.version) {
                                             case ScreenPlayEnums.Version.OpenSourceStandalone:
-                                                versionText = "ScreenPlay Open Source (Standalone)";
-                                                break;
+                                                versionText = "ScreenPlay Open Source (Standalone)"
+                                                break
                                             case ScreenPlayEnums.Version.OpenSourceSteam:
-                                                versionText = "ScreenPlay Open Source (Steam)";
-                                                break;
+                                                versionText = "ScreenPlay Open Source (Steam)"
+                                                break
                                             case ScreenPlayEnums.Version.OpenSourceProStandalone:
-                                                versionText = "ScreenPlay Pro (Standalone)";
-                                                break;
+                                                versionText = "ScreenPlay Pro (Standalone)"
+                                                break
                                             case ScreenPlayEnums.Version.OpenSourceProSteam:
-                                                versionText = "ScreenPlay Pro (Steam)";
-                                                break;
+                                                versionText = "ScreenPlay Pro (Steam)"
+                                                break
                                             case ScreenPlayEnums.Version.OpenSourceUltraStandalone:
-                                                versionText = "ScreenPlay Ultra (Standalone)";
-                                                break;
+                                                versionText = "ScreenPlay Ultra (Standalone)"
+                                                break
                                             case ScreenPlayEnums.Version.OpenSourceUltraSteam:
-                                                versionText = "ScreenPlay Ultra (Steam)";
-                                                break;
+                                                versionText = "ScreenPlay Ultra (Steam)"
+                                                break
                                             default:
-                                                versionText = "Unknown Version";
+                                                versionText = "Unknown Version"
                                             }
-                                            return versionText;
+                                            return versionText
                                         }
                                         color: Material.foreground
                                         font.family: App.settings.font
@@ -493,7 +493,7 @@ Item {
                         description: qsTr("Opens the folder containing your ScreenPlay license file in Windows Explorer.")
                         buttonText: qsTr("Open Folder")
                         onButtonPressed: {
-                            App.util.openFolderInExplorer(App.globalVariables.getLicenseFolderPath());
+                            App.util.openFolderInExplorer(App.globalVariables.getLicenseFolderPath())
                         }
                     }
 
@@ -672,7 +672,7 @@ Item {
                         Layout.alignment: Qt.AlignHCenter
 
                         onClicked: {
-                            Qt.openUrlExternally("https://screen-play.app/");
+                            Qt.openUrlExternally("https://screen-play.app/")
                         }
                     }
                 }
@@ -839,8 +839,8 @@ Item {
                         description: qsTr("ScreenPlay would not be possible without the work of others. A big thank you to: ")
                         buttonText: qsTr("Licenses")
                         onButtonPressed: {
-                            App.util.requestAllLicenses();
-                            expanderCopyright.toggle();
+                            App.util.requestAllLicenses()
+                            expanderCopyright.toggle()
                         }
                     }
 
@@ -849,7 +849,7 @@ Item {
 
                         Connections {
                             function onAllLicenseLoaded(licensesText) {
-                                expanderCopyright.text = licensesText;
+                                expanderCopyright.text = licensesText
                             }
 
                             target: App.util
@@ -863,8 +863,8 @@ Item {
                         description: qsTr("If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.")
                         buttonText: qsTr("Show Logs")
                         onButtonPressed: {
-                            const logsPath = QCore.StandardPaths.writableLocation(QCore.StandardPaths.TempLocation) + "/ScreenPlay/Logs";
-                            App.util.openFolderInExplorer(logsPath);
+                            const logsPath = QCore.StandardPaths.writableLocation(QCore.StandardPaths.TempLocation) + "/ScreenPlay/Logs"
+                            App.util.openFolderInExplorer(logsPath)
                         }
                     }
 
@@ -875,8 +875,8 @@ Item {
                         description: qsTr("We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!")
                         buttonText: qsTr("Privacy")
                         onButtonPressed: {
-                            App.util.requestDataProtection();
-                            expanderDataProtection.toggle();
+                            App.util.requestDataProtection()
+                            expanderDataProtection.toggle()
                         }
                     }
 
@@ -885,7 +885,7 @@ Item {
 
                         Connections {
                             function onAllDataProtectionLoaded(dataProtectionText) {
-                                expanderDataProtection.text = dataProtectionText;
+                                expanderDataProtection.text = dataProtectionText
                             }
 
                             target: App.util

@@ -18,10 +18,10 @@ FocusScope {
     property bool hasContent: false
     onWallpaperDataChanged: {
         if (!wallpaperData)
-            return;
-        root.hasContent = wallpaperData.hasContent();
-        slVolume.slider.value = wallpaperData.volume.toFixed(2);
-        settingsComboBox.currentIndex = settingsComboBox.indexOfValue(wallpaperData.fillMode);
+            return
+        root.hasContent = wallpaperData.hasContent()
+        slVolume.slider.value = wallpaperData.volume.toFixed(2)
+        settingsComboBox.currentIndex = settingsComboBox.indexOfValue(wallpaperData.fillMode)
     }
 
     Text {
@@ -64,15 +64,15 @@ FocusScope {
             onValueEditingFinished: {
 
                 // settingValue = true;
-                const newVolume = slVolume.slider.value.toFixed(2);
-                console.log(root.timelineActive, root.monitorIndex, root.timelineIndex, root.sectionIdentifier, newVolume);
-                const category = "";
+                const newVolume = slVolume.slider.value.toFixed(2)
+                console.log(root.timelineActive, root.monitorIndex, root.timelineIndex, root.sectionIdentifier, newVolume)
+                const category = ""
                 App.screenPlayManager.setValueAtMonitorTimelineIndex(root.monitorIndex, root.timelineIndex, root.sectionIdentifier, "volume", newVolume, category).then(result => {
-                    settingValue = false;
+                    settingValue = false
                     if (!result.success) {
-                        InstantPopup.openErrorPopup(root, result.message);
+                        InstantPopup.openErrorPopup(root, result.message)
                     }
-                });
+                })
             }
         }
 
@@ -130,11 +130,11 @@ FocusScope {
                 }
                 onActivated: {
                     App.screenPlayManager.setWallpaperFillModeAtMonitorIndex(root.monitorIndex, root.timelineIndex, root.sectionIdentifier, settingsComboBox.currentValue).then(result => {
-                        settingValue = false;
+                        settingValue = false
                         if (!result.success) {
-                            InstantPopup.openErrorPopup(root, result.message);
+                            InstantPopup.openErrorPopup(root, result.message)
                         }
-                    });
+                    })
                 }
             }
 

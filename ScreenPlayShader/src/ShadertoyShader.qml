@@ -78,16 +78,16 @@ mainImage(gl_FragColor, vec2(vertex.x, iResolution.y - vertex.y));
     property string pixelShader
 
     function restart() {
-        root.iTime = 0;
-        running = true;
-        timer1.restart();
+        root.iTime = 0
+        running = true
+        timer1.restart()
     }
 
     function calcResolution(channel) {
         if (channel)
-            return Qt.vector3d(channel.width, channel.height, channel.width / channel.height);
+            return Qt.vector3d(channel.width, channel.height, channel.width / channel.height)
         else
-            return defaultResolution;
+            return defaultResolution
     }
 
     vertexShader: "
@@ -135,7 +135,7 @@ qt_TexCoord0 = qt_MultiTexCoord0;
         interval: 16
         repeat: true
         onTriggered: {
-            root.iTime += 0.016;
+            root.iTime += 0.016
         }
     }
 
@@ -145,11 +145,11 @@ qt_TexCoord0 = qt_MultiTexCoord0;
         running: root.running
         interval: 1000
         onTriggered: {
-            currentDate = new Date();
-            root.iDate.x = currentDate.getFullYear();
-            root.iDate.y = currentDate.getMonth();
-            root.iDate.z = currentDate.getDay();
-            root.iDate.w = currentDate.getSeconds();
+            currentDate = new Date()
+            root.iDate.x = currentDate.getFullYear()
+            root.iDate.y = currentDate.getMonth()
+            root.iDate.z = currentDate.getDay()
+            root.iDate.w = currentDate.getSeconds()
         }
     }
 }

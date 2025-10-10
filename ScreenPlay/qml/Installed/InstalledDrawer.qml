@@ -20,11 +20,11 @@ Drawer {
         color: Material.theme === Material.Dark ? Material.color(Material.Grey, Material.Shade900) : Material.color(Material.Grey, Material.Shade100)
     }
     onAboutToShow: {
-        print("setInstalledDrawerItem onAboutToShow");
-        timeline.reset();
-        monitorSelection.resize();
-        monitorSelection.selectOnly(0);
-        btnLaunchContent.updateButtonEnabledState(0);
+        print("setInstalledDrawerItem onAboutToShow")
+        timeline.reset()
+        monitorSelection.resize()
+        monitorSelection.selectOnly(0)
+        btnLaunchContent.updateButtonEnabledState(0)
     }
     property bool hasPreviewGif: false
     property int type: Util.ContentTypes.InstalledType.QMLWallpaper
@@ -36,53 +36,53 @@ Drawer {
         // Toggle drawer if clicked on the same content twice
         if (root.contentFolderName === folderName) {
             if (root.visible) {
-                root.close();
-                return;
+                root.close()
+                return
             }
         }
         if (!App.util.isWallpaper(type)) {
             if (root.visible) {
-                root.close();
-                return;
+                root.close()
+                return
             }
-            return;
+            return
         }
-        print("setInstalledDrawerItem", root.contentFolderName, folderName, typeof (folderName), type, root.visible);
-        root.contentFolderName = folderName;
-        root.type = type;
-        const item = App.installedListModel.get(root.contentFolderName);
-        print(root.contentFolderName);
-        txtHeadline.text = item.title;
-        const previewGiFilePath = Qt.resolvedUrl(item.absoluteStoragePath + "/" + item.previewGIF);
-        const previewImageFilePath = Qt.resolvedUrl(item.absoluteStoragePath + "/" + item.preview);
-        root.hasPreviewGif = App.util.fileExists(previewGiFilePath);
+        print("setInstalledDrawerItem", root.contentFolderName, folderName, typeof (folderName), type, root.visible)
+        root.contentFolderName = folderName
+        root.type = type
+        const item = App.installedListModel.get(root.contentFolderName)
+        print(root.contentFolderName)
+        txtHeadline.text = item.title
+        const previewGiFilePath = Qt.resolvedUrl(item.absoluteStoragePath + "/" + item.previewGIF)
+        const previewImageFilePath = Qt.resolvedUrl(item.absoluteStoragePath + "/" + item.preview)
+        root.hasPreviewGif = App.util.fileExists(previewGiFilePath)
         if (hasPreviewGif) {
-            animatedImagePreview.source = previewGiFilePath;
-            animatedImagePreview.playing = true;
+            animatedImagePreview.source = previewGiFilePath
+            animatedImagePreview.playing = true
         } else {
-            imagePreview.source = previewImageFilePath;
+            imagePreview.source = previewImageFilePath
         }
         if (type === Util.ContentTypes.InstalledType.VideoWallpaper)
-            installedDrawerWrapper.state = "wallpaper";
+            installedDrawerWrapper.state = "wallpaper"
         else
-            installedDrawerWrapper.state = "scene";
+            installedDrawerWrapper.state = "scene"
         if (!root.visible) {
-            console.log("setInstalledDrawerItem");
-            root.open();
+            console.log("setInstalledDrawerItem")
+            root.open()
         }
     }
 
     // This is used for removing wallpaper. We need to clear
     // the preview image/gif so we can release the file for deletion.
     function clear(): void {
-        console.warn("⚠️⚠️⚠️ CLEAR InstalledDrawer");
-        root.close();
-        root.contentFolderName = "";
-        root.type = Util.ContentTypes.InstalledType.Unknown;
-        imagePreview.source = "";
-        animatedImagePreview.source = "";
-        txtHeadline.text = "";
-        installedDrawerWrapper.state = "inactive";
+        console.warn("⚠️⚠️⚠️ CLEAR InstalledDrawer")
+        root.close()
+        root.contentFolderName = ""
+        root.type = Util.ContentTypes.InstalledType.Unknown
+        imagePreview.source = ""
+        animatedImagePreview.source = ""
+        txtHeadline.text = ""
+        installedDrawerWrapper.state = "inactive"
     }
 
     Util.Dialog {
@@ -99,30 +99,30 @@ Drawer {
         property string selectedTimelineIdentifier
         property bool saveToProfilesConfigFile
         onClosed: {
-            updateGodotWallpaperDialog.absoluteStoragePath = "";
-            updateGodotWallpaperDialog.activeMonitors = [];
-            updateGodotWallpaperDialog.selectedTimelineIndex = -1;
-            updateGodotWallpaperDialog.selectedTimelineIdentifier = "";
-            updateGodotWallpaperDialog.saveToProfilesConfigFile = false;
+            updateGodotWallpaperDialog.absoluteStoragePath = ""
+            updateGodotWallpaperDialog.activeMonitors = []
+            updateGodotWallpaperDialog.selectedTimelineIndex = -1
+            updateGodotWallpaperDialog.selectedTimelineIdentifier = ""
+            updateGodotWallpaperDialog.saveToProfilesConfigFile = false
         }
 
         onOpened: {
-            const overwrite = true;
+            const overwrite = true
             App.godotHandler.exportGodotProject(updateGodotWallpaperDialog.absoluteStoragePath, App.globalVariables.godotEditorExecutablePath, overwrite).then(result => {
                 if (!result.success) {
-                    btnLaunchContent.enabled = true;
-                    InstantPopup.openErrorPopup(timeline, result.message);
+                    btnLaunchContent.enabled = true
+                    InstantPopup.openErrorPopup(timeline, result.message)
                 } else {
                     App.screenPlayManager.setWallpaperAtMonitorTimelineIndex(updateGodotWallpaperDialog.absoluteStoragePath, updateGodotWallpaperDialog.activeMonitors, updateGodotWallpaperDialog.selectedTimelineIndex, updateGodotWallpaperDialog.selectedTimelineIdentifier, updateGodotWallpaperDialog.saveToProfilesConfigFile).then(result => {
-                        btnLaunchContent.enabled = true;
+                        btnLaunchContent.enabled = true
                         if (!result.success) {
-                            InstantPopup.openErrorPopup(timeline, result.message);
-                            return;
+                            InstantPopup.openErrorPopup(timeline, result.message)
+                            return
                         }
-                    });
+                    })
                 }
-                updateGodotWallpaperDialog.close();
-            });
+                updateGodotWallpaperDialog.close()
+            })
         }
 
         ColumnLayout {
@@ -145,7 +145,7 @@ Drawer {
 
     Connections {
         function onRequestHideInstalledDrawer() {
-            close();
+            close()
         }
 
         target: App.uiAppStateSignals
@@ -174,9 +174,9 @@ Drawer {
                     Layout.leftMargin: 20
                     text: {
                         if (App.globalVariables.isBasicVersion()) {
-                            return "";
+                            return ""
                         } else {
-                            return qsTr("1. Set the duration your wallpaper should be visible");
+                            return qsTr("1. Set the duration your wallpaper should be visible")
                         }
                     }
 
@@ -221,7 +221,7 @@ Drawer {
                             }
                             text: qsTr("🚀Unlock with ScreenPlay Pro (or compile it yourself)")
                             onClicked: {
-                                screenPlayProView.open();
+                                screenPlayProView.open()
                             }
                         }
 
@@ -242,9 +242,9 @@ Drawer {
                 Text {
                     text: {
                         if (App.globalVariables.isBasicVersion()) {
-                            qsTr("1. Set a Monitor to display the content");
+                            qsTr("1. Set a Monitor to display the content")
                         } else {
-                            qsTr("2. Set a Monitor to display the content");
+                            qsTr("2. Set a Monitor to display the content")
                         }
                     }
                     font.family: App.settings.font
@@ -257,25 +257,25 @@ Drawer {
                     id: monitorSelection
                     objectName: "monitorSelection"
                     onSelected: function (index) {
-                        App.monitorListModel.setSelectedIndex(index);
+                        App.monitorListModel.setSelectedIndex(index)
                     }
 
                     onRequestRemoveWallpaper: monitorIndex => {
-                        const selectedTimeline = timeline.getSelectedTimeline();
+                        const selectedTimeline = timeline.getSelectedTimeline()
                         if (selectedTimeline === undefined) {
-                            InstantPopup.openErrorPopup(timeline, qsTr("No active timeline to remove wallpaper"));
-                            return;
+                            InstantPopup.openErrorPopup(timeline, qsTr("No active timeline to remove wallpaper"))
+                            return
                         }
-                        monitorSelection.enabled = false;
+                        monitorSelection.enabled = false
                         App.screenPlayManager.removeWallpaperAt(selectedTimeline.index, selectedTimeline.identifier, monitorIndex).then(result => {
-                            monitorSelection.enabled = true;
+                            monitorSelection.enabled = true
                             if (result.success) {
                                 // Reset to update the wallpaper preview image
-                                timeline.setActiveWallpaperPreviewImage();
+                                timeline.setActiveWallpaperPreviewImage()
                             } else {
-                                InstantPopup.openErrorPopup(timeline, result.message);
+                                InstantPopup.openErrorPopup(timeline, result.message)
                             }
-                        });
+                        })
                     }
 
                     Layout.fillWidth: true
@@ -374,12 +374,12 @@ Drawer {
                     text: {
                         // TODO check if it is active timline
                         if (App.globalVariables.isBasicVersion()) {
-                            return qsTr("2. Start Wallpaper now");
+                            return qsTr("2. Start Wallpaper now")
                         } else {
                             if (App.screenPlayManager.selectedTimelineIndex == App.screenPlayManager.activeTimelineIndex) {
-                                return qsTr("3. Start Wallpaper now");
+                                return qsTr("3. Start Wallpaper now")
                             } else {
-                                return qsTr("3. Set Wallpaper");
+                                return qsTr("3. Set Wallpaper")
                             }
                         }
                     }
@@ -387,11 +387,11 @@ Drawer {
                         target: App.monitorListModel
                         // Disable start button while busy
                         function onSelectedIndexChanged(index) {
-                            btnLaunchContent.updateButtonEnabledState();
+                            btnLaunchContent.updateButtonEnabledState()
                         }
                         function onDataChanged(topLeft, bottomRight, roles) {
                             if (roles.indexOf(MonitorListModel.MonitorRole.AppState) !== -1) {
-                                btnLaunchContent.updateButtonEnabledState();
+                                btnLaunchContent.updateButtonEnabledState()
                             }
                         }
                     }
@@ -402,13 +402,13 @@ Drawer {
                         const modelIndex = App.monitorListModel.index(App.monitorListModel.selectedIndex, 0);
 
                         // Now use this model index with the data() method
-                        const state = App.monitorListModel.data(modelIndex, MonitorListModel.MonitorRole.AppState);
-                        print("onSelectedIndexChanged state: ", state, btnLaunchContent.enabled);
+                        const state = App.monitorListModel.data(modelIndex, MonitorListModel.MonitorRole.AppState)
+                        print("onSelectedIndexChanged state: ", state, btnLaunchContent.enabled)
                         if (state == Util.ScreenPlayEnums.AppState.NotSet || state == Util.ScreenPlayEnums.AppState.Active) {
-                            btnLaunchContent.enabled = selectedAndValid;
-                            return;
+                            btnLaunchContent.enabled = selectedAndValid
+                            return
                         }
-                        btnLaunchContent.enabled = false;
+                        btnLaunchContent.enabled = false
                     }
 
                     icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_plus.svg"
@@ -418,50 +418,50 @@ Drawer {
                     onClicked: {
                         if (type === Util.ContentTypes.InstalledType.GodotWallpaper) {
                             if (App.globalVariables.isBasicVersion()) {
-                                InstantPopup.openErrorPopup(timeline, qsTr("You are not allowed to do that!"));
-                                installedDrawerWrapper.state = "inactive";
-                                return;
+                                InstantPopup.openErrorPopup(timeline, qsTr("You are not allowed to do that!"))
+                                installedDrawerWrapper.state = "inactive"
+                                return
                             }
                         }
 
                         // Close only the basic version, where the user only can select
                         // one wallpaper anyway...
-                        const isBasicVersion = App.globalVariables.isBasicVersion();
+                        const isBasicVersion = App.globalVariables.isBasicVersion()
 
-                        const item = App.installedListModel.get(root.contentFolderName);
-                        const absoluteStoragePath = item.absoluteStoragePath;
-                        const previewImage = item.preview;
-                        const title = item.title;
-                        const activeMonitors = monitorSelection.getActiveMonitors();
-                        const selectedTimeline = timeline.getSelectedTimeline();
+                        const item = App.installedListModel.get(root.contentFolderName)
+                        const absoluteStoragePath = item.absoluteStoragePath
+                        const previewImage = item.preview
+                        const title = item.title
+                        const activeMonitors = monitorSelection.getActiveMonitors()
+                        const selectedTimeline = timeline.getSelectedTimeline()
                         if (selectedTimeline === null) {
-                            InstantPopup.openErrorPopup(timeline, qsTr("Error: Selected timeline is invalid."));
-                            return;
+                            InstantPopup.openErrorPopup(timeline, qsTr("Error: Selected timeline is invalid."))
+                            return
                         }
                         if (App.util.isWallpaper(root.type)) {
                             if (type === Util.ContentTypes.InstalledType.GodotWallpaper) {
                                 if (!App.godotHandler.godotProjectExportExists(absoluteStoragePath)) {
-                                    updateGodotWallpaperDialog.absoluteStoragePath = absoluteStoragePath;
-                                    updateGodotWallpaperDialog.activeMonitors = activeMonitors;
-                                    updateGodotWallpaperDialog.selectedTimelineIndex = selectedTimeline.index;
-                                    updateGodotWallpaperDialog.selectedTimelineIdentifier = selectedTimeline.identifier;
-                                    updateGodotWallpaperDialog.saveToProfilesConfigFile = true;
-                                    updateGodotWallpaperDialog.open();
-                                    return;
+                                    updateGodotWallpaperDialog.absoluteStoragePath = absoluteStoragePath
+                                    updateGodotWallpaperDialog.activeMonitors = activeMonitors
+                                    updateGodotWallpaperDialog.selectedTimelineIndex = selectedTimeline.index
+                                    updateGodotWallpaperDialog.selectedTimelineIdentifier = selectedTimeline.identifier
+                                    updateGodotWallpaperDialog.saveToProfilesConfigFile = true
+                                    updateGodotWallpaperDialog.open()
+                                    return
                                 }
                             }
 
-                            btnLaunchContent.enabled = false;
+                            btnLaunchContent.enabled = false
                             App.screenPlayManager.setWallpaperAtMonitorTimelineIndex(absoluteStoragePath, activeMonitors, selectedTimeline.index, selectedTimeline.identifier, true).then(result => {
-                                btnLaunchContent.enabled = true;
+                                btnLaunchContent.enabled = true
                                 if (!result.success) {
-                                    InstantPopup.openErrorPopup(timeline, result.message);
-                                    return;
+                                    InstantPopup.openErrorPopup(timeline, result.message)
+                                    return
                                 }
-                            });
+                            })
                         }
                         if (isBasicVersion) {
-                            root.close();
+                            root.close()
                         }
                     }
                 }
@@ -623,8 +623,8 @@ Drawer {
             icon.width: 15
             icon.height: 15
             onClicked: {
-                root.close();
-                installedDrawerWrapper.state = "inactive";
+                root.close()
+                installedDrawerWrapper.state = "inactive"
             }
         }
     }

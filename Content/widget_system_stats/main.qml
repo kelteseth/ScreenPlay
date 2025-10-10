@@ -26,11 +26,11 @@ Item {
     }
 
     function stringListToString(list) {
-        let out = "";
+        let out = ""
         for (var i = 0; i < list.length; i++) {
-            out += "\n" + list[i];
+            out += "\n" + list[i]
         }
-        return out;
+        return out
     }
 
     RowLayout {

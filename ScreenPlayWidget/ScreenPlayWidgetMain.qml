@@ -17,25 +17,25 @@ Item {
         target: Widget
         function onQmlExit() {
             // Send close message before starting the exit animation
-            Widget.sendCloseMessage();
+            Widget.sendCloseMessage()
             if (Qt.platform.os === "windows")
-                Widget.setWindowBlur(0);
-            loader.source = "";
-            animFadeOut.start();
+                Widget.setWindowBlur(0)
+            loader.source = ""
+            animFadeOut.start()
         }
 
         function onQmlSceneValueReceived(key, value) {
-            var obj2 = 'import QtQuick; Item {Component.onCompleted: loader.item.' + key + ' = ' + value + '; }';
-            var newObject = Qt.createQmlObject(obj2.toString(), root, "err");
-            newObject.destroy(10000);
+            var obj2 = 'import QtQuick; Item {Component.onCompleted: loader.item.' + key + ' = ' + value + '; }'
+            var newObject = Qt.createQmlObject(obj2.toString(), root, "err")
+            newObject.destroy(10000)
         }
 
         // Replace wallpaper with QML Scene
         function onReloadQML(oldType) {
-            loader.sourceComponent = undefined;
-            loader.source = "";
-            Widget.clearComponentCache();
-            loader.source = Qt.resolvedUrl(Widget.projectSourceFileAbsolute);
+            loader.sourceComponent = undefined
+            loader.source = ""
+            Widget.clearComponentCache()
+            loader.source = Qt.resolvedUrl(Widget.projectSourceFileAbsolute)
         }
     }
 
@@ -63,11 +63,11 @@ Item {
         // Some width do not know their implicit size,
         // see the xkcd example.
         function onImplicitWidthChanged() {
-            print();
-            root.width = loader.item.implicitWidth;
+            print()
+            root.width = loader.item.implicitWidth
         }
         function onImplicitHeightChanged() {
-            root.height = loader.item.implicitHeight;
+            root.height = loader.item.implicitHeight
         }
     }
 
@@ -79,28 +79,28 @@ Item {
         Component.onCompleted: {
             switch (Widget.type) {
             case Util.ContentTypes.InstalledType.QMLWidget:
-                loader.source = Qt.resolvedUrl(Widget.projectSourceFileAbsolute);
-                break;
+                loader.source = Qt.resolvedUrl(Widget.projectSourceFileAbsolute)
+                break
             case Util.ContentTypes.InstalledType.HTMLWidget:
-                loader.sourceComponent = webViewComponent;
-                break;
+                loader.sourceComponent = webViewComponent
+                break
             }
         }
         onStatusChanged: {
             if (loader.status == Loader.Ready && loader.source !== "") {
                 if (loader.item.implicitWidth === 0 || loader.item.implicitHeight === 0) {
-                    print("Implicit size is 0, using root size");
-                    loader.item.implicitWidth = root.width;
-                    loader.item.implicitHeight = root.height;
+                    print("Implicit size is 0, using root size")
+                    loader.item.implicitWidth = root.width
+                    loader.item.implicitHeight = root.height
                 }
 
                 // Resize to loaded widget size
                 // Note: We must use implicit* here to not
                 // break the set values.
-                root.width = loader.item.implicitWidth;
-                root.height = loader.item.implicitHeight;
-                Widget.show();
-                root.state = "in";
+                root.width = loader.item.implicitWidth
+                root.height = loader.item.implicitHeight
+                Widget.show()
+                root.state = "in"
             }
         }
     }
@@ -115,7 +115,7 @@ Item {
             anchors.fill: parent
             onJavaScriptConsoleMessage: print(lineNumber, message)
             Component.onCompleted: {
-                webView.url = Qt.resolvedUrl(Widget.sourcePath);
+                webView.url = Qt.resolvedUrl(Widget.sourcePath)
             }
         }
     }
@@ -144,19 +144,19 @@ Item {
             onEntered: imgClose.state = "areaHover"
             onExited: {
                 if (mouseAreaClose.containsMouse)
-                    return;
-                imgClose.state = "";
+                    return
+                imgClose.state = ""
             }
 
             onPressed: function (mouse) {
                 clickPos = {
                     "x": mouse.x,
                     "y": mouse.y
-                };
+                }
             }
             onPositionChanged: {
                 if (mouseArea.pressed)
-                    Widget.setPos(Widget.cursorPos().x - clickPos.x, Widget.cursorPos().y - clickPos.y);
+                    Widget.setPos(Widget.cursorPos().x - clickPos.x, Widget.cursorPos().y - clickPos.y)
             }
         }
 
@@ -170,10 +170,10 @@ Item {
             onExited: imgClose.state = ""
             onClicked: {
                 // Send close message before starting the exit animation
-                Widget.sendCloseMessage();
+                Widget.sendCloseMessage()
                 if (Qt.platform.os === "windows")
-                    Widget.setWindowBlur(0);
-                animFadeOut.start();
+                    Widget.setWindowBlur(0)
+                animFadeOut.start()
             }
 
             anchors {

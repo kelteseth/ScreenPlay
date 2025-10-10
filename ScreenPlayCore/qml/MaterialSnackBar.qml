@@ -20,14 +20,14 @@ Popup {
         \param message The text message to display
     */
     function show(message) {
-        messageText.text = message;
-        root.open();
-        hideTimer.start();
+        messageText.text = message
+        root.open()
+        hideTimer.start()
     }
 
     function hide() {
-        root.close();
-        hideTimer.stop();
+        root.close()
+        hideTimer.stop()
     }
 
     width: Math.min(parent.width - 32, 800)

@@ -13,13 +13,13 @@ Util.Dialog {
     property string message
     standardButtons: Dialog.Ok | Dialog.Help
     onHelpRequested: {
-        Qt.openUrlExternally("https://forum.screen-play.app/");
+        Qt.openUrlExternally("https://forum.screen-play.app/")
     }
     Connections {
         function onDisplayErrorPopup(msg: string): void {
-            root.message = msg;
-            root.applicationWindow.show();
-            root.open();
+            root.message = msg
+            root.applicationWindow.show()
+            root.open()
         }
         target: App.screenPlayManager
     }

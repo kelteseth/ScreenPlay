@@ -17,7 +17,7 @@ Item {
         query: "/rss/channel/item"
         onStatusChanged: {
             if (status === XmlListModel.Error) {
-                console.log("Error: " + errorString);
+                console.log("Error: " + errorString)
             }
         }
 

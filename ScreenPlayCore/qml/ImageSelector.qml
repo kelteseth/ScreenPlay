@@ -34,12 +34,12 @@ Item {
     state: "nothingSelected"
     onImageSourceChanged: {
         if (imageSource === "") {
-            img.source = "";
-            txtName.text = "";
-            root.state = "nothingSelected";
+            img.source = ""
+            txtName.text = ""
+            root.state = "nothingSelected"
         } else {
-            img.source = imageSource;
-            root.state = "imageSelected";
+            img.source = imageSource
+            root.state = "imageSelected"
         }
     }
 
@@ -81,7 +81,7 @@ Item {
                 cursorShape: Qt.PointingHandCursor
                 onClicked: {
                     if (imageSource !== "")
-                        popup.open();
+                        popup.open()
                 }
             }
         }
@@ -188,8 +188,8 @@ Item {
             title: "Please choose a file"
             nameFilters: ["Images (*.png *.jpg)"]
             onAccepted: {
-                imageSource = fileDialog.selectedFile;
-                txtName.text = fileDialog.selectedFile.toString().replace(/^.*[\\\/]/, '');
+                imageSource = fileDialog.selectedFile
+                txtName.text = fileDialog.selectedFile.toString().replace(/^.*[\\\/]/, '')
             }
         }
     }

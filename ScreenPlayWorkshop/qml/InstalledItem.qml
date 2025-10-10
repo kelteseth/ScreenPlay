@@ -24,12 +24,12 @@ Item {
     opacity: 0
     onTypeChanged: {
         if (type === "widget")
-            icnType.source = "icons/icon_widgets.svg";
+            icnType.source = "icons/icon_widgets.svg"
         else if (type === "qmlScene")
-            icnType.source = "icons/icon_code.svg";
+            icnType.source = "icons/icon_code.svg"
     }
     Component.onCompleted: {
-        root.state = "visible";
+        root.state = "visible"
     }
     transform: [
         Rotation {
@@ -206,16 +206,16 @@ Item {
             acceptedButtons: Qt.LeftButton | Qt.RightButton
             onEntered: {
                 if (!root.hasMenuOpen)
-                    root.state = "hover";
+                    root.state = "hover"
             }
             onExited: {
                 if (!root.hasMenuOpen)
-                    root.state = "visible";
+                    root.state = "visible"
             }
             onClicked: function (mouse) {
-                checkBox.toggle();
+                checkBox.toggle()
                 if (mouse.button === Qt.LeftButton)
-                    itemClicked(root.folderName, root.type, checkBox.checkState === Qt.Checked);
+                    itemClicked(root.folderName, root.type, checkBox.checkState === Qt.Checked)
             }
         }
 
@@ -224,9 +224,9 @@ Item {
 
             onCheckStateChanged: {
                 if (checkState == Qt.Checked)
-                    root.isSelected = true;
+                    root.isSelected = true
                 else
-                    root.isSelected = false;
+                    root.isSelected = false
             }
 
             anchors {

@@ -12,8 +12,8 @@ WizardPage {
     sourceComponent: ColumnLayout {
         function create() {
             App.wizards.createHTMLWidget(tfTitle.text, cbLicense.name, cbLicense.licenseFile, tfCreatedBy.text, previewSelector.imageSource, tagSelector.getTags()).then(result => {
-                wizardFinished(result.success, result.message);
-            });
+                wizardFinished(result.success, result.message)
+            })
         }
 
         Util.Headline {

@@ -89,11 +89,11 @@ Item {
                     onItemClicked: {
                         for (let childItem in gridView.contentItem.children) {
                             if (gridView.contentItem.children[childItem].isSelected) {
-                                btnUploadProjects.enabled = true;
-                                return;
+                                btnUploadProjects.enabled = true
+                                return
                             }
                         }
-                        btnUploadProjects.enabled = false;
+                        btnUploadProjects.enabled = false
                     }
                 }
 
@@ -108,7 +108,7 @@ Item {
 
                 text: qsTr("Abort")
                 onClicked: {
-                    stackView.pop();
+                    stackView.pop()
                 }
 
                 anchors {
@@ -125,13 +125,13 @@ Item {
                 highlighted: true
                 enabled: false
                 onClicked: {
-                    var uploadListArray = [];
+                    var uploadListArray = []
                     for (let childItem in gridView.contentItem.children) {
                         if (gridView.contentItem.children[childItem].isSelected)
-                            uploadListArray.push(gridView.contentItem.children[childItem].absoluteStoragePath);
+                            uploadListArray.push(gridView.contentItem.children[childItem].absoluteStoragePath)
                     }
-                    view.currentIndex = 1;
-                    root.steamWorkshop.bulkUploadToWorkshop(uploadListArray);
+                    view.currentIndex = 1
+                    root.steamWorkshop.bulkUploadToWorkshop(uploadListArray)
                 }
 
                 anchors {
@@ -183,7 +183,7 @@ Item {
                 highlighted: true
                 enabled: false
                 onClicked: {
-                    root.requestBack();
+                    root.requestBack()
                 }
 
                 anchors {
@@ -194,7 +194,7 @@ Item {
 
                 Connections {
                     function onUploadCompleted() {
-                        btnFinish.enabled = true;
+                        btnFinish.enabled = true
                     }
 
                     target: root.steamWorkshop.uploadListModel

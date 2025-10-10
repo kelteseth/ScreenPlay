@@ -9,10 +9,10 @@ Translate {
     property SequentialAnimation shake
 
     function start(offset = 0, loopOffset = 1000, loops = 1) {
-        root.offset = offset;
-        root.loopOffset = loopOffset;
-        root.loops = loops;
-        shake.restart();
+        root.offset = offset
+        root.loopOffset = loopOffset
+        root.loops = loops
+        shake.restart()
     }
 
     shake: SequentialAnimation {

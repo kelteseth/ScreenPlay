@@ -47,26 +47,26 @@ Item {
                     Layout.fillHeight: true
                     Layout.fillWidth: true
                     onExited: {
-                        bg.color = Qt.darker(Material.backgroundColor);
+                        bg.color = Qt.darker(Material.backgroundColor)
                     }
                     onEntered: drag => {
-                        bg.color = Qt.darker(Qt.darker(Material.backgroundColor));
-                        drag.accept(Qt.LinkAction);
+                        bg.color = Qt.darker(Qt.darker(Material.backgroundColor))
+                        drag.accept(Qt.LinkAction)
                     }
                     onDropped: drop => {
-                        let file = App.util.toLocal(drop.urls[0]);
-                        bg.color = Qt.darker(Qt.darker(Material.backgroundColor));
-                        let found = false;
+                        let file = App.util.toLocal(drop.urls[0])
+                        bg.color = Qt.darker(Qt.darker(Material.backgroundColor))
+                        let found = false
                         for (let ending in root.allowedVideoFileEndings) {
                             if (file.endsWith(ending)) {
-                                found = true;
-                                break;
+                                found = true
+                                break
                             }
                         }
                         if (found) {
-                            root.next(drop.urls[0]);
+                            root.next(drop.urls[0])
                         } else {
-                            txtFile.text = qsTr("Invalid file type. Must be valid video!");
+                            txtFile.text = qsTr("Invalid file type. Must be valid video!")
                         }
                     }
 
@@ -133,18 +133,18 @@ Item {
         highlighted: true
         font.family: App.settings.font
         onClicked: {
-            fileDialogImportVideo.open();
+            fileDialogImportVideo.open()
         }
 
         FileDialog {
             id: fileDialogImportVideo
             Component.onCompleted: {
-                const filter = ["Video files (*)"].concat(root.allowedVideoFileEndings);
-                fileDialogImportVideo.nameFilters = filter;
+                const filter = ["Video files (*)"].concat(root.allowedVideoFileEndings)
+                fileDialogImportVideo.nameFilters = filter
             }
 
             onAccepted: {
-                root.next(fileDialogImportVideo.currentFile);
+                root.next(fileDialogImportVideo.currentFile)
             }
         }
 

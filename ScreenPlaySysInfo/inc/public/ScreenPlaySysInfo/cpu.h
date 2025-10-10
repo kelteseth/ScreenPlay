@@ -63,6 +63,9 @@ public slots:
     void refreshCPUInfo();
 
 private:
+    void updateCPUInfo();
+
+private:
     float m_usage = 0.0f;
     int m_tickRate = 1000;
     QString m_name;
@@ -79,6 +82,4 @@ private:
     uint64_t lastKernelTime = 0;
     uint64_t lastUserTime = 0;
     QTimer m_updateTimer;
-
-    void updateCPUInfo();
 };

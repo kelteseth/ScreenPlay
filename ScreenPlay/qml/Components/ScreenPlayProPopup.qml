@@ -19,10 +19,10 @@ Popup {
     onAboutToHide: {
         // Fixes the ugly transition with
         // our ModalBackgroundBlur on exit
-        modal = false;
+        modal = false
     }
     onAboutToShow: {
-        modal = true;
+        modal = true
     }
 
     // Mouse area for tracking cursor position
@@ -37,8 +37,8 @@ Popup {
         property real mouseY: 0
 
         onPositionChanged: function (mouse) {
-            mouseX = mouse.x;
-            mouseY = mouse.y;
+            mouseX = mouse.x
+            mouseY = mouse.y
         }
     }
 
@@ -323,7 +323,7 @@ Popup {
                     text: qsTr("🚀 Get Pro Now")
                     highlighted: true
                     onClicked: {
-                        root.close();
+                        root.close()
                     }
                 }
 

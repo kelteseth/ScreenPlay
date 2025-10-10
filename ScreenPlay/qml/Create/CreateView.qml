@@ -9,7 +9,7 @@ Item {
     id: root
     property Item modalSource
     StackView.onActivated: {
-        stackView.push("qrc:/qt/qml/ScreenPlay/qml/Create/Wizards/ExampleContent.qml");
+        stackView.push("qrc:/qt/qml/ScreenPlay/qml/Create/Wizards/ExampleContent.qml")
     }
 
     CreateSidebar {

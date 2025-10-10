@@ -7,16 +7,16 @@ Item {
     id: clock
     width: {
         if (ListView.view && ListView.view.width >= 200)
-            return ListView.view.width / Math.floor(ListView.view.width / 200.0);
+            return ListView.view.width / Math.floor(ListView.view.width / 200.0)
         else
-            return 200;
+            return 200
     }
 
     height: {
         if (ListView.view && ListView.view.height >= 240)
-            return ListView.view.height;
+            return ListView.view.height
         else
-            return 240;
+            return 240
     }
 
     property alias city: cityLabel.text
@@ -28,11 +28,11 @@ Item {
     property bool internationalTime: true //Unset for local time
 
     function timeChanged() {
-        var date = new Date;
-        hours = internationalTime ? date.getUTCHours() + Math.floor(clock.shift) : date.getHours();
-        night = (hours < 7 || hours > 19);
-        minutes = internationalTime ? date.getUTCMinutes() + ((clock.shift % 1) * 60) : date.getMinutes();
-        seconds = date.getUTCSeconds();
+        var date = new Date
+        hours = internationalTime ? date.getUTCHours() + Math.floor(clock.shift) : date.getHours()
+        night = (hours < 7 || hours > 19)
+        minutes = internationalTime ? date.getUTCMinutes() + ((clock.shift % 1) * 60) : date.getMinutes()
+        seconds = date.getUTCSeconds()
     }
 
     Timer {

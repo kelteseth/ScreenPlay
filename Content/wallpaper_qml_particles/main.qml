@@ -42,19 +42,19 @@ Item {
             anchors.fill: parent
             hoverEnabled: true
             Component.onCompleted: {
-                attractor.pointX = parent.width * .5;
-                attractor.pointY = 0;
+                attractor.pointX = parent.width * .5
+                attractor.pointY = 0
             }
 
             onPressed: {
-                attractor.enabled = true;
+                attractor.enabled = true
             }
             onPositionChanged: {
-                attractor.pointX = mouseX;
-                attractor.pointY = mouseY;
+                attractor.pointX = mouseX
+                attractor.pointY = mouseY
             }
             onReleased: {
-                attractor.enabled = false;
+                attractor.enabled = false
             }
         }
 

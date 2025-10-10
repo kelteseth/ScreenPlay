@@ -24,56 +24,56 @@ Item {
 
     onNormalizedPositionChanged: {
         if (_activePlayer === CrossFadeVideoPlayer.Player.One) {
-            mediaPlayer1.position = normalizedPosition * mediaPlayer1.duration;
+            mediaPlayer1.position = normalizedPosition * mediaPlayer1.duration
         } else {
-            mediaPlayer2.position = normalizedPosition * mediaPlayer2.duration;
+            mediaPlayer2.position = normalizedPosition * mediaPlayer2.duration
         }
     }
 
     onSourceChanged: {
         if (!_initialized) {
-            mediaPlayer1.source = root.source;
-            mediaPlayer1.play();
-            root._initialized = true;
-            return;
+            mediaPlayer1.source = root.source
+            mediaPlayer1.play()
+            root._initialized = true
+            return
         }
 
         // Stop any ongoing animations
-        fadeIn.stop();
-        fadeOut.stop();
+        fadeIn.stop()
+        fadeOut.stop()
 
         if (_activePlayer === CrossFadeVideoPlayer.Player.One) {
             // Prepare player two for transition
-            mediaPlayer2.source = root.source;
+            mediaPlayer2.source = root.source
             mediaPlayer2.play();
 
             // Set initial states
-            vo1.opacity = 1;
+            vo1.opacity = 1
             vo2.opacity = 0;
 
             // Configure crossfade for player two
-            fadeIn.target = vo2;
-            fadeOut.target = vo1;
+            fadeIn.target = vo2
+            fadeOut.target = vo1
 
-            root._activePlayer = CrossFadeVideoPlayer.Player.Two;
+            root._activePlayer = CrossFadeVideoPlayer.Player.Two
         } else {
             // Prepare player one for transition
-            mediaPlayer1.source = source;
+            mediaPlayer1.source = source
             mediaPlayer1.play();
 
             // Set initial states
-            vo1.opacity = 0;
+            vo1.opacity = 0
             vo2.opacity = 1;
 
             // Configure crossfade for player one
-            fadeIn.target = vo1;
-            fadeOut.target = vo2;
+            fadeIn.target = vo1
+            fadeOut.target = vo2
 
-            root._activePlayer = CrossFadeVideoPlayer.Player.One;
+            root._activePlayer = CrossFadeVideoPlayer.Player.One
         }
 
         // Start the transition after a small delay
-        startCrossFadeTimer.start();
+        startCrossFadeTimer.start()
     }
 
     onIsPlayingChanged: {
@@ -81,30 +81,30 @@ Item {
         // after initialization
         if (_initialized) {
             if (isPlaying) {
-                root._activePlayer === CrossFadeVideoPlayer.Player.One ? mediaPlayer1.play() : mediaPlayer2.play();
+                root._activePlayer === CrossFadeVideoPlayer.Player.One ? mediaPlayer1.play() : mediaPlayer2.play()
                 if (root._activePlayer === CrossFadeVideoPlayer.Player.One) {
-                    mediaPlayer1.play();
+                    mediaPlayer1.play()
                 } else if (root._activePlayer === CrossFadeVideoPlayer.Player.Two) {
-                    mediaPlayer2.play();
+                    mediaPlayer2.play()
                 }
             } else {
-                mediaPlayer1.pause();
-                mediaPlayer2.pause();
+                mediaPlayer1.pause()
+                mediaPlayer2.pause()
             }
         }
     }
 
     onFillModeChanged: {
-        let qtFillMode;
+        let qtFillMode
         if (fillMode === "cover" || fillMode === "stretch" || fillMode === "contain") {
-            qtFillMode = VideoOutput.Stretch;
+            qtFillMode = VideoOutput.Stretch
         } else if (fillMode === "fill") {
-            qtFillMode = VideoOutput.PreserveAspectFit;
+            qtFillMode = VideoOutput.PreserveAspectFit
         } else if (fillMode === "scale_down") {
-            qtFillMode = VideoOutput.PreserveAspectCrop;
+            qtFillMode = VideoOutput.PreserveAspectCrop
         }
-        vo1.fillMode = qtFillMode;
-        vo2.fillMode = qtFillMode;
+        vo1.fillMode = qtFillMode
+        vo2.fillMode = qtFillMode
     }
 
     MediaPlayer {
@@ -137,8 +137,8 @@ Item {
         id: startCrossFadeTimer
         interval: 500  // Small delay to ensure video has started
         onTriggered: {
-            fadeIn.start();
-            fadeOut.start();
+            fadeIn.start()
+            fadeOut.start()
         }
     }
 
@@ -162,9 +162,9 @@ Item {
         onFinished: {
             // Stop the previous player only after fade out is complete
             if (target === vo1) {
-                mediaPlayer1.stop();
+                mediaPlayer1.stop()
             } else {
-                mediaPlayer2.stop();
+                mediaPlayer2.stop()
             }
         }
     }

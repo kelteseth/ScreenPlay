@@ -12,8 +12,8 @@ WizardPage {
 
         function create() {
             App.wizards.createHTMLWallpaper(tfTitle.text, cbLicense.name, cbLicense.licenseFile, tfCreatedBy.text, previewSelector.imageSource, tagSelector.getTags()).then(result => {
-                wizardFinished(result.success, result.message);
-            });
+                wizardFinished(result.success, result.message)
+            })
         }
 
         spacing: 10

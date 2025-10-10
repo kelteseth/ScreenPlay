@@ -11,35 +11,37 @@ Item {
     property string pubDate
     property string pubDateFormatted
     onPubDateChanged: {
-        var date = new Date(pubDate);
-        root.pubDateFormatted = date.toLocaleDateString(Qt.locale(), "ddd, dd MMM yyyy") + ' ' + date.toLocaleTimeString(Qt.locale(), "HH:mm:ss");
+        var date = new Date(pubDate)
+        root.pubDateFormatted = date.toLocaleDateString(Qt.locale(), "ddd, dd MMM yyyy") + ' ' + date.toLocaleTimeString(Qt.locale(), "HH:mm:ss")
     }
     property string description
     onDescriptionChanged: {
         // See https://hnrss.org/frontpage <description> content
         // We need to manually parse it here to get the points and comments
-        commentCount = parseCommentCount(description);
+        commentCount = parseCommentCount(description)
     }
 
     function parseCommentCount(raw) {
-        var commentPrefix = "<p># Comments: ";
-        var commentSuffix = "</p>";
-        var startIdx = raw.indexOf(commentPrefix);
+        var commentPrefix = "<p># Comments: "
+        var commentSuffix = "</p>"
+        var startIdx = raw.indexOf(commentPrefix)
         if (startIdx === -1)
-            return "N/A"; // return "N/A" if comment count is not found in the description
-        startIdx += commentPrefix.length;
-        var endIdx = raw.indexOf(commentSuffix, startIdx);
-        return raw.substring(startIdx, endIdx);
+            return "N/A"
+        // return "N/A" if comment count is not found in the description
+        startIdx += commentPrefix.length
+        var endIdx = raw.indexOf(commentSuffix, startIdx)
+        return raw.substring(startIdx, endIdx)
     }
     function parsePoints(raw) {
-        var pointsPrefix = "<p>Points: ";
-        var pointsSuffix = "</p>";
-        var startIdx = raw.indexOf(pointsPrefix);
+        var pointsPrefix = "<p>Points: "
+        var pointsSuffix = "</p>"
+        var startIdx = raw.indexOf(pointsPrefix)
         if (startIdx === -1)
-            return "N/A"; // return "N/A" if points are not found in the description
-        startIdx += pointsPrefix.length;
-        var endIdx = raw.indexOf(pointsSuffix, startIdx);
-        return raw.substring(startIdx, endIdx);
+            return "N/A"
+        // return "N/A" if points are not found in the description
+        startIdx += pointsPrefix.length
+        var endIdx = raw.indexOf(pointsSuffix, startIdx)
+        return raw.substring(startIdx, endIdx)
     }
     RowLayout {
         id: wrapper
@@ -61,7 +63,7 @@ Item {
                     anchors.fill: parent
                     cursorShape: Qt.PointingHandCursor
                     onClicked: {
-                        Qt.openUrlExternally(model.link);
+                        Qt.openUrlExternally(model.link)
                     }
                 }
             }
@@ -77,7 +79,7 @@ Item {
                     anchors.fill: parent
                     cursorShape: Qt.PointingHandCursor
                     onClicked: {
-                        Qt.openUrlExternally(model.commentsLink);
+                        Qt.openUrlExternally(model.commentsLink)
                     }
                 }
             }

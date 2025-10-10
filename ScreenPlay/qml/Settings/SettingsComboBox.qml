@@ -39,11 +39,11 @@ Control {
         id: txtDescription
 
         text: {
-            let baseText = settingsComboBox.description;
+            let baseText = settingsComboBox.description
             if (settingsComboBox.proFeature && App.globalVariables.isBasicVersion()) {
-                return baseText + " " + qsTr("(Pro feature - upgrade to unlock)");
+                return baseText + " " + qsTr("(Pro feature - upgrade to unlock)")
             }
-            return baseText;
+            return baseText
         }
         color: Qt.darker(Material.foreground)
         opacity: (settingsComboBox.proFeature && App.globalVariables.isBasicVersion()) ? 0.5 : 1.0

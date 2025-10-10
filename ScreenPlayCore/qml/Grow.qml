@@ -12,11 +12,11 @@ Scale {
     property SequentialAnimation grow
 
     function start(offset = 0, loopOffset = 1000, scale = 1.5, loops = 1) {
-        root.offset = offset;
-        root.loopOffset = loopOffset;
-        root.loops = loops;
-        root.cScale = scale;
-        grow.restart();
+        root.offset = offset
+        root.loopOffset = loopOffset
+        root.loops = loops
+        root.cScale = scale
+        grow.restart()
     }
 
     grow: SequentialAnimation {

@@ -10,7 +10,7 @@ Item {
     property alias text: txtExpander.text
 
     function toggle() {
-        root.state = root.state == "on" ? "off" : "on";
+        root.state = root.state == "on" ? "off" : "on"
     }
 
     state: "off"
@@ -61,7 +61,7 @@ Item {
         MenuItem {
             text: qsTr("Copy text to clipboard")
             onClicked: {
-                App.util.copyToClipboard(txtExpander.text);
+                App.util.copyToClipboard(txtExpander.text)
             }
         }
     }

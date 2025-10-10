@@ -60,8 +60,8 @@ Popup {
             text: qsTr("Back")
             Layout.alignment: Qt.AlignHCenter
             onClicked: {
-                root.close();
-                App.uiAppStateSignals.setNavigation("Installed");
+                root.close()
+                App.uiAppStateSignals.setNavigation("Installed")
             }
         }
         Item {

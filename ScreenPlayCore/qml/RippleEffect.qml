@@ -19,15 +19,15 @@ Item {
             "startX": root.width * 0.5,
             "startY": root.height * 0.5,
             "maxRadius": furthestDistance(root.width * 0.5, root.height * 0.5)
-        });
+        })
     }
 
     function distance(x1, y1, x2, y2) {
-        return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+        return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2))
     }
 
     function furthestDistance(x, y) {
-        return Math.max(distance(x, y, 0, 0), distance(x, y, width, height), distance(x, y, 0, height), distance(x, y, width, 0));
+        return Math.max(distance(x, y, 0, 0), distance(x, y, width, height), distance(x, y, 0, height), distance(x, y, width, 0))
     }
 
     anchors.fill: parent
@@ -62,7 +62,7 @@ Item {
 
             function fadeIfApplicable() {
                 if (!fadeAnimation.running)
-                    fadeAnimation.start();
+                    fadeAnimation.start()
             }
 
             radius: 0
@@ -74,9 +74,9 @@ Item {
             height: radius * 2
 
             Component.onCompleted: {
-                growAnimation.start();
+                growAnimation.start()
                 if (!fadeAnimation.running)
-                    fadeAnimation.start();
+                    fadeAnimation.start()
             }
 
             NumberAnimation {

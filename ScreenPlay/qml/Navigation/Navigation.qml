@@ -21,29 +21,29 @@ Rectangle {
     signal changePage(string name)
 
     function setActive(active) {
-        navActive = active;
+        navActive = active
         if (active)
-            root.state = "enabled";
+            root.state = "enabled"
         else
-            root.state = "disabled";
+            root.state = "disabled"
     }
     function setNavigation(name) {
         for (var i = 0; i < navArray.length; i++) {
             if (navArray[i].objectName === name) {
-                navArray[i].state = "active";
-                root.currentNavigationName = name;
-                tabBar.currentIndex = navArray[i].index;
+                navArray[i].state = "active"
+                root.currentNavigationName = name
+                tabBar.currentIndex = navArray[i].index
             } else {
-                navArray[i].state = "inactive";
+                navArray[i].state = "inactive"
             }
         }
     }
 
     function onPageChanged(name) {
         if (!navActive)
-            return;
-        root.changePage(name);
-        setNavigation(name);
+            return
+        root.changePage(name)
+        setNavigation(name)
     }
 
     implicitWidth: 1366
@@ -56,11 +56,11 @@ Rectangle {
 
     Connections {
         function onRequestNavigationActive(isActive) {
-            root.setActive(isActive);
+            root.setActive(isActive)
         }
 
         function onRequestNavigation(nav) {
-            root.onPageChanged(nav);
+            root.onPageChanged(nav)
         }
 
         target: App.uiAppStateSignals
@@ -101,7 +101,7 @@ Rectangle {
                 objectName: "Create"
                 icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_plus.svg"
                 onClicked: {
-                    root.onPageChanged("Create");
+                    root.onPageChanged("Create")
                 }
             }
 
@@ -113,7 +113,7 @@ Rectangle {
                 objectName: "Workshop"
                 icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_steam.svg"
                 onClicked: {
-                    root.onPageChanged("Workshop");
+                    root.onPageChanged("Workshop")
                 }
             }
 
@@ -124,7 +124,7 @@ Rectangle {
                 objectName: "Installed"
                 icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_installed.svg"
                 onClicked: {
-                    root.onPageChanged("Installed");
+                    root.onPageChanged("Installed")
                 }
             }
 
@@ -135,7 +135,7 @@ Rectangle {
                 objectName: "Community"
                 icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_community.svg"
                 onClicked: {
-                    root.onPageChanged("Community");
+                    root.onPageChanged("Community")
                 }
             }
 
@@ -146,7 +146,7 @@ Rectangle {
                 objectName: "Settings"
                 icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_settings.svg"
                 onClicked: {
-                    root.onPageChanged("Settings");
+                    root.onPageChanged("Settings")
                 }
             }
         }
@@ -179,22 +179,22 @@ Rectangle {
                 icon.color: "transparent"
                 text: {
                     if (root.isSmallScreen) {
-                        return qsTr("Go Pro");
+                        return qsTr("Go Pro")
                     }
                     if (App.globalVariables.isBasicVersion()) {
-                        return qsTr("Get ScreenPlay Pro 3D Wallpaper and Timelines!");
+                        return qsTr("Get ScreenPlay Pro 3D Wallpaper and Timelines!")
                     }
                     if (App.globalVariables.isProVersion()) {
-                        return qsTr("ScreenPlay Pro Active");
+                        return qsTr("ScreenPlay Pro Active")
                     }
                     if (App.globalVariables.isUltraVersion()) {
-                        return qsTr("ScreenPlay ULTRA Active");
+                        return qsTr("ScreenPlay ULTRA Active")
                     }
                 }
 
                 onClicked: {
                     if (App.globalVariables.isBasicVersion()) {
-                        screenPlayProView.open();
+                        screenPlayProView.open()
                     }
                 }
             }
@@ -219,8 +219,8 @@ Rectangle {
 
                 onContentActiveChanged: {
                     if (!contentActive) {
-                        miMuteAll.soundEnabled = true;
-                        miStopAll.isPlaying = true;
+                        miMuteAll.soundEnabled = true
+                        miStopAll.isPlaying = true
                     }
                 }
 
@@ -237,11 +237,11 @@ Rectangle {
                     property bool soundEnabled: true
                     onSoundEnabledChanged: {
                         if (miMuteAll.soundEnabled) {
-                            miMuteAll.icon.source = "qrc:/qt/qml/ScreenPlay/assets/icons/icon_volume.svg";
-                            App.screenPlayManager.setAllWallpaperValue("muted", "false");
+                            miMuteAll.icon.source = "qrc:/qt/qml/ScreenPlay/assets/icons/icon_volume.svg"
+                            App.screenPlayManager.setAllWallpaperValue("muted", "false")
                         } else {
-                            miMuteAll.icon.source = "qrc:/qt/qml/ScreenPlay/assets/icons/icon_volume_mute.svg";
-                            App.screenPlayManager.setAllWallpaperValue("muted", "true");
+                            miMuteAll.icon.source = "qrc:/qt/qml/ScreenPlay/assets/icons/icon_volume_mute.svg"
+                            App.screenPlayManager.setAllWallpaperValue("muted", "true")
                         }
                     }
 
@@ -261,11 +261,11 @@ Rectangle {
                     property bool isPlaying: true
                     onIsPlayingChanged: {
                         if (miStopAll.isPlaying) {
-                            miStopAll.icon.source = "qrc:/qt/qml/ScreenPlay/assets/icons/icon_pause.svg";
-                            App.screenPlayManager.setAllWallpaperValue("isPlaying", "true");
+                            miStopAll.icon.source = "qrc:/qt/qml/ScreenPlay/assets/icons/icon_pause.svg"
+                            App.screenPlayManager.setAllWallpaperValue("isPlaying", "true")
                         } else {
-                            miStopAll.icon.source = "qrc:/qt/qml/ScreenPlay/assets/icons/icon_play.svg";
-                            App.screenPlayManager.setAllWallpaperValue("isPlaying", "false");
+                            miStopAll.icon.source = "qrc:/qt/qml/ScreenPlay/assets/icons/icon_play.svg"
+                            App.screenPlayManager.setAllWallpaperValue("isPlaying", "false")
                         }
                     }
                     hoverEnabled: true
@@ -285,13 +285,13 @@ Rectangle {
                         // true -> saves profiles.json
                         App.screenPlayManager.removeAllRunningWallpapers(true).then(result => {
                             if (!result.success) {
-                                InstantPopup.openErrorPopup(root, result.message);
-                                btnReset.resetting = false;
-                                return;
+                                InstantPopup.openErrorPopup(root, result.message)
+                                btnReset.resetting = false
+                                return
                             }
-                        });
-                        miStopAll.isPlaying = true;
-                        miMuteAll.soundEnabled = true;
+                        })
+                        miStopAll.isPlaying = true
+                        miMuteAll.soundEnabled = true
                     }
 
                     hoverEnabled: true

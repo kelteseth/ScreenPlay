@@ -27,7 +27,7 @@ Rectangle {
         isActive: ${isActive}
         isLast: ${isLast}
         previewImage: ${wallpaperPreviewImage || 'none'}
-    }`);
+    }`)
     }
 
     Text {
@@ -185,16 +185,16 @@ Rectangle {
                 anchors.margins: -3
                 asynchronous: true
                 source: {
-                    let imgSource = root.wallpaperPreviewImage;
+                    let imgSource = root.wallpaperPreviewImage
                     if (imgSource === "") {
-                        return "";
+                        return ""
                     }
-                    return imgSource;
+                    return imgSource
                 }
 
                 onStatusChanged: {
                     if (status === Image.Error)
-                        print(Qt.resolvedUrl(root.wallpaperPreviewImage));
+                        print(Qt.resolvedUrl(root.wallpaperPreviewImage))
                 }
             }
         }
@@ -210,7 +210,7 @@ Rectangle {
             hoverEnabled: !App.globalVariables.isBasicVersion()
             cursorShape: Qt.PointingHandCursor
             onClicked: {
-                root.lineSelected(root.index);
+                root.lineSelected(root.index)
             }
             ToolTip.visible: containsMouse && !App.globalVariables.isBasicVersion()
             ToolTip.delay: 500
@@ -253,10 +253,10 @@ Rectangle {
                 anchors.fill: parent
                 visible: root.isLast && root.selected && !App.globalVariables.isBasicVersion()
                 onClicked: {
-                    buttonWrapper.disabledClickCount++;
+                    buttonWrapper.disabledClickCount++
                     if (buttonWrapper.disabledClickCount >= 5) {
-                        Qt.openUrlExternally("https://youtu.be/x0fm48LhJ9k?si=RYKjtOwMQJOhOkFC&t=73");
-                        buttonWrapper.disabledClickCount = 0;
+                        Qt.openUrlExternally("https://youtu.be/x0fm48LhJ9k?si=RYKjtOwMQJOhOkFC&t=73")
+                        buttonWrapper.disabledClickCount = 0
                     }
                 }
             }

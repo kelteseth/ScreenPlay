@@ -16,10 +16,10 @@ Popup {
     onAboutToHide: {
         // Fixes the ugly transition with
         // our ModalBackgroundBlur on exit
-        modal = false;
+        modal = false
     }
     onAboutToShow: {
-        modal = true;
+        modal = true
     }
     modal: true
 
@@ -50,13 +50,13 @@ Popup {
                 Layout.alignment: Qt.AlignHCenter
                 source: {
                     if (Qt.platform.os === "windows") {
-                        return "qrc:/qt/qml/ScreenPlay/assets/images/trayIcon_windows.png";
+                        return "qrc:/qt/qml/ScreenPlay/assets/images/trayIcon_windows.png"
                     }
                     if (Qt.platform.os === "osx") {
-                        return "qrc:/qt/qml/ScreenPlay/assets/images/trayIcon_osx.png";
+                        return "qrc:/qt/qml/ScreenPlay/assets/images/trayIcon_osx.png"
                     }
-                    console.warn("missing tray icon image");
-                    return "";
+                    console.warn("missing tray icon image")
+                    return ""
                 }
 
                 fillMode: Image.PreserveAspectFit
@@ -65,12 +65,12 @@ Popup {
             Text {
                 text: {
                     if (Qt.platform.os === "windows") {
-                        return qsTr("You can <b>quit</b> ScreenPlay via the bottom right Tray-Icon.");
+                        return qsTr("You can <b>quit</b> ScreenPlay via the bottom right Tray-Icon.")
                     }
                     if (Qt.platform.os === "osx") {
-                        return qsTr("You can <b>quit</b> ScreenPlay via the top right Tray-Icon.");
+                        return qsTr("You can <b>quit</b> ScreenPlay via the top right Tray-Icon.")
                     }
-                    return qsTr("You can <b>quit</b> ScreenPlay via the Tray-Icon.");
+                    return qsTr("You can <b>quit</b> ScreenPlay via the Tray-Icon.")
                 }
 
                 Layout.fillWidth: true
@@ -92,19 +92,19 @@ Popup {
                 Button {
                     text: qsTr("Minimize ScreenPlay")
                     onClicked: {
-                        applicationWindow.hide();
-                        App.showDockIcon(false);
-                        root.close();
+                        applicationWindow.hide()
+                        App.showDockIcon(false)
+                        root.close()
                     }
                 }
                 Button {
                     highlighted: true
                     text: qsTr("Always minimize ScreenPlay")
                     onClicked: {
-                        App.settings.setAlwaysMinimize(true);
-                        App.showDockIcon(false);
-                        applicationWindow.hide();
-                        root.close();
+                        App.settings.setAlwaysMinimize(true)
+                        App.showDockIcon(false)
+                        applicationWindow.hide()
+                        root.close()
                     }
                 }
             }

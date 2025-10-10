@@ -35,10 +35,10 @@ Item {
     state: "nothingSelected"
     onFileChanged: {
         if (file === "") {
-            txtName.text = "";
-            root.state = "nothingSelected";
+            txtName.text = ""
+            root.state = "nothingSelected"
         } else {
-            root.state = "imageSelected";
+            root.state = "imageSelected"
         }
     }
 
@@ -101,8 +101,8 @@ Item {
             Material.background: Material.theme === Material.Light ? Qt.lighter(Material.accent) : Qt.darker(Material.accent)
             Material.foreground: "white"
             onClicked: {
-                root.file = "";
-                fileDialog.file = "";
+                root.file = ""
+                fileDialog.file = ""
             }
 
             anchors {
@@ -136,8 +136,8 @@ Item {
 
             title: qsTr("Please choose a file")
             onAccepted: {
-                root.file = fileDialog.currentFile;
-                txtName.text = fileDialog.currentFile.toString();
+                root.file = fileDialog.currentFile
+                txtName.text = fileDialog.currentFile.toString()
             }
         }
     }

@@ -54,7 +54,7 @@ Item {
                 Button {
                     text: qsTr("Back")
                     onClicked: {
-                        stackView.pop();
+                        stackView.pop()
                     }
                 }
             }
@@ -117,7 +117,7 @@ Item {
                     text: qsTr("Back")
                     enabled: root.steamWorkshop.workshopProfileListModel.currentPage > 1
                     onClicked: {
-                        root.steamWorkshop.workshopProfileListModel.setCurrentPage(root.steamWorkshop.workshopProfileListModel.currentPage - 1);
+                        root.steamWorkshop.workshopProfileListModel.setCurrentPage(root.steamWorkshop.workshopProfileListModel.currentPage - 1)
                     }
                 }
 
@@ -136,7 +136,7 @@ Item {
                     text: qsTr("Forward")
                     enabled: root.steamWorkshop.workshopProfileListModel.currentPage <= root.steamWorkshop.workshopProfileListModel.pages - 1
                     onClicked: {
-                        root.steamWorkshop.workshopProfileListModel.setCurrentPage(root.steamWorkshop.workshopProfileListModel.currentPage + 1);
+                        root.steamWorkshop.workshopProfileListModel.setCurrentPage(root.steamWorkshop.workshopProfileListModel.currentPage + 1)
                     }
                 }
 

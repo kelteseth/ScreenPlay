@@ -38,7 +38,7 @@ Rectangle {
             verticalAlignment: Qt.AlignVCenter
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             text: {
-                return steam.steamAccount.username + qsTr(" Subscribed items: ") + steam.steamAccount.amountSubscribedItems;
+                return steam.steamAccount.username + qsTr(" Subscribed items: ") + steam.steamAccount.amountSubscribedItems
             }
 
             anchors {
@@ -57,7 +57,7 @@ Rectangle {
             width: 30
             height: 30
             Component.onCompleted: {
-                steam.steamAccount.loadAvatar();
+                steam.steamAccount.loadAvatar()
             }
 
             anchors {
@@ -68,8 +68,8 @@ Rectangle {
 
             Connections {
                 function onAvatarChanged(_avatar) {
-                    avatar.setImage(_avatar);
-                    avatarPlaceholder.opacity = 0;
+                    avatar.setImage(_avatar)
+                    avatarPlaceholder.opacity = 0
                 }
 
                 target: steam.steamAccount

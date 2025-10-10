@@ -13,6 +13,6 @@ QtObject {
         index: ${index}
         identifier: ${identifier}
         relativeLinePosition: ${relativeLinePosition.toFixed(6)}
-    }`);
+    }`)
     }
 }

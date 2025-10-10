@@ -18,18 +18,18 @@ Item {
         clip: true
         CreateWallpaperFileSelect {
             onNext: function (filePath) {
-                createWallpaperVideoImportConvert.filePath = filePath;
-                swipeView.currentIndex = 1;
+                createWallpaperVideoImportConvert.filePath = filePath
+                swipeView.currentIndex = 1
             }
         }
 
         CreateWallpaperSettings {
             id: createWallpaperSettings
             onNext: function (codec, quality) {
-                root.wizardStarted();
-                swipeView.currentIndex = 2;
-                createWallpaperVideoImportConvert.codec = codec;
-                App.create.createWallpaperStart(createWallpaperVideoImportConvert.filePath, codec, quality);
+                root.wizardStarted()
+                swipeView.currentIndex = 2
+                createWallpaperVideoImportConvert.codec = codec
+                App.create.createWallpaperStart(createWallpaperVideoImportConvert.filePath, codec, quality)
             }
         }
 

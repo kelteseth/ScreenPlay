@@ -29,29 +29,29 @@ Window {
     }
 
     function stringListToString(list) {
-        let out = "";
+        let out = ""
         for (var i = 0; i < list.length; i++) {
-            out += "\n" + list[i];
+            out += "\n" + list[i]
         }
-        return out;
+        return out
     }
 
     function formatBytes(bytes) {
         if (bytes === 0)
-            return '0 B';
-        const k = 1024;
-        const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
-        const i = Math.floor(Math.log(bytes) / Math.log(k));
-        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            return '0 B'
+        const k = 1024
+        const sizes = ['B', 'KB', 'MB', 'GB', 'TB']
+        const i = Math.floor(Math.log(bytes) / Math.log(k))
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
     }
 
     function formatSpeed(bytesPerSecond) {
         if (bytesPerSecond === 0)
-            return '0 B/s';
-        const k = 1024;
-        const sizes = ['B/s', 'KB/s', 'MB/s', 'GB/s'];
-        const i = Math.floor(Math.log(bytesPerSecond) / Math.log(k));
-        return parseFloat((bytesPerSecond / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            return '0 B/s'
+        const k = 1024
+        const sizes = ['B/s', 'KB/s', 'MB/s', 'GB/s']
+        const i = Math.floor(Math.log(bytesPerSecond) / Math.log(k))
+        return parseFloat((bytesPerSecond / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
     }
 
     Rectangle {

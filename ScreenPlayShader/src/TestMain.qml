@@ -31,9 +31,9 @@ ApplicationWindow {
                 repeat: true
                 onTriggered: {
                     if (parent.time > 600) {
-                        parent.time = 0;
+                        parent.time = 0
                     }
-                    parent.time += 1;
+                    parent.time += 1
                 }
             }
 

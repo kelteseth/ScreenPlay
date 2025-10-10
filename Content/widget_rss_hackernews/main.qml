@@ -42,7 +42,7 @@ Item {
                     }
                 }
                 onActivated: {
-                    rssModel.source = combo.currentValue;
+                    rssModel.source = combo.currentValue
                 }
             }
             ToolButton {
@@ -77,9 +77,9 @@ Item {
         source: combo.currentValue
         query: "/rss/channel/item"
         function load() {
-            var tempSource = rssModel.source;
-            rssModel.source = "";
-            rssModel.source = tempSource;
+            var tempSource = rssModel.source
+            rssModel.source = ""
+            rssModel.source = tempSource
         }
 
         XmlListModelRole {

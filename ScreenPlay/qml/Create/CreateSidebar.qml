@@ -37,14 +37,14 @@ Rectangle {
             id: loaderConnections
 
             function onWizardStarted() {
-                root.expanded = false;
+                root.expanded = false
             }
 
             function onWizardExited() {
-                root.expanded = true;
+                root.expanded = true
 
-                App.uiAppStateSignals.setNavigation("Installed");
-                App.uiAppStateSignals.setNavigationActive(true);
+                App.uiAppStateSignals.setNavigation("Installed")
+                App.uiAppStateSignals.setNavigationActive(true)
             }
 
             ignoreUnknownSignals: true
@@ -162,10 +162,10 @@ Rectangle {
             text: headline
             onClicked: {
                 if (listItem.proFeature && App.globalVariables.isBasicVersion())
-                    return screenPlayProView.open();
-                listView.currentIndex = index;
-                const item = root.stackView.push(source);
-                loaderConnections.target = item;
+                    return screenPlayProView.open()
+                listView.currentIndex = index
+                const item = root.stackView.push(source)
+                loaderConnections.target = item
             }
 
             ToolButton {

@@ -22,57 +22,57 @@ ApplicationWindow {
     minimumWidth: 1050
 
     Component.onCompleted: {
-        applicationWindow.setTheme(App.settings.theme);
+        applicationWindow.setTheme(App.settings.theme)
         if (!App.settings.silentStart) {
-            App.showDockIcon(true);
-            applicationWindow.show();
+            App.showDockIcon(true)
+            applicationWindow.show()
         }
 
-        const isSteamVersion = App.globalVariables.isSteamVersion();
-        let platform = "";
+        const isSteamVersion = App.globalVariables.isSteamVersion()
+        let platform = ""
         if (isSteamVersion) {
-            platform = qsTr("Steam");
+            platform = qsTr("Steam")
         } else {
-            platform = qsTr("Standalone");
+            platform = qsTr("Standalone")
         }
-        let featureLevel = "";
+        let featureLevel = ""
         if (App.globalVariables.isProVersion()) {
-            featureLevel = qsTr("Pro");
+            featureLevel = qsTr("Pro")
         } else if (App.globalVariables.isUltraVersion()) {
-            featureLevel = qsTr("Ultra");
+            featureLevel = qsTr("Ultra")
         } else {
-            featureLevel = qsTr("Standard");
+            featureLevel = qsTr("Standard")
         }
-        applicationWindow.title = "Open Source ScreenPlay v" + App.version() + " " + featureLevel + " " + platform;
+        applicationWindow.title = "Open Source ScreenPlay v" + App.version() + " " + featureLevel + " " + platform
 
-        stackView.push("qrc:/qt/qml/ScreenPlay/qml/Installed/InstalledView.qml");
+        stackView.push("qrc:/qt/qml/ScreenPlay/qml/Installed/InstalledView.qml")
     }
 
     Connections {
         target: App.settings
         function onThemeChanged(theme) {
-            applicationWindow.setTheme(theme);
+            applicationWindow.setTheme(theme)
         }
     }
 
     function setTheme(theme) {
         switch (theme) {
         case Settings.Theme.System:
-            applicationWindow.Material.theme = Material.System;
-            break;
+            applicationWindow.Material.theme = Material.System
+            break
         case Settings.Theme.Dark:
-            applicationWindow.Material.theme = Material.Dark;
-            break;
+            applicationWindow.Material.theme = Material.Dark
+            break
         case Settings.Theme.Light:
-            applicationWindow.Material.theme = Material.Light;
-            break;
+            applicationWindow.Material.theme = Material.Light
+            break
         }
     }
 
     Connections {
         function onRequestRaise() {
-            App.showDockIcon(true);
-            applicationWindow.show();
+            App.showDockIcon(true)
+            applicationWindow.show()
         }
         target: App.screenPlayManager
     }
@@ -80,8 +80,8 @@ ApplicationWindow {
     Connections {
         target: App
         function onRequestExit() {
-            crashOnExitWorkaround.forceActiveFocus();
-            Qt.exit(0);
+            crashOnExitWorkaround.forceActiveFocus()
+            Qt.exit(0)
         }
     }
     FocusScope {
@@ -93,20 +93,20 @@ ApplicationWindow {
     Material.accent: Material.color(Material.Orange)
     onVisibilityChanged: {
         if (applicationWindow.visibility !== 2)
-            return;
+            return
     }
 
     onClosing: close => {
-        close.accepted = false;
+        close.accepted = false
         if (App.screenPlayManager.activeWallpaperCounter === 0 && App.screenPlayManager.activeWidgetsCounter === 0) {
-            App.exit();
+            App.exit()
         }
         if (App.settings.alwaysMinimize) {
-            applicationWindow.hide();
-            App.showDockIcon(false);
-            return;
+            applicationWindow.hide()
+            App.showDockIcon(false)
+            return
         }
-        content.openExitDialog();
+        content.openExitDialog()
     }
 
     Item {
@@ -114,13 +114,13 @@ ApplicationWindow {
         anchors.fill: parent
 
         function openExitDialog(): void {
-            exitDialog.open();
+            exitDialog.open()
         }
         function switchPage(name: string): void {
             stackView.replace(`qrc:/qt/qml/ScreenPlay/qml/${name}/${name}View.qml`, {
                 "modalSource": content
-            });
-            nav.setNavigation(name);
+            })
+            nav.setNavigation(name)
         }
 
         Navigation.ExitPopup {
@@ -147,7 +147,7 @@ ApplicationWindow {
 
         Connections {
             function onRequestNavigation(nav) {
-                content.switchPage(nav);
+                content.switchPage(nav)
             }
 
             target: App.uiAppStateSignals
@@ -209,8 +209,8 @@ ApplicationWindow {
             onChangePage: function (name) {
                 // Close in case the user clicks
                 // on the tray icon
-                contentSettingsView.close();
-                content.switchPage(name);
+                contentSettingsView.close()
+                content.switchPage(name)
             }
         }
     }

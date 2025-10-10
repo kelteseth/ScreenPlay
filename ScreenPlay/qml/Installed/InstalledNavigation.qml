@@ -59,8 +59,8 @@ Item {
                 text: qsTr("All")
                 icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_installed.svg"
                 onClicked: {
-                    root.installedDrawer.close();
-                    App.installedListFilter.sortBySearchType(Util.ContentTypes.SearchType.All);
+                    root.installedDrawer.close()
+                    App.installedListFilter.sortBySearchType(Util.ContentTypes.SearchType.All)
                 }
             }
 
@@ -68,8 +68,8 @@ Item {
                 text: qsTr("Scenes")
                 icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_code.svg"
                 onClicked: {
-                    root.installedDrawer.close();
-                    App.installedListFilter.sortBySearchType(Util.ContentTypes.SearchType.Scene);
+                    root.installedDrawer.close()
+                    App.installedListFilter.sortBySearchType(Util.ContentTypes.SearchType.Scene)
                 }
             }
 
@@ -77,8 +77,8 @@ Item {
                 text: qsTr("Videos")
                 icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_movie.svg"
                 onClicked: {
-                    root.installedDrawer.close();
-                    App.installedListFilter.sortBySearchType(Util.ContentTypes.SearchType.Wallpaper);
+                    root.installedDrawer.close()
+                    App.installedListFilter.sortBySearchType(Util.ContentTypes.SearchType.Wallpaper)
                 }
             }
 
@@ -86,8 +86,8 @@ Item {
                 text: qsTr("Widgets")
                 icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_widgets.svg"
                 onClicked: {
-                    root.installedDrawer.close();
-                    App.installedListFilter.sortBySearchType(Util.ContentTypes.SearchType.Widget);
+                    root.installedDrawer.close()
+                    App.installedListFilter.sortBySearchType(Util.ContentTypes.SearchType.Widget)
                 }
             }
         }
@@ -110,9 +110,9 @@ Item {
                 color: Material.secondaryTextColor
                 onTextChanged: {
                     if (txtSearch.text.length === 0)
-                        App.installedListFilter.resetFilter();
+                        App.installedListFilter.resetFilter()
                     else
-                        App.installedListFilter.sortByName(txtSearch.text);
+                        App.installedListFilter.sortByName(txtSearch.text)
                 }
             }
             ToolButton {
@@ -140,8 +140,8 @@ Item {
             ToolTip.visible: hovered
             ToolTip.text: (btnSortOrder.sortOrder === Qt.AscendingOrder) ? "Install Date Ascending" : "Install Date Descending"
             onClicked: {
-                btnSortOrder.sortOrder = (btnSortOrder.sortOrder === Qt.DescendingOrder) ? Qt.AscendingOrder : Qt.DescendingOrder;
-                App.installedListFilter.setSortOrder(btnSortOrder.sortOrder);
+                btnSortOrder.sortOrder = (btnSortOrder.sortOrder === Qt.DescendingOrder) ? Qt.AscendingOrder : Qt.DescendingOrder
+                App.installedListFilter.setSortOrder(btnSortOrder.sortOrder)
             }
 
             anchors {

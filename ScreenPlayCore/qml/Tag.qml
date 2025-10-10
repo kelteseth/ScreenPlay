@@ -59,7 +59,7 @@ Item {
         height: width
         cursorShape: Qt.PointingHandCursor
         onClicked: {
-            tag.removeThis(itemIndex);
+            tag.removeThis(itemIndex)
         }
 
         anchors {

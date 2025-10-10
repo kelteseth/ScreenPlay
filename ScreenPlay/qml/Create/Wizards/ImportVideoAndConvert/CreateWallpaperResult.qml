@@ -82,7 +82,7 @@ Item {
         MenuItem {
             text: qsTr("Copy text to clipboard")
             onClicked: {
-                App.util.copyToClipboard(txtFFMPEGDebug.text);
+                App.util.copyToClipboard(txtFFMPEGDebug.text)
             }
         }
     }
@@ -95,8 +95,8 @@ Item {
         Material.foreground: "white"
         font.family: App.settings.font
         onClicked: {
-            App.uiAppStateSignals.setNavigationActive(true);
-            App.uiAppStateSignals.setNavigation("Create");
+            App.uiAppStateSignals.setNavigationActive(true)
+            App.uiAppStateSignals.setNavigation("Create")
         }
 
         anchors {

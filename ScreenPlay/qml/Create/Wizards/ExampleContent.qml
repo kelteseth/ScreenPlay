@@ -27,11 +27,11 @@ FocusScope {
                 if (result.success) {
                     snackBar.show(qsTr("Successfully added '%1' to your collection!").arg(example.title));
                     // Reload the installed list model to show the new content
-                    App.installedListModel.reset();
+                    App.installedListModel.reset()
                 } else {
-                    snackBar.show(result.message || qsTr("Failed to add to collection"));
+                    snackBar.show(result.message || qsTr("Failed to add to collection"))
                 }
-            });
+            })
         }
 
         spacing: 10

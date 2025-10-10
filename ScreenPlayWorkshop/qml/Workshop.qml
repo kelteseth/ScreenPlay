@@ -9,9 +9,9 @@ Item {
         if (App.globalVariables.isSteamVersion()) {
             workshopLoader.setSource("qml/Workshop/SteamWorkshop.qml", {
                 "modalSource": modalSource
-            });
+            })
         } else {
-            workshopLoader.setSource("qml/Workshop/Forum.qml");
+            workshopLoader.setSource("qml/Workshop/Forum.qml")
         }
     }
 

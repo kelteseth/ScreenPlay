@@ -21,10 +21,10 @@ Item {
     property bool isSelected: false
 
     onGeometryChanged: {
-        root.width = root.geometry.width;
-        root.height = root.geometry.height;
-        root.x = root.geometry.x;
-        root.y = root.geometry.y;
+        root.width = root.geometry.width
+        root.height = root.geometry.height
+        root.x = root.geometry.x
+        root.y = root.geometry.y
     }
 
     signal monitorSelected(int monitorIndex)
@@ -33,12 +33,12 @@ Item {
     onIsSelectedChanged: root.state = isSelected ? "selected" : "default"
     property bool hasContent: false
     onPreviewImageChanged: {
-        print(root.previewImage);
+        print(root.previewImage)
         if (root.previewImage === "") {
-            root.hasContent = false;
+            root.hasContent = false
         } else {
-            imgPreview.source = Qt.resolvedUrl("file:///" + root.previewImage);
-            root.hasContent = true;
+            imgPreview.source = Qt.resolvedUrl("file:///" + root.previewImage)
+            root.hasContent = true
         }
     }
 
@@ -102,30 +102,30 @@ Item {
             text: {
                 switch (root.appState) {
                 case ScreenPlayEnums.AppState.NotSet:
-                    return "";
+                    return ""
                 case ScreenPlayEnums.AppState.Starting:
-                    return qsTr("Starting");
+                    return qsTr("Starting")
                 case ScreenPlayEnums.AppState.StartingFailed:
-                    return qsTr("Starting Failed");
+                    return qsTr("Starting Failed")
                 case ScreenPlayEnums.AppState.Active:
-                    return qsTr("Active");
+                    return qsTr("Active")
                 case ScreenPlayEnums.AppState.Timeout:
-                    return qsTr("Timeout");
+                    return qsTr("Timeout")
                 case ScreenPlayEnums.AppState.Crashed:
-                    return qsTr("Crashed");
+                    return qsTr("Crashed")
                 case ScreenPlayEnums.AppState.ErrorOccurred:
-                    return qsTr("Error Occurred");
+                    return qsTr("Error Occurred")
                 case ScreenPlayEnums.AppState.PostActiveHandling:
-                    return qsTr("Recovering");
+                    return qsTr("Recovering")
                 case ScreenPlayEnums.AppState.Closing:
-                    return qsTr("Closing");
+                    return qsTr("Closing")
                 case ScreenPlayEnums.AppState.ClosingFailed:
-                    return qsTr("Closing Failed");
+                    return qsTr("Closing Failed")
                 case ScreenPlayEnums.AppState.ClosedGracefully:
-                    return qsTr("Closed");
+                    return qsTr("Closed")
                 default:
-                    console.error("Invalid state:", root.appState);
-                    return "";
+                    console.error("Invalid state:", root.appState)
+                    return ""
                 }
             }
         }
@@ -137,11 +137,11 @@ Item {
             cursorShape: Qt.PointingHandCursor
             onClicked: {
                 if (root.monitorWithoutContentSelectable) {
-                    root.monitorSelected(root.monitorIndex);
-                    return;
+                    root.monitorSelected(root.monitorIndex)
+                    return
                 }
                 if (root.enabled && !root.monitorWithoutContentSelectable)
-                    root.monitorSelected(root.monitorIndex);
+                    root.monitorSelected(root.monitorIndex)
             }
         }
 

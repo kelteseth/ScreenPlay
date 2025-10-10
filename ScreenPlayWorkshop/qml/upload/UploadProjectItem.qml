@@ -21,359 +21,359 @@ Page {
     onPreviewImagePathChanged: img.source = Qt.resolvedUrl("file:///" + previewImagePath)
     // Everyting that is not OK is a fail. See steam_qt_enums_generated.h
     onSteamStatusChanged: {
-        let errorText;
+        let errorText
         switch (steamStatus) {
         case SteamEnums.K_EResultNone:
-            root.contentItem.state = "uploadComplete";
-            return;
+            root.contentItem.state = "uploadComplete"
+            return
         case SteamEnums.K_EResultOK:
-            root.contentItem.state = "uploadComplete";
-            return;
+            root.contentItem.state = "uploadComplete"
+            return
         case SteamEnums.K_EResultFail:
-            errorText = qsTr("Fail");
-            break;
+            errorText = qsTr("Fail")
+            break
         case SteamEnums.K_EResultNoConnection:
-            errorText = qsTr("No Connection");
-            break;
+            errorText = qsTr("No Connection")
+            break
         case SteamEnums.K_EResultInvalidPassword:
-            errorText = qsTr("Invalid Password");
-            break;
+            errorText = qsTr("Invalid Password")
+            break
         case SteamEnums.K_EResultLoggedInElsewhere:
-            errorText = qsTr("Logged In Elsewhere");
-            break;
+            errorText = qsTr("Logged In Elsewhere")
+            break
         case SteamEnums.K_EResultInvalidProtocolVer:
-            errorText = qsTr("Invalid Protocol Version");
-            break;
+            errorText = qsTr("Invalid Protocol Version")
+            break
         case SteamEnums.K_EResultInvalidParam:
-            errorText = qsTr("Invalid Param");
-            break;
+            errorText = qsTr("Invalid Param")
+            break
         case SteamEnums.K_EResultFileNotFound:
-            errorText = qsTr("File Not Found");
-            break;
+            errorText = qsTr("File Not Found")
+            break
         case SteamEnums.K_EResultBusy:
-            errorText = qsTr("Busy");
-            break;
+            errorText = qsTr("Busy")
+            break
         case SteamEnums.K_EResultInvalidState:
-            errorText = qsTr("Invalid State");
-            break;
+            errorText = qsTr("Invalid State")
+            break
         case SteamEnums.K_EResultInvalidName:
-            errorText = qsTr("Invalid Name");
-            break;
+            errorText = qsTr("Invalid Name")
+            break
         case SteamEnums.K_EResultInvalidEmail:
-            errorText = qsTr("Invalid Email");
-            break;
+            errorText = qsTr("Invalid Email")
+            break
         case SteamEnums.K_EResultDuplicateName:
-            errorText = qsTr("Duplicate Name");
-            break;
+            errorText = qsTr("Duplicate Name")
+            break
         case SteamEnums.K_EResultAccessDenied:
-            errorText = qsTr("Access Denied");
-            break;
+            errorText = qsTr("Access Denied")
+            break
         case SteamEnums.K_EResultTimeout:
-            errorText = qsTr("Timeout");
-            break;
+            errorText = qsTr("Timeout")
+            break
         case SteamEnums.K_EResultBanned:
-            errorText = qsTr("Banned");
-            break;
+            errorText = qsTr("Banned")
+            break
         case SteamEnums.K_EResultAccountNotFound:
-            errorText = qsTr("Account Not Found");
-            break;
+            errorText = qsTr("Account Not Found")
+            break
         case SteamEnums.K_EResultInvalidSteamID:
-            errorText = qsTr("Invalid SteamID");
-            break;
+            errorText = qsTr("Invalid SteamID")
+            break
         case SteamEnums.K_EResultServiceUnavailable:
-            errorText = qsTr("Service Unavailable");
-            break;
+            errorText = qsTr("Service Unavailable")
+            break
         case SteamEnums.K_EResultNotLoggedOn:
-            errorText = qsTr("Not Logged On");
-            break;
+            errorText = qsTr("Not Logged On")
+            break
         case SteamEnums.K_EResultPending:
-            errorText = qsTr("Pending");
-            break;
+            errorText = qsTr("Pending")
+            break
         case SteamEnums.K_EResultEncryptionFailure:
-            errorText = qsTr("Encryption Failure");
-            break;
+            errorText = qsTr("Encryption Failure")
+            break
         case SteamEnums.K_EResultInsufficientPrivilege:
-            errorText = qsTr("Insufficient Privilege");
-            break;
+            errorText = qsTr("Insufficient Privilege")
+            break
         case SteamEnums.K_EResultLimitExceeded:
-            errorText = qsTr("Limit Exceeded");
-            break;
+            errorText = qsTr("Limit Exceeded")
+            break
         case SteamEnums.K_EResultRevoked:
-            errorText = qsTr("Revoked");
-            break;
+            errorText = qsTr("Revoked")
+            break
         case SteamEnums.K_EResultExpired:
-            errorText = qsTr("Expired");
-            break;
+            errorText = qsTr("Expired")
+            break
         case SteamEnums.K_EResultAlreadyRedeemed:
-            errorText = qsTr("Already Redeemed");
-            break;
+            errorText = qsTr("Already Redeemed")
+            break
         case SteamEnums.K_EResultDuplicateRequest:
-            errorText = qsTr("Duplicate Request");
-            break;
+            errorText = qsTr("Duplicate Request")
+            break
         case SteamEnums.K_EResultAlreadyOwned:
-            errorText = qsTr("Already Owned");
-            break;
+            errorText = qsTr("Already Owned")
+            break
         case SteamEnums.K_EResultIPNotFound:
-            errorText = qsTr("IP Not Found");
-            break;
+            errorText = qsTr("IP Not Found")
+            break
         case SteamEnums.K_EResultPersistFailed:
-            errorText = qsTr("Persist Failed");
-            break;
+            errorText = qsTr("Persist Failed")
+            break
         case SteamEnums.K_EResultLockingFailed:
-            errorText = qsTr("Locking Failed");
-            break;
+            errorText = qsTr("Locking Failed")
+            break
         case SteamEnums.K_EResultLogonSessionReplaced:
-            errorText = qsTr("Logon Session Replaced");
-            break;
+            errorText = qsTr("Logon Session Replaced")
+            break
         case SteamEnums.K_EResultConnectFailed:
-            errorText = qsTr("Connect Failed");
-            break;
+            errorText = qsTr("Connect Failed")
+            break
         case SteamEnums.K_EResultHandshakeFailed:
-            errorText = qsTr("Handshake Failed");
-            break;
+            errorText = qsTr("Handshake Failed")
+            break
         case SteamEnums.K_EResultIOFailure:
-            errorText = qsTr("IO Failure");
-            break;
+            errorText = qsTr("IO Failure")
+            break
         case SteamEnums.K_EResultRemoteDisconnect:
-            errorText = qsTr("Remote Disconnect");
-            break;
+            errorText = qsTr("Remote Disconnect")
+            break
         case SteamEnums.K_EResultShoppingCartNotFound:
-            errorText = qsTr("Shopping Cart Not Found");
-            break;
+            errorText = qsTr("Shopping Cart Not Found")
+            break
         case SteamEnums.K_EResultBlocked:
-            errorText = qsTr("Blocked");
-            break;
+            errorText = qsTr("Blocked")
+            break
         case SteamEnums.K_EResultIgnored:
-            errorText = qsTr("Ignored");
-            break;
+            errorText = qsTr("Ignored")
+            break
         case SteamEnums.K_EResultNoMatch:
-            errorText = qsTr("No Match");
-            break;
+            errorText = qsTr("No Match")
+            break
         case SteamEnums.K_EResultAccountDisabled:
-            errorText = qsTr("Account Disabled");
-            break;
+            errorText = qsTr("Account Disabled")
+            break
         case SteamEnums.K_EResultServiceReadOnly:
-            errorText = qsTr("Service ReadOnly");
-            break;
+            errorText = qsTr("Service ReadOnly")
+            break
         case SteamEnums.K_EResultAccountNotFeatured:
-            errorText = qsTr("Account Not Featured");
-            break;
+            errorText = qsTr("Account Not Featured")
+            break
         case SteamEnums.K_EResultAdministratorOK:
-            errorText = qsTr("Administrator OK");
-            break;
+            errorText = qsTr("Administrator OK")
+            break
         case SteamEnums.K_EResultContentVersion:
-            errorText = qsTr("Content Version");
-            break;
+            errorText = qsTr("Content Version")
+            break
         case SteamEnums.K_EResultTryAnotherCM:
-            errorText = qsTr("Try Another CM");
-            break;
+            errorText = qsTr("Try Another CM")
+            break
         case SteamEnums.K_EResultPasswordRequiredToKickSession:
-            errorText = qsTr("Password Required To Kick Session");
-            break;
+            errorText = qsTr("Password Required To Kick Session")
+            break
         case SteamEnums.K_EResultAlreadyLoggedInElsewhere:
-            errorText = qsTr("Already Logged In Elsewhere");
-            break;
+            errorText = qsTr("Already Logged In Elsewhere")
+            break
         case SteamEnums.K_EResultSuspended:
-            errorText = qsTr("Suspended");
-            break;
+            errorText = qsTr("Suspended")
+            break
         case SteamEnums.K_EResultCancelled:
-            errorText = qsTr("Cancelled");
-            break;
+            errorText = qsTr("Cancelled")
+            break
         case SteamEnums.K_EResultDataCorruption:
-            errorText = qsTr("Data Corruption");
-            break;
+            errorText = qsTr("Data Corruption")
+            break
         case SteamEnums.K_EResultDiskFull:
-            errorText = qsTr("Disk Full");
-            break;
+            errorText = qsTr("Disk Full")
+            break
         case SteamEnums.K_EResultRemoteCallFailed:
-            errorText = qsTr("Remote Call Failed");
-            break;
+            errorText = qsTr("Remote Call Failed")
+            break
         case SteamEnums.K_EResultPasswordUnset:
-            errorText = qsTr("Password Unset");
-            break;
+            errorText = qsTr("Password Unset")
+            break
         case SteamEnums.K_EResultExternalAccountUnlinked:
-            errorText = qsTr("External Account Unlinked");
-            break;
+            errorText = qsTr("External Account Unlinked")
+            break
         case SteamEnums.K_EResultPSNTicketInvalid:
-            errorText = qsTr("PSN Ticket Invalid");
-            break;
+            errorText = qsTr("PSN Ticket Invalid")
+            break
         case SteamEnums.K_EResultExternalAccountAlreadyLinked:
-            errorText = qsTr("External Account Already Linked");
-            break;
+            errorText = qsTr("External Account Already Linked")
+            break
         case SteamEnums.K_EResultRemoteFileConflict:
-            errorText = qsTr("Remote File Conflict");
-            break;
+            errorText = qsTr("Remote File Conflict")
+            break
         case SteamEnums.K_EResultIllegalPassword:
-            errorText = qsTr("Illegal Password");
-            break;
+            errorText = qsTr("Illegal Password")
+            break
         case SteamEnums.K_EResultSameAsPreviousValue:
-            errorText = qsTr("Same As Previous Value");
-            break;
+            errorText = qsTr("Same As Previous Value")
+            break
         case SteamEnums.K_EResultAccountLogonDenied:
-            errorText = qsTr("Account Logon Denied");
-            break;
+            errorText = qsTr("Account Logon Denied")
+            break
         case SteamEnums.K_EResultCannotUseOldPassword:
-            errorText = qsTr("Cannot Use Old Password");
-            break;
+            errorText = qsTr("Cannot Use Old Password")
+            break
         case SteamEnums.K_EResultInvalidLoginAuthCode:
-            errorText = qsTr("Invalid Login AuthCode");
-            break;
+            errorText = qsTr("Invalid Login AuthCode")
+            break
         case SteamEnums.K_EResultAccountLogonDeniedNoMail:
-            errorText = qsTr("Account Logon Denied No Mail");
-            break;
+            errorText = qsTr("Account Logon Denied No Mail")
+            break
         case SteamEnums.K_EResultHardwareNotCapableOfIPT:
-            errorText = qsTr("Hardware Not Capable Of IPT");
-            break;
+            errorText = qsTr("Hardware Not Capable Of IPT")
+            break
         case SteamEnums.K_EResultIPTInitError:
-            errorText = qsTr("IPT Init Error");
-            break;
+            errorText = qsTr("IPT Init Error")
+            break
         case SteamEnums.K_EResultParentalControlRestricted:
-            errorText = qsTr("Parental Control Restricted");
-            break;
+            errorText = qsTr("Parental Control Restricted")
+            break
         case SteamEnums.K_EResultFacebookQueryError:
-            errorText = qsTr("Facebook Query Error");
-            break;
+            errorText = qsTr("Facebook Query Error")
+            break
         case SteamEnums.K_EResultExpiredLoginAuthCode:
-            errorText = qsTr("Expired Login Auth Code");
-            break;
+            errorText = qsTr("Expired Login Auth Code")
+            break
         case SteamEnums.K_EResultIPLoginRestrictionFailed:
-            errorText = qsTr("IP Login Restriction Failed");
-            break;
+            errorText = qsTr("IP Login Restriction Failed")
+            break
         case SteamEnums.K_EResultAccountLockedDown:
-            errorText = qsTr("Account Locked Down");
-            break;
+            errorText = qsTr("Account Locked Down")
+            break
         case SteamEnums.K_EResultAccountLogonDeniedVerifiedEmailRequired:
-            errorText = qsTr("Account Logon Denied Verified Email Required");
-            break;
+            errorText = qsTr("Account Logon Denied Verified Email Required")
+            break
         case SteamEnums.K_EResultNoMatchingURL:
-            errorText = qsTr("No MatchingURL");
-            break;
+            errorText = qsTr("No MatchingURL")
+            break
         case SteamEnums.K_EResultBadResponse:
-            errorText = qsTr("Bad Response");
-            break;
+            errorText = qsTr("Bad Response")
+            break
         case SteamEnums.K_EResultRequirePasswordReEntry:
-            errorText = qsTr("Require Password ReEntry");
-            break;
+            errorText = qsTr("Require Password ReEntry")
+            break
         case SteamEnums.K_EResultValueOutOfRange:
-            errorText = qsTr("Value Out Of Range");
-            break;
+            errorText = qsTr("Value Out Of Range")
+            break
         case SteamEnums.K_EResultUnexpectedError:
-            errorText = qsTr("Unexpecte Error");
-            break;
+            errorText = qsTr("Unexpecte Error")
+            break
         case SteamEnums.K_EResultDisabled:
-            errorText = qsTr("Disabled");
-            break;
+            errorText = qsTr("Disabled")
+            break
         case SteamEnums.K_EResultInvalidCEGSubmission:
-            errorText = qsTr("Invalid CEG Submission");
-            break;
+            errorText = qsTr("Invalid CEG Submission")
+            break
         case SteamEnums.K_EResultRestrictedDevice:
-            errorText = qsTr("Restricted Device");
-            break;
+            errorText = qsTr("Restricted Device")
+            break
         case SteamEnums.K_EResultRegionLocked:
-            errorText = qsTr("Region Locked");
-            break;
+            errorText = qsTr("Region Locked")
+            break
         case SteamEnums.K_EResultRateLimitExceeded:
-            errorText = qsTr("Rate Limit Exceeded");
-            break;
+            errorText = qsTr("Rate Limit Exceeded")
+            break
         case SteamEnums.K_EResultAccountLoginDeniedNeedTwoFactor:
-            errorText = qsTr("Account Login Denied Need Two Factor");
-            break;
+            errorText = qsTr("Account Login Denied Need Two Factor")
+            break
         case SteamEnums.K_EResultItemDeleted:
-            errorText = qsTr("Item Deleted");
-            break;
+            errorText = qsTr("Item Deleted")
+            break
         case SteamEnums.K_EResultAccountLoginDeniedThrottle:
-            errorText = qsTr("Account Login Denied Throttle");
-            break;
+            errorText = qsTr("Account Login Denied Throttle")
+            break
         case SteamEnums.K_EResultTwoFactorCodeMismatch:
-            errorText = qsTr("Two Factor Code Mismatch");
-            break;
+            errorText = qsTr("Two Factor Code Mismatch")
+            break
         case SteamEnums.K_EResultTwoFactorActivationCodeMismatch:
-            errorText = qsTr("Two Factor Activation Code Mismatch");
-            break;
+            errorText = qsTr("Two Factor Activation Code Mismatch")
+            break
         case SteamEnums.K_EResultAccountAssociatedToMultiplePartners:
-            errorText = qsTr("Account Associated To Multiple Partners");
-            break;
+            errorText = qsTr("Account Associated To Multiple Partners")
+            break
         case SteamEnums.K_EResultNotModified:
-            errorText = qsTr("Not Modified");
-            break;
+            errorText = qsTr("Not Modified")
+            break
         case SteamEnums.K_EResultNoMobileDevice:
-            errorText = qsTr("No Mobile Device");
-            break;
+            errorText = qsTr("No Mobile Device")
+            break
         case SteamEnums.K_EResultTimeNotSynced:
-            errorText = qsTr("Time Not Synced");
-            break;
+            errorText = qsTr("Time Not Synced")
+            break
         case SteamEnums.K_EResultSmsCodeFailed:
-            errorText = qsTr("Sms Code Failed");
-            break;
+            errorText = qsTr("Sms Code Failed")
+            break
         case SteamEnums.K_EResultAccountLimitExceeded:
-            errorText = qsTr("Account Limit Exceeded");
-            break;
+            errorText = qsTr("Account Limit Exceeded")
+            break
         case SteamEnums.K_EResultAccountActivityLimitExceeded:
-            errorText = qsTr("Account Activity Limit Exceeded");
-            break;
+            errorText = qsTr("Account Activity Limit Exceeded")
+            break
         case SteamEnums.K_EResultPhoneActivityLimitExceeded:
-            errorText = qsTr("Phone Activity Limit Exceeded");
-            break;
+            errorText = qsTr("Phone Activity Limit Exceeded")
+            break
         case SteamEnums.K_EResultRefundToWallet:
-            errorText = qsTr("Refund To Wallet");
-            break;
+            errorText = qsTr("Refund To Wallet")
+            break
         case SteamEnums.K_EResultEmailSendFailure:
-            errorText = qsTr("Email Send Failure");
-            break;
+            errorText = qsTr("Email Send Failure")
+            break
         case SteamEnums.K_EResultNotSettled:
-            errorText = qsTr("Not Settled");
-            break;
+            errorText = qsTr("Not Settled")
+            break
         case SteamEnums.K_EResultNeedCaptcha:
-            errorText = qsTr("Need Captcha");
-            break;
+            errorText = qsTr("Need Captcha")
+            break
         case SteamEnums.K_EResultGSLTDenied:
-            errorText = qsTr("GSLT Denied");
-            break;
+            errorText = qsTr("GSLT Denied")
+            break
         case SteamEnums.K_EResultGSOwnerDenied:
-            errorText = qsTr("GS Owner Denied");
-            break;
+            errorText = qsTr("GS Owner Denied")
+            break
         case SteamEnums.K_EResultInvalidItemType:
-            errorText = qsTr("Invalid Item Type");
-            break;
+            errorText = qsTr("Invalid Item Type")
+            break
         case SteamEnums.K_EResultIPBanned:
-            errorText = qsTr("IP Banned");
-            break;
+            errorText = qsTr("IP Banned")
+            break
         case SteamEnums.K_EResultGSLTExpired:
-            errorText = qsTr("GSLT Expired");
-            break;
+            errorText = qsTr("GSLT Expired")
+            break
         case SteamEnums.K_EResultInsufficientFunds:
-            errorText = qsTr("Insufficient Funds");
-            break;
+            errorText = qsTr("Insufficient Funds")
+            break
         case SteamEnums.K_EResultTooManyPending:
-            errorText = qsTr("Too Many Pending");
-            break;
+            errorText = qsTr("Too Many Pending")
+            break
         case SteamEnums.K_EResultNoSiteLicensesFound:
-            errorText = qsTr("No Site Licenses Found");
-            break;
+            errorText = qsTr("No Site Licenses Found")
+            break
         case SteamEnums.K_EResultWGNetworkSendExceeded:
-            errorText = qsTr("WG Network Send Exceeded");
-            break;
+            errorText = qsTr("WG Network Send Exceeded")
+            break
         case SteamEnums.K_EResultAccountNotFriends:
-            errorText = qsTr("Account Not Friends");
-            break;
+            errorText = qsTr("Account Not Friends")
+            break
         case SteamEnums.K_EResultLimitedUserAccount:
-            errorText = qsTr("Limited User Account");
-            break;
+            errorText = qsTr("Limited User Account")
+            break
         case SteamEnums.K_EResultCantRemoveItem:
-            errorText = qsTr("Cant Remove Item");
-            break;
+            errorText = qsTr("Cant Remove Item")
+            break
         case SteamEnums.K_EResultAccountDeleted:
-            errorText = qsTr("Account Deleted");
-            break;
+            errorText = qsTr("Account Deleted")
+            break
         case SteamEnums.K_EResultExistingUserCancelledLicense:
-            errorText = qsTr("Existing User Cancelled License");
-            break;
+            errorText = qsTr("Existing User Cancelled License")
+            break
         case SteamEnums.K_EResultCommunityCooldown:
-            errorText = qsTr("Community Cooldown");
-            break;
+            errorText = qsTr("Community Cooldown")
+            break
         }
-        root.contentItem.txtStatus.statusText = errorText;
-        root.contentItem.state = "error";
+        root.contentItem.txtStatus.statusText = errorText
+        root.contentItem.state = "error"
     }
 
     background: Rectangle {

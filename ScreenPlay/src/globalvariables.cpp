@@ -3,6 +3,8 @@
 #include "ScreenPlay/globalvariables.h"
 #include "CMakeVariables.h"
 #include "ScreenPlay/steamdlcchecker.h"
+#include <QDir>
+#include <QFileInfo>
 #include <QGuiApplication>
 #include <QMetaType>
 #include <QStandardPaths>
@@ -23,7 +25,8 @@ GlobalVariables::GlobalVariables(QObject* parent)
 {
     setLocalSettingsPath(QUrl { QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) });
     const bool startedViaSteam = QGuiApplication::instance()->arguments().contains("--steam");
-
+    // setVersion(ScreenPlayEnums::Version::OpenSourceSteam);
+    // return;
     // Check if we're running the Steam version
     if (SCREENPLAY_STEAM_VERSION) {
         // Always check dlc status is started with the --steam flag, to check

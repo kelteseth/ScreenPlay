@@ -11,22 +11,22 @@ Window {
     visible: true
     title: qsTr("ScreenPlayWorkshop")
     Component.onCompleted: {
-        root.Material.theme = Material.Dark;
+        root.Material.theme = Material.Dark
     }
 
     ScreenPlayWorkshop {
         id: screenPlayWorkshop
         Component.onCompleted: {
             if (screenPlayWorkshop.init()) {
-                print("init");
+                print("init")
                 stackView.push("qrc:/qt/qml/ScreenPlayWorkshop/qml/SteamWorkshopStartPage.qml", {
                     "stackView": stackView,
                     "screenPlayWorkshop": screenPlayWorkshop,
                     "steamWorkshop": screenPlayWorkshop.steamWorkshop,
                     "background": background
-                });
+                })
             } else {
-                popupOffline.open();
+                popupOffline.open()
             }
         }
     }

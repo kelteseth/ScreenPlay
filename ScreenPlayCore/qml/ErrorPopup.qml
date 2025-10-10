@@ -26,7 +26,7 @@ Popup {
             Button {
                 text: qsTr("Ok")
                 onClicked: {
-                    root.close();
+                    root.close()
                 }
             }
         }

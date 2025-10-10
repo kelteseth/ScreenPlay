@@ -18,10 +18,10 @@ Item {
         source: root.sourceImage.trim()
         onStatusChanged: {
             if (image.status === Image.Ready) {
-                root.state = "loaded";
+                root.state = "loaded"
             } else if (image.status === Image.Error) {
-                source = "images/missingPreview.png";
-                root.state = "loaded";
+                source = "images/missingPreview.png"
+                root.state = "loaded"
             }
         }
     }

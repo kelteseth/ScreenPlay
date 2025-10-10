@@ -10,8 +10,8 @@ Item {
     property real lineWidth: 1
     property real linePosition: Number((root.x / lineWidth).toFixed(12))
     property string timeString: {
-        const normalized = root.x / root.lineWidth;
-        return App.util.getTimeString(normalized);
+        const normalized = root.x / root.lineWidth
+        return App.util.getTimeString(normalized)
     }
 
     property real lineMinimum: .5
@@ -36,7 +36,7 @@ Item {
         otherLineHandleActive: ${otherLineHandleActive}
         min/max: ${lineMinimum.toFixed(3)}/${lineMaximum.toFixed(3)}
         isLast: ${isLast}
-    }`);
+    }`)
     }
 
     Rectangle {
@@ -45,13 +45,13 @@ Item {
         radius: width
         color: {
             if (dragHandler.active) {
-                return Material.color(Material.Orange);
+                return Material.color(Material.Orange)
             }
 
             if (Material.theme === Material.Dark) {
-                return Material.color(Material.Grey, Material.Shade400);
+                return Material.color(Material.Grey, Material.Shade400)
             } else {
-                return Material.color(Material.BlueGrey, Material.Shade400);
+                return Material.color(Material.BlueGrey, Material.Shade400)
             }
         }
         x: -(width * .5)
@@ -100,11 +100,11 @@ Item {
             minimum: root.lineMinimum
             maximum: root.lineMaximum
             onActiveValueChanged: delta => {
-                root.handleMoved(root);
+                root.handleMoved(root)
             }
         }
         onActiveChanged: {
-            root.activated(root.identifier, active);
+            root.activated(root.identifier, active)
         }
     }
 }

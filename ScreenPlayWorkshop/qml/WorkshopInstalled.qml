@@ -15,12 +15,12 @@ Item {
     clip: true
     states: []
     Component.onCompleted: {
-        pageInstalled.state = "in";
+        pageInstalled.state = "in"
     }
 
     Connections {
         function onHelperButtonPressed(pos) {
-            setNavigationItem(pos);
+            setNavigationItem(pos)
         }
 
         target: loaderHelp.item

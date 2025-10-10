@@ -54,8 +54,8 @@ Popup {
                 Material.accent: Material.color(Material.Orange)
                 highlighted: true
                 onClicked: {
-                    Qt.openUrlExternally("https://steamcommunity.com/sharedfiles/workshoplegalagreement");
-                    root.close();
+                    Qt.openUrlExternally("https://steamcommunity.com/sharedfiles/workshoplegalagreement")
+                    root.close()
                 }
             }
         }

@@ -11,8 +11,8 @@ Item {
     id: root
 
     function setSource(path, arguments) {
-        loader_wrapperContent.setSource(path, arguments);
-        root.state = "in";
+        loader_wrapperContent.setSource(path, arguments)
+        root.state = "in"
     }
 
     anchors.fill: parent
@@ -52,9 +52,9 @@ Item {
         width: {
             // Add small margin left and right
             if (parent.width < 1200)
-                return parent.width - 20;
+                return parent.width - 20
             else
-                return 1200;
+                return 1200
         }
 
         anchors {
@@ -71,7 +71,7 @@ Item {
 
         CloseIcon {
             onClicked: {
-                timerBack.start();
+                timerBack.start()
             }
 
             Timer {
@@ -79,8 +79,8 @@ Item {
 
                 interval: 400
                 onTriggered: {
-                    App.uiAppStateSignals.setNavigationActive(true);
-                    App.uiAppStateSignals.setNavigation("Create");
+                    App.uiAppStateSignals.setNavigationActive(true)
+                    App.uiAppStateSignals.setNavigation("Create")
                 }
             }
         }
@@ -109,9 +109,9 @@ Item {
                 opacity: 1
                 anchors.topMargin: {
                     if (root.height < 650)
-                        return 20;
+                        return 20
                     else
-                        return 70;
+                        return 70
                 }
             }
 

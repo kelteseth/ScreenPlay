@@ -18,11 +18,11 @@ Item {
     width: parent.width
     onAvailableChanged: {
         if (!available) {
-            settingsBool.opacity = 0.5;
-            radioButton.enabled = false;
+            settingsBool.opacity = 0.5
+            radioButton.enabled = false
         } else {
-            settingsButton.opacity = 1;
-            radioButton.enabled = true;
+            settingsButton.opacity = 1
+            radioButton.enabled = true
         }
     }
 
@@ -54,7 +54,7 @@ Item {
         wrapMode: Text.WordWrap
         linkColor: Material.color(Material.Orange)
         onLinkActivated: function (link) {
-            Qt.openUrlExternally(link);
+            Qt.openUrlExternally(link)
         }
 
         color: Material.theme === Material.Light ? Qt.lighter(Material.foreground) : Qt.darker(Material.foreground)
@@ -79,9 +79,9 @@ Item {
         checked: settingsBool.isChecked
         onClicked: {
             if (radioButton.checkState === Qt.Checked)
-                checkboxChanged(true);
+                checkboxChanged(true)
             else
-                checkboxChanged(false);
+                checkboxChanged(false)
         }
 
         anchors {

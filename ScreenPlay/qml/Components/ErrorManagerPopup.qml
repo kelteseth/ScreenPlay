@@ -27,17 +27,17 @@ Dialog {
     onAboutToHide: {
         // Fixes the ugly transition with
         // our ModalBackgroundBlur on exit
-        modal = false;
+        modal = false
     }
 
     onAboutToShow: {
-        modal = true;
+        modal = true
     }
 
     Component.onCompleted: {
         // When we have errors before qml is loaded:
         if (App.errorManager.hasErrors) {
-            openDelayTimer.start();
+            openDelayTimer.start()
         }
     }
     Timer {
@@ -45,7 +45,7 @@ Dialog {
         id: openDelayTimer
         interval: 1000
         onTriggered: {
-            root.open();
+            root.open()
         }
     }
 
@@ -55,7 +55,7 @@ Dialog {
 
         function onShowErrorPopup() {
             if (!root.opened) {
-                root.open();
+                root.open()
             }
         }
 
@@ -182,7 +182,7 @@ Dialog {
                 // Auto-scroll to bottom when new errors are added
                 onCountChanged: {
                     if (count > 0) {
-                        positionViewAtEnd();
+                        positionViewAtEnd()
                     }
                 }
             }

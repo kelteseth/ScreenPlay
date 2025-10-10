@@ -75,10 +75,10 @@ FocusScope {
             Layout.alignment: Qt.AlignRight
             font.family: App.settings.font
             onClicked: {
-                btnSave.enabled = false;
-                root.saveClicked();
-                savePopup.open();
-                loader.item.create();
+                btnSave.enabled = false
+                root.saveClicked()
+                savePopup.open()
+                loader.item.create()
             }
         }
     }
@@ -87,11 +87,11 @@ FocusScope {
         target: root
         function onWizardFinished(success, message) {
             if (success) {
-                timerSave.start();
-                return;
+                timerSave.start()
+                return
             }
-            savePopup.title = message;
-            savePopup.standardButtons = Dialog.Ok;
+            savePopup.title = message
+            savePopup.standardButtons = Dialog.Ok
         }
     }
 
@@ -104,8 +104,8 @@ FocusScope {
         height: 200
         anchors.centerIn: Overlay.overlay
         onAccepted: {
-            savePopup.close();
-            root.wizardExited();
+            savePopup.close()
+            root.wizardExited()
         }
         title: qsTr("Saving...")
 
@@ -117,8 +117,8 @@ FocusScope {
             id: timerSave
             interval: 200 + Math.random() * 500
             onTriggered: {
-                savePopup.close();
-                root.wizardExited();
+                savePopup.close()
+                root.wizardExited()
             }
         }
     }

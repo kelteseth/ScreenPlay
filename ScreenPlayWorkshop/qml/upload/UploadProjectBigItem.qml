@@ -25,9 +25,9 @@ Item {
     height: 250
     onTypeChanged: {
         if (type === "widget")
-            icnType.source = "icons/icon_widgets.svg";
+            icnType.source = "icons/icon_widgets.svg"
         else if (type === "qmlScene")
-            icnType.source = "icons/icon_code.svg";
+            icnType.source = "icons/icon_code.svg"
     }
 
     //        if (!isProjectValid) {
@@ -136,10 +136,10 @@ Item {
 
             onCheckStateChanged: {
                 if (checkState == Qt.Checked)
-                    isSelected = true;
+                    isSelected = true
                 else
-                    isSelected = false;
-                root.itemClicked(folderName, type, isSelected);
+                    isSelected = false
+                root.itemClicked(folderName, type, isSelected)
             }
 
             anchors {

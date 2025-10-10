@@ -18,8 +18,8 @@ Item {
         isPlaying: Wallpaper.isPlaying
         onIsPlayingChanged: {
             if (isPlaying && !root.fadeInDone) {
-                root.fadeInDone = true;
-                startTimer.start();
+                root.fadeInDone = true
+                startTimer.start()
             }
         }
     }
@@ -30,7 +30,7 @@ Item {
         id: startTimer
         interval: 50
         onTriggered: {
-            Wallpaper.requestFadeIn();
+            Wallpaper.requestFadeIn()
         }
     }
 
@@ -40,7 +40,7 @@ Item {
         id: pauseTimer
         interval: 100
         onTriggered: {
-            videoPlayer.isPlaying = false;
+            videoPlayer.isPlaying = false
         }
     }
 
@@ -48,16 +48,16 @@ Item {
         target: Wallpaper
 
         function onFillModeChanged(fillMode) {
-            videoPlayer.fillMode = fillMode;
+            videoPlayer.fillMode = fillMode
         }
 
         function onVisualsPausedChanged(visualsPaused) {
             if (!Wallpaper.isPlaying)
-                return;
+                return
             if (visualsPaused)
-                pauseTimer.start();
+                pauseTimer.start()
             else
-                videoPlayer.isPlaying = true;
+                videoPlayer.isPlaying = true
         }
     }
 }

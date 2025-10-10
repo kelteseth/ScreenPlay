@@ -16,8 +16,8 @@ WizardPage {
 
         function create() {
             App.wizards.createGifWallpaper(tfTitle.text, cbLicense.name, cbLicense.licenseFile, tfCreatedBy.text, root.file, tagSelector.getTags()).then(result => {
-                wizardFinished(result.success, result.message);
-            });
+                wizardFinished(result.success, result.message)
+            })
         }
 
         onReadyChanged: root.ready = ready
@@ -56,15 +56,15 @@ WizardPage {
 
                         anchors.fill: parent
                         onDropped: {
-                            root.file = drop.urls[0];
-                            leftWrapper.color = Qt.darker(Qt.darker(Material.backgroundColor));
+                            root.file = drop.urls[0]
+                            leftWrapper.color = Qt.darker(Qt.darker(Material.backgroundColor))
                         }
                         onExited: {
-                            leftWrapper.color = Qt.darker(Material.backgroundColor);
+                            leftWrapper.color = Qt.darker(Material.backgroundColor)
                         }
                         onEntered: {
-                            leftWrapper.color = Qt.darker(Qt.darker(Material.backgroundColor));
-                            drag.accept(Qt.LinkAction);
+                            leftWrapper.color = Qt.darker(Qt.darker(Material.backgroundColor))
+                            drag.accept(Qt.LinkAction)
                         }
                     }
 

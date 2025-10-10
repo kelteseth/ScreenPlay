@@ -19,9 +19,9 @@ Item {
                     "screenPlayWorkshop": screenPlayWorkshop,
                     "steamWorkshop": screenPlayWorkshop.steamWorkshop,
                     "background": background
-                });
+                })
             } else {
-                popupOffline.open();
+                popupOffline.open()
             }
         }
     }

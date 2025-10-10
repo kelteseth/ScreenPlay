@@ -238,13 +238,13 @@ Item {
             onContainsMouseChanged: {
                 if (!isDownloading) {
                     if (containsMouse)
-                        root.state = "hover";
+                        root.state = "hover"
                     else
-                        root.state = "";
+                        root.state = ""
                 }
             }
             onClicked: {
-                root.clicked(root.publishedFileID, root.imgUrl);
+                root.clicked(root.publishedFileID, root.imgUrl)
             }
         }
 
@@ -253,7 +253,7 @@ Item {
             width: 20
             cursorShape: Qt.PointingHandCursor
             onClicked: {
-                Qt.openUrlExternally("steam://url/CommunityFilePage/" + root.publishedFileID);
+                Qt.openUrlExternally("steam://url/CommunityFilePage/" + root.publishedFileID)
             }
 
             anchors {

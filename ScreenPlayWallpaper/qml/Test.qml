@@ -32,10 +32,10 @@ Rectangle {
         id: ma
 
         function setPosition() {
-            attractor.pointX = mouseX - 25;
-            attractor.pointY = mouseY - 25;
-            mouseDot.x = mouseX - mouseDot.center;
-            mouseDot.y = mouseY - mouseDot.center;
+            attractor.pointX = mouseX - 25
+            attractor.pointY = mouseY - 25
+            mouseDot.x = mouseX - mouseDot.center
+            mouseDot.y = mouseY - mouseDot.center
         }
 
         anchors.fill: parent
@@ -43,11 +43,11 @@ Rectangle {
         propagateComposedEvents: true
         hoverEnabled: true
         Component.onCompleted: {
-            attractor.pointX = parent.width * 0.5;
-            attractor.pointY = parent.height * 0.5;
+            attractor.pointX = parent.width * 0.5
+            attractor.pointY = parent.height * 0.5
         }
         onPositionChanged: {
-            setPosition();
+            setPosition()
         }
         onClicked: {}
     }
@@ -169,10 +169,10 @@ Rectangle {
             highlighted: true
             text: qsTr("Click me! - 1")
             onClicked: {
-                focus = false;
-                focus = true;
-                print("Button Clicked!");
-                txtButtonConter.counter = txtButtonConter.counter - 1;
+                focus = false
+                focus = true
+                print("Button Clicked!")
+                txtButtonConter.counter = txtButtonConter.counter - 1
             }
         }
 
@@ -180,10 +180,10 @@ Rectangle {
             highlighted: true
             text: qsTr("Exit Wallpaper")
             onClicked: {
-                focus = false;
-                focus = true;
-                print("Exit Wallpaper");
-                Wallpaper.terminate();
+                focus = false
+                focus = true
+                print("Exit Wallpaper")
+                Wallpaper.terminate()
             }
         }
 
@@ -192,8 +192,8 @@ Rectangle {
             focusPolicy: Qt.ClickFocus
             text: qsTr("Click me! +1")
             onClicked: {
-                print("Button Clicked!");
-                txtButtonConter.counter = txtButtonConter.counter + 1;
+                print("Button Clicked!")
+                txtButtonConter.counter = txtButtonConter.counter + 1
             }
         }
     }
@@ -213,8 +213,8 @@ Rectangle {
             text: "Exit"
             onClicked: {
                 Qt.callLater(function () {
-                    Wallpaper.terminate();
-                });
+                    Wallpaper.terminate()
+                })
             }
         }
     }

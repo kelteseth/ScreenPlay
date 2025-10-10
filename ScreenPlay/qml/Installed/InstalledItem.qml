@@ -26,9 +26,9 @@ Item {
     // Using readonly properties avoids creating bindings when values are static
     readonly property bool hasLicense: {
         if (App.globalVariables.isBasicVersion() && root.type === Util.ContentTypes.InstalledType.GodotWallpaper) {
-            return false;
+            return false
         }
-        return true;
+        return true
     }
 
     // Pre-compute image sources to avoid repeated string concatenation
@@ -39,12 +39,12 @@ Item {
     // Compute type icon once to avoid repeated checks
     readonly property string typeIconSource: {
         if (App.util.isWidget(type)) {
-            return "qrc:/qt/qml/ScreenPlay/assets/icons/icon_widgets.svg";
+            return "qrc:/qt/qml/ScreenPlay/assets/icons/icon_widgets.svg"
         }
         if (App.util.isScene(type)) {
-            return "qrc:/qt/qml/ScreenPlay/assets/icons/icon_code.svg";
+            return "qrc:/qt/qml/ScreenPlay/assets/icons/icon_code.svg"
         }
-        return "qrc:/qt/qml/ScreenPlay/assets/icons/icon_movie.svg";
+        return "qrc:/qt/qml/ScreenPlay/assets/icons/icon_movie.svg"
     }
 
     // Performance flags
@@ -57,8 +57,8 @@ Item {
     property bool isInitialLoad: true
 
     Component.onCompleted: {
-        root.isInitialLoad = root.index < 20;
-        showAnimation.start();
+        root.isInitialLoad = root.index < 20
+        showAnimation.start()
     }
 
     width: 320
@@ -91,7 +91,7 @@ Item {
                 // Handle loading states efficiently
                 onStatusChanged: {
                     if (status === Image.Error) {
-                        source = "qrc:/qt/qml/ScreenPlay/assets/images/missingPreview.png";
+                        source = "qrc:/qt/qml/ScreenPlay/assets/images/missingPreview.png"
                     }
                 }
             }
@@ -212,14 +212,14 @@ Item {
 
             onClicked: function (mouse) {
                 if (!root.hasLicense) {
-                    root.openOpenLicensePopup();
-                    return;
+                    root.openOpenLicensePopup()
+                    return
                 }
 
                 if (mouse.button === Qt.LeftButton && !App.util.isWidget(root.type)) {
-                    root.clicked(root.folderName, root.type);
+                    root.clicked(root.folderName, root.type)
                 } else if (mouse.button === Qt.RightButton) {
-                    root.openContextMenu(Qt.point(mouseX, mouseY));
+                    root.openContextMenu(Qt.point(mouseX, mouseY))
                 }
             }
         }
@@ -238,7 +238,7 @@ Item {
             }
 
             onClicked: {
-                App.screenPlayManager.startWidget(root.absoluteStoragePath, Qt.point(0, 0), {}, true);
+                App.screenPlayManager.startWidget(root.absoluteStoragePath, Qt.point(0, 0), {}, true)
             }
         }
         HoverHandler {
@@ -300,10 +300,11 @@ Item {
             duration: {
                 if (root.isInitialLoad) {
                     // Use wave effect for initial load
-                    return Math.max(0, (root.rowIndex * 100) + (root.columnIndex * 50));
+                    return Math.max(0, (root.rowIndex * 100) + (root.columnIndex * 50))
                 } else {
                     // For scrolled items, use minimal delay or no delay
-                    return Math.max(0, root.columnIndex * 100); // Just a small column-based delay
+                    return Math.max(0, root.columnIndex * 100)
+                    // Just a small column-based delay
                 }
             }
         }

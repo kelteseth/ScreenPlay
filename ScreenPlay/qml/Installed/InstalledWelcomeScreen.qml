@@ -104,9 +104,9 @@ Item {
 
         text: {
             if (App.globalVariables.isSteamVersion()) {
-                return qsTr("Browse the Steam Workshop");
+                return qsTr("Browse the Steam Workshop")
             } else {
-                return qsTr("Open the ScreenPlay forum");
+                return qsTr("Open the ScreenPlay forum")
             }
         }
         Material.background: Material.color(Material.Orange)
@@ -116,18 +116,18 @@ Item {
         height: implicitHeight + 10
         icon.source: {
             if (App.globalVariables.isSteamVersion()) {
-                return "qrc:/qt/qml/ScreenPlay/assets/icons/icon_steam.svg";
+                return "qrc:/qt/qml/ScreenPlay/assets/icons/icon_steam.svg"
             } else {
-                return "qrc:/qt/qml/ScreenPlay/assets/icons/icon_community.svg";
+                return "qrc:/qt/qml/ScreenPlay/assets/icons/icon_community.svg"
             }
         }
         icon.width: 18
         icon.height: 18
         onClicked: {
             if (App.globalVariables.isSteamVersion()) {
-                App.uiAppStateSignals.setNavigation("Workshop");
+                App.uiAppStateSignals.setNavigation("Workshop")
             } else {
-                Qt.openUrlExternally("https://forum.screen-play.app/");
+                Qt.openUrlExternally("https://forum.screen-play.app/")
             }
         }
 
@@ -310,7 +310,7 @@ Item {
 
                 ScriptAction {
                     script: {
-                        animShake.start(2000, 1000, -1);
+                        animShake.start(2000, 1000, -1)
                     }
                 }
             }

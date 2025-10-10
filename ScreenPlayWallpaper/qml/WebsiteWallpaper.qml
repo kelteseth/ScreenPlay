@@ -9,14 +9,14 @@ Item {
     property string url
 
     Component.onCompleted: {
-        WebEngine.settings.localContentCanAccessFileUrls = true;
-        WebEngine.settings.localContentCanAccessRemoteUrls = true;
-        WebEngine.settings.allowRunningInsecureContent = true;
-        WebEngine.settings.accelerated2dCanvasEnabled = true;
-        WebEngine.settings.javascriptCanOpenWindows = false;
-        WebEngine.settings.showScrollBars = false;
-        WebEngine.settings.playbackRequiresUserGesture = false;
-        WebEngine.settings.focusOnNavigationEnabled = true;
+        WebEngine.settings.localContentCanAccessFileUrls = true
+        WebEngine.settings.localContentCanAccessRemoteUrls = true
+        WebEngine.settings.allowRunningInsecureContent = true
+        WebEngine.settings.accelerated2dCanvasEnabled = true
+        WebEngine.settings.javascriptCanOpenWindows = false
+        WebEngine.settings.showScrollBars = false
+        WebEngine.settings.playbackRequiresUserGesture = false
+        WebEngine.settings.focusOnNavigationEnabled = true
     }
 
     WebEngineView {
@@ -26,7 +26,7 @@ Item {
         url: Qt.resolvedUrl(root.url)
         onLoadProgressChanged: {
             if (loadProgress === 100)
-                Wallpaper.requestFadeIn();
+                Wallpaper.requestFadeIn()
         }
     }
 }

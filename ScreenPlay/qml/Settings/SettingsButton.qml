@@ -21,11 +21,11 @@ Item {
     width: parent.width
     onAvailableChanged: {
         if (!available) {
-            settingsButton.opacity = 0.5;
-            btnSettings.enabled = false;
+            settingsButton.opacity = 0.5
+            btnSettings.enabled = false
         } else {
-            settingsButton.opacity = 1;
-            btnSettings.enabled = true;
+            settingsButton.opacity = 1
+            btnSettings.enabled = true
         }
     }
 

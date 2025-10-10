@@ -8,12 +8,12 @@ Rectangle {
     id: root
 
     function open() {
-        root.state = "in";
-        closeTimer.start();
+        root.state = "in"
+        closeTimer.start()
     }
 
     function close() {
-        root.state = "";
+        root.state = ""
     }
 
     height: 40

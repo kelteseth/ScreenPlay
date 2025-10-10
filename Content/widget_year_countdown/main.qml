@@ -34,7 +34,7 @@ Item {
                     running: true
                     repeat: true
                     onTriggered: {
-                        remainingMinutes = Math.max(0, 60 - new Date().getMinutes());
+                        remainingMinutes = Math.max(0, 60 - new Date().getMinutes())
                     }
                 }
             }
@@ -59,7 +59,7 @@ Item {
                     running: true
                     repeat: true
                     onTriggered: {
-                        remainingHours = Math.max(0, Math.floor((new Date().setHours(24, 0, 0, 0) - new Date()) / 3600000));
+                        remainingHours = Math.max(0, Math.floor((new Date().setHours(24, 0, 0, 0) - new Date()) / 3600000))
                     }
                 }
             }
@@ -85,7 +85,7 @@ Item {
                     running: true
                     repeat: true
                     onTriggered: {
-                        remainingDays = Math.max(0, Math.floor((new Date(new Date().getFullYear() + 1, 0, 1) - new Date()) / (24 * 60 * 60 * 1000)));
+                        remainingDays = Math.max(0, Math.floor((new Date(new Date().getFullYear() + 1, 0, 1) - new Date()) / (24 * 60 * 60 * 1000)))
                     }
                 }
             }

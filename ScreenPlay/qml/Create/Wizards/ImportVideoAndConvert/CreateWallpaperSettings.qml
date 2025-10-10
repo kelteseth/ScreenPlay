@@ -122,7 +122,7 @@ Item {
         highlighted: true
         font.family: App.settings.font
         onClicked: {
-            root.next(comboBoxCodec.currentValue, sliderQuality.value);
+            root.next(comboBoxCodec.currentValue, sliderQuality.value)
         }
         anchors {
             right: parent.right
