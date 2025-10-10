@@ -200,6 +200,7 @@ QCoro::Task<Result> ScreenPlayWallpaper::close()
         }
         // If Running, continue waiting
     }
+    setState(ScreenPlayEnums::AppState::ClosingFailed);
     co_return Result { false, {}, QString("Wallpaper with appID '%1' failed to disconnect after %2 attempts").arg(m_appID).arg(maxRetries) };
 }
 

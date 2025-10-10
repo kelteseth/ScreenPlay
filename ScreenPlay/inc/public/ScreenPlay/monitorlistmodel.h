@@ -4,17 +4,13 @@
 
 #include <QAbstractListModel>
 
+#include "ScreenPlayCore/contenttypes.h"
+#include "ScreenPlayCore/globalenums.h"
 #include <QRect>
 #include <QScreen>
 #include <QSize>
 #include <QString>
 #include <QVector>
-#include <memory>
-#include <optional>
-
-#include "ScreenPlay/wallpapertimelinesection.h"
-#include "ScreenPlayCore/contenttypes.h"
-#include "ScreenPlayCore/globalenums.h"
 
 namespace ScreenPlay {
 
@@ -70,6 +66,7 @@ public:
     Q_INVOKABLE QSize totalDesktopSize() const;
 
     bool setData(const QModelIndex& index, const QVariant& value, int role) override;
+    bool setMonitorData(int monitorIndex, const QHash<MonitorRole, QVariant>& data);
     static QVector<Monitor> getSystemMonitors();
 
     int selectedIndex() const;

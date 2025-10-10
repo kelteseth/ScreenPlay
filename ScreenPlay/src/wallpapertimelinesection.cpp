@@ -9,8 +9,6 @@
 #include <QFileInfoList>
 #include <QGuiApplication>
 #include <QObject>
-#include <ranges>
-
 namespace ScreenPlay {
 
 const std::vector<WallpaperData> WallpaperTimelineSection::wallpaperData() const
@@ -22,6 +20,7 @@ const std::vector<WallpaperData> WallpaperTimelineSection::wallpaperData() const
     return wallpaperData;
 }
 
+// Check if currentTime falls within the timeline section
 bool WallpaperTimelineSection::containsTime(const QTime& time) const
 {
     if (endTime < startTime) { // Timeline spans midnight
@@ -147,7 +146,13 @@ std::shared_ptr<ScreenPlayWallpaper> WallpaperTimelineSection::addWallpaper(cons
     QObject::connect(screenPlayWallpaper.get(), &ScreenPlayWallpaper::isConnectedChanged, this, [this]() {
         updateActiveWallpaperCounter();
     });
-    QObject::connect(screenPlayWallpaper.get(), &ScreenPlayWallpaper::restartFailed, this, &WallpaperTimelineSection::wallpaperRestartFailed);
+    QObject::connect(screenPlayWallpaper.get(), &ScreenPlayWallpaper::restartFailed, this, [this](const QString& appID, const QString& message) {
+        // Remove broken wallpaper
+        std::erase_if(wallpaperList, [&appID](const std::shared_ptr<ScreenPlayWallpaper>& wallpaper) {
+            return wallpaper->appID() == appID;
+        });
+        emit wallpaperRestartFailed(appID, message);
+    });
     wallpaperList.push_back(screenPlayWallpaper);
     return screenPlayWallpaper;
 }

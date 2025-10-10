@@ -153,7 +153,7 @@ std::expected<bool, ScreenPlayTimelineManager::TimelineManagerError> ScreenPlayT
     });
     QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::requestSaveProfiles, this, &ScreenPlayTimelineManager::requestSaveProfiles);
     QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::activeWallpaperCountChanged, this, &ScreenPlayTimelineManager::activeWallpaperCountChanged);
-    QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::wallpaperRestartFailed, this, &ScreenPlayTimelineManager::wallpaperRestartFailed);
+    QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::wallpaperRestartFailed, this, &ScreenPlayTimelineManager::handleWallpaperRestartFailed);
 
     newTimelineSection->startTime = startTime;
     newTimelineSection->endTime = endTime;
@@ -636,7 +636,7 @@ bool ScreenPlayTimelineManager::addTimelineAt(const int index, const float relat
     auto newTimelineSection = std::make_shared<WallpaperTimelineSection>();
     QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::requestSaveProfiles, this, &ScreenPlayTimelineManager::requestSaveProfiles);
     QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::activeWallpaperCountChanged, this, &ScreenPlayTimelineManager::activeWallpaperCountChanged);
-    QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::wallpaperRestartFailed, this, &ScreenPlayTimelineManager::wallpaperRestartFailed);
+    QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::wallpaperRestartFailed, this, &ScreenPlayTimelineManager::handleWallpaperRestartFailed);
     newTimelineSection->settings = m_settings;
     newTimelineSection->globalVariables = m_globalVariables;
     newTimelineSection->index = index;
@@ -1098,6 +1098,33 @@ void ScreenPlayTimelineManager::setActiveTimelineIndex(int activeTimelineIndex)
         return;
     m_activeTimelineIndex = activeTimelineIndex;
     emit activeTimelineIndexChanged(m_activeTimelineIndex);
+}
+
+void ScreenPlayTimelineManager::handleWallpaperRestartFailed(const QString& appID, const QString& message)
+{
+    // Update monitor list model
+    if (m_monitorListModel) {
+        auto timelineSection = findActiveWallpaperTimelineSection();
+        if (!timelineSection) {
+            qCritical() << "No active timeline section found when handling wallpaper restart failed";
+            return;
+        }
+        for (auto& activeWallpaper : timelineSection->wallpaperList) {
+            for (const auto& monitor : activeWallpaper->monitors()) {
+                // Use the new setMonitorData function to update multiple roles at once
+                QHash<MonitorListModel::MonitorRole, QVariant> monitorData;
+                monitorData[MonitorListModel::MonitorRole::AppState] = static_cast<int>(ScreenPlayEnums::AppState::NotSet);
+                monitorData[MonitorListModel::MonitorRole::AppID] = "";
+                monitorData[MonitorListModel::MonitorRole::InstalledType] = "";
+                monitorData[MonitorListModel::MonitorRole::PreviewImage] = "";
+
+                m_monitorListModel->setMonitorData(monitor, monitorData);
+            }
+        }
+    }
+    // Save so we do not start the broken wallpaper it next time
+    emit requestSaveProfiles();
+    emit wallpaperRestartFailed(appID, message);
 }
 
 // Start all ScreenPlayWallpaper processes of this current timeline

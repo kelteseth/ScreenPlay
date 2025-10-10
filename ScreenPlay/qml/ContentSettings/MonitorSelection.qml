@@ -40,11 +40,12 @@ Rectangle {
     function selectOnly(index: int): void {
         console.debug(logger, "selectOnly:", index);
         for (var i = 0; i < rp.count; i++) {
+            let monitorSelectionItem = rp.itemAt(i) as MonitorSelectionItem
             if (i === index) {
-                rp.itemAt(i).isSelected = true;
+                monitorSelectionItem.isSelected = true;
                 continue;
             }
-            rp.itemAt(i).isSelected = false;
+            monitorSelectionItem.isSelected = false;
         }
         updateActiveMonitors();
         root.selected(index);
@@ -52,9 +53,8 @@ Rectangle {
 
     function getSelectedMonitorIndex(): int {
         for (var i = 0; i < rp.count; i++) {
-            let a = rp.itemAt(i).isSelected;
-            let b = rp.itemAt(i).geometry;
-            if (rp.itemAt(i).isSelected)
+            let monitorSelectionItem = rp.itemAt(i) as MonitorSelectionItem
+            if (monitorSelectionItem.isSelected)
                 return i;
         }
         return -1;
@@ -72,20 +72,23 @@ Rectangle {
     function updateActiveMonitors(): void {
         root.activeMonitors = [];
         for (var i = 0; i < rp.count; i++) {
-            if (rp.itemAt(i).isSelected)
-                root.activeMonitors.push(rp.itemAt(i).monitorIndex);
+            let monitorSelectionItem = rp.itemAt(i) as MonitorSelectionItem
+            if (monitorSelectionItem.isSelected)
+                root.activeMonitors.push(monitorSelectionItem.monitorIndex);
         }
         root.isSelected = root.activeMonitors.length > 0;
     }
 
     function selectMonitorAt(index: int): void {
-        if (!multipleMonitorsSelectable)
+        let monitorSelectionItem = rp.itemAt(index) as MonitorSelectionItem
+        if (!multipleMonitorsSelectable){
             selectOnly(index);
-        else
-            rp.itemAt(index).isSelected = !rp.itemAt(index).isSelected;
+        }else{
+            rp.itemAt(index).isSelected = !monitorSelectionItem.isSelected;
+        }
         updateActiveMonitors();
-        if (rp.itemAt(index).hasContent) {
-            root.requestProjectSettings(index, rp.itemAt(index).installedType, rp.itemAt(index).appID);
+        if (monitorSelectionItem.hasContent) {
+            root.requestProjectSettings(index, monitorSelectionItem.installedType, monitorSelectionItem.appID);
         } else {
             root.deselected();
         }
@@ -118,13 +121,11 @@ Rectangle {
         let scaledWidth = totalDesktopSize.width * scaleFactor;
         let scaledHeight = totalDesktopSize.height * scaleFactor;
         for (var i = 0; i < rp.count; i++) {
-            let item = rp.itemAt(i);
-            if (item) {
-                item.width = item.geometry.width * scaleFactor;
-                item.height = item.geometry.height * scaleFactor;
-                item.x = item.geometry.x * scaleFactor;
-                item.y = item.geometry.y * scaleFactor;
-            }
+            let monitorSelectionItem = rp.itemAt(i) as MonitorSelectionItem
+            monitorSelectionItem.width = monitorSelectionItem.geometry.width * scaleFactor;
+            monitorSelectionItem.height = monitorSelectionItem.geometry.height * scaleFactor;
+            monitorSelectionItem.x = monitorSelectionItem.geometry.x * scaleFactor;
+            monitorSelectionItem.y = monitorSelectionItem.geometry.y * scaleFactor;
         }
 
         // 6. Center content within Flickable

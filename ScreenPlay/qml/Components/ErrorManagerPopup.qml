@@ -256,15 +256,11 @@ Dialog {
             Button {
                 text: qsTr("Ask about it in the forums")
                 onClicked: Qt.openUrlExternally("https://forum.screen-play.app/")
-                Material.background: Material.primary
-                Material.foreground: Material.primaryTextColor
             }
 
             Button {
                 text: qsTr("Close")
                 onClicked: root.close()
-                Material.background: Material.primary
-                Material.foreground: Material.primaryTextColor
             }
         }
     }

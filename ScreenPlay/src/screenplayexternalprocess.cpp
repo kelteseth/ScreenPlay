@@ -84,14 +84,22 @@ void ScreenPlayExternalProcess::setupSDKConnection()
 
     QObject::connect(m_connection.get(), &SDKConnection::disconnected, this, [this]() {
         setIsConnected(false);
-        setState(ScreenPlayEnums::AppState::Timeout);
         m_pingAliveTimer.stop();
         qInfo() << "App:" << m_connection->appID() << "disconnected";
-        handleTimeoutOrCrash();
+        
+        // Only treat as timeout/crash if we're not in a closing state
+        if (m_state != ScreenPlay::ScreenPlayEnums::AppState::Closing &&
+            m_state != ScreenPlay::ScreenPlayEnums::AppState::ClosingFailed &&
+            m_state != ScreenPlay::ScreenPlayEnums::AppState::ClosedGracefully) {
+            setState(ScreenPlayEnums::AppState::Timeout);
+            handleTimeoutOrCrash();
+        } else {
+            qDebug() << "Connection closed during intentional shutdown for" << m_connection->appID();
+        }
     });
 
     // Setup ping alive monitoring
-    QTimer::singleShot(4000, this, [this]() {
+    QTimer::singleShot(1000, this, [this]() {
         QObject::connect(&m_pingAliveTimer, &QTimer::timeout, this, [this]() {
             std::optional<bool> running = m_processManager.isRunning(m_processID);
             if (running.has_value()) {
@@ -138,7 +146,11 @@ void ScreenPlayExternalProcess::processExit(int exitCode, QProcess::ExitStatus e
     if (exitCode != 0) {
         qCritical() << "ERROR: App closed with appID:" << m_appID << "EXIT CODE:" << exitCode << exitStatus;
         setState(ScreenPlay::ScreenPlayEnums::AppState::Crashed);
-        handleTimeoutOrCrash();
+        // Only attempt restart if we're not in a closing state
+        if (m_state != ScreenPlay::ScreenPlayEnums::AppState::Closing &&
+            m_state != ScreenPlay::ScreenPlayEnums::AppState::ClosingFailed) {
+            handleTimeoutOrCrash();
+        }
         return;
     }
     setState(ScreenPlay::ScreenPlayEnums::AppState::ClosedGracefully);
@@ -182,6 +194,14 @@ void ScreenPlayExternalProcess::handleTimeoutOrCrash()
     // Stop timers to prevent further checks
     m_pingAliveTimer.stop();
     m_stabilityTimer.stop(); // Stop stability timer as process is no longer stable
+
+    // Don't restart if we're in a closing state - this is intentional termination
+    if (m_state == ScreenPlay::ScreenPlayEnums::AppState::Closing ||
+        m_state == ScreenPlay::ScreenPlayEnums::AppState::ClosingFailed ||
+        m_state == ScreenPlay::ScreenPlayEnums::AppState::ClosedGracefully) {
+        qDebug() << "Process" << m_appID << "is in closing state (" << static_cast<int>(m_state) << "), not attempting restart";
+        return;
+    }
 
     // Prevent multiple concurrent restart attempts
     if (m_isRestartingInProgress) {

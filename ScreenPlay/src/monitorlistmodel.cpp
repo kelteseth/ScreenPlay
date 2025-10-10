@@ -224,6 +224,57 @@ bool MonitorListModel::setData(const QModelIndex& index, const QVariant& value, 
     return false;
 }
 
+bool MonitorListModel::setMonitorData(int monitorIndex, const QHash<MonitorRole, QVariant>& data)
+{
+    if (monitorIndex < 0 || monitorIndex >= m_monitorList.size())
+        return false;
+
+    QModelIndex modelIndex = index(monitorIndex);
+    if (!modelIndex.isValid())
+        return false;
+
+    QVector<int> changedRoles;
+    Monitor& monitor = m_monitorList[monitorIndex];
+
+    for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
+        MonitorRole role = it.key();
+        const QVariant& value = it.value();
+        int roleInt = static_cast<int>(role);
+
+        switch (role) {
+        case MonitorRole::AppID:
+            monitor.m_appID = value.toString();
+            changedRoles.append(roleInt);
+            break;
+        case MonitorRole::AppState:
+            monitor.m_appState = static_cast<ScreenPlayEnums::AppState>(value.toInt());
+            changedRoles.append(roleInt);
+            break;
+        case MonitorRole::PreviewImage:
+            monitor.m_wallpaperPreviewImage = value.toString();
+            changedRoles.append(roleInt);
+            break;
+        case MonitorRole::InstalledType:
+            monitor.m_installedType = static_cast<ContentTypes::InstalledType>(value.toInt());
+            changedRoles.append(roleInt);
+            break;
+        case MonitorRole::MonitorIndex:
+        case MonitorRole::Geometry:
+        case MonitorRole::Name:
+            // These are typically read-only, but you can add them if needed
+            qWarning() << "Attempting to set read-only role:" << static_cast<int>(role);
+            break;
+        }
+    }
+
+    if (!changedRoles.isEmpty()) {
+        emit dataChanged(modelIndex, modelIndex, changedRoles);
+        return true;
+    }
+
+    return false;
+}
+
 QVector<Monitor> MonitorListModel::getSystemMonitors()
 {
     QVector<Monitor> monitors;

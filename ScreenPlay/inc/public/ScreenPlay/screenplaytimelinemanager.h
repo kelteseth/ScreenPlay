@@ -86,6 +86,7 @@ public slots:
 private slots:
     QCoro::Task<void> checkActiveWallpaperTimeline();
     void setActiveTimelineIndex(int activeTimelineIndex);
+    void handleWallpaperRestartFailed(const QString& appID, const QString& message);
 
 signals:
     void requestSaveProfiles();
