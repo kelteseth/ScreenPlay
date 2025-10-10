@@ -4,6 +4,8 @@ import os
 import util
 import shutil
 import defines
+import sys
+import glob
 from pathlib import Path
 from execute_util import execute
 import argparse
@@ -12,7 +14,7 @@ import argparse
 def main():
     # Parse build folder as arugment
 
-    parser = argparse.ArgumentParser(description='Build SP to the bin build folder: D:/Backup/Code/Qt/build_ScreenPlay_Qt_6.9.1_MSVC_Debug/bin')
+    parser = argparse.ArgumentParser(description='Build SP to the bin build folder: D:/Backup/Code/Qt/build_ScreenPlay_Qt_6.10.0_MSVC_Debug/bin')
     parser.add_argument('--build_path', dest="build_path", type=str,  help='Build folder')
     parser.add_argument('--skip_if_exists', dest="skip_if_exists", default=False, action="store_true",   help='Skips the build if the index.html file exists. This is used for faster CMake configure')
  
@@ -20,7 +22,7 @@ def main():
 
     if not args.build_path:
         print("ERROR: Please specify the build folder")
-        print("py build_godot.py --build_path D:/Backup/Code/Qt/build_ScreenPlay_Qt_6.9.1_MSVC_Debug/bin/")
+        print("py build_godot.py --build_path D:/Backup/Code/Qt/build_ScreenPlay_Qt_6.10.0_MSVC_Debug/bin/")
         exit()
 
     # if build path exists and contains a index.html file, skip the build
@@ -47,28 +49,82 @@ def build_godot(abs_build_path: str,  build_type: str):
     godot_executable = os.path.join(apps_path, defines.GODOT_EDITOR_EXECUTABLE)
     screenPlayWallpaperGodot_executable = Path(abs_build_path).joinpath(defines.SCREENPLAYWALLPAPER_GODOT_EXECUTABLE).resolve()
     
+    # Determine platform-specific export target and library folder
+    if sys.platform == "win32":
+        platform_folder = "Windows-AMD64"
+        export_target = "Windows Desktop"
+        lib_extensions = ["*.dll"]
+    elif sys.platform == "darwin":
+        platform_folder = "Darwin-x86_64"  # Could also be Darwin-arm64 for Apple Silicon
+        export_target = "macOS"
+        lib_extensions = ["*.dylib", "*.so"]
+    elif sys.platform == "linux":
+        platform_folder = "Linux-x86_64"
+        export_target = "Linux/X11"
+        lib_extensions = ["*.so"]
+    else:
+        raise Exception(f"Unsupported platform: {sys.platform}")
+    
     if 'debug' in build_type:
         export_type = " --export-debug"
     else:
         export_type = " --export-release"
-    export_command = f'"{godot_executable}" -v --headless {export_type} "Windows Desktop" "{screenPlayWallpaperGodot_executable}"'
+    export_command = f'"{godot_executable}" -v --headless {export_type} "{export_target}" "{screenPlayWallpaperGodot_executable}"'
 
     # We get random error on successful export, so lets ignore it
     execute(command=export_command,workingDir=project_path,ignore_error=True)
 
-    if 'Debug' in abs_build_path:
-        lib_name = "ScreenPlayGodotWallpaper-d.dll"
+    # Construct the source path for the libraries
+    lib_source_folder = project_path.joinpath(f"ScreenPlayGodotWallpaper/lib/{platform_folder}")
+    
+    if not lib_source_folder.exists():
+        print(f"⚠️ Library folder {lib_source_folder} does not exist, checking for alternative naming...")
+        
+        # Try alternative naming conventions
+        lib_base_folder = project_path.joinpath("ScreenPlayGodotWallpaper/lib")
+        if lib_base_folder.exists():
+            available_folders = [f.name for f in lib_base_folder.iterdir() if f.is_dir()]
+            print(f"Available library folders: {available_folders}")
+            
+            # Try to find a suitable folder based on platform
+            if sys.platform == "win32" and any("Windows" in folder for folder in available_folders):
+                platform_folder = next(folder for folder in available_folders if "Windows" in folder)
+            elif sys.platform == "darwin" and any("Darwin" in folder or "macOS" in folder for folder in available_folders):
+                platform_folder = next(folder for folder in available_folders if "Darwin" in folder or "macOS" in folder)
+            elif sys.platform == "linux" and any("Linux" in folder for folder in available_folders):
+                platform_folder = next(folder for folder in available_folders if "Linux" in folder)
+            
+            lib_source_folder = lib_base_folder.joinpath(platform_folder)
+    
+    if not lib_source_folder.exists():
+        print(f"❌ Error: Library folder {lib_source_folder} does not exist")
+        return
+
+    print(f"📁 Copying libraries from {lib_source_folder} to {abs_build_path}")
+    
+    # Copy all libraries matching the platform's extensions
+    copied_files = []
+    for extension in lib_extensions:
+        for lib_file in lib_source_folder.glob(extension):
+            # Skip temporary files and debug symbols we don't need in release
+            if lib_file.name.startswith('~') or lib_file.suffix in ['.tmp', '.ilk']:
+                continue
+            
+            # Skip debug PDB files in release builds
+            if 'release' in build_type.lower() and lib_file.suffix == '.pdb':
+                continue
+                
+            dest_path = Path(abs_build_path) / lib_file.name
+            print(f"  📄 Copying {lib_file.name}")
+            shutil.copy2(lib_file, dest_path)
+            copied_files.append(lib_file.name)
+    
+    if copied_files:
+        print(f"✅ Successfully copied {len(copied_files)} library files: {', '.join(copied_files)}")
     else:
-        lib_name = "ScreenPlayGodotWallpaper.dll"
+        print(f"⚠️ No library files found to copy from {lib_source_folder}")
 
-    # Construct the source path for the DLL
-    dll_source_path = project_path.joinpath(f"ScreenPlayGodotWallpaper/lib/Windows-AMD64/{lib_name}")
 
-    # Print a warning message
-    print(f"⚠️ Copying {dll_source_path} to {abs_build_path}")
-
-    # Copy the DLL
-    shutil.copy(dll_source_path, abs_build_path)
 
 
 
