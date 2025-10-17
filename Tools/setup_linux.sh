@@ -74,6 +74,7 @@ main() {
     echo "Setting up extra-cmake-modules..."
     setup_repo "https://invent.kde.org/frameworks/extra-cmake-modules.git" "extra-cmake-modules"
     cd extra-cmake-modules
+    git checkout tags/v6.18.0
     configure_cmake "extra-cmake-modules"
     make
     $SUDO make install
