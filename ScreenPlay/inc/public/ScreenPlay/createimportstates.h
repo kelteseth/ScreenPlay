@@ -22,15 +22,15 @@ public:
         ConvertingPreviewVideo,
         ConvertingPreviewVideoFinished,
         ConvertingPreviewVideoError,
-        ConvertingPreviewGif,
-        ConvertingPreviewGifFinished, // 10
-        ConvertingPreviewGifError,
         ConvertingPreviewImage,
         ConvertingPreviewImageFinished,
         ConvertingPreviewImageError,
         ConvertingPreviewImageThumbnail,
         ConvertingPreviewImageThumbnailFinished,
         ConvertingPreviewImageThumbnailError,
+        ConvertingPreviewWebp,
+        ConvertingPreviewWebpFinished,
+        ConvertingPreviewWebpError,
         ConvertingAudio,
         ConvertingAudioFinished,
         ConvertingAudioError, // 20

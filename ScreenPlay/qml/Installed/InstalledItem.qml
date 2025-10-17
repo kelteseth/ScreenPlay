@@ -16,6 +16,7 @@ Item {
     required property bool isNew
     required property bool containsAudio
     required property string previewGIF
+    required property string previewWebP
     required property string preview
     required property int index
     required property int itemsPerRow
@@ -34,7 +35,16 @@ Item {
     // Pre-compute image sources to avoid repeated string concatenation
     readonly property string primaryImageSource: root.preview === "" ? "qrc:/qt/qml/ScreenPlay/assets/images/missingPreview.png" : Qt.resolvedUrl(root.absoluteStoragePath + "/" + root.preview)
 
-    readonly property string gifImageSource: root.previewGIF === "" ? "" : Qt.resolvedUrl(root.absoluteStoragePath + "/" + root.previewGIF)
+    // Prefer WebP over GIF for animated previews
+    readonly property string animatedImageSource: {
+        if (root.previewWebP !== "") {
+            return Qt.resolvedUrl(root.absoluteStoragePath + "/" + root.previewWebP)
+        } else if (root.previewGIF !== "") {
+            return Qt.resolvedUrl(root.absoluteStoragePath + "/" + root.previewGIF)
+        } else {
+            return ""
+        }
+    }
 
     // Compute type icon once to avoid repeated checks
     readonly property string typeIconSource: {
@@ -97,19 +107,19 @@ Item {
             }
 
             AnimatedImage {
-                id: gifImage
+                id: animatedImage
                 anchors.fill: parent
                 asynchronous: true
-                playing: gifImage.enabled
+                playing: animatedImage.enabled
                 sourceSize: Qt.size(320, 180)
                 fillMode: Image.PreserveAspectCrop
-                source: root.gifImageSource
-                opacity: gifImage.enabled ? 1 : 0
-                enabled: !root.isScrolling && hoverArea.hovered && root.gifImageSource !== ""
+                source: root.animatedImageSource
+                opacity: animatedImage.enabled ? 1 : 0
+                enabled: !root.isScrolling && hoverArea.hovered && root.animatedImageSource !== ""
 
                 OpacityAnimator {
-                    running: gifImage.enabled
-                    to: gifImage.enabled ? 1 : 0
+                    running: animatedImage.enabled
+                    to: animatedImage.enabled ? 1 : 0
                     duration: 400
                     easing.type: Easing.OutQuart
                 }

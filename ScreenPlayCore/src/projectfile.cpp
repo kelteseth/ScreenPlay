@@ -66,6 +66,9 @@ bool ProjectFile::init()
     if (obj.contains("previewGIF"))
         previewGIF = obj.value("previewGIF").toString();
 
+    if (obj.contains("previewWEBP"))
+        previewWebP = obj.value("previewWEBP").toString();
+
     if (obj.contains("url"))
         url = QUrl(obj.value("url").toString());
 

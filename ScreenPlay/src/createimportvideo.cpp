@@ -372,7 +372,7 @@ bool CreateImportVideo::createWallpaperVideoPreview()
         // We allways want to have a 5 second clip via 24fps -> 120 frames
         // Divided by the number of frames we can skip (timeInSeconds * Framrate)
         // scale & crop parameter: https://unix.stackexchange.com/a/284731
-        args.append("select='not(mod(n," + QString::number((m_length / 5)) + "))',setpts=N/FRAME_RATE/TB,crop=in_h*16/9:in_h,scale=-2:120");
+        args.append("select='not(mod(n," + QString::number((m_length / 5)) + "))',setpts=N/FRAME_RATE/TB,crop=in_h*16/9:in_h,scale=-2:480");
     }
     // Disable audio
     args.append("-an");
@@ -394,23 +394,16 @@ bool CreateImportVideo::createWallpaperVideoPreview()
 }
 
 /*!
-  \brief Starts ffmpeg and tries to covert the given video to a 5 second preview gif.
-  \code
-    //[...]
-    args.append("-filter_complex");
-    args.append("[0:v] fps=12,scale=w=480:h=-1,split [a][b];[a] palettegen=stats_mode=single [p];[b][p] paletteuse=new=1");
-    args.append(m_exportPath + "/preview.gif");
-  \endcode
+  \brief Starts ffmpeg and tries to convert the given video to a WebP preview.
   Returns \c false if :
   \list
     \li Cannot convert the video
     \li Generally broken.
    \endlist
  */
-bool CreateImportVideo::createWallpaperGifPreview()
+bool CreateImportVideo::createWallpaperWebpPreview()
 {
-
-    emit createWallpaperStateChanged(Import::State::ConvertingPreviewGif);
+    emit createWallpaperStateChanged(Import::State::ConvertingPreviewWebp);
 
     QStringList args;
     args.append("-y");
@@ -421,23 +414,38 @@ bool CreateImportVideo::createWallpaperGifPreview()
     } else {
         args.append(m_exportPath + "/preview.webm");
     }
-    args.append("-filter_complex");
-    args.append("[0:v] fps=12,scale=w=480:h=-1,split [a][b];[a] palettegen=stats_mode=single [p];[b][p] paletteuse=new=1");
-    args.append(m_exportPath + "/preview.gif");
+    
+    // Convert to WebP animated image with optimized settings
+    args.append("-vf");
+    args.append("fps=12,scale=w=480:h=-1");
+    args.append("-c:v");
+    args.append("libwebp");
+    args.append("-lossless");
+    args.append("0");
+    args.append("-compression_level");
+    args.append("4");
+    args.append("-quality");
+    args.append("75");
+    args.append("-preset");
+    args.append("default");
+    args.append("-loop");
+    args.append("0");
+    args.append(m_exportPath + "/preview.webp");
+    
     emit processOutput("ffmpeg " + Util().toString(args));
 
     const QString ffmpegOut = waitForFinished(args);
 
     if (!ffmpegOut.isEmpty()) {
-        const QFile previewGif(m_exportPath + "/preview.gif");
-        if (!previewGif.exists() || !(previewGif.size() > 0)) {
-            emit createWallpaperStateChanged(Import::State::ConvertingPreviewGifError);
+        const QFile previewWebp(m_exportPath + "/preview.webp");
+        if (!previewWebp.exists() || !(previewWebp.size() > 0)) {
+            emit createWallpaperStateChanged(Import::State::ConvertingPreviewWebpError);
             return false;
         }
     }
 
     emit processOutput(ffmpegOut);
-    emit createWallpaperStateChanged(Import::State::ConvertingPreviewGifFinished);
+    emit createWallpaperStateChanged(Import::State::ConvertingPreviewWebpFinished);
 
     return true;
 }
@@ -519,6 +527,11 @@ bool CreateImportVideo::createWallpaperImagePreview()
     }
     args.append("-i");
     args.append(m_videoPath);
+    // Order of arguments is important
+    if (!m_smallVideo) {
+        args.append("-vframes");
+        args.append("1");
+    }
     args.append("-q:v");
     args.append("2");
     if (m_smallVideo) {

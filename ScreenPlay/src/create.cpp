@@ -119,8 +119,8 @@ void Create::createWallpaperStart(QString videoPath, ScreenPlay::Video::VideoCod
             }
         }
 
-        qInfo() << "createWallpaperGifPreview()";
-        if (!import.createWallpaperGifPreview() || m_interrupt) {
+        qInfo() << "createWallpaperWebpPreview()";
+        if (!import.createWallpaperWebpPreview() || m_interrupt) {
             emit createWallpaperStateChanged(Import::State::Failed);
             emit import.abortAndCleanup();
             return;
@@ -217,7 +217,7 @@ void Create::saveWallpaper(
         fileEnding = ".webm";
 
     obj.insert("file", filePathFile.completeBaseName() + fileEnding);
-    obj.insert("previewGIF", "preview.gif");
+    obj.insert("previewWEBP", "preview.webp");
     obj.insert("previewWEBM", "preview.webm");
     obj.insert("preview", previewImageFile.exists() ? previewImageFile.fileName() : "preview.jpg");
     obj.insert("previewThumbnail", "previewThumbnail.jpg");

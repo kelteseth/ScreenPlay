@@ -37,6 +37,7 @@ struct ProjectFile {
     QString file; // myFancyVideo.mp
     QString preview;
     QString previewGIF;
+    QString previewWebP;
     // Path to project.json
     QFileInfo projectJsonFilePath;
     // Folder name

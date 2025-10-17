@@ -41,6 +41,7 @@ public:
         Type,
         Preview,
         PreviewGIF,
+        PreviewWebP,
         FolderName,
         FileId,
         AbsoluteStoragePath,

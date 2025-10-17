@@ -73,7 +73,7 @@ signals:
 public slots:
     bool createWallpaperInfo();
     bool createWallpaperVideoPreview();
-    bool createWallpaperGifPreview();
+    bool createWallpaperWebpPreview();
     bool createWallpaperImagePreview();
     bool createWallpaperVideo();
     bool extractWallpaperAudio();

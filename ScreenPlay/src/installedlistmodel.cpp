@@ -176,6 +176,8 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
             return m_screenPlayFiles.at(row).preview;
         case static_cast<int>(ScreenPlayItem::PreviewGIF):
             return m_screenPlayFiles.at(row).previewGIF;
+        case static_cast<int>(ScreenPlayItem::PreviewWebP):
+            return m_screenPlayFiles.at(row).previewWebP;
         case static_cast<int>(ScreenPlayItem::Type):
             return QVariant::fromValue(m_screenPlayFiles.at(row).type);
         case static_cast<int>(ScreenPlayItem::FolderName):
@@ -212,6 +214,7 @@ QHash<int, QByteArray> InstalledListModel::roleNames() const
         { static_cast<int>(ScreenPlayItem::Type), "type" },
         { static_cast<int>(ScreenPlayItem::Preview), "preview" },
         { static_cast<int>(ScreenPlayItem::PreviewGIF), "previewGIF" },
+        { static_cast<int>(ScreenPlayItem::PreviewWebP), "previewWebP" },
         { static_cast<int>(ScreenPlayItem::FolderName), "folderName" },
         { static_cast<int>(ScreenPlayItem::FileId), "file" },
         { static_cast<int>(ScreenPlayItem::AbsoluteStoragePath), "absoluteStoragePath" },
@@ -295,6 +298,7 @@ QVariantMap InstalledListModel::get(const QString& folderName) const
             map.insert("title", item.title);
             map.insert("preview", item.preview);
             map.insert("previewGIF", item.previewGIF);
+            map.insert("previewWebP", item.previewWebP);
             map.insert("file", item.file);
             map.insert("type", QVariant::fromValue(item.type));
             map.insert("absoluteStoragePath", QUrl::fromLocalFile(item.projectJsonFilePath.dir().path()).toString());
