@@ -26,11 +26,17 @@ Item {
         id: wizardContentWrapper
         anchors {
             margins: 10
-            left: sidebar.right
-            top: parent.top
-            right: parent.right
-            bottom: parent.bottom
+            fill: parent
+            leftMargin: sidebar.state === "inactive" ?  10 : sidebar.width
         }
+
+        Behavior on anchors.leftMargin {
+            PropertyAnimation {
+                duration: 400
+                easing.type: Easing.InOutQuart
+            }
+        }
+
         Rectangle {
             radius: 4
             layer.enabled: true

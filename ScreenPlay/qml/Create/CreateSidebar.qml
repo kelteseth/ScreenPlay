@@ -216,15 +216,16 @@ Rectangle {
             to: "inactive"
             reversible: true
 
-            SequentialAnimation {
-                PauseAnimation {
-                    duration: 100
-                }
-
+            ParallelAnimation {
                 PropertyAnimation {
-                    properties: "anchors.leftMargin,opacity"
+                    property: "anchors.leftMargin"
+                    duration: 400
+                    easing.type: Easing.InOutQuart
+                }
+                PropertyAnimation {
+                    property: "opacity"
                     duration: 300
-                    easing.type: Easing.OutCubic
+                    easing.type: Easing.InOutQuart
                 }
             }
         }
