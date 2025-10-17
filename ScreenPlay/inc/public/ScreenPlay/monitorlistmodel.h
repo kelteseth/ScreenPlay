@@ -29,6 +29,8 @@ struct Monitor {
     int m_monitorIndex { 0 };
     QRect m_geometry;
     QString m_wallpaperPreviewImage;
+    QString m_wallpaperPreviewWebP;
+    QString m_wallpaperPreviewGIF;
     QString m_appID;
     QString m_name;
     ScreenPlayEnums::AppState m_appState = ScreenPlayEnums::AppState::NotSet;
@@ -53,6 +55,8 @@ public:
         MonitorIndex,
         Geometry,
         PreviewImage,
+        PreviewWebP,
+        PreviewGIF,
         InstalledType,
         Name,
     };

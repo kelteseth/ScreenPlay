@@ -548,16 +548,22 @@ void ScreenPlayTimelineManager::updateMonitorListModelData(const int selectedTim
         auto wallpaperDataOpt = timeline->getWallpaperDataForMonitor(monitor.m_monitorIndex);
         auto wallpaperOpt = timeline->screenPlayWallpaperByMonitorIndex(monitor.m_monitorIndex);
         if (wallpaperDataOpt.has_value()) {
-            const auto wallpaperData = wallpaperDataOpt.value();
-            const auto previewImg = wallpaperData.absolutePath() + "/" + wallpaperData.previewImage();
+            const WallpaperData wallpaperData = wallpaperDataOpt.value();
             auto activeWallpaper = wallpaperOpt.value();
-
+            const auto absolutePath = wallpaperData.absolutePath();
+            const auto previewImg = absolutePath + "/" + wallpaperData.previewImage();
+            const auto previewWebP = absolutePath + "/" + wallpaperData.previewWebP();
+            const auto previewGIF = absolutePath + "/" + wallpaperData.previewGIF();
             m_monitorListModel->setData(modelIndex, previewImg, (int)PreviewImage);
+            m_monitorListModel->setData(modelIndex, previewWebP, (int)PreviewWebP);
+            m_monitorListModel->setData(modelIndex, previewGIF, (int)PreviewGIF);
             m_monitorListModel->setData(modelIndex, (int)wallpaperData.type(), (int)InstalledType);
             m_monitorListModel->setData(modelIndex, activeWallpaper->appID(), (int)AppID);
             m_monitorListModel->setData(modelIndex, (int)activeWallpaper->state(), (int)AppState);
         } else {
             m_monitorListModel->setData(modelIndex, "", (int)PreviewImage);
+            m_monitorListModel->setData(modelIndex, "", (int)PreviewWebP);
+            m_monitorListModel->setData(modelIndex, "", (int)PreviewGIF);
             m_monitorListModel->setData(modelIndex, 0, (int)InstalledType);
             m_monitorListModel->setData(modelIndex, "", (int)AppID);
             m_monitorListModel->setData(modelIndex, (int)ScreenPlayEnums::AppState::NotSet, (int)AppState);
@@ -1117,6 +1123,8 @@ void ScreenPlayTimelineManager::handleWallpaperRestartFailed(const QString& appI
                 monitorData[MonitorListModel::MonitorRole::AppID] = "";
                 monitorData[MonitorListModel::MonitorRole::InstalledType] = "";
                 monitorData[MonitorListModel::MonitorRole::PreviewImage] = "";
+                monitorData[MonitorListModel::MonitorRole::PreviewWebP] = "";
+                monitorData[MonitorListModel::MonitorRole::PreviewGIF] = "";
 
                 m_monitorListModel->setMonitorData(monitor, monitorData);
             }
@@ -1336,6 +1344,12 @@ QCoro::Task<Result> ScreenPlayTimelineManager::removeWallpaper(const int timelin
             m_monitorListModel->setData(modelIndex,
                 "",
                 (int)MonitorListModel::MonitorRole::PreviewImage);
+            m_monitorListModel->setData(modelIndex,
+                "",
+                (int)MonitorListModel::MonitorRole::PreviewWebP);
+            m_monitorListModel->setData(modelIndex,
+                "",
+                (int)MonitorListModel::MonitorRole::PreviewGIF);
         }
     }
 

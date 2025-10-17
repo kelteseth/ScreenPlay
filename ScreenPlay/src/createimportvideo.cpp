@@ -584,7 +584,10 @@ bool CreateImportVideo::createWallpaperImagePreview()
     if (m_smallVideo) {
         args.append("-vf");
         // Select first frame https://stackoverflow.com/a/44073745/12619313
-        args.append("select=eq(n\\,0)");
+        args.append("select=eq(n\\,0), scale=480:-1");
+    } else {
+        args.append("-vf");
+        args.append("scale=480:-1");
     }
     args.append(m_exportPath + "/preview.jpg");
 

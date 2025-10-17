@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls.Material
+import QtQuick.Effects
 import ScreenPlay
 import ScreenPlayCore
 
@@ -13,12 +14,24 @@ Item {
     required property string name
     required property rect geometry
     required property string previewImage
+    required property string previewWebP
+    required property string previewGIF
     required property var installedType
     required property int appState
-    onAppStateChanged: print(appState)
     required property int monitorIndex
 
     property bool isSelected: false
+
+    // Prefer WebP over GIF for animated previews
+    readonly property string animatedImageSource: {
+        if (root.previewWebP !== "") {
+            return Qt.resolvedUrl("file:///" + root.previewWebP)
+        } else if (root.previewGIF !== "") {
+            return Qt.resolvedUrl("file:///" + root.previewGIF)
+        } else {
+            return ""
+        }
+    }
 
     onGeometryChanged: {
         root.width = root.geometry.width
@@ -33,7 +46,7 @@ Item {
     onIsSelectedChanged: root.state = isSelected ? "selected" : "default"
     property bool hasContent: false
     onPreviewImageChanged: {
-        print(root.previewImage)
+        print("PreviewImage:", root.previewImage)
         if (root.previewImage === "") {
             root.hasContent = false
         } else {
@@ -41,6 +54,7 @@ Item {
             root.hasContent = true
         }
     }
+
 
     Rectangle {
         id: wrapper
@@ -56,7 +70,6 @@ Item {
         Image {
             id: imgPreview
 
-            sourceSize: Qt.size(parent.width, parent.height)
             anchors.margins: 3
             opacity: root.hasContent ? 1 : 0
             Behavior on opacity {
@@ -69,20 +82,64 @@ Item {
             asynchronous: true
             fillMode: Image.PreserveAspectCrop
         }
-        Text {
-            text: root.geometry.width + "x" + root.geometry.height + "," + root.name
-            color: "white"
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            font.pointSize: 10
-            font.family: App.settings.font
-            wrapMode: Text.WrapAnywhere
 
+        AnimatedImage {
+            id: animatedPreview
+            anchors.fill: parent
+            anchors.margins: 3
+            asynchronous: true
+            playing: animatedPreview.enabled
+            fillMode: Image.PreserveAspectCrop
+            source: root.animatedImageSource
+            opacity: animatedPreview.enabled ? 1 : 0
+            enabled: mouseArea.containsMouse && root.animatedImageSource !== ""
+            onEnabledChanged: print(enabled)
+
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: 300
+                    easing.type: Easing.OutQuart
+                }
+            }
+        }
+
+        Item {
+            id: textContainer
             anchors {
                 left: parent.left
                 top: parent.top
                 topMargin: 5
                 leftMargin: 5
+            }
+            width: monitorInfoText.implicitWidth + 16
+            height: monitorInfoText.implicitHeight + 8
+
+            Rectangle {
+                id: blurBackground
+                anchors.fill: parent
+                color: "black"
+                opacity: .6
+                radius:4
+                layer.enabled: true
+                layer.effect: MultiEffect {
+                    blurEnabled: true
+                    blur: .8
+                    blurMax: 16
+                }
+            }
+
+            Text {
+                id: monitorInfoText
+                text: root.geometry.width + "x" + root.geometry.height + "," + root.name
+                color: "white"
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                font.pointSize: 10
+                font.family: App.settings.font
+                wrapMode: Text.WrapAnywhere
+                style: Text.Outline
+                styleColor: "black"
+                anchors.centerIn: parent
             }
         }
 
@@ -131,6 +188,8 @@ Item {
         }
 
         MouseArea {
+            id: mouseArea
+            onContainsMouseChanged: print("XXX", mouseArea.containsMouse, root.animatedImageSource)
             anchors.fill: parent
             hoverEnabled: true
             enabled: root.enabled

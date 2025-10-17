@@ -135,6 +135,8 @@ QCoro::QmlTask ScreenPlayManager::setWallpaperAtMonitorTimelineIndex(
         wallpaperData.setType(projectFile.type);
         wallpaperData.setAbsolutePath(path);
         wallpaperData.setPreviewImage(projectFile.preview);
+        wallpaperData.setPreviewWebP(projectFile.previewWebP);
+        wallpaperData.setPreviewGIF(projectFile.previewGIF);
         wallpaperData.setFile(projectFile.file);
         wallpaperData.setTitle(projectFile.title);
         wallpaperData.setMonitors(monitorIndex);
@@ -217,6 +219,8 @@ bool ScreenPlayManager::startWidget(
     widgetData.setAbsolutePath(path);
     widgetData.setTitle(projectFile.title);
     widgetData.setPreviewImage(projectFile.preview);
+    widgetData.setPreviewWebP(projectFile.previewWebP);
+    widgetData.setPreviewGIF(projectFile.previewGIF);
     widgetData.setFile(projectFile.file);
     widgetData.setType(projectFile.type);
     widgetData.setPosition(position);

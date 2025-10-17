@@ -78,6 +78,8 @@ QHash<int, QByteArray> MonitorListModel::roleNames() const
         { static_cast<int>(MonitorRole::MonitorIndex), "monitorIndex" },
         { static_cast<int>(MonitorRole::Geometry), "geometry" },
         { static_cast<int>(MonitorRole::PreviewImage), "previewImage" },
+        { static_cast<int>(MonitorRole::PreviewWebP), "previewWebP" },
+        { static_cast<int>(MonitorRole::PreviewGIF), "previewGIF" },
         { static_cast<int>(MonitorRole::InstalledType), "installedType" },
         { static_cast<int>(MonitorRole::Name), "name" },
     };
@@ -126,6 +128,10 @@ QVariant MonitorListModel::data(const QModelIndex& index, int role) const
         return QVariant::fromValue(m_monitorList.at(row).m_installedType);
     case MonitorRole::PreviewImage:
         return m_monitorList.at(row).m_wallpaperPreviewImage;
+    case MonitorRole::PreviewWebP:
+        return m_monitorList.at(row).m_wallpaperPreviewWebP;
+    case MonitorRole::PreviewGIF:
+        return m_monitorList.at(row).m_wallpaperPreviewGIF;
     case MonitorRole::Name:
         return m_monitorList.at(row).m_name;
     }
@@ -221,6 +227,16 @@ bool MonitorListModel::setData(const QModelIndex& index, const QVariant& value, 
         emit dataChanged(index, index, { role });
         return true;
     }
+    if (role == static_cast<int>(MonitorRole::PreviewWebP)) {
+        m_monitorList[index.row()].m_wallpaperPreviewWebP = value.toString();
+        emit dataChanged(index, index, { role });
+        return true;
+    }
+    if (role == static_cast<int>(MonitorRole::PreviewGIF)) {
+        m_monitorList[index.row()].m_wallpaperPreviewGIF = value.toString();
+        emit dataChanged(index, index, { role });
+        return true;
+    }
     return false;
 }
 
@@ -252,6 +268,14 @@ bool MonitorListModel::setMonitorData(int monitorIndex, const QHash<MonitorRole,
             break;
         case MonitorRole::PreviewImage:
             monitor.m_wallpaperPreviewImage = value.toString();
+            changedRoles.append(roleInt);
+            break;
+        case MonitorRole::PreviewWebP:
+            monitor.m_wallpaperPreviewWebP = value.toString();
+            changedRoles.append(roleInt);
+            break;
+        case MonitorRole::PreviewGIF:
+            monitor.m_wallpaperPreviewGIF = value.toString();
             changedRoles.append(roleInt);
             break;
         case MonitorRole::InstalledType:

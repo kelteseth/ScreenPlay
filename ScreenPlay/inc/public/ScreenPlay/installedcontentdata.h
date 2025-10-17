@@ -22,6 +22,8 @@ class InstalledContentData {
     Q_PROPERTY(QString title READ title WRITE setTitle)
     Q_PROPERTY(QString absolutePath READ absolutePath WRITE setAbsolutePath)
     Q_PROPERTY(QString previewImage READ previewImage WRITE setPreviewImage)
+    Q_PROPERTY(QString previewWebP READ previewWebP WRITE setPreviewWebP)
+    Q_PROPERTY(QString previewGIF READ previewGIF WRITE setPreviewGIF)
     Q_PROPERTY(QString file READ file WRITE setFile)
     Q_PROPERTY(QJsonObject properties READ properties WRITE setProperties)
     Q_PROPERTY(ScreenPlay::ContentTypes::InstalledType type READ type WRITE setType)
@@ -31,6 +33,8 @@ public:
     QString title() const { return m_title; }
     QString absolutePath() const { return m_absolutePath; }
     QString previewImage() const { return m_previewImage; }
+    QString previewWebP() const { return m_previewWebP; }
+    QString previewGIF() const { return m_previewGIF; }
     QString file() const { return m_file; }
     QJsonObject properties() const { return m_properties; }
     ContentTypes::InstalledType type() const { return m_type; }
@@ -39,6 +43,8 @@ public:
     void setTitle(const QString& title) { m_title = title; }
     void setAbsolutePath(const QString& absolutePath) { m_absolutePath = absolutePath; }
     void setPreviewImage(const QString& previewImage) { m_previewImage = previewImage; }
+    void setPreviewWebP(const QString& previewWebP) { m_previewWebP = previewWebP; }
+    void setPreviewGIF(const QString& previewGIF) { m_previewGIF = previewGIF; }
     void setFile(const QString& file) { m_file = file; }
     void setProperties(const QJsonObject& properties) { m_properties = properties; }
     void setType(ContentTypes::InstalledType type) { m_type = type; }
@@ -57,6 +63,8 @@ private:
     QString m_title;
     QString m_absolutePath;
     QString m_previewImage;
+    QString m_previewWebP;
+    QString m_previewGIF;
     QString m_file;
     QJsonObject m_properties;
     ContentTypes::InstalledType m_type = ContentTypes::InstalledType::Unknown;
