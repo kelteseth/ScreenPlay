@@ -165,7 +165,7 @@ Drawer {
             }
 
             ColumnLayout {
-                spacing: 5
+                spacing: 50
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 Layout.horizontalStretchFactor: 4
@@ -186,8 +186,6 @@ Drawer {
                     color: Material.secondaryTextColor
                 }
                 Item {
-
-                    Layout.topMargin: 10
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     Timeline {
@@ -403,7 +401,6 @@ Drawer {
 
                         // Now use this model index with the data() method
                         const state = App.monitorListModel.data(modelIndex, MonitorListModel.MonitorRole.AppState)
-                        print("onSelectedIndexChanged state: ", state, btnLaunchContent.enabled)
                         if (state == Util.ScreenPlayEnums.AppState.NotSet || state == Util.ScreenPlayEnums.AppState.Active) {
                             btnLaunchContent.enabled = selectedAndValid
                             return
