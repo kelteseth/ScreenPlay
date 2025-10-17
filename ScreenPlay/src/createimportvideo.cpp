@@ -62,6 +62,41 @@ void CreateImportVideo::setupFFMPEG()
 }
 
 /*!
+  \brief Detects the container format (WebM/Matroska vs others) by doing a quick FFprobe query.
+         This allows us to use the correct detailed analysis method.
+ */
+bool CreateImportVideo::detectContainerFormat()
+{
+    QStringList args;
+    args.append("-print_format");
+    args.append("json");
+    args.append("-show_format");
+    args.append(m_videoPath);
+
+    Util util;
+    const QString ffmpegOut = waitForFinished(args, QProcess::SeparateChannels, Executable::FFPROBE);
+    
+    auto obj = util.parseQByteArrayToQJsonObject(QByteArray::fromStdString(ffmpegOut.toStdString()));
+    if (!obj) {
+        qWarning() << "Error parsing FFprobe format detection output";
+        return false;
+    }
+
+    if (obj->contains("format")) {
+        const QJsonObject formatObj = obj->value("format").toObject();
+        const QString formatName = formatObj.value("format_name").toString();
+        
+        // WebM and Matroska containers both need frame counting
+        m_isWebm = formatName.contains("webm", Qt::CaseInsensitive) || 
+                   formatName.contains("matroska", Qt::CaseInsensitive);
+        
+        qInfo() << "Container format detected:" << formatName << "-> isWebM/Matroska:" << m_isWebm;
+    }
+    
+    return true;
+}
+
+/*!
   \brief Starts ffprobe and tries to parse the resulting json. If the video
          is a container that not contains the video length like webm or mkv
          we need to count the frames ourself. We then call analyzeWebmReadFrames
@@ -76,7 +111,12 @@ void CreateImportVideo::setupFFMPEG()
  */
 bool CreateImportVideo::createWallpaperInfo()
 {
-    // Get video info
+    // First, do a quick format detection to determine container type
+    if (!detectContainerFormat()) {
+        return false;
+    }
+
+    // Get video info with appropriate command based on container format
     QStringList args;
     args.append("-print_format");
     args.append("json");
@@ -124,6 +164,13 @@ bool CreateImportVideo::createWallpaperInfo()
         emit createWallpaperStateChanged(Import::State::AnalyseVideoError);
         return false;
     }
+    
+    // For WebM/Matroska containers, we already have the frame count data
+    // so go directly to the specialized analysis method
+    if (m_isWebm) {
+        return analyzeWebmReadFrames(obj.value());
+    }
+    
     return analyzeVideo(obj.value());
 }
 

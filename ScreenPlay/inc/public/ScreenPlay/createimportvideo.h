@@ -97,6 +97,7 @@ private:
         const QProcess::ProcessChannelMode processChannelMode = QProcess::ProcessChannelMode::SeparateChannels,
         const Executable executable = Executable::FFMPEG);
 
+    bool detectContainerFormat();
     bool analyzeWebmReadFrames(const QJsonObject& obj);
     bool analyzeVideo(const QJsonObject& obj);
     void setupFFMPEG();
