@@ -1,3 +1,9 @@
+variables:
+  SENTRY_CLI_VERSION: "2.56.1"
+  SENTRY_CLI_DOWNLOAD_URL: "https://github.com/getsentry/sentry-cli/releases/download"
+  SENTRY_ORG: "screenplay"
+  SENTRY_PROJECT: "screenplay"
+
 steam_linux:
   stage: release_build
   extends:
@@ -10,6 +16,9 @@ steam_linux:
     paths:
     - Build/ScreenPlay-$CI_COMMIT_TAG-x64-linux-Release.zip
     - Build/ScreenPlay-$CI_COMMIT_TAG-x64-linux-Release.zip.sha256.txt
+    - Build/**/*.debug # Preserve debug files for Sentry upload
+    - Build/**/ScreenPlay* # Preserve executables with debug symbols
+    expire_in: "1 week"
 
 steam_windows:
   stage: release_build
@@ -23,6 +32,8 @@ steam_windows:
     paths:
     - Build/ScreenPlay-$CI_COMMIT_TAG-x64-windows-Release.zip
     - Build/ScreenPlay-$CI_COMMIT_TAG-x64-windows-Release.zip.sha256.txt
+    - Build/**/*.pdb # Preserve PDB files for Sentry upload
+    expire_in: "1 week"
 
 steam_osx:
   stage: release_build
@@ -36,6 +47,9 @@ steam_osx:
     paths:
     - Build/ScreenPlay-$CI_COMMIT_TAG-64-osx-universal-Release.zip
     - Build/ScreenPlay-$CI_COMMIT_TAG-64-osx-universal-Release.zip.sha256.txt
+    - Build/**/*.dSYM/ # Preserve dSYM bundles for Sentry upload
+    - Build/**/ScreenPlay*.app/ # Preserve app bundles with debug symbols
+    expire_in: "1 week"
 
 release_job:
   interruptible: true
@@ -52,30 +66,30 @@ release_job:
   - if: "$CI_COMMIT_TAG" # Run this job when a tag is created
     when: on_success # Only when all previous jobs succeed
   script:
-    # Install uv
-    - curl -LsSf https://astral.sh/uv/install.sh | sh
-    - source $HOME/.local/bin/env
-    # 1. Combining sha256 files into a SHA512-SUMS.txt
-    - uv run python Tools/create_sha512.py
-    # 2. Set release variables using CI release script
-    - export RELEASE_NAME=$(uv run python Tools/ci_release.py --name)
-    - export RELEASE_DESCRIPTION=$(uv run python Tools/ci_release.py --description)
-    - export IS_PRERELEASE=$(uv run python Tools/ci_release.py --is-pre-release)
-    - "echo \"Release name: $RELEASE_NAME\""
-    - "echo \"Release description: $RELEASE_DESCRIPTION\""
-    - "echo \"Is prerelease: $IS_PRERELEASE\""
-    # 3. Install dependencies and handle the folder
-    - apt update
-    - apt install -y sshpass ssh curl
-    - curl --location --output /usr/local/bin/release-cli "https://gitlab.com/api/v4/projects/gitlab-org%2Frelease-cli/packages/generic/release-cli/latest/release-cli-linux-amd64"
-    - chmod +x /usr/local/bin/release-cli
-    - ssh-keyscan 91.204.46.10 >> ~/.ssh/known_hosts
-    - sshpass -p $GETSP_PASSWORD ssh $GETSP_USERNAME@91.204.46.10 "rm -rf /getsp.de/httpdocs/releases/$CI_COMMIT_TAG; mkdir /getsp.de/httpdocs/releases/$CI_COMMIT_TAG;"
-    # 4. Upload files to the remote folder
-    - sshpass -p $GETSP_PASSWORD scp Build/ScreenPlay-$CI_COMMIT_TAG-x64-linux-Release.zip $GETSP_USERNAME@91.204.46.10:/getsp.de/httpdocs/releases/$CI_COMMIT_TAG/
-    - sshpass -p $GETSP_PASSWORD scp Build/ScreenPlay-$CI_COMMIT_TAG-x64-windows-Release.zip $GETSP_USERNAME@91.204.46.10:/getsp.de/httpdocs/releases/$CI_COMMIT_TAG/
-    - sshpass -p $GETSP_PASSWORD scp Build/ScreenPlay-$CI_COMMIT_TAG-64-osx-universal-Release.zip $GETSP_USERNAME@91.204.46.10:/getsp.de/httpdocs/releases/$CI_COMMIT_TAG/
-    - sshpass -p $GETSP_PASSWORD scp SHA512-SUMS.txt $GETSP_USERNAME@91.204.46.10:/getsp.de/httpdocs/releases/$CI_COMMIT_TAG/
+  # Install uv
+  - curl -LsSf https://astral.sh/uv/install.sh | sh
+  - source $HOME/.local/bin/env
+  # 1. Combining sha256 files into a SHA512-SUMS.txt
+  - uv run python Tools/create_sha512.py
+  # 2. Set release variables using CI release script
+  - export RELEASE_NAME=$(uv run python Tools/ci_release.py --name)
+  - export RELEASE_DESCRIPTION=$(uv run python Tools/ci_release.py --description)
+  - export IS_PRERELEASE=$(uv run python Tools/ci_release.py --is-pre-release)
+  - "echo \"Release name: $RELEASE_NAME\""
+  - "echo \"Release description: $RELEASE_DESCRIPTION\""
+  - "echo \"Is prerelease: $IS_PRERELEASE\""
+  # 3. Install dependencies and handle the folder
+  - apt update
+  - apt install -y sshpass ssh curl
+  - curl --location --output /usr/local/bin/release-cli "https://gitlab.com/api/v4/projects/gitlab-org%2Frelease-cli/packages/generic/release-cli/latest/release-cli-linux-amd64"
+  - chmod +x /usr/local/bin/release-cli
+  - ssh-keyscan 91.204.46.10 >> ~/.ssh/known_hosts
+  - sshpass -p $GETSP_PASSWORD ssh $GETSP_USERNAME@91.204.46.10 "rm -rf /getsp.de/httpdocs/releases/$CI_COMMIT_TAG; mkdir /getsp.de/httpdocs/releases/$CI_COMMIT_TAG;"
+  # 4. Upload files to the remote folder
+  - sshpass -p $GETSP_PASSWORD scp Build/ScreenPlay-$CI_COMMIT_TAG-x64-linux-Release.zip $GETSP_USERNAME@91.204.46.10:/getsp.de/httpdocs/releases/$CI_COMMIT_TAG/
+  - sshpass -p $GETSP_PASSWORD scp Build/ScreenPlay-$CI_COMMIT_TAG-x64-windows-Release.zip $GETSP_USERNAME@91.204.46.10:/getsp.de/httpdocs/releases/$CI_COMMIT_TAG/
+  - sshpass -p $GETSP_PASSWORD scp Build/ScreenPlay-$CI_COMMIT_TAG-64-osx-universal-Release.zip $GETSP_USERNAME@91.204.46.10:/getsp.de/httpdocs/releases/$CI_COMMIT_TAG/
+  - sshpass -p $GETSP_PASSWORD scp SHA512-SUMS.txt $GETSP_USERNAME@91.204.46.10:/getsp.de/httpdocs/releases/$CI_COMMIT_TAG/
   release:
     tag_name: $CI_COMMIT_TAG
     name: $RELEASE_NAME
@@ -90,3 +104,82 @@ release_job:
         url: "https://getsp.de/releases/$CI_COMMIT_TAG/ScreenPlay-$CI_COMMIT_TAG-64-osx-universal-Release.zip"
       - name: ℹ️ SHA512-SUMS.txt
         url: "https://getsp.de/releases/$CI_COMMIT_TAG/SHA512-SUMS.txt"
+
+sentry_debug_upload:
+  stage: debug_upload
+  image: windows/servercore:ltsc2019
+  tags:
+  - windows
+  dependencies:
+  - steam_windows
+  rules:
+  - if: "$CI_COMMIT_TAG"
+  script:
+  # Download Sentry CLI from GitHub releases
+  - powershell -Command "Invoke-WebRequest -Uri '$env:SENTRY_CLI_DOWNLOAD_URL/$env:SENTRY_CLI_VERSION/sentry-cli-Windows-x86_64.exe' -OutFile 'sentry-cli.exe'"
+  # Create a release in Sentry
+  - .\sentry-cli.exe releases new "$CI_COMMIT_TAG"
+  # Upload PDB files from build directory
+  - .\sentry-cli.exe debug-files upload --include-sources Build/ --wait
+
+sentry_debug_upload_linux:
+  stage: debug_upload
+  image: ubuntu:24.04
+  tags:
+  - docker
+  - docker_internal_vm
+  dependencies:
+  - steam_linux
+  - sentry_debug_upload # Wait for Windows job to create the release
+  rules:
+  - if: "$CI_COMMIT_TAG"
+  before_script:
+  - apt update -y
+  - apt install -y curl
+  script:
+  # Download Sentry CLI from GitHub releases
+  - curl -L "$SENTRY_CLI_DOWNLOAD_URL/$SENTRY_CLI_VERSION/sentry-cli-Linux-x86_64" -o sentry-cli
+  - chmod +x sentry-cli
+  # Upload debug files from build directory (release already created by Windows job)
+  - ./sentry-cli debug-files upload --include-sources Build/ --wait
+
+sentry_debug_upload_osx:
+  stage: debug_upload
+  tags:
+  - osx
+  dependencies:
+  - steam_osx
+  - sentry_debug_upload # Wait for Windows job to create the release
+  rules:
+  - if: "$CI_COMMIT_TAG"
+  before_script:
+  # Make sure to use the correct PATH
+  - export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+  script:
+  # Download Sentry CLI from GitHub releases (universal binary for macOS)
+  - curl -L "$SENTRY_CLI_DOWNLOAD_URL/$SENTRY_CLI_VERSION/sentry-cli-Darwin-universal" -o sentry-cli
+  - chmod +x sentry-cli
+  # Upload debug files from build directory (release already created by Windows job)
+  - ./sentry-cli debug-files upload --include-sources Build/ --wait
+
+sentry_finalize_release:
+  stage: debug_upload
+  image: ubuntu:24.04
+  tags:
+  - docker
+  - docker_internal_vm
+  dependencies:
+  - sentry_debug_upload
+  - sentry_debug_upload_linux
+  - sentry_debug_upload_osx
+  rules:
+  - if: "$CI_COMMIT_TAG"
+  before_script:
+  - apt update -y
+  - apt install -y curl
+  script:
+  # Download Sentry CLI from GitHub releases
+  - curl -L "$SENTRY_CLI_DOWNLOAD_URL/$SENTRY_CLI_VERSION/sentry-cli-Linux-x86_64" -o sentry-cli
+  - chmod +x sentry-cli
+  # Finalize the release after all platforms have uploaded their debug files
+  - ./sentry-cli releases finalize "$CI_COMMIT_TAG"

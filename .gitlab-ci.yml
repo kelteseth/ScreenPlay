@@ -1,31 +1,33 @@
 include:
-    - ".gitlab/ci/base_jobs.yml"
-    - ".gitlab/ci/build_jobs.yml"
-    - ".gitlab/ci/build_release_jobs.yml"
-    - ".gitlab/ci/check_jobs.yml"
+- ".gitlab/ci/base_jobs.yml"
+- ".gitlab/ci/build_jobs.yml"
+- ".gitlab/ci/build_release_jobs.yml"
+- ".gitlab/ci/check_jobs.yml"
 
 stages:
-    # None Steam build for every commit
-    - build
-    # Steam build for every commit
-    - build_steam
-    # Git release tag builds
-    - release_build
-    # Gitlab releases at:
-    # https://gitlab.com/kelteseth/ScreenPlay/-/releases
-    - release
-    # Checks for source code formattings
-    - check
+# None Steam build for every commit
+- build
+# Steam build for every commit
+- build_steam
+# Git release tag builds
+- release_build
+# Gitlab releases at:
+# https://gitlab.com/kelteseth/ScreenPlay/-/releases
+- release
+# Upload debug symbols to Sentry
+- debug_upload
+# Checks for source code formattings
+- check
 
 documentation:
   tags:
-    - docker
-    - docker_internal_vm
+  - docker
+  - docker_internal_vm
   image:
     name: ubuntu:24.04
   dependencies: []
   stage: .post
   script:
-      - apt update -y
-      - apt install curl -y
-      - curl --request POST --form "token=$CI_JOB_TOKEN" --form ref=master https://gitlab.com/api/v4/projects/15800262/trigger/pipeline
+  - apt update -y
+  - apt install curl -y
+  - curl --request POST --form "token=$CI_JOB_TOKEN" --form ref=master https://gitlab.com/api/v4/projects/15800262/trigger/pipeline
