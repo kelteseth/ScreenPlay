@@ -217,33 +217,16 @@ Rectangle {
 
                 property bool contentActive: App.screenPlayManager.activeWallpaperCounter > 0 || App.screenPlayManager.activeWidgetsCounter > 0
 
-                onContentActiveChanged: {
-                    if (!contentActive) {
-                        miMuteAll.soundEnabled = true
-                        miStopAll.isPlaying = true
-                    }
-                }
-
                 ToolButton {
                     id: miMuteAll
                     height: 45
                     Layout.alignment: Qt.AlignVCenter
-                    icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_volume.svg"
+                    icon.source: App.screenPlayManager.isMuted ? "qrc:/qt/qml/ScreenPlay/assets/icons/icon_volume_mute.svg" : "qrc:/qt/qml/ScreenPlay/assets/icons/icon_volume.svg"
                     icon.width: root.iconWidth
                     icon.height: root.iconHeight
                     enabled: quickActionRow.contentActive
 
-                    onClicked: soundEnabled = !soundEnabled
-                    property bool soundEnabled: true
-                    onSoundEnabledChanged: {
-                        if (miMuteAll.soundEnabled) {
-                            miMuteAll.icon.source = "qrc:/qt/qml/ScreenPlay/assets/icons/icon_volume.svg"
-                            App.screenPlayManager.setAllWallpaperValue("muted", "false")
-                        } else {
-                            miMuteAll.icon.source = "qrc:/qt/qml/ScreenPlay/assets/icons/icon_volume_mute.svg"
-                            App.screenPlayManager.setAllWallpaperValue("muted", "true")
-                        }
-                    }
+                    onClicked: App.screenPlayManager.isMuted = !App.screenPlayManager.isMuted
 
                     hoverEnabled: true
                     ToolTip.text: qsTr("Mute/Unmute all Wallpaper")
@@ -254,20 +237,11 @@ Rectangle {
                     height: 45
                     enabled: quickActionRow.contentActive
                     Layout.alignment: Qt.AlignVCenter
-                    icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_pause.svg"
+                    icon.source: App.screenPlayManager.isPaused ? "qrc:/qt/qml/ScreenPlay/assets/icons/icon_play.svg" : "qrc:/qt/qml/ScreenPlay/assets/icons/icon_pause.svg"
                     icon.width: root.iconWidth
                     icon.height: root.iconHeight
-                    onClicked: isPlaying = !isPlaying
-                    property bool isPlaying: true
-                    onIsPlayingChanged: {
-                        if (miStopAll.isPlaying) {
-                            miStopAll.icon.source = "qrc:/qt/qml/ScreenPlay/assets/icons/icon_pause.svg"
-                            App.screenPlayManager.setAllWallpaperValue("isPlaying", "true")
-                        } else {
-                            miStopAll.icon.source = "qrc:/qt/qml/ScreenPlay/assets/icons/icon_play.svg"
-                            App.screenPlayManager.setAllWallpaperValue("isPlaying", "false")
-                        }
-                    }
+                    onClicked: App.screenPlayManager.isPaused = !App.screenPlayManager.isPaused
+                    
                     hoverEnabled: true
                     ToolTip.text: qsTr("Pause/Play all Wallpaper")
                     ToolTip.visible: hovered
@@ -290,8 +264,6 @@ Rectangle {
                                 return
                             }
                         })
-                        miStopAll.isPlaying = true
-                        miMuteAll.soundEnabled = true
                     }
 
                     hoverEnabled: true

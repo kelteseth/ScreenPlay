@@ -599,6 +599,18 @@ void ScreenPlayManager::setActiveWallpaperCounter(int activeWallpaperCounter)
 
     m_activeWallpaperCounter = activeWallpaperCounter;
     emit activeWallpaperCounterChanged(m_activeWallpaperCounter);
+    
+    // Reset mute and pause state when no wallpapers are active
+    if (m_activeWallpaperCounter == 0) {
+        if (m_isMuted) {
+            m_isMuted = false;
+            emit isMutedChanged(m_isMuted);
+        }
+        if (m_isPaused) {
+            m_isPaused = false;
+            emit isPausedChanged(m_isPaused);
+        }
+    }
 }
 
 void ScreenPlayManager::setActiveWidgetsCounter(int activeWidgetsCounter)
@@ -843,6 +855,26 @@ void ScreenPlayManager::setSelectedTimelineIndex(int selectedTimelineIndex)
     //     return;
     m_selectedTimelineIndex = selectedTimelineIndex;
     emit selectedTimelineIndexChanged(m_selectedTimelineIndex);
+}
+
+void ScreenPlayManager::setIsMuted(bool isMuted)
+{
+    if (m_isMuted == isMuted)
+        return;
+    
+    m_isMuted = isMuted;
+    setAllWallpaperValue("muted", isMuted ? "true" : "false");
+    emit isMutedChanged(m_isMuted);
+}
+
+void ScreenPlayManager::setIsPaused(bool isPaused)
+{
+    if (m_isPaused == isPaused)
+        return;
+    
+    m_isPaused = isPaused;
+    setAllWallpaperValue("isPlaying", isPaused ? "false" : "true");
+    emit isPausedChanged(m_isPaused);
 }
 
 ProjectSettingsListModel* ScreenPlayManager::projectSettingsListModel() const

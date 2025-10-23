@@ -106,44 +106,20 @@ SystemTrayIcon {
         MenuItem {
             id: miMuteAll
 
-            property bool isMuted: false
-
-            text: qsTr("Mute all")
-            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_volume_mute.svg"
+            text: App.screenPlayManager.isMuted ? qsTr("Unmute all") : qsTr("Mute all")
+            icon.source: App.screenPlayManager.isMuted ? "qrc:/qt/qml/ScreenPlay/assets/icons/icon_volume_up.svg" : "qrc:/qt/qml/ScreenPlay/assets/icons/icon_volume_mute.svg"
             onTriggered: {
-                if (miMuteAll.isMuted) {
-                    isMuted = false
-                    miMuteAll.text = qsTr("Mute all")
-                    miMuteAll.icon.source = "qrc:/qt/qml/ScreenPlay/assets/icons/icon_volume_mute.svg"
-                    App.screenPlayManager.setAllWallpaperValue("muted", "true")
-                } else {
-                    isMuted = true
-                    miMuteAll.text = qsTr("Unmute all")
-                    miMuteAll.icon.source = "qrc:/qt/qml/ScreenPlay/assets/icons/icon_volume_up.svg"
-                    App.screenPlayManager.setAllWallpaperValue("muted", "false")
-                }
+                App.screenPlayManager.isMuted = !App.screenPlayManager.isMuted
             }
         }
 
         MenuItem {
             id: miStopAll
 
-            property bool isPlaying: false
-
-            text: qsTr("Pause all")
-            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_pause.svg"
+            text: App.screenPlayManager.isPaused ? qsTr("Play all") : qsTr("Pause all")
+            icon.source: App.screenPlayManager.isPaused ? "qrc:/qt/qml/ScreenPlay/assets/icons/icon_play.svg" : "qrc:/qt/qml/ScreenPlay/assets/icons/icon_pause.svg"
             onTriggered: {
-                if (miStopAll.isPlaying) {
-                    isPlaying = false
-                    miStopAll.text = qsTr("Pause all")
-                    miStopAll.icon.source = "qrc:/qt/qml/ScreenPlay/assets/icons/icon_pause.svg"
-                    App.screenPlayManager.setAllWallpaperValue("isPlaying", "true")
-                } else {
-                    isPlaying = true
-                    miStopAll.text = qsTr("Play all")
-                    miStopAll.icon.source = "qrc:/qt/qml/ScreenPlay/assets/icons/icon_play.svg"
-                    App.screenPlayManager.setAllWallpaperValue("isPlaying", "false")
-                }
+                App.screenPlayManager.isPaused = !App.screenPlayManager.isPaused
             }
         }
 

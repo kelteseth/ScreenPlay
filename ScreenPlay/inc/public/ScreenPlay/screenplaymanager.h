@@ -27,6 +27,8 @@ class ScreenPlayManager : public QObject {
     Q_PROPERTY(int activeWidgetsCounter READ activeWidgetsCounter WRITE setActiveWidgetsCounter NOTIFY activeWidgetsCounterChanged FINAL)
     Q_PROPERTY(int selectedTimelineIndex READ selectedTimelineIndex WRITE setSelectedTimelineIndex NOTIFY selectedTimelineIndexChanged FINAL)
     Q_PROPERTY(int activeTimelineIndex READ activeTimelineIndex WRITE setActiveTimelineIndex NOTIFY activeTimelineIndexChanged FINAL)
+    Q_PROPERTY(bool isMuted READ isMuted WRITE setIsMuted NOTIFY isMutedChanged FINAL)
+    Q_PROPERTY(bool isPaused READ isPaused WRITE setIsPaused NOTIFY isPausedChanged FINAL)
     Q_PROPERTY(ScreenPlay::ProjectSettingsListModel* projectSettingsListModel READ projectSettingsListModel WRITE setProjectSettingsListModel NOTIFY projectSettingsListModelChanged FINAL)
 
 public:
@@ -97,18 +99,24 @@ public:
     int activeWidgetsCounter() const { return m_activeWidgetsCounter; }
     int selectedTimelineIndex() const { return m_selectedTimelineIndex; }
     int activeTimelineIndex() const { return m_activeTimelineIndex; }
+    bool isMuted() const { return m_isMuted; }
+    bool isPaused() const { return m_isPaused; }
 
     ProjectSettingsListModel* projectSettingsListModel() const;
     void setProjectSettingsListModel(ProjectSettingsListModel* newProjectSettingsListModel);
 
 public slots:
     void setSelectedTimelineIndex(int selectedTimelineIndex);
+    void setIsMuted(bool isMuted);
+    void setIsPaused(bool isPaused);
 
 signals:
     void activeWallpaperCounterChanged(int activeWallpaperCounter);
     void activeWidgetsCounterChanged(int activeWidgetsCounter);
     void selectedTimelineIndexChanged(int selectedTimelineIndex);
     void activeTimelineIndexChanged(int activeTimelineIndex);
+    void isMutedChanged(bool isMuted);
+    void isPausedChanged(bool isPaused);
     void monitorConfigurationChanged();
     void requestRaise();
     void profilesSaved();
@@ -147,5 +155,7 @@ private:
     int m_activeWidgetsCounter { 0 };
     int m_selectedTimelineIndex { 0 };
     int m_activeTimelineIndex { -1 };
+    bool m_isMuted { false };
+    bool m_isPaused { false };
 };
 }
