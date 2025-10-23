@@ -57,8 +57,10 @@ Item {
                         let file = App.util.toLocal(drop.urls[0])
                         bg.color = Qt.darker(Qt.darker(Material.backgroundColor))
                         let found = false
-                        for (let ending in root.allowedVideoFileEndings) {
-                            if (file.endsWith(ending)) {
+                        for (let ending of root.allowedVideoFileEndings) {
+                            // Remove the asterisk from the pattern (e.g., "*.webm" -> ".webm")
+                            let extension = ending.substring(1)
+                            if (file.endsWith(extension)) {
                                 found = true
                                 break
                             }
