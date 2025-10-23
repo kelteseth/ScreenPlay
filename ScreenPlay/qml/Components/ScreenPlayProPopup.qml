@@ -307,7 +307,7 @@ Popup {
 
                 Label {
                     Layout.fillWidth: true
-                    text: qsTr("💝 €19.99 - Sustains open source for everyone")
+                    text: qsTr("💝 One time payment - Sustains open source for everyone")
                     wrapMode: Text.WordWrap
                     lineHeight: 1.2
                     font.pointSize: 16

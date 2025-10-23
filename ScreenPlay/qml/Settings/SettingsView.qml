@@ -606,7 +606,7 @@ Item {
                                     }
 
                                     Text {
-                                        text: qsTr("💝 €19.99 - Sustains open source for everyone")
+                                        text: qsTr("💝 One time payment - Sustains open source for everyone")
                                         color: Material.foreground
                                         font.family: App.settings.font
                                         font.pointSize: 11
