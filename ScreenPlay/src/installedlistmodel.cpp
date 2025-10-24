@@ -11,8 +11,11 @@
 #include <QJsonObject>
 #include <QStandardPaths>
 #include <QtConcurrent/QtConcurrent>
+#include <QLoggingCategory>
 
 #include <QUrl>
+
+Q_LOGGING_CATEGORY(installedListModel, "screenplay.installed.list.model")
 
 namespace ScreenPlay {
 
@@ -98,7 +101,7 @@ bool InstalledListModel::deinstallItemAt(const QString& absoluteStoragePath)
     }
 
     if (index < 0 || index >= m_screenPlayFiles.count()) {
-        qWarning() << "Remove folder error, invalid index " << index;
+        qCWarning(installedListModel) << "Remove folder error, invalid index " << index;
         return false;
     }
 
@@ -110,7 +113,7 @@ bool InstalledListModel::deinstallItemAt(const QString& absoluteStoragePath)
         QDir dir(path);
         bool success = true;
         if (!dir.exists()) {
-            qWarning() << "Directory does not exist!" << dir;
+            qCWarning(installedListModel) << "Directory does not exist!" << dir;
             return;
         }
 
@@ -119,19 +122,19 @@ bool InstalledListModel::deinstallItemAt(const QString& absoluteStoragePath)
         m_fileSystemWatcher.blockSignals(true);
         for (auto& item : dir.entryInfoList(QDir::Files)) {
             if (!QFile::remove(item.absoluteFilePath())) {
-                qWarning() << "Unable to remove file:" << item;
+                qCWarning(installedListModel) << "Unable to remove file:" << item;
                 success = false;
                 break;
             }
         }
 
         if (!success) {
-            qWarning() << "Could not remove folder content at: " << path;
+            qCWarning(installedListModel) << "Could not remove folder content at: " << path;
             loadInstalledContent();
         }
 
         if (!dir.rmdir(path)) {
-            qWarning() << "Could not remove folder at: " << path;
+            qCWarning(installedListModel) << "Could not remove folder at: " << path;
             return;
         }
 
@@ -200,7 +203,7 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
             return QVariant::fromValue(m_screenPlayFiles.at(row).searchType);
         }
 
-    qWarning() << "Unable to fetch value for row type:" << role;
+    qCWarning(installedListModel) << "Unable to fetch value for row type:" << role;
     return QVariant();
 }
 
@@ -250,7 +253,7 @@ void InstalledListModel::append(const QString& projectJsonFilePath)
 void InstalledListModel::loadInstalledContent()
 {
     if (m_isLoading) {
-        qInfo() << "loadInstalledContent is already running. Skip.";
+        qCInfo(installedListModel) << "loadInstalledContent is already running. Skip.";
         return;
     }
     m_isLoading = true;
@@ -285,7 +288,7 @@ void InstalledListModel::loadInstalledContent()
 QVariantMap InstalledListModel::get(const QString& folderName) const
 {
     if (folderName.isEmpty()) {
-        qCritical() << "Invalid (empty) folder name";
+        qCCritical(installedListModel) << "Invalid (empty) folder name";
         return {};
     }
 
@@ -310,7 +313,7 @@ QVariantMap InstalledListModel::get(const QString& folderName) const
         }
     }
 
-    qWarning() << "Installed item not found for: " << folderName;
+    qCWarning(installedListModel) << "Installed item not found for: " << folderName;
 
     return {};
 }
@@ -321,7 +324,7 @@ QVariantMap InstalledListModel::get(const QString& folderName) const
 void InstalledListModel::reset()
 {
     if (m_isLoading) {
-        qInfo() << "loadInstalledContent is already running. Skip.";
+        qCInfo(installedListModel) << "loadInstalledContent is already running. Skip.";
         return;
     }
     beginResetModel();

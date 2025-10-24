@@ -16,6 +16,9 @@
 #include <QVersionNumber>
 #include <QtGlobal>
 #include <QtSvg>
+#include <QLoggingCategory>
+
+Q_LOGGING_CATEGORY(app, "screenplay.app")
 
 #if defined(Q_OS_MACOS)
 #include "ScreenPlayCore/macutils.h"
@@ -60,7 +63,7 @@ App::App(QObject* parent)
             QFontDatabase::addApplicationFont(it.next());
         }
     } else {
-        qWarning() << "Unable to load font from: " << fontsPath;
+        qCWarning(app) << "Unable to load font from: " << fontsPath;
     }
     using std::make_shared, std::make_unique;
 
@@ -92,7 +95,7 @@ App::App(QObject* parent)
         sentry_options_set_database_path(options, QGuiApplication::applicationDirPath().toStdString().c_str());
         const int sentryInitStatus = sentry_init(options);
         if (sentryInitStatus != 0) {
-            qWarning() << "Unable to inti sentry crashhandler with statuscode: " << sentryInitStatus;
+            qCWarning(app) << "Unable to inti sentry crashhandler with statuscode: " << sentryInitStatus;
         }
 #endif
     }
@@ -116,7 +119,7 @@ App::App(QObject* parent)
 
     // Set visible if the -silent parameter was not set
     if (guiAppInst->arguments().contains("-silent")) {
-        qInfo() << "Starting in silent mode.";
+        qCInfo(app) << "Starting in silent mode.";
         settings()->setSilentStart(true);
     }
 

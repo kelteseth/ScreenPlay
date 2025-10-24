@@ -13,6 +13,9 @@
 #include <QJsonObject>
 #include <QJsonParseError>
 #include <QStringList>
+#include <QLoggingCategory>
+
+Q_LOGGING_CATEGORY(create, "screenplay.create")
 #include <QTime>
 #include <QTimer>
 #include <QUrl>
@@ -72,7 +75,7 @@ void Create::createWallpaperStart(QString videoPath, ScreenPlay::Video::VideoCod
     setWorkingDir(installedDir.path() + "/" + folderName);
 
     if (!installedDir.mkdir(folderName)) {
-        qInfo() << "Unable to create folder with name: " << folderName << " at: " << installedDir;
+        qCInfo(create) << "Unable to create folder with name: " << folderName << " at: " << installedDir;
         emit createWallpaperStateChanged(Import::State::CreateTmpFolderError);
         emit abortCreateWallpaper();
         return;
@@ -94,14 +97,14 @@ void Create::createWallpaperStart(QString videoPath, ScreenPlay::Video::VideoCod
             return;
         }
 
-        qInfo() << "createWallpaperImageThumbnailPreview()";
+        qCInfo(create) << "createWallpaperImageThumbnailPreview()";
         if (!import.createWallpaperImageThumbnailPreview() || m_interrupt) {
             emit createWallpaperStateChanged(Import::State::Failed);
             emit import.abortAndCleanup();
             return;
         }
 
-        qInfo() << "createWallpaperImagePreview()";
+        qCInfo(create) << "createWallpaperImagePreview()";
         if (!import.createWallpaperImagePreview() || m_interrupt) {
             emit createWallpaperStateChanged(Import::State::Failed);
             emit import.abortAndCleanup();
@@ -110,7 +113,7 @@ void Create::createWallpaperStart(QString videoPath, ScreenPlay::Video::VideoCod
 
         // Skip preview convert for webm
         if (!import.m_isWebm) {
-            qInfo() << "createWallpaperVideoPreview()";
+            qCInfo(create) << "createWallpaperVideoPreview()";
             if (!import.createWallpaperVideoPreview() || m_interrupt) {
                 emit createWallpaperStateChanged(Import::State::Failed);
                 emit import.abortAndCleanup();
@@ -119,7 +122,7 @@ void Create::createWallpaperStart(QString videoPath, ScreenPlay::Video::VideoCod
             }
         }
 
-        qInfo() << "createWallpaperWebpPreview()";
+        qCInfo(create) << "createWallpaperWebpPreview()";
         if (!import.createWallpaperWebpPreview() || m_interrupt) {
             emit createWallpaperStateChanged(Import::State::Failed);
             emit import.abortAndCleanup();
@@ -128,7 +131,7 @@ void Create::createWallpaperStart(QString videoPath, ScreenPlay::Video::VideoCod
 
         // If the video has no audio we can skip the extraction
         if (!import.m_skipAudio) {
-            qInfo() << "extractWallpaperAudio()";
+            qCInfo(create) << "extractWallpaperAudio()";
             if (!import.extractWallpaperAudio() || m_interrupt) {
                 emit createWallpaperStateChanged(Import::State::Failed);
                 emit import.abortAndCleanup();
@@ -136,7 +139,7 @@ void Create::createWallpaperStart(QString videoPath, ScreenPlay::Video::VideoCod
             }
         }
 
-        qInfo() << "createWallpaperVideo";
+        qCInfo(create) << "createWallpaperVideo";
         if (!import.createWallpaperVideo() || m_interrupt) {
             emit createWallpaperStateChanged(Import::State::Failed);
             emit import.abortAndCleanup();
@@ -177,7 +180,7 @@ void Create::saveWallpaper(
     QFile userSelectedPreviewImage(previewImagePath);
     if (userSelectedPreviewImage.fileName() == "preview.jpg") {
         if (!userSelectedPreviewImage.remove()) {
-            qDebug() << "Could remove" << previewImagePath;
+            qCDebug(create) << "Could remove" << previewImagePath;
             emit createWallpaperStateChanged(Import::State::CopyFilesError);
         }
     }
@@ -185,7 +188,7 @@ void Create::saveWallpaper(
     QFileInfo previewImageFile(previewImagePath);
     if (previewImageFile.exists()) {
         if (!QFile::copy(previewImagePath, m_workingDir + "/" + previewImageFile.fileName())) {
-            qDebug() << "Could not copy" << previewImagePath << " to " << m_workingDir + "/" + previewImageFile.fileName();
+            qCDebug(create) << "Could not copy" << previewImagePath << " to " << m_workingDir + "/" + previewImageFile.fileName();
             emit createWallpaperStateChanged(Import::State::CopyFilesError);
             return;
         }
@@ -194,7 +197,7 @@ void Create::saveWallpaper(
     QFileInfo filePathFile(filePath);
     // if (filePath.endsWith(".webm") || filePath.endsWith(".mp4")) {
     //     if (!QFile::copy(filePath, m_workingDir + "/" + filePathFile.fileName())) {
-    //         qDebug() << "Could not copy" << filePath << " to " << m_workingDir + "/" + filePathFile.fileName();
+    //         qCDebug(create) << "Could not copy" << filePath << " to " << m_workingDir + "/" + filePathFile.fileName();
     //         emit createWallpaperStateChanged(Import::State::CopyFilesError);
     //         return;
     //     }
@@ -244,7 +247,7 @@ void Create::saveWallpaper(
 */
 void Create::cancel()
 {
-    qInfo() << "cancel()";
+    qCInfo(create) << "cancel()";
     m_interrupt = true;
 }
 
@@ -257,10 +260,10 @@ void Create::abortAndCleanup()
     if (exportPath.exists()) {
         if (!exportPath.removeRecursively()) {
             emit createWallpaperStateChanged(Import::State::AbortCleanupError);
-            qWarning() << "Could not delete temp exportPath: " << exportPath;
+            qCWarning(create) << "Could not delete temp exportPath: " << exportPath;
         }
     } else {
-        qWarning() << "Could not cleanup video import. Export path does not exist: " << exportPath;
+        qCWarning(create) << "Could not cleanup video import. Export path does not exist: " << exportPath;
     }
 }
 

@@ -3,6 +3,9 @@
 #include "ScreenPlay/createimportvideo.h"
 #include "ScreenPlayCore/util.h"
 #include <QGuiApplication>
+#include <QLoggingCategory>
+
+Q_LOGGING_CATEGORY(createImportVideo, "screenplay.createimportvideo")
 
 namespace ScreenPlay {
 

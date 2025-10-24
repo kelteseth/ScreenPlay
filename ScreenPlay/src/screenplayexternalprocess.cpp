@@ -4,6 +4,9 @@
 #include "ScreenPlayCore/util.h"
 
 #include <QDebug>
+#include <QLoggingCategory>
+
+Q_LOGGING_CATEGORY(screenPlayExternalProcess, "screenplay.screenplayexternalprocess")
 
 namespace ScreenPlay {
 
@@ -46,7 +49,7 @@ ScreenPlayExternalProcess::ScreenPlayExternalProcess(
                                    .arg(m_retryCount)
                                    .arg(MAX_RESTART_ATTEMPTS);
 
-            qCritical() << "Restart attempt failed for" << m_appID << ":" << errorMsg;
+            qCCritical(screenPlayExternalProcess) << "Restart attempt failed for" << m_appID << ":" << errorMsg;
             emit restartFailed(m_appID, errorMsg);
         }
     });
@@ -55,7 +58,7 @@ ScreenPlayExternalProcess::ScreenPlayExternalProcess(
     m_stabilityTimer.setSingleShot(true);
     QObject::connect(&m_stabilityTimer, &QTimer::timeout, this, [this]() {
         if (m_isConnected && m_retryCount > 0) {
-            qInfo() << "Process" << m_appID << "has been stable for" << STABILITY_PERIOD_MS << "ms, resetting retry count";
+            qCInfo(screenPlayExternalProcess) << "Process" << m_appID << "has been stable for" << STABILITY_PERIOD_MS << "ms, resetting retry count";
             m_retryCount = 0;
         }
     });
@@ -68,7 +71,7 @@ void ScreenPlayExternalProcess::setSDKConnection(std::unique_ptr<SDKConnection> 
 
     // Don't reset retry count immediately - start stability timer instead
     if (m_retryCount > 0) {
-        qInfo() << "Connection established for" << m_appID << "after" << m_retryCount << "restart attempts, starting stability timer";
+        qCInfo(screenPlayExternalProcess) << "Connection established for" << m_appID << "after" << m_retryCount << "restart attempts, starting stability timer";
         m_stabilityTimer.start(STABILITY_PERIOD_MS);
     }
     m_isRestartingInProgress = false;
@@ -85,7 +88,7 @@ void ScreenPlayExternalProcess::setupSDKConnection()
     QObject::connect(m_connection.get(), &SDKConnection::disconnected, this, [this]() {
         setIsConnected(false);
         m_pingAliveTimer.stop();
-        qInfo() << "App:" << m_connection->appID() << "disconnected";
+        qCInfo(screenPlayExternalProcess) << "App:" << m_connection->appID() << "disconnected";
         
         // Only treat as timeout/crash if we're not in a closing state
         if (m_state != ScreenPlay::ScreenPlayEnums::AppState::Closing &&
@@ -94,7 +97,7 @@ void ScreenPlayExternalProcess::setupSDKConnection()
             setState(ScreenPlayEnums::AppState::Timeout);
             handleTimeoutOrCrash();
         } else {
-            qDebug() << "Connection closed during intentional shutdown for" << m_connection->appID();
+            qCDebug(screenPlayExternalProcess) << "Connection closed during intentional shutdown for" << m_connection->appID();
         }
     });
 
@@ -105,7 +108,7 @@ void ScreenPlayExternalProcess::setupSDKConnection()
             if (running.has_value()) {
                 // Process is running
             } else {
-                qInfo() << "INVALID PID:" << m_processID;
+                qCInfo(screenPlayExternalProcess) << "INVALID PID:" << m_processID;
                 handleTimeoutOrCrash();
             }
         });
@@ -115,27 +118,27 @@ void ScreenPlayExternalProcess::setupSDKConnection()
 
 void ScreenPlayExternalProcess::handleProcessError(QProcess::ProcessError error)
 {
-    qWarning() << "QProcess error occurred for app" << m_appID << ":" << error;
+    qCWarning(screenPlayExternalProcess) << "QProcess error occurred for app" << m_appID << ":" << error;
 
     switch (error) {
     case QProcess::FailedToStart:
-        qCritical() << "Process failed to start for app" << m_appID;
+        qCCritical(screenPlayExternalProcess) << "Process failed to start for app" << m_appID;
         setState(ScreenPlay::ScreenPlayEnums::AppState::StartingFailed);
         break;
     case QProcess::Crashed:
-        qCritical() << "Process crashed for app" << m_appID;
+        qCCritical(screenPlayExternalProcess) << "Process crashed for app" << m_appID;
         setState(ScreenPlay::ScreenPlayEnums::AppState::Crashed);
         handleTimeoutOrCrash();
         break;
     case QProcess::Timedout:
-        qWarning() << "Process timeout for app" << m_appID;
+        qCWarning(screenPlayExternalProcess) << "Process timeout for app" << m_appID;
         setState(ScreenPlay::ScreenPlayEnums::AppState::Timeout);
         handleTimeoutOrCrash();
         break;
     case QProcess::ReadError:
     case QProcess::WriteError:
     case QProcess::UnknownError:
-        qWarning() << "Process I/O or unknown error for app" << m_appID;
+        qCWarning(screenPlayExternalProcess) << "Process I/O or unknown error for app" << m_appID;
         setState(ScreenPlay::ScreenPlayEnums::AppState::ErrorOccurred);
         break;
     }
@@ -144,7 +147,7 @@ void ScreenPlayExternalProcess::handleProcessError(QProcess::ProcessError error)
 void ScreenPlayExternalProcess::processExit(int exitCode, QProcess::ExitStatus exitStatus)
 {
     if (exitCode != 0) {
-        qCritical() << "ERROR: App closed with appID:" << m_appID << "EXIT CODE:" << exitCode << exitStatus;
+        qCCritical(screenPlayExternalProcess) << "ERROR: App closed with appID:" << m_appID << "EXIT CODE:" << exitCode << exitStatus;
         setState(ScreenPlay::ScreenPlayEnums::AppState::Crashed);
         // Only attempt restart if we're not in a closing state
         if (m_state != ScreenPlay::ScreenPlayEnums::AppState::Closing &&
@@ -154,7 +157,7 @@ void ScreenPlayExternalProcess::processExit(int exitCode, QProcess::ExitStatus e
         return;
     }
     setState(ScreenPlay::ScreenPlayEnums::AppState::ClosedGracefully);
-    qDebug() << "App closed with appID:" << m_appID;
+    qCDebug(screenPlayExternalProcess) << "App closed with appID:" << m_appID;
 }
 
 void ScreenPlayExternalProcess::setAppID(QString appID)
@@ -199,20 +202,20 @@ void ScreenPlayExternalProcess::handleTimeoutOrCrash()
     if (m_state == ScreenPlay::ScreenPlayEnums::AppState::Closing ||
         m_state == ScreenPlay::ScreenPlayEnums::AppState::ClosingFailed ||
         m_state == ScreenPlay::ScreenPlayEnums::AppState::ClosedGracefully) {
-        qDebug() << "Process" << m_appID << "is in closing state (" << static_cast<int>(m_state) << "), not attempting restart";
+        qCDebug(screenPlayExternalProcess) << "Process" << m_appID << "is in closing state (" << static_cast<int>(m_state) << "), not attempting restart";
         return;
     }
 
     // Prevent multiple concurrent restart attempts
     if (m_isRestartingInProgress) {
-        qDebug() << "Restart already in progress for" << m_appID;
+        qCDebug(screenPlayExternalProcess) << "Restart already in progress for" << m_appID;
         return;
     }
 
     // Only attempt restart if we haven't exceeded max attempts
     if (m_retryCount < MAX_RESTART_ATTEMPTS) {
         m_isRestartingInProgress = true;
-        qInfo() << "Process" << m_appID << "failed, initiating restart attempt" << (m_retryCount + 1) << "of" << MAX_RESTART_ATTEMPTS;
+        qCInfo(screenPlayExternalProcess) << "Process" << m_appID << "failed, initiating restart attempt" << (m_retryCount + 1) << "of" << MAX_RESTART_ATTEMPTS;
 
         // Start restart delay timer
         m_restartDelayTimer.start(RESTART_DELAY_MS);
@@ -231,7 +234,7 @@ void ScreenPlayExternalProcess::handleTimeoutOrCrash()
                                .arg(contentTypeStr)
                                .arg(MAX_RESTART_ATTEMPTS);
 
-        qCritical() << "Restart failed for" << m_appID << ":" << errorMsg;
+        qCCritical(screenPlayExternalProcess) << "Restart failed for" << m_appID << ":" << errorMsg;
         emit restartFailed(m_appID, errorMsg);
     }
 }
@@ -240,7 +243,7 @@ bool ScreenPlayExternalProcess::attemptRestart()
 {
     // Increment retry count at the start of actual restart attempt
     m_retryCount++;
-    qInfo() << "Attempting to restart process for appID:" << m_appID << "- Attempt" << m_retryCount << "of" << MAX_RESTART_ATTEMPTS;
+    qCInfo(screenPlayExternalProcess) << "Attempting to restart process for appID:" << m_appID << "- Attempt" << m_retryCount << "of" << MAX_RESTART_ATTEMPTS;
 
     // Clean up existing process
     if (m_process.state() != QProcess::NotRunning) {
@@ -256,11 +259,11 @@ bool ScreenPlayExternalProcess::attemptRestart()
     bool success = start();
 
     if (success) {
-        qInfo() << "Successfully restarted process for appID:" << m_appID;
+        qCInfo(screenPlayExternalProcess) << "Successfully restarted process for appID:" << m_appID;
         // Don't reset retry count yet - wait for successful connection
         setState(ScreenPlay::ScreenPlayEnums::AppState::Starting);
     } else {
-        qWarning() << "Failed to restart process for appID:" << m_appID;
+        qCWarning(screenPlayExternalProcess) << "Failed to restart process for appID:" << m_appID;
         setState(ScreenPlay::ScreenPlayEnums::AppState::StartingFailed);
     }
 

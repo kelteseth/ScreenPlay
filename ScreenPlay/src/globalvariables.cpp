@@ -6,8 +6,11 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QGuiApplication>
+#include <QLoggingCategory>
 #include <QMetaType>
 #include <QStandardPaths>
+
+Q_LOGGING_CATEGORY(globalVariables, "screenplay.globalvariables")
 
 namespace ScreenPlay {
 

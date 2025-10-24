@@ -1,13 +1,15 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "ScreenPlay/sdkconnection.h"
-#include "ScreenPlay/globalvariables.h"
 #include "ScreenPlayCore/util.h"
 
 #include <QJsonDocument>
 #include <QJsonValue>
 #include <QLocalServer>
+#include <QLoggingCategory>
 #include <QTimer>
 #include <QWebSocketServer>
+
+Q_LOGGING_CATEGORY(sdkConnection, "screenplay.sdkconnection")
 
 namespace ScreenPlay {
 
@@ -30,7 +32,7 @@ ScreenPlay::SDKConnection::SDKConnection(QLocalSocket* socket, QObject* parent)
     connect(m_socket, &QLocalSocket::disconnected, this, &SDKConnection::disconnected);
     connect(m_socket, &QLocalSocket::readyRead, this, &SDKConnection::readyRead);
     connect(m_socket, &QLocalSocket::errorOccurred, this, [](QLocalSocket::LocalSocketError socketError) {
-        qInfo() << "Localsocket error:" << socketError;
+        qCInfo(sdkConnection) << "Localsocket error:" << socketError;
     });
 }
 
@@ -73,10 +75,10 @@ void ScreenPlay::SDKConnection::readyRead()
             }
 
             if (!typeFound) {
-                qCritical() << "Wallpaper type not found. Expected: " << util.getAvailableTypes() << " got: " << msg;
+                qCCritical(sdkConnection) << "Wallpaper type not found. Expected: " << util.getAvailableTypes() << " got: " << msg;
             }
 
-            qInfo() << "[2/4] SDKConnection parsed with type: " << m_type << " connected with AppID:" << m_appID;
+            qCInfo(sdkConnection) << "[2/4] SDKConnection parsed with type: " << m_type << " connected with AppID:" << m_appID;
 
             emit appConnected(this);
 
@@ -84,7 +86,7 @@ void ScreenPlay::SDKConnection::readyRead()
             QString command = msg;
             command.remove("command=");
             if (msg == "requestRaise") {
-                qInfo() << "Another ScreenPlay instance reuqested this one to raise!";
+                qCInfo(sdkConnection) << "Another ScreenPlay instance reuqested this one to raise!";
                 emit requestRaise();
             }
         } else if (msg.startsWith("{") && msg.endsWith("}")) {
@@ -109,7 +111,7 @@ void ScreenPlay::SDKConnection::readyRead()
 bool ScreenPlay::SDKConnection::sendMessage(const QByteArray& message)
 {
     if (!m_socket) {
-        qWarning() << "Unable to write to unconnected socket wit message: " << message;
+        qCWarning(sdkConnection) << "Unable to write to unconnected socket wit message: " << message;
         return false;
     }
     m_socket->write(message);
@@ -123,7 +125,7 @@ bool ScreenPlay::SDKConnection::sendMessage(const QByteArray& message)
 bool ScreenPlay::SDKConnection::close()
 {
     if (!m_socket) {
-        qWarning() << "Cannot close invalid socket.";
+        qCWarning(sdkConnection) << "Cannot close invalid socket.";
         return false;
     }
     QJsonObject obj;
@@ -131,7 +133,7 @@ bool ScreenPlay::SDKConnection::close()
     m_socket->write(QByteArray(QJsonDocument(obj).toJson(QJsonDocument::Compact)));
     m_socket->flush();
 
-    qInfo() << "Close " << m_type << m_appID << m_socket->state();
+    qCInfo(sdkConnection) << "Close " << m_type << m_appID << m_socket->state();
     m_socket->disconnectFromServer();
     m_socket->close();
 

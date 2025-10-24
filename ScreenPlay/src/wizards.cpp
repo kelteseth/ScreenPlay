@@ -20,6 +20,10 @@
 #include <QTimer>
 #include <QtMath>
 
+#include <QLoggingCategory>
+
+Q_LOGGING_CATEGORY(wizards, "screenplay.wizards")
+
 namespace ScreenPlay {
 /*!
     \class ScreenPlay::Wizards

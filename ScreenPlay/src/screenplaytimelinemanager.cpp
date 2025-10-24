@@ -5,9 +5,12 @@
 #include <QString>
 #include <QStringList>
 #include <QtGlobal>
+#include <QLoggingCategory>
 #include <iostream>
 #include <ranges>
 #include <set>
+
+Q_LOGGING_CATEGORY(screenPlayTimelineManager, "screenplay.timeline.manager")
 
 namespace ScreenPlay {
 
@@ -73,7 +76,7 @@ ScreenPlayTimelineManager::findTimelineSectionForCurrentTime()
             return section;
         }
     }
-    qCritical() << "No active timeline";
+    qCCritical(screenPlayTimelineManager) << "No active timeline";
     return nullptr;
 }
 
@@ -84,7 +87,7 @@ std::shared_ptr<WallpaperTimelineSection> ScreenPlayTimelineManager::findTimelin
             return section;
         }
     }
-    qCritical() << "No active timeline";
+    qCCritical(screenPlayTimelineManager) << "No active timeline";
     return nullptr;
 }
 
@@ -124,13 +127,13 @@ std::expected<bool, ScreenPlayTimelineManager::TimelineManagerError> ScreenPlayT
     const QTime startTime = QTime::fromString(timelineObj.value("startTime").toString(), m_timelineTimeFormat);
     const QTime endTime = QTime::fromString(timelineObj.value("endTime").toString(), m_timelineTimeFormat);
     if (startTime > endTime) {
-        qCritical() << "Invalid time, start time is later than end time: " << startTime.toString() << endTime.toString();
+        qCCritical(screenPlayTimelineManager) << "Invalid time, start time is later than end time: " << startTime.toString() << endTime.toString();
         return std::unexpected(TimelineManagerError::InvalidTimeFormat);
     }
 
     // If this is basic version and we already have a timeline, ignore additional ones
     if (m_globalVariables->isBasicVersion() && !m_wallpaperTimelineSectionsList.isEmpty()) {
-        qInfo() << "Basic version: Ignoring additional timeline sections";
+        qCInfo(screenPlayTimelineManager) << "Basic version: Ignoring additional timeline sections";
         return true;
     }
 
@@ -141,7 +144,7 @@ std::expected<bool, ScreenPlayTimelineManager::TimelineManagerError> ScreenPlayT
         QTime defaultEndTime = QTime::fromString("23:59:59", m_timelineTimeFormat);
 
         if (startTime != defaultStartTime || endTime != defaultEndTime) {
-            qInfo() << "Basic version: Enforcing full day timeline span";
+            qCInfo(screenPlayTimelineManager) << "Basic version: Enforcing full day timeline span";
             const_cast<QTime&>(startTime) = defaultStartTime;
             const_cast<QTime&>(endTime) = defaultEndTime;
         }
@@ -163,13 +166,13 @@ std::expected<bool, ScreenPlayTimelineManager::TimelineManagerError> ScreenPlayT
     newTimelineSection->index = m_wallpaperTimelineSectionsList.length();
     newTimelineSection->identifier = m_util.generateRandomString(4);
 
-    qInfo() << newTimelineSection->index
+    qCInfo(screenPlayTimelineManager) << newTimelineSection->index
             << newTimelineSection->startTime
             << newTimelineSection->endTime;
 
     auto initResult = newTimelineSection->init(timelineObj.value("wallpaper").toArray());
     if (!initResult.has_value()) {
-        qWarning() << "Timeline section init failed:" << WallpaperTimelineSection::initErrorToString(initResult.error());
+        qCWarning(screenPlayTimelineManager) << "Timeline section init failed:" << WallpaperTimelineSection::initErrorToString(initResult.error());
         return std::unexpected(TimelineManagerError::TimelineSectionInitFailed);
     }
 
@@ -185,8 +188,8 @@ bool ScreenPlayTimelineManager::moveTimelineAt(const int index, const QString id
 {
     Q_ASSERT(m_util.getTimeString(relativePosition) == positionTimeString);
     if (m_util.getTimeString(relativePosition) != positionTimeString) {
-        qDebug() << "Calculated time:" << m_util.getTimeString(relativePosition) << "Provided time:" << positionTimeString << relativePosition;
-        qCritical() << "Invalid time string";
+        qCDebug(screenPlayTimelineManager) << "Calculated time:" << m_util.getTimeString(relativePosition) << "Provided time:" << positionTimeString << relativePosition;
+        qCCritical(screenPlayTimelineManager) << "Invalid time string";
         return false;
     }
 
@@ -196,7 +199,7 @@ bool ScreenPlayTimelineManager::moveTimelineAt(const int index, const QString id
     auto& wallpapterTimelineSection = m_wallpaperTimelineSectionsList.at(index);
     const QTime newPositionTime = QTime::fromString(positionTimeString, "hh:mm:ss");
     if (!newPositionTime.isValid()) {
-        qCritical() << "Unable to move with invalid time:" << positionTimeString;
+        qCCritical(screenPlayTimelineManager) << "Unable to move with invalid time:" << positionTimeString;
         return false;
     }
     wallpapterTimelineSection->endTime = newPositionTime;
@@ -233,20 +236,20 @@ QCoro::Task<void> ScreenPlayTimelineManager::checkActiveWallpaperTimeline()
     int activeCount = 0;
     for (const auto& section : std::as_const(m_wallpaperTimelineSectionsList)) {
         if (section->state == WallpaperTimelineSection::State::Failed) {
-            qDebug() << "Timeline" << section->identifier << " failed, removing";
+            qCDebug(screenPlayTimelineManager) << "Timeline" << section->identifier << " failed, removing";
             removeTimelineAt(section->index);
             co_return;
         }
         if (section->state == WallpaperTimelineSection::State::Active) {
             activeCount++;
         } else if (section->state != WallpaperTimelineSection::State::Inactive) {
-            qDebug() << "Timeline" << section->identifier << "in transition state:" << section->state;
+            qCDebug(screenPlayTimelineManager) << "Timeline" << section->identifier << "in transition state:" << section->state;
             co_return;
         }
     }
 
     if (activeCount > 1) {
-        qCritical() << "Invalid timeline states - found" << activeCount << "active timelines, expected 1";
+        qCCritical(screenPlayTimelineManager) << "Invalid timeline states - found" << activeCount << "active timelines, expected 1";
         printTimelines();
         co_return;
     }
@@ -254,14 +257,14 @@ QCoro::Task<void> ScreenPlayTimelineManager::checkActiveWallpaperTimeline()
     // Find current timelines
     std::shared_ptr<WallpaperTimelineSection> oldRunningTimeline = findActiveWallpaperTimelineSection();
     if (!oldRunningTimeline) {
-        qDebug() << "No timeline with state active found.";
+        qCDebug(screenPlayTimelineManager) << "No timeline with state active found.";
         printTimelines();
         co_return;
     }
 
     std::shared_ptr<WallpaperTimelineSection> newNotStartedTimeline = findTimelineSectionForCurrentTime();
     if (!newNotStartedTimeline) {
-        qCritical() << "No current timeline found. There must always be an active timeline.";
+        qCCritical(screenPlayTimelineManager) << "No current timeline found. There must always be an active timeline.";
         co_return;
     }
 
@@ -304,7 +307,7 @@ QCoro::Task<void> ScreenPlayTimelineManager::checkActiveWallpaperTimeline()
                 QVector<int> { monitorIndex });
 
             if (!startSuccess.success()) {
-                qCritical() << "Failed to start new wallpaper for monitor" << monitorIndex;
+                qCCritical(screenPlayTimelineManager) << "Failed to start new wallpaper for monitor" << monitorIndex;
                 newNotStartedTimeline->state = WallpaperTimelineSection::State::Failed;
                 co_return;
             }
@@ -319,7 +322,7 @@ QCoro::Task<void> ScreenPlayTimelineManager::checkActiveWallpaperTimeline()
                 QVector<int> { monitorIndex });
 
             if (!stopSuccess.success()) {
-                qCritical() << "Failed to stop old wallpaper for monitor" << monitorIndex;
+                qCCritical(screenPlayTimelineManager) << "Failed to stop old wallpaper for monitor" << monitorIndex;
                 // Continue anyway to try handling other monitors
             }
             continue;
@@ -336,7 +339,7 @@ QCoro::Task<void> ScreenPlayTimelineManager::checkActiveWallpaperTimeline()
                 auto runningScreenPlayWallpaperOpt = oldRunningTimeline->takeScreenPlayWallpaperByMonitorIndex(QVector<int> { monitorIndex });
 
                 if (!runningScreenPlayWallpaperOpt.has_value()) {
-                    qCritical() << "Failed to take existing wallpaper for monitor" << monitorIndex;
+                    qCCritical(screenPlayTimelineManager) << "Failed to take existing wallpaper for monitor" << monitorIndex;
                     newNotStartedTimeline->state = WallpaperTimelineSection::State::Failed;
                     co_return;
                 }
@@ -345,7 +348,7 @@ QCoro::Task<void> ScreenPlayTimelineManager::checkActiveWallpaperTimeline()
                 runningScreenPlayWallpaper->replaceLive(newWallpaperData);
 
                 if (!newNotStartedTimeline->replaceScreenPlayWallpaperAtMonitorIndex(QVector<int> { monitorIndex }, runningScreenPlayWallpaper)) {
-                    qCritical() << "Failed to replace wallpaper for monitor" << monitorIndex;
+                    qCCritical(screenPlayTimelineManager) << "Failed to replace wallpaper for monitor" << monitorIndex;
                     newNotStartedTimeline->state = WallpaperTimelineSection::State::Failed;
                     co_return;
                 }
@@ -358,7 +361,7 @@ QCoro::Task<void> ScreenPlayTimelineManager::checkActiveWallpaperTimeline()
                         oldRunningTimeline->identifier,
                         QVector<int> { monitorIndex });
                 } else {
-                    qCritical() << "Failed to restore wallpaper backup for monitor" << monitorIndex;
+                    qCCritical(screenPlayTimelineManager) << "Failed to restore wallpaper backup for monitor" << monitorIndex;
                 }
             } else {
                 // Different runtime - must stop old and start new
@@ -368,7 +371,7 @@ QCoro::Task<void> ScreenPlayTimelineManager::checkActiveWallpaperTimeline()
                     QVector<int> { monitorIndex });
 
                 if (!removeSuccess.success()) {
-                    qCritical() << "Failed to remove old wallpaper for monitor" << monitorIndex;
+                    qCCritical(screenPlayTimelineManager) << "Failed to remove old wallpaper for monitor" << monitorIndex;
                     newNotStartedTimeline->state = WallpaperTimelineSection::State::Failed;
                     co_return;
                 }
@@ -379,7 +382,7 @@ QCoro::Task<void> ScreenPlayTimelineManager::checkActiveWallpaperTimeline()
                     QVector<int> { monitorIndex });
 
                 if (!startSuccess.success()) {
-                    qCritical() << "Failed to start new wallpaper for monitor" << monitorIndex;
+                    qCCritical(screenPlayTimelineManager) << "Failed to start new wallpaper for monitor" << monitorIndex;
                     newNotStartedTimeline->state = WallpaperTimelineSection::State::Failed;
                     co_return;
                 }
@@ -404,7 +407,7 @@ std::optional<std::shared_ptr<WallpaperTimelineSection>> ScreenPlayTimelineManag
             return { section };
         }
     }
-    qCritical() << "No matching timeline for index:" << timelineIndex << "sectionIdentifier: " << sectionIdentifier;
+    qCCritical(screenPlayTimelineManager) << "No matching timeline for index:" << timelineIndex << "sectionIdentifier: " << sectionIdentifier;
 
     return std::nullopt;
 }
@@ -433,7 +436,7 @@ QCoro::Task<Result> ScreenPlayTimelineManager::startAllWallpaperAtTimelineIndex(
         auto result = co_await startWallpaper(wallpaper);
         if (!result.success()) {
             errorMessage = QString("Failed to start wallpaper: %1").arg(result.message());
-            qCritical() << errorMessage << wallpaper->absolutePath();
+            qCCritical(screenPlayTimelineManager) << errorMessage << wallpaper->absolutePath();
             allWallpapersStarted = false;
             break;
         }
@@ -516,7 +519,7 @@ QCoro::Task<void> ScreenPlayTimelineManager::startup()
 {
     std::shared_ptr<WallpaperTimelineSection> currentTimeline = findTimelineSectionForCurrentTime();
     if (!currentTimeline) {
-        qCritical() << "No current timeline found. There must always be an active timeline.";
+        qCCritical(screenPlayTimelineManager) << "No current timeline found. There must always be an active timeline.";
         co_return;
     }
     co_await activateTimeline(currentTimeline->index, currentTimeline->identifier);
@@ -533,7 +536,7 @@ void ScreenPlayTimelineManager::setMonitorListModel(const std::shared_ptr<Monito
 void ScreenPlayTimelineManager::updateMonitorListModelData(const int selectedTimelineIndex)
 {
     if (m_wallpaperTimelineSectionsList.isEmpty()) {
-        qCritical() << "No m_wallpaperTimelineSectionsList is empty";
+        qCCritical(screenPlayTimelineManager) << "No m_wallpaperTimelineSectionsList is empty";
         return;
     }
 
@@ -921,7 +924,7 @@ void ScreenPlayTimelineManager::printTimelines() const
             }
         }
     }
-    qDebug().noquote() << out;
+    qCDebug(screenPlayTimelineManager).noquote() << out;
 }
 
 /*!
@@ -961,7 +964,7 @@ QCoro::Task<Result> ScreenPlayTimelineManager::setValueAtMonitorTimelineIndex(
             if (wallpaper->state() == ScreenPlayEnums::AppState::Active) {
                 const auto success = wallpaper->setWallpaperValue(key, value, category);
                 if (!success) {
-                    qWarning() << "Failed to send value to active wallpaper, but internal data was updated";
+                    qCWarning(screenPlayTimelineManager) << "Failed to send value to active wallpaper, but internal data was updated";
                 }
             }
             co_return Result { true };
@@ -1002,7 +1005,7 @@ QCoro::Task<Result> ScreenPlayTimelineManager::setWallpaperAtActiveMonitorTimeli
         if (m_util.isSameWallpaperRuntime(wallpaperData.type(), runningWallpaper->type())) {
             auto runningScreenPlayWallpaperOpt = wallpaperTimelineSection->screenPlayWallpaperByMonitorIndex(runningWallpaper->monitors().first());
             if (!runningScreenPlayWallpaperOpt.has_value()) {
-                qCritical() << "No screenPlayWallpaperByMonitorIndex";
+                qCCritical(screenPlayTimelineManager) << "No screenPlayWallpaperByMonitorIndex";
                 co_return Result { false, {}, "Unable to screenPlayWallpaperByMonitorIndex" };
             }
             auto runningScreenPlayWallpaper = runningScreenPlayWallpaperOpt.value();
@@ -1011,7 +1014,7 @@ QCoro::Task<Result> ScreenPlayTimelineManager::setWallpaperAtActiveMonitorTimeli
                 co_return Result { false, {}, "Unable to replaceLive" };
 
             if (!wallpaperTimelineSection->replaceScreenPlayWallpaperAtMonitorIndex(runningWallpaper->monitors(), runningScreenPlayWallpaper)) {
-                qCritical() << "No replaceScreenPlayWallpaperAtMonitorIndex";
+                qCCritical(screenPlayTimelineManager) << "No replaceScreenPlayWallpaperAtMonitorIndex";
                 co_return Result { false, {}, "Unable to replaceScreenPlayWallpaperAtMonitorIndex" };
             }
             co_return Result { true };
@@ -1127,7 +1130,7 @@ void ScreenPlayTimelineManager::handleWallpaperRestartFailed(const QString& appI
     if (m_monitorListModel) {
         auto timelineSection = findActiveWallpaperTimelineSection();
         if (!timelineSection) {
-            qCritical() << "No active timeline section found when handling wallpaper restart failed";
+            qCCritical(screenPlayTimelineManager) << "No active timeline section found when handling wallpaper restart failed";
             return;
         }
         for (auto& activeWallpaper : timelineSection->wallpaperList) {
@@ -1160,29 +1163,29 @@ QCoro::Task<Result> ScreenPlayTimelineManager::activateTimeline(const int timeli
         co_return Result { false, {}, QString("Timeline section not found for index %1 and identifier %2").arg(timelineIndex).arg(timelineIdentifier) };
     }
     auto timelineSection = timelineSectionOpt.value();
-    qDebug() << "Attempting timeline activation:" << timelineIndex << timelineIdentifier << "current state:" << timelineSection->state;
+    qCDebug(screenPlayTimelineManager) << "Attempting timeline activation:" << timelineIndex << timelineIdentifier << "current state:" << timelineSection->state;
     if (timelineSection->state == WallpaperTimelineSection::State::Closing) {
-        qDebug() << "Timeline already Closing:" << timelineIndex << timelineIdentifier;
+        qCDebug(screenPlayTimelineManager) << "Timeline already Closing:" << timelineIndex << timelineIdentifier;
         co_return Result { true, {}, "Timeline is already in closing state" };
     }
     // Allow activation if we're Inactive OR if we're already Starting
     if (timelineSection->state == Active) {
-        qDebug() << "Timeline already active:" << timelineIndex << timelineIdentifier;
+        qCDebug(screenPlayTimelineManager) << "Timeline already active:" << timelineIndex << timelineIdentifier;
         co_return Result { true, {}, "Timeline is already active" }; // Already active is a success case
     }
 
     if (timelineSection->state == Starting) {
-        qDebug() << "Timeline already starting:" << timelineIndex << timelineIdentifier;
+        qCDebug(screenPlayTimelineManager) << "Timeline already starting:" << timelineIndex << timelineIdentifier;
         co_return Result { true, {}, "Timeline is already starting" }; // Already starting is a success case
     }
 
     if (timelineSection->state != Inactive && timelineSection->state != Failed) {
-        qCritical() << "Cannot activate timeline in state:" << timelineSection->state;
+        qCCritical(screenPlayTimelineManager) << "Cannot activate timeline in state:" << timelineSection->state;
         co_return Result { false, {}, QString("Cannot activate timeline in state: %1").arg(QVariant::fromValue(timelineSection->state).toString()) };
     }
 
     timelineSection->state = Starting;
-    qDebug() << "Activate timeline:" << timelineIndex
+    qCDebug(screenPlayTimelineManager) << "Activate timeline:" << timelineIndex
              << timelineIdentifier
              << timelineSection->relativePosition
              << wallpaperData().size();
@@ -1193,7 +1196,7 @@ QCoro::Task<Result> ScreenPlayTimelineManager::activateTimeline(const int timeli
         auto result = co_await startWallpaper(wallpaper);
         if (!result.success()) {
             errorMessage = QString("Failed to start wallpaper: %1").arg(result.message());
-            qCritical() << errorMessage << wallpaper->absolutePath();
+            qCCritical(screenPlayTimelineManager) << errorMessage << wallpaper->absolutePath();
             allWallpapersStarted = false;
             break;
         }
@@ -1201,11 +1204,11 @@ QCoro::Task<Result> ScreenPlayTimelineManager::activateTimeline(const int timeli
 
     if (allWallpapersStarted) {
         timelineSection->state = Active;
-        qDebug() << "Timeline activated successfully:" << timelineIndex << timelineIdentifier;
+        qCDebug(screenPlayTimelineManager) << "Timeline activated successfully:" << timelineIndex << timelineIdentifier;
         co_return Result { true };
     } else {
         timelineSection->state = Failed; // Instead of Inactive
-        qCritical() << "Timeline activation failed:" << timelineIndex << timelineIdentifier;
+        qCCritical(screenPlayTimelineManager) << "Timeline activation failed:" << timelineIndex << timelineIdentifier;
         co_return Result { false, {}, errorMessage.isEmpty() ? "Timeline activation failed" : errorMessage };
     }
 }
@@ -1437,7 +1440,7 @@ QCoro::Task<Result> ScreenPlayTimelineManager::startWallpaper(std::shared_ptr<Sc
                         (int)MonitorListModel::MonitorRole::AppState);
                 }
             }
-            qInfo() << "Connected after " << i << " retries in:" << (i * intervalMS) << "ms";
+            qCInfo(screenPlayTimelineManager) << "Connected after " << i << " retries in:" << (i * intervalMS) << "ms";
             co_return Result { true };
         }
     }

@@ -4,6 +4,9 @@
 
 #include <QCoreApplication>
 #include <QDebug>
+#include <QLoggingCategory>
+
+Q_LOGGING_CATEGORY(screenPlayWidget, "screenplay.screenplaywidget")
 
 namespace ScreenPlay {
 

@@ -9,6 +9,10 @@
 #include <QFileInfoList>
 #include <QGuiApplication>
 #include <QObject>
+#include <QLoggingCategory>
+
+Q_LOGGING_CATEGORY(wallpaperTimelineSection, "screenplay.wallpaper.timeline.section")
+
 namespace ScreenPlay {
 
 const std::vector<WallpaperData> WallpaperTimelineSection::wallpaperData() const
@@ -98,7 +102,7 @@ std::expected<bool, WallpaperTimelineSection::InitError> WallpaperTimelineSectio
     for (const auto& wallpaperConfig : wallpaperConfigList) {
         auto wallpaperDataResult = WallpaperData::loadTimelineWallpaperConfig(wallpaperConfig.toObject());
         if (!wallpaperDataResult.has_value()) {
-            qWarning() << "Failed to load wallpaper data:" << WallpaperData::loadErrorToString(wallpaperDataResult.error());
+            qCWarning(wallpaperTimelineSection) << "Failed to load wallpaper data:" << WallpaperData::loadErrorToString(wallpaperDataResult.error());
             return std::unexpected(InitError::WallpaperDataLoadFailed);
         }
         auto wallpaperData = wallpaperDataResult.value();
@@ -131,7 +135,7 @@ std::shared_ptr<ScreenPlayWallpaper> WallpaperTimelineSection::addWallpaper(cons
     // This id is used for IPC identification to send commands
     // between ScreenPlay and the wallpaper
     const QString appID = Util().generateRandomString(8);
-    qInfo() << "Add wallpaper" << wallpaperData.absolutePath() << appID;
+    qCInfo(wallpaperTimelineSection) << "Add wallpaper" << wallpaperData.absolutePath() << appID;
 
     auto screenPlayWallpaper = std::make_shared<ScreenPlayWallpaper>(
         globalVariables,

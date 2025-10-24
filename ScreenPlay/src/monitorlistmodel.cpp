@@ -9,10 +9,13 @@
 #include <QGuiApplication>
 
 #include <QDebug>
+#include <QLoggingCategory>
 #include <QRandomGenerator>
 
 #include "CMakeVariables.h"
 #include <type_traits>
+
+Q_LOGGING_CATEGORY(monitorListModel, "screenplay.monitorlistmodel")
 
 namespace ScreenPlay {
 
@@ -146,14 +149,14 @@ void MonitorListModel::loadMonitors()
     if (m_useMockMonitors) {
         const int selectedMockIndex = QRandomGenerator::global()->bounded(m_mockMonitorList.size());
         const auto& mockMonitorList = m_mockMonitorList[selectedMockIndex];
-        qDebug() << "Using mock" << selectedMockIndex
+        qCDebug(monitorListModel) << "Using mock" << selectedMockIndex
                  << "of" << m_mockMonitorList.size()
                  << " with monitor count:" << mockMonitorList.count();
 
         beginInsertRows(index(rowCount()), rowCount(), rowCount() + mockMonitorList.count() - 1);
         for (const auto& monitor : mockMonitorList) {
             m_monitorList.append(monitor);
-            qDebug() << "Adding mock monitor: " << monitor.m_monitorIndex << monitor.m_geometry;
+            qCDebug(monitorListModel) << "Adding mock monitor: " << monitor.m_monitorIndex << monitor.m_geometry;
         }
         endInsertRows();
     } else {
@@ -202,7 +205,6 @@ void MonitorListModel::reset()
 
 bool MonitorListModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
-    // qDebug() << "setData" << index << value << static_cast<MonitorRole>(role);
 
     if (!index.isValid() || index.row() >= m_monitorList.size())
         return false;
@@ -228,11 +230,13 @@ bool MonitorListModel::setData(const QModelIndex& index, const QVariant& value, 
         return true;
     }
     if (role == static_cast<int>(MonitorRole::PreviewWebP)) {
+        qCDebug(monitorListModel) << "setData" << value;
         m_monitorList[index.row()].m_wallpaperPreviewWebP = value.toString();
         emit dataChanged(index, index, { role });
         return true;
     }
     if (role == static_cast<int>(MonitorRole::PreviewGIF)) {
+        qCDebug(monitorListModel) << "setData" << value;
         m_monitorList[index.row()].m_wallpaperPreviewGIF = value.toString();
         emit dataChanged(index, index, { role });
         return true;
@@ -286,7 +290,7 @@ bool MonitorListModel::setMonitorData(int monitorIndex, const QHash<MonitorRole,
         case MonitorRole::Geometry:
         case MonitorRole::Name:
             // These are typically read-only, but you can add them if needed
-            qWarning() << "Attempting to set read-only role:" << static_cast<int>(role);
+            qCWarning(monitorListModel) << "Attempting to set read-only role:" << static_cast<int>(role);
             break;
         }
     }
