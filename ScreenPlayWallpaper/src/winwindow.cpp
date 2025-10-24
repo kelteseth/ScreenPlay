@@ -2,11 +2,14 @@
 #include "winwindow.h"
 #include "windowsintegration.h"
 #include <QGuiApplication>
+#include <QLoggingCategory>
 #include <QtQml>
 #include <shellscalingapi.h>
 #include <vector>
 
 #include <qt_windows.h>
+
+Q_LOGGING_CATEGORY(wallpaperWin, "screenplay.wallpaper.win")
 
 /*!
     \class WinWindow
@@ -44,7 +47,7 @@ WallpaperExit::Code WinWindow::start()
         m_windowsIntegration.setWindowHandle(winHandle);
 
     if (!IsWindow(m_windowsIntegration.windowHandle())) {
-        qCritical("Could not get a valid window handle!");
+        qCCritical(wallpaperWin, "Could not get a valid window handle!");
         return WallpaperExit::Code::Invalid_Start_Windows_HandleError;
     }
     qRegisterMetaType<WindowsDesktopProperties*>();
@@ -62,6 +65,7 @@ WallpaperExit::Code WinWindow::start()
     }
 
     m_quickView->show();
+    return WallpaperExit::Code::Ok;
     // Still a bit buggy and we only need it for these types of
     // wallpaper anyway...
     if (m_type == ScreenPlay::ContentTypes::InstalledType::QMLWallpaper
@@ -148,12 +152,12 @@ void WinWindow::setVisible(bool show)
 {
     if (show) {
         if (!ShowWindow(m_windowsIntegration.windowHandle(), SW_SHOW)) {
-            qDebug() << "Cannot set window handle SW_SHOW";
+            qCDebug(wallpaperWin) << "Cannot set window handle SW_SHOW";
         }
 
     } else {
         if (!ShowWindow(m_windowsIntegration.windowHandle(), SW_HIDE)) {
-            qDebug() << "Cannot set window handle SW_HIDE";
+            qCDebug(wallpaperWin) << "Cannot set window handle SW_HIDE";
         }
     }
 }
@@ -178,7 +182,7 @@ void WinWindow::setupWallpaperForOneScreen(int activeScreen)
     };
     WindowsIntegration::MonitorResult monitor = m_windowsIntegration.setupWallpaperForOneScreen(activeScreen, updateWindowSize);
     if (monitor.status != WindowsIntegration::MonitorResultStatus::Ok) {
-        qCritical("setupWallpaperForOneScreen failed status: ", (int)monitor.status);
+        qCCritical(wallpaperWin, "setupWallpaperForOneScreen failed status: ", (int)monitor.status);
     }
 }
 
@@ -217,7 +221,7 @@ void WinWindow::configureWindowGeometry()
         qFatal("No worker window found");
     }
     if (!IsWindow(m_windowsIntegration.windowHandleWorker())) {
-        qCritical("Could not get a valid window handle wroker!");
+        qCCritical(wallpaperWin, "Could not get a valid window handle wroker!");
         return;
     }
 

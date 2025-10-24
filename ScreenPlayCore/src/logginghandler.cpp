@@ -2,6 +2,7 @@
 #include <QDateTime>
 #include <QDebug>
 #include <QDir>
+#include <QLoggingCategory>
 #include <QMutex>
 #include <QStandardPaths>
 #include <QSysInfo>
@@ -10,6 +11,8 @@
 #include <iostream>
 
 #include "CMakeVariables.h"
+
+Q_LOGGING_CATEGORY(coreLogging, "screenplay.core.logging")
 
 #ifdef Q_OS_WINDOWS
 #ifndef NOMINMAX
@@ -38,7 +41,7 @@ LoggingHandler::LoggingHandler(const QString& logFileName)
         // QtCreator has issues with fmt prints
         // https://bugreports.qt.io/browse/QTCREATORBUG-3994
         setvbuf(stdout, NULL, _IONBF, 0);
-        qInfo() << "Setting setvbuf(stdout, NULL, _IONBF, 0); This unbuffered output causes crashes in release with threaded fmt!";
+        qCInfo(coreLogging) << "Setting setvbuf(stdout, NULL, _IONBF, 0); This unbuffered output causes crashes in release with threaded fmt!";
     }
 #endif
 
@@ -74,7 +77,7 @@ void LoggingHandler::start()
 
     QDir directory;
     if (!directory.mkpath(logDirPath)) {
-        qCritical() << "Unable to create logging path at:" << logDirPath;
+        qCCritical(coreLogging) << "Unable to create logging path at:" << logDirPath;
         return;
     }
 
@@ -95,7 +98,7 @@ void LoggingHandler::start()
     logFile().setFileName(filePath);
     const auto isOpen = logFile().open(QIODevice::Append | QIODevice::Text);
     if (!isOpen) {
-        qCritical() << "Unable to open log file" << logFile().fileName();
+        qCCritical(coreLogging) << "Unable to open log file" << logFile().fileName();
         return;
     }
 
@@ -320,7 +323,7 @@ void LoggingHandler::checkLogRotation()
         return;
 
     logFile().write("Maximum file size reached. A new log file is used\n");
-    qInfo() << "Rotate Log file";
+    qCInfo(coreLogging) << "Rotate Log file";
     stop();
     start();
 }

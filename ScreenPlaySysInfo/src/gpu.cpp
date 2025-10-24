@@ -4,6 +4,9 @@
 #include "infoware/gpu.hpp"
 #include "infoware/version.hpp"
 #include <QDebug>
+#include <QLoggingCategory>
+
+Q_LOGGING_CATEGORY(sysInfoGpu, "screenplay.sysinfo.gpu")
 
 static const char* vendor_name(iware::gpu::vendor_t vendor) noexcept
 {
@@ -39,7 +42,7 @@ GPU::GPU(QObject* parent)
 {
     const auto device_properties = iware::gpu::device_properties();
     if (device_properties.empty()) {
-        qWarning() << "No detection methods enabled";
+        qCWarning(sysInfoGpu) << "No detection methods enabled";
         return;
     }
 

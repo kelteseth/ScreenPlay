@@ -1,7 +1,10 @@
 // networkinterface.cpp
 #include "networkinterface.h"
 #include <QDateTime>
+#include <QLoggingCategory>
 #include <algorithm>
+
+Q_LOGGING_CATEGORY(sysInfoNetwork, "screenplay.sysinfo.network")
 
 #ifdef Q_OS_WIN
 #include "networkinterface_win.h"
@@ -15,7 +18,7 @@ NetworkInterface::NetworkInterface(QObject* parent)
     m_interfaceIndex = findMainInterface();
     if (!m_interfaceIndex.isEmpty()) {
         m_name = m_interfaceIndex;
-        qDebug() << "Monitoring interface:" << m_name;
+        qCDebug(sysInfoNetwork) << "Monitoring interface:" << m_name;
     }
 
     connect(&m_updateTimer, &QTimer::timeout, this, &NetworkInterface::updateStats);
@@ -60,11 +63,11 @@ QString NetworkInterface::findMainInterface()
 
     if (ethernetIface != interfaces.end()) {
         const auto name = ethernetIface->humanReadableName();
-        qDebug() << "Found physical Ethernet interface:" << name;
+        qCDebug(sysInfoNetwork) << "Found physical Ethernet interface:" << name;
         m_currentInterface = *ethernetIface;
 #ifdef Q_OS_WIN
         m_ifIndex = ethernetIface->index();
-        qDebug() << "Interface index:" << m_ifIndex;
+        qCDebug(sysInfoNetwork) << "Interface index:" << m_ifIndex;
 #endif
         return name;
     }
@@ -80,16 +83,16 @@ QString NetworkInterface::findMainInterface()
 
     if (wifiIface != interfaces.end()) {
         const auto name = wifiIface->humanReadableName();
-        qDebug() << "Found Wi-Fi interface:" << name;
+        qCDebug(sysInfoNetwork) << "Found Wi-Fi interface:" << name;
         m_currentInterface = *wifiIface;
 #ifdef Q_OS_WIN
         m_ifIndex = wifiIface->index();
-        qDebug() << "Interface index:" << m_ifIndex;
+        qCDebug(sysInfoNetwork) << "Interface index:" << m_ifIndex;
 #endif
         return name;
     }
 
-    qWarning() << "No suitable network interface found";
+    qCWarning(sysInfoNetwork) << "No suitable network interface found";
     return {};
 }
 
@@ -131,7 +134,7 @@ void NetworkInterface::updateStats()
     // Also check interface validity
     auto qtinterface = QNetworkInterface::interfaceFromName(m_currentInterface.name());
     if (!qtinterface.isValid()) {
-        qWarning() << "Interface became invalid:" << m_interfaceIndex;
+        qCWarning(sysInfoNetwork) << "Interface became invalid:" << m_interfaceIndex;
         m_interfaceIndex.clear();
         m_ifIndex = 0;
     }

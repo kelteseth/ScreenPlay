@@ -1,5 +1,8 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "ScreenPlaySDK/screenplaysdk.h"
+#include <QLoggingCategory>
+
+Q_LOGGING_CATEGORY(screenPlaySDK, "screenplay.sdk")
 
 /*!
     \module ScreenPlaySDK
@@ -58,7 +61,7 @@ void ScreenPlaySDK::connected()
 {
 
     if (m_appID.isEmpty() || m_type.isEmpty()) {
-        qCritical() << "Unable to connect with empyt: " << m_appID << m_type;
+        qCCritical(screenPlaySDK) << "Unable to connect with empyt: " << m_appID << m_type;
         disconnected();
         return;
     }
@@ -120,7 +123,7 @@ void ScreenPlaySDK::readyRead()
                 || absolutePath.isEmpty()
                 || file.isEmpty()
                 || (!obj.contains("volume"))) {
-                qWarning() << "Command replace with incompile message received: "
+                qCWarning(screenPlaySDK) << "Command replace with incompile message received: "
                            << type
                            << fillMode
                            << absolutePath
@@ -131,10 +134,10 @@ void ScreenPlaySDK::readyRead()
             bool volumeParsedOK = false;
             float volumeParsed = QVariant(obj.value("volume").toVariant()).toFloat(&volumeParsedOK);
             if (!volumeParsedOK && (volumeParsed > 0.0 && volumeParsed <= 1.0)) {
-                qWarning() << "Command replaced contained bad volume float value: " << volumeParsed;
+                qCWarning(screenPlaySDK) << "Command replaced contained bad volume float value: " << volumeParsed;
             }
 
-            qInfo()
+            qCInfo(screenPlaySDK)
                 << type
                 << fillMode
                 << volumeParsed
@@ -181,13 +184,13 @@ void ScreenPlaySDK::pingAlive()
 {
     m_socket.write("ping;");
     if (!m_socket.waitForBytesWritten(500)) {
-        qInfo() << "Cannot ping to main application. Closing!";
+        qCInfo(screenPlaySDK) << "Cannot ping to main application. Closing!";
         emit sdkDisconnected();
     }
 
     // Instead of waiting, check the socket state
     if (m_socket.state() != QLocalSocket::ConnectedState) {
-        qInfo() << "Socket no longer connected. Closing!";
+        qCInfo(screenPlaySDK) << "Socket no longer connected. Closing!";
         emit sdkDisconnected();
     }
 
@@ -220,17 +223,17 @@ void ScreenPlaySDK::ScreenPlaySDK::redirectMessageOutputToMainWindow(QtMsgType t
     // wallpaper or widgets directly
     switch (type) {
     case QtDebugMsg:
-        qDebug() << msg;
+        qCDebug(screenPlaySDK) << msg;
         break;
     case QtWarningMsg:
-        qWarning() << msg;
+        qCWarning(screenPlaySDK) << msg;
         break;
     case QtCriticalMsg:
     case QtFatalMsg:
-        qCritical() << msg;
+        qCCritical(screenPlaySDK) << msg;
         break;
     case QtInfoMsg:
-        qInfo() << msg;
+        qCInfo(screenPlaySDK) << msg;
         break;
     default:
         break;

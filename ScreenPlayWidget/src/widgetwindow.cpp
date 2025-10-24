@@ -3,10 +3,13 @@
 
 #include <QDirIterator>
 #include <QGuiApplication>
+#include <QLoggingCategory>
 #include <QSysInfo>
 
 #include "ScreenPlayCore/contenttypes.h"
 #include "ScreenPlayCore/util.h"
+
+Q_LOGGING_CATEGORY(widgetWindow, "screenplay.widget.window")
 
 namespace ScreenPlay {
 /*!
@@ -59,7 +62,7 @@ WidgetWindow::WidgetWindow(
         setProjectPath(projectPath);
         auto projectOpt = util.openJsonFileToObject(m_projectPath + "/project.json");
         if (!projectOpt.has_value()) {
-            qWarning() << "Unable to parse project file!";
+            qCWarning(widgetWindow) << "Unable to parse project file!";
             return;
         }
 
@@ -70,7 +73,7 @@ WidgetWindow::WidgetWindow(
         if (auto typeOpt = util.getInstalledTypeFromString(m_project.value("type").toString())) {
             setType(typeOpt.value());
         } else {
-            qWarning() << "Cannot parse Wallpaper type from value" << m_project.value("type");
+            qCWarning(widgetWindow) << "Cannot parse Wallpaper type from value" << m_project.value("type");
         }
     }
 

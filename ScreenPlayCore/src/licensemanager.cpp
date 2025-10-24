@@ -6,10 +6,13 @@
 #include <QFile>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QLoggingCategory>
 #include <QStandardPaths>
 #include <QSysInfo>
 #include <QTextStream>
 #include <QVariant>
+
+Q_LOGGING_CATEGORY(coreLicense, "screenplay.core.license")
 
 namespace ScreenPlay {
 
@@ -92,7 +95,7 @@ bool LicenseManager::saveLicenseFile(const QString& licenseKey)
     QFile file(getLicenseFilePath());
 
     if (!file.open(QIODevice::WriteOnly)) {
-        qWarning() << "Failed to open license file for writing";
+        qCWarning(coreLicense) << "Failed to open license file for writing";
         return false;
     }
 
@@ -103,13 +106,13 @@ bool LicenseManager::analyzeLicenseFile(const QMap<ScreenPlayEnums::Version, QSt
 {
     QFile file(getLicenseFilePath());
     if (!file.open(QIODevice::ReadOnly)) {
-        qWarning() << "License file not found";
+        qCWarning(coreLicense) << "License file not found";
         return false;
     }
 
     QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
     if (doc.isNull()) {
-        qWarning() << "Invalid JSON in license file";
+        qCWarning(coreLicense) << "Invalid JSON in license file";
         return false;
     }
 
@@ -121,8 +124,8 @@ bool LicenseManager::analyzeLicenseFile(const QMap<ScreenPlayEnums::Version, QSt
     QString storedVersion = licenseData["licenseVersion"].toString();
 
     // Output the stored license key
-    qDebug() << "Stored license key:" << storedKey;
-    qDebug() << "Stated license version in file:" << storedVersion;
+    qCDebug(coreLicense) << "Stored license key:" << storedKey;
+    qCDebug(coreLicense) << "Stated license version in file:" << storedVersion;
 
     // Check which version this key is valid for
     ScreenPlayEnums::Version detectedVersion = ScreenPlayEnums::Version::OpenSourceStandalone;
@@ -134,13 +137,13 @@ bool LicenseManager::analyzeLicenseFile(const QMap<ScreenPlayEnums::Version, QSt
         if (i.value() == storedKey) {
             detectedVersion = i.key();
             foundValidVersion = true;
-            qDebug() << "Key matches version:" << QVariant::fromValue(detectedVersion).toString();
+            qCDebug(coreLicense) << "Key matches version:" << QVariant::fromValue(detectedVersion).toString();
             break;
         }
     }
 
     if (!foundValidVersion) {
-        qWarning() << "License key does not match any valid version for this user/machine";
+        qCWarning(coreLicense) << "License key does not match any valid version for this user/machine";
         return false;
     }
 
@@ -150,9 +153,9 @@ bool LicenseManager::analyzeLicenseFile(const QMap<ScreenPlayEnums::Version, QSt
     bool ok = storedVersionVar.convert(QMetaType::fromType<ScreenPlay::ScreenPlayEnums::Version>());
 
     if (ok && storedVersionVar.value<ScreenPlayEnums::Version>() != detectedVersion) {
-        qWarning() << "Stored version does not match the version for which this key is valid";
-        qDebug() << "Stored version: " << storedVersion;
-        qDebug() << "Actual key version: " << QVariant::fromValue(detectedVersion).toString();
+        qCWarning(coreLicense) << "Stored version does not match the version for which this key is valid";
+        qCDebug(coreLicense) << "Stored version: " << storedVersion;
+        qCDebug(coreLicense) << "Actual key version: " << QVariant::fromValue(detectedVersion).toString();
     }
 
     // Set the actual detected version
@@ -182,7 +185,7 @@ void LicenseManager::setVersion(ScreenPlayEnums::Version version)
     QString userName = qgetenv("USERNAME");
 
     if (machineId.isEmpty()) {
-        qWarning() << "Failed to get machine ID when updating license";
+        qCWarning(coreLicense) << "Failed to get machine ID when updating license";
         return;
     }
 
@@ -190,9 +193,9 @@ void LicenseManager::setVersion(ScreenPlayEnums::Version version)
     QString licenseKey = generateLicenseKey(machineIdStr, userName);
 
     if (saveLicenseFile(licenseKey)) {
-        qInfo() << "License updated for version:" << QVariant::fromValue(m_version).toString();
+        qCInfo(coreLicense) << "License updated for version:" << QVariant::fromValue(m_version).toString();
     } else {
-        qWarning() << "Failed to save license file for version:" << QVariant::fromValue(m_version).toString();
+        qCWarning(coreLicense) << "Failed to save license file for version:" << QVariant::fromValue(m_version).toString();
     }
 }
 

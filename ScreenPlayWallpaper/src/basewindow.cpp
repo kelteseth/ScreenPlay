@@ -1,5 +1,8 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "basewindow.h"
+#include <QLoggingCategory>
+
+Q_LOGGING_CATEGORY(wallpaperBase, "screenplay.wallpaper.base")
 
 /*!
     \module ScreenPlayWallpaper
@@ -32,7 +35,7 @@ WallpaperExit::Code BaseWindow::setup()
     ScreenPlay::ProjectFile projectFile;
     projectFile.projectJsonFilePath = QFileInfo(projectPath() + "/project.json");
     if (!projectFile.init()) {
-        qWarning() << "Invalid project at " << projectPath();
+        qCWarning(wallpaperBase) << "Invalid project at " << projectPath();
         return WallpaperExit::Code::Invalid_Setup_ProjectParsingError;
     }
     setType(projectFile.type);
@@ -42,7 +45,7 @@ WallpaperExit::Code BaseWindow::setup()
     // so disable the checkWallpaperVisible for now
     if (checkWallpaperVisible()) {
         if (projectFile.containsAudio) {
-            qInfo() << "Disable wallpaper visible check, because it contains audio.";
+            qCInfo(wallpaperBase) << "Disable wallpaper visible check, because it contains audio.";
             setCheckWallpaperVisible(false);
         }
     }
@@ -157,7 +160,7 @@ void BaseWindow::replaceWallpaper(
 
     if (!wallpaperProperties.isEmpty()) {
         for (auto it = wallpaperProperties.constBegin(); it != wallpaperProperties.constEnd(); ++it) {
-            qDebug() << "New values: " << it.key() << it.value();
+            qCDebug(wallpaperBase) << "New values: " << it.key() << it.value();
             // Convert to QVariant first for proper type handling
             QVariant value = it.value().toVariant();
             emit qmlSceneValueReceived(it.key(), value.toString());
@@ -180,7 +183,7 @@ QString BaseWindow::loadFromFile(const QString& filename)
 {
     QFile file(projectPath() + "/" + filename);
     if (!file.open(QIODevice::ReadOnly)) {
-        qWarning() << "Could not loadFromFile: " << file.fileName();
+        qCWarning(wallpaperBase) << "Could not loadFromFile: " << file.fileName();
         file.close();
         return "";
     }

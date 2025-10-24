@@ -1,4 +1,7 @@
 #include "ScreenPlayCore/projectfile.h"
+#include <QLoggingCategory>
+
+Q_LOGGING_CATEGORY(coreProject, "screenplay.core.project")
 
 namespace ScreenPlay {
 
@@ -32,7 +35,7 @@ bool ProjectFile::init()
 
     auto typeParsed = util.getInstalledTypeFromString(obj.value("type").toString());
     if (!typeParsed.has_value()) {
-        qWarning() << "Type could not parsed from string: " << obj.value("type").toString();
+        qCWarning(coreProject) << "Type could not parsed from string: " << obj.value("type").toString();
         return false;
     }
     type = typeParsed.value();
@@ -47,13 +50,13 @@ bool ProjectFile::init()
         if (type == ScreenPlay::ContentTypes::InstalledType::GodotWallpaper) {
             QFileInfo fileInfo(folder.path() + "/wallpaper.tscn");
             if (!fileInfo.exists()) {
-                qCritical() << "Requested file:" << fileInfo.absoluteFilePath() << "does not exist!";
+                qCCritical(coreProject) << "Requested file:" << fileInfo.absoluteFilePath() << "does not exist!";
                 return false;
             }
         } else {
             QFileInfo fileInfo(folder.path() + "/" + file);
             if (!fileInfo.exists()) {
-                qInfo() << "Requested file:" << fileInfo.absoluteFilePath() << "does not exist!";
+                qCInfo(coreProject) << "Requested file:" << fileInfo.absoluteFilePath() << "does not exist!";
                 return false;
             }
         }

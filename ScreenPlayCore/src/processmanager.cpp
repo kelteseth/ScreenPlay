@@ -1,4 +1,8 @@
 #include "processmanager.h"
+#include <QLoggingCategory>
+
+Q_LOGGING_CATEGORY(coreProcess, "screenplay.core.process")
+
 namespace ScreenPlay {
 
 std::optional<bool> ProcessManager::isRunning(const qint64 pid) const
@@ -38,17 +42,17 @@ bool ProcessManager::terminateProcess(const qint64 pid) const
         BOOL result = TerminateProcess(process, 1);
         CloseHandle(process);
         if (!result) {
-            qDebug() << "Failed to terminate process on Windows. Error code:" << GetLastError();
+            qCDebug(coreProcess) << "Failed to terminate process on Windows. Error code:" << GetLastError();
             return false;
         }
         return true;
     } else {
-        qDebug() << "Failed to open process for termination on Windows. Error code:" << GetLastError();
+        qCDebug(coreProcess) << "Failed to open process for termination on Windows. Error code:" << GetLastError();
         return false;
     }
 #elif defined(Q_OS_LINUX) || defined(Q_OS_MAC)
     if (kill(pid, SIGTERM) == -1) {
-        qDebug() << "Failed to send termination signal on Linux/macOS. Error:" << strerror(errno);
+        qCDebug(coreProcess) << "Failed to send termination signal on Linux/macOS. Error:" << strerror(errno);
         return false;
     }
     return true;

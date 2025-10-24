@@ -8,6 +8,9 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QLoggingCategory>
+
+Q_LOGGING_CATEGORY(projectSettings, "screenplay.projectsettings")
 
 namespace ScreenPlay {
 
@@ -75,7 +78,7 @@ void ProjectSettingsListModel::init(const ContentTypes::InstalledType& type, con
 QJsonObject ProjectSettingsListModel::getActiveSettingsJson()
 {
     if (m_projectSettings.isEmpty()) {
-        qWarning() << "Trying to read empty projectSettings. Abort!";
+        qCWarning(projectSettings) << "Trying to read empty projectSettings. Abort!";
         return {};
     }
 
@@ -140,22 +143,22 @@ void ProjectSettingsListModel::append(const SettingsItem&& item)
 void ProjectSettingsListModel::setValueAtIndex(const int row, const QString& key, const QString& category, const QJsonObject& value)
 {
     if (row >= m_projectSettings.size() || row < 0) {
-        qWarning() << "Cannot setValueAtIndex when index is out of bounce! Row: " << row << ", m_projectSettings size: " << m_projectSettings.size();
+        qCWarning(projectSettings) << "Cannot setValueAtIndex when index is out of bounce! Row: " << row << ", m_projectSettings size: " << m_projectSettings.size();
         return;
     }
 
     if (m_projectSettings.at(row).m_category != category) {
-        qWarning() << "Category of the element does not match current settings";
+        qCWarning(projectSettings) << "Category of the element does not match current settings";
         return;
     }
 
     if (m_projectSettings.at(row).m_isHeadline) {
-        qWarning() << "Cannot set settings item from type headline!";
+        qCWarning(projectSettings) << "Cannot set settings item from type headline!";
         return;
     }
 
     if (m_projectSettings.at(row).m_name != key) {
-        qWarning() << "Name of the element does not match current settings";
+        qCWarning(projectSettings) << "Name of the element does not match current settings";
         return;
     }
 
@@ -197,13 +200,13 @@ QVariant ProjectSettingsListModel::data(const QModelIndex& index, int role) cons
             return m_projectSettings.at(rowIndex).m_isHeadline;
         case ValueRole: {
             auto value = m_projectSettings.at(rowIndex).m_value;
-            qDebug() << "ValueRole data:" << value; // Add this debug line
+            qCDebug(projectSettings) << "ValueRole data:" << value; // Add this debug line
             return QVariant::fromValue(value);
         }
         case CategoryRole:
             return m_projectSettings.at(rowIndex).m_category;
         default:
-            qWarning() << "Could not determine row for ProjectSettingsListModel";
+            qCWarning(projectSettings) << "Could not determine row for ProjectSettingsListModel";
             return QVariant();
         }
 

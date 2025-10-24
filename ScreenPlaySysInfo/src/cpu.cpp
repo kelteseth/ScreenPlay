@@ -1,5 +1,9 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "cpu.h"
+#include <QLoggingCategory>
+
+Q_LOGGING_CATEGORY(sysInfoCpu, "screenplay.sysinfo.cpu")
+
 /*!
     \class CPU
     \inmodule ScreenPlaySysInfo
@@ -67,7 +71,7 @@ void CPU::setTickRate(int tickRate)
 {
     if (m_tickRate == tickRate)
         return;
-    qDebug() << "Tick rate changed";
+    qCDebug(sysInfoCpu) << "Tick rate changed";
     m_tickRate = tickRate;
     m_updateTimer.setInterval(m_tickRate);
     emit tickRateChanged(m_tickRate);
@@ -81,11 +85,11 @@ void CPU::refreshCPUInfo()
 void CPU::updateCPUInfo()
 {
 #ifdef Q_OS_WIN
-    qDebug() << "Updating CPU info via WMI";
+    qCDebug(sysInfoCpu) << "Updating CPU info via WMI";
     QVariantMap cpuInfo = WMIHelper::getCPUInfo();
 
     if (cpuInfo.isEmpty()) {
-        qWarning() << "Failed to get CPU info via WMI";
+        qCWarning(sysInfoCpu) << "Failed to get CPU info via WMI";
 
         // Enhanced fallback implementation
         QSettings settings("HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0",
@@ -124,7 +128,7 @@ void CPU::updateCPUInfo()
             free(buffer);
         }
 
-        qDebug() << "Fallback CPU info - Name:" << m_name
+        qCDebug(sysInfoCpu) << "Fallback CPU info - Name:" << m_name
                  << "Speed:" << m_maxClockSpeed
                  << "Cores:" << m_numberOfCores
                  << "Threads:" << m_threadCount;
@@ -138,14 +142,14 @@ void CPU::updateCPUInfo()
         m_l3CacheSize = cpuInfo["L3CacheSize"].toInt();
         m_socketDesignation = cpuInfo["SocketDesignation"].toString();
 
-        qDebug() << "WMI CPU info:";
-        qDebug() << " - Name:" << m_name;
-        qDebug() << " - Cores:" << m_numberOfCores;
-        qDebug() << " - Threads:" << m_threadCount;
-        qDebug() << " - Speed:" << m_maxClockSpeed;
-        qDebug() << " - L2 Cache:" << m_l2CacheSize;
-        qDebug() << " - L3 Cache:" << m_l3CacheSize;
-        qDebug() << " - Socket:" << m_socketDesignation;
+        qCDebug(sysInfoCpu) << "WMI CPU info:";
+        qCDebug(sysInfoCpu) << " - Name:" << m_name;
+        qCDebug(sysInfoCpu) << " - Cores:" << m_numberOfCores;
+        qCDebug(sysInfoCpu) << " - Threads:" << m_threadCount;
+        qCDebug(sysInfoCpu) << " - Speed:" << m_maxClockSpeed;
+        qCDebug(sysInfoCpu) << " - L2 Cache:" << m_l2CacheSize;
+        qCDebug(sysInfoCpu) << " - L3 Cache:" << m_l3CacheSize;
+        qCDebug(sysInfoCpu) << " - Socket:" << m_socketDesignation;
     }
 
     emit cpuInfoChanged();

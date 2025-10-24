@@ -1,5 +1,9 @@
 #include "ScreenPlayCore/sparchive.h"
 #include "ScreenPlayCore/util.h"
+#include <QLoggingCategory>
+
+Q_LOGGING_CATEGORY(coreArchive, "screenplay.core.archive")
+
 namespace ScreenPlay {
 
 SPArchive::SPArchive(QObject* parent)
@@ -28,7 +32,7 @@ bool SPArchive::importProject(QString archivePath, QString extractionPath)
 
     QFileInfo fileInfo(archivePath);
     if (!fileInfo.fileName().endsWith(".screenplay")) {
-        qWarning() << "Unsupported file type: " << fileInfo.fileName() << ". We only support '.screenplay' files.";
+        qCWarning(coreArchive) << "Unsupported file type: " << fileInfo.fileName() << ". We only support '.screenplay' files.";
         return false;
     }
     const QString name = fileInfo.fileName().remove(".screenplay");
@@ -38,12 +42,12 @@ bool SPArchive::importProject(QString archivePath, QString extractionPath)
     QDir dir(extractionPath);
 
     if (dir.exists()) {
-        qWarning() << "Directory does already exist!" << dir;
+        qCWarning(coreArchive) << "Directory does already exist!" << dir;
         return false;
     }
 
     if (!dir.mkdir(extractionPath)) {
-        qWarning() << "Unable to create directory:" << dir;
+        qCWarning(coreArchive) << "Unable to create directory:" << dir;
         return false;
     }
 
@@ -67,7 +71,7 @@ bool SPArchive::exportProject(QString contentPath, QString exportFileName)
     QDir dir(contentPath);
     bool success = true;
     if (!dir.exists()) {
-        qWarning() << "Directory does not exist!" << dir;
+        qCWarning(coreArchive) << "Directory does not exist!" << dir;
         return false;
     }
     QStringList files;
@@ -77,7 +81,7 @@ bool SPArchive::exportProject(QString contentPath, QString exportFileName)
     QFile exportFile(exportFileName);
     if (exportFile.exists()) {
         if (!exportFile.remove()) {
-            qWarning() << "Unable to delte file marked to override!" << dir;
+            qCWarning(coreArchive) << "Unable to delte file marked to override!" << dir;
             return false;
         }
     }

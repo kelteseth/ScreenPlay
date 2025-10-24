@@ -7,8 +7,11 @@
 #include <QFile>
 #include <QGuiApplication>
 #include <QJsonParseError>
+#include <QLoggingCategory>
 #include <QRandomGenerator>
 #include <QTemporaryDir>
+
+Q_LOGGING_CATEGORY(coreUtil, "screenplay.core.util")
 
 /*!
     \module ScreenPlayCore
@@ -46,7 +49,7 @@ std::optional<QJsonObject> Util::openJsonFileToObject(const QString& path) const
     jsonDocument = QJsonDocument::fromJson(jsonString->toUtf8(), &parseError);
 
     if (!(parseError.error == QJsonParseError::NoError)) {
-        qWarning() << "Settings Json Parse Error: " << parseError.errorString();
+        qCWarning(coreUtil) << "Settings Json Parse Error: " << parseError.errorString();
         return std::nullopt;
     }
 
@@ -69,7 +72,7 @@ bool Util::writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObj
     }
 
     if (!configTmp.open(openMode)) {
-        qWarning() << "Could not open out file!" << configTmp.errorString();
+        qCWarning(coreUtil) << "Could not open out file!" << configTmp.errorString();
         return false;
     }
 
@@ -89,7 +92,7 @@ bool Util::writeSettings(const QJsonObject& obj, const QString& absolutePath)
 {
     QFile file { absolutePath };
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qDebug() << "Could not open" << absolutePath;
+        qCDebug(coreUtil) << "Could not open" << absolutePath;
         return false;
     }
 
@@ -109,7 +112,7 @@ bool Util::writeFile(const QString& text, const QString& absolutePath)
 {
     QFile file { absolutePath };
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qDebug() << "Could not open" << absolutePath;
+        qCDebug(coreUtil) << "Could not open" << absolutePath;
         return false;
     }
 
@@ -128,7 +131,7 @@ bool Util::writeFileFromQrc(const QString& qrcPath, const QString& absolutePath)
 
     QFile file { absolutePath };
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qDebug() << "Could not open" << absolutePath;
+        qCDebug(coreUtil) << "Could not open" << absolutePath;
         return false;
     }
 
@@ -157,7 +160,7 @@ std::optional<QString> Util::openJsonFileToString(const QString& path) const
     QFile file;
     file.setFileName(path);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qWarning() << "Unable to open file: " << path << file.errorString();
+        qCWarning(coreUtil) << "Unable to open file: " << path << file.errorString();
         return std::nullopt;
     }
     QString fileContent = file.readAll();
@@ -269,7 +272,7 @@ QString Util::toString(const QStringList& list) const
 
 /*!
     \brief Helper function to be used to print QJsonObjects. USe noquote!
-     qDebug().noquote() << Util().toString(projectSettingsListModelProperties);
+     qCDebug(coreUtil).noquote() << Util().toString(projectSettingsListModelProperties);
 */
 QString Util::toString(const QJsonObject& obj, int indent)
 {
@@ -841,7 +844,7 @@ bool Util::copyPreviewThumbnail(QJsonObject& obj, const QString& previewThumbnai
 
     if (!previewThumbnail.isEmpty()) {
         if (!QFile::copy(previewThumbnailUrl.toLocalFile(), destinationFilePath)) {
-            qDebug() << "Could not copy" << previewThumbnailUrl.toLocalFile() << " to " << destinationFilePath;
+            qCDebug(coreUtil) << "Could not copy" << previewThumbnailUrl.toLocalFile() << " to " << destinationFilePath;
             return false;
         }
     }
@@ -861,13 +864,13 @@ bool Util::copyRecursively(const QString& sourcePath, const QString& targetPath)
     QDir targetDir(targetPath);
 
     if (!sourceDir.exists()) {
-        qWarning() << "Source directory does not exist:" << sourcePath;
+        qCWarning(coreUtil) << "Source directory does not exist:" << sourcePath;
         return false;
     }
 
     if (!targetDir.exists()) {
         if (!targetDir.mkpath(targetPath)) {
-            qWarning() << "Could not create target directory:" << targetPath;
+            qCWarning(coreUtil) << "Could not create target directory:" << targetPath;
             return false;
         }
     }
@@ -887,7 +890,7 @@ bool Util::copyRecursively(const QString& sourcePath, const QString& targetPath)
         } else {
             // Copy file
             if (!QFile::copy(sourceEntryPath, targetEntryPath)) {
-                qWarning() << "Could not copy file from" << sourceEntryPath << "to" << targetEntryPath;
+                qCWarning(coreUtil) << "Could not copy file from" << sourceEntryPath << "to" << targetEntryPath;
                 return false;
             }
         }
