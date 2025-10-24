@@ -20,7 +20,7 @@ Drawer {
         color: Material.theme === Material.Dark ? Material.color(Material.Grey, Material.Shade900) : Material.color(Material.Grey, Material.Shade100)
     }
     onAboutToShow: {
-        print("setInstalledDrawerItem onAboutToShow")
+        console.log(LoggingCategories.installed, "setInstalledDrawerItem onAboutToShow")
         timeline.reset()
         monitorSelection.resize()
         monitorSelection.selectOnly(0)
@@ -47,11 +47,11 @@ Drawer {
             }
             return
         }
-        print("setInstalledDrawerItem", root.contentFolderName, folderName, typeof (folderName), type, root.visible)
+        console.log(LoggingCategories.installed, "setInstalledDrawerItem", root.contentFolderName, folderName, typeof (folderName), type, root.visible)
         root.contentFolderName = folderName
         root.type = type
         const item = App.installedListModel.get(root.contentFolderName)
-        print(root.contentFolderName)
+        console.log(LoggingCategories.installed, "Content folder:", root.contentFolderName)
         txtHeadline.text = item.title
         const previewGiFilePath = Qt.resolvedUrl(item.absoluteStoragePath + "/" + item.previewGIF)
         const previewImageFilePath = Qt.resolvedUrl(item.absoluteStoragePath + "/" + item.preview)
@@ -67,7 +67,7 @@ Drawer {
         else
             installedDrawerWrapper.state = "scene"
         if (!root.visible) {
-            console.log("setInstalledDrawerItem")
+            console.log(LoggingCategories.installed, "setInstalledDrawerItem - opening drawer")
             root.open()
         }
     }
@@ -75,7 +75,7 @@ Drawer {
     // This is used for removing wallpaper. We need to clear
     // the preview image/gif so we can release the file for deletion.
     function clear(): void {
-        console.warn("⚠️⚠️⚠️ CLEAR InstalledDrawer")
+        console.warn(LoggingCategories.installed, "CLEAR InstalledDrawer")
         root.close()
         root.contentFolderName = ""
         root.type = Util.ContentTypes.InstalledType.Unknown

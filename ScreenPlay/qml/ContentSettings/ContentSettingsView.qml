@@ -346,7 +346,7 @@ Popup {
                         enabled: App.screenPlayManager.activeWidgetsCounter > 0
                         onClicked: {
                             if (!App.screenPlayManager.removeAllRunningWidgets())
-                                print("Unable to close all widgets!")
+                                console.error(LoggingCategories.contentSettings, "Unable to close all widgets!")
                         }
                     }
                     Item {
@@ -373,11 +373,11 @@ Popup {
                 }
 
                 function updateControls(): void {
-                    print("updateControls")
+                    console.log(LoggingCategories.contentSettings, "updateControls")
                     if (root.selectedInstallType === Util.ContentTypes.InstalledType.VideoWallpaper) {
                         const selectedTimeline = timeline.getSelectedTimeline()
                         if (selectedTimeline === undefined) {
-                            print("Invalid selected timeline")
+                            console.warn(LoggingCategories.contentSettings, "Invalid selected timeline")
                             defaultVideoControls.visible = false
                             return
                         }

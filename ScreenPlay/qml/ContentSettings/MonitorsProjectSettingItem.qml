@@ -47,7 +47,7 @@ Item {
         Component.onCompleted: {
             if (root.isHeadline)
                 return
-            console.log("MonitorsProjectSettingItem:", root.value["type"])
+            console.log(LoggingCategories.monitorProjectSettings, "MonitorsProjectSettingItem:", root.value["type"])
             switch (root.value["type"]) {
             case "slider":
                 loader.sourceComponent = compSlider
@@ -67,7 +67,7 @@ Item {
                 loader.item.value = root.value["value"]
                 break
             default:
-                console.error(name, " has an invalid type:" << root.value["type"])
+                console.error(LoggingCategories.monitorProjectSettings, name, " has an invalid type:", root.value["type"])
                 break
             }
             if (root.value["text"])
@@ -88,7 +88,7 @@ Item {
 
             Connections {
                 function onSave(obj) {
-                    print("on save value:", root.index, root.name, root.category, obj.value)
+                    console.log(LoggingCategories.monitorProjectSettings, "on save value:", root.index, root.name, root.category, obj.value)
                     root.projectSettingsListmodelRef.setValueAtIndex(root.index, root.name, root.category, obj.value)
 
                     const monitorIndex = root.selectedMonitorIndex

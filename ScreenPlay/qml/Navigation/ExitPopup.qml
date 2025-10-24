@@ -55,7 +55,7 @@ Popup {
                     if (Qt.platform.os === "osx") {
                         return "qrc:/qt/qml/ScreenPlay/assets/images/trayIcon_osx.png"
                     }
-                    console.warn("missing tray icon image")
+                    console.warn(LoggingCategories.navigation, "Missing tray icon image")
                     return ""
                 }
 

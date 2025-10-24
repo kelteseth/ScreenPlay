@@ -46,7 +46,7 @@ Item {
     onIsSelectedChanged: root.state = isSelected ? "selected" : "default"
     property bool hasContent: false
     onPreviewImageChanged: {
-        print("PreviewImage:", root.previewImage)
+        console.debug(LoggingCategories.monitorSelectionItem, "PreviewImage:", root.previewImage)
         if (root.previewImage === "") {
             root.hasContent = false
         } else {
@@ -93,7 +93,7 @@ Item {
             source: root.animatedImageSource
             opacity: animatedPreview.enabled ? 1 : 0
             enabled: mouseArea.containsMouse && root.animatedImageSource !== ""
-            onEnabledChanged: print(enabled)
+            onEnabledChanged: console.debug(LoggingCategories.monitorSelectionItem, "Animated preview enabled:", enabled)
 
             Behavior on opacity {
                 NumberAnimation {
@@ -181,7 +181,7 @@ Item {
                 case ScreenPlayEnums.AppState.ClosedGracefully:
                     return qsTr("Closed")
                 default:
-                    console.error("Invalid state:", root.appState)
+                    console.error(LoggingCategories.monitorSelectionItem, "Invalid state:", root.appState)
                     return ""
                 }
             }
@@ -189,7 +189,7 @@ Item {
 
         MouseArea {
             id: mouseArea
-            onContainsMouseChanged: print("XXX", mouseArea.containsMouse, root.animatedImageSource)
+            onContainsMouseChanged: console.debug(LoggingCategories.monitorSelectionItem, "Contains mouse:", mouseArea.containsMouse, "Source:", root.animatedImageSource)
             anchors.fill: parent
             hoverEnabled: true
             enabled: root.enabled

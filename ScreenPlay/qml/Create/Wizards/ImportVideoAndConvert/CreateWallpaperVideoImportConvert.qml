@@ -91,7 +91,7 @@ Item {
             if (percentage > 100 || progress > 0.95)
                 percentage = 100
             if (percentage === NaN)
-                print(progress, percentage)
+                console.warn(LoggingCategories.videoImport, "Invalid progress:", progress, percentage)
             txtConvertNumber.text = percentage + "%"
         }
 

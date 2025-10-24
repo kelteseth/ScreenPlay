@@ -236,7 +236,7 @@ Item {
             const overwrite = true
             App.godotHandler.exportGodotProject(contextMenu.absoluteStoragePath, App.globalVariables.godotEditorExecutablePath, overwrite).then(result => {
                 if (result.success) {
-                    print(result.success)
+                    console.log(LoggingCategories.installed, "Export result:", result.success)
                 } else {
                     InstantPopup.openErrorPopup(root, result.message)
                 }
@@ -351,7 +351,7 @@ Item {
         onAccepted: {
             installedDrawer.close()
             if (!App.installedListModel.deinstallItemAt(contextMenu.absoluteStoragePath)) {
-                console.error("Unable to uninstall item", contextMenu.absoluteStoragePath)
+                console.error(LoggingCategories.installed, "Unable to uninstall item:", contextMenu.absoluteStoragePath)
             }
         }
     }
@@ -461,7 +461,7 @@ Item {
             onClosed: importProgressBar.value = 0
             onOpened: {
                 const success = archive.importProject(dropArea.filePath, App.globalVariables.localStoragePath)
-                print("finished", success)
+                console.log(LoggingCategories.installed, "Import finished:", success)
                 dropArea.filePath = ""
             }
             ColumnLayout {

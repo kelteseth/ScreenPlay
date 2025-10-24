@@ -65,7 +65,7 @@ FocusScope {
 
                 // settingValue = true;
                 const newVolume = slVolume.slider.value.toFixed(2)
-                console.log(root.timelineActive, root.monitorIndex, root.timelineIndex, root.sectionIdentifier, newVolume)
+                console.log(LoggingCategories.videoControls, "Volume changed - Timeline active:", root.timelineActive, "Monitor:", root.monitorIndex, "Timeline index:", root.timelineIndex, "Section:", root.sectionIdentifier, "New volume:", newVolume)
                 const category = ""
                 App.screenPlayManager.setValueAtMonitorTimelineIndex(root.monitorIndex, root.timelineIndex, root.sectionIdentifier, "volume", newVolume, category).then(result => {
                     settingValue = false

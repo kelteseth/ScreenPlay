@@ -30,7 +30,7 @@ Rectangle {
     signal deselected
 
     function getActiveMonitors(): list<int> {
-        print(root.activeMonitors)
+        console.debug(LoggingCategories.monitorSelection, "Active monitors:", root.activeMonitors)
         return root.activeMonitors
     }
 

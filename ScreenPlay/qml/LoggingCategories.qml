@@ -49,4 +49,28 @@ QtObject {
         name: "contentSettings"
         defaultLogLevel: LoggingCategory.Debug
     }
+    readonly property LoggingCategory videoImport: LoggingCategory {
+        name: "videoImport"
+        defaultLogLevel: LoggingCategory.Debug
+    }
+    readonly property LoggingCategory monitorProjectSettings: LoggingCategory {
+        name: "monitorProjectSettings"
+        defaultLogLevel: LoggingCategory.Debug
+    }
+    readonly property LoggingCategory monitorSelectionItem: LoggingCategory {
+        name: "monitorSelectionItem"
+        defaultLogLevel: LoggingCategory.Debug
+    }
+    readonly property LoggingCategory navigation: LoggingCategory {
+        name: "navigation"
+        defaultLogLevel: LoggingCategory.Debug
+    }
+    readonly property LoggingCategory installed: LoggingCategory {
+        name: "installed"
+        defaultLogLevel: LoggingCategory.Debug
+    }
+    readonly property LoggingCategory videoControls: LoggingCategory {
+        name: "videoControls"
+        defaultLogLevel: LoggingCategory.Debug
+    }
 }

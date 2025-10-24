@@ -194,7 +194,7 @@ Rectangle {
 
                 onStatusChanged: {
                     if (status === Image.Error)
-                        print(Qt.resolvedUrl(root.wallpaperPreviewImage))
+                        console.warn(LoggingCategories.lineIndicator, "Failed to load preview image:", Qt.resolvedUrl(root.wallpaperPreviewImage))
                 }
             }
         }
