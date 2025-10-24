@@ -151,7 +151,13 @@ Rectangle {
         }
 
         function onQmlSceneValueReceived(key, value) {
-            var obj2 = 'import QtQuick; Item {Component.onCompleted: loader.item.' + key + ' = ' + value + '; }'
+            // Properly serialize the value for QML
+            let serializedValue = value
+            if (typeof value === "string") {
+                // Escape quotes and wrap strings in quotes
+                serializedValue = '"' + value.replace(/"/g, '\\"') + '"'
+            }
+            var obj2 = 'import QtQuick; Item {Component.onCompleted: loader.item.' + key + ' = ' + serializedValue + '; }'
             var newObject = Qt.createQmlObject(obj2.toString(), root, "err")
             newObject.destroy(10000)
         }

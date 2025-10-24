@@ -47,27 +47,35 @@ Item {
         Component.onCompleted: {
             if (root.isHeadline)
                 return
-            console.log(LoggingCategories.monitorProjectSettings, "MonitorsProjectSettingItem:", root.value["type"])
-            switch (root.value["type"]) {
+            
+            if (!root.value || typeof root.value !== "object") {
+                console.warn(LoggingCategories.monitorProjectSettings, "Invalid value object for:", root.name)
+                return
+            }
+            
+            const valueType = root.value["type"]
+            if (!valueType) {
+                console.warn(LoggingCategories.monitorProjectSettings, "Missing type for:", root.name)
+                return
+            }
+            
+            console.log(LoggingCategories.monitorProjectSettings, "MonitorsProjectSettingItem:", valueType)
+            
+            switch (valueType) {
             case "slider":
                 loader.sourceComponent = compSlider
-                loader.item.from = root.value["from"]
-                loader.item.to = root.value["to"]
-                loader.item.value = root.value["value"]
-                loader.item.stepSize = root.value["stepSize"]
-                const value = parseFloat(loader.item.value.toFixed(2))
-                loader.item.text = value
                 break
             case "bool":
                 loader.sourceComponent = compCheckbox
-                loader.item.value = root.value["value"]
                 break
             case "color":
                 loader.sourceComponent = compColorpicker
-                loader.item.value = root.value["value"]
+                break
+            case "file":
+                loader.sourceComponent = compFilepicker
                 break
             default:
-                console.error(LoggingCategories.monitorProjectSettings, name, " has an invalid type:", root.value["type"])
+                console.error(LoggingCategories.monitorProjectSettings, root.name, " has an invalid type:", valueType)
                 break
             }
             if (root.value["text"])
@@ -85,6 +93,33 @@ Item {
 
             anchors.fill: parent
             anchors.rightMargin: 10
+
+            onLoaded: {
+                if (!root.value || typeof root.value !== "object")
+                    return
+                
+                const valueType = root.value["type"]
+                const loadedItem = item
+                
+                switch (valueType) {
+                case "slider":
+                    loadedItem.from = root.value["from"] !== undefined ? root.value["from"] : 0
+                    loadedItem.to = root.value["to"] !== undefined ? root.value["to"] : 100
+                    loadedItem.value = root.value["value"] !== undefined ? root.value["value"] : 0
+                    loadedItem.stepSize = root.value["stepSize"] !== undefined ? root.value["stepSize"] : 1
+                    loadedItem.text = parseFloat(loadedItem.value.toFixed(2))
+                    break
+                case "bool":
+                    loadedItem.value = root.value["value"] !== undefined ? root.value["value"] : false
+                    break
+                case "color":
+                    loadedItem.value = root.value["value"] !== undefined ? root.value["value"] : "#ffffff"
+                    break
+                case "file":
+                    loadedItem.value = root.value["value"] !== undefined ? root.value["value"] : ""
+                    break
+                }
+            }
 
             Connections {
                 function onSave(obj) {
@@ -190,8 +225,64 @@ Item {
                     onAccepted: {
                         rctPreviewColor.color = colorDialog.selectedColor
                         let obj = {
-                            "value": rctPreviewColor.color,
+                            "value": colorDialog.selectedColor.toString(),
                             "type": "color"
+                        }
+                        root.save(obj)
+                    }
+                }
+            }
+        }
+
+        Component {
+            id: compFilepicker
+
+            Item {
+                id: root
+
+                property string value
+
+                signal save(var value)
+
+                anchors.fill: parent
+
+                Button {
+                    id: btnSelectFile
+
+                    text: qsTr("Select file")
+                    onClicked: fileDialog.open()
+
+                    anchors {
+                        right: parent.right
+                        verticalCenter: parent.verticalCenter
+                    }
+                }
+
+                Text {
+                    id: txtFilePath
+
+                    text: root.value || qsTr("No file selected")
+                    color: Material.foreground
+                    elide: Text.ElideMiddle
+                    font.family: App.settings.font
+
+                    anchors {
+                        left: parent.left
+                        right: btnSelectFile.left
+                        rightMargin: 20
+                        verticalCenter: parent.verticalCenter
+                    }
+                }
+
+                FileDialog {
+                    id: fileDialog
+
+                    title: qsTr("Please choose a file")
+                    onAccepted: {
+                        txtFilePath.text = fileDialog.selectedFile
+                        let obj = {
+                            "value": fileDialog.selectedFile,
+                            "type": "file"
                         }
                         root.save(obj)
                     }
