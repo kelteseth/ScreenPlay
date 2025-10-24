@@ -569,6 +569,9 @@ void ScreenPlayTimelineManager::updateMonitorListModelData(const int selectedTim
             m_monitorListModel->setData(modelIndex, (int)ScreenPlayEnums::AppState::NotSet, (int)AppState);
         }
     }
+    
+    // Emit signal to notify QML that the monitor data has been updated
+    emit m_monitorListModel->monitorReloadCompleted();
 }
 
 void ScreenPlayTimelineManager::setGlobalVariables(const std::shared_ptr<GlobalVariables>& globalVariables)
@@ -941,19 +944,31 @@ QCoro::Task<Result> ScreenPlayTimelineManager::setValueAtMonitorTimelineIndex(
 
     auto wallpaperSection = wallpaperSectionOpt.value();
 
-    // Now set the value in the ScreenPlayWallpaper class so it does
-    // get propagated to the running wallpaper.
-    for (auto& activeWallpaper : wallpaperSection->wallpaperList) {
-        if (activeWallpaper->monitors().contains(monitorIndex)) {
-            const auto success = activeWallpaper->setWallpaperValue(key, value, category);
-            if (!success) {
-                co_return Result { false, {}, QString("Failed to set value '%1' for key '%2' in category '%3'").arg(value.toString(), key, category) };
+    // Find the wallpaper for this monitor and update it directly
+    for (auto& wallpaper : wallpaperSection->wallpaperList) {
+        if (wallpaper->monitors().contains(monitorIndex)) {
+            // Update the internal wallpaper data using fine-grained methods
+            if (key == "volume") {
+                wallpaper->updateVolume(value.toFloat());
+            } else if (key == "fillmode") {
+                auto fillMode = QStringToEnum<Video::FillMode>(value.toString(), Video::FillMode::Cover);
+                wallpaper->updateFillMode(fillMode);
+            } else if (!category.isEmpty()) {
+                wallpaper->updateProperty(category, key, value);
+            }
+            
+            // If it's currently active, also send the update to the running process
+            if (wallpaper->state() == ScreenPlayEnums::AppState::Active) {
+                const auto success = wallpaper->setWallpaperValue(key, value, category);
+                if (!success) {
+                    qWarning() << "Failed to send value to active wallpaper, but internal data was updated";
+                }
             }
             co_return Result { true };
         }
     }
 
-    co_return Result { false, {}, QString("No active wallpaper found for monitor %1").arg(monitorIndex) };
+    co_return Result { false, {}, QString("No wallpaper found for monitor %1 in timeline section").arg(monitorIndex) };
 }
 
 QCoro::Task<Result> ScreenPlayTimelineManager::setWallpaperAtActiveMonitorTimelineIndex(

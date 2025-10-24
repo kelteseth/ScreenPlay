@@ -12,6 +12,7 @@ Rectangle {
     property bool monitorWithoutContentSelectable: true
     property bool multipleMonitorsSelectable: false
     property bool isSelected: false
+    property bool timelineSwitching: false
     // Do not access it directly until
     // QTBUG-127633 is fixed!
     property list<int> activeMonitors: []
@@ -22,11 +23,7 @@ Rectangle {
         resize()
         selectOnly(0)
     }
-    LoggingCategory {
-        id: logger
-        name: "MonitorSelection"
-        defaultLogLevel: LoggingCategory.Debug
-    }
+
     signal selected(int index)
     signal requestProjectSettings(int index, var installedType, string appID)
     signal requestRemoveWallpaper(int index)
@@ -38,7 +35,7 @@ Rectangle {
     }
 
     function selectOnly(index: int): void {
-        console.debug(logger, "selectOnly:", index)
+        console.debug(LoggingCategories.monitorSelection, "selectOnly:", index)
         for (var i = 0; i < rp.count; i++) {
             let monitorSelectionItem = rp.itemAt(i) as MonitorSelectionItem
             if (i === index) {
@@ -61,7 +58,7 @@ Rectangle {
     }
 
     function reset(): void {
-        console.debug(logger, "MonitorSelection reset")
+        console.debug(LoggingCategories.monitorSelection, "MonitorSelection reset")
         for (var i = 0; i < rp.count; i++) {
             rp.itemAt(i).isSelected = false
         }
@@ -95,16 +92,16 @@ Rectangle {
     }
 
     function resize(): void {
-        console.debug(logger, "MonitorSelection resize started");
+        console.debug(LoggingCategories.monitorSelection, "MonitorSelection resize started");
 
         // 1. Get the total desktop size
         let totalDesktopSize = App.monitorListModel.totalDesktopSize()
-        console.debug(logger, "Total desktop size:", totalDesktopSize.width, "x", totalDesktopSize.height);
+        console.debug(LoggingCategories.monitorSelection, "Total desktop size:", totalDesktopSize.width, "x", totalDesktopSize.height);
 
         // 2. Get root item dimensions
         let rootWidth = root.width
         let rootHeight = root.height
-        console.debug(logger, "Root dimensions:", rootWidth, "x", rootHeight);
+        console.debug(LoggingCategories.monitorSelection, "Root dimensions:", rootWidth, "x", rootHeight);
 
         // 3. Calculate scaling factor
         let margin = 10
@@ -115,7 +112,7 @@ Rectangle {
         let scaleFactor = Math.min(scaleX, scaleY, 1);
 
         // Ensure we don't scale up
-        console.debug(logger, "Scale factor:", scaleFactor);
+        console.debug(LoggingCategories.monitorSelection, "Scale factor:", scaleFactor);
 
         // 4. Resize and position repeater items
         let scaledWidth = totalDesktopSize.width * scaleFactor
@@ -131,7 +128,7 @@ Rectangle {
         // 6. Center content within Flickable
         flickable.contentWidth = scaledWidth
         flickable.contentHeight = scaledHeight
-        console.debug(logger, "MonitorSelection resize completed", flickable.contentWidth, flickable.contentHeight)
+        console.debug(LoggingCategories.monitorSelection, "MonitorSelection resize completed", flickable.contentWidth, flickable.contentHeight)
     }
 
     color: Material.theme === Material.Light ? Material.backgroundColor : Qt.darker(Material.backgroundColor)
@@ -142,11 +139,16 @@ Rectangle {
 
     Connections {
         function onMonitorReloadCompleted(): void {
-            let currentSelectedIndex = getSelectedMonitorIndex()
+            console.debug(LoggingCategories.monitorSelection, "MonitorSelection: onMonitorReloadCompleted")
+            
+            let currentSelectedIndex = root.getSelectedMonitorIndex()
             root.resize();
-            // Restore selection if not
-            if (currentSelectedIndex < 0)
+            
+            // Restore selection or default to 0 if nothing selected
+            if (currentSelectedIndex < 0) {
                 currentSelectedIndex = 0
+            }
+            
             root.selectOnly(currentSelectedIndex)
         }
 

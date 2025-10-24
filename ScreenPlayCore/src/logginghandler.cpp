@@ -245,6 +245,9 @@ void LoggingHandler::writeToConsole(QtMsgType type, const QMessageLogContext& co
     const auto filename = extractFileName(context);
     const auto function = extractFunction(context);
     const auto line = context.line;
+    auto category = QString(context.category);
+    if (category == "default")
+        category = "";
 
     try {
         if (SCREENPLAY_DEPLOY_VERSION) {
@@ -266,15 +269,27 @@ void LoggingHandler::writeToConsole(QtMsgType type, const QMessageLogContext& co
 
             const auto nowStr = now.toStdString();
             const auto typeStr = typeIndicator.toStdString();
+            const auto categoryStr = category.toStdString();
             const auto msgStr = message.toStdString();
 
-            fmt::print(
-                "[{}] {} - {}\n   Loc: [{}:{}]\n",
-                fmt::styled(nowStr, fmt::emphasis::bold),
-                fmt::styled(typeStr, fg(color)),
-                msgStr,
-                fileStr,
-                line);
+            if (!category.isEmpty()) {
+                fmt::print(
+                    "[{}] {}.{} - {}\n   Loc: [{}:{}]\n",
+                    fmt::styled(nowStr, fmt::emphasis::bold),
+                    categoryStr,
+                    fmt::styled(typeStr, fg(color)),
+                    msgStr,
+                    fileStr,
+                    line);
+            } else {
+                fmt::print(
+                    "[{}] {} - {}\n   Loc: [{}:{}]\n",
+                    fmt::styled(nowStr, fmt::emphasis::bold),
+                    fmt::styled(typeStr, fg(color)),
+                    msgStr,
+                    fileStr,
+                    line);
+            }
         }
     } catch (const std::exception& e) {
         // Fallback logging in case fmt::print fails

@@ -20,7 +20,7 @@ Rectangle {
     signal lineSelected(int index)
 
     function toString(): void {
-        console.log(`LineIndicator {
+        console.log(LoggingCategories.lineIndicator, `LineIndicator {
         index: ${index}
         text: ${text}
         selected: ${selected}

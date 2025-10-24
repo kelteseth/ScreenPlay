@@ -260,6 +260,30 @@ bool ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QVariant& 
     return success;
 }
 
+void ScreenPlayWallpaper::updateVolume(const float volume)
+{
+    m_wallpaperData.setVolume(volume);
+    emit volumeChanged(volume);
+}
+
+void ScreenPlayWallpaper::updateFillMode(const Video::FillMode fillMode)
+{
+    m_wallpaperData.setFillMode(fillMode);
+    emit fillModeChanged(fillMode);
+}
+
+void ScreenPlayWallpaper::updateProperty(const QString& category, const QString& key, const QVariant& value)
+{
+    auto properties = m_wallpaperData.properties();
+    if (!properties.contains(category)) {
+        properties.insert(category, QJsonObject());
+    }
+    QJsonObject categoryObj = properties[category].toObject();
+    categoryObj.insert(key, QJsonValue::fromVariant(value));
+    properties[category] = categoryObj;
+    m_wallpaperData.setProperties(properties);
+}
+
 bool ScreenPlayWallpaper::replaceLive(const WallpaperData wallpaperData)
 {
     if (state() != ScreenPlayEnums::AppState::Active) {

@@ -69,6 +69,7 @@ set(QML
     qml/Community/CommunityNavItem.qml
     qml/Community/CommunityView.qml
     qml/Community/XMLNewsfeed.qml
+    qml/LoggingCategories.qml
     qml/Components/ErrorManagerPopup.qml
     qml/Components/LineHandle.qml
     qml/Components/LineIndicator.qml
@@ -310,6 +311,10 @@ target_include_directories(
     ScreenPlayLib
     PUBLIC inc/public/ inc/public/ScreenPlay
     PRIVATE src/)
+
+# Mark LoggingCategories.qml as a singleton
+set_source_files_properties(qml/LoggingCategories.qml
+    PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
 
 # ScreenPlayLib is our qml module needed for compiling of all classes and most importanly for QML_ELEMENT. So our app is mostly a module
 # that then link to ScreenPlay executable.

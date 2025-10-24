@@ -18,6 +18,8 @@ Popup {
     property int selectedInstallType
     property Item modalSource
     property int maxWidth: 1200
+    property bool timelineSwitching: false
+    property bool isInitialLoad: false
     width: Math.min(Math.max(modalSource.width - 20, applicationWindow.minimumWidth), maxWidth)
     height: Math.min(Math.max(modalSource.height - 20, applicationWindow.minimumHeight), 800)
 
@@ -29,9 +31,10 @@ Popup {
 
     onAboutToShow: {
         modal = true
+        root.isInitialLoad = true
         timeline.reset()
         monitorSelection.resize()
-        monitorSelection.selectMonitorAt(0)
+        // Don't select monitor here - wait for timeline selection to complete
     }
 
     anchors.centerIn: root.modalSource
@@ -99,16 +102,41 @@ Popup {
                     Layout.fillHeight: true
                     visible: !App.globalVariables.isBasicVersion()
                     modalSource: root.modalSource
+                    onReady: {
+                        console.log(LoggingCategories.contentSettings, "Timeline ready, isInitialLoad:", root.isInitialLoad)
+                        // On initial load, we need to explicitly select monitor 0
+                        // because selectedTimelineIndexChanged might not fire if index is already 0
+                        if (root.isInitialLoad) {
+                            const selectedTimeline = timeline.getSelectedTimeline()
+                            if (selectedTimeline) {
+                                root.selectedTimelineIndex = selectedTimeline.index
+                                root.selectedSectionIdentifier = selectedTimeline.identifier
+                                console.log(LoggingCategories.contentSettings, "Initial load: selecting monitor 0 with timeline", selectedTimeline.index, selectedTimeline.identifier)
+                                root.isInitialLoad = false
+                                monitorSelection.selectMonitorAt(0)
+                            }
+                        }
+                    }
                     onSelectedTimelineIndexChanged: {
                         const selectedTimeline = timeline.getSelectedTimeline()
-                        print("onSelectedTimelineIndexChanged")
+                        console.log(LoggingCategories.contentSettings, "onSelectedTimelineIndexChanged, isInitialLoad:", root.isInitialLoad)
                         if (!selectedTimeline) {
-                            console.error("Invalid selectedTimeline")
+                            console.error(LoggingCategories.contentSettings, "Invalid selectedTimeline")
                             return
                         }
                         root.selectedTimelineIndex = selectedTimeline.index
                         root.selectedSectionIdentifier = selectedTimeline.identifier
-                        wallpaperControlsWrapper.updateControls()
+                        
+                        if (root.isInitialLoad) {
+                            // This path shouldn't normally be hit, but just in case
+                            console.log(LoggingCategories.contentSettings, "Initial load via selectedTimelineIndexChanged: selecting monitor 0")
+                            root.isInitialLoad = false
+                            monitorSelection.selectMonitorAt(0)
+                        } else {
+                            // User clicked timeline: mark for monitor reload handler
+                            root.timelineSwitching = true
+                            console.log(LoggingCategories.contentSettings, "Set timelineSwitching to true")
+                        }
                     }
                 }
                 Item {
@@ -203,6 +231,7 @@ Popup {
                     width: parent.width * 0.9
                     multipleMonitorsSelectable: false
                     monitorWithoutContentSelectable: false
+                    timelineSwitching: root.timelineSwitching
                     onSelected: function (index) {
                         App.monitorListModel.setSelectedIndex(index)
                     }
@@ -214,21 +243,21 @@ Popup {
                     }
 
                     onRequestProjectSettings: function (index, installedType, appID) {
-                        console.log("Selected index:", index, "type:", installedType, "appID: ", appID)
+                        console.log(LoggingCategories.contentSettings, "Selected index:", index, "type:", installedType, "appID: ", appID)
                         if (root.selectedInstallType !== installedType) {
                             defaultVideoControls.visible = false
                             customPropertiesGridView.visible = false
                         }
                         root.selectedInstallType = installedType
 
-                        console.log(installedType, Util.ContentTypes.InstalledType.VideoWallpaper)
+                        console.log(LoggingCategories.contentSettings, installedType, Util.ContentTypes.InstalledType.VideoWallpaper)
                         root.selectedMonitorIndex = index
                         wallpaperControlsWrapper.updateControls()
                     }
                     onRequestRemoveWallpaper: index => {
                         const selectedTimeline = timeline.getSelectedTimeline()
                         if (selectedTimeline === undefined) {
-                            console.error("No active timeline to remove wallpaper ", index)
+                            console.error(LoggingCategories.contentSettings, "No active timeline to remove wallpaper ", index)
                             return
                         }
                         monitorSelection.enabled = false
@@ -248,6 +277,19 @@ Popup {
                         topMargin: 20
                         left: parent.left
                         leftMargin: 20
+                    }
+                }
+
+                Connections {
+                    target: App.monitorListModel
+                    function onMonitorReloadCompleted(): void {
+                        console.log(LoggingCategories.contentSettings, "ContentSettingsView: onMonitorReloadCompleted, timelineSwitching:", root.timelineSwitching)
+                        if (root.timelineSwitching) {
+                            console.log(LoggingCategories.contentSettings, "Timeline switching detected, forcing monitor 0 selection")
+                            // Force select monitor 0 after timeline data is loaded
+                            monitorSelection.selectMonitorAt(0)
+                            root.timelineSwitching = false
+                        }
                     }
                 }
 
@@ -353,14 +395,14 @@ Popup {
                     if (root.selectedInstallType === Util.ContentTypes.InstalledType.QMLWallpaper || root.selectedInstallType === Util.ContentTypes.InstalledType.GodotWallpaper || root.selectedInstallType === Util.ContentTypes.InstalledType.WebsiteWallpaper) {
                         let success = App.screenPlayManager.projectSettingsAtMonitorIndex(root.selectedMonitorIndex, root.selectedTimelineIndex, root.selectedSectionIdentifier)
                         if (!success) {
-                            console.error("Unable to get requested settings from index: ", root.selectedTimelineIndex)
+                            console.error(LoggingCategories.contentSettings, "Unable to get requested settings from index: ", root.selectedTimelineIndex)
                             customPropertiesGridView.visible = false
                             defaultVideoControls.visible = false
                             return
                         }
                         const selectedTimeline = timeline.getSelectedTimeline()
                         if (selectedTimeline === undefined) {
-                            print("Invalid selected timeline")
+                            console.log(LoggingCategories.contentSettings, "Invalid selected timeline")
                             return
                         }
                         customPropertiesGridView.timelineActive = selectedTimeline.lineIndicator.isActive
@@ -368,7 +410,7 @@ Popup {
                         customPropertiesGridView.sectionIdentifier = selectedTimeline.identifier
                         customPropertiesGridView.selectedMonitorIndex = root.selectedMonitorIndex
                         customPropertiesGridView.projectSettingsListmodelRef = App.screenPlayManager.projectSettingsListModel
-                        console.log(customPropertiesGridView.timelineActive, customPropertiesGridView.timelineIndex, customPropertiesGridView.sectionIdentifier, customPropertiesGridView.selectedMonitorIndex, customPropertiesGridView.projectSettingsListmodelRef)
+                        console.log(LoggingCategories.contentSettings, customPropertiesGridView.timelineActive, customPropertiesGridView.timelineIndex, customPropertiesGridView.sectionIdentifier, customPropertiesGridView.selectedMonitorIndex, customPropertiesGridView.projectSettingsListmodelRef)
                         customPropertiesGridView.visible = true
                         defaultVideoControls.visible = false
                         return

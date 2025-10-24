@@ -29,7 +29,7 @@ Item {
     height: width
 
     function toString(): void {
-        console.log(`LineHandle {
+        console.log(LoggingCategories.lineHandle, `LineHandle {
         position: ${linePosition.toFixed(6)}
         time: ${timeString}
         selected: ${selected}

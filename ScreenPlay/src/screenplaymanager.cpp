@@ -38,6 +38,7 @@ ScreenPlayManager::ScreenPlayManager(
         if (m_errorManager) {
             m_errorManager->displayError(message);
         }
+        emit this->notifyUiReloadTimelinePreviewImage();
     });
 
     QObject::connect(this, &ScreenPlayManager::selectedTimelineIndexChanged, &m_screenPlayTimelineManager, &ScreenPlayTimelineManager::setSelectedTimelineIndex);

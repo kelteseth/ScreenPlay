@@ -42,18 +42,12 @@ Control {
         root.ready()
     }
 
-    LoggingCategory {
-        id: timelineLogging
-        name: "timeline"
-        defaultLogLevel: LoggingCategory.Debug
-    }
-
     Connections {
         target: App.screenPlayManager
         function onPrintQmlTimeline(): void {
-            console.debug(timelineLogging, "################# qml:")
+            console.debug(LoggingCategories.timeline, "################# qml:")
             for (var i = 0; i < timeline.sectionsList.length; i++) {
-                console.debug(timelineLogging, timeline.sectionsList[i].index, timeline.sectionsList[i].identifier, timeline.sectionsList[i].relativeLinePosition)
+                console.debug(LoggingCategories.timeline, timeline.sectionsList[i].index, timeline.sectionsList[i].identifier, timeline.sectionsList[i].relativeLinePosition)
             }
         }
     }
@@ -116,7 +110,7 @@ Control {
         }
 
         function reset(): void {
-            console.warn("⚠️ RESET")
+            console.warn(LoggingCategories.timeline, "⚠️ RESET")
             removeAll()
             let initialSectionsList = App.screenPlayManager.timelineSections()
             initialSectionsList.sort(function (a, b) {
@@ -136,7 +130,7 @@ Control {
 
         function setActiveWallpaperPreviewImage(): void {
             if (timeline.sectionsList.length == 0) {
-                console.error("Cannot set preview image with an empty section list")
+                console.error(LoggingCategories.timeline, "Cannot set preview image with an empty section list")
                 return
             }
 
@@ -144,7 +138,7 @@ Control {
             for (var i = 0; i < timelineSectionList.length; i++) {
                 let timelineSection = timelineSectionList[i]
                 if (!timeline.sectionsList[i]) {
-                    console.error("No sectionList item at index:", i, " of ", timeline.sectionsList.length)
+                    console.error(LoggingCategories.timeline, "No sectionList item at index:", i, " of ", timeline.sectionsList.length)
                     return
                 }
 
@@ -162,10 +156,10 @@ Control {
         }
 
         function removeAll(): void {
-            console.debug(timelineLogging, "removeAll", timeline.sectionsList.length)
+            console.debug(LoggingCategories.timeline, "removeAll", timeline.sectionsList.length)
             for (var i = 0; i < timeline.sectionsList.length; i++) {
                 // ORDER is important here! Destory the children first
-                console.debug(timelineLogging, "remove index ", i)
+                console.debug(LoggingCategories.timeline, "remove index ", i)
                 let section = timeline.sectionsList[i]
                 section.lineHandle.destroy()
                 section.lineIndicator.destroy()
@@ -181,18 +175,18 @@ Control {
         // user can never delete it. It only gets "pushed" further
         // to the right, by decreasing its size.
         function addSection(identifier: string, stopPosition: real): int {
-            console.debug(timelineLogging, "stopPosition", stopPosition);
+            console.debug(LoggingCategories.timeline, "stopPosition", stopPosition);
 
             // Make sure to limit float precision
             const fixedStopPosition = stopPosition
-            console.debug(timelineLogging, "addSection at: ", fixedStopPosition)
+            console.debug(LoggingCategories.timeline, "addSection at: ", fixedStopPosition)
             if (stopPosition < 0 || fixedStopPosition > 1) {
-                console.error(timelineLogging, "Invalid position:", fixedStopPosition)
+                console.error(LoggingCategories.timeline, "Invalid position:", fixedStopPosition)
                 return -1
             }
             const sectionComp = Qt.createComponent("TimelineSection.qml")
             if (sectionComp.status === Component.Error) {
-                console.assert(timelineLogging, sectionComp.errorString())
+                console.assert(LoggingCategories.timeline, sectionComp.errorString())
                 return -1
             }
             let sectionObject = sectionComp.createObject(timeline, {
@@ -204,7 +198,7 @@ Control {
                 return a.relativeLinePosition - b.relativeLinePosition
             })
             const index = timeline.sectionsList.indexOf(sectionObject)
-            console.debug(timelineLogging, "Addsection:", index)
+            console.debug(LoggingCategories.timeline, "Addsection:", index)
             createSection(index, fixedStopPosition, sectionObject, identifier)
             updatePositions()
             return index
@@ -226,11 +220,11 @@ Control {
         }
 
         function createSection(index: int, stopPosition: real, section: TimelineSection, identifier: string): void {
-            console.debug(timelineLogging, "Adding at:", index, stopPosition, identifier)
+            console.debug(LoggingCategories.timeline, "Adding at:", index, stopPosition, identifier)
 
             let haComponent = Qt.createComponent("LineHandle.qml")
             if (haComponent.status === Component.Error) {
-                console.assert(timelineLogging, haComponent.errorString())
+                console.assert(LoggingCategories.timeline, haComponent.errorString())
                 return
             }
             section.lineHandle = haComponent.createObject(handleWrapper)
@@ -247,7 +241,7 @@ Control {
             // Connect the new signal
             let liComponent = Qt.createComponent("LineIndicator.qml")
             if (liComponent.status === Component.Error) {
-                console.assert(timelineLogging, liComponent.errorString())
+                console.assert(LoggingCategories.timeline, liComponent.errorString())
                 return
             }
 
@@ -276,15 +270,15 @@ Control {
             updatePositions()
             const section = sectionFromHandle(lineHandle)
             if (section === null) {
-                console.debug(timelineLogging, lineHandle.linePosition)
-                console.error(timelineLogging, "Unable to match handle to section list")
+                console.debug(LoggingCategories.timeline, lineHandle.linePosition)
+                console.error(LoggingCategories.timeline, "Unable to match handle to section list")
                 return
             }
             App.screenPlayManager.moveTimelineAt(section.index, section.identifier, lineHandle.linePosition, lineHandle.timeString)
         }
 
         function lineIndicatorSelected(selectedTimelineIndex: int): void {
-            console.debug(timelineLogging, "selectedTimelineIndex:", selectedTimelineIndex, "section cout: ", timeline.sectionsList.length)
+            console.debug(LoggingCategories.timeline, "selectedTimelineIndex:", selectedTimelineIndex, "section cout: ", timeline.sectionsList.length)
             for (var i = 0; i < timeline.sectionsList.length; i++) {
                 const enableTimeline = (i === selectedTimelineIndex)
                 timeline.sectionsList[i].lineIndicator.selected = enableTimeline
@@ -308,8 +302,8 @@ Control {
         }
 
         function removeSection(index: int): void {
-            console.debug(timelineLogging, timeline.stopPositionList)
-            console.debug(timelineLogging, timeline.sectionList)
+            console.debug(LoggingCategories.timeline, timeline.stopPositionList)
+            console.debug(LoggingCategories.timeline, timeline.sectionList)
             const isLast = index === timeline.sectionsList.length - 1
             if (isLast)
                 return
@@ -574,7 +568,7 @@ Control {
                 top: parent.top
             }
             onClicked: {
-                console.log("resetting", btnReset.resetting)
+                console.log(LoggingCategories.timeline, "resetting", btnReset.resetting)
                 btnReset.resetting = true
                 App.screenPlayManager.removeAllRunningWallpapers().then(result => {
                     if (!result.success) {

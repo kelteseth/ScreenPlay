@@ -154,6 +154,7 @@ std::shared_ptr<ScreenPlayWallpaper> WallpaperTimelineSection::addWallpaper(cons
         emit wallpaperRestartFailed(appID, message);
     });
     wallpaperList.push_back(screenPlayWallpaper);
+    
     return screenPlayWallpaper;
 }
 
@@ -167,3 +168,4 @@ void WallpaperTimelineSection::updateActiveWallpaperCounter()
     emit activeWallpaperCountChanged(activeWallpaperCount);
 }
 }
+
