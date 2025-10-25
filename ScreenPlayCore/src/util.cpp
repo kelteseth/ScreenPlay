@@ -139,7 +139,11 @@ bool Util::writeFileFromQrc(const QString& qrcPath, const QString& absolutePath)
     out.setEncoding(QStringConverter::Utf8);
 
     QFile qrc(qrcPath);
-    qrc.open(QIODevice::ReadOnly);
+    if (!qrc.open(QIODevice::ReadOnly)) {
+        qCDebug(coreUtil) << "Could not open QRC file" << qrcPath;
+        file.close();
+        return false;
+    }
 
     QTextStream in(&qrc);
     // Read line by line to avoid CLRF/LF issues
@@ -720,32 +724,50 @@ void Util::requestAllLicenses()
         QTextStream out(&file);
 
         file.setFileName(":/qt/qml/ScreenPlay/legal/Font Awesome Free License.txt");
-        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            qCWarning(coreUtil) << "Could not open Font Awesome Free License.txt";
+            return;
+        }
         tmp += out.readAll();
         file.close();
 
         file.setFileName(":/qt/qml/ScreenPlay/legal/gpl-3.0.txt");
-        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            qCWarning(coreUtil) << "Could not open gpl-3.0.txt";
+            return;
+        }
         tmp += out.readAll();
         file.close();
 
         file.setFileName(":/qt/qml/ScreenPlay/legal/gpl-3.0.txt");
-        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            qCWarning(coreUtil) << "Could not open gpl-3.0.txt (second occurrence)";
+            return;
+        }
         tmp += out.readAll();
         file.close();
 
         file.setFileName(":/qt/qml/ScreenPlay/legal/OFL.txt");
-        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            qCWarning(coreUtil) << "Could not open OFL.txt";
+            return;
+        }
         tmp += out.readAll();
         file.close();
 
         file.setFileName(":/qt/qml/ScreenPlay/legal/OpenSSL.txt");
-        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            qCWarning(coreUtil) << "Could not open OpenSSL.txt";
+            return;
+        }
         tmp += out.readAll();
         file.close();
 
         file.setFileName(":/qt/qml/ScreenPlay/legal/Qt LGPLv3.txt");
-        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            qCWarning(coreUtil) << "Could not open Qt LGPLv3.txt";
+            return;
+        }
         tmp += out.readAll();
         file.close();
 
@@ -764,7 +786,10 @@ void Util::requestDataProtection()
     QTextStream out(&file);
 
     file.setFileName(":/qt/qml/ScreenPlay/legal/DataProtection.txt");
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qCWarning(coreUtil) << "Could not open DataProtection.txt";
+        return;
+    }
     tmp += out.readAll();
     file.close();
 

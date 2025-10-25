@@ -28,10 +28,13 @@
 #include <QVector>
 #include <QtConcurrent/QtConcurrent>
 #include <QtGlobal>
+#include <QLoggingCategory>
 
 #ifdef Q_OS_WIN
 #include <qt_windows.h>
 #endif
+
+Q_LOGGING_CATEGORY(settings, "screenplay.settings")
 
 namespace ScreenPlay {
 
@@ -184,8 +187,15 @@ void Settings::writeDefaultProfiles()
     }
     QFile defaultProfileFile(":/qt/qml/ScreenPlay/profiles.json");
 
-    profilesFile.open(QIODevice::WriteOnly | QIODevice::Text);
-    defaultProfileFile.open(QIODevice::ReadOnly | QIODevice::Text);
+    if (!profilesFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qCWarning(settings) << "Could not open profiles file for writing:" << profilesFile.fileName();
+        return;
+    }
+    if (!defaultProfileFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qCWarning(settings) << "Could not open default profiles file from resources";
+        profilesFile.close();
+        return;
+    }
 
     QTextStream out(&profilesFile);
     QTextStream defaultOut(&defaultProfileFile);
@@ -419,7 +429,10 @@ void Settings::setAutostart(bool autostart)
     if (desktopEnvironment() == DesktopEnvironment::OSX) {
         const QString plistFileName = "app.screenplay.plist";
         QFile defaultPListFile(":/qt/qml/ScreenPlay/assets/macos/" + plistFileName);
-        defaultPListFile.open(QIODevice::ReadOnly);
+        if (!defaultPListFile.open(QIODevice::ReadOnly)) {
+            qCWarning(settings) << "Could not open default plist file from resources";
+            return;
+        }
         QString settingsPlistContent = defaultPListFile.readAll();
         if (!settingsPlistContent.contains("{{SCREENPLAY_PATH}}")) {
             qCritical() << "Unable to load plist settings template from qrc to set autostart!";
@@ -512,7 +525,10 @@ void Settings::setAutostart(bool autostart)
             }
         }
 
-        settingsPlist.open(QIODevice::WriteOnly | QIODevice::Truncate);
+        if (!settingsPlist.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+            qCWarning(settings) << "Could not open settings plist file for writing:" << settingsPlist.fileName();
+            return;
+        }
         QTextStream out(&settingsPlist);
         out.setEncoding(QStringConverter::Utf8);
         out << settingsPlistContent;
