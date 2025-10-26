@@ -114,6 +114,8 @@ sentry_debug_upload:
   - steam_windows
   rules:
   - if: "$CI_COMMIT_TAG"
+  variables:
+    SENTRY_AUTH_TOKEN: $SENTRY_AUTH_TOKEN
   script:
   # Download Sentry CLI from GitHub releases
   - powershell -Command "Invoke-WebRequest -Uri '$env:SENTRY_CLI_DOWNLOAD_URL/$env:SENTRY_CLI_VERSION/sentry-cli-Windows-x86_64.exe' -OutFile 'sentry-cli.exe'"
@@ -133,6 +135,8 @@ sentry_debug_upload_linux:
   - sentry_debug_upload # Wait for Windows job to create the release
   rules:
   - if: "$CI_COMMIT_TAG"
+  variables:
+    SENTRY_AUTH_TOKEN: $SENTRY_AUTH_TOKEN
   before_script:
   - apt update -y
   - apt install -y curl
@@ -155,6 +159,8 @@ sentry_finalize_release:
   rules:
   - if: "$CI_COMMIT_TAG"
   when: always # Run even if dependent jobs failed
+  variables:
+    SENTRY_AUTH_TOKEN: $SENTRY_AUTH_TOKEN
   before_script:
   - apt update -y
   - apt install -y curl
