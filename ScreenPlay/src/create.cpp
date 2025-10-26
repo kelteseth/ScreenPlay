@@ -12,6 +12,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonParseError>
+#include <QProcess>
 #include <QStringList>
 #include <QLoggingCategory>
 
@@ -157,6 +158,117 @@ void Create::createWallpaperStart(QString videoPath, ScreenPlay::Video::VideoCod
 }
 
 /*!
+    \brief Detects the video codec from a file.
+           Returns the actual detected codec enum value (H264, VP9, etc.).
+           Returns Unknown if detection fails or codec is not recognized.
+*/
+ScreenPlay::Video::VideoCodec Create::detectVideoCodec(const QString& videoPath)
+{
+    ScreenPlay::Util util;
+    // Handle both URL strings and regular file paths
+    QString localVideoPath;
+    if (videoPath.startsWith("file://") || videoPath.startsWith("qrc:")) {
+        localVideoPath = util.toLocal(videoPath);
+    } else {
+        // Already a local path, use as-is
+        localVideoPath = QDir::toNativeSeparators(videoPath);
+    }
+    
+    QProcess process;
+    QString ffprobeExecutable;
+    
+#ifdef Q_OS_LINUX
+    ffprobeExecutable = "ffprobe";
+#else
+    ffprobeExecutable = QGuiApplication::applicationDirPath() + "/ffprobe" + util.executableBinEnding();
+#endif
+
+#ifndef Q_OS_LINUX
+    if (!QFileInfo::exists(ffprobeExecutable)) {
+        qCWarning(create) << "FFPROBE executable not found!";
+        return ScreenPlay::Video::VideoCodec::Unknown;
+    }
+#endif
+
+    QStringList args;
+    args.append("-v");
+    args.append("error");
+    args.append("-select_streams");
+    args.append("v:0");
+    args.append("-show_entries");
+    args.append("stream=codec_name");
+    args.append("-of");
+    args.append("default=noprint_wrappers=1:nokey=1");
+    args.append(localVideoPath);
+    
+    qCInfo(create) << "Running FFprobe:" << ffprobeExecutable;
+    qCInfo(create) << "With args:" << args;
+    qCInfo(create) << "Video path:" << localVideoPath;
+    
+    process.setProgram(ffprobeExecutable);
+    process.setArguments(args);
+    process.start();
+    
+    if (!process.waitForFinished(5000)) {
+        qCWarning(create) << "FFprobe timeout while detecting codec";
+        qCWarning(create) << "FFprobe error:" << process.errorString();
+        return ScreenPlay::Video::VideoCodec::Unknown;
+    }
+    
+    if (process.exitCode() != 0) {
+        qCWarning(create) << "FFprobe exited with code:" << process.exitCode();
+        qCWarning(create) << "FFprobe stderr:" << process.readAllStandardError();
+        qCWarning(create) << "FFprobe stdout:" << process.readAllStandardOutput();
+        return ScreenPlay::Video::VideoCodec::Unknown;
+    }
+    
+    QString codecName = QString::fromUtf8(process.readAllStandardOutput()).trimmed();
+    qCInfo(create) << "Detected codec:" << codecName;
+    
+    if (codecName.isEmpty()) {
+        qCWarning(create) << "FFprobe returned empty codec name";
+        qCWarning(create) << "Command was:" << ffprobeExecutable << args;
+        return ScreenPlay::Video::VideoCodec::Unknown;
+    }
+    
+    // Map codec names to enum values
+    if (codecName == "vp8") {
+        return ScreenPlay::Video::VideoCodec::VP8;
+    } else if (codecName == "vp9") {
+        return ScreenPlay::Video::VideoCodec::VP9;
+    } else if (codecName == "av1") {
+        return ScreenPlay::Video::VideoCodec::AV1;
+    } else if (codecName == "h264") {
+        return ScreenPlay::Video::VideoCodec::H264;
+    } else if (codecName == "hevc" || codecName == "h265") {
+        return ScreenPlay::Video::VideoCodec::H265;
+    } else {
+        qCInfo(create) << "Unknown or unplayable codec detected";
+        return ScreenPlay::Video::VideoCodec::Unknown;
+    }
+}
+
+/*!
+    \brief Checks if the given codec can be played without conversion.
+           Returns true for VP8, VP9, H264, H265, AV1.
+*/
+bool Create::canSkipConversion(ScreenPlay::Video::VideoCodec codec)
+{
+    switch (codec) {
+    case ScreenPlay::Video::VideoCodec::VP8:
+    case ScreenPlay::Video::VideoCodec::VP9:
+    case ScreenPlay::Video::VideoCodec::AV1:
+    case ScreenPlay::Video::VideoCodec::H264:
+    case ScreenPlay::Video::VideoCodec::H265:
+        return true;
+    case ScreenPlay::Video::VideoCodec::Unknown:
+    case ScreenPlay::Video::VideoCodec::NoConversion:
+        return false;
+    }
+    return false;
+}
+
+/*!
     \brief When converting of the wallpaper steps where successful.
 */
 void Create::saveWallpaper(
@@ -171,6 +283,14 @@ void Create::saveWallpaper(
     ScreenPlay::Util util;
     filePath = util.toLocal(filePath);
     previewImagePath = util.toLocal(previewImagePath);
+    
+    // If NoConversion was selected, detect the actual codec from the file
+    // so we can save the correct codec to project.json
+    ScreenPlay::Video::VideoCodec actualCodec = codec;
+    if (codec == ScreenPlay::Video::VideoCodec::NoConversion) {
+        actualCodec = detectVideoCodec(filePath);
+        qCInfo(create) << "NoConversion selected, detected actual codec:" << QVariant::fromValue(actualCodec).toString();
+    }
 
     emit createWallpaperStateChanged(Import::State::CopyFiles);
 
@@ -209,14 +329,14 @@ void Create::saveWallpaper(
     obj.insert("description", description);
     obj.insert("title", title);
     obj.insert("youtube", youtube);
-    obj.insert("videoCodec", QVariant::fromValue<Video::VideoCodec>(codec).toString());
+    obj.insert("videoCodec", QVariant::fromValue<Video::VideoCodec>(actualCodec).toString());
 
     QString fileEnding;
-    if (codec == Video::VideoCodec::H264)
+    if (actualCodec == Video::VideoCodec::H264)
         fileEnding = ".mp4";
-    if (codec == Video::VideoCodec::AV1)
+    if (actualCodec == Video::VideoCodec::AV1)
         fileEnding = ".mkv";
-    if (codec == Video::VideoCodec::VP8 || codec == Video::VideoCodec::VP9)
+    if (actualCodec == Video::VideoCodec::VP8 || actualCodec == Video::VideoCodec::VP9)
         fileEnding = ".webm";
 
     obj.insert("file", filePathFile.completeBaseName() + fileEnding);

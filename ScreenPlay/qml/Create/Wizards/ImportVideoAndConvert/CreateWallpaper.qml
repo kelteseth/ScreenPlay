@@ -19,6 +19,7 @@ Item {
         CreateWallpaperFileSelect {
             onNext: function (filePath) {
                 createWallpaperVideoImportConvert.filePath = filePath
+                createWallpaperSettings.videoPath = filePath
                 swipeView.currentIndex = 1
             }
         }

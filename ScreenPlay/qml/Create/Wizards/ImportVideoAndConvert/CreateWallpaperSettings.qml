@@ -11,8 +11,52 @@ Item {
     objectName: "createWallpaperInit"
 
     property int quality: sliderQuality.slider.value
+    property var detectedCodec: Video.VideoCodec.Unknown
+    property string videoPath: ""
 
     signal next(var codec, var quality)
+
+    Component.onCompleted: {
+        if (videoPath !== "") {
+            detectedCodec = App.create.detectVideoCodec(videoPath)
+            updateCodecSelection()
+        }
+    }
+
+    function updateCodecSelection() {
+        // Check if conversion can be skipped for the detected codec
+        const canSkip = App.create.canSkipConversion(detectedCodec)
+        
+        if (canSkip) {
+            // Codec is playable, suggest "No Conversion"
+            comboBoxCodec.currentIndex = 0 // No Conversion
+            txtDetectedCodec.text = qsTr("✅ Your video codec (%1) is supported! No conversion needed.").arg(codecName(detectedCodec))
+            txtDetectedCodec.visible = true
+        } else if (detectedCodec !== Video.VideoCodec.Unknown) {
+            // Codec detected but not playable, suggest conversion to detected codec
+            for (let i = 0; i < model.count; i++) {
+                if (model.get(i).value === detectedCodec) {
+                    comboBoxCodec.currentIndex = i
+                    break
+                }
+            }
+            txtDetectedCodec.visible = false
+        } else {
+            // Unknown codec, default to H.264
+            txtDetectedCodec.visible = false
+        }
+    }
+    
+    function codecName(codec) {
+        switch (codec) {
+            case Video.VideoCodec.H264: return "H.264"
+            case Video.VideoCodec.H265: return "H.265"
+            case Video.VideoCodec.VP8: return "VP8"
+            case Video.VideoCodec.VP9: return "VP9"
+            case Video.VideoCodec.AV1: return "AV1"
+            default: return "Unknown"
+        }
+    }
 
     ColumnLayout {
         spacing: 40
@@ -41,6 +85,18 @@ Item {
             font.family: App.settings.font
         }
 
+        Text {
+            id: txtDetectedCodec
+            visible: false
+            text: qsTr("✅ Your video codec is supported! No conversion needed.")
+            color: Material.color(Material.Green)
+            Layout.fillWidth: true
+            font.pointSize: 12
+            font.bold: true
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            font.family: App.settings.font
+        }
+
         ColumnLayout {
             spacing: 20
 
@@ -63,8 +119,17 @@ Item {
                 currentIndex: 0
                 font.family: App.settings.font
 
+                onCurrentValueChanged: {
+                    // Disable quality slider when NoConversion is selected
+                    sliderQuality.enabled = (currentValue !== Video.VideoCodec.NoConversion)
+                }
+
                 model: ListModel {
                     id: model
+                    ListElement {
+                        value: Video.VideoCodec.NoConversion
+                        text: qsTr("🎬 No Conversion (Keep original)")
+                    }
                     ListElement {
                         value: Video.VideoCodec.H264
                         text: qsTr("✨h.264 (Better for all hardware)")
@@ -89,6 +154,8 @@ Item {
             iconSource: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_settings.svg"
             headline: qsTr("Set video quality. Lower value means better quality.")
             Layout.preferredWidth: 400
+            enabled: comboBoxCodec.currentValue !== Video.VideoCodec.NoConversion
+            opacity: enabled ? 1.0 : 0.5
 
             slider {
                 from: 63
@@ -122,7 +189,7 @@ Item {
         highlighted: true
         font.family: App.settings.font
         onClicked: {
-            root.next(comboBoxCodec.currentValue, sliderQuality.value)
+            root.next(comboBoxCodec.currentValue, sliderQuality.slider.value)
         }
         anchors {
             right: parent.right

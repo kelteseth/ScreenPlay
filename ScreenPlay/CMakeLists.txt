@@ -369,6 +369,18 @@ if(${SCREENPLAY_TESTS})
     if(${SCREENPLAY_STEAM})
         target_link_libraries(tst_ScreenPlay PUBLIC ScreenPlayWorkshopLib ScreenPlayWorkshopLibplugin)
     endif()
+
+    # GUI/Integration tests - requires full QML engine
+    qt_add_executable(tst_ScreenPlayGui tests/tst_ScreenPlayGui.cpp)
+    target_link_libraries(tst_ScreenPlayGui PRIVATE ScreenPlayLib ScreenPlayLibplugin Qt6::Test Qt6::Quick)
+
+    # Generate CMakeVariables.h before building the GUI test
+    generate_cmake_variable_header(tst_ScreenPlayGui)
+    add_dependencies(tst_ScreenPlayGui ScreenPlayLib)
+
+    if(${SCREENPLAY_STEAM})
+        target_link_libraries(tst_ScreenPlayGui PUBLIC ScreenPlayWorkshopLib ScreenPlayWorkshopLibplugin)
+    endif()
 endif()
 
 if(WIN32)

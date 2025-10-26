@@ -2,12 +2,10 @@
 #include "ScreenPlay/screenplaywallpaper.h"
 #include "ScreenPlay/wallpaperdata.h"
 #include "ScreenPlayCore/util.h"
+#include <QLoggingCategory>
 #include <QString>
 #include <QStringList>
 #include <QtGlobal>
-#include <QLoggingCategory>
-#include <iostream>
-#include <ranges>
 #include <set>
 
 Q_LOGGING_CATEGORY(screenPlayTimelineManager, "screenplay.timeline.manager")

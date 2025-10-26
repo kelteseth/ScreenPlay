@@ -80,6 +80,7 @@ public:
 
     enum class VideoCodec {
         Unknown,
+        NoConversion,
         VP8,
         VP9,
         AV1,

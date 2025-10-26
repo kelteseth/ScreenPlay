@@ -633,6 +633,20 @@ bool CreateImportVideo::createWallpaperVideo()
 {
     const QFileInfo sourceFile(m_videoPath);
 
+    // If target codec is NoConversion, it means no conversion needed - just copy the original
+    if (m_targetCodec == Video::VideoCodec::NoConversion) {
+        qCInfo(createImportVideo) << "No conversion needed, copying original file";
+        
+        const QString targetFilePath = m_exportPath + "/" + sourceFile.fileName();
+        
+        if (!QFile::copy(sourceFile.absoluteFilePath(), targetFilePath)) {
+            qCDebug(createImportVideo) << "Could not copy" << sourceFile.absoluteFilePath() << " to " << targetFilePath;
+            return false;
+        }
+        emit createWallpaperStateChanged(Import::State::Finished);
+        return true;
+    }
+
     if (m_sourceCodec == m_targetCodec) {
         qCInfo(createImportVideo) << "Skip video convert because they are the same";
 
@@ -804,13 +818,46 @@ bool CreateImportVideo::createWallpaperVideo()
         args.append(m_videoPath);
         args.append("-c:v");
         args.append(targetCodec);
+        
+        // Use CRF for quality control (lower = better quality)
+        // For H.264: 18-23 is visually lossless to high quality
+        // Map input quality (likely 0-100) to CRF (51-18)
+        int h264Crf = 18; // Default to high quality
+        if (m_quality > 0 && m_quality <= 100) {
+            // Map quality 0-100 to CRF 28-18 (higher quality range)
+            h264Crf = 28 - static_cast<int>((m_quality / 100.0) * 10);
+        }
         args.append("-crf");
-        args.append(QString::number(m_quality));
+        args.append(QString::number(h264Crf));
+        
+        // Use slower preset for better quality/compression ratio
         args.append("-preset");
-        args.append("medium");
+        args.append("slow");
+        
+        // Set pixel format for compatibility and quality
+        args.append("-pix_fmt");
+        args.append("yuv420p");
+        
+        // Add bitrate limit to prevent extremely large files
+        args.append("-maxrate");
+        args.append("15000k");
+        args.append("-bufsize");
+        args.append("30000k");
+        
         args.append("-threads");
         args.append(QString::number(QThread::idealThreadCount()));
-        qCInfo(createImportVideo) << "threads" << QThread::idealThreadCount() << "m_quality" << m_quality;
+        qCInfo(createImportVideo) << "threads" << QThread::idealThreadCount() << "m_quality" << m_quality << "h264Crf" << h264Crf;
+        
+        // Copy audio if present (unless skipped)
+        if (!m_skipAudio) {
+            args.append("-c:a");
+            args.append("aac");
+            args.append("-b:a");
+            args.append("192k");
+        } else {
+            args.append("-an");
+        }
+        
         args.append(convertedFileAbsolutePath);
     }
 
