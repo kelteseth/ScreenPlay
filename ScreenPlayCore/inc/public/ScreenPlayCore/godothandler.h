@@ -43,7 +43,7 @@ private:
     std::optional<QFileInfo> getGodotProjectExportFile(const QString& absolutePath) const;
     std::optional<QJsonObject> readProjectJsonFromZip(const QString& zipFilePath) const;
     bool checkGodotVersionInZip(const QString& zipFilePath) const;
-    
+
     Util m_util;
 };
 

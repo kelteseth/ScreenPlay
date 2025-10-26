@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "ScreenPlayCore/archivereader.h"
 
+#include <QDebug>
 #include <QDir>
 #include <QFileInfo>
-#include <QDebug>
-#include <QRegularExpression>
 #include <QJsonDocument>
 #include <QJsonParseError>
+#include <QRegularExpression>
 #include <archive.h>
 #include <archive_entry.h>
 
@@ -15,11 +15,13 @@ namespace ScreenPlay {
 class ArchiveReader::ArchiveReaderPrivate {
 public:
     ArchiveReaderPrivate() = default;
-    ~ArchiveReaderPrivate() {
+    ~ArchiveReaderPrivate()
+    {
         closeArchive();
     }
 
-    std::expected<bool, QString> openArchive(const QString& archivePath) {
+    std::expected<bool, QString> openArchive(const QString& archivePath)
+    {
         closeArchive();
 
         QFileInfo fileInfo(archivePath);
@@ -39,8 +41,8 @@ public:
         int result = archive_read_open_filename(m_archive, archivePathBytes.constData(), 10240);
         if (result != ARCHIVE_OK) {
             QString errorMsg = QString("Failed to open archive: %1 - %2")
-                              .arg(archivePath)
-                              .arg(QString::fromUtf8(archive_error_string(m_archive)));
+                                   .arg(archivePath)
+                                   .arg(QString::fromUtf8(archive_error_string(m_archive)));
             closeArchive();
             return std::unexpected(errorMsg);
         }
@@ -50,7 +52,8 @@ public:
         return true;
     }
 
-    void closeArchive() {
+    void closeArchive()
+    {
         if (m_archive) {
             if (m_isOpen) {
                 archive_read_close(m_archive);
@@ -64,14 +67,16 @@ public:
         m_entriesCached = false;
     }
 
-    bool isOpen() const {
+    bool isOpen() const
+    {
         return m_isOpen && m_archive != nullptr;
     }
 
     /*! \brief Reads a specific file from the archive without extracting the entire archive.
               Creates a new archive instance for reading since libarchive doesn't support random access well.
      */
-    std::expected<QByteArray, QString> readFileFromArchive(const QString& filePath) const {
+    std::expected<QByteArray, QString> readFileFromArchive(const QString& filePath) const
+    {
         if (!isOpen()) {
             return std::unexpected("No archive is currently open");
         }
@@ -88,7 +93,7 @@ public:
         int result = archive_read_open_filename(readArchive, archivePathBytes.constData(), 10240);
         if (result != ARCHIVE_OK) {
             QString errorMsg = QString("Failed to reopen archive for reading: %1")
-                              .arg(QString::fromUtf8(archive_error_string(readArchive)));
+                                   .arg(QString::fromUtf8(archive_error_string(readArchive)));
             archive_read_free(readArchive);
             return std::unexpected(errorMsg);
         }
@@ -104,16 +109,14 @@ public:
             QString normalizedCurrentPath = QDir::fromNativeSeparators(currentPath);
             QString normalizedFilePath = QDir::fromNativeSeparators(filePath);
 
-            if (normalizedCurrentPath == normalizedFilePath || 
-                normalizedCurrentPath.endsWith("/" + normalizedFilePath) ||
-                (normalizedFilePath.startsWith("/") && normalizedCurrentPath == normalizedFilePath.mid(1))) {
-                
+            if (normalizedCurrentPath == normalizedFilePath || normalizedCurrentPath.endsWith("/" + normalizedFilePath) || (normalizedFilePath.startsWith("/") && normalizedCurrentPath == normalizedFilePath.mid(1))) {
+
                 if (archive_entry_filetype(entry) == AE_IFREG) {
                     la_int64_t size = archive_entry_size(entry);
-                    
+
                     if (size >= 0 && size < 100 * 1024 * 1024) { // 100MB limit for safety
                         fileContent.resize(static_cast<int>(size));
-                        
+
                         la_ssize_t bytesRead = archive_read_data(readArchive, fileContent.data(), size);
                         if (bytesRead == size) {
                             fileFound = true;
@@ -151,7 +154,8 @@ public:
     /*!
      * Lists all entries in the archive. Uses caching to avoid re-reading the archive multiple times.
      */
-    std::expected<QList<ArchiveEntry>, QString> listEntries() const {
+    std::expected<QList<ArchiveEntry>, QString> listEntries() const
+    {
         if (!isOpen()) {
             return std::unexpected("No archive is currently open");
         }
@@ -172,7 +176,7 @@ public:
         int result = archive_read_open_filename(listArchive, archivePathBytes.constData(), 10240);
         if (result != ARCHIVE_OK) {
             QString errorMsg = QString("Failed to reopen archive for listing: %1")
-                              .arg(QString::fromUtf8(archive_error_string(listArchive)));
+                                   .arg(QString::fromUtf8(archive_error_string(listArchive)));
             archive_read_free(listArchive);
             return std::unexpected(errorMsg);
         }
@@ -183,7 +187,7 @@ public:
         while (archive_read_next_header(listArchive, &entry) == ARCHIVE_OK) {
             const char* entryPath = archive_entry_pathname(entry);
             QString path = QString::fromUtf8(entryPath);
-            
+
             QFileInfo pathInfo(path);
             QString name = pathInfo.fileName();
             la_int64_t size = archive_entry_size(entry);
@@ -202,7 +206,8 @@ public:
         return entries;
     }
 
-    std::expected<QStringList, QString> findFiles(const QString& pattern, bool caseSensitive) const {
+    std::expected<QStringList, QString> findFiles(const QString& pattern, bool caseSensitive) const
+    {
         auto entriesResult = listEntries();
         if (!entriesResult.has_value()) {
             return std::unexpected(entriesResult.error());
@@ -210,10 +215,10 @@ public:
 
         QStringList matchingFiles;
         QRegularExpression regex;
-        
+
         QString regexPattern = QRegularExpression::wildcardToRegularExpression(pattern);
         regex.setPattern(regexPattern);
-        
+
         if (!caseSensitive) {
             regex.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
         }
@@ -227,21 +232,21 @@ public:
         return matchingFiles;
     }
 
-    bool containsFile(const QString& filePath) const {
+    bool containsFile(const QString& filePath) const
+    {
         auto entriesResult = listEntries();
         if (!entriesResult.has_value()) {
             return false;
         }
 
         QString normalizedFilePath = QDir::fromNativeSeparators(filePath);
-        
+
         for (const auto& entry : entriesResult.value()) {
-            if (entry.isDirectory) continue;
-            
+            if (entry.isDirectory)
+                continue;
+
             QString normalizedEntryPath = QDir::fromNativeSeparators(entry.path);
-            if (normalizedEntryPath == normalizedFilePath || 
-                normalizedEntryPath.endsWith("/" + normalizedFilePath) ||
-                (normalizedFilePath.startsWith("/") && normalizedEntryPath == normalizedFilePath.mid(1))) {
+            if (normalizedEntryPath == normalizedFilePath || normalizedEntryPath.endsWith("/" + normalizedFilePath) || (normalizedFilePath.startsWith("/") && normalizedEntryPath == normalizedFilePath.mid(1))) {
                 return true;
             }
         }
@@ -249,19 +254,18 @@ public:
         return false;
     }
 
-    std::expected<ArchiveEntry, QString> getFileInfo(const QString& filePath) const {
+    std::expected<ArchiveEntry, QString> getFileInfo(const QString& filePath) const
+    {
         auto entriesResult = listEntries();
         if (!entriesResult.has_value()) {
             return std::unexpected(entriesResult.error());
         }
 
         QString normalizedFilePath = QDir::fromNativeSeparators(filePath);
-        
+
         for (const auto& entry : entriesResult.value()) {
             QString normalizedEntryPath = QDir::fromNativeSeparators(entry.path);
-            if (normalizedEntryPath == normalizedFilePath || 
-                normalizedEntryPath.endsWith("/" + normalizedFilePath) ||
-                (normalizedFilePath.startsWith("/") && normalizedEntryPath == normalizedFilePath.mid(1))) {
+            if (normalizedEntryPath == normalizedFilePath || normalizedEntryPath.endsWith("/" + normalizedFilePath) || (normalizedFilePath.startsWith("/") && normalizedEntryPath == normalizedFilePath.mid(1))) {
                 return entry;
             }
         }
@@ -269,7 +273,8 @@ public:
         return std::unexpected(QString("File not found in archive: %1").arg(filePath));
     }
 
-    QString archivePath() const {
+    QString archivePath() const
+    {
         return m_archivePath;
     }
 
@@ -277,7 +282,7 @@ private:
     struct archive* m_archive = nullptr;
     bool m_isOpen = false;
     QString m_archivePath;
-    
+
     mutable QList<ArchiveEntry> m_entriesCache;
     mutable bool m_entriesCached = false;
 };
@@ -344,18 +349,18 @@ std::expected<QJsonObject, QString> ArchiveReader::readJsonFromArchive(const QSt
     if (!fileResult.has_value()) {
         return std::unexpected(fileResult.error());
     }
-    
+
     QJsonParseError parseError;
     QJsonDocument doc = QJsonDocument::fromJson(fileResult.value(), &parseError);
-    
+
     if (parseError.error != QJsonParseError::NoError) {
         return std::unexpected(QString("Failed to parse JSON: %1").arg(parseError.errorString()));
     }
-    
+
     if (!doc.isObject()) {
         return std::unexpected("JSON content is not an object");
     }
-    
+
     return doc.object();
 }
 

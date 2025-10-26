@@ -53,7 +53,7 @@ signals:
 
 public slots:
     bool setWallpaperValue(const QString& key, const QVariant& value, const QString& category, const bool save = false);
-    
+
     void updateVolume(const float volume);
     void updateFillMode(const Video::FillMode fillMode);
     void updateProperty(const QString& category, const QString& key, const QVariant& value);

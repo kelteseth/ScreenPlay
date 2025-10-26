@@ -37,7 +37,7 @@ public:
         const int quality = 50);
 
     Q_INVOKABLE ScreenPlay::Video::VideoCodec detectVideoCodec(const QString& videoPath);
-    
+
     Q_INVOKABLE bool canSkipConversion(ScreenPlay::Video::VideoCodec codec);
 
     Q_INVOKABLE void saveWallpaper(const QString title,

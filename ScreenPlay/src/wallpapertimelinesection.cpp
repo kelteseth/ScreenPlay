@@ -8,8 +8,8 @@
 #include <QDir>
 #include <QFileInfoList>
 #include <QGuiApplication>
-#include <QObject>
 #include <QLoggingCategory>
+#include <QObject>
 
 Q_LOGGING_CATEGORY(wallpaperTimelineSection, "screenplay.wallpaper.timeline.section")
 
@@ -158,7 +158,7 @@ std::shared_ptr<ScreenPlayWallpaper> WallpaperTimelineSection::addWallpaper(cons
         emit wallpaperRestartFailed(appID, message);
     });
     wallpaperList.push_back(screenPlayWallpaper);
-    
+
     return screenPlayWallpaper;
 }
 
@@ -172,4 +172,3 @@ void WallpaperTimelineSection::updateActiveWallpaperCounter()
     emit activeWallpaperCountChanged(activeWallpaperCount);
 }
 }
-

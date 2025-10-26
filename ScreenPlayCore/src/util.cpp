@@ -631,7 +631,7 @@ bool Util::isSameWallpaperRuntime(
     if ((type1 == IT::GodotWallpaper) && (type2 == IT::GodotWallpaper)) {
         return true;
     }
-    
+
     // Qt-based wallpapers can switch between each other
     if ((type1 == IT::GodotWallpaper) || (type2 == IT::GodotWallpaper)) {
         return false; // No mixing between Qt and Godot

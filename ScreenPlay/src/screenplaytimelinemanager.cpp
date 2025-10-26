@@ -165,8 +165,8 @@ std::expected<bool, ScreenPlayTimelineManager::TimelineManagerError> ScreenPlayT
     newTimelineSection->identifier = m_util.generateRandomString(4);
 
     qCInfo(screenPlayTimelineManager) << newTimelineSection->index
-            << newTimelineSection->startTime
-            << newTimelineSection->endTime;
+                                      << newTimelineSection->startTime
+                                      << newTimelineSection->endTime;
 
     auto initResult = newTimelineSection->init(timelineObj.value("wallpaper").toArray());
     if (!initResult.has_value()) {
@@ -570,7 +570,7 @@ void ScreenPlayTimelineManager::updateMonitorListModelData(const int selectedTim
             m_monitorListModel->setData(modelIndex, (int)ScreenPlayEnums::AppState::NotSet, (int)AppState);
         }
     }
-    
+
     // Emit signal to notify QML that the monitor data has been updated
     emit m_monitorListModel->monitorReloadCompleted();
 }
@@ -957,7 +957,7 @@ QCoro::Task<Result> ScreenPlayTimelineManager::setValueAtMonitorTimelineIndex(
             } else if (!category.isEmpty()) {
                 wallpaper->updateProperty(category, key, value);
             }
-            
+
             // If it's currently active, also send the update to the running process
             if (wallpaper->state() == ScreenPlayEnums::AppState::Active) {
                 const auto success = wallpaper->setWallpaperValue(key, value, category);
@@ -1184,9 +1184,9 @@ QCoro::Task<Result> ScreenPlayTimelineManager::activateTimeline(const int timeli
 
     timelineSection->state = Starting;
     qCDebug(screenPlayTimelineManager) << "Activate timeline:" << timelineIndex
-             << timelineIdentifier
-             << timelineSection->relativePosition
-             << wallpaperData().size();
+                                       << timelineIdentifier
+                                       << timelineSection->relativePosition
+                                       << wallpaperData().size();
 
     bool allWallpapersStarted = true;
     QString errorMessage;

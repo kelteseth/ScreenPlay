@@ -1,18 +1,18 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "ScreenPlayCore/godothandler.h"
 
+#include <QEventLoop>
 #include <QFile>
 #include <QJsonParseError>
 #include <QTemporaryDir>
-#include <QEventLoop>
 #include <QTextStream>
 #include <QUrl>
 #include <memory>
 
 #include "CMakeVariables.h"
+#include "ScreenPlayCore/archivereader.h"
 #include "core/qcoroprocess.h"
 #include "qarchivediskextractor.hpp"
-#include "ScreenPlayCore/archivereader.h"
 
 namespace ScreenPlay {
 
@@ -62,11 +62,11 @@ bool GodotHandler::godotProjectExportExists(const QString& absolutePath) const
 
     // Check if the Godot version in the zip matches the current version
     bool versionMatches = checkGodotVersionInZip(godotPackageFile.absoluteFilePath());
-    
+
     if (!versionMatches) {
         qInfo() << "Godot export exists but version mismatch detected for:" << absolutePath;
     }
-    
+
     return versionMatches;
 }
 
@@ -102,14 +102,14 @@ QCoro::QmlTask GodotHandler::exportGodotProject(const QString& absolutePath, con
         std::optional<QJsonObject> projectJsonOpt = m_util.openJsonFileToObject(projectJsonPath);
         if (projectJsonOpt.has_value()) {
             QJsonObject projectJson = projectJsonOpt.value();
-            
+
             // Update Godot version fields
             const int currentGodotMajor = SCREENPLAY_GODOT_VERSION_MAJOR;
             const int currentGodotMinor = SCREENPLAY_GODOT_VERSION_MINOR;
-            
+
             projectJson["godotVersionMajor"] = QString::number(currentGodotMajor);
             projectJson["godotVersionMinor"] = QString::number(currentGodotMinor);
-            
+
             // Write the updated project.json back
             if (!m_util.writeJsonObjectToFile(projectJsonPath, projectJson, true)) {
                 qWarning() << "Failed to update project.json with current Godot version";
@@ -203,19 +203,19 @@ std::optional<QFileInfo> GodotHandler::getGodotProjectExportFile(const QString& 
 std::optional<QJsonObject> GodotHandler::readProjectJsonFromZip(const QString& zipFilePath) const
 {
     ArchiveReader reader;
-    
+
     auto openResult = reader.openArchive(zipFilePath);
     if (!openResult.has_value()) {
         qWarning() << "Failed to open archive:" << zipFilePath << "-" << openResult.error();
         return std::nullopt;
     }
-    
+
     auto jsonResult = reader.readJsonFromArchive("project.json");
     if (!jsonResult.has_value()) {
         qWarning() << "Failed to read/parse project.json from archive:" << zipFilePath << "-" << jsonResult.error();
         return std::nullopt;
     }
-    
+
     return jsonResult.value();
 }
 
@@ -229,30 +229,30 @@ bool GodotHandler::checkGodotVersionInZip(const QString& zipFilePath) const
     if (!projectJson.has_value()) {
         return false;
     }
-    
+
     const QJsonObject& obj = projectJson.value();
-    
+
     // Check if the required version fields exist
     if (!obj.contains("godotVersionMajor") || !obj.contains("godotVersionMinor")) {
         qWarning() << "Missing Godot version fields in project.json from zip:" << zipFilePath;
         return false;
     }
-    
+
     // Get versions from the zip
     const int zipGodotMajor = obj.value("godotVersionMajor").toString().toInt();
     const int zipGodotMinor = obj.value("godotVersionMinor").toString().toInt();
-    
+
     // Compare with current build's Godot version
     const int currentGodotMajor = SCREENPLAY_GODOT_VERSION_MAJOR;
     const int currentGodotMinor = SCREENPLAY_GODOT_VERSION_MINOR;
-    
+
     bool versionsMatch = (zipGodotMajor == currentGodotMajor) && (zipGodotMinor == currentGodotMinor);
-    
+
     if (!versionsMatch) {
-        qInfo() << "Godot version mismatch - Zip:" << zipGodotMajor << "." << zipGodotMinor 
+        qInfo() << "Godot version mismatch - Zip:" << zipGodotMajor << "." << zipGodotMinor
                 << "Current:" << currentGodotMajor << "." << currentGodotMinor;
     }
-    
+
     return versionsMatch;
 }
 

@@ -8,6 +8,7 @@
 #include <QElapsedTimer>
 #include <QGuiApplication>
 #include <QIcon>
+#include <QLoggingCategory>
 #include <QObject>
 #include <QProcessEnvironment>
 #include <QQuickStyle>
@@ -16,7 +17,6 @@
 #include <QVersionNumber>
 #include <QtGlobal>
 #include <QtSvg>
-#include <QLoggingCategory>
 
 Q_LOGGING_CATEGORY(app, "screenplay.app")
 

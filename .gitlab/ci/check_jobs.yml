@@ -5,22 +5,20 @@ formatting:
   image:
     name: ubuntu:24.04
   tags:
-    - docker
-    - docker_internal_vm
+  - docker
+  - docker_internal_vm
   script:
-    - apt update -y
-    - apt install wget lsb-release software-properties-common gnupg curl -y
-    # Clang 19 so we match our dev setup
-    - wget https://apt.llvm.org/llvm.sh
-    - chmod +x llvm.sh
-    - ./llvm.sh 19 all
-    # For Ubuntu 24.04 and newer we need to create an virutal env
-    - apt install python3.12 python3.12-venv -y
-    # Install uv
-    - curl -LsSf https://astral.sh/uv/install.sh | sh
-    - source $HOME/.local/bin/env
-    - uv sync
-    - cd Tools
-    - uv run python check_format_cmake.py --check
-    - uv run python check_format_cpp.py  --check
-    #- uv run python check_format_qml.py  --check
+  - apt update -y
+  - apt install wget lsb-release software-properties-common gnupg -y
+  # Clang 21 so we match our dev setup
+  - wget https://apt.llvm.org/llvm.sh
+  - chmod +x llvm.sh
+  - ./llvm.sh 21 all
+  # Install uv
+  - curl -LsSf https://astral.sh/uv/install.sh | sh
+  - source $HOME/.local/bin/env
+  - uv sync
+  - cd Tools
+  - uv run python check_format_cmake.py --check
+  - uv run python check_format_cpp.py  --check
+  #- uv run python check_format_qml.py  --check

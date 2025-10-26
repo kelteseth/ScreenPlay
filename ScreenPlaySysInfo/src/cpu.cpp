@@ -129,9 +129,9 @@ void CPU::updateCPUInfo()
         }
 
         qCDebug(sysInfoCpu) << "Fallback CPU info - Name:" << m_name
-                 << "Speed:" << m_maxClockSpeed
-                 << "Cores:" << m_numberOfCores
-                 << "Threads:" << m_threadCount;
+                            << "Speed:" << m_maxClockSpeed
+                            << "Cores:" << m_numberOfCores
+                            << "Threads:" << m_threadCount;
     } else {
         // Use WMI data with proper property names
         m_name = cpuInfo["Name"].toString().trimmed();

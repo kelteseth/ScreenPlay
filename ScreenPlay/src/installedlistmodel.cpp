@@ -9,9 +9,9 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QLoggingCategory>
 #include <QStandardPaths>
 #include <QtConcurrent/QtConcurrent>
-#include <QLoggingCategory>
 
 #include <QUrl>
 

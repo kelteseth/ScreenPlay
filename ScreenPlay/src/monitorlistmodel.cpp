@@ -150,8 +150,8 @@ void MonitorListModel::loadMonitors()
         const int selectedMockIndex = QRandomGenerator::global()->bounded(m_mockMonitorList.size());
         const auto& mockMonitorList = m_mockMonitorList[selectedMockIndex];
         qCDebug(monitorListModel) << "Using mock" << selectedMockIndex
-                 << "of" << m_mockMonitorList.size()
-                 << " with monitor count:" << mockMonitorList.count();
+                                  << "of" << m_mockMonitorList.size()
+                                  << " with monitor count:" << mockMonitorList.count();
 
         beginInsertRows(index(rowCount()), rowCount(), rowCount() + mockMonitorList.count() - 1);
         for (const auto& monitor : mockMonitorList) {

@@ -16,6 +16,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QLoggingCategory>
 #include <QPair>
 #include <QProcess>
 #include <QProcessEnvironment>
@@ -28,7 +29,6 @@
 #include <QVector>
 #include <QtConcurrent/QtConcurrent>
 #include <QtGlobal>
-#include <QLoggingCategory>
 
 #ifdef Q_OS_WIN
 #include <qt_windows.h>

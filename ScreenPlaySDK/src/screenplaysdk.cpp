@@ -124,10 +124,10 @@ void ScreenPlaySDK::readyRead()
                 || file.isEmpty()
                 || (!obj.contains("volume"))) {
                 qCWarning(screenPlaySDK) << "Command replace with incompile message received: "
-                           << type
-                           << fillMode
-                           << absolutePath
-                           << file;
+                                         << type
+                                         << fillMode
+                                         << absolutePath
+                                         << file;
                 return;
             }
 

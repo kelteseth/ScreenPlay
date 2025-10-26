@@ -590,9 +590,9 @@ void ScreenPlayManager::newConnection()
         }
 
         qCWarning(screenPlayManager) << "No matching connection found!"
-                   << "m_screenPlayWallpapers count:  " << activeWallpaperList.size()
-                   << "m_screenPlayWidgets count:     " << m_screenPlayWidgets.size()
-                   << "m_unconnectedClients count:    " << m_unconnectedClients.size();
+                                     << "m_screenPlayWallpapers count:  " << activeWallpaperList.size()
+                                     << "m_screenPlayWidgets count:     " << m_screenPlayWidgets.size()
+                                     << "m_unconnectedClients count:    " << m_unconnectedClients.size();
     });
     m_unconnectedClients.push_back(std::move(connection));
 }
@@ -604,7 +604,7 @@ void ScreenPlayManager::setActiveWallpaperCounter(int activeWallpaperCounter)
 
     m_activeWallpaperCounter = activeWallpaperCounter;
     emit activeWallpaperCounterChanged(m_activeWallpaperCounter);
-    
+
     // Reset mute and pause state when no wallpapers are active
     if (m_activeWallpaperCounter == 0) {
         if (m_isMuted) {
@@ -663,7 +663,7 @@ bool ScreenPlayManager::removeWidget(const QString& appID)
 
     if (activeWidgetsCounter() != m_screenPlayWidgets.length()) {
         qCWarning(screenPlayManager) << "activeWidgetsCounter value: " << activeWidgetsCounter()
-                   << "does not match m_screenPlayWidgets length:" << m_screenPlayWidgets.length();
+                                     << "does not match m_screenPlayWidgets length:" << m_screenPlayWidgets.length();
         return false;
     }
 
@@ -866,7 +866,7 @@ void ScreenPlayManager::setIsMuted(bool isMuted)
 {
     if (m_isMuted == isMuted)
         return;
-    
+
     m_isMuted = isMuted;
     setAllWallpaperValue("muted", isMuted ? "true" : "false");
     emit isMutedChanged(m_isMuted);
@@ -876,7 +876,7 @@ void ScreenPlayManager::setIsPaused(bool isPaused)
 {
     if (m_isPaused == isPaused)
         return;
-    
+
     m_isPaused = isPaused;
     setAllWallpaperValue("isPlaying", isPaused ? "false" : "true");
     emit isPausedChanged(m_isPaused);

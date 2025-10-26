@@ -78,7 +78,7 @@ bool CreateImportVideo::detectContainerFormat()
 
     Util util;
     const QString ffmpegOut = waitForFinished(args, QProcess::SeparateChannels, Executable::FFPROBE);
-    
+
     auto obj = util.parseQByteArrayToQJsonObject(QByteArray::fromStdString(ffmpegOut.toStdString()));
     if (!obj) {
         qCWarning(createImportVideo) << "Error parsing FFprobe format detection output";
@@ -88,14 +88,13 @@ bool CreateImportVideo::detectContainerFormat()
     if (obj->contains("format")) {
         const QJsonObject formatObj = obj->value("format").toObject();
         const QString formatName = formatObj.value("format_name").toString();
-        
+
         // WebM and Matroska containers both need frame counting
-        m_isWebm = formatName.contains("webm", Qt::CaseInsensitive) || 
-                   formatName.contains("matroska", Qt::CaseInsensitive);
-        
+        m_isWebm = formatName.contains("webm", Qt::CaseInsensitive) || formatName.contains("matroska", Qt::CaseInsensitive);
+
         qCInfo(createImportVideo) << "Container format detected:" << formatName << "-> isWebM/Matroska:" << m_isWebm;
     }
-    
+
     return true;
 }
 
@@ -167,13 +166,13 @@ bool CreateImportVideo::createWallpaperInfo()
         emit createWallpaperStateChanged(Import::State::AnalyseVideoError);
         return false;
     }
-    
+
     // For WebM/Matroska containers, we already have the frame count data
     // so go directly to the specialized analysis method
     if (m_isWebm) {
         return analyzeWebmReadFrames(obj.value());
     }
-    
+
     return analyzeVideo(obj.value());
 }
 
@@ -464,7 +463,7 @@ bool CreateImportVideo::createWallpaperWebpPreview()
     } else {
         args.append(m_exportPath + "/preview.webm");
     }
-    
+
     // Convert to WebP animated image with optimized settings
     args.append("-vf");
     args.append("fps=12,scale=w=480:h=-1");
@@ -481,7 +480,7 @@ bool CreateImportVideo::createWallpaperWebpPreview()
     args.append("-loop");
     args.append("0");
     args.append(m_exportPath + "/preview.webp");
-    
+
     emit processOutput("ffmpeg " + Util().toString(args));
 
     const QString ffmpegOut = waitForFinished(args);
@@ -636,9 +635,9 @@ bool CreateImportVideo::createWallpaperVideo()
     // If target codec is NoConversion, it means no conversion needed - just copy the original
     if (m_targetCodec == Video::VideoCodec::NoConversion) {
         qCInfo(createImportVideo) << "No conversion needed, copying original file";
-        
+
         const QString targetFilePath = m_exportPath + "/" + sourceFile.fileName();
-        
+
         if (!QFile::copy(sourceFile.absoluteFilePath(), targetFilePath)) {
             qCDebug(createImportVideo) << "Could not copy" << sourceFile.absoluteFilePath() << " to " << targetFilePath;
             return false;
@@ -818,7 +817,7 @@ bool CreateImportVideo::createWallpaperVideo()
         args.append(m_videoPath);
         args.append("-c:v");
         args.append(targetCodec);
-        
+
         // Use CRF for quality control (lower = better quality)
         // For H.264: 18-23 is visually lossless to high quality
         // Map input quality (likely 0-100) to CRF (51-18)
@@ -829,25 +828,25 @@ bool CreateImportVideo::createWallpaperVideo()
         }
         args.append("-crf");
         args.append(QString::number(h264Crf));
-        
+
         // Use slower preset for better quality/compression ratio
         args.append("-preset");
         args.append("slow");
-        
+
         // Set pixel format for compatibility and quality
         args.append("-pix_fmt");
         args.append("yuv420p");
-        
+
         // Add bitrate limit to prevent extremely large files
         args.append("-maxrate");
         args.append("15000k");
         args.append("-bufsize");
         args.append("30000k");
-        
+
         args.append("-threads");
         args.append(QString::number(QThread::idealThreadCount()));
         qCInfo(createImportVideo) << "threads" << QThread::idealThreadCount() << "m_quality" << m_quality << "h264Crf" << h264Crf;
-        
+
         // Copy audio if present (unless skipped)
         if (!m_skipAudio) {
             args.append("-c:a");
@@ -857,7 +856,7 @@ bool CreateImportVideo::createWallpaperVideo()
         } else {
             args.append("-an");
         }
-        
+
         args.append(convertedFileAbsolutePath);
     }
 

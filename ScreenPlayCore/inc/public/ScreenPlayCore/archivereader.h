@@ -1,10 +1,10 @@
 #pragma once
 
-#include <QObject>
 #include <QByteArray>
+#include <QJsonObject>
+#include <QObject>
 #include <QString>
 #include <QStringList>
-#include <QJsonObject>
 #include <expected>
 
 namespace ScreenPlay {
@@ -14,10 +14,15 @@ struct ArchiveEntry {
     QString name;
     qint64 size;
     bool isDirectory;
-    
+
     ArchiveEntry() = default;
     ArchiveEntry(const QString& path, const QString& name, qint64 size, bool isDirectory)
-        : path(path), name(name), size(size), isDirectory(isDirectory) {}
+        : path(path)
+        , name(name)
+        , size(size)
+        , isDirectory(isDirectory)
+    {
+    }
 };
 
 class ArchiveReader : public QObject {

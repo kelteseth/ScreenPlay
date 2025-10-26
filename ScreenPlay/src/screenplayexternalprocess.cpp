@@ -89,11 +89,9 @@ void ScreenPlayExternalProcess::setupSDKConnection()
         setIsConnected(false);
         m_pingAliveTimer.stop();
         qCInfo(screenPlayExternalProcess) << "App:" << m_connection->appID() << "disconnected";
-        
+
         // Only treat as timeout/crash if we're not in a closing state
-        if (m_state != ScreenPlay::ScreenPlayEnums::AppState::Closing &&
-            m_state != ScreenPlay::ScreenPlayEnums::AppState::ClosingFailed &&
-            m_state != ScreenPlay::ScreenPlayEnums::AppState::ClosedGracefully) {
+        if (m_state != ScreenPlay::ScreenPlayEnums::AppState::Closing && m_state != ScreenPlay::ScreenPlayEnums::AppState::ClosingFailed && m_state != ScreenPlay::ScreenPlayEnums::AppState::ClosedGracefully) {
             setState(ScreenPlayEnums::AppState::Timeout);
             handleTimeoutOrCrash();
         } else {
@@ -150,8 +148,7 @@ void ScreenPlayExternalProcess::processExit(int exitCode, QProcess::ExitStatus e
         qCCritical(screenPlayExternalProcess) << "ERROR: App closed with appID:" << m_appID << "EXIT CODE:" << exitCode << exitStatus;
         setState(ScreenPlay::ScreenPlayEnums::AppState::Crashed);
         // Only attempt restart if we're not in a closing state
-        if (m_state != ScreenPlay::ScreenPlayEnums::AppState::Closing &&
-            m_state != ScreenPlay::ScreenPlayEnums::AppState::ClosingFailed) {
+        if (m_state != ScreenPlay::ScreenPlayEnums::AppState::Closing && m_state != ScreenPlay::ScreenPlayEnums::AppState::ClosingFailed) {
             handleTimeoutOrCrash();
         }
         return;
@@ -199,9 +196,7 @@ void ScreenPlayExternalProcess::handleTimeoutOrCrash()
     m_stabilityTimer.stop(); // Stop stability timer as process is no longer stable
 
     // Don't restart if we're in a closing state - this is intentional termination
-    if (m_state == ScreenPlay::ScreenPlayEnums::AppState::Closing ||
-        m_state == ScreenPlay::ScreenPlayEnums::AppState::ClosingFailed ||
-        m_state == ScreenPlay::ScreenPlayEnums::AppState::ClosedGracefully) {
+    if (m_state == ScreenPlay::ScreenPlayEnums::AppState::Closing || m_state == ScreenPlay::ScreenPlayEnums::AppState::ClosingFailed || m_state == ScreenPlay::ScreenPlayEnums::AppState::ClosedGracefully) {
         qCDebug(screenPlayExternalProcess) << "Process" << m_appID << "is in closing state (" << static_cast<int>(m_state) << "), not attempting restart";
         return;
     }

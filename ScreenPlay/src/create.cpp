@@ -12,9 +12,9 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonParseError>
+#include <QLoggingCategory>
 #include <QProcess>
 #include <QStringList>
-#include <QLoggingCategory>
 
 Q_LOGGING_CATEGORY(create, "screenplay.create")
 #include <QTime>
@@ -173,10 +173,10 @@ ScreenPlay::Video::VideoCodec Create::detectVideoCodec(const QString& videoPath)
         // Already a local path, use as-is
         localVideoPath = QDir::toNativeSeparators(videoPath);
     }
-    
+
     QProcess process;
     QString ffprobeExecutable;
-    
+
 #ifdef Q_OS_LINUX
     ffprobeExecutable = "ffprobe";
 #else
@@ -200,37 +200,37 @@ ScreenPlay::Video::VideoCodec Create::detectVideoCodec(const QString& videoPath)
     args.append("-of");
     args.append("default=noprint_wrappers=1:nokey=1");
     args.append(localVideoPath);
-    
+
     qCInfo(create) << "Running FFprobe:" << ffprobeExecutable;
     qCInfo(create) << "With args:" << args;
     qCInfo(create) << "Video path:" << localVideoPath;
-    
+
     process.setProgram(ffprobeExecutable);
     process.setArguments(args);
     process.start();
-    
+
     if (!process.waitForFinished(5000)) {
         qCWarning(create) << "FFprobe timeout while detecting codec";
         qCWarning(create) << "FFprobe error:" << process.errorString();
         return ScreenPlay::Video::VideoCodec::Unknown;
     }
-    
+
     if (process.exitCode() != 0) {
         qCWarning(create) << "FFprobe exited with code:" << process.exitCode();
         qCWarning(create) << "FFprobe stderr:" << process.readAllStandardError();
         qCWarning(create) << "FFprobe stdout:" << process.readAllStandardOutput();
         return ScreenPlay::Video::VideoCodec::Unknown;
     }
-    
+
     QString codecName = QString::fromUtf8(process.readAllStandardOutput()).trimmed();
     qCInfo(create) << "Detected codec:" << codecName;
-    
+
     if (codecName.isEmpty()) {
         qCWarning(create) << "FFprobe returned empty codec name";
         qCWarning(create) << "Command was:" << ffprobeExecutable << args;
         return ScreenPlay::Video::VideoCodec::Unknown;
     }
-    
+
     // Map codec names to enum values
     if (codecName == "vp8") {
         return ScreenPlay::Video::VideoCodec::VP8;
@@ -283,7 +283,7 @@ void Create::saveWallpaper(
     ScreenPlay::Util util;
     filePath = util.toLocal(filePath);
     previewImagePath = util.toLocal(previewImagePath);
-    
+
     // If NoConversion was selected, detect the actual codec from the file
     // so we can save the correct codec to project.json
     ScreenPlay::Video::VideoCodec actualCodec = codec;

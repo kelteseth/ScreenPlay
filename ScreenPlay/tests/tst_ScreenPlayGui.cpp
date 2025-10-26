@@ -25,13 +25,13 @@ private slots:
     void initTestCase()
     {
         qInfo() << "Initializing GUI test case...";
-        
+
         // Setup QGuiApplication similar to main.cpp
         QGuiApplication::setOrganizationName("ScreenPlay");
         QGuiApplication::setOrganizationDomain("screen-play.app");
         QGuiApplication::setApplicationName("ScreenPlay");
         QGuiApplication::setApplicationVersion(QString(SCREENPLAY_VERSION));
-        
+
         // Initialize QML engine and get the App singleton instance (like main.cpp does)
         QQuickStyle::setStyle("Material");
         m_engine = std::make_shared<QQmlApplicationEngine>();
@@ -39,15 +39,15 @@ private slots:
         QVERIFY(m_app);
         m_app->setEngine(m_engine);
         m_engine->loadFromModule("ScreenPlay", "ScreenPlayMain");
-        
+
         // Wait for QML to load
         QTest::qWait(2000);
-        
+
         // Get window and UI elements
         if (!m_engine->rootObjects().isEmpty()) {
             m_window = qobject_cast<QQuickWindow*>(m_engine->rootObjects().first());
         }
-        
+
         qInfo() << "GUI test case initialized successfully";
     }
 
@@ -102,19 +102,19 @@ void clickItem(QQuickItem* item, Qt::MouseButton button = Qt::LeftButton)
 void ScreenPlayGuiTest::import_convert_video()
 {
     using namespace ScreenPlay;
-    
+
     auto* createTab = m_window->findChild<QQuickItem*>("createTab");
     QVERIFY(createTab);
     clickItem(createTab);
     QTest::qWait(300);
-    
+
     auto* stackView = m_window->findChild<QQuickItem*>("stackView");
     QVERIFY(stackView);
     QVERIFY(stackView->property("currentItem").isValid());
     auto* createView = qvariant_cast<QQuickItem*>(stackView->property("currentItem"));
     QVERIFY(createView);
     QTest::qWait(300);
-    
+
     auto* wizardsListView = m_window->findChild<QQuickItem*>("wizardsListView");
     QVERIFY(wizardsListView);
     QQuickItem* videoImportConvertButton = findItemDelegate(wizardsListView, "videoImportConvert");
@@ -201,7 +201,7 @@ void ScreenPlayGuiTest::start_shutdown_wallpaper()
 {
     auto* installedSidebar = m_window->findChild<QQuickItem*>("installedSidebar");
     QVERIFY(installedSidebar);
-    
+
     QTest::qWait(1000);
     auto* stackView = m_window->findChild<QQuickItem*>("stackView");
     QVERIFY(stackView);
@@ -209,14 +209,14 @@ void ScreenPlayGuiTest::start_shutdown_wallpaper()
     auto* installedView = qvariant_cast<QQuickItem*>(stackView->property("currentItem"));
     QVERIFY(installedView);
     QTest::qWait(1000);
-    
+
     auto* gridView = m_window->findChild<QQuickItem*>("gridView");
     QVERIFY(gridView);
     const QString installedListItemIndex = "0";
     auto* firstInstalledItem = findItemDelegate(gridView, "installedItem" + installedListItemIndex);
     QVERIFY(firstInstalledItem);
     clickItem(firstInstalledItem);
-    
+
     auto* monitorSelection = installedSidebar->findChild<QQuickItem*>("monitorSelection");
     QVERIFY(monitorSelection);
     QTest::qWait(1000);
@@ -235,19 +235,19 @@ void ScreenPlayGuiTest::start_shutdown_wallpaper()
 void ScreenPlayGuiTest::import_video_no_conversion()
 {
     using namespace ScreenPlay;
-    
+
     auto* createTab = m_window->findChild<QQuickItem*>("createTab");
     QVERIFY(createTab);
     clickItem(createTab);
     QTest::qWait(300);
-    
+
     auto* stackView = m_window->findChild<QQuickItem*>("stackView");
     QVERIFY(stackView);
     QVERIFY(stackView->property("currentItem").isValid());
     auto* createView = qvariant_cast<QQuickItem*>(stackView->property("currentItem"));
     QVERIFY(createView);
     QTest::qWait(300);
-    
+
     auto* wizardsListView = m_window->findChild<QQuickItem*>("wizardsListView");
     QVERIFY(wizardsListView);
     QQuickItem* videoImportConvertButton = findItemDelegate(wizardsListView, "videoImportConvert");
@@ -271,7 +271,7 @@ void ScreenPlayGuiTest::import_video_no_conversion()
         Q_ARG(QVariant, static_cast<int>(Video::VideoCodec::NoConversion))));
 
     QTest::qWait(1000);
-    
+
     // Wait for Create::createWallpaperStart - should be much faster since no conversion
     {
         Import::State status = Import::State::Idle;
@@ -282,7 +282,7 @@ void ScreenPlayGuiTest::import_video_no_conversion()
 
         QElapsedTimer timer;
         timer.start();
-        
+
         while (true) {
             QSignalSpy videoConvertFinishSpy(m_app->create(), &Create::createWallpaperStateChanged);
             if (status == Import::State::Finished || status == Import::State::Failed) {
@@ -344,7 +344,7 @@ void ScreenPlayGuiTest::import_video_no_conversion()
     auto* removeItem = findItemDelegate(installedItemContextMenu, "removeItem");
     QVERIFY(removeItem);
     clickItem(removeItem);
-    
+
     qInfo() << "✓ No-conversion import test completed successfully";
 }
 
