@@ -69,7 +69,6 @@ set(QML
     qml/Community/CommunityNavItem.qml
     qml/Community/CommunityView.qml
     qml/Community/XMLNewsfeed.qml
-    qml/LoggingCategories.qml
     qml/Components/ErrorManagerPopup.qml
     qml/Components/LineHandle.qml
     qml/Components/LineIndicator.qml
@@ -107,6 +106,7 @@ set(QML
     qml/Installed/InstalledNavigation.qml
     qml/Installed/InstalledView.qml
     qml/Installed/InstalledWelcomeScreen.qml
+    qml/LoggingCategories.qml
     qml/Navigation/ExitPopup.qml
     qml/Navigation/Navigation.qml
     qml/ScreenPlayMain.qml
@@ -313,8 +313,7 @@ target_include_directories(
     PRIVATE src/)
 
 # Mark LoggingCategories.qml as a singleton
-set_source_files_properties(qml/LoggingCategories.qml
-    PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
+set_source_files_properties(qml/LoggingCategories.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
 
 # ScreenPlayLib is our qml module needed for compiling of all classes and most importanly for QML_ELEMENT. So our app is mostly a module
 # that then link to ScreenPlay executable.
@@ -359,6 +358,7 @@ qt_add_executable(ScreenPlayApp main.cpp)
 target_link_libraries(ScreenPlayApp PRIVATE ScreenPlayLib ScreenPlayLibplugin)
 
 if(${SCREENPLAY_TESTS})
+    # Unit tests - fast, no GUI/QML dependencies
     qt_add_executable(tst_ScreenPlay tests/tst_ScreenPlay.cpp)
     target_link_libraries(tst_ScreenPlay PRIVATE ScreenPlayLib ScreenPlayLibplugin Qt6::Test)
 
@@ -372,7 +372,12 @@ if(${SCREENPLAY_TESTS})
 
     # GUI/Integration tests - requires full QML engine
     qt_add_executable(tst_ScreenPlayGui tests/tst_ScreenPlayGui.cpp)
-    target_link_libraries(tst_ScreenPlayGui PRIVATE ScreenPlayLib ScreenPlayLibplugin Qt6::Test Qt6::Quick)
+    target_link_libraries(
+        tst_ScreenPlayGui
+        PRIVATE ScreenPlayLib
+                ScreenPlayLibplugin
+                Qt6::Test
+                Qt6::Quick)
 
     # Generate CMakeVariables.h before building the GUI test
     generate_cmake_variable_header(tst_ScreenPlayGui)

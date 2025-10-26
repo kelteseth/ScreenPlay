@@ -47,8 +47,8 @@ steam_osx:
     paths:
     - Build/ScreenPlay-$CI_COMMIT_TAG-64-osx-universal-Release.zip
     - Build/ScreenPlay-$CI_COMMIT_TAG-64-osx-universal-Release.zip.sha256.txt
-    - Build/**/*.dSYM/ # Preserve dSYM bundles for Sentry upload
-    - Build/**/ScreenPlay*.app/ # Preserve app bundles with debug symbols
+    # - Build/**/*.dSYM/ # Preserve dSYM bundles for Sentry upload
+    # - Build/**/ScreenPlay*.app/ # Preserve app bundles with debug symbols
     expire_in: "1 week"
 
 release_job:
