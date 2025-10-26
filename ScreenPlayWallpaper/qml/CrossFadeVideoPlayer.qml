@@ -39,40 +39,39 @@ Item {
         }
 
         // Stop any ongoing animations
-        fadeIn.stop()
         fadeOut.stop()
 
         if (_activePlayer === CrossFadeVideoPlayer.Player.One) {
             // Prepare player two for transition
             mediaPlayer2.source = root.source
-            mediaPlayer2.play();
-
-            // Set initial states
+            
+            // New video starts behind and invisible
+            vo2.z = 0
+            vo2.opacity = 0
+            vo1.z = 1
             vo1.opacity = 1
-            vo2.opacity = 0;
 
-            // Configure crossfade for player two
-            fadeIn.target = vo2
+            // Configure fade out for current (vo1), new video (vo2) stays at opacity 1 behind it
             fadeOut.target = vo1
 
             root._activePlayer = CrossFadeVideoPlayer.Player.Two
         } else {
             // Prepare player one for transition
             mediaPlayer1.source = source
-            mediaPlayer1.play();
-
-            // Set initial states
+            
+            // New video starts behind and invisible
+            vo1.z = 0
             vo1.opacity = 0
-            vo2.opacity = 1;
+            vo2.z = 1
+            vo2.opacity = 1
 
-            // Configure crossfade for player one
-            fadeIn.target = vo1
+            // Configure fade out for current (vo2), new video (vo1) stays at opacity 1 behind it
             fadeOut.target = vo2
 
             root._activePlayer = CrossFadeVideoPlayer.Player.One
         }
 
-        // Start the transition after a small delay
+        // Wait for video to be ready before starting transition
         startCrossFadeTimer.start()
     }
 
@@ -125,33 +124,62 @@ Item {
         id: vo1
         anchors.fill: parent
         opacity: 1
+        z: 1
     }
 
     VideoOutput {
         id: vo2
         anchors.fill: parent
         opacity: 0
+        z: 0
     }
 
     Timer {
         id: startCrossFadeTimer
-        interval: 500  // Small delay to ensure video has started
+        interval: 16  // Start checking immediately (one frame)
+        repeat: true
+        property int maxAttempts: 60  // Maximum wait time ~1 second at 60fps
+        property int attempts: 0
+        
         onTriggered: {
-            fadeIn.start()
-            fadeOut.start()
+            attempts++
+            
+            const incomingPlayer = root._activePlayer === CrossFadeVideoPlayer.Player.One ? mediaPlayer1 : mediaPlayer2
+            const incomingOutput = root._activePlayer === CrossFadeVideoPlayer.Player.One ? vo1 : vo2
+            
+            // Check if the incoming video has buffered frames and is actually playing
+            if (incomingPlayer.hasVideo && incomingPlayer.playbackState === MediaPlayer.PlayingState) {
+                // Video is ready, make it visible behind the current video and start fade
+                stop()
+                attempts = 0
+                
+                // Ensure playback
+                incomingPlayer.play()
+                
+                // Set new video to full opacity but behind (z is already set)
+                incomingOutput.opacity = 1
+                
+                // Fade out the current video (which is in front)
+                fadeOut.start()
+            } else if (attempts >= maxAttempts) {
+                // Fallback: force start after timeout to prevent infinite waiting
+                console.warn("Video warmup timeout, forcing crossfade")
+                stop()
+                attempts = 0
+                
+                incomingPlayer.play()
+                incomingOutput.opacity = 1
+                fadeOut.start()
+            } else {
+                // Not ready yet, ensure player is playing and continue waiting
+                if (incomingPlayer.playbackState !== MediaPlayer.PlayingState) {
+                    incomingPlayer.play()
+                }
+            }
         }
     }
 
     // Split the crossfade into two parallel animations
-    NumberAnimation {
-        id: fadeIn
-        property: "opacity"
-        from: 0
-        to: 1
-        duration: root.crossFadeDuration
-        easing.type: Easing.InOutQuad
-    }
-
     NumberAnimation {
         id: fadeOut
         property: "opacity"
@@ -160,11 +188,15 @@ Item {
         duration: root.crossFadeDuration
         easing.type: Easing.InOutQuad
         onFinished: {
-            // Stop the previous player only after fade out is complete
+            // After fade completes, stop the old player and reset z-order
             if (target === vo1) {
                 mediaPlayer1.stop()
+                vo1.z = 0
+                vo2.z = 1
             } else {
                 mediaPlayer2.stop()
+                vo2.z = 0
+                vo1.z = 1
             }
         }
     }
