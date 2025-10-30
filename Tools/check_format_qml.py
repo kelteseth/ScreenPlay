@@ -21,10 +21,10 @@ def format_qml_file(file):
         executable = "qmlformat.exe"
     qt_bin_path = defines.QT_BIN_PATH
     executable = qt_bin_path.joinpath(executable)
+    command = [executable, "-i", file, "--semicolon-rule=essential"]
 
     # Add -i for formatting in place
-    process = subprocess.run(
-        [executable, "-i", file, "--semicolon-rule=essential"], capture_output=True, shell=True)
+    process = subprocess.run(command, capture_output=True, shell=True)
     print("Format: %s \t return: %s" % (file, process.returncode))
 
 
@@ -48,7 +48,7 @@ def check_format_qml_file(file):
     shutil.copy(file, backup_file)
 
     # Step 2: Run qmlformat with in-place editing
-    subprocess.run([executable, "-i", file], check=True)
+    subprocess.run([executable, "-i", file, "--semicolon-rule=essential"], check=True)
 
     # Step 3: Compare MD5 hash of the original (backup) and the formatted file
     original_hash = compute_md5(backup_file)

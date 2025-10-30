@@ -9,7 +9,7 @@ formatting:
   - docker_internal_vm
   script:
   - apt update -y
-  - apt install wget lsb-release software-properties-common gnupg -y
+  - apt install wget curl lsb-release software-properties-common gnupg -y
   # Clang 21 so we match our dev setup
   - wget https://apt.llvm.org/llvm.sh
   - chmod +x llvm.sh
@@ -21,4 +21,4 @@ formatting:
   - cd Tools
   - uv run python check_format_cmake.py --check
   - uv run python check_format_cpp.py  --check
-  #- uv run python check_format_qml.py  --check
+  - uv run python check_format_qml.py  --check

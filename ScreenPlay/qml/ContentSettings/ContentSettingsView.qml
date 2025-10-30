@@ -33,7 +33,7 @@ Popup {
         modal = true
         root.isInitialLoad = true
         timeline.reset()
-        monitorSelection.resize()
+        monitorSelection.resize();
         // Don't select monitor here - wait for timeline selection to complete
     }
 
@@ -103,7 +103,7 @@ Popup {
                     visible: !App.globalVariables.isBasicVersion()
                     modalSource: root.modalSource
                     onReady: {
-                        console.log(LoggingCategories.contentSettings, "Timeline ready, isInitialLoad:", root.isInitialLoad)
+                        console.log(LoggingCategories.contentSettings, "Timeline ready, isInitialLoad:", root.isInitialLoad);
                         // On initial load, we need to explicitly select monitor 0
                         // because selectedTimelineIndexChanged might not fire if index is already 0
                         if (root.isInitialLoad) {
@@ -126,7 +126,7 @@ Popup {
                         }
                         root.selectedTimelineIndex = selectedTimeline.index
                         root.selectedSectionIdentifier = selectedTimeline.identifier
-                        
+
                         if (root.isInitialLoad) {
                             // This path shouldn't normally be hit, but just in case
                             console.log(LoggingCategories.contentSettings, "Initial load via selectedTimelineIndexChanged: selecting monitor 0")
@@ -285,7 +285,7 @@ Popup {
                     function onMonitorReloadCompleted(): void {
                         console.log(LoggingCategories.contentSettings, "ContentSettingsView: onMonitorReloadCompleted, timelineSwitching:", root.timelineSwitching)
                         if (root.timelineSwitching) {
-                            console.log(LoggingCategories.contentSettings, "Timeline switching detected, forcing monitor 0 selection")
+                            console.log(LoggingCategories.contentSettings, "Timeline switching detected, forcing monitor 0 selection");
                             // Force select monitor 0 after timeline data is loaded
                             monitorSelection.selectMonitorAt(0)
                             root.timelineSwitching = false

@@ -27,7 +27,7 @@ Item {
         anchors {
             margins: 10
             fill: parent
-            leftMargin: sidebar.state === "inactive" ?  10 : sidebar.width
+            leftMargin: sidebar.state === "inactive" ? 10 : sidebar.width
         }
 
         Behavior on anchors.leftMargin {

@@ -241,7 +241,7 @@ Rectangle {
                     icon.width: root.iconWidth
                     icon.height: root.iconHeight
                     onClicked: App.screenPlayManager.isPaused = !App.screenPlayManager.isPaused
-                    
+
                     hoverEnabled: true
                     ToolTip.text: qsTr("Pause/Play all Wallpaper")
                     ToolTip.visible: hovered

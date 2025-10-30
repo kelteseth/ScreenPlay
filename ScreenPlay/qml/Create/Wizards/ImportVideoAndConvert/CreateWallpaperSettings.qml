@@ -26,10 +26,11 @@ Item {
     function updateCodecSelection() {
         // Check if conversion can be skipped for the detected codec
         const canSkip = App.create.canSkipConversion(detectedCodec)
-        
+
         if (canSkip) {
             // Codec is playable, suggest "No Conversion"
-            comboBoxCodec.currentIndex = 0 // No Conversion
+            comboBoxCodec.currentIndex = 0;
+            // No Conversion
             txtDetectedCodec.text = qsTr("✅ Your video codec (%1) is supported! No conversion needed.").arg(codecName(detectedCodec))
             txtDetectedCodec.visible = true
         } else if (detectedCodec !== Video.VideoCodec.Unknown) {
@@ -46,15 +47,21 @@ Item {
             txtDetectedCodec.visible = false
         }
     }
-    
+
     function codecName(codec) {
         switch (codec) {
-            case Video.VideoCodec.H264: return "H.264"
-            case Video.VideoCodec.H265: return "H.265"
-            case Video.VideoCodec.VP8: return "VP8"
-            case Video.VideoCodec.VP9: return "VP9"
-            case Video.VideoCodec.AV1: return "AV1"
-            default: return "Unknown"
+        case Video.VideoCodec.H264:
+            return "H.264"
+        case Video.VideoCodec.H265:
+            return "H.265"
+        case Video.VideoCodec.VP8:
+            return "VP8"
+        case Video.VideoCodec.VP9:
+            return "VP9"
+        case Video.VideoCodec.AV1:
+            return "AV1"
+        default:
+            return "Unknown"
         }
     }
 

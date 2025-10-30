@@ -237,7 +237,7 @@ Control {
             section.lineHandle.lineMaximum = timeline.x
             section.lineHandle.identifier = identifier
             section.lineHandle.handleMoved.connect(timeline.onHandleMoved)
-            section.lineHandle.activated.connect(timeline.setActiveHandle)
+            section.lineHandle.activated.connect(timeline.setActiveHandle);
             // Connect the new signal
             let liComponent = Qt.createComponent("LineIndicator.qml")
             if (liComponent.status === Component.Error) {

@@ -43,13 +43,13 @@ Item {
 
         if (_activePlayer === CrossFadeVideoPlayer.Player.One) {
             // Prepare player two for transition
-            mediaPlayer2.source = root.source
-            
+            mediaPlayer2.source = root.source;
+
             // New video starts behind and invisible
             vo2.z = 0
             vo2.opacity = 0
             vo1.z = 1
-            vo1.opacity = 1
+            vo1.opacity = 1;
 
             // Configure fade out for current (vo1), new video (vo2) stays at opacity 1 behind it
             fadeOut.target = vo1
@@ -57,13 +57,13 @@ Item {
             root._activePlayer = CrossFadeVideoPlayer.Player.Two
         } else {
             // Prepare player one for transition
-            mediaPlayer1.source = source
-            
+            mediaPlayer1.source = source;
+
             // New video starts behind and invisible
             vo1.z = 0
             vo1.opacity = 0
             vo2.z = 1
-            vo2.opacity = 1
+            vo2.opacity = 1;
 
             // Configure fade out for current (vo2), new video (vo1) stays at opacity 1 behind it
             fadeOut.target = vo2
@@ -140,25 +140,25 @@ Item {
         repeat: true
         property int maxAttempts: 60  // Maximum wait time ~1 second at 60fps
         property int attempts: 0
-        
+
         onTriggered: {
             attempts++
-            
+
             const incomingPlayer = root._activePlayer === CrossFadeVideoPlayer.Player.One ? mediaPlayer1 : mediaPlayer2
             const incomingOutput = root._activePlayer === CrossFadeVideoPlayer.Player.One ? vo1 : vo2
-            
+
             // Check if the incoming video has buffered frames and is actually playing
             if (incomingPlayer.hasVideo && incomingPlayer.playbackState === MediaPlayer.PlayingState) {
                 // Video is ready, make it visible behind the current video and start fade
                 stop()
-                attempts = 0
-                
+                attempts = 0;
+
                 // Ensure playback
-                incomingPlayer.play()
-                
+                incomingPlayer.play();
+
                 // Set new video to full opacity but behind (z is already set)
-                incomingOutput.opacity = 1
-                
+                incomingOutput.opacity = 1;
+
                 // Fade out the current video (which is in front)
                 fadeOut.start()
             } else if (attempts >= maxAttempts) {
@@ -166,7 +166,7 @@ Item {
                 console.warn("Video warmup timeout, forcing crossfade")
                 stop()
                 attempts = 0
-                
+
                 incomingPlayer.play()
                 incomingOutput.opacity = 1
                 fadeOut.start()

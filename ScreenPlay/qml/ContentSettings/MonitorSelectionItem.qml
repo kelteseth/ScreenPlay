@@ -55,7 +55,6 @@ Item {
         }
     }
 
-
     Rectangle {
         id: wrapper
 
@@ -119,7 +118,7 @@ Item {
                 anchors.fill: parent
                 color: "black"
                 opacity: .6
-                radius:4
+                radius: 4
                 layer.enabled: true
                 layer.effect: MultiEffect {
                     blurEnabled: true

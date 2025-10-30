@@ -47,20 +47,19 @@ Item {
         Component.onCompleted: {
             if (root.isHeadline)
                 return
-            
             if (!root.value || typeof root.value !== "object") {
                 console.warn(LoggingCategories.monitorProjectSettings, "Invalid value object for:", root.name)
                 return
             }
-            
+
             const valueType = root.value["type"]
             if (!valueType) {
                 console.warn(LoggingCategories.monitorProjectSettings, "Missing type for:", root.name)
                 return
             }
-            
+
             console.log(LoggingCategories.monitorProjectSettings, "MonitorsProjectSettingItem:", valueType)
-            
+
             switch (valueType) {
             case "slider":
                 loader.sourceComponent = compSlider
@@ -97,10 +96,9 @@ Item {
             onLoaded: {
                 if (!root.value || typeof root.value !== "object")
                     return
-                
                 const valueType = root.value["type"]
                 const loadedItem = item
-                
+
                 switch (valueType) {
                 case "slider":
                     loadedItem.from = root.value["from"] !== undefined ? root.value["from"] : 0

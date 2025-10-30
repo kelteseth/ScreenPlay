@@ -2,19 +2,19 @@ pragma Singleton
 
 import QtQml
 
-/*! 
+/*!
     \qmltype LoggingCategories
     \brief Singleton containing all QML logging categories.
-    
+
     This singleton provides centralized logging categories for the entire application.
     Using a singleton is more efficient than creating LoggingCategory objects in each component.
-    
+
     \note Always use this singleton instead of creating local LoggingCategory instances.
-    
+
     Example usage:
     \qml
     import ScreenPlay
-    
+
     Item {
         Component.onCompleted: {
             console.log(LoggingCategories.monitorSelection, "Monitor selected")

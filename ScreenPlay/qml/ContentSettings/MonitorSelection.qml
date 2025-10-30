@@ -140,15 +140,15 @@ Rectangle {
     Connections {
         function onMonitorReloadCompleted(): void {
             console.debug(LoggingCategories.monitorSelection, "MonitorSelection: onMonitorReloadCompleted")
-            
+
             let currentSelectedIndex = root.getSelectedMonitorIndex()
             root.resize();
-            
+
             // Restore selection or default to 0 if nothing selected
             if (currentSelectedIndex < 0) {
                 currentSelectedIndex = 0
             }
-            
+
             root.selectOnly(currentSelectedIndex)
         }
 
