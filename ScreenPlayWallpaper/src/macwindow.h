@@ -13,7 +13,6 @@
 #include <QVector>
 
 #include "basewindow.h"
-#include "macintegration.h"
 
 namespace ScreenPlay {
 class MacWindow : public BaseWindow {

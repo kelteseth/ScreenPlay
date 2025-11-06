@@ -2,11 +2,6 @@
 
 #pragma once
 
-#include <QObject>
-#include <QWindow>
-class MacIntegration : public QObject {
-    Q_OBJECT
-public:
-    explicit MacIntegration(QObject* parent);
-    void SetBackgroundLevel(QWindow* window);
-};
+namespace ScreenPlay::MacIntegration {
+void setBackgroundLevel(void* cocoaWindowOrView);
+}

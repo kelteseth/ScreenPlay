@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "macwindow.h"
 #include "ScreenPlayCore/macutils.h"
+#include "macintegration.h"
 
 #include <QGuiApplication>
 
@@ -23,8 +24,9 @@ WallpaperExit::Code MacWindow::start()
     m_quickView->setFlags(flags | Qt::FramelessWindowHint | Qt::Desktop);
     m_quickView->setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
 
-    MacIntegration* macIntegration = new MacIntegration(this);
-    macIntegration->SetBackgroundLevel(m_quickView.get());
+    // Qt exposes the native NSView*/NSWindow* handle via winId(), so passing it through as void* is safe here.
+    void* cocoaObject = reinterpret_cast<void*>(m_quickView->winId());
+    MacIntegration::setBackgroundLevel(cocoaObject);
 
     return WallpaperExit::Code::Ok;
 }

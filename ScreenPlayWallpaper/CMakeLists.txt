@@ -30,12 +30,8 @@ if(WIN32)
     set(SOURCES src/windowsdesktopproperties.cpp src/winwindow.cpp)
     set(HEADER src/windowsdesktopproperties.h src/winwindow.h)
 elseif(APPLE)
-    set(SOURCES src/macintegration.cpp src/macwindow.cpp)
-    set(HEADER
-        src/macbridge.h
-        src/MacBridge.mm
-        src/macintegration.h
-        src/macwindow.h)
+    set(SOURCES src/macwindow.cpp)
+    set(HEADER src/macwindow.h)
 elseif(UNIX)
     set(SOURCES src/linuxx11window.cpp src/linuxwaylandwindow.cpp)
     set(HEADER src/linuxx11window.h src/linuxwaylandwindow.h)
@@ -68,6 +64,17 @@ if(WIN32)
 
     # Used for query windows monitor data
     target_link_libraries(ScreenPlayWallpaperWindowsIntegration PUBLIC ScreenPlayCoreWindowsExtrasLib shcore.lib)
+endif()
+
+if(APPLE)
+    qt_add_library(ScreenPlayWallpaperMacIntegration STATIC)
+    target_sources(
+        ScreenPlayWallpaperMacIntegration
+        PRIVATE src/macintegration.cpp src/macintegration.mm
+        PUBLIC src/macintegration.h)
+    target_compile_features(ScreenPlayWallpaperMacIntegration PRIVATE cxx_std_23)
+    target_include_directories(ScreenPlayWallpaperMacIntegration PUBLIC src)
+    target_link_libraries(ScreenPlayWallpaperMacIntegration PRIVATE "-framework Cocoa")
 endif()
 
 qt_add_library(ScreenPlayWallpaperLib STATIC)
@@ -104,6 +111,10 @@ target_link_libraries(
            Qt6::Multimedia
            Qt6::WebEngineCore
            Qt6::WebEngineQuick)
+
+if(APPLE)
+    target_link_libraries(ScreenPlayWallpaperLib PUBLIC ScreenPlayWallpaperMacIntegration)
+endif()
 
 qt_add_executable(SPWallpaper main.cpp)
 target_compile_features(SPWallpaper PRIVATE cxx_std_23)
