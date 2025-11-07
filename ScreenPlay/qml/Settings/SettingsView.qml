@@ -264,6 +264,28 @@ Item {
 
                     SettingsHorizontalSeperator {}
 
+                    Loader {
+                        width: parent.width
+                        active: App.settings.desktopEnvironment === Settings.DesktopEnvironment.OSX
+                        sourceComponent: Component {
+                            Column {
+                                width: parent ? parent.width : 0
+                                spacing: 0
+
+                                SettingBool {
+                                    headline: qsTr("Keep Wallpaper On All Spaces")
+                                    description: qsTr("Reapply the wallpaper window after Mission Control space changes so it stays visible on every desktop. You need to restart the wallpaper for this setting to take effect.")
+                                    isChecked: App.settings.macReapplySpaces
+                                    onCheckboxChanged: function (checked) {
+                                        App.settings.setMacReapplySpaces(checked)
+                                    }
+                                }
+
+                                SettingsHorizontalSeperator {}
+                            }
+                        }
+                    }
+
                     SettingsComboBox {
                         id: cbVideoFillMode
 

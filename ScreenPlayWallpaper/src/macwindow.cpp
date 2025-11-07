@@ -24,6 +24,7 @@ WallpaperExit::Code MacWindow::start()
     m_quickView->setFlags(flags | Qt::FramelessWindowHint | Qt::Desktop);
     m_quickView->setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
 
+    // MacIntegration::enableSpaceChangeReapply(m_reapplySpacesEnabled);
     // Qt exposes the native NSView*/NSWindow* handle via winId(), so passing it through as void* is safe here.
     void* cocoaObject = reinterpret_cast<void*>(m_quickView->winId());
     MacIntegration::setBackgroundLevel(cocoaObject);
@@ -49,6 +50,12 @@ void MacWindow::terminate()
 void MacWindow::clearComponentCache()
 {
     m_quickView->engine()->clearComponentCache();
+}
+
+void MacWindow::setReapplySpacesEnabled(bool enabled)
+{
+    m_reapplySpacesEnabled = enabled;
+    MacIntegration::enableSpaceChangeReapply(m_reapplySpacesEnabled);
 }
 }
 #include "moc_macwindow.cpp"

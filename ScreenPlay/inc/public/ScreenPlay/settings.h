@@ -28,6 +28,7 @@ class Settings : public QObject {
     Q_PROPERTY(bool autostart READ autostart WRITE setAutostart NOTIFY autostartChanged FINAL)
     Q_PROPERTY(bool highPriorityStart READ highPriorityStart WRITE setHighPriorityStart NOTIFY highPriorityStartChanged FINAL)
     Q_PROPERTY(bool checkWallpaperVisible READ checkWallpaperVisible WRITE setCheckWallpaperVisible NOTIFY checkWallpaperVisibleChanged FINAL)
+    Q_PROPERTY(bool macReapplySpaces READ macReapplySpaces WRITE setMacReapplySpaces NOTIFY macReapplySpacesChanged FINAL)
     Q_PROPERTY(bool startWallpaperMuted READ startWallpaperMuted WRITE setStartWallpaperMuted NOTIFY startWallpaperMutedChanged FINAL)
     Q_PROPERTY(bool alwaysMinimize READ alwaysMinimize WRITE setAlwaysMinimize NOTIFY alwaysMinimizeChanged FINAL)
     Q_PROPERTY(bool isDeployVersion READ isDeployVersion NOTIFY isDeployVersionChanged FINAL)
@@ -107,6 +108,7 @@ public:
     bool silentStart() const { return m_silentStart; }
     bool anonymousTelemetry() const { return m_anonymousTelemetry; }
     bool checkWallpaperVisible() const { return m_checkWallpaperVisible; }
+    bool macReapplySpaces() const { return m_macReapplySpaces; }
     ScreenPlay::Video::FillMode videoFillMode() const { return m_videoFillMode; }
     ScreenPlay::Settings::Language language() const { return m_language; }
     QString font() const { return m_font; }
@@ -134,6 +136,7 @@ signals:
     void silentStartChanged(bool silentStart);
     void anonymousTelemetryChanged(bool anonymousTelemetry);
     void checkWallpaperVisibleChanged(bool checkWallpaperVisible);
+    void macReapplySpacesChanged(bool macReapplySpaces);
     void videoFillModeChanged(ScreenPlay::Video::FillMode videoFillMode);
     void languageChanged(ScreenPlay::Settings::Language language);
     void fontChanged(QString font);
@@ -161,6 +164,7 @@ public slots:
     void setSilentStart(bool silentStart);
     void setAnonymousTelemetry(bool anonymousTelemetry);
     void setCheckWallpaperVisible(bool checkWallpaperVisible);
+    void setMacReapplySpaces(bool macReapplySpaces);
     void setVideoFillMode(ScreenPlay::Video::FillMode videoFillMode);
     void setLanguage(ScreenPlay::Settings::Language language);
     void setFont(QString font);
@@ -188,6 +192,7 @@ private:
     bool m_autostart { true };
     bool m_highPriorityStart { false };
     bool m_checkWallpaperVisible { false };
+    bool m_macReapplySpaces { false };
     bool m_startWallpaperMuted { false };
     bool m_silentStart { false };
     bool m_anonymousTelemetry { true };

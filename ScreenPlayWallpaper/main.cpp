@@ -117,6 +117,7 @@ int main(int argc, char* argv[])
     QCommandLineOption mainAppPidOption("mainapppid", "pid of the main ScreenPlay app. User to check if we are still alive.", "mainapppid");
     QCommandLineOption graphicsApiOption("graphicsapi", "Set the graphics API.", "graphicsapi");
     QCommandLineOption anonymousTelemetryOption("anonymoustelemetry", "Enable anonymous telemetry.", "anonymoustelemetry");
+    QCommandLineOption reapplySpacesOption("reapplyspaces", "Reapply wallpaper window after Mission Control space changes (macOS only).", "reapplyspaces");
 
     // Add the options to the parser
     parser.addOption(pathOption);
@@ -129,6 +130,7 @@ int main(int argc, char* argv[])
     parser.addOption(mainAppPidOption);
     parser.addOption(graphicsApiOption);
     parser.addOption(anonymousTelemetryOption);
+    parser.addOption(reapplySpacesOption);
 
     // Process the actual command line arguments given by the user
     parser.process(argumentList);
@@ -165,6 +167,8 @@ int main(int argc, char* argv[])
     QString pid = parser.value(mainAppPidOption);
     QString graphicsApi = parser.value(graphicsApiOption); // Optional parameter
     QString anonymousTelemetry = parser.value(anonymousTelemetryOption); // Optional parameter
+    QString reapplySpacesValue = parser.value(reapplySpacesOption);
+
 
     ScreenPlay::Util util;
     logging = std::make_unique<const ScreenPlayCore::LoggingHandler>("ScreenPlayWallpaper_" + parser.value(appIDOption));
@@ -259,6 +263,11 @@ int main(int argc, char* argv[])
         return static_cast<int>(WallpaperExit::Code::Invalid_PID);
     }
 
+    bool reapplySpaces = false;
+    if (!reapplySpacesValue.isEmpty()) {
+        reapplySpaces = reapplySpacesValue.trimmed() ==  "true";
+    }
+
     // Set the properties of the window object
     window->setActiveScreensList(activeScreensList.value());
     window->setProjectPath(path);
@@ -269,6 +278,7 @@ int main(int argc, char* argv[])
     window->setCheckWallpaperVisible(checkWallpaperVisible);
     window->setDebugMode(mainAppPidInt == -1);
     window->setMainAppPID(mainAppPidInt);
+    window->setReapplySpacesEnabled(reapplySpaces);
 
     const auto setupStatus = window->setup();
     if (setupStatus != WallpaperExit::Code::Ok) {

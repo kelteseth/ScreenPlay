@@ -95,6 +95,11 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
         "--mainapppid", QString::number(m_processManager.getCurrentPID())
     };
 
+    const bool hasReapplySpacesValue = m_settings->desktopEnvironment() == Settings::DesktopEnvironment::OSX && m_settings->macReapplySpaces();
+    if (hasReapplySpacesValue) {
+        m_appArgumentsList.append({ "--reapplyspaces", "true" });
+    }
+
     // Fixes issue 84 media key overlay in Qt apps
     if (m_wallpaperData.type() != ContentTypes::InstalledType::GodotWallpaper) {
         m_appArgumentsList.append(" --disable-features=HardwareMediaKeyHandling");
@@ -105,6 +110,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
 
     // Add anonymous telemetry setting
     m_appArgumentsList.append({ "--anonymoustelemetry", m_settings->anonymousTelemetry() ? "true" : "false" });
+
     if (m_wallpaperData.type() == ContentTypes::InstalledType::GodotWallpaper) {
         if (m_projectJson.contains("version")) {
             const quint64 version = m_projectJson.value("version").toInt();

@@ -84,6 +84,7 @@ public:
 
     qint64 mainAppPID() const;
     void setMainAppPID(qint64 mainAppPID);
+    virtual void setReapplySpacesEnabled(bool /*enabled*/) { }
 
 signals:
     void qmlStart();

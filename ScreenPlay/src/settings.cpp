@@ -91,6 +91,12 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
         setDesktopEnvironment(DesktopEnvironment::Wayland);
     }
 
+    if (kernel == "darwin") {
+        setMacReapplySpaces(m_qSettings.value("MacReapplySpaces", true).toBool());
+    } else {
+        m_macReapplySpaces = false;
+    }
+
     // Lets not set the dev version as startup.
     if (SCREENPLAY_DEPLOY_VERSION)
         if (desktopEnvironment() == DesktopEnvironment::Windows) {
@@ -628,6 +634,27 @@ void Settings::setCheckWallpaperVisible(bool checkWallpaperVisible)
 
     m_checkWallpaperVisible = checkWallpaperVisible;
     emit checkWallpaperVisibleChanged(m_checkWallpaperVisible);
+}
+
+void Settings::setMacReapplySpaces(bool macReapplySpaces)
+{
+    const QString kernel = QSysInfo::kernelType();
+    if (kernel != "darwin") {
+        if (m_macReapplySpaces == false)
+            return;
+
+        m_macReapplySpaces = false;
+        emit macReapplySpacesChanged(m_macReapplySpaces);
+        return;
+    }
+
+    if (m_macReapplySpaces == macReapplySpaces)
+        return;
+
+    setqSetting("MacReapplySpaces", macReapplySpaces);
+
+    m_macReapplySpaces = macReapplySpaces;
+    emit macReapplySpacesChanged(m_macReapplySpaces);
 }
 
 void Settings::setVideoFillMode(ScreenPlay::Video::FillMode videoFillMode)

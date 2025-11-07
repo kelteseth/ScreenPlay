@@ -3,9 +3,15 @@
 
 namespace ScreenPlay::MacIntegration {
 void setBackgroundLevelImpl(void* cocoaWindowOrView);
+void enableSpaceChangeReapplyImpl(bool enable);
 
 void setBackgroundLevel(void* cocoaWindowOrView)
 {
     setBackgroundLevelImpl(cocoaWindowOrView);
+}
+
+void enableSpaceChangeReapply(bool enable)
+{
+    enableSpaceChangeReapplyImpl(enable);
 }
 }

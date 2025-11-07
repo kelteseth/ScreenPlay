@@ -19,6 +19,7 @@ class MacWindow : public BaseWindow {
     Q_OBJECT
 public:
     WallpaperExit::Code start() override;
+    void setReapplySpacesEnabled(bool enabled) override;
 
 signals:
 
@@ -29,5 +30,6 @@ public slots:
     void clearComponentCache() override;
 
 private:
+    bool m_reapplySpacesEnabled { true };
 };
 }
