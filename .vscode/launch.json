@@ -38,6 +38,38 @@
             }
         },
         {
+            "name": "🎮 Godot Wallpaper",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${workspaceFolder}/ThirdParty/Godot/Godot_v4.5.1-stable_linux.x86_64",
+            "args": [
+                "--path",
+                "${workspaceFolder}/ScreenPlayWallpaper/Godot/ScreenPlayGodot",
+                "--",
+                "--projectpath",
+                "${workspaceFolder}/Content/wallpaper_godot/",
+                "--appID",
+                "test",
+                "--screens",
+                "{0}",
+                "--volume",
+                "1",
+                "--check",
+                "0",
+                "--projectPackageFile",
+                "project-v1.zip",
+                "--fps",
+                "60"
+            ],
+            "cwd": "${workspaceFolder}/ScreenPlayWallpaper/Godot/ScreenPlayGodot",
+            "windows": {
+                "program": "${workspaceFolder}/ThirdParty/Godot/Godot_v4.5.1-stable_win64.exe"
+            },
+            "osx": {
+                "program": "${workspaceFolder}/ThirdParty/Godot/Godot.app/Contents/MacOS/Godot"
+            }
+        },
+        {
             "name": "🍏macOS",
             "type": "lldb",
             "request": "launch",

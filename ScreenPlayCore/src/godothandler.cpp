@@ -4,6 +4,8 @@
 #include <QEventLoop>
 #include <QFile>
 #include <QJsonParseError>
+#include <QSettings>
+#include <QSysInfo>
 #include <QTemporaryDir>
 #include <QTextStream>
 #include <QUrl>
@@ -122,10 +124,64 @@ QCoro::QmlTask GodotHandler::exportGodotProject(const QString& absolutePath, con
             // Continue anyway, this is not a fatal error
         }
 
-        // Prepare the Godot export command
-        const QList<QString>
-            godotCmd
-            = { "--export-pack", "--headless", "Windows Desktop", packageFileName };
+        // Determine the desired Godot export preset based on the detected OS
+        const QString kernelType = QSysInfo::kernelType().toLower();
+        QStringList presetCandidates;
+
+        if (kernelType.startsWith(QStringLiteral("win"))) {
+            presetCandidates << QStringLiteral("Windows Desktop") << QStringLiteral("Windows");
+        } else if (kernelType == QStringLiteral("darwin")) {
+            presetCandidates << QStringLiteral("macOS") << QStringLiteral("Mac OSX");
+        } else if (kernelType == QStringLiteral("linux")) {
+            presetCandidates << QStringLiteral("Linux") << QStringLiteral("Linux/X11");
+        } else {
+            qWarning() << "Unsupported kernel type for Godot export" << kernelType;
+            co_return Result { false, {}, tr("Unsupported platform for Godot export") };
+        }
+
+        // Inspect available presets to ensure the requested one exists
+        QStringList availablePresets;
+        const QString exportPresetsPath = QDir(projectPath).filePath(QStringLiteral("export_presets.cfg"));
+        if (QFile::exists(exportPresetsPath)) {
+            QSettings presetSettings(exportPresetsPath, QSettings::IniFormat);
+            const QStringList presetGroups = presetSettings.childGroups();
+            for (const QString& group : presetGroups) {
+                if (!group.startsWith(QStringLiteral("preset.")))
+                    continue;
+                presetSettings.beginGroup(group);
+                const QString presetName = presetSettings.value(QStringLiteral("name")).toString();
+                if (!presetName.isEmpty())
+                    availablePresets << presetName;
+                presetSettings.endGroup();
+            }
+        } else {
+            qWarning() << "Missing export_presets.cfg at" << exportPresetsPath;
+        }
+
+        auto resolvePreset = [&availablePresets](const QStringList& candidates) -> QString {
+            for (const QString& candidate : candidates) {
+                for (const QString& preset : availablePresets) {
+                    if (preset.compare(candidate, Qt::CaseInsensitive) == 0)
+                        return preset;
+                }
+            }
+            if (!availablePresets.isEmpty()) {
+                qWarning() << "Requested Godot export preset not found; using"
+                           << availablePresets.first();
+                return availablePresets.first();
+            }
+            return candidates.isEmpty() ? QString() : candidates.first();
+        };
+
+        const QString exportPresetName = resolvePreset(presetCandidates);
+        if (exportPresetName.isEmpty()) {
+            qWarning() << "No suitable Godot export preset resolved" << presetCandidates;
+            co_return Result { false, {}, tr("No usable Godot export preset found") };
+        }
+
+        // Choose the Godot export preset based on the detected OS or fallback
+        const QList<QString> godotCmd
+            = { "--export-pack", "--headless", exportPresetName, packageFileName };
 
         QProcess process;
         process.setWorkingDirectory(projectPath);
