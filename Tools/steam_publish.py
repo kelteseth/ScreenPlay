@@ -6,12 +6,10 @@ import subprocess
 import shutil
 import argparse
 from pathlib import Path
-from sys import platform
 from execute_util import execute
 from datetime import datetime
 from shutil import copyfile
-import subprocess
-from util import cd_repo_root_path
+from util import repo_root_path
 import platform
 from sys import stdout
 
@@ -27,7 +25,8 @@ class PublishConfig:
 def init_publish_config():
     config = PublishConfig()
 
-    root_path = cd_repo_root_path()
+    root_path = str(repo_root_path())
+    os.chdir(root_path)
     tools_path = os.path.join(root_path, "Tools")
     contentBuiler_path = os.path.join(tools_path, "Steam/ContentBuilder/")
 
@@ -97,7 +96,8 @@ def publish(
 ):
 
     # Make sure the script is always started from the same folder
-    root_path = cd_repo_root_path()
+    root_path = str(repo_root_path())
+    os.chdir(root_path)
     tools_path = os.path.join(root_path, "Tools")
 
     config = init_publish_config()
