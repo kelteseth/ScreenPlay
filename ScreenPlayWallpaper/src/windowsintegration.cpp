@@ -303,19 +303,19 @@ WindowsIntegration::MonitorResult WindowsIntegration::setupWallpaperForOneScreen
         std::cout << "WorkerW Window Position: (" << parentRect.left << ", " << parentRect.top << ")" << std::endl;
 
         // Calculate new position and size with DPI scaling
-        int newX = static_cast<int>((oldRect.left - parentRect.left) * (windowDpiScaleFactor / targetMonitorDpiScaleFactor));
-        int newY = static_cast<int>((oldRect.top - parentRect.top) * (windowDpiScaleFactor / targetMonitorDpiScaleFactor));
+        int newX = static_cast<int>(std::round((oldRect.left - parentRect.left) * (windowDpiScaleFactor / targetMonitorDpiScaleFactor)));
+        int newY = static_cast<int>(std::round((oldRect.top - parentRect.top) * (windowDpiScaleFactor / targetMonitorDpiScaleFactor)));
         std::cout << "Calculated New Position: (" << newX << ", " << newY << ")" << std::endl;
 
-        int newWidth = static_cast<int>(monitor.size.cx * (windowDpiScaleFactor / targetMonitorDpiScaleFactor));
-        int newHeight = static_cast<int>(monitor.size.cy * (windowDpiScaleFactor / targetMonitorDpiScaleFactor));
+        int newWidth = static_cast<int>(std::round(monitor.size.cx * (windowDpiScaleFactor / targetMonitorDpiScaleFactor))) ;
+        int newHeight = static_cast<int>(std::round(monitor.size.cy * (windowDpiScaleFactor / targetMonitorDpiScaleFactor))) ;
         std::cout << "Calculated New Size: (" << newWidth << "x" << newHeight << ")" << std::endl;
 
         // Final window positioning
         SetWindowPos(m_windowHandle, nullptr,
             newX, newY,
             newWidth, newHeight,
-            SWP_NOZORDER | SWP_NOACTIVATE);
+            SWP_NOZORDER | SWP_FRAMECHANGED | SWP_NOACTIVATE);
 
         if (isWin24H2Plus) {
             // Additional 24H2-specific window adjustments if needed

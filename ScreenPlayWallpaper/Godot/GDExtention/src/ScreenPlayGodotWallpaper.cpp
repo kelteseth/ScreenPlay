@@ -107,7 +107,7 @@ bool ScreenPlayGodotWallpaper::configureWindowGeometry()
     }
     // WARNING: Setting Window flags must be called *here*!
     SetWindowLongPtr(m_windowsIntegration.windowHandle(), GWL_EXSTYLE, WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW | WS_EX_TRANSPARENT);
-    SetWindowLongPtr(m_windowsIntegration.windowHandle(), GWL_STYLE, WS_POPUPWINDOW);
+    SetWindowLongPtr(m_windowsIntegration.windowHandle(), GWL_STYLE, WS_POPUP);
 
     return true;
 }
@@ -120,6 +120,11 @@ bool ScreenPlayGodotWallpaper::init(int activeScreen)
     int64_t handle_int = displayServer->window_get_native_handle(godot::DisplayServer::HandleType::WINDOW_HANDLE);
     HWND hwnd = reinterpret_cast<HWND>(handle_int);
     m_windowsIntegration.setWindowHandle(hwnd);
+
+    // Set Godot window to exclusive fullscreen and borderless to prevent it from managing window size
+    displayServer->window_set_mode(godot::DisplayServer::WindowMode::WINDOW_MODE_EXCLUSIVE_FULLSCREEN);
+    displayServer->window_set_flag(godot::DisplayServer::WindowFlags::WINDOW_FLAG_BORDERLESS, true);
+
     ShowWindow(m_windowsIntegration.windowHandle(), SW_HIDE);
     if (!IsWindow(hwnd)) {
         UtilityFunctions::print("ScreenPlayGodotWallpaper::init Could not get a valid window handle !", activeScreen, handle_int);
@@ -145,10 +150,8 @@ bool ScreenPlayGodotWallpaper::init(int activeScreen)
         UtilityFunctions::print("setupWallpaperForOneScreen failed status: ", (int)monitor.status);
         return false;
     }
-    displayServer->window_set_size(godot::Vector2((real_t)monitor.monitor->size.cx, (real_t)monitor.monitor->size.cy));
 
-    // SetWindowText(m_windowsIntegration.windowHandle(), "ScreenPlayWallpaperGodot");
-    ShowWindow(hwnd, SW_SHOWNORMAL);
+    ShowWindow(hwnd, SW_SHOW);
 
     return true;
 }
