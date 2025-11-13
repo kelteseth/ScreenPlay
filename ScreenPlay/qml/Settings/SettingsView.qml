@@ -53,7 +53,7 @@ Item {
                     anchors.margins: 20
                     spacing: 20
 
-                    SettingBool {
+                    SettingsCheckbox {
                         headline: qsTr("Autostart")
                         description: qsTr("ScreenPlay will start with Windows and will setup your Desktop every time for you.")
                         isChecked: App.settings.autostart
@@ -64,7 +64,7 @@ Item {
 
                     SettingsHorizontalSeperator {}
 
-                    SettingBool {
+                    SettingsCheckbox {
                         headline: qsTr("Always minimize to system tray")
                         description: qsTr("When enabled, ScreenPlay will automatically minimize to the system tray instead of showing the exit dialog when closing the main window.")
                         isChecked: App.settings.alwaysMinimize
@@ -75,7 +75,7 @@ Item {
 
                     SettingsHorizontalSeperator {}
 
-                    SettingBool {
+                    SettingsCheckbox {
                         height: 70
                         headline: qsTr("Send anonymous crash reports and statistics")
                         description: qsTr("Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use <a href=\"https://sentry.io\">sentry.io</a> to collect and analyze this data. A <b>big thanks to them</b> for providing us with free premium support for open source projects!")
@@ -253,7 +253,7 @@ Item {
                     anchors.margins: 20
                     spacing: 20
 
-                    SettingBool {
+                    SettingsCheckbox {
                         headline: qsTr("Start Wallpaper Muted")
                         description: qsTr("Defaults to a muted wallpaper. You can always change this at a alter date in the Configure Content menu.")
                         isChecked: App.settings.startWallpaperMuted
@@ -272,7 +272,7 @@ Item {
                                 width: parent ? parent.width : 0
                                 spacing: 0
 
-                                SettingBool {
+                                SettingsCheckbox {
                                     headline: qsTr("Keep Wallpaper On All Spaces")
                                     description: qsTr("Reapply the wallpaper window after Mission Control space changes so it stays visible on every desktop. You need to restart the wallpaper for this setting to take effect.")
                                     isChecked: App.settings.macReapplySpaces
@@ -322,6 +322,49 @@ Item {
                     }
 
                     SettingsHorizontalSeperator {}
+
+                    SettingsComboBox {
+                        id: cbGraphicsApi
+
+                        headline: qsTr("Video Wallpaper Graphics API")
+                        description: qsTr("Set the graphics API for wallpapers (Note: Godot wallpapers are not affected by this setting). DirectX11 may provide better performance on AMD hardware. You must restart the wallpaper to take effect.")
+                        comboBox {
+                            Component.onCompleted: comboBox.currentIndex = comboBox.indexOfValue(App.settings.graphicsApi)
+                            model: ListModel {
+                                ListElement {
+                                    value: ScreenPlayEnums.GraphicsApi.Auto
+                                    text: qsTr("Auto (Qt Default)")
+                                }
+                                ListElement {
+                                    value: ScreenPlayEnums.GraphicsApi.OpenGL
+                                    text: qsTr("OpenGL")
+                                }
+                                ListElement {
+                                    value: ScreenPlayEnums.GraphicsApi.DirectX11
+                                    text: qsTr("DirectX11 (Windows Only)")
+                                }
+                            }
+                            onActivated: {
+                                App.settings.setGraphicsApi(cbGraphicsApi.comboBox.currentValue)
+                            }
+                        }
+                    }
+                }
+            }
+
+            SettingsPage {
+
+                header: SettingsHeader {
+                    id: headerGodot
+
+                    text: qsTr("Godot Engine")
+                    image: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_code.svg"
+                }
+
+                Column {
+                    anchors.fill: parent
+                    anchors.margins: 20
+                    spacing: 20
 
                     SettingsComboBox {
                         id: cbGodotFps
@@ -374,35 +417,6 @@ Item {
                             }
                             onActivated: {
                                 App.settings.setGodotFps(cbGodotFps.comboBox.currentValue)
-                            }
-                        }
-                    }
-
-                    SettingsHorizontalSeperator {}
-
-                    SettingsComboBox {
-                        id: cbGraphicsApi
-
-                        headline: qsTr("Video Wallpaper Graphics API")
-                        description: qsTr("Set the graphics API for wallpapers (Note: Godot wallpapers are not affected by this setting). DirectX11 may provide better performance on AMD hardware. You must restart the wallpaper to take effect.")
-                        comboBox {
-                            Component.onCompleted: comboBox.currentIndex = comboBox.indexOfValue(App.settings.graphicsApi)
-                            model: ListModel {
-                                ListElement {
-                                    value: ScreenPlayEnums.GraphicsApi.Auto
-                                    text: qsTr("Auto (Qt Default)")
-                                }
-                                ListElement {
-                                    value: ScreenPlayEnums.GraphicsApi.OpenGL
-                                    text: qsTr("OpenGL")
-                                }
-                                ListElement {
-                                    value: ScreenPlayEnums.GraphicsApi.DirectX11
-                                    text: qsTr("DirectX11 (Windows Only)")
-                                }
-                            }
-                            onActivated: {
-                                App.settings.setGraphicsApi(cbGraphicsApi.comboBox.currentValue)
                             }
                         }
                     }

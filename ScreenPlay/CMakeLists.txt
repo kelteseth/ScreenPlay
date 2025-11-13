@@ -110,7 +110,7 @@ set(QML
     qml/Navigation/ExitPopup.qml
     qml/Navigation/Navigation.qml
     qml/ScreenPlayMain.qml
-    qml/Settings/SettingBool.qml
+    qml/Settings/SettingsCheckbox.qml
     qml/Settings/SettingsButton.qml
     qml/Settings/SettingsComboBox.qml
     qml/Settings/SettingsExpander.qml

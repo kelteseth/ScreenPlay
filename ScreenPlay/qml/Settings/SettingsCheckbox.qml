@@ -5,7 +5,7 @@ import QtQuick.Controls.Material
 import ScreenPlay
 
 Item {
-    id: settingsBool
+    id: root
 
     property string headline: "Headline"
     property string description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
@@ -18,10 +18,10 @@ Item {
     width: parent.width
     onAvailableChanged: {
         if (!available) {
-            settingsBool.opacity = 0.5
+            root.opacity = 0.5
             radioButton.enabled = false
         } else {
-            settingsButton.opacity = 1
+            root.opacity = 1
             radioButton.enabled = true
         }
     }
@@ -30,7 +30,7 @@ Item {
         id: txtHeadline
 
         color: Material.foreground
-        text: settingsBool.headline
+        text: root.headline
         font.family: App.settings.font
         font.pointSize: 12
         verticalAlignment: Text.AlignVCenter
@@ -50,7 +50,7 @@ Item {
     Text {
         id: txtDescription
 
-        text: settingsBool.description
+        text: root.description
         wrapMode: Text.WordWrap
         linkColor: Material.color(Material.Orange)
         onLinkActivated: function (link) {
@@ -76,7 +76,7 @@ Item {
     CheckBox {
         id: radioButton
 
-        checked: settingsBool.isChecked
+        checked: root.isChecked
         onClicked: {
             if (radioButton.checkState === Qt.Checked)
                 checkboxChanged(true)
