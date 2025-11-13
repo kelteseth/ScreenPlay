@@ -387,6 +387,14 @@ Item {
                                     text: "1 FPS"
                                 }
                                 ListElement {
+                                    value: Settings.GodotFps.Fps6
+                                    text: "6 FPS"
+                                }
+                                ListElement {
+                                    value: Settings.GodotFps.Fps12
+                                    text: "12 FPS"
+                                }
+                                ListElement {
                                     value: Settings.GodotFps.Fps24
                                     text: "24 FPS"
                                 }
@@ -417,6 +425,142 @@ Item {
                             }
                             onActivated: {
                                 App.settings.setGodotFps(cbGodotFps.comboBox.currentValue)
+                            }
+                        }
+                    }
+
+                    SettingsHorizontalSeperator {}
+
+                    SettingsComboBox {
+                        id: cbGodot3DScaleMode
+
+                        headline: qsTr("3D Scaling Mode")
+                        description: qsTr("Bilinear renders at different resolution to either undersample or supersample. FSR 1.0 (FidelityFX Super Resolution) produces high quality images at fast framerates using spatially-aware upscaling. FSR 2.2 provides even higher quality with temporal antialiasing but is more expensive. Note: FSR modes are only effective with Forward+ rendering.")
+                        proFeature: true
+                        comboBox {
+                            Component.onCompleted: {
+                                if (App.globalVariables.isBasicVersion()) {
+                                    comboBox.currentIndex = comboBox.indexOfValue(Settings.Godot3DScaleMode.Bilinear)
+                                } else {
+                                    comboBox.currentIndex = comboBox.indexOfValue(App.settings.godot3DScaleMode)
+                                }
+                            }
+                            model: ListModel {
+                                ListElement {
+                                    value: Settings.Godot3DScaleMode.Bilinear
+                                    text: qsTr("Bilinear")
+                                }
+                                ListElement {
+                                    value: Settings.Godot3DScaleMode.FSR1_0
+                                    text: "FSR 1.0"
+                                }
+                                ListElement {
+                                    value: Settings.Godot3DScaleMode.FSR2_2
+                                    text: "FSR 2.2"
+                                }
+                            }
+                            onActivated: {
+                                App.settings.setGodot3DScaleMode(cbGodot3DScaleMode.comboBox.currentValue)
+                            }
+                        }
+                    }
+
+                    SettingsHorizontalSeperator {}
+
+                    RowLayout {
+                        width: parent.width
+                        spacing: 20
+
+                        ColumnLayout {
+                            Layout.fillWidth: true
+                            Layout.leftMargin: 20
+                            spacing: 6
+
+                            Text {
+                                text: qsTr("3D Render Scale")
+                                color: Material.foreground
+                                font.family: App.settings.font
+                                font.pointSize: 12
+                            }
+
+                            Text {
+                                text: qsTr("Scales the 3D render buffer. Values lower than 1.0 speed up rendering at cost of quality (undersampling). Values greater than 1.0 improve quality at high performance cost (supersampling). Range: 0.25 - 2.0")
+                                color: Material.theme === Material.Light ? Qt.lighter(Material.foreground) : Qt.darker(Material.foreground)
+                                font.family: App.settings.font
+                                font.pointSize: 10
+                                wrapMode: Text.WordWrap
+                                Layout.fillWidth: true
+                            }
+                        }
+
+                        SpinBox {
+                            id: sb3DScale
+                            from: 25
+                            to: 200
+                            stepSize: 5
+                            value: Math.round(App.settings.godot3DScale * 100)
+                            enabled: !App.globalVariables.isBasicVersion()
+                            editable: true
+                            Layout.rightMargin: 20
+
+                            property int decimals: 2
+                            property real realValue: value / 100
+
+                            validator: DoubleValidator {
+                                bottom: Math.min(sb3DScale.from, sb3DScale.to)
+                                top: Math.max(sb3DScale.from, sb3DScale.to)
+                            }
+
+                            textFromValue: function (value, locale) {
+                                return Number(value / 100).toLocaleString(locale, 'f', sb3DScale.decimals)
+                            }
+
+                            valueFromText: function (text, locale) {
+                                return Math.round(Number.fromLocaleString(locale, text) * 100)
+                            }
+
+                            onValueModified: {
+                                App.settings.setGodot3DScale(realValue)
+                            }
+                        }
+                    }
+
+                    SettingsHorizontalSeperator {}
+
+                    SettingsComboBox {
+                        id: cbGodotRenderingDriver
+
+                        headline: qsTr("Rendering Driver")
+                        description: qsTr("Sets the rendering backend. Vulkan offers the best performance and features. D3D12 is Windows-only and may work better on some systems. OpenGL3 provides broader compatibility. You must restart the wallpaper for this to take effect.")
+                        proFeature: true
+                        comboBox {
+                            Component.onCompleted: {
+                                if (App.globalVariables.isBasicVersion()) {
+                                    comboBox.currentIndex = comboBox.indexOfValue(Settings.GodotRenderingDriver.Vulkan)
+                                } else {
+                                    comboBox.currentIndex = comboBox.indexOfValue(App.settings.godotRenderingDriver)
+                                }
+                            }
+                            model: ListModel {
+                                ListElement {
+                                    value: Settings.GodotRenderingDriver.Vulkan
+                                    text: "Vulkan"
+                                }
+                                ListElement {
+                                    value: Settings.GodotRenderingDriver.D3D12
+                                    text: "DirectX 12 (Windows Only)"
+                                }
+                                ListElement {
+                                    value: Settings.GodotRenderingDriver.OpenGL3
+                                    text: "OpenGL 3"
+                                }
+                                ListElement {
+                                    value: Settings.GodotRenderingDriver.OpenGL3_Angle
+                                    text: "OpenGL 3 ANGLE"
+                                }
+                            }
+                            onActivated: {
+                                App.settings.setGodotRenderingDriver(cbGodotRenderingDriver.comboBox.currentValue)
                             }
                         }
                     }

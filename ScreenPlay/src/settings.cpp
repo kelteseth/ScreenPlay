@@ -134,6 +134,26 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
         setGodotFps(GodotFps::Fps60);
     }
 
+    if (m_qSettings.contains("Godot3DScale")) {
+        setGodot3DScale(m_qSettings.value("Godot3DScale").toFloat());
+    } else {
+        setGodot3DScale(1.0f);
+    }
+
+    if (m_qSettings.contains("Godot3DScaleMode")) {
+        auto value = m_qSettings.value("Godot3DScaleMode").toString();
+        setGodot3DScaleMode(QStringToEnum<Godot3DScaleMode>(value, Godot3DScaleMode::Bilinear));
+    } else {
+        setGodot3DScaleMode(Godot3DScaleMode::Bilinear);
+    }
+
+    if (m_qSettings.contains("GodotRenderingDriver")) {
+        auto value = m_qSettings.value("GodotRenderingDriver").toString();
+        setGodotRenderingDriver(QStringToEnum<GodotRenderingDriver>(value, GodotRenderingDriver::Vulkan));
+    } else {
+        setGodotRenderingDriver(GodotRenderingDriver::Vulkan);
+    }
+
     if (m_qSettings.contains("GraphicsApi")) {
         auto value = m_qSettings.value("GraphicsApi").toString();
         setGraphicsApi(QStringToEnum<ScreenPlayEnums::GraphicsApi>(value, ScreenPlayEnums::GraphicsApi::Auto));
@@ -757,6 +777,39 @@ void Settings::setGodotFps(ScreenPlay::Settings::GodotFps godotFps)
 
     m_godotFps = godotFps;
     emit godotFpsChanged(m_godotFps);
+}
+
+void Settings::setGodot3DScale(float godot3DScale)
+{
+    if (qFuzzyCompare(m_godot3DScale, godot3DScale))
+        return;
+
+    setqSetting("Godot3DScale", godot3DScale);
+
+    m_godot3DScale = godot3DScale;
+    emit godot3DScaleChanged(m_godot3DScale);
+}
+
+void Settings::setGodot3DScaleMode(ScreenPlay::Settings::Godot3DScaleMode godot3DScaleMode)
+{
+    if (m_godot3DScaleMode == godot3DScaleMode)
+        return;
+
+    setqSetting("Godot3DScaleMode", QVariant::fromValue(godot3DScaleMode).toString());
+
+    m_godot3DScaleMode = godot3DScaleMode;
+    emit godot3DScaleModeChanged(m_godot3DScaleMode);
+}
+
+void Settings::setGodotRenderingDriver(ScreenPlay::Settings::GodotRenderingDriver godotRenderingDriver)
+{
+    if (m_godotRenderingDriver == godotRenderingDriver)
+        return;
+
+    setqSetting("GodotRenderingDriver", QVariant::fromValue(godotRenderingDriver).toString());
+
+    m_godotRenderingDriver = godotRenderingDriver;
+    emit godotRenderingDriverChanged(m_godotRenderingDriver);
 }
 
 void Settings::setGraphicsApi(ScreenPlay::ScreenPlayEnums::GraphicsApi graphicsApi)

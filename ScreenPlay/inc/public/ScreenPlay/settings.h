@@ -38,6 +38,9 @@ class Settings : public QObject {
     Q_PROPERTY(ScreenPlay::Settings::Language language READ language WRITE setLanguage NOTIFY languageChanged FINAL)
     Q_PROPERTY(ScreenPlay::Settings::Theme theme READ theme WRITE setTheme NOTIFY themeChanged FINAL)
     Q_PROPERTY(ScreenPlay::Settings::GodotFps godotFps READ godotFps WRITE setGodotFps NOTIFY godotFpsChanged FINAL)
+    Q_PROPERTY(float godot3DScale READ godot3DScale WRITE setGodot3DScale NOTIFY godot3DScaleChanged FINAL)
+    Q_PROPERTY(ScreenPlay::Settings::Godot3DScaleMode godot3DScaleMode READ godot3DScaleMode WRITE setGodot3DScaleMode NOTIFY godot3DScaleModeChanged FINAL)
+    Q_PROPERTY(ScreenPlay::Settings::GodotRenderingDriver godotRenderingDriver READ godotRenderingDriver WRITE setGodotRenderingDriver NOTIFY godotRenderingDriverChanged FINAL)
     Q_PROPERTY(ScreenPlay::ScreenPlayEnums::GraphicsApi graphicsApi READ graphicsApi WRITE setGraphicsApi NOTIFY graphicsApiChanged FINAL)
 
     Q_PROPERTY(QString decoder READ decoder WRITE setDecoder NOTIFY decoderChanged FINAL)
@@ -92,6 +95,8 @@ public:
 
     enum class GodotFps {
         Fps1,
+        Fps6,
+        Fps12,
         Fps24,
         Fps30,
         Fps60,
@@ -101,6 +106,21 @@ public:
         Vsync
     };
     Q_ENUM(GodotFps)
+
+    enum class Godot3DScaleMode {
+        Bilinear,
+        FSR1_0,
+        FSR2_2
+    };
+    Q_ENUM(Godot3DScaleMode)
+
+    enum class GodotRenderingDriver {
+        Vulkan,
+        D3D12,
+        OpenGL3,
+        OpenGL3_Angle
+    };
+    Q_ENUM(GodotRenderingDriver)
 
     bool autostart() const { return m_autostart; }
     bool highPriorityStart() const { return m_highPriorityStart; }
@@ -114,6 +134,9 @@ public:
     QString font() const { return m_font; }
     ScreenPlay::Settings::Theme theme() const { return m_theme; }
     ScreenPlay::Settings::GodotFps godotFps() const { return m_godotFps; }
+    float godot3DScale() const { return m_godot3DScale; }
+    ScreenPlay::Settings::Godot3DScaleMode godot3DScaleMode() const { return m_godot3DScaleMode; }
+    ScreenPlay::Settings::GodotRenderingDriver godotRenderingDriver() const { return m_godotRenderingDriver; }
     ScreenPlay::ScreenPlayEnums::GraphicsApi graphicsApi() const { return m_graphicsApi; }
     ScreenPlay::Settings::DesktopEnvironment desktopEnvironment() const { return m_desktopEnvironment; }
     const QString& buildInfos() const { return m_buildInfos; }
@@ -146,6 +169,9 @@ signals:
     void buildInfosChanged(const QString& buildInfos);
     void startWallpaperMutedChanged(bool startWallpaperMuted);
     void godotFpsChanged(ScreenPlay::Settings::GodotFps godotFps);
+    void godot3DScaleChanged(float godot3DScale);
+    void godot3DScaleModeChanged(ScreenPlay::Settings::Godot3DScaleMode godot3DScaleMode);
+    void godotRenderingDriverChanged(ScreenPlay::Settings::GodotRenderingDriver godotRenderingDriver);
     void graphicsApiChanged(ScreenPlay::ScreenPlayEnums::GraphicsApi graphicsApi);
     void alwaysMinimizeChanged(bool alwaysMinimize);
     void isDeployVersionChanged(bool isDeployVersion);
@@ -173,6 +199,9 @@ public slots:
     void setBuildInfos(const QString& buildInfos);
     void setStartWallpaperMuted(bool startWallpaperMuted);
     void setGodotFps(ScreenPlay::Settings::GodotFps godotFps);
+    void setGodot3DScale(float godot3DScale);
+    void setGodot3DScaleMode(ScreenPlay::Settings::Godot3DScaleMode godot3DScaleMode);
+    void setGodotRenderingDriver(ScreenPlay::Settings::GodotRenderingDriver godotRenderingDriver);
     void setGraphicsApi(ScreenPlay::ScreenPlayEnums::GraphicsApi graphicsApi);
     void setAlwaysMinimize(bool alwaysMinimize);
 
@@ -203,6 +232,9 @@ private:
     ScreenPlay::Settings::Language m_language { Language::En_US };
     ScreenPlay::Settings::Theme m_theme { Theme::System };
     ScreenPlay::Settings::GodotFps m_godotFps { GodotFps::Fps60 };
+    float m_godot3DScale { 1.0f };
+    ScreenPlay::Settings::Godot3DScaleMode m_godot3DScaleMode { Godot3DScaleMode::Bilinear };
+    ScreenPlay::Settings::GodotRenderingDriver m_godotRenderingDriver { GodotRenderingDriver::Vulkan };
     ScreenPlay::ScreenPlayEnums::GraphicsApi m_graphicsApi { ScreenPlayEnums::GraphicsApi::Auto };
     ScreenPlay::Settings::DesktopEnvironment m_desktopEnvironment { DesktopEnvironment::Unknown };
     QString m_font { "Roboto" };

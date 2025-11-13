@@ -124,6 +124,12 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
         case Settings::GodotFps::Fps1:
             fpsValue = "1";
             break;
+        case Settings::GodotFps::Fps6:
+            fpsValue = "6";
+            break;
+        case Settings::GodotFps::Fps12:
+            fpsValue = "12";
+            break;
         case Settings::GodotFps::Fps24:
             fpsValue = "24";
             break;
@@ -147,6 +153,42 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
             break;
         }
         m_appArgumentsList.append({ "--fps", fpsValue });
+
+        // Add 3D scale argument
+        m_appArgumentsList.append({ "--3d-scale", QString::number(m_settings->godot3DScale()) });
+
+        // Add 3D scale mode argument
+        QString scaleModeValue;
+        switch (m_settings->godot3DScaleMode()) {
+        case Settings::Godot3DScaleMode::Bilinear:
+            scaleModeValue = "0";
+            break;
+        case Settings::Godot3DScaleMode::FSR1_0:
+            scaleModeValue = "1";
+            break;
+        case Settings::Godot3DScaleMode::FSR2_2:
+            scaleModeValue = "2";
+            break;
+        }
+        m_appArgumentsList.append({ "--3d-scale-mode", scaleModeValue });
+
+        // Add rendering driver argument
+        QString renderingDriver;
+        switch (m_settings->godotRenderingDriver()) {
+        case Settings::GodotRenderingDriver::Vulkan:
+            renderingDriver = "vulkan";
+            break;
+        case Settings::GodotRenderingDriver::D3D12:
+            renderingDriver = "d3d12";
+            break;
+        case Settings::GodotRenderingDriver::OpenGL3:
+            renderingDriver = "opengl3";
+            break;
+        case Settings::GodotRenderingDriver::OpenGL3_Angle:
+            renderingDriver = "opengl3_angle";
+            break;
+        }
+        m_appArgumentsList.append({ "--rendering-driver", renderingDriver });
     }
 }
 

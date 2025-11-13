@@ -159,6 +159,40 @@ func parse_args():
 		Engine.set_max_fps(60)
 		print("No fps argument provided, using default 60 FPS")
 
+	# Handle optional 3D scale argument
+	if arg_dict.has("3d-scale"):
+		var scale_value = arg_dict["3d-scale"].to_float()
+		if scale_value >= 0.25 and scale_value <= 2.0:
+			get_viewport().scaling_3d_scale = scale_value
+			print("3D render scale set to: ", scale_value)
+		else:
+			print("Invalid 3d-scale value (must be 0.25-2.0), using default 1.0")
+			get_viewport().scaling_3d_scale = 1.0
+	else:
+		# Default to 1.0 if no 3d-scale argument provided
+		get_viewport().scaling_3d_scale = 1.0
+		print("No 3d-scale argument provided, using default 1.0")
+
+	# Handle optional 3D scale mode argument
+	if arg_dict.has("3d-scale-mode"):
+		var mode_value = arg_dict["3d-scale-mode"]
+		if mode_value == "0":
+			get_viewport().scaling_3d_mode = Viewport.SCALING_3D_MODE_BILINEAR
+			print("3D scaling mode set to: Bilinear")
+		elif mode_value == "1":
+			get_viewport().scaling_3d_mode = Viewport.SCALING_3D_MODE_FSR
+			print("3D scaling mode set to: FSR 1.0")
+		elif mode_value == "2":
+			get_viewport().scaling_3d_mode = Viewport.SCALING_3D_MODE_FSR2
+			print("3D scaling mode set to: FSR 2.2")
+		else:
+			print("Invalid 3d-scale-mode value, using default Bilinear")
+			get_viewport().scaling_3d_mode = Viewport.SCALING_3D_MODE_BILINEAR
+	else:
+		# Default to Bilinear if no 3d-scale-mode argument provided
+		get_viewport().scaling_3d_mode = Viewport.SCALING_3D_MODE_BILINEAR
+		print("No 3d-scale-mode argument provided, using default Bilinear")
+
 	# Parse the 'screens' argument
 	var activeScreensList = []
 	var screens_str = arg_dict["screens"]
