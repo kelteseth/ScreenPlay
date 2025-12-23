@@ -38,6 +38,7 @@ ScreenPlayManager::ScreenPlayManager(
     QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::activeTimelineIndexChanged, this, &ScreenPlayManager::setActiveTimelineIndex);
     QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::requestSaveProfiles, this, &ScreenPlayManager::requestSaveProfiles);
     QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::activeWallpaperCountChanged, this, &ScreenPlayManager::setActiveWallpaperCounter);
+    QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::notifyUiReloadTimelinePreviewImage, this, &ScreenPlayManager::notifyUiReloadTimelinePreviewImage);
     QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::wallpaperRestartFailed, this, [this](const QString& appID, const QString& message) {
         if (m_errorManager) {
             m_errorManager->displayError(message);

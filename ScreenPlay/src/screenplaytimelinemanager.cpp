@@ -393,6 +393,8 @@ QCoro::Task<void> ScreenPlayTimelineManager::checkActiveWallpaperTimeline()
     newNotStartedTimeline->state = WallpaperTimelineSection::State::Active;
     setActiveTimelineIndex(newNotStartedTimeline->index);
 
+    emit notifyUiReloadTimelinePreviewImage();
+
     printTimelines();
 }
 
