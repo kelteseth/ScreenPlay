@@ -78,6 +78,18 @@
     ],
     "buildPresets": [
         {
+            "name": "mac-clang-debug",
+            "configurePreset": "mac-clang-debug"
+        },
+        {
+            "name": "mac-clang-relwithdebinfo",
+            "configurePreset": "mac-clang-relwithdebinfo"
+        },
+        {
+            "name": "mac-clang-release",
+            "configurePreset": "mac-clang-release"
+        },
+        {
             "name": "mac-deploy-release",
             "configurePreset": "mac-deploy-release",
             "inherits": [

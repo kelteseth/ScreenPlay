@@ -81,6 +81,7 @@
         },
         {
             "name": "windows-clang-base",
+            "hidden": true,
             "inherits": "windows-base-aqt",
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "C:/Program Files/LLVM/bin/clang-cl.exe",
@@ -132,6 +133,30 @@
         }
     ],
     "buildPresets": [
+        {
+            "name": "windows-msvc-debug",
+            "configurePreset": "windows-msvc-debug"
+        },
+        {
+            "name": "windows-msvc-relwithdebinfo",
+            "configurePreset": "windows-msvc-relwithdebinfo"
+        },
+        {
+            "name": "windows-msvc-release",
+            "configurePreset": "windows-msvc-release"
+        },
+        {
+            "name": "windows-clang-debug",
+            "configurePreset": "windows-clang-debug"
+        },
+        {
+            "name": "windows-clang-profile",
+            "configurePreset": "windows-clang-profile"
+        },
+        {
+            "name": "windows-clang-release",
+            "configurePreset": "windows-clang-release"
+        },
         {
             "name": "windows-deploy-release",
             "configurePreset": "windows-deploy-release",

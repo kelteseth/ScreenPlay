@@ -116,6 +116,30 @@
     ],
     "buildPresets": [
         {
+            "name": "linux-gcc-debug",
+            "configurePreset": "linux-gcc-debug"
+        },
+        {
+            "name": "linux-gcc-relwithdebinfo",
+            "configurePreset": "linux-gcc-relwithdebinfo"
+        },
+        {
+            "name": "linux-gcc-release",
+            "configurePreset": "linux-gcc-release"
+        },
+        {
+            "name": "linux-clang-debug",
+            "configurePreset": "linux-clang-debug"
+        },
+        {
+            "name": "linux-clang-relwithdebinfo",
+            "configurePreset": "linux-clang-relwithdebinfo"
+        },
+        {
+            "name": "linux-clang-release",
+            "configurePreset": "linux-clang-release"
+        },
+        {
             "name": "linux-deploy-release",
             "configurePreset": "linux-deploy-release",
             "inherits": [
