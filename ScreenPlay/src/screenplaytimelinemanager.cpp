@@ -952,8 +952,16 @@ QCoro::Task<Result> ScreenPlayTimelineManager::setValueAtMonitorTimelineIndex(
             if (key == "volume") {
                 wallpaper->updateVolume(value.toFloat());
             } else if (key == "fillmode") {
-                auto fillMode = QStringToEnum<Video::FillMode>(value.toString(), Video::FillMode::Cover);
+                auto fillMode = QVariantToEnum<Video::FillMode>(value, Video::FillMode::Cover);
                 wallpaper->updateFillMode(fillMode);
+            } else if (key == "godotFps") {
+                auto godotFps = QVariantToEnum<Godot::Fps>(value, Godot::Fps::Fps60);
+                wallpaper->updateGodotFps(godotFps);
+            } else if (key == "godot3DScaleMode") {
+                auto godot3DScaleMode = QVariantToEnum<Godot::ScaleMode3D>(value, Godot::ScaleMode3D::Bilinear);
+                wallpaper->updateGodot3DScaleMode(godot3DScaleMode);
+            } else if (key == "godot3DScale") {
+                wallpaper->updateGodot3DScale(value.toFloat());
             } else if (!category.isEmpty()) {
                 wallpaper->updateProperty(category, key, value);
             }

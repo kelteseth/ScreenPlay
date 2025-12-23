@@ -36,4 +36,9 @@ Video::Video(QObject* parent)
     : QObject(parent)
 {
 }
+
+Godot::Godot(QObject* parent)
+    : QObject(parent)
+{
+}
 }

@@ -89,4 +89,41 @@ public:
     };
     Q_ENUM(VideoCodec)
 };
+
+class Godot : public QObject {
+    Q_OBJECT
+    QML_ELEMENT
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
+public:
+    Godot(QObject* parent = nullptr);
+
+    enum class Fps {
+        Fps1,
+        Fps6,
+        Fps12,
+        Fps24,
+        Fps30,
+        Fps60,
+        Fps120,
+        Fps144,
+        Unlimited,
+        Vsync
+    };
+    Q_ENUM(Fps)
+
+    enum class ScaleMode3D {
+        Bilinear,
+        FSR1_0,
+        FSR2_2
+    };
+    Q_ENUM(ScaleMode3D)
+
+    enum class RenderingDriver {
+        Vulkan,
+        D3D12,
+        OpenGL3,
+        OpenGL3_Angle
+    };
+    Q_ENUM(RenderingDriver)
+};
 }

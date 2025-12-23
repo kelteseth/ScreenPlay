@@ -20,6 +20,7 @@ void ScreenPlayGodotWallpaper::_bind_methods()
     ClassDB::bind_method(godot::D_METHOD("get_screenPlayConnected"), &ScreenPlayGodotWallpaper::get_screenPlayConnected);
     ClassDB::bind_method(godot::D_METHOD("get_pipeConnected"), &ScreenPlayGodotWallpaper::get_pipeConnected);
     ClassDB::bind_method(godot::D_METHOD("read_from_pipe"), &ScreenPlayGodotWallpaper::read_from_pipe);
+    ClassDB::bind_method(godot::D_METHOD("writeToPipe", "message"), &ScreenPlayGodotWallpaper::writeToPipe);
     ClassDB::bind_method(godot::D_METHOD("send_ping"), &ScreenPlayGodotWallpaper::send_ping);
     ClassDB::bind_method(godot::D_METHOD("exit"), &ScreenPlayGodotWallpaper::exit);
 

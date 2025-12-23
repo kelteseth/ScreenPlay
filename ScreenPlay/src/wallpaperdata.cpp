@@ -45,6 +45,11 @@ QJsonObject WallpaperData::serialize() const
     }
     data.insert("monitors", monitorArray);
 
+    if(m_type == ContentTypes::InstalledType::GodotWallpaper){
+        data.insert("godotFps", QVariant::fromValue(godotFps()).toString());
+        data.insert("godot3DScaleMode", QVariant::fromValue(godot3DScaleMode()).toString());
+        data.insert("godot3DScale", QString::number(godot3DScale(), 'f', 2).toDouble());
+    }
     return data;
 }
 
@@ -155,6 +160,21 @@ std::expected<ScreenPlay::WallpaperData, ScreenPlay::WallpaperData::LoadError> S
     const QString fillModeString = wallpaperObj.value("fillMode").toString();
     wallpaperData.setFillMode(
         QStringToEnum<Video::FillMode>(fillModeString, Video::FillMode::Cover));
+
+    // Load Godot properties with defaults
+    if (wallpaperObj.contains("godotFps")) {
+        const QString godotFpsString = wallpaperObj.value("godotFps").toString();
+        wallpaperData.setGodotFps(QStringToEnum<Godot::Fps>(godotFpsString, Godot::Fps::Fps60));
+    }
+
+    if (wallpaperObj.contains("godot3DScaleMode")) {
+        const QString scaleModeString = wallpaperObj.value("godot3DScaleMode").toString();
+        wallpaperData.setGodot3DScaleMode(QStringToEnum<Godot::ScaleMode3D>(scaleModeString, Godot::ScaleMode3D::Bilinear));
+    }
+
+    if (wallpaperObj.contains("godot3DScale")) {
+        wallpaperData.setGodot3DScale(static_cast<float>(wallpaperObj.value("godot3DScale").toDouble(1.0)));
+    }
 
     if (!QFileInfo(wallpaperData.absolutePath() + "/" + wallpaperData.file()).exists()) {
         qWarning() << "Requested wallpaper file does not exists";

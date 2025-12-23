@@ -121,34 +121,34 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
         // Add FPS limit argument for Godot wallpapers
         QString fpsValue;
         switch (m_settings->godotFps()) {
-        case Settings::GodotFps::Fps1:
+        case Godot::Fps::Fps1:
             fpsValue = "1";
             break;
-        case Settings::GodotFps::Fps6:
+        case Godot::Fps::Fps6:
             fpsValue = "6";
             break;
-        case Settings::GodotFps::Fps12:
+        case Godot::Fps::Fps12:
             fpsValue = "12";
             break;
-        case Settings::GodotFps::Fps24:
+        case Godot::Fps::Fps24:
             fpsValue = "24";
             break;
-        case Settings::GodotFps::Fps30:
+        case Godot::Fps::Fps30:
             fpsValue = "30";
             break;
-        case Settings::GodotFps::Fps60:
+        case Godot::Fps::Fps60:
             fpsValue = "60";
             break;
-        case Settings::GodotFps::Fps120:
+        case Godot::Fps::Fps120:
             fpsValue = "120";
             break;
-        case Settings::GodotFps::Fps144:
+        case Godot::Fps::Fps144:
             fpsValue = "144";
             break;
-        case Settings::GodotFps::Unlimited:
+        case Godot::Fps::Unlimited:
             fpsValue = "0"; // 0 typically means unlimited in Godot
             break;
-        case Settings::GodotFps::Vsync:
+        case Godot::Fps::Vsync:
             fpsValue = "vsync";
             break;
         }
@@ -160,13 +160,13 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
         // Add 3D scale mode argument
         QString scaleModeValue;
         switch (m_settings->godot3DScaleMode()) {
-        case Settings::Godot3DScaleMode::Bilinear:
+        case Godot::ScaleMode3D::Bilinear:
             scaleModeValue = "0";
             break;
-        case Settings::Godot3DScaleMode::FSR1_0:
+        case Godot::ScaleMode3D::FSR1_0:
             scaleModeValue = "1";
             break;
-        case Settings::Godot3DScaleMode::FSR2_2:
+        case Godot::ScaleMode3D::FSR2_2:
             scaleModeValue = "2";
             break;
         }
@@ -175,16 +175,16 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
         // Add rendering driver argument
         QString renderingDriver;
         switch (m_settings->godotRenderingDriver()) {
-        case Settings::GodotRenderingDriver::Vulkan:
+        case Godot::RenderingDriver::Vulkan:
             renderingDriver = "vulkan";
             break;
-        case Settings::GodotRenderingDriver::D3D12:
+        case Godot::RenderingDriver::D3D12:
             renderingDriver = "d3d12";
             break;
-        case Settings::GodotRenderingDriver::OpenGL3:
+        case Godot::RenderingDriver::OpenGL3:
             renderingDriver = "opengl3";
             break;
-        case Settings::GodotRenderingDriver::OpenGL3_Angle:
+        case Godot::RenderingDriver::OpenGL3_Angle:
             renderingDriver = "opengl3_angle";
             break;
         }
@@ -280,8 +280,18 @@ bool ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QVariant& 
         return false;
     }
 
+    // Convert enum integer values to string names for IPC
+    QVariant valueToSend = value;
+    if (key == "godotFps") {
+        valueToSend = variantEnumToString<Godot::Fps>(value);
+    } else if (key == "godot3DScaleMode") {
+        valueToSend = variantEnumToString<Godot::ScaleMode3D>(value);
+    } else if (key == "fillmode") {
+        valueToSend = variantEnumToString<Video::FillMode>(value);
+    }
+
     QJsonObject obj;
-    obj.insert(key, QJsonValue::fromVariant(value));
+    obj.insert(key, QJsonValue::fromVariant(valueToSend));
     bool found = false;
     if (key == "volume") {
         setVolume(value.toFloat());
@@ -290,7 +300,7 @@ bool ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QVariant& 
     }
 
     if (key == "fillmode") {
-        setFillMode(QStringToEnum<Video::FillMode>(value.toString(), Video::FillMode::Cover));
+        setFillMode(QVariantToEnum<Video::FillMode>(value, Video::FillMode::Cover));
         m_wallpaperData.setFillMode(fillMode());
         found = true;
     }
@@ -321,6 +331,24 @@ void ScreenPlayWallpaper::updateFillMode(const Video::FillMode fillMode)
 {
     m_wallpaperData.setFillMode(fillMode);
     emit fillModeChanged(fillMode);
+}
+
+void ScreenPlayWallpaper::updateGodotFps(const Godot::Fps godotFps)
+{
+    m_wallpaperData.setGodotFps(godotFps);
+    emit godotFpsChanged(godotFps);
+}
+
+void ScreenPlayWallpaper::updateGodot3DScaleMode(const Godot::ScaleMode3D godot3DScaleMode)
+{
+    m_wallpaperData.setGodot3DScaleMode(godot3DScaleMode);
+    emit godot3DScaleModeChanged(godot3DScaleMode);
+}
+
+void ScreenPlayWallpaper::updateGodot3DScale(const float godot3DScale)
+{
+    m_wallpaperData.setGodot3DScale(godot3DScale);
+    emit godot3DScaleChanged(godot3DScale);
 }
 
 void ScreenPlayWallpaper::updateProperty(const QString& category, const QString& key, const QVariant& value)
@@ -436,6 +464,30 @@ void ScreenPlayWallpaper::setFillMode(Video::FillMode fillMode)
         return;
     m_wallpaperData.setFillMode(fillMode);
     emit fillModeChanged(fillMode);
+}
+
+void ScreenPlayWallpaper::setGodotFps(Godot::Fps godotFps)
+{
+    if (m_wallpaperData.godotFps() == godotFps)
+        return;
+    m_wallpaperData.setGodotFps(godotFps);
+    emit godotFpsChanged(godotFps);
+}
+
+void ScreenPlayWallpaper::setGodot3DScaleMode(Godot::ScaleMode3D godot3DScaleMode)
+{
+    if (m_wallpaperData.godot3DScaleMode() == godot3DScaleMode)
+        return;
+    m_wallpaperData.setGodot3DScaleMode(godot3DScaleMode);
+    emit godot3DScaleModeChanged(godot3DScaleMode);
+}
+
+void ScreenPlayWallpaper::setGodot3DScale(float godot3DScale)
+{
+    if (qFuzzyCompare(m_wallpaperData.godot3DScale(), godot3DScale))
+        return;
+    m_wallpaperData.setGodot3DScale(godot3DScale);
+    emit godot3DScaleChanged(godot3DScale);
 }
 
 }

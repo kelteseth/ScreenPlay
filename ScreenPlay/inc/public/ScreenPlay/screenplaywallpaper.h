@@ -20,6 +20,9 @@ class ScreenPlayWallpaper : public ScreenPlayExternalProcess {
     Q_PROPERTY(bool isLooping READ isLooping WRITE setIsLooping NOTIFY isLoopingChanged FINAL)
     Q_PROPERTY(QString file READ file WRITE setFile NOTIFY fileChanged FINAL)
     Q_PROPERTY(Video::FillMode fillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged FINAL)
+    Q_PROPERTY(Godot::Fps godotFps READ godotFps WRITE setGodotFps NOTIFY godotFpsChanged FINAL)
+    Q_PROPERTY(Godot::ScaleMode3D godot3DScaleMode READ godot3DScaleMode WRITE setGodot3DScaleMode NOTIFY godot3DScaleModeChanged FINAL)
+    Q_PROPERTY(float godot3DScale READ godot3DScale WRITE setGodot3DScale NOTIFY godot3DScaleChanged FINAL)
 
 public:
     explicit ScreenPlayWallpaper(
@@ -42,6 +45,9 @@ public:
     bool isLooping() const { return m_wallpaperData.isLooping(); }
     QString file() const { return m_wallpaperData.file(); }
     Video::FillMode fillMode() const { return m_wallpaperData.fillMode(); }
+    Godot::Fps godotFps() const { return m_wallpaperData.godotFps(); }
+    Godot::ScaleMode3D godot3DScaleMode() const { return m_wallpaperData.godot3DScaleMode(); }
+    float godot3DScale() const { return m_wallpaperData.godot3DScale(); }
 
 signals:
     // Signals for WallpaperData properties
@@ -50,12 +56,18 @@ signals:
     void isLoopingChanged(bool isLooping);
     void fileChanged(QString file);
     void fillModeChanged(Video::FillMode fillMode);
+    void godotFpsChanged(Godot::Fps godotFps);
+    void godot3DScaleModeChanged(Godot::ScaleMode3D godot3DScaleMode);
+    void godot3DScaleChanged(float godot3DScale);
 
 public slots:
     bool setWallpaperValue(const QString& key, const QVariant& value, const QString& category, const bool save = false);
 
     void updateVolume(const float volume);
     void updateFillMode(const Video::FillMode fillMode);
+    void updateGodotFps(const Godot::Fps godotFps);
+    void updateGodot3DScaleMode(const Godot::ScaleMode3D godot3DScaleMode);
+    void updateGodot3DScale(const float godot3DScale);
     void updateProperty(const QString& category, const QString& key, const QVariant& value);
 
     // Setters for WallpaperData properties
@@ -64,6 +76,9 @@ public slots:
     void setIsLooping(bool isLooping);
     void setFile(QString file);
     void setFillMode(Video::FillMode fillMode);
+    void setGodotFps(Godot::Fps godotFps);
+    void setGodot3DScaleMode(Godot::ScaleMode3D godot3DScaleMode);
+    void setGodot3DScale(float godot3DScale);
 
 protected:
     void setupSDKConnection() override;

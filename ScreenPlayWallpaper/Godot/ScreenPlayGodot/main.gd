@@ -15,21 +15,139 @@ func ping_alive():
 func terminate():
 	screen_play_wallpaper.exit()
 	get_tree().quit()
-	
+
 # Checks for messages from the main ScreenPlay instance 
 # for example for propery changes or commands like quit
 func check_messages():
 	var msg = screen_play_wallpaper.read_from_pipe()
-	if not msg.is_empty():
-		var json_parser = JSON.new()
-		var error = json_parser.parse(msg)
-		if error == OK:
-			var data = json_parser.get_data()
-			if typeof(data) == TYPE_DICTIONARY and data.has("command") and data["command"] == "quit":
+	if msg.is_empty():
+		return
+	
+	# Echo back the received message to Qt for debugging
+	var echo_msg = "ECHO_FROM_GODOT:" + msg
+	screen_play_wallpaper.writeToPipe(echo_msg)
+	print("Received and echoed message: ", msg)
+	
+	var json_parser = JSON.new()
+	var status = json_parser.parse(msg)
+	if status == OK:
+		var data = json_parser.get_data()
+		print("New message: ", data)
+		if typeof(data) == TYPE_DICTIONARY:
+			# Handle quit command
+			if data.has("command") and data["command"] == "quit":
 				return terminate()
 			
+			# Handle property changes
+			if data.has("godotFps"):
+				var fps_map = {
+					"Fps1": "1",
+					"Fps6": "6",
+					"Fps12": "12",
+					"Fps24": "24",
+					"Fps30": "30",
+					"Fps60": "60",
+					"Fps120": "120",
+					"Fps144": "144",
+					"Unlimited": "0",
+					"Vsync": "vsync"
+				}
+				var fps_value = str(data["godotFps"])
+				if fps_map.has(fps_value):
+					apply_fps(fps_map[fps_value])
+				else:
+					print("Unknown godotFps value: ", fps_value)
+			
+			if data.has("godot3DScale"):
+				var scale_value = float(data["godot3DScale"])
+				apply_3d_scale(scale_value)
+			
+			if data.has("godot3DScaleMode"):
+				var mode_map = {
+					"Bilinear": "0",
+					"FSR1_0": "1",
+					"FSR2_2": "2"
+				}
+				var mode_value = str(data["godot3DScaleMode"])
+				if mode_map.has(mode_value):
+					apply_3d_scale_mode(mode_map[mode_value])
+				else:
+					print("Unknown godot3DScaleMode value: ", mode_value)
+			
+func apply_fps(fps_value: String):
+	if fps_value == "vsync":
+		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
+		print("VSync enabled")
+	elif fps_value == "0":
+		Engine.set_max_fps(0)  # Unlimited FPS
+		print("FPS set to unlimited")
+	elif fps_value.is_valid_int():
+		var fps_int = fps_value.to_int()
+		Engine.set_max_fps(fps_int)
+		print("FPS set to: ", fps_int)
+	else:
+		print("Invalid fps value, using default 60")
+		Engine.set_max_fps(60)
+
+func apply_3d_scale(scale_value: float):
+	if scale_value >= 0.25 and scale_value <= 2.0:
+		get_viewport().scaling_3d_scale = scale_value
+		print("3D render scale set to: ", scale_value)
+	else:
+		print("Invalid 3d-scale value (must be 0.25-2.0), ignoring")
+
+func apply_3d_scale_mode(mode_value: String):
+	if mode_value == "0":
+		get_viewport().scaling_3d_mode = Viewport.SCALING_3D_MODE_BILINEAR
+		print("3D scaling mode set to: Bilinear")
+	elif mode_value == "1":
+		get_viewport().scaling_3d_mode = Viewport.SCALING_3D_MODE_FSR
+		print("3D scaling mode set to: FSR 1.0")
+	elif mode_value == "2":
+		get_viewport().scaling_3d_mode = Viewport.SCALING_3D_MODE_FSR2
+		print("3D scaling mode set to: FSR 2.2")
+	else:
+		print("Invalid 3d-scale-mode value, ignoring")
+
 func _on_scene_value_received(key: String, value: String):
-	print("todo", key, value)
+	match key:
+		"godotFps":
+			# Convert enum value to fps string
+			var fps_map = {
+				"Fps1": "1",
+				"Fps6": "6",
+				"Fps12": "12",
+				"Fps24": "24",
+				"Fps30": "30",
+				"Fps60": "60",
+				"Fps120": "120",
+				"Fps144": "144",
+				"Unlimited": "0",
+				"Vsync": "vsync"
+			}
+			if fps_map.has(value):
+				apply_fps(fps_map[value])
+			else:
+				print("Unknown godotFps value: ", value)
+		
+		"godot3DScale":
+			var scale_float = value.to_float()
+			apply_3d_scale(scale_float)
+		
+		"godot3DScaleMode":
+			# Convert enum value to mode string
+			var mode_map = {
+				"Bilinear": "0",
+				"FSR1_0": "1",
+				"FSR2_2": "2"
+			}
+			if mode_map.has(value):
+				apply_3d_scale_mode(mode_map[value])
+			else:
+				print("Unknown godot3DScaleMode value: ", value)
+		
+		_:
+			print("Unhandled property change: ", key, " = ", value)
 	
 func _ready():
 	ping_alive_timer.wait_time = 0.5
@@ -67,7 +185,6 @@ func _ready():
 		var _ok_connect_to_named_pipe = screen_play_wallpaper.connect_to_named_pipe()
 		
 func _process(_delta):
-	
 	if not send_welcome:
 		if not screen_play_wallpaper.get_screenPlayConnected():
 			send_welcome = screen_play_wallpaper.send_welcome()
@@ -100,10 +217,10 @@ func parse_args():
 	print("Parse args:", args)
 	
 	# Check if only the default argument is provided
-	if args.size() == 1:
+	if args.size() == 2:
 		args = ["--projectpath", 
 				#"C:/Code/cpp/ScreenPlay/ScreenPlay/Content/wallpaper_godot_fjord", 
-				"C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/2023_12_08_205323",
+				"C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/2025_11_10_085058",
 				"--appID", "qmz9lq4wglox5DdYaXumVgRSDeZYAUjC", 
 				"--screens", "{0}", 
 				"--volume", "1", 
@@ -140,20 +257,7 @@ func parse_args():
 
 	# Handle optional fps argument
 	if arg_dict.has("fps"):
-		var fps_value = arg_dict["fps"]
-		if fps_value == "vsync":
-			DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
-			print("VSync enabled")
-		elif fps_value == "0":
-			Engine.set_max_fps(0)  # Unlimited FPS
-			print("FPS set to unlimited")
-		elif fps_value.is_valid_int():
-			var fps_int = fps_value.to_int()
-			Engine.set_max_fps(fps_int)
-			print("FPS set to: ", fps_int)
-		else:
-			print("Invalid fps value, using default 60")
-			Engine.set_max_fps(60)
+		apply_fps(arg_dict["fps"])
 	else:
 		# Default to 60 FPS if no fps argument provided
 		Engine.set_max_fps(60)
@@ -162,12 +266,7 @@ func parse_args():
 	# Handle optional 3D scale argument
 	if arg_dict.has("3d-scale"):
 		var scale_value = arg_dict["3d-scale"].to_float()
-		if scale_value >= 0.25 and scale_value <= 2.0:
-			get_viewport().scaling_3d_scale = scale_value
-			print("3D render scale set to: ", scale_value)
-		else:
-			print("Invalid 3d-scale value (must be 0.25-2.0), using default 1.0")
-			get_viewport().scaling_3d_scale = 1.0
+		apply_3d_scale(scale_value)
 	else:
 		# Default to 1.0 if no 3d-scale argument provided
 		get_viewport().scaling_3d_scale = 1.0
@@ -175,19 +274,7 @@ func parse_args():
 
 	# Handle optional 3D scale mode argument
 	if arg_dict.has("3d-scale-mode"):
-		var mode_value = arg_dict["3d-scale-mode"]
-		if mode_value == "0":
-			get_viewport().scaling_3d_mode = Viewport.SCALING_3D_MODE_BILINEAR
-			print("3D scaling mode set to: Bilinear")
-		elif mode_value == "1":
-			get_viewport().scaling_3d_mode = Viewport.SCALING_3D_MODE_FSR
-			print("3D scaling mode set to: FSR 1.0")
-		elif mode_value == "2":
-			get_viewport().scaling_3d_mode = Viewport.SCALING_3D_MODE_FSR2
-			print("3D scaling mode set to: FSR 2.2")
-		else:
-			print("Invalid 3d-scale-mode value, using default Bilinear")
-			get_viewport().scaling_3d_mode = Viewport.SCALING_3D_MODE_BILINEAR
+		apply_3d_scale_mode(arg_dict["3d-scale-mode"])
 	else:
 		# Default to Bilinear if no 3d-scale-mode argument provided
 		get_viewport().scaling_3d_mode = Viewport.SCALING_3D_MODE_BILINEAR

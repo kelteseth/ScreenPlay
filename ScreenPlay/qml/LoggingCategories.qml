@@ -73,4 +73,8 @@ QtObject {
         name: "videoControls"
         defaultLogLevel: LoggingCategory.Debug
     }
+    readonly property LoggingCategory godotControls: LoggingCategory {
+        name: "godotControls"
+        defaultLogLevel: LoggingCategory.Debug
+    }
 }

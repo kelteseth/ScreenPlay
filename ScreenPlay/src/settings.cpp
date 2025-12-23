@@ -129,9 +129,9 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
 
     if (m_qSettings.contains("GodotFps")) {
         auto value = m_qSettings.value("GodotFps").toString();
-        setGodotFps(QStringToEnum<GodotFps>(value, GodotFps::Fps60));
+        setGodotFps(QStringToEnum<Godot::Fps>(value, Godot::Fps::Fps60));
     } else {
-        setGodotFps(GodotFps::Fps60);
+        setGodotFps(Godot::Fps::Fps60);
     }
 
     if (m_qSettings.contains("Godot3DScale")) {
@@ -142,16 +142,16 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
 
     if (m_qSettings.contains("Godot3DScaleMode")) {
         auto value = m_qSettings.value("Godot3DScaleMode").toString();
-        setGodot3DScaleMode(QStringToEnum<Godot3DScaleMode>(value, Godot3DScaleMode::Bilinear));
+        setGodot3DScaleMode(QStringToEnum<Godot::ScaleMode3D>(value, Godot::ScaleMode3D::Bilinear));
     } else {
-        setGodot3DScaleMode(Godot3DScaleMode::Bilinear);
+        setGodot3DScaleMode(Godot::ScaleMode3D::Bilinear);
     }
 
     if (m_qSettings.contains("GodotRenderingDriver")) {
         auto value = m_qSettings.value("GodotRenderingDriver").toString();
-        setGodotRenderingDriver(QStringToEnum<GodotRenderingDriver>(value, GodotRenderingDriver::Vulkan));
+        setGodotRenderingDriver(QStringToEnum<Godot::RenderingDriver>(value, Godot::RenderingDriver::Vulkan));
     } else {
-        setGodotRenderingDriver(GodotRenderingDriver::Vulkan);
+        setGodotRenderingDriver(Godot::RenderingDriver::Vulkan);
     }
 
     if (m_qSettings.contains("GraphicsApi")) {
@@ -768,7 +768,7 @@ void Settings::setAlwaysMinimize(bool alwaysMinimize)
     emit alwaysMinimizeChanged(m_alwaysMinimize);
 }
 
-void Settings::setGodotFps(ScreenPlay::Settings::GodotFps godotFps)
+void Settings::setGodotFps(ScreenPlay::Godot::Fps godotFps)
 {
     if (m_godotFps == godotFps)
         return;
@@ -790,7 +790,7 @@ void Settings::setGodot3DScale(float godot3DScale)
     emit godot3DScaleChanged(m_godot3DScale);
 }
 
-void Settings::setGodot3DScaleMode(ScreenPlay::Settings::Godot3DScaleMode godot3DScaleMode)
+void Settings::setGodot3DScaleMode(ScreenPlay::Godot::ScaleMode3D godot3DScaleMode)
 {
     if (m_godot3DScaleMode == godot3DScaleMode)
         return;
@@ -801,7 +801,7 @@ void Settings::setGodot3DScaleMode(ScreenPlay::Settings::Godot3DScaleMode godot3
     emit godot3DScaleModeChanged(m_godot3DScaleMode);
 }
 
-void Settings::setGodotRenderingDriver(ScreenPlay::Settings::GodotRenderingDriver godotRenderingDriver)
+void Settings::setGodotRenderingDriver(ScreenPlay::Godot::RenderingDriver godotRenderingDriver)
 {
     if (m_godotRenderingDriver == godotRenderingDriver)
         return;

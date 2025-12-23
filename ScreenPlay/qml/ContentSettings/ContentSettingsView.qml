@@ -379,9 +379,11 @@ Popup {
                         if (selectedTimeline === undefined) {
                             console.warn(LoggingCategories.contentSettings, "Invalid selected timeline")
                             defaultVideoControls.visible = false
+                            defaultGodotControls.visible = false
                             return
                         }
                         customPropertiesGridView.visible = false
+                        defaultGodotControls.visible = false
                         defaultVideoControls.visible = true
                         defaultVideoControls.state = "visible"
                         const wallpaperData = App.screenPlayManager.getWallpaperData(root.selectedMonitorIndex, selectedTimeline.index, selectedTimeline.identifier)
@@ -392,12 +394,33 @@ Popup {
                         defaultVideoControls.sectionIdentifier = selectedTimeline.identifier
                         return
                     }
-                    if (root.selectedInstallType === Util.ContentTypes.InstalledType.QMLWallpaper || root.selectedInstallType === Util.ContentTypes.InstalledType.GodotWallpaper || root.selectedInstallType === Util.ContentTypes.InstalledType.WebsiteWallpaper) {
+                    if (root.selectedInstallType === Util.ContentTypes.InstalledType.GodotWallpaper) {
+                        const selectedTimeline = timeline.getSelectedTimeline()
+                        if (selectedTimeline === undefined) {
+                            console.warn(LoggingCategories.contentSettings, "Invalid selected timeline")
+                            defaultVideoControls.visible = false
+                            defaultGodotControls.visible = false
+                            return
+                        }
+                        customPropertiesGridView.visible = false
+                        defaultVideoControls.visible = false
+                        defaultGodotControls.visible = true
+                        defaultGodotControls.state = "visible"
+                        const wallpaperData = App.screenPlayManager.getWallpaperData(root.selectedMonitorIndex, selectedTimeline.index, selectedTimeline.identifier)
+                        defaultGodotControls.wallpaperData = wallpaperData
+                        defaultGodotControls.monitorIndex = root.selectedMonitorIndex
+                        defaultGodotControls.timelineActive = selectedTimeline.lineIndicator.isActive
+                        defaultGodotControls.timelineIndex = selectedTimeline.index
+                        defaultGodotControls.sectionIdentifier = selectedTimeline.identifier
+                        return
+                    }
+                    if (root.selectedInstallType === Util.ContentTypes.InstalledType.QMLWallpaper || root.selectedInstallType === Util.ContentTypes.InstalledType.WebsiteWallpaper) {
                         let success = App.screenPlayManager.projectSettingsAtMonitorIndex(root.selectedMonitorIndex, root.selectedTimelineIndex, root.selectedSectionIdentifier)
                         if (!success) {
                             console.error(LoggingCategories.contentSettings, "Unable to get requested settings from index: ", root.selectedTimelineIndex)
                             customPropertiesGridView.visible = false
                             defaultVideoControls.visible = false
+                            defaultGodotControls.visible = false
                             return
                         }
                         const selectedTimeline = timeline.getSelectedTimeline()
@@ -413,12 +436,20 @@ Popup {
                         console.log(LoggingCategories.contentSettings, customPropertiesGridView.timelineActive, customPropertiesGridView.timelineIndex, customPropertiesGridView.sectionIdentifier, customPropertiesGridView.selectedMonitorIndex, customPropertiesGridView.projectSettingsListmodelRef)
                         customPropertiesGridView.visible = true
                         defaultVideoControls.visible = false
+                        defaultGodotControls.visible = false
                         return
                     }
                 }
 
                 DefaultVideoControls {
                     id: defaultVideoControls
+                    anchors.fill: parent
+                    anchors.margins: 10
+                    visible: false
+                }
+
+                DefaultGodotControls {
+                    id: defaultGodotControls
                     anchors.fill: parent
                     anchors.margins: 10
                     visible: false

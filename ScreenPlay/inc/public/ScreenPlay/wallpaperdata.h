@@ -26,6 +26,9 @@ class WallpaperData : public InstalledContentData {
     Q_PROPERTY(float volume READ volume WRITE setVolume)
     Q_PROPERTY(ScreenPlay::Video::FillMode fillMode READ fillMode WRITE setFillMode)
     Q_PROPERTY(QVector<int> monitors READ monitors WRITE setMonitors)
+    Q_PROPERTY(ScreenPlay::Godot::Fps godotFps READ godotFps WRITE setGodotFps)
+    Q_PROPERTY(ScreenPlay::Godot::ScaleMode3D godot3DScaleMode READ godot3DScaleMode WRITE setGodot3DScaleMode)
+    Q_PROPERTY(float godot3DScale READ godot3DScale WRITE setGodot3DScale)
 public:
     enum class LoadError {
         None,
@@ -42,11 +45,17 @@ public:
     float volume() const { return m_volume; }
     Video::FillMode fillMode() const { return m_fillMode; }
     QVector<int> monitors() const { return m_monitors; }
+    Godot::Fps godotFps() const { return m_godotFps; }
+    Godot::ScaleMode3D godot3DScaleMode() const { return m_godot3DScaleMode; }
+    float godot3DScale() const { return m_godot3DScale; }
 
     void setIsLooping(bool value) { m_isLooping = value; }
     void setVolume(float value) { m_volume = value; }
     void setFillMode(Video::FillMode value) { m_fillMode = value; }
     void setMonitors(const QVector<int>& value) { m_monitors = value; }
+    void setGodotFps(Godot::Fps value) { m_godotFps = value; }
+    void setGodot3DScaleMode(Godot::ScaleMode3D value) { m_godot3DScaleMode = value; }
+    void setGodot3DScale(float value) { m_godot3DScale = value; }
 
     Q_INVOKABLE QString toString() const;
     Q_INVOKABLE bool hasContent();
@@ -59,5 +68,8 @@ private:
     float m_volume = 1.0f;
     Video::FillMode m_fillMode = Video::FillMode::Fill;
     QVector<int> m_monitors {};
+    Godot::Fps m_godotFps = Godot::Fps::Fps60;
+    Godot::ScaleMode3D m_godot3DScaleMode = Godot::ScaleMode3D::Bilinear;
+    float m_godot3DScale = 1.0f;
 };
 }

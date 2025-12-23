@@ -58,9 +58,6 @@ private:
     void _on_pipe_read_timer_timeout();
 
 private:
-    OVERLAPPED overlappedRead = {};
-    OVERLAPPED overlappedWrite = {};
-
     godot::String m_appID = "";
     godot::String m_projectPath = "";
     godot::String m_projectPackageFile = "";

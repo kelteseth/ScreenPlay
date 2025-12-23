@@ -59,7 +59,7 @@ protected:
     // Helper method for loading common properties from JSON
     void loadBaseFromJson(const QJsonObject& obj);
 
-private:
+protected:
     QString m_title;
     QString m_absolutePath;
     QString m_previewImage;

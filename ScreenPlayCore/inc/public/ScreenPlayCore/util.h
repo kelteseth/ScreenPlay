@@ -49,6 +49,71 @@ T QStringToEnum(const QString& key, const T defaultValue)
     return defaultValue;
 }
 
+/*!
+    \brief Converts a QVariant to an enum value.
+    
+    Handles both integer enum values (from QML enum properties) and 
+    string enum names. When QML passes an enum like Godot.Fps.Fps60,
+    it arrives as an integer. When passed as a string "Fps60", it's
+    converted via the meta enum system.
+*/
+template <typename T>
+T QVariantToEnum(const QVariant& value, const T defaultValue)
+{
+    // If the variant can be converted to int, treat it as enum value directly
+    if (value.canConvert<int>()) {
+        bool ok = false;
+        int intValue = value.toInt(&ok);
+        if (ok) {
+            auto metaEnum = QMetaEnum::fromType<T>();
+            // Validate that the int value is within the enum range
+            if (metaEnum.valueToKey(intValue) != nullptr) {
+                return static_cast<T>(intValue);
+            }
+        }
+    }
+    
+    // Fall back to string-based conversion
+    return QStringToEnum<T>(value.toString(), defaultValue);
+}
+
+/*!
+    \brief Converts an enum integer value to its string key name.
+    
+    Used when sending enum values over IPC where the receiver expects
+    string enum names (e.g., "Fps60" instead of 5).
+*/
+template <typename T>
+QString enumToString(const T enumValue)
+{
+    auto metaEnum = QMetaEnum::fromType<T>();
+    const char* key = metaEnum.valueToKey(static_cast<int>(enumValue));
+    return key ? QString::fromUtf8(key) : QString();
+}
+
+/*!
+    \brief Converts a QVariant containing an enum int to its string key name.
+    
+    If the variant contains an integer that maps to a valid enum key,
+    returns the key name. Otherwise returns the variant as string.
+*/
+template <typename T>
+QString variantEnumToString(const QVariant& value)
+{
+    if (value.canConvert<int>()) {
+        bool ok = false;
+        int intValue = value.toInt(&ok);
+        if (ok) {
+            auto metaEnum = QMetaEnum::fromType<T>();
+            const char* key = metaEnum.valueToKey(intValue);
+            if (key) {
+                return QString::fromUtf8(key);
+            }
+        }
+    }
+    return value.toString();
+}
+
 class GodotExport : public QObject {
     Q_OBJECT
     QML_ELEMENT
