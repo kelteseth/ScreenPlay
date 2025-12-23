@@ -78,6 +78,7 @@ set(QML
     qml/Components/TrayIcon.qml
     qml/ContentSettings/ContentSettingsView.qml
     qml/ContentSettings/DefaultVideoControls.qml
+    qml/ContentSettings/DefaultGodotControls.qml
     qml/ContentSettings/MonitorSelection.qml
     qml/ContentSettings/MonitorSelectionItem.qml
     qml/ContentSettings/MonitorsProjectSettingItem.qml
