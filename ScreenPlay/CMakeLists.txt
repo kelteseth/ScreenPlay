@@ -360,6 +360,9 @@ qt_add_executable(ScreenPlayApp main.cpp)
 
 target_link_libraries(ScreenPlayApp PRIVATE ScreenPlayLib ScreenPlayLibplugin)
 
+# Ensure wallpaper and widget executables are built alongside the main app
+add_dependencies(ScreenPlayApp SPWallpaper SPWidget)
+
 if(${SCREENPLAY_TESTS})
     # Unit tests - fast, no GUI/QML dependencies
     qt_add_executable(tst_ScreenPlay tests/tst_ScreenPlay.cpp)
