@@ -118,7 +118,7 @@ Rectangle {
         id: indicatorLineVertical
         width: 5
         height: root.selected ? 40 : 30
-        color: root.selected ? "gold" : parent.color
+        color: parent.color
         clip: root.isActive
         anchors {
             horizontalCenter: parent.horizontalCenter

@@ -91,8 +91,12 @@ Control {
                 return false
             }
             for (var i = 0; i < timeline.sectionsList.length; i++) {
-                let section = timeline.sectionsList[i]
-                section.lineIndicator.isActive = (activeTimelineIndex === i)
+                let section = timeline.sectionsList[i] as TimelineSection
+                const isNewActive = activeTimelineIndex === i
+                section.lineIndicator.isActive = isNewActive
+                section.lineIndicator.selected = isNewActive
+                if(isNewActive)
+                    section.lineIndicator.lineSelected(section.lineIndicator.index)
             }
             return true
         }
