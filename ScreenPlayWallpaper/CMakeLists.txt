@@ -22,6 +22,8 @@ find_package(
 # Make sentry win only for now because it is constantly buggy on osx
 if(WIN32)
     find_package(sentry CONFIG REQUIRED)
+    include(FixSentryCrashpad)
+    fix_sentry_crashpad_wer()
 endif()
 
 qt_standard_project_setup(REQUIRES 6.8)

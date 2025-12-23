@@ -7,7 +7,8 @@ set(FILES
     GenerateCMakeVariableHeader.cmake
     CopyRecursive.cmake
     QtDeploy.cmake
-    CreateIFWInstaller.cmake)
+    CreateIFWInstaller.cmake
+    FixSentryCrashpad.cmake)
 
 add_custom_target(
     ${PROJECT_NAME}

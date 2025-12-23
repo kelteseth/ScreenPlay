@@ -19,7 +19,7 @@ formatting:
   - source $HOME/.local/bin/env
   - uv sync
   # Install Qt using aqt (same path as defines.py: ../aqt)
-  - uv run python -m aqt install-qt -O ../aqt linux desktop 6.10.0 linux_gcc_64
+  - uv run python -m aqt install-qt -O ../aqt linux desktop 6.10.1 linux_gcc_64
   - cd Tools
   - uv run python check_format_cmake.py --check
   - uv run python check_format_cpp.py  --check

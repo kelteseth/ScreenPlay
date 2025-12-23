@@ -286,6 +286,8 @@ if(WIN32)
     # CURL must be included before sentry because sentry needs the module and does not include it itself on macos...
     find_package(CURL CONFIG REQUIRED)
     find_package(sentry CONFIG REQUIRED)
+    include(FixSentryCrashpad)
+    fix_sentry_crashpad_wer()
 endif()
 
 find_package(

@@ -1,5 +1,13 @@
 cmake_minimum_required(VERSION 3.24.0)
 
+# Suppress Qt private module warnings needed by QCoro
+set(QT_NO_PRIVATE_MODULE_WARNING ON)
+
+# Set CMP0177 policy to suppress install() DESTINATION normalization warning
+if(POLICY CMP0177)
+    cmake_policy(SET CMP0177 NEW)
+endif()
+
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(THIRD_PARTY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty")
