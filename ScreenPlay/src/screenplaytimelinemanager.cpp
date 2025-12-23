@@ -363,7 +363,7 @@ QCoro::Task<void> ScreenPlayTimelineManager::checkActiveWallpaperTimeline()
                 }
             } else {
                 // Different runtime - must stop old and start new
-                const Result removeSuccess = co_await removeWallpaper(
+                const Result removeSuccess = co_await stopWallpaper(
                     oldRunningTimeline->index,
                     oldRunningTimeline->identifier,
                     QVector<int> { monitorIndex });
