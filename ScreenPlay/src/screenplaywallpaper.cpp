@@ -120,7 +120,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
 
         // Add FPS limit argument for Godot wallpapers
         QString fpsValue;
-        switch (m_settings->godotFps()) {
+        switch (m_wallpaperData.godotFps()) {
         case Godot::Fps::Fps1:
             fpsValue = "1";
             break;
@@ -155,11 +155,11 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
         m_appArgumentsList.append({ "--fps", fpsValue });
 
         // Add 3D scale argument
-        m_appArgumentsList.append({ "--3d-scale", QString::number(m_settings->godot3DScale()) });
+        m_appArgumentsList.append({ "--3d-scale", QString::number(m_wallpaperData.godot3DScale()) });
 
         // Add 3D scale mode argument
         QString scaleModeValue;
-        switch (m_settings->godot3DScaleMode()) {
+        switch (m_wallpaperData.godot3DScaleMode()) {
         case Godot::ScaleMode3D::Bilinear:
             scaleModeValue = "0";
             break;
@@ -174,7 +174,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
 
         // Add rendering driver argument
         QString renderingDriver;
-        switch (m_settings->godotRenderingDriver()) {
+        switch (m_wallpaperData.godotRenderingDriver()) {
         case Godot::RenderingDriver::Vulkan:
             renderingDriver = "vulkan";
             break;
