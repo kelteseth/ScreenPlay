@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #pragma once
 
+#include "godot_cpp/variant/utility_functions.hpp"
 #include <iostream>
 #include <string>
 #include <windows.h>
-#include "godot_cpp/variant/utility_functions.hpp"
 
 class WindowsPipe {
 public:

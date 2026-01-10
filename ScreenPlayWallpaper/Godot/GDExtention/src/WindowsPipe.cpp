@@ -8,7 +8,6 @@ bool WindowsPipe::connectToPipe()
         return false;
     }
 
-
     std::wstring fullPipeName = L"\\\\.\\pipe\\" + m_pipeName;
 
     // Retry connection up to 10 times with 500ms delay
@@ -43,14 +42,14 @@ bool WindowsPipe::connectToPipe()
 
 /*!
     \brief Reads from the named pipe using non-blocking overlapped I/O.
-    
+
     This function uses a persistent pending read pattern. We track whether a read
     operation is already in progress (m_readPending) to avoid starting a new ReadFile
     call each poll, which would cancel the previous pending operation and lose data.
-    
+
     The read buffer (m_readBuffer) must persist across calls since the data arrives
     asynchronously after ReadFile returns ERROR_IO_PENDING.
-    
+
     \return true if a complete message was read, false otherwise (no data or pending)
 */
 bool WindowsPipe::readFromPipe(std::string& outMessage)

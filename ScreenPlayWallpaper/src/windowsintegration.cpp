@@ -307,8 +307,8 @@ WindowsIntegration::MonitorResult WindowsIntegration::setupWallpaperForOneScreen
         int newY = static_cast<int>(std::round((oldRect.top - parentRect.top) * (windowDpiScaleFactor / targetMonitorDpiScaleFactor)));
         std::cout << "Calculated New Position: (" << newX << ", " << newY << ")" << std::endl;
 
-        int newWidth = static_cast<int>(std::round(monitor.size.cx * (windowDpiScaleFactor / targetMonitorDpiScaleFactor))) ;
-        int newHeight = static_cast<int>(std::round(monitor.size.cy * (windowDpiScaleFactor / targetMonitorDpiScaleFactor))) ;
+        int newWidth = static_cast<int>(std::round(monitor.size.cx * (windowDpiScaleFactor / targetMonitorDpiScaleFactor)));
+        int newHeight = static_cast<int>(std::round(monitor.size.cy * (windowDpiScaleFactor / targetMonitorDpiScaleFactor)));
         std::cout << "Calculated New Size: (" << newWidth << "x" << newHeight << ")" << std::endl;
 
         // Final window positioning

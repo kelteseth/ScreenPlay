@@ -95,7 +95,7 @@ Control {
                 const isNewActive = activeTimelineIndex === i
                 section.lineIndicator.isActive = isNewActive
                 section.lineIndicator.selected = isNewActive
-                if(isNewActive)
+                if (isNewActive)
                     section.lineIndicator.lineSelected(section.lineIndicator.index)
             }
             return true

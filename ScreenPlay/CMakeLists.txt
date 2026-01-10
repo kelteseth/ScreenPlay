@@ -77,8 +77,8 @@ set(QML
     qml/Components/TimelineSection.qml
     qml/Components/TrayIcon.qml
     qml/ContentSettings/ContentSettingsView.qml
-    qml/ContentSettings/DefaultVideoControls.qml
     qml/ContentSettings/DefaultGodotControls.qml
+    qml/ContentSettings/DefaultVideoControls.qml
     qml/ContentSettings/MonitorSelection.qml
     qml/ContentSettings/MonitorSelectionItem.qml
     qml/ContentSettings/MonitorsProjectSettingItem.qml
@@ -111,8 +111,8 @@ set(QML
     qml/Navigation/ExitPopup.qml
     qml/Navigation/Navigation.qml
     qml/ScreenPlayMain.qml
-    qml/Settings/SettingsCheckbox.qml
     qml/Settings/SettingsButton.qml
+    qml/Settings/SettingsCheckbox.qml
     qml/Settings/SettingsComboBox.qml
     qml/Settings/SettingsExpander.qml
     qml/Settings/SettingsHeader.qml

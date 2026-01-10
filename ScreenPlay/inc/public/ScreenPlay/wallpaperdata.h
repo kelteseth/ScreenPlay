@@ -58,7 +58,7 @@ public:
     void setMonitors(const QVector<int>& value) { m_monitors = value; }
     void setGodotFps(Godot::Fps value) { m_godotFps = value; }
     void setGodot3DScaleMode(Godot::ScaleMode3D value) { m_godot3DScaleMode = value; }
-    void setGodotRenderingDriver(ScreenPlay::Godot::RenderingDriver godotRenderingDriver){ m_godotRenderingDriver = godotRenderingDriver;};
+    void setGodotRenderingDriver(ScreenPlay::Godot::RenderingDriver godotRenderingDriver) { m_godotRenderingDriver = godotRenderingDriver; };
     void setGodot3DScale(float value) { m_godot3DScale = value; }
 
     Q_INVOKABLE QString toString() const;

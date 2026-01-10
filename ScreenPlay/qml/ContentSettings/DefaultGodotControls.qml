@@ -20,8 +20,8 @@ FocusScope {
     onWallpaperDataChanged: {
         if (!wallpaperData)
             return
-        root.hasContent = wallpaperData.hasContent()
-        
+        root.hasContent = wallpaperData.hasContent();
+
         // Set FPS
         const currentFps = wallpaperData.godotFps
         for (let i = 0; i < cbFps.model.count; i++) {
@@ -30,7 +30,7 @@ FocusScope {
                 break
             }
         }
-        
+
         // Set 3D Scale Mode
         const currentScaleMode = wallpaperData.godot3DScaleMode
         for (let i = 0; i < cbScaleMode.model.count; i++) {
@@ -39,7 +39,7 @@ FocusScope {
                 break
             }
         }
-        
+
         // Set 3D Scale
         sl3DScale.slider.value = wallpaperData.godot3DScale
     }

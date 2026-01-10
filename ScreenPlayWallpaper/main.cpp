@@ -169,7 +169,6 @@ int main(int argc, char* argv[])
     QString anonymousTelemetry = parser.value(anonymousTelemetryOption); // Optional parameter
     QString reapplySpacesValue = parser.value(reapplySpacesOption);
 
-
     ScreenPlay::Util util;
     logging = std::make_unique<const ScreenPlayCore::LoggingHandler>("ScreenPlayWallpaper_" + parser.value(appIDOption));
 
@@ -265,7 +264,7 @@ int main(int argc, char* argv[])
 
     bool reapplySpaces = false;
     if (!reapplySpacesValue.isEmpty()) {
-        reapplySpaces = reapplySpacesValue.trimmed() ==  "true";
+        reapplySpaces = reapplySpacesValue.trimmed() == "true";
     }
 
     // Set the properties of the window object

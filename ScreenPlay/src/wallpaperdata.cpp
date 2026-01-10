@@ -45,7 +45,7 @@ QJsonObject WallpaperData::serialize() const
     }
     data.insert("monitors", monitorArray);
 
-    if(m_type == ContentTypes::InstalledType::GodotWallpaper){
+    if (m_type == ContentTypes::InstalledType::GodotWallpaper) {
         data.insert("godotFps", QVariant::fromValue(godotFps()).toString());
         data.insert("godot3DScaleMode", QVariant::fromValue(godot3DScaleMode()).toString());
         data.insert("godot3DScale", QString::number(godot3DScale(), 'f', 2).toDouble());
