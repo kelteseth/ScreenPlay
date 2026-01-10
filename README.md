@@ -37,18 +37,18 @@ ScreenPlay is an Open Source cross-platform app for displaying Video Wallpaper &
 
 <h3><a href="https://kelteseth.gitlab.io/ScreenPlayDocs/building-screenplay/">Developer setup guide on how to download and compile ScreenPlay yourself.</a> </h3>
 
-## ✨ Key Features
+## Key Features
 
-- 🎥 **Video Wallpapers** - Support for WebM, MP4 and other video formats
-- 🎥 **Godot Engine Wallpapers** - Support for Godot 4 Wallpaper (🚀 Pro Feature)
-- ⏰ **Timeline Wallpapers** - Automatically change wallpaper based on a user defined range (🚀 Pro Feature)
-- 🖼️ **Static Wallpapers** - Beautiful image wallpapers with various effects
-- 🎮 **Interactive QML Wallpapers** - Custom interactive wallpapers using Qt QML
-- 🌐 **Web-based Wallpapers** - HTML/CSS/JavaScript wallpapers
-- 🧩 **Desktop Widgets** - Customizable widgets for system monitoring, weather, RSS feeds, and more
-- 🔧 **Cross-platform** - Works on Windows, macOS, and Linux
-- 🎨 **Easy Content Creation** - No coding knowledge required for basic wallpapers
-- 🛠️ **Steam Workshop** - Easy sharing and downloading of community content
+- **Video Wallpapers** - Support for WebM, MP4 and other video formats
+- **Godot Engine Wallpapers** - Support for Godot 4 Wallpaper (🚀 Pro Feature)
+- **Timeline Wallpapers** - Automatically change wallpaper based on a user defined range (🚀 Pro Feature)
+- **Static Wallpapers** - Beautiful image wallpapers with various effects
+- **Interactive QML Wallpapers** - Custom interactive wallpapers using Qt QML
+- **Web-based Wallpapers** - HTML/CSS/JavaScript wallpapers
+- **Desktop Widgets** - Customizable widgets for system monitoring, weather, RSS feeds, and more
+- **Cross-platform** - Works on Windows, macOS, and Linux
+- **Easy Content Creation** - No coding knowledge required for basic wallpapers
+- **Steam Workshop** - Easy sharing and downloading of community content
 
 # Content Creation
 [Learn the basics of QML for Wallpapers and Widgets in 5 minutes](https://screen-play.app/blog/guide_learn_the_basics_of_qml/)
@@ -71,19 +71,19 @@ ScreenPlay is an Open Source cross-platform app for displaying Video Wallpaper &
 
 Everyone can contribute with code, design, documentation or translation. Visit our [contributing guide](https://kelteseth.gitlab.io/ScreenPlayDocs/contribute/) for more information. Also checkout our [Collaboration Guidelines](Docs/CodeOfConduct.md).
 
-## 🚀 Quick Contributing Guide
+## Quick Contributing Guide
 
 **New to contributing?** Start here:
-* 🐛 [Report bugs](https://gitlab.com/kelteseth/ScreenPlay/-/issues) - Help us improve by reporting issues
-* 🌐 [Translate](https://crowdin.com/project/screenplay) - Make ScreenPlay available in your language  
-* 💡 [Request features](https://gitlab.com/kelteseth/ScreenPlay/-/issues) - Share your ideas
-* 🎨 [Create content](https://kelteseth.gitlab.io/ScreenPlayDocs/) - Make wallpapers and widgets
+* [Report bugs](https://gitlab.com/kelteseth/ScreenPlay/-/issues) - Help us improve by reporting issues
+* [Translate](https://crowdin.com/project/screenplay) - Make ScreenPlay available in your language  
+* [Request features](https://gitlab.com/kelteseth/ScreenPlay/-/issues) - Share your ideas
+* [Create content](https://kelteseth.gitlab.io/ScreenPlayDocs/) - Make wallpapers and widgets
 
 **For developers:**
 
-* 🔧 [Fix bugs](https://gitlab.com/kelteseth/ScreenPlay/-/issues?label_name%5B%5D=Bug) - Help resolve existing issues
-* ⭐ [Add features](https://gitlab.com/kelteseth/ScreenPlay/-/issues?label_name%5B%5D=Feature) - Implement new functionality
-* 📚 [Improve docs](https://gitlab.com/kelteseth/ScreenPlayDocs) - Help other users and developers
+* [Fix bugs](https://gitlab.com/kelteseth/ScreenPlay/-/issues?label_name%5B%5D=Bug) - Help resolve existing issues
+* [Add features](https://gitlab.com/kelteseth/ScreenPlay/-/issues?label_name%5B%5D=Feature) - Implement new functionality
+* [Improve docs](https://gitlab.com/kelteseth/ScreenPlayDocs) - Help other users and developers
 
 # Platform support
 
