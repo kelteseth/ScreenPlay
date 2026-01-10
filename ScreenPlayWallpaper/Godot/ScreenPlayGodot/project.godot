@@ -12,12 +12,15 @@ config_version=5
 
 config/name="ScreenPlay"
 run/main_scene="res://main.tscn"
-run/disable_stdout=true
-config/features=PackedStringArray("4.4", "Mobile")
-run/flush_stdout_on_print=true
+config/features=PackedStringArray("4.5", "Mobile")
 run/low_processor_mode=true
 boot_splash/show_image=false
 config/icon="res://icon.svg"
+
+[debug]
+
+settings/stdout/verbose_stdout=true
+file_logging/enable_file_logging=true
 
 [display]
 
@@ -34,7 +37,3 @@ window/energy_saving/keep_screen_on=false
 [filesystem]
 
 import/blender/enabled=false
-
-[rendering]
-
-renderer/rendering_method="mobile"

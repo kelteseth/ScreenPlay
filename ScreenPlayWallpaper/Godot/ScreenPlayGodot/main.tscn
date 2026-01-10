@@ -12,3 +12,6 @@ wait_time = 0.5
 
 [node name="CheckMessagesTimer" type="Timer" parent="."]
 wait_time = 0.5
+
+[node name="FileWatchTimer" type="Timer" parent="."]
+wait_time = 1.0

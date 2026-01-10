@@ -47,6 +47,18 @@ public:
 
     godot::String get_projectPackageFile() const;
     void set_projectPackageFile(const godot::String& projectPackageFile);
+
+    godot::String get_fps() const;
+    void set_fps(const godot::String& fps);
+
+    float get_scale3d() const;
+    void set_scale3d(float scale);
+
+    godot::String get_scale3dMode() const;
+    void set_scale3dMode(const godot::String& mode);
+
+    godot::String get_fullPckPath() const;
+
     void _ready() override;
 
 protected:
@@ -71,4 +83,7 @@ private:
     godot::PackedInt64Array m_activeScreensList;
     float m_volume = 1.0f;
     bool m_checkWallpaperVisible = false;
+    godot::String m_fps = "60";
+    float m_scale3d = 1.0f;
+    godot::String m_scale3dMode = "0"; // 0=Bilinear, 1=FSR1, 2=FSR2
 };

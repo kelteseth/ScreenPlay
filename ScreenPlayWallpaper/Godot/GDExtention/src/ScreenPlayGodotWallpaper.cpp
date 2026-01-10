@@ -30,6 +30,17 @@ void ScreenPlayGodotWallpaper::_bind_methods()
     ClassDB::bind_method(godot::D_METHOD("get_projectPackageFile"), &ScreenPlayGodotWallpaper::get_projectPackageFile);
     ClassDB::bind_method(godot::D_METHOD("set_projectPackageFile", "projectPackageFile"), &ScreenPlayGodotWallpaper::set_projectPackageFile);
 
+    ClassDB::bind_method(godot::D_METHOD("get_fps"), &ScreenPlayGodotWallpaper::get_fps);
+    ClassDB::bind_method(godot::D_METHOD("set_fps", "fps"), &ScreenPlayGodotWallpaper::set_fps);
+
+    ClassDB::bind_method(godot::D_METHOD("get_scale3d"), &ScreenPlayGodotWallpaper::get_scale3d);
+    ClassDB::bind_method(godot::D_METHOD("set_scale3d", "scale"), &ScreenPlayGodotWallpaper::set_scale3d);
+
+    ClassDB::bind_method(godot::D_METHOD("get_scale3dMode"), &ScreenPlayGodotWallpaper::get_scale3dMode);
+    ClassDB::bind_method(godot::D_METHOD("set_scale3dMode", "mode"), &ScreenPlayGodotWallpaper::set_scale3dMode);
+
+    ClassDB::bind_method(godot::D_METHOD("get_fullPckPath"), &ScreenPlayGodotWallpaper::get_fullPckPath);
+
     ClassDB::bind_method(godot::D_METHOD("get_projectPath"), &ScreenPlayGodotWallpaper::get_projectPath);
     ClassDB::bind_method(godot::D_METHOD("set_projectPath", "path"), &ScreenPlayGodotWallpaper::set_projectPath);
 
@@ -94,6 +105,41 @@ godot::String ScreenPlayGodotWallpaper::get_projectPackageFile() const
 void ScreenPlayGodotWallpaper::set_projectPackageFile(const godot::String& projectPackageFile)
 {
     m_projectPackageFile = projectPackageFile;
+}
+
+godot::String ScreenPlayGodotWallpaper::get_fps() const
+{
+    return m_fps;
+}
+
+void ScreenPlayGodotWallpaper::set_fps(const godot::String& fps)
+{
+    m_fps = fps;
+}
+
+float ScreenPlayGodotWallpaper::get_scale3d() const
+{
+    return m_scale3d;
+}
+
+void ScreenPlayGodotWallpaper::set_scale3d(float scale)
+{
+    m_scale3d = scale;
+}
+
+godot::String ScreenPlayGodotWallpaper::get_scale3dMode() const
+{
+    return m_scale3dMode;
+}
+
+void ScreenPlayGodotWallpaper::set_scale3dMode(const godot::String& mode)
+{
+    m_scale3dMode = mode;
+}
+
+godot::String ScreenPlayGodotWallpaper::get_fullPckPath() const
+{
+    return m_projectPath + godot::String("/") + m_projectPackageFile;
 }
 
 bool ScreenPlayGodotWallpaper::configureWindowGeometry()
@@ -171,6 +217,7 @@ godot::String ScreenPlayGodotWallpaper::read_from_pipe()
         // No new message
         return "";
     }
+    godot::UtilityFunctions::print("ScreenPlayGodotWallpaper received message: ", outMsg.c_str());
     return godot::String(outMsg.c_str());
 }
 

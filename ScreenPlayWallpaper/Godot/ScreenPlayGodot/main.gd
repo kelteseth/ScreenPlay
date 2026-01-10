@@ -3,7 +3,12 @@ extends Node3D
 @onready var screen_play_wallpaper: ScreenPlayGodotWallpaper = $ScreenPlayGodotWallpaper
 @onready var ping_alive_timer: Timer = $PingAliveTimer
 @onready var check_messages_timer: Timer = $CheckMessagesTimer
+@onready var file_watch_timer: Timer = $FileWatchTimer
+
 var send_welcome: bool = false
+var last_pck_modified_time: int = 0
+var loaded_scene_instance: Node = null
+var cmdline_args: PackedStringArray = []
 
 # Pings main ScreenPlay application that
 # this wallpaper is still active
@@ -54,13 +59,14 @@ func check_messages():
 				}
 				var fps_value = str(data["godotFps"])
 				if fps_map.has(fps_value):
-					apply_fps(fps_map[fps_value])
+					screen_play_wallpaper.set_fps(fps_map[fps_value])
+					apply_fps(screen_play_wallpaper.get_fps())
 				else:
 					print("Unknown godotFps value: ", fps_value)
 			
 			if data.has("godot3DScale"):
-				var scale_value = float(data["godot3DScale"])
-				apply_3d_scale(scale_value)
+				screen_play_wallpaper.set_scale3d(float(data["godot3DScale"]))
+				apply_3d_scale(screen_play_wallpaper.get_scale3d())
 			
 			if data.has("godot3DScaleMode"):
 				var mode_map = {
@@ -70,7 +76,8 @@ func check_messages():
 				}
 				var mode_value = str(data["godot3DScaleMode"])
 				if mode_map.has(mode_value):
-					apply_3d_scale_mode(mode_map[mode_value])
+					screen_play_wallpaper.set_scale3dMode(mode_map[mode_value])
+					apply_3d_scale_mode(screen_play_wallpaper.get_scale3dMode())
 				else:
 					print("Unknown godot3DScaleMode value: ", mode_value)
 			
@@ -109,6 +116,87 @@ func apply_3d_scale_mode(mode_value: String):
 	else:
 		print("Invalid 3d-scale-mode value, ignoring")
 
+## Checks if the PCK file has been modified since last load
+func check_file_changes():
+	var pck_path = screen_play_wallpaper.get_fullPckPath()
+	if pck_path.is_empty():
+		return
+	
+	var current_modified_time = FileAccess.get_modified_time(pck_path)
+	if current_modified_time == 0:
+		return  # File doesn't exist or error
+	
+	if last_pck_modified_time > 0 and current_modified_time != last_pck_modified_time:
+		print("PCK file changed, reloading wallpaper...")
+		reload_wallpaper()
+	
+	last_pck_modified_time = current_modified_time
+
+## Unloads the current scene and reloads the PCK
+func reload_wallpaper():
+	var pck_path = screen_play_wallpaper.get_fullPckPath()
+	print("Reloading wallpaper from: ", pck_path)
+	
+	# Unload current scene
+	unload_scene()
+	
+	# Small delay to ensure resources are freed
+	await get_tree().process_frame
+	await get_tree().process_frame
+	
+	# Load new scene
+	if not load_scene(pck_path):
+		print("Failed to reload wallpaper scene")
+		return
+	
+	# Reapply current settings
+	apply_all_settings()
+	print("Wallpaper reloaded successfully")
+
+## Unloads the currently loaded wallpaper scene
+func unload_scene():
+	if loaded_scene_instance != null and is_instance_valid(loaded_scene_instance):
+		print("Unloading current scene...")
+		loaded_scene_instance.queue_free()
+		loaded_scene_instance = null
+		# Force garbage collection of resources
+		await get_tree().process_frame
+
+## Applies all current settings (used after reload)
+func apply_all_settings():
+	apply_fps(screen_play_wallpaper.get_fps())
+	apply_3d_scale(screen_play_wallpaper.get_scale3d())
+	apply_3d_scale_mode(screen_play_wallpaper.get_scale3dMode())
+
+## Applies initial settings from parsed arguments (call after init)
+func apply_initial_settings(arg_dict: Dictionary):
+	# Handle optional fps argument
+	if arg_dict.has("fps"):
+		screen_play_wallpaper.set_fps(arg_dict["fps"])
+		apply_fps(screen_play_wallpaper.get_fps())
+	else:
+		screen_play_wallpaper.set_fps("60")
+		Engine.set_max_fps(60)
+		print("No fps argument provided, using default 60 FPS")
+
+	# Handle optional 3D scale argument
+	if arg_dict.has("3d-scale"):
+		screen_play_wallpaper.set_scale3d(arg_dict["3d-scale"].to_float())
+		apply_3d_scale(screen_play_wallpaper.get_scale3d())
+	else:
+		screen_play_wallpaper.set_scale3d(1.0)
+		get_viewport().scaling_3d_scale = 1.0
+		print("No 3d-scale argument provided, using default 1.0")
+
+	# Handle optional 3D scale mode argument
+	if arg_dict.has("3d-scale-mode"):
+		screen_play_wallpaper.set_scale3dMode(arg_dict["3d-scale-mode"])
+		apply_3d_scale_mode(screen_play_wallpaper.get_scale3dMode())
+	else:
+		screen_play_wallpaper.set_scale3dMode("0")
+		get_viewport().scaling_3d_mode = Viewport.SCALING_3D_MODE_BILINEAR
+		print("No 3d-scale-mode argument provided, using default Bilinear")
+
 func _on_scene_value_received(key: String, value: String):
 	match key:
 		"godotFps":
@@ -126,13 +214,14 @@ func _on_scene_value_received(key: String, value: String):
 				"Vsync": "vsync"
 			}
 			if fps_map.has(value):
-				apply_fps(fps_map[value])
+				screen_play_wallpaper.set_fps(fps_map[value])
+				apply_fps(screen_play_wallpaper.get_fps())
 			else:
 				print("Unknown godotFps value: ", value)
 		
 		"godot3DScale":
-			var scale_float = value.to_float()
-			apply_3d_scale(scale_float)
+			screen_play_wallpaper.set_scale3d(value.to_float())
+			apply_3d_scale(screen_play_wallpaper.get_scale3d())
 		
 		"godot3DScaleMode":
 			# Convert enum value to mode string
@@ -142,7 +231,8 @@ func _on_scene_value_received(key: String, value: String):
 				"FSR2_2": "2"
 			}
 			if mode_map.has(value):
-				apply_3d_scale_mode(mode_map[value])
+				screen_play_wallpaper.set_scale3dMode(mode_map[value])
+				apply_3d_scale_mode(screen_play_wallpaper.get_scale3dMode())
 			else:
 				print("Unknown godot3DScaleMode value: ", value)
 		
@@ -156,18 +246,24 @@ func _ready():
 	check_messages_timer.wait_time = 0.5
 	check_messages_timer.timeout.connect(check_messages)
 	
+	file_watch_timer.wait_time = 1.0  # Check every second
+	file_watch_timer.timeout.connect(check_file_changes)
+	
 	screen_play_wallpaper.scene_value_received.connect(_on_scene_value_received)
 	
 	if not screen_play_wallpaper:
 		printerr("ERROR INVALID SCREENPLAY OBJECT")
 		return
-		
-	var path
-	if not parse_args():
+
+	var arg_dict = parse_args()
+	if arg_dict.is_empty():
 		get_tree().quit()
 		return
 
-	path = screen_play_wallpaper.get_projectPath() + "/" + screen_play_wallpaper.get_projectPackageFile()
+	var path = screen_play_wallpaper.get_fullPckPath()
+	
+	# Store initial modification time
+	last_pck_modified_time = FileAccess.get_modified_time(path)
 
 	if not load_scene(path):
 		print("Failed to load the PCK file.")
@@ -181,8 +277,15 @@ func _ready():
 		printerr("Unable to setup screen")
 		get_tree().quit()
 		return
+	
+	# Apply settings after init() is called
+	apply_initial_settings(arg_dict)
+	
 	if not screen_play_wallpaper.get_pipeConnected():
 		var _ok_connect_to_named_pipe = screen_play_wallpaper.connect_to_named_pipe()
+	
+	# Start file watching
+	file_watch_timer.start()
 		
 func _process(_delta):
 	if not send_welcome:
@@ -193,7 +296,7 @@ func _process(_delta):
 				ping_alive_timer.start()
 
 
-func load_scene(path):
+func load_scene(path: String) -> bool:
 	var success = ProjectSettings.load_resource_pack(path)
 	if success:
 		var scene_resource = load("res://wallpaper.tscn")
@@ -201,6 +304,7 @@ func load_scene(path):
 			var scene_instance = scene_resource.instantiate()
 			if scene_instance:
 				add_child(scene_instance)
+				loaded_scene_instance = scene_instance
 			else:
 				print("Failed to instantiate the wallpaper.tscn scene.")
 				return false
@@ -212,29 +316,31 @@ func load_scene(path):
 		return false
 	return true
 
-func parse_args():
-	var args = OS.get_cmdline_args()
-	print("Parse args:", args)
+func parse_args() -> Dictionary:
+	cmdline_args = OS.get_cmdline_args()
+	print("Parse args:", cmdline_args)
 	
-	# Check if only the default argument is provided
-	if args.size() == 2:
-		args = ["--projectpath", 
-				#"C:/Code/cpp/ScreenPlay/ScreenPlay/Content/wallpaper_godot_fjord", 
-				"C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/2025_11_10_085058",
-				"--appID", "qmz9lq4wglox5DdYaXumVgRSDeZYAUjC", 
-				"--screens", "{0}", 
-				"--volume", "1", 
-				"--check", "0",
-				"--projectPackageFile","project-v1.zip",
-				"--fps", "60"
-				]
+	# Override with test args if only the default argument is provided
+	if cmdline_args.size() == 2:
+		cmdline_args = PackedStringArray([
+			"--projectpath", 
+			"C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/2025_11_10_085058",
+			"--appID", "qmz9lq4wglox5DdYaXumVgRSDeZYAUjC", 
+			"--screens", "{0}", 
+			"--volume", "1", 
+			"--check", "0",
+			"--projectPackageFile", "project-v1.zip",
+			"--fps", "60",
+			"--3d-scale", "1.0",
+			"--3d-scale-mode", "0"
+		])
+	
+	# Convert to regular array for processing
+	var args: Array = Array(cmdline_args)
 				
-	 # Remove the first argument if it's the main.tscn file
+	# Remove the first argument if it's the main.tscn file
 	if args.size() > 0 and args[0] == "res://main.tscn":
-		var new_args = []
-		for i in range(1, args.size()):
-			new_args.append(args[i])
-		args = new_args
+		args = args.slice(1)
 	
 	# Create a dictionary to hold the key-value pairs
 	var arg_dict = {}
@@ -248,37 +354,14 @@ func parse_args():
 				arg_dict[key] = args[i]
 		i += 1
 
+	print("Parsed arg_dict: ", arg_dict)
+
 	# Check for all required arguments
 	var required_args = ["screens", "projectpath", "appID", "volume", "check", "projectPackageFile"]
 	for req_arg in required_args:
 		if not arg_dict.has(req_arg):
 			print("Missing argument:", req_arg)
-			return false
-
-	# Handle optional fps argument
-	if arg_dict.has("fps"):
-		apply_fps(arg_dict["fps"])
-	else:
-		# Default to 60 FPS if no fps argument provided
-		Engine.set_max_fps(60)
-		print("No fps argument provided, using default 60 FPS")
-
-	# Handle optional 3D scale argument
-	if arg_dict.has("3d-scale"):
-		var scale_value = arg_dict["3d-scale"].to_float()
-		apply_3d_scale(scale_value)
-	else:
-		# Default to 1.0 if no 3d-scale argument provided
-		get_viewport().scaling_3d_scale = 1.0
-		print("No 3d-scale argument provided, using default 1.0")
-
-	# Handle optional 3D scale mode argument
-	if arg_dict.has("3d-scale-mode"):
-		apply_3d_scale_mode(arg_dict["3d-scale-mode"])
-	else:
-		# Default to Bilinear if no 3d-scale-mode argument provided
-		get_viewport().scaling_3d_mode = Viewport.SCALING_3D_MODE_BILINEAR
-		print("No 3d-scale-mode argument provided, using default Bilinear")
+			return {}
 
 	# Parse the 'screens' argument
 	var activeScreensList = []
@@ -291,12 +374,12 @@ func parse_args():
 				activeScreensList.append(screen.to_int())
 			else:
 				print("Invalid screens argument:", screen)
-				return false
+				return {}
 	else:
 		print("Invalid format for screens argument")
-		return false
+		return {}
 
-	# Assign the values to the respective properties
+	# Store all settings directly in screen_play_wallpaper
 	screen_play_wallpaper.set_projectPath(arg_dict["projectpath"])
 	screen_play_wallpaper.set_appID(arg_dict["appID"])
 	screen_play_wallpaper.set_volume(float(arg_dict["volume"]))
@@ -305,11 +388,11 @@ func parse_args():
 	screen_play_wallpaper.set_activeScreensList(activeScreensList)
 
 	# Print or use the parsed values as needed
-	print("Parsing done: ", activeScreensList, 
+	print("Parsing done: ", screen_play_wallpaper.get_activeScreensList(), 
 		  " ", screen_play_wallpaper.get_projectPath(), 
 		  " ", screen_play_wallpaper.get_appID(),
 		  " ", screen_play_wallpaper.get_volume(),
 		  " ", screen_play_wallpaper.get_projectPackageFile(),
 		  " ", screen_play_wallpaper.get_checkWallpaperVisible())
 
-	return true
+	return arg_dict
