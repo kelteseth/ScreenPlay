@@ -615,16 +615,6 @@ void Settings::setLocalStoragePath(QUrl localStoragePath)
     emit resetInstalledListmodel();
 }
 
-void Settings::setDecoder(QString decoder)
-{
-    if (m_decoder == decoder)
-        return;
-
-    m_decoder = decoder;
-
-    emit decoderChanged(m_decoder);
-}
-
 void Settings::setSilentStart(bool silentStart)
 {
     if (m_silentStart == silentStart)

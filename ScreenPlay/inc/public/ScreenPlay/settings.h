@@ -43,7 +43,6 @@ class Settings : public QObject {
     Q_PROPERTY(ScreenPlay::Godot::RenderingDriver godotRenderingDriver READ godotRenderingDriver WRITE setGodotRenderingDriver NOTIFY godotRenderingDriverChanged FINAL)
     Q_PROPERTY(ScreenPlay::ScreenPlayEnums::GraphicsApi graphicsApi READ graphicsApi WRITE setGraphicsApi NOTIFY graphicsApiChanged FINAL)
 
-    Q_PROPERTY(QString decoder READ decoder WRITE setDecoder NOTIFY decoderChanged FINAL)
     Q_PROPERTY(QString buildInfos READ buildInfos WRITE setBuildInfos NOTIFY buildInfosChanged FINAL)
     Q_PROPERTY(QString font READ font WRITE setFont NOTIFY fontChanged FINAL)
 
@@ -95,7 +94,6 @@ public:
 
     bool autostart() const { return m_autostart; }
     bool highPriorityStart() const { return m_highPriorityStart; }
-    QString decoder() const { return m_decoder; }
     bool silentStart() const { return m_silentStart; }
     bool anonymousTelemetry() const { return m_anonymousTelemetry; }
     bool checkWallpaperVisible() const { return m_checkWallpaperVisible; }
@@ -124,7 +122,6 @@ signals:
     void autostartChanged(bool autostart);
     void highPriorityStartChanged(bool highPriorityStart);
     void hasWorkshopBannerSeenChanged(bool hasWorkshopBannerSeen);
-    void decoderChanged(QString decoder);
     void setMainWindowVisible(bool visible);
     void offlineModeChanged(bool offlineMode);
     void silentStartChanged(bool silentStart);
@@ -157,7 +154,6 @@ public slots:
     void setAutostart(bool autostart);
     void setHighPriorityStart(bool highPriorityStart);
     void setLocalStoragePath(QUrl localStoragePath);
-    void setDecoder(QString decoder);
     void setSilentStart(bool silentStart);
     void setAnonymousTelemetry(bool anonymousTelemetry);
     void setCheckWallpaperVisible(bool checkWallpaperVisible);
@@ -209,9 +205,7 @@ private:
     ScreenPlay::ScreenPlayEnums::GraphicsApi m_graphicsApi { ScreenPlayEnums::GraphicsApi::Auto };
     ScreenPlay::Settings::DesktopEnvironment m_desktopEnvironment { DesktopEnvironment::Unknown };
     QString m_font { "Roboto" };
-    QString m_decoder;
     QString m_buildInfos;
-
     QVersionNumber m_profilesVersion { 2, 0, 0 };
 };
 }
