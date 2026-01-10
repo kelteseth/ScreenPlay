@@ -29,6 +29,8 @@ class WallpaperData : public InstalledContentData {
     Q_PROPERTY(ScreenPlay::Godot::Fps godotFps READ godotFps WRITE setGodotFps)
     Q_PROPERTY(ScreenPlay::Godot::ScaleMode3D godot3DScaleMode READ godot3DScaleMode WRITE setGodot3DScaleMode)
     Q_PROPERTY(float godot3DScale READ godot3DScale WRITE setGodot3DScale)
+    Q_PROPERTY(ScreenPlay::Godot::RenderingDriver godotRenderingDriver READ godotRenderingDriver WRITE setGodotRenderingDriver)
+
 public:
     enum class LoadError {
         None,
@@ -46,8 +48,9 @@ public:
     Video::FillMode fillMode() const { return m_fillMode; }
     QVector<int> monitors() const { return m_monitors; }
     Godot::Fps godotFps() const { return m_godotFps; }
-    Godot::ScaleMode3D godot3DScaleMode() const { return m_godot3DScaleMode; }
     float godot3DScale() const { return m_godot3DScale; }
+    ScreenPlay::Godot::ScaleMode3D godot3DScaleMode() const { return m_godot3DScaleMode; }
+    ScreenPlay::Godot::RenderingDriver godotRenderingDriver() const { return m_godotRenderingDriver; }
 
     void setIsLooping(bool value) { m_isLooping = value; }
     void setVolume(float value) { m_volume = value; }
@@ -55,6 +58,7 @@ public:
     void setMonitors(const QVector<int>& value) { m_monitors = value; }
     void setGodotFps(Godot::Fps value) { m_godotFps = value; }
     void setGodot3DScaleMode(Godot::ScaleMode3D value) { m_godot3DScaleMode = value; }
+    void setGodotRenderingDriver(ScreenPlay::Godot::RenderingDriver godotRenderingDriver){ m_godotRenderingDriver = godotRenderingDriver;};
     void setGodot3DScale(float value) { m_godot3DScale = value; }
 
     Q_INVOKABLE QString toString() const;
@@ -69,7 +73,8 @@ private:
     Video::FillMode m_fillMode = Video::FillMode::Fill;
     QVector<int> m_monitors {};
     Godot::Fps m_godotFps = Godot::Fps::Fps60;
+    float m_godot3DScale { 1.0f };
     Godot::ScaleMode3D m_godot3DScaleMode = Godot::ScaleMode3D::Bilinear;
-    float m_godot3DScale = 1.0f;
+    Godot::RenderingDriver m_godotRenderingDriver { Godot::RenderingDriver::Vulkan };
 };
 }
