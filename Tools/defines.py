@@ -23,6 +23,22 @@ THIRDPATH_PATH =  Path(REPO_PATH, "ThirdParty").resolve()
 QT_PATH = path = Path(REPO_PATH, "../aqt").resolve()
 QT_VERSION = "6.10.1"
 QT_BIN_PATH = QT_PATH.joinpath(f"{QT_VERSION}/{QT_PLATFORM}/bin")
+# Qt source modules for debugging - excludes qtwebengine which pulls chromium
+QT6_SOURCE_MODULES = [
+    "qtbase",
+    "qtdeclarative",
+    "qt3d",
+    "qtquick3d",
+    "qtconnectivity",
+    "qt5compat",
+    "qtimageformats",
+    "qtmultimedia",
+    "qtshadertools",
+    "qtwebchannel",
+    "qtwebsockets",
+    "qtwebview",
+    "qtpositioning"
+]
 QT_TOOLS_PATH = QT_PATH.joinpath("Tools/")
 QT_IFW_VERSION = "4.8.1"
 # 04.09.2025 https://github.com/microsoft/vcpkg :

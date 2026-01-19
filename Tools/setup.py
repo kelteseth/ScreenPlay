@@ -73,6 +73,12 @@ def download(aqt_path: Path, qt_platform: Path):
     print(f"Downloading: {qt_packages} to {aqt_path}")
     execute(f"{defines.PYTHON_EXECUTABLE} -m aqt install-qt -O  {aqt_path} {os} desktop {defines.QT_VERSION} {qt_platform} -m {qt_packages}")
 
+    # Download Qt sources for debugging - allows stepping into Qt source code
+    # The debug_info module only provides PDB files that reference original build paths
+    source_modules = " ".join(defines.QT6_SOURCE_MODULES)
+    print(f"Downloading Qt {defines.QT_VERSION} sources for debugging: {source_modules}")
+    execute(f"{defines.PYTHON_EXECUTABLE} -m aqt install-src -O {aqt_path} {os} desktop {defines.QT_VERSION} --archives {source_modules}")
+
     # Tools can only be installed one at the time:
     # see:  python -m aqt list-tool windows desktop
     tools = ["tools_ifw"]
