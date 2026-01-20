@@ -180,6 +180,8 @@ void SteamWorkshop::requestUserItems()
     if (!checkOnline())
         return;
 
+    m_workshopProfileListModel->clear();
+
     m_UGCListUserItemsHandle = SteamUGC()->CreateQueryUserUGCRequest(
         m_steamAccount->accountID(),
         EUserUGCList::k_EUserUGCList_Published,

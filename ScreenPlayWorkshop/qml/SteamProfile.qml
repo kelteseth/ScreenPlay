@@ -12,7 +12,7 @@ Item {
     property ScreenPlayWorkshop screenPlayWorkshop
     property SteamWorkshop steamWorkshop
     property StackView stackView
-    StackView.onActivated: steamWorkshop.requestUserItems()
+    StackView.onActivated: root.steamWorkshop.requestUserItems()
 
     Flickable {
         id: scrollView
