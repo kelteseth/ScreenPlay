@@ -7,7 +7,7 @@
 #include <QObject>
 #include <QQmlEngine>
 
-namespace ScreenPlayWorkshop {
+namespace ScreenPlayCore {
 
 class Steam : public QObject {
     Q_OBJECT

@@ -36,11 +36,11 @@ if __name__ == '__main__':
 #include <QObject>
 #include <QQmlEngine>
 
-namespace ScreenPlayWorkshop {
+namespace ScreenPlayCore {
 
 class Steam : public QObject {
     Q_OBJECT
-    QML_ELEMENT
+    QML_NAMED_ELEMENT(Steam)
     QML_UNCREATABLE("")
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
 
@@ -52,6 +52,15 @@ public:
     file_end = """
 };
 }
+
+
+
+
+
+
+
+
+..........
     """
 
     with open(path) as json_file:

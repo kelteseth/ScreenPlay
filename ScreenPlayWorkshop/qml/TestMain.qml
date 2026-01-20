@@ -6,6 +6,7 @@ import ScreenPlayWorkshop
 
 Window {
     id: root
+    objectName: "workshopTestWindow"
     width: 1400
     height: 768
     visible: true
@@ -16,6 +17,7 @@ Window {
 
     ScreenPlayWorkshop {
         id: screenPlayWorkshop
+        objectName: "screenPlayWorkshop"
         Component.onCompleted: {
             if (screenPlayWorkshop.init()) {
                 print("init")
@@ -52,6 +54,7 @@ Window {
         }
         StackView {
             id: stackView
+            objectName: "workshopStackView"
             property int duration: 300
 
             anchors.fill: parent

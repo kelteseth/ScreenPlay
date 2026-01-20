@@ -38,11 +38,22 @@ Item {
                     verticalCenter: parent.verticalCenter
                 }
                 spacing: 20
-                SteamProfilePicture {
+                SteamImage {
                     id: avatar
 
                     width: 70
                     height: 70
+                    Component.onCompleted: {
+                        root.steamWorkshop.steamAccount.loadAvatar()
+                    }
+
+                    Connections {
+                        function onAvatarChanged(_avatar) {
+                            avatar.setImage(_avatar)
+                        }
+
+                        target: root.steamWorkshop.steamAccount
+                    }
                 }
 
                 Text {
@@ -62,11 +73,12 @@ Item {
 
         GridView {
             id: gridView
+            objectName: "profileGridView"
 
             maximumFlickVelocity: 7000
             flickDeceleration: 5000
             cellWidth: 330
-            cellHeight: 190
+            cellHeight: 220
             height: contentHeight
             interactive: false
             model: root.steamWorkshop.workshopProfileListModel
@@ -80,19 +92,48 @@ Item {
                 leftMargin: 45
             }
 
-            delegate: WorkshopItem {
-                imgUrl: m_workshopPreview
-                name: m_workshopTitle
-                publishedFileID: m_publishedFileID
-                additionalPreviewUrl: m_additionalPreviewUrl
-                subscriptionCount: m_subscriptionCount
-                itemIndex: index
-                steamWorkshop: root.steamWorkshop
-                //            onClicked: {
-                //                sidebar.setWorkshopItem(publishedFileID, imgUrl,
-                //                                        additionalPreviewUrl,
-                //                                        subscriptionCount)
-                //            }
+            delegate: Item {
+                width: gridView.cellWidth
+                height: gridView.cellHeight
+                objectName: "profileWorkshopItem" + index
+
+                WorkshopItem {
+                    id: workshopItem
+                    imgUrl: m_workshopPreview
+                    name: m_workshopTitle
+                    publishedFileID: m_publishedFileID
+                    additionalPreviewUrl: m_additionalPreviewUrl
+                    subscriptionCount: m_subscriptionCount
+                    itemIndex: index
+                    steamWorkshop: root.steamWorkshop
+
+                    anchors {
+                        top: parent.top
+                        left: parent.left
+                        right: parent.right
+                    }
+                }
+
+                Button {
+                    id: btnDeleteItem
+                    objectName: "btnDeleteItem" + index
+                    text: qsTr("Delete")
+                    icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_close.svg"
+                    icon.color: "white"
+                    Material.background: Material.Red
+
+                    anchors {
+                        top: workshopItem.bottom
+                        topMargin: 5
+                        horizontalCenter: parent.horizontalCenter
+                    }
+
+                    onClicked: {
+                        deleteConfirmDialog.publishedFileID = m_publishedFileID
+                        deleteConfirmDialog.itemName = m_workshopTitle
+                        deleteConfirmDialog.open()
+                    }
+                }
             }
 
             ScrollBar.vertical: ScrollBar {
@@ -143,6 +184,40 @@ Item {
                 Item {
                     Layout.fillWidth: true
                 }
+            }
+        }
+    }
+
+    Dialog {
+        id: deleteConfirmDialog
+        objectName: "deleteConfirmDialog"
+
+        property var publishedFileID
+        property string itemName
+
+        title: qsTr("Delete Workshop Item")
+        modal: true
+        standardButtons: Dialog.Yes | Dialog.No
+        anchors.centerIn: parent
+
+        Text {
+            text: qsTr("Are you sure you want to delete '%1'?\nThis action cannot be undone.").arg(deleteConfirmDialog.itemName)
+            color: Material.foreground
+            wrapMode: Text.WordWrap
+        }
+
+        onAccepted: {
+            root.steamWorkshop.deleteItem(publishedFileID)
+        }
+    }
+
+    Connections {
+        target: root.steamWorkshop
+        function onWorkshopItemDeleted(success: bool, publishedFileID) {
+            if (success) {
+                console.log("Workshop item deleted successfully:", publishedFileID)
+            } else {
+                console.warn("Failed to delete workshop item:", publishedFileID)
             }
         }
     }

@@ -8,7 +8,9 @@ ScreenPlayWorkshop::ScreenPlayWorkshop()
     qInfo() << "ScreenPlayWorkshop";
     m_installedListModel = std::make_unique<InstalledListModel>();
     m_steamWorkshop = std::make_unique<SteamWorkshop>();
-    m_installedListModel->init();
+    // Note: init() must be called explicitly to load content
+    // Use init() for default path from QSettings
+    // Use init(contentPath) for custom path (e.g., testing)
 }
 
 }

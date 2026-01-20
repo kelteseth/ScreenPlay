@@ -84,8 +84,9 @@ public slots:
     void requestWorkshopItemDetails(const QVariant publishedFileID);
     void vote(const QVariant publishedFileID, const bool voteUp);
     void subscribeItem(const QVariant publishedFileID);
-    bool searchWorkshop(const ScreenPlayWorkshop::Steam::EUGCQuery enumEUGCQuery);
-    void searchWorkshopByText(const QString text, const ScreenPlayWorkshop::Steam::EUGCQuery rankedBy = ScreenPlayWorkshop::Steam::EUGCQuery::K_EUGCQuery_RankedByTrend);
+    void deleteItem(const QVariant publishedFileID);
+    bool searchWorkshop(const ScreenPlayCore::Steam::EUGCQuery enumEUGCQuery);
+    void searchWorkshopByText(const QString text, const ScreenPlayCore::Steam::EUGCQuery rankedBy = ScreenPlayCore::Steam::EUGCQuery::K_EUGCQuery_RankedByTrend);
 
     bool checkAndSetQueryActive()
     {
@@ -175,6 +176,7 @@ signals:
     void workshopItemCreatedSuccessful(bool userNeedsToAcceptWorkshopLegalAgreement, int eResult, QVariant publishedFileId);
 
     void workshopItemInstalled(int appID, QVariant publishedFileID);
+    void workshopItemDeleted(bool success, QVariant publishedFileID);
 
     void itemProcessedChanged(QVariant itemProcessed);
     void bytesTotalChanged(QVariant bytesTotal);
@@ -209,6 +211,11 @@ private:
     STEAM_CALLBACK(SteamWorkshop, onWorkshopItemInstalled, ItemInstalled_t);
 
     CCallResult<SteamWorkshop, SteamUGCQueryCompleted_t> m_steamUGCQuerySearchWorkshopResult;
+
+    // Delete item
+    void onDeleteItemReturned(DeleteItemResult_t* pCallback, bool bIOFailure);
+    CCallResult<SteamWorkshop, DeleteItemResult_t> m_steamUGCDeleteItem;
+    PublishedFileId_t m_deleteItemPublishedFileId = 0;
 
     // List user items
     void onRequestUserItemsReturned(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure);

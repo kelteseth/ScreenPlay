@@ -8,6 +8,8 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+include(GenerateCMakeVariableHeader)
+
 find_package(LibArchive REQUIRED)
 find_package(
     Qt6
@@ -163,8 +165,25 @@ if(${SCREENPLAY_STEAM})
                     ScreenPlayCoreLib
                     ScreenPlayCoreLibplugin)
 
+        qt_add_executable(tst_WorkshopUpload tests/tst_workshop_upload.cpp)
+        target_link_libraries(
+            tst_WorkshopUpload
+            PRIVATE Qt6::Quick
+                    Qt6::QuickControls2
+                    Qt6::Test
+                    ScreenPlayWorkshopLib
+                    ScreenPlayWorkshopLibplugin
+                    ScreenPlayCoreLib
+                    ScreenPlayCoreLibplugin)
+
+        # Generate CMakeVariables.h for the workshop upload test
+        generate_cmake_variable_header(tst_WorkshopUpload)
+        add_dependencies(tst_WorkshopUpload ScreenPlayWorkshopLib)
+
         if(APPLE)
             set_target_properties(tst_ScreenPlayWorkshop
+                                  PROPERTIES RUNTIME_OUTPUT_DIRECTORY"${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
+            set_target_properties(tst_WorkshopUpload
                                   PROPERTIES RUNTIME_OUTPUT_DIRECTORY"${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
         endif()
     endif()

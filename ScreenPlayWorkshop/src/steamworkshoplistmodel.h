@@ -73,6 +73,18 @@ public slots:
 
     void clear();
 
+    void removeByPublishedFileID(quint64 publishedFileID)
+    {
+        for (int i = 0; i < m_workshopItemList.size(); ++i) {
+            if (m_workshopItemList.at(i).m_publishedFileID == publishedFileID) {
+                beginRemoveRows(QModelIndex(), i, i);
+                m_workshopItemList.removeAt(i);
+                endRemoveRows();
+                return;
+            }
+        }
+    }
+
     void setPages(int pages)
     {
         if (m_pages == pages)

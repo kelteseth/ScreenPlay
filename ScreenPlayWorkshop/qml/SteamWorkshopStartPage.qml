@@ -260,6 +260,7 @@ Item {
 
                     Button {
                         id: btnSteamUpload
+                        objectName: "btnSteamUpload"
 
                         anchors {
                             verticalCenter: parent.verticalCenter

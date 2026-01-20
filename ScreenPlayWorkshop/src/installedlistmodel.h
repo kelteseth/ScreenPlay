@@ -62,6 +62,7 @@ public:
 
     QUrl absoluteStoragePath() const { return m_absoluteStoragePath; }
     void init();
+    void init(const QUrl& contentPath);
 
 public slots:
     void loadInstalledContent();

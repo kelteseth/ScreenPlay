@@ -16,6 +16,7 @@ class ScreenPlayWorkshop : public QObject {
     // Prefix :: to tell the compiler its a namespace
     Q_PROPERTY(::ScreenPlayWorkshop::InstalledListModel* installedListModel READ installedListModel NOTIFY installedListModelChanged)
     Q_PROPERTY(::ScreenPlayWorkshop::SteamWorkshop* steamWorkshop READ steamWorkshop NOTIFY steamWorkshopChanged)
+    Q_PROPERTY(QUrl contentPath READ contentPath WRITE setContentPath NOTIFY contentPathChanged)
 
 public:
     explicit ScreenPlayWorkshop();
@@ -23,11 +24,27 @@ public:
 
     InstalledListModel* installedListModel() const { return m_installedListModel.get(); }
     SteamWorkshop* steamWorkshop() const { return m_steamWorkshop.get(); }
+    QUrl contentPath() const { return m_contentPath; }
 
 public slots:
     bool init()
     {
+        // Use custom content path if set, otherwise use QSettings default
+        if (!m_contentPath.isEmpty()) {
+            m_installedListModel->init(m_contentPath);
+        } else {
+            m_installedListModel->init();
+        }
         return steamWorkshop()->init();
+    }
+
+    void setContentPath(const QUrl& contentPath)
+    {
+        if (m_contentPath == contentPath)
+            return;
+        m_contentPath = contentPath;
+        m_installedListModel->setAbsoluteStoragePath(contentPath);
+        emit contentPathChanged(m_contentPath);
     }
 
     void setInstalledListModel(InstalledListModel* installedListModel)
@@ -52,9 +69,11 @@ signals:
     void workshopListModelLoaded(SteamWorkshopListModel* li);
     void installedListModelChanged(InstalledListModel* installedListModel);
     void steamWorkshopChanged(SteamWorkshop* steamWorkshop);
+    void contentPathChanged(const QUrl& contentPath);
 
 private:
     std::unique_ptr<InstalledListModel> m_installedListModel;
     std::unique_ptr<SteamWorkshop> m_steamWorkshop;
+    QUrl m_contentPath;
 };
 }

@@ -7,6 +7,7 @@ import "../"
 
 Item {
     id: root
+    objectName: "uploadProjectBigItem" + itemIndex
 
     property bool isProjectValid: false
     property alias checkBox: checkBox
@@ -133,13 +134,16 @@ Item {
 
         CheckBox {
             id: checkBox
+            objectName: "itemCheckBox" + root.itemIndex
 
-            onCheckStateChanged: {
-                if (checkState == Qt.Checked)
-                    isSelected = true
-                else
-                    isSelected = false
-                root.itemClicked(folderName, type, isSelected)
+            // Sync checkbox state with isSelected property (for delegate recycling)
+            checked: root.isSelected
+
+            onCheckedChanged: {
+                if (checked !== root.isSelected) {
+                    root.isSelected = checked
+                    root.itemClicked(root.folderName, root.type, root.isSelected)
+                }
             }
 
             anchors {

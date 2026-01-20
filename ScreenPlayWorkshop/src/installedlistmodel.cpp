@@ -18,6 +18,12 @@ void InstalledListModel::init()
     loadInstalledContent();
 }
 
+void InstalledListModel::init(const QUrl& contentPath)
+{
+    m_absoluteStoragePath = contentPath;
+    loadInstalledContent();
+}
+
 int InstalledListModel::rowCount(const QModelIndex& parent) const
 {
     if (parent.isValid())

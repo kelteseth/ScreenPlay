@@ -75,10 +75,17 @@ bool SteamWorkshop::checkOnline()
 
 void SteamWorkshop::bulkUploadToWorkshop(QStringList absoluteStoragePaths)
 {
+    // Clear any leftover items from previous uploads
+    uploadListModel()->clearWhenFinished();
+
+    qInfo() << "bulkUploadToWorkshop called with" << absoluteStoragePaths.size() << "paths:" << absoluteStoragePaths;
+
     for (const QString& path : absoluteStoragePaths) {
-        qInfo() << "Append " << absoluteStoragePaths;
+        qInfo() << "Append " << path;
         uploadListModel()->append("", path, m_appID);
     }
+
+    qInfo() << "Model now has" << uploadListModel()->rowCount() << "items";
 }
 
 void SteamWorkshop::onWorkshopItemInstalled(ItemInstalled_t* itemInstalled)
@@ -208,7 +215,39 @@ void SteamWorkshop::subscribeItem(const QVariant publishedFileID)
     m_steamAccount->loadAmountSubscribedItems();
 }
 
-bool SteamWorkshop::searchWorkshop(const ScreenPlayWorkshop::Steam::EUGCQuery enumEUGCQuery)
+void SteamWorkshop::deleteItem(const QVariant publishedFileID)
+{
+    if (!checkOnline())
+        return;
+
+    m_deleteItemPublishedFileId = publishedFileID.toULongLong();
+    qInfo() << "Deleting workshop item:" << m_deleteItemPublishedFileId;
+
+    SteamAPICall_t hSteamAPICall = SteamUGC()->DeleteItem(m_deleteItemPublishedFileId);
+    m_steamUGCDeleteItem.Set(hSteamAPICall, this, &SteamWorkshop::onDeleteItemReturned);
+}
+
+void SteamWorkshop::onDeleteItemReturned(DeleteItemResult_t* pCallback, bool bIOFailure)
+{
+    if (bIOFailure) {
+        qWarning() << "onDeleteItemReturned IO Failure";
+        emit workshopItemDeleted(false, QVariant::fromValue<quint64>(m_deleteItemPublishedFileId));
+        return;
+    }
+
+    const bool success = (pCallback->m_eResult == k_EResultOK);
+    if (success) {
+        qInfo() << "Successfully deleted workshop item:" << m_deleteItemPublishedFileId;
+        m_workshopProfileListModel->removeByPublishedFileID(m_deleteItemPublishedFileId);
+    } else {
+        qWarning() << "Failed to delete workshop item:" << m_deleteItemPublishedFileId
+                   << "Result:" << pCallback->m_eResult;
+    }
+
+    emit workshopItemDeleted(success, QVariant::fromValue<quint64>(m_deleteItemPublishedFileId));
+}
+
+bool SteamWorkshop::searchWorkshop(const ScreenPlayCore::Steam::EUGCQuery enumEUGCQuery)
 {
     qInfo() << "searchWorkshop";
 
@@ -339,7 +378,7 @@ bool SteamWorkshop::queryWorkshopItemFromHandle(SteamWorkshopListModel* listMode
     return true;
 }
 
-void SteamWorkshop::searchWorkshopByText(const QString text, const ScreenPlayWorkshop::Steam::EUGCQuery rankedBy)
+void SteamWorkshop::searchWorkshopByText(const QString text, const ScreenPlayCore::Steam::EUGCQuery rankedBy)
 {
 
     qInfo() << "searchWorkshopByText" << text;

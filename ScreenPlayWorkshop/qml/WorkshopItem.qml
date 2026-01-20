@@ -4,6 +4,7 @@ import ScreenPlayWorkshop
 
 Item {
     id: root
+    objectName: "workshopItem" + itemIndex
 
     property url imgUrl
     property url additionalPreviewUrl

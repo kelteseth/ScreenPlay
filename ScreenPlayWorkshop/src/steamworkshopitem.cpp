@@ -26,16 +26,24 @@ void SteamWorkshopItem::checkUploadProgress()
     quint64 _bytesTotoal = 0;
     EItemUpdateStatus status = SteamUGC()->GetItemUpdateProgress(m_UGCUpdateHandle, &_itemProcessed, &_bytesTotoal);
 
-    qInfo() << absolutePath() << absolutePreviewImagePath() << name() << uploadProgress() << "% - " << _itemProcessed << _bytesTotoal << status;
+    const auto newState = static_cast<ScreenPlayCore::Steam::EItemUpdateStatus>(status);
+    const bool stateChanged = (newState != m_uploadState);
 
-    if (_bytesTotoal == 0)
-        return;
+    setUploadState(newState);
 
-    float progress = static_cast<float>(_itemProcessed) / static_cast<float>(_bytesTotoal);
+    // Only log when state changes to reduce console spam
+    if (stateChanged) {
+        qInfo() << name() << "state:" << status << "progress:" << uploadProgress() << "%";
+    }
 
-    // Floating sanity check. Sometimes the values are just way off
-    if (progress > 0.0f && progress < 1.0f)
-        setUploadProgress((progress * 100));
+    // Calculate progress from bytes if available
+    if (_bytesTotoal > 0) {
+        float progress = static_cast<float>(_itemProcessed) / static_cast<float>(_bytesTotoal);
+        // Clamp to valid range and convert to percentage
+        if (progress >= 0.0f && progress <= 1.0f) {
+            setUploadProgress(static_cast<int>(progress * 100));
+        }
+    }
 }
 void SteamWorkshopItem::uploadItemToWorkshop(CreateItemResult_t* pCallback, bool bIOFailure)
 {
@@ -189,7 +197,7 @@ void SteamWorkshopItem::submitItemUpdateStatus(SubmitItemUpdateResult_t* pCallba
     if (pCallback->m_bUserNeedsToAcceptWorkshopLegalAgreement)
         emit userNeedsToAcceptWorkshopLegalAgreement();
 
-    setStatus(static_cast<ScreenPlayWorkshop::Steam::EResult>(pCallback->m_eResult));
+    setStatus(static_cast<ScreenPlayCore::Steam::EResult>(pCallback->m_eResult));
 
     switch (pCallback->m_eResult) {
     case EResult::k_EResultOK: {

@@ -6,21 +6,51 @@ import ScreenPlayWorkshop
 
 Item {
     id: root
+    objectName: "uploadProjectPage"
 
     property ScreenPlayWorkshop screenPlayWorkshop
     property SteamWorkshop steamWorkshop
     property StackView stackView
 
+    // Selection model to track selected items across delegate recycling
+    property var selectedItems: ({})
+
+    // Reset state when page becomes visible
+    Component.onCompleted: resetState()
+
+    function resetState(): void {
+        selectedItems = {}
+        btnUploadProjects.enabled = false
+        btnFinish.enabled = false
+        view.currentIndex = 0
+    }
+
+    function toggleSelection(absoluteStoragePath: string, selected: bool): void {
+        if (selected) {
+            selectedItems[absoluteStoragePath] = true
+        } else {
+            delete selectedItems[absoluteStoragePath]
+        }
+        selectedItems = selectedItems // Trigger binding update
+        btnUploadProjects.enabled = Object.keys(selectedItems).length > 0
+    }
+
+    function isItemSelected(absoluteStoragePath: string): bool {
+        return absoluteStoragePath in selectedItems
+    }
+
     Item {
         id: headerWrapper
 
-        height: 50
+        height: 60
 
         anchors {
             top: parent.top
             right: parent.right
             left: parent.left
-            margins: 10
+            topMargin: 20
+            leftMargin: 10
+            rightMargin: 10
         }
 
         Text {
@@ -57,6 +87,7 @@ Item {
 
             GridView {
                 id: gridView
+                objectName: "uploadGridView"
 
                 boundsBehavior: Flickable.DragOverBounds
                 maximumFlickVelocity: 7000
@@ -86,14 +117,10 @@ Item {
                     publishedFileID: m_publishedFileID
                     preview: m_preview
                     itemIndex: index
-                    onItemClicked: {
-                        for (let childItem in gridView.contentItem.children) {
-                            if (gridView.contentItem.children[childItem].isSelected) {
-                                btnUploadProjects.enabled = true
-                                return
-                            }
-                        }
-                        btnUploadProjects.enabled = false
+                    // Restore selection state when delegate is recycled
+                    isSelected: root.isItemSelected(m_absoluteStoragePath)
+                    onItemClicked: (folderName, type, isActive) => {
+                        root.toggleSelection(m_absoluteStoragePath, isActive)
                     }
                 }
 
@@ -105,6 +132,7 @@ Item {
 
             Button {
                 id: btnAbort
+                objectName: "btnAbort"
 
                 text: qsTr("Abort")
                 onClicked: {
@@ -120,16 +148,16 @@ Item {
 
             Button {
                 id: btnUploadProjects
+                objectName: "btnUploadProjects"
 
                 text: qsTr("Upload Selected Projects")
                 highlighted: true
                 enabled: false
                 onClicked: {
-                    var uploadListArray = []
-                    for (let childItem in gridView.contentItem.children) {
-                        if (gridView.contentItem.children[childItem].isSelected)
-                            uploadListArray.push(gridView.contentItem.children[childItem].absoluteStoragePath)
-                    }
+                    // Disable immediately to prevent double-clicks
+                    btnUploadProjects.enabled = false
+                    // Use the selection model instead of iterating over visible delegates
+                    const uploadListArray = Object.keys(root.selectedItems)
                     view.currentIndex = 1
                     root.steamWorkshop.bulkUploadToWorkshop(uploadListArray)
                 }
@@ -154,21 +182,23 @@ Item {
                 cacheBuffer: 1000
                 clip: true
                 model: root.steamWorkshop.uploadListModel
-                width: parent.width - 50
                 spacing: 25
 
                 anchors {
                     top: parent.top
-                    horizontalCenter: parent.horizontalCenter
-                    bottom: parent.bottom
-                    margins: 10
+                    left: parent.left
+                    right: parent.right
+                    bottom: btnFinish.top
+                    margins: 25
                 }
 
                 delegate: UploadProjectItem {
+                    width: listView.width
                     previewImagePath: m_absolutePreviewImagePath
                     progress: m_uploadProgress
                     name: m_name
                     steamStatus: m_status
+                    uploadState: m_uploadState
                 }
 
                 ScrollBar.vertical: ScrollBar {
@@ -178,18 +208,21 @@ Item {
 
             Button {
                 id: btnFinish
+                objectName: "btnFinish"
 
                 text: qsTr("Finish")
                 highlighted: true
                 enabled: false
                 onClicked: {
-                    root.requestBack()
+                    root.steamWorkshop.uploadListModel.clearWhenFinished()
+                    root.resetState()
+                    root.stackView.pop()
                 }
 
                 anchors {
-                    right: parent.right
+                    right: listView.right
                     bottom: parent.bottom
-                    margins: 10
+                    bottomMargin: 25
                 }
 
                 Connections {
