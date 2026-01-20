@@ -15,6 +15,8 @@ SteamAccount::SteamAccount(QObject* parent)
 void SteamAccount::loadAvatar()
 {
     if (!m_avatar.isNull()) {
+        // Avatar already loaded, emit signal for any new listeners
+        emit avatarChanged(m_avatar);
         return;
     }
     int largeFriendAvatarHandle = SteamFriends()->GetLargeFriendAvatar(m_steamID);
@@ -72,7 +74,8 @@ void SteamAccount::onAvatarImageLoaded(AvatarImageLoaded_t* avatarImage)
         return;
     }
 
-    const QImage avatar { imageData.data(), static_cast<int>(width), static_cast<int>(height), QImage::Format_RGBA8888 };
+    // QImage constructor with data pointer doesn't copy - must call copy() to own the data
+    const QImage avatar = QImage { imageData.data(), static_cast<int>(width), static_cast<int>(height), QImage::Format_RGBA8888 }.copy();
     setAvatar(avatar);
     m_avatarLoaded = true;
 }
