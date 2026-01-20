@@ -180,6 +180,8 @@ Item {
 
             cellWidth: 330
             cellHeight: 190
+            flickDeceleration: 0.001
+            maximumFlickVelocity: 4000
             height: contentHeight
             interactive: false
             model: root.steamWorkshop.workshopListModel
