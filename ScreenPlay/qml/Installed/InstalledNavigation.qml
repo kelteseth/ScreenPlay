@@ -4,7 +4,7 @@ import QtQuick.Layouts
 import QtQuick.Controls.Material
 import QtQuick.Controls.Material.impl
 import ScreenPlay
-import ScreenPlayCore as Util
+import ScreenPlayCore as SPCore
 
 Item {
     id: root
@@ -32,7 +32,7 @@ Item {
         }
     }
 
-    Util.MouseHoverBlocker {}
+    SPCore.MouseHoverBlocker {}
 
     Item {
         height: nav.height
@@ -60,7 +60,7 @@ Item {
                 icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_installed.svg"
                 onClicked: {
                     root.installedDrawer.close()
-                    App.installedListFilter.sortBySearchType(Util.ContentTypes.SearchType.All)
+                    App.installedListFilter.sortBySearchType(SPCore.ContentTypes.SearchType.All)
                 }
             }
 
@@ -69,7 +69,7 @@ Item {
                 icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_code.svg"
                 onClicked: {
                     root.installedDrawer.close()
-                    App.installedListFilter.sortBySearchType(Util.ContentTypes.SearchType.Scene)
+                    App.installedListFilter.sortBySearchType(SPCore.ContentTypes.SearchType.Scene)
                 }
             }
 
@@ -78,7 +78,7 @@ Item {
                 icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_movie.svg"
                 onClicked: {
                     root.installedDrawer.close()
-                    App.installedListFilter.sortBySearchType(Util.ContentTypes.SearchType.Wallpaper)
+                    App.installedListFilter.sortBySearchType(SPCore.ContentTypes.SearchType.Wallpaper)
                 }
             }
 
@@ -87,7 +87,7 @@ Item {
                 icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_widgets.svg"
                 onClicked: {
                     root.installedDrawer.close()
-                    App.installedListFilter.sortBySearchType(Util.ContentTypes.SearchType.Widget)
+                    App.installedListFilter.sortBySearchType(SPCore.ContentTypes.SearchType.Widget)
                 }
             }
         }

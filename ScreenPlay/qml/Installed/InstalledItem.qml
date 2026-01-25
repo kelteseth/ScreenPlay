@@ -3,7 +3,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Effects
 import ScreenPlay
-import ScreenPlayCore as Util
+import ScreenPlayCore as SPCore
 
 Item {
     id: root
@@ -26,7 +26,7 @@ Item {
 
     // Using readonly properties avoids creating bindings when values are static
     readonly property bool hasLicense: {
-        if (App.globalVariables.isBasicVersion() && root.type === Util.ContentTypes.InstalledType.GodotWallpaper) {
+        if (App.globalVariables.isBasicVersion() && root.type === SPCore.ContentTypes.InstalledType.GodotWallpaper) {
             return false
         }
         return true

@@ -5,7 +5,7 @@ import QtQuick.Layouts
 import QtQuick.Effects
 import QtQuick.Controls.Material
 import QtQuick.Particles
-import ScreenPlayCore as Util
+import ScreenPlayCore as SPCore
 
 Popup {
     id: root
@@ -42,7 +42,7 @@ Popup {
         }
     }
 
-    Overlay.modal: Util.ModalBackgroundBlur {
+    Overlay.modal: SPCore.ModalBackgroundBlur {
         id: blurBg
         colorOverlayOpacity: .3
         blur: .5
@@ -52,7 +52,7 @@ Popup {
     background: Rectangle {
         color: Material.backgroundColor
         radius: 4
-        Util.RainbowGradient {
+        SPCore.RainbowGradient {
             id: proRainbowGradient
             visible: root.visible
             running: root.visible
@@ -98,7 +98,7 @@ Popup {
         }
     }
 
-    Util.RainbowGradient {
+    SPCore.RainbowGradient {
         id: bottomRainbowGradient
         visible: false
         running: root.visible

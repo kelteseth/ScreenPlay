@@ -5,7 +5,7 @@ import QtQuick.Layouts
 import QtQuick.Controls.Material
 import QtQuick.Controls.Material.impl
 import ScreenPlay
-import ScreenPlayCore as Util
+import ScreenPlayCore as SPCore
 import "qrc:/qt/qml/ScreenPlayCore/qml/InstantPopup.js" as InstantPopup
 import "../ContentSettings"
 import "../Components"
@@ -27,7 +27,7 @@ Drawer {
         btnLaunchContent.updateButtonEnabledState(0)
     }
     property bool hasPreviewGif: false
-    property int type: Util.ContentTypes.InstalledType.QMLWallpaper
+    property int type: SPCore.ContentTypes.InstalledType.QMLWallpaper
     property string contentFolderName
     property Item modalSource
 
@@ -62,7 +62,7 @@ Drawer {
         } else {
             imagePreview.source = previewImageFilePath
         }
-        if (type === Util.ContentTypes.InstalledType.VideoWallpaper)
+        if (type === SPCore.ContentTypes.InstalledType.VideoWallpaper)
             installedDrawerWrapper.state = "wallpaper"
         else
             installedDrawerWrapper.state = "scene"
@@ -78,14 +78,14 @@ Drawer {
         console.warn(LoggingCategories.installed, "CLEAR InstalledDrawer")
         root.close()
         root.contentFolderName = ""
-        root.type = Util.ContentTypes.InstalledType.Unknown
+        root.type = SPCore.ContentTypes.InstalledType.Unknown
         imagePreview.source = ""
         animatedImagePreview.source = ""
         txtHeadline.text = ""
         installedDrawerWrapper.state = "inactive"
     }
 
-    Util.Dialog {
+    SPCore.Dialog {
         id: updateGodotWallpaperDialog
         modal: true
         anchors.centerIn: Overlay.overlay
@@ -401,7 +401,7 @@ Drawer {
 
                         // Now use this model index with the data() method
                         const state = App.monitorListModel.data(modelIndex, MonitorListModel.MonitorRole.AppState)
-                        if (state == Util.ScreenPlayEnums.AppState.NotSet || state == Util.ScreenPlayEnums.AppState.Active) {
+                        if (state == SPCore.ScreenPlayEnums.AppState.NotSet || state == SPCore.ScreenPlayEnums.AppState.Active) {
                             btnLaunchContent.enabled = selectedAndValid
                             return
                         }
@@ -413,7 +413,7 @@ Drawer {
                     font.pointSize: 12
 
                     onClicked: {
-                        if (type === Util.ContentTypes.InstalledType.GodotWallpaper) {
+                        if (type === SPCore.ContentTypes.InstalledType.GodotWallpaper) {
                             if (App.globalVariables.isBasicVersion()) {
                                 InstantPopup.openErrorPopup(timeline, qsTr("You are not allowed to do that!"))
                                 installedDrawerWrapper.state = "inactive"
@@ -436,7 +436,7 @@ Drawer {
                             return
                         }
                         if (App.util.isWallpaper(root.type)) {
-                            if (type === Util.ContentTypes.InstalledType.GodotWallpaper) {
+                            if (type === SPCore.ContentTypes.InstalledType.GodotWallpaper) {
                                 if (!App.godotHandler.godotProjectExportExists(absoluteStoragePath)) {
                                     updateGodotWallpaperDialog.absoluteStoragePath = absoluteStoragePath
                                     updateGodotWallpaperDialog.activeMonitors = activeMonitors

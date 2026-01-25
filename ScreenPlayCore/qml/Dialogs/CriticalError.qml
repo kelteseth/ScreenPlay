@@ -5,9 +5,9 @@ import QtQuick.Controls.Material
 import QtQuick.Window
 import QtQuick.Effects
 import ScreenPlay
-import ScreenPlayCore as Util
+import ScreenPlayCore as SPCore
 
-Util.Dialog {
+SPCore.Dialog {
     id: root
     property ApplicationWindow applicationWindow
     property string message

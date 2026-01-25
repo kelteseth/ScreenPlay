@@ -4,7 +4,7 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Dialogs
 import ScreenPlay
-import ScreenPlayCore as Util
+import ScreenPlayCore as SPCore
 import "../../"
 
 Item {
@@ -26,7 +26,7 @@ Item {
             margins: 20
         }
 
-        Util.Headline {
+        SPCore.Headline {
             Layout.fillWidth: true
             text: qsTr("Import Video Wallpaper")
         }

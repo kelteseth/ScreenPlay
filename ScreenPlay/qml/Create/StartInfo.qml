@@ -2,12 +2,12 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import ScreenPlay
-import ScreenPlayCore as Util
+import ScreenPlayCore as SPCore
 
 Item {
     id: root
 
-    Util.Headline {
+    SPCore.Headline {
         id: headline
 
         text: qsTr("Free tools to help you to create wallpaper")
@@ -36,12 +36,10 @@ Item {
         }
     }
 
-    GridView {
+    SPCore.MaterialGridView {
         id: gridView
 
         boundsBehavior: Flickable.DragOverBounds
-        maximumFlickVelocity: 2500
-        flickDeceleration: 500
         clip: true
         cellWidth: 180
         cellHeight: 280

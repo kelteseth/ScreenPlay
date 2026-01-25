@@ -25,6 +25,7 @@ set(QML
     qml/CloseIcon.qml
     qml/ColorImage.qml
     qml/Dialog.qml
+    qml/MaterialGridView.qml
     qml/Dialogs/CriticalError.qml
     qml/Dialogs/MonitorConfiguration.qml
     qml/Dialogs/SteamNotAvailable.qml

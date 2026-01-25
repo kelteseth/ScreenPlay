@@ -4,7 +4,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import ScreenPlay
 
-import ScreenPlayCore as Util
+import ScreenPlayCore as SPCore
 
 WizardPage {
     id: root
@@ -22,7 +22,7 @@ WizardPage {
 
         onReadyChanged: root.ready = ready
 
-        Util.Headline {
+        SPCore.Headline {
             id: txtHeadline
 
             text: qsTr("Import a Gif Wallpaper")
@@ -106,7 +106,7 @@ WizardPage {
                     Layout.preferredHeight: 20
                 }
 
-                Util.FileSelector {
+                SPCore.FileSelector {
                     id: fileSelector
 
                     Layout.fillWidth: true
@@ -123,11 +123,11 @@ WizardPage {
                 Layout.fillHeight: true
                 Layout.preferredWidth: root.width * 0.5
 
-                Util.HeadlineSection {
+                SPCore.HeadlineSection {
                     text: qsTr("General")
                 }
 
-                Util.TextField {
+                SPCore.TextField {
                     id: tfTitle
 
                     Layout.fillWidth: true
@@ -135,24 +135,24 @@ WizardPage {
                     required: true
                 }
 
-                Util.TextField {
+                SPCore.TextField {
                     id: tfCreatedBy
 
                     Layout.fillWidth: true
                     placeholderText: qsTr("Created By")
                 }
 
-                Util.LicenseSelector {
+                SPCore.LicenseSelector {
                     id: cbLicense
 
                     Layout.fillWidth: true
                 }
 
-                Util.HeadlineSection {
+                SPCore.HeadlineSection {
                     text: qsTr("Tags")
                 }
 
-                Util.TagSelector {
+                SPCore.TagSelector {
                     id: tagSelector
 
                     Layout.fillWidth: true

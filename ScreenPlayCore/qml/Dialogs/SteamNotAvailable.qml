@@ -1,9 +1,9 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import ScreenPlayCore as Util
+import ScreenPlayCore as SPCore
 
-Util.Dialog {
+SPCore.Dialog {
     id: root
 
     standardButtons: Dialog.Ok

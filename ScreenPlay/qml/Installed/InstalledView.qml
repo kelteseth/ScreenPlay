@@ -6,7 +6,7 @@ import QtQuick.Effects
 import QtQuick.Controls.Material
 import QtCore as QCore
 import ScreenPlay
-import ScreenPlayCore as Util
+import ScreenPlayCore as SPCore
 import "../Components"
 import "qrc:/qt/qml/ScreenPlayCore/qml/InstantPopup.js" as InstantPopup
 
@@ -81,7 +81,7 @@ Item {
         target: App.installedListFilter
     }
 
-    GridView {
+    SPCore.MaterialGridView {
         id: gridView
         objectName: "gridView"
         visible: root.installedLoadingFinished
@@ -94,10 +94,7 @@ Item {
         anchors.fill: parent
         cellWidth: 340
         cellHeight: 200
-        // cacheBuffer: 300
         interactive: root.enabled
-        flickDeceleration: 0.001
-        maximumFlickVelocity: 4000
         onDragStarted: isDragging = true
         onDragEnded: isDragging = false
         model: App.installedListFilter
@@ -132,7 +129,7 @@ Item {
                 // call popup when we are in the closing animtion.
                 if (contextMenu.visible || contextMenu.opened)
                     return
-                if (delegate.type === Util.ContentTypes.InstalledType.GodotWallpaper) {
+                if (delegate.type === SPCore.ContentTypes.InstalledType.GodotWallpaper) {
                     contextMenu.editGodotItem = editGodotWallpaperComp.createObject()
                     contextMenu.insertItem(0, contextMenu.editGodotItem)
                     contextMenu.updateGodotItem = updateGodotWallpaperComp.createObject()
@@ -216,7 +213,7 @@ Item {
         MenuItem {
             text: qsTr("Edit in Godot Editor")
             objectName: "editWallpaper"
-            enabled: contextMenu.type === Util.ContentTypes.InstalledType.GodotWallpaper
+            enabled: contextMenu.type === SPCore.ContentTypes.InstalledType.GodotWallpaper
             icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_edit.svg"
             onClicked: {
                 App.godotHandler.openGodotEditor(contextMenu.absoluteStoragePath, App.globalVariables.godotEditorExecutablePath)
@@ -224,7 +221,7 @@ Item {
         }
     }
 
-    Util.Dialog {
+    SPCore.Dialog {
         id: userManualUpdateGodotWallpaperDialog
         modal: true
         anchors.centerIn: Overlay.overlay
@@ -267,7 +264,7 @@ Item {
         MenuItem {
             text: qsTr("Update Godot Wallpaper")
             objectName: "editWallpaper"
-            enabled: contextMenu.type === Util.ContentTypes.InstalledType.GodotWallpaper
+            enabled: contextMenu.type === SPCore.ContentTypes.InstalledType.GodotWallpaper
             icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_cached.svg"
             onClicked: userManualUpdateGodotWallpaperDialog.open()
             hoverEnabled: true
@@ -340,7 +337,7 @@ Item {
             }
         }
     }
-    Util.Dialog {
+    SPCore.Dialog {
         id: deleteDialog
         title: qsTr("Are you sure you want to delete this item?")
         standardButtons: Dialog.Ok | Dialog.Cancel
@@ -365,7 +362,7 @@ Item {
         }
     }
 
-    Util.Dialog {
+    SPCore.Dialog {
         id: exportFileProgressDialog
         modal: true
         anchors.centerIn: Overlay.overlay
@@ -408,7 +405,7 @@ Item {
         }
     }
 
-    Util.SPArchive {
+    SPCore.SPArchive {
         id: archive
     }
 
@@ -442,7 +439,7 @@ Item {
             dropPopup.close()
         }
 
-        Util.Dialog {
+        SPCore.Dialog {
             id: importProjectErrorDialog
             modal: true
             modalSource: root.modalSource
@@ -450,7 +447,7 @@ Item {
             standardButtons: Dialog.Ok
             onAccepted: importProjectErrorDialog.close()
         }
-        Util.Dialog {
+        SPCore.Dialog {
             id: importDialog
             modal: true
             modalSource: root.modalSource
@@ -565,7 +562,7 @@ Item {
         }
     }
 
-    Util.RainbowGradient {
+    SPCore.RainbowGradient {
         id: rainbowGradient
         visible: false
         running: noInstalledContentView.enabled
@@ -619,7 +616,7 @@ Item {
         background: Rectangle {
             color: Material.backgroundColor
 
-            Util.RainbowGradient {
+            SPCore.RainbowGradient {
                 id: inlineRainbowGradient
                 visible: noInstalledContentView.visible
                 running: visible
@@ -761,7 +758,7 @@ Item {
             dropArea.enabled = true
         }
 
-        Util.FileDropAnimation {
+        SPCore.FileDropAnimation {
             id: fileDropAnimation
             anchors.centerIn: parent
         }

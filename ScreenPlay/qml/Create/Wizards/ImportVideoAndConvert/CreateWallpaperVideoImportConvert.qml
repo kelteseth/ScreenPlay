@@ -4,14 +4,14 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 import ScreenPlay
 
-import ScreenPlayCore as Util
+import ScreenPlayCore as SPCore
 
 Item {
     id: root
 
     property bool conversionFinishedSuccessful: false
     property bool canSave: false
-    property var codec: Util.Video.VideoCodec.H264
+    property var codec: SPCore.Video.VideoCodec.H264
     property string filePath
 
     signal abort
@@ -217,7 +217,7 @@ Item {
             }
         }
 
-        Util.ImageSelector {
+        SPCore.ImageSelector {
             id: previewSelector
 
             height: 80
@@ -258,7 +258,7 @@ Item {
                 bottomMargin: 50
             }
 
-            Util.TextField {
+            SPCore.TextField {
                 id: textFieldName
 
                 placeholderText: qsTr("Name (required!)")
@@ -272,7 +272,7 @@ Item {
                 }
             }
 
-            Util.TextField {
+            SPCore.TextField {
                 id: textFieldDescription
 
                 placeholderText: qsTr("Description")
@@ -280,7 +280,7 @@ Item {
                 Layout.fillWidth: true
             }
 
-            Util.TextField {
+            SPCore.TextField {
                 id: textFieldYoutubeURL
 
                 placeholderText: qsTr("Youtube URL")
@@ -288,7 +288,7 @@ Item {
                 Layout.fillWidth: true
             }
 
-            Util.TagSelector {
+            SPCore.TagSelector {
                 id: textFieldTags
 
                 width: parent.width

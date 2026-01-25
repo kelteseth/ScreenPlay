@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import ScreenPlayWorkshop
+import ScreenPlayCore as SPCore
 
 Item {
     id: root
@@ -31,7 +32,8 @@ Item {
         } else {
             delete selectedItems[absoluteStoragePath]
         }
-        selectedItems = selectedItems // Trigger binding update
+        selectedItems = selectedItems;
+        // Trigger binding update
         btnUploadProjects.enabled = Object.keys(selectedItems).length > 0
     }
 
@@ -85,13 +87,12 @@ Item {
         Item {
             id: firstPage
 
-            GridView {
+            SPCore.MaterialGridView {
                 id: gridView
                 objectName: "uploadGridView"
 
                 boundsBehavior: Flickable.DragOverBounds
-                maximumFlickVelocity: 7000
-                flickDeceleration: 5000
+
                 cellWidth: parent.width
                 cellHeight: 250
                 clip: true
@@ -155,7 +156,7 @@ Item {
                 enabled: false
                 onClicked: {
                     // Disable immediately to prevent double-clicks
-                    btnUploadProjects.enabled = false
+                    btnUploadProjects.enabled = false;
                     // Use the selection model instead of iterating over visible delegates
                     const uploadListArray = Object.keys(root.selectedItems)
                     view.currentIndex = 1

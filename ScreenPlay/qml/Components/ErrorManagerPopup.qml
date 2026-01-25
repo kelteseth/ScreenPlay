@@ -7,7 +7,7 @@ import QtQuick.Layouts
 import QtQuick.Effects
 import QtQuick.Controls.Material.impl
 import ScreenPlay
-import ScreenPlayCore as Util
+import ScreenPlayCore as SPCore
 import "qrc:/qt/qml/ScreenPlayCore/qml/InstantPopup.js" as InstantPopup
 
 Dialog {
@@ -62,7 +62,7 @@ Dialog {
         ignoreUnknownSignals: true
     }
 
-    Overlay.modal: Util.ModalBackgroundBlur {
+    Overlay.modal: SPCore.ModalBackgroundBlur {
         id: blurBg
         sourceItem: root.modalSource
         colorOverlayOpacity: .4

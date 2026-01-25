@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import ScreenPlayWorkshop
+import ScreenPlayCore as SPCore
 import "upload/"
 
 Item {
@@ -71,12 +72,10 @@ Item {
             }
         }
 
-        GridView {
+        SPCore.MaterialGridView {
             id: gridView
             objectName: "profileGridView"
 
-            maximumFlickVelocity: 7000
-            flickDeceleration: 5000
             cellWidth: 330
             cellHeight: 220
             height: contentHeight

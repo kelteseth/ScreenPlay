@@ -3,7 +3,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import ScreenPlayWorkshop
-import ScreenPlayCore as Util
+import ScreenPlayCore as SPCore
 import "upload/"
 
 Item {
@@ -175,13 +175,11 @@ Item {
             }
         }
 
-        GridView {
+        SPCore.MaterialGridView {
             id: gridView
 
             cellWidth: 330
             cellHeight: 190
-            flickDeceleration: 0.001
-            maximumFlickVelocity: 4000
             height: contentHeight
             interactive: false
             model: root.steamWorkshop.workshopListModel
@@ -322,7 +320,7 @@ Item {
                                 print("EDITING FINISHED", root.state)
                                 if (tiSearch.text === "") {
                                     Qt.callLater(function () {
-                                        root.steamWorkshop.searchWorkshop(Util.Steam.EUGCQuery.K_EUGCQuery_RankedByTrend)
+                                        root.steamWorkshop.searchWorkshop(SPCore.Steam.EUGCQuery.K_EUGCQuery_RankedByTrend)
                                     })
                                     return
                                 }
@@ -348,7 +346,7 @@ Item {
                                     root.state = "searching"
                                     tiSearch.clear()
                                     Qt.callLater(function () {
-                                        root.steamWorkshop.searchWorkshop(Util.Steam.EUGCQuery.K_EUGCQuery_RankedByTrend)
+                                        root.steamWorkshop.searchWorkshop(SPCore.Steam.EUGCQuery.K_EUGCQuery_RankedByTrend)
                                     })
                                     return
                                 }
@@ -405,43 +403,43 @@ Item {
                         Layout.preferredHeight: searchWrapper.height
                         model: [
                             {
-                                "value": Util.Steam.EUGCQuery.K_EUGCQuery_RankedByVote,
+                                "value": SPCore.Steam.EUGCQuery.K_EUGCQuery_RankedByVote,
                                 "text": qsTr("Ranked By Vote")
                             },
                             {
-                                "value": Util.Steam.EUGCQuery.K_EUGCQuery_RankedByPublicationDate,
+                                "value": SPCore.Steam.EUGCQuery.K_EUGCQuery_RankedByPublicationDate,
                                 "text": qsTr("Publication Date")
                             },
                             {
-                                "value": Util.Steam.EUGCQuery.K_EUGCQuery_RankedByTrend,
+                                "value": SPCore.Steam.EUGCQuery.K_EUGCQuery_RankedByTrend,
                                 "text": qsTr("Ranked By Trend")
                             },
                             {
-                                "value": Util.Steam.EUGCQuery.K_EUGCQuery_FavoritedByFriendsRankedByPublicationDate,
+                                "value": SPCore.Steam.EUGCQuery.K_EUGCQuery_FavoritedByFriendsRankedByPublicationDate,
                                 "text": qsTr("Favorited By Friends")
                             },
                             {
-                                "value": Util.Steam.EUGCQuery.K_EUGCQuery_CreatedByFriendsRankedByPublicationDate,
+                                "value": SPCore.Steam.EUGCQuery.K_EUGCQuery_CreatedByFriendsRankedByPublicationDate,
                                 "text": qsTr("Created By Friends")
                             },
                             {
-                                "value": Util.Steam.EUGCQuery.K_EUGCQuery_CreatedByFollowedUsersRankedByPublicationDate,
+                                "value": SPCore.Steam.EUGCQuery.K_EUGCQuery_CreatedByFollowedUsersRankedByPublicationDate,
                                 "text": qsTr("Created By Followed Users")
                             },
                             {
-                                "value": Util.Steam.EUGCQuery.K_EUGCQuery_NotYetRated,
+                                "value": SPCore.Steam.EUGCQuery.K_EUGCQuery_NotYetRated,
                                 "text": qsTr("Not Yet Rated")
                             },
                             {
-                                "value": Util.Steam.EUGCQuery.K_EUGCQuery_RankedByTotalVotesAsc,
+                                "value": SPCore.Steam.EUGCQuery.K_EUGCQuery_RankedByTotalVotesAsc,
                                 "text": qsTr("Total VotesAsc")
                             },
                             {
-                                "value": Util.Steam.EUGCQuery.K_EUGCQuery_RankedByVotesUp,
+                                "value": SPCore.Steam.EUGCQuery.K_EUGCQuery_RankedByVotesUp,
                                 "text": qsTr("Votes Up")
                             },
                             {
-                                "value": Util.Steam.EUGCQuery.K_EUGCQuery_RankedByTotalUniqueSubscriptions,
+                                "value": SPCore.Steam.EUGCQuery.K_EUGCQuery_RankedByTotalUniqueSubscriptions,
                                 "text": qsTr("Total Unique Subscriptions")
                             }
                         ]
@@ -496,7 +494,7 @@ Item {
                     onClicked: {
                         root.state = "searching"
                         root.steamWorkshop.workshopListModel.setCurrentPage(root.steamWorkshop.workshopListModel.currentPage - 1)
-                        root.steamWorkshop.searchWorkshop(Util.Steam.EUGCQuery.K_EUGCQuery_RankedByTrend)
+                        root.steamWorkshop.searchWorkshop(SPCore.Steam.EUGCQuery.K_EUGCQuery_RankedByTrend)
                     }
                 }
 
@@ -517,7 +515,7 @@ Item {
                     onClicked: {
                         root.state = "searching"
                         root.steamWorkshop.workshopListModel.setCurrentPage(root.steamWorkshop.workshopListModel.currentPage + 1)
-                        root.steamWorkshop.searchWorkshop(Util.Steam.EUGCQuery.K_EUGCQuery_RankedByTrend)
+                        root.steamWorkshop.searchWorkshop(SPCore.Steam.EUGCQuery.K_EUGCQuery_RankedByTrend)
                     }
                 }
 
