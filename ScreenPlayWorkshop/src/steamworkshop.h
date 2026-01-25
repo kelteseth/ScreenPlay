@@ -82,9 +82,12 @@ public slots:
     void bulkUploadToWorkshop(QStringList absoluteStoragePaths);
     void requestUserItems();
     void requestWorkshopItemDetails(const QVariant publishedFileID);
+    void requestProfileItemDetails(const QVariant publishedFileID);
     void vote(const QVariant publishedFileID, const bool voteUp);
     void subscribeItem(const QVariant publishedFileID);
     void deleteItem(const QVariant publishedFileID);
+    void updateItemVisibility(const QVariant publishedFileID, const int visibility);
+    void updateItemMetadata(const QVariant publishedFileID, const QString& title, const QString& description, const QStringList& tags);
     bool searchWorkshop(const ScreenPlayCore::Steam::EUGCQuery enumEUGCQuery);
     void searchWorkshopByText(const QString text, const ScreenPlayCore::Steam::EUGCQuery rankedBy = ScreenPlayCore::Steam::EUGCQuery::K_EUGCQuery_RankedByTrend);
 
@@ -196,6 +199,32 @@ signals:
         const QVariant fileSize,
         const QVariant publishedFileId);
 
+    void requestProfileItemDetailReturned(
+        const QVariant publishedFileId,
+        const QString& title,
+        const QString& description,
+        const QStringList& tags,
+        const qulonglong steamIDOwner,
+        const quint64 votesUp,
+        const quint64 votesDown,
+        const float score,
+        const QString& url,
+        const QVariant fileSize,
+        const QVariant totalFileSize,
+        const QString& previewUrl,
+        const quint32 timeCreated,
+        const quint32 timeUpdated,
+        const int visibility,
+        const bool banned,
+        const bool acceptedForUse,
+        const quint64 subscriptionCount,
+        const quint64 favoriteCount,
+        const quint64 followerCount,
+        const quint64 uniqueWebsiteViews,
+        const quint32 numChildren);
+
+    void workshopItemMetadataUpdated(bool success, QVariant publishedFileID);
+
     void workshopProfileListModelChanged(SteamWorkshopListModel*);
 
     void steamErrorRestartChanged();
@@ -228,6 +257,19 @@ private:
     CCallResult<SteamWorkshop, SteamUGCQueryCompleted_t> m_steamUGCItemDetails;
     UGCQueryHandle_t m_UGCRegquestItemDetailHandle = 0;
     SteamAPICall_t m_UGCRegquestItemDetailCall = 0;
+
+    // Profile Item detail (with statistics)
+    void onRequestProfileItemDetailReturned(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure);
+    CCallResult<SteamWorkshop, SteamUGCQueryCompleted_t> m_steamUGCProfileItemDetails;
+
+    // Visibility update
+    void onUpdateItemVisibilityReturned(SubmitItemUpdateResult_t* pCallback, bool bIOFailure);
+    CCallResult<SteamWorkshop, SubmitItemUpdateResult_t> m_steamUGCUpdateVisibility;
+
+    // Metadata update (title, description, tags)
+    void onUpdateItemMetadataReturned(SubmitItemUpdateResult_t* pCallback, bool bIOFailure);
+    CCallResult<SteamWorkshop, SubmitItemUpdateResult_t> m_steamUGCUpdateMetadata;
+    PublishedFileId_t m_updateMetadataPublishedFileId = 0;
 
     UGCQueryHandle_t m_searchHandle = 0;
 

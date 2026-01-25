@@ -166,11 +166,12 @@ Drawer {
             spacing: 20
 
             ColumnLayout {
-                Layout.maximumWidth: 280
-                Layout.alignment: Qt.AlignHCenter
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                spacing: 20
 
                 RowLayout {
-                    Layout.fillWidth: true
+                    Layout.maximumWidth: 280
+                    Layout.alignment: Qt.AlignHCenter
                     spacing: 20
 
                     ToolButton {
@@ -178,7 +179,7 @@ Drawer {
 
                         Layout.fillWidth: true
                         icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_thumb_up.svg"
-                        icon.color: "transparent"
+                        icon.color: Material.iconColor
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("Click here if you like the content")
                         onClicked: {
@@ -193,7 +194,7 @@ Drawer {
 
                         Layout.fillWidth: true
                         icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_thumb_down.svg"
-                        icon.color: "transparent"
+                        icon.color: Material.iconColor
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("Click here if you do not like the content")
                         onClicked: {
@@ -218,6 +219,7 @@ Drawer {
 
             Flickable {
                 id: tagsFlickable
+                Layout.alignment: Qt.AlignTop
                 Layout.preferredHeight: 55
                 Layout.maximumHeight: 55
                 Layout.fillWidth: true
@@ -256,6 +258,7 @@ Drawer {
 
             RowLayout {
                 Layout.fillWidth: true
+                Layout.alignment: Qt.AlignTop
                 spacing: 20
 
                 Text {
@@ -283,6 +286,7 @@ Drawer {
             Rectangle {
                 Layout.fillWidth: true
                 Layout.minimumHeight: 150
+                Layout.alignment: Qt.AlignTop
                 //txtDescription.paintedHeight > 100
                 color: Material.backgroundColor
                 radius: 3

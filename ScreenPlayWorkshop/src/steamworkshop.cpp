@@ -134,6 +134,162 @@ void SteamWorkshop::onRequestItemDetailReturned(SteamUGCQueryCompleted_t* pCallb
             qWarning() << "GetQueryUGCResult failed!";
         }
     }
+    SteamUGC()->ReleaseQueryUGCRequest(pCallback->m_handle);
+}
+
+void SteamWorkshop::requestProfileItemDetails(const QVariant publishedFileID)
+{
+    if (!checkAndSetQueryActive())
+        return;
+
+    if (!checkOnline())
+        return;
+
+    auto id = publishedFileID.toULongLong();
+    auto handle = SteamUGC()->CreateQueryUGCDetailsRequest(&id, 1);
+    SteamUGC()->SetReturnLongDescription(handle, true);
+    SteamUGC()->SetReturnKeyValueTags(handle, true);
+    SteamUGC()->SetReturnChildren(handle, true);
+    auto apiCall = SteamUGC()->SendQueryUGCRequest(handle);
+    m_steamUGCProfileItemDetails.Set(apiCall, this, &SteamWorkshop::onRequestProfileItemDetailReturned);
+}
+
+void SteamWorkshop::onRequestProfileItemDetailReturned(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure)
+{
+    m_queryActive = false;
+    if (bIOFailure) {
+        qWarning() << "onRequestProfileItemDetailReturned bIOFailure" << bIOFailure;
+        return;
+    }
+
+    SteamUGCDetails_t details;
+    for (uint32 i = 0; i < pCallback->m_unTotalMatchingResults; ++i) {
+        if (SteamUGC()->GetQueryUGCResult(pCallback->m_handle, i, &details)) {
+            const int urlLength = 512;
+            char previewUrl[urlLength];
+            SteamUGC()->GetQueryUGCPreviewURL(pCallback->m_handle, i, previewUrl, urlLength);
+
+            quint64 subscriptionCount = 0;
+            quint64 favoriteCount = 0;
+            quint64 followerCount = 0;
+            quint64 uniqueWebsiteViews = 0;
+            SteamUGC()->GetQueryUGCStatistic(pCallback->m_handle, i, EItemStatistic::k_EItemStatistic_NumSubscriptions, &subscriptionCount);
+            SteamUGC()->GetQueryUGCStatistic(pCallback->m_handle, i, EItemStatistic::k_EItemStatistic_NumFavorites, &favoriteCount);
+            SteamUGC()->GetQueryUGCStatistic(pCallback->m_handle, i, EItemStatistic::k_EItemStatistic_NumFollowers, &followerCount);
+            SteamUGC()->GetQueryUGCStatistic(pCallback->m_handle, i, EItemStatistic::k_EItemStatistic_NumUniqueWebsiteViews, &uniqueWebsiteViews);
+
+            emit requestProfileItemDetailReturned(
+                QVariant::fromValue<uint64>(details.m_nPublishedFileId),
+                QString::fromUtf8(details.m_rgchTitle),
+                QString::fromUtf8(details.m_rgchDescription),
+                QString::fromUtf8(details.m_rgchTags).split(","),
+                details.m_ulSteamIDOwner,
+                details.m_unVotesUp,
+                details.m_unVotesDown,
+                details.m_flScore,
+                QString::fromUtf8(details.m_rgchURL),
+                QVariant::fromValue<int32>(details.m_nFileSize),
+                QVariant::fromValue<uint64>(details.m_ulTotalFilesSize),
+                QString::fromUtf8(previewUrl),
+                details.m_rtimeCreated,
+                details.m_rtimeUpdated,
+                static_cast<int>(details.m_eVisibility),
+                details.m_bBanned,
+                details.m_bAcceptedForUse,
+                subscriptionCount,
+                favoriteCount,
+                followerCount,
+                uniqueWebsiteViews,
+                details.m_unNumChildren);
+        } else {
+            qWarning() << "GetQueryUGCResult failed for profile item!";
+        }
+    }
+    SteamUGC()->ReleaseQueryUGCRequest(pCallback->m_handle);
+}
+
+void SteamWorkshop::updateItemVisibility(const QVariant publishedFileID, const int visibility)
+{
+    if (!checkOnline())
+        return;
+
+    auto id = publishedFileID.toULongLong();
+    auto updateHandle = SteamUGC()->StartItemUpdate(m_appID, id);
+    SteamUGC()->SetItemVisibility(updateHandle, static_cast<ERemoteStoragePublishedFileVisibility>(visibility));
+    auto apiCall = SteamUGC()->SubmitItemUpdate(updateHandle, "Visibility update");
+    m_steamUGCUpdateVisibility.Set(apiCall, this, &SteamWorkshop::onUpdateItemVisibilityReturned);
+}
+
+void SteamWorkshop::onUpdateItemVisibilityReturned(SubmitItemUpdateResult_t* pCallback, bool bIOFailure)
+{
+    if (bIOFailure) {
+        qWarning() << "onUpdateItemVisibilityReturned IO Failure";
+        return;
+    }
+
+    const bool success = (pCallback->m_eResult == k_EResultOK);
+    if (success) {
+        qInfo() << "Successfully updated item visibility:" << pCallback->m_nPublishedFileId;
+    } else {
+        qWarning() << "Failed to update item visibility:" << pCallback->m_nPublishedFileId
+                   << "Result:" << pCallback->m_eResult;
+    }
+}
+
+void SteamWorkshop::updateItemMetadata(const QVariant publishedFileID, const QString& title, const QString& description, const QStringList& tags)
+{
+    if (!checkOnline())
+        return;
+
+    m_updateMetadataPublishedFileId = publishedFileID.toULongLong();
+    auto updateHandle = SteamUGC()->StartItemUpdate(m_appID, m_updateMetadataPublishedFileId);
+
+    if (!title.isEmpty()) {
+        SteamUGC()->SetItemTitle(updateHandle, title.toUtf8().constData());
+    }
+
+    if (!description.isEmpty()) {
+        SteamUGC()->SetItemDescription(updateHandle, description.toUtf8().constData());
+    }
+
+    if (!tags.isEmpty()) {
+        QVector<QByteArray> tagBytes;
+        QVector<const char*> tagPointers;
+        for (const auto& tag : tags) {
+            if (!tag.isEmpty() && tag.length() <= 255) {
+                tagBytes.append(tag.toUtf8());
+                tagPointers.append(tagBytes.last().constData());
+            }
+        }
+
+        if (!tagPointers.isEmpty()) {
+            SteamParamStringArray_t steamTags;
+            steamTags.m_ppStrings = tagPointers.data();
+            steamTags.m_nNumStrings = tagPointers.size();
+            SteamUGC()->SetItemTags(updateHandle, &steamTags);
+        }
+    }
+
+    auto apiCall = SteamUGC()->SubmitItemUpdate(updateHandle, "Metadata update");
+    m_steamUGCUpdateMetadata.Set(apiCall, this, &SteamWorkshop::onUpdateItemMetadataReturned);
+}
+
+void SteamWorkshop::onUpdateItemMetadataReturned(SubmitItemUpdateResult_t* pCallback, bool bIOFailure)
+{
+    if (bIOFailure) {
+        qWarning() << "onUpdateItemMetadataReturned IO Failure";
+        emit workshopItemMetadataUpdated(false, QVariant::fromValue<quint64>(m_updateMetadataPublishedFileId));
+        return;
+    }
+
+    const bool success = (pCallback->m_eResult == k_EResultOK);
+    if (success) {
+        qInfo() << "Successfully updated item metadata:" << pCallback->m_nPublishedFileId;
+    } else {
+        qWarning() << "Failed to update item metadata:" << pCallback->m_nPublishedFileId
+                   << "Result:" << pCallback->m_eResult;
+    }
+    emit workshopItemMetadataUpdated(success, QVariant::fromValue<quint64>(pCallback->m_nPublishedFileId));
 }
 
 bool SteamWorkshop::steamErrorAPIInit() const

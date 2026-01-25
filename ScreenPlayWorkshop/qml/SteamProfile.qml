@@ -4,15 +4,22 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 import ScreenPlayWorkshop
 import ScreenPlayCore as SPCore
-import "upload/"
 
+/*!
+    \qmltype SteamProfile
+    \brief Displays the user's Steam Workshop profile with their published items.
+
+    Shows a grid of the user's workshop items that can be clicked to view
+    detailed information and manage the item.
+*/
 Item {
     id: root
     objectName: "WorkshopProfilePage"
 
-    property ScreenPlayWorkshop screenPlayWorkshop
-    property SteamWorkshop steamWorkshop
-    property StackView stackView
+    required property ScreenPlayWorkshop screenPlayWorkshop
+    required property SteamWorkshop steamWorkshop
+    required property StackView stackView
+
     StackView.onActivated: root.steamWorkshop.requestUserItems()
 
     Flickable {
@@ -39,6 +46,7 @@ Item {
                     verticalCenter: parent.verticalCenter
                 }
                 spacing: 20
+
                 SteamImage {
                     id: avatar
 
@@ -49,7 +57,7 @@ Item {
                     }
 
                     Connections {
-                        function onAvatarChanged(_avatar) {
+                        function onAvatarChanged(_avatar: var): void {
                             avatar.setImage(_avatar)
                         }
 
@@ -65,9 +73,7 @@ Item {
 
                 Button {
                     text: qsTr("Back")
-                    onClicked: {
-                        stackView.pop()
-                    }
+                    onClicked: root.stackView.pop()
                 }
             }
         }
@@ -77,7 +83,7 @@ Item {
             objectName: "profileGridView"
 
             cellWidth: 330
-            cellHeight: 220
+            cellHeight: 190
             height: contentHeight
             interactive: false
             model: root.steamWorkshop.workshopProfileListModel
@@ -92,6 +98,8 @@ Item {
             }
 
             delegate: Item {
+                id: delegateItem
+
                 width: gridView.cellWidth
                 height: gridView.cellHeight
                 objectName: "profileWorkshopItem" + index
@@ -107,37 +115,23 @@ Item {
                     steamWorkshop: root.steamWorkshop
 
                     anchors {
-                        top: parent.top
-                        left: parent.left
-                        right: parent.right
-                    }
-                }
-
-                Button {
-                    id: btnDeleteItem
-                    objectName: "btnDeleteItem" + index
-                    text: qsTr("Delete")
-                    icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_close.svg"
-                    icon.color: "white"
-                    Material.background: Material.Red
-
-                    anchors {
-                        top: workshopItem.bottom
-                        topMargin: 5
-                        horizontalCenter: parent.horizontalCenter
+                        fill: parent
+                        margins: 5
                     }
 
-                    onClicked: {
-                        deleteConfirmDialog.publishedFileID = m_publishedFileID
-                        deleteConfirmDialog.itemName = m_workshopTitle
-                        deleteConfirmDialog.open()
+                    onClicked: (publishedFileID, imgUrl) => {
+                        root.stackView.push("qrc:/qt/qml/ScreenPlayWorkshop/qml/SteamProfileWorkshopItem.qml", {
+                            "stackView": root.stackView,
+                            "steamWorkshop": root.steamWorkshop,
+                            "publishedFileID": publishedFileID,
+                            "previewImageUrl": imgUrl
+                        })
                     }
                 }
             }
 
             ScrollBar.vertical: ScrollBar {
                 id: workshopScrollBar
-
                 snapMode: ScrollBar.SnapOnRelease
             }
 
@@ -186,38 +180,5 @@ Item {
             }
         }
     }
-
-    Dialog {
-        id: deleteConfirmDialog
-        objectName: "deleteConfirmDialog"
-
-        property var publishedFileID
-        property string itemName
-
-        title: qsTr("Delete Workshop Item")
-        modal: true
-        standardButtons: Dialog.Yes | Dialog.No
-        anchors.centerIn: parent
-
-        Text {
-            text: qsTr("Are you sure you want to delete '%1'?\nThis action cannot be undone.").arg(deleteConfirmDialog.itemName)
-            color: Material.foreground
-            wrapMode: Text.WordWrap
-        }
-
-        onAccepted: {
-            root.steamWorkshop.deleteItem(publishedFileID)
-        }
-    }
-
-    Connections {
-        target: root.steamWorkshop
-        function onWorkshopItemDeleted(success: bool, publishedFileID) {
-            if (success) {
-                console.log("Workshop item deleted successfully:", publishedFileID)
-            } else {
-                console.warn("Failed to delete workshop item:", publishedFileID)
-            }
-        }
-    }
 }
+
