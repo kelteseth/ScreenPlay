@@ -34,7 +34,7 @@ SPCore.Dialog {
                 Layout.alignment: Qt.AlignHCenter
                 Layout.preferredWidth: 150
                 Layout.preferredHeight: 150
-                source: "qrc:/qt/qml/ScreenPlay/assets/icons/exclamation-triangle-solid.svg"
+                source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/exclamation-triangle-solid.svg"
                 fillMode: Image.PreserveAspectFit
                 layer {
                     enabled: true

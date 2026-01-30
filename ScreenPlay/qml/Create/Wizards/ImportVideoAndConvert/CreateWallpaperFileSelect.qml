@@ -116,7 +116,7 @@ Item {
         text: qsTr("Open Documentation")
         Material.accent: Material.color(Material.LightGreen)
         highlighted: true
-        icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_document.svg"
+        icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_document.svg"
         icon.color: "white"
         icon.width: 16
         icon.height: 16

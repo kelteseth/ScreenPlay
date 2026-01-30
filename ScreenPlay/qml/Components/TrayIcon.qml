@@ -35,7 +35,7 @@ SystemTrayIcon {
         MenuItem {
             id: miOpenScreenPlay
             text: qsTr("Open ScreenPlay")
-            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_open_in_new_black.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_open_in_new_black.svg"
             onTriggered: {
                 root.open()
             }
@@ -43,7 +43,7 @@ SystemTrayIcon {
         MenuItem {
             id: miChangeWallpaperSettings
             text: qsTr("Change Wallpaper settings")
-            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_video_settings.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_video_settings.svg"
             onTriggered: {
                 root.open()
                 App.uiAppStateSignals.setNavigation("Installed")
@@ -57,7 +57,7 @@ SystemTrayIcon {
         MenuItem {
             text: qsTr("Browse Workshop")
             enabled: App.globalVariables.isSteamVersion()
-            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_steam.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_steam.svg"
             onTriggered: {
                 root.open()
                 App.uiAppStateSignals.setNavigation("Workshop")
@@ -67,7 +67,7 @@ SystemTrayIcon {
         MenuItem {
             id: miCreate
             text: qsTr("Create new Wallpaper or Widgets")
-            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_plus.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_plus.svg"
             onTriggered: {
                 root.open()
                 App.uiAppStateSignals.setNavigation("Create")
@@ -75,7 +75,7 @@ SystemTrayIcon {
         }
         MenuItem {
             id: miSettings
-            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_settings.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_settings.svg"
             text: qsTr("Settings")
             onTriggered: {
                 root.open()
@@ -88,14 +88,14 @@ SystemTrayIcon {
         }
         MenuItem {
             text: qsTr("Forums and Help")
-            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_supervisor_account.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_supervisor_account.svg"
             onTriggered: {
                 Qt.openUrlExternally("https://forum.screen-play.app/")
             }
         }
         MenuItem {
             text: qsTr("Frequently Asked Questions (FAQ)")
-            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_help_center.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_help_center.svg"
             onTriggered: {
                 Qt.openUrlExternally("https://kelteseth.gitlab.io/ScreenPlayDocs/frequently-asked-questions/")
             }
@@ -107,7 +107,7 @@ SystemTrayIcon {
             id: miMuteAll
 
             text: App.screenPlayManager.isMuted ? qsTr("Unmute all") : qsTr("Mute all")
-            icon.source: App.screenPlayManager.isMuted ? "qrc:/qt/qml/ScreenPlay/assets/icons/icon_volume_up.svg" : "qrc:/qt/qml/ScreenPlay/assets/icons/icon_volume_mute.svg"
+            icon.source: App.screenPlayManager.isMuted ? "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_volume_up.svg" : "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_volume_mute.svg"
             onTriggered: {
                 App.screenPlayManager.isMuted = !App.screenPlayManager.isMuted
             }
@@ -117,7 +117,7 @@ SystemTrayIcon {
             id: miStopAll
 
             text: App.screenPlayManager.isPaused ? qsTr("Play all") : qsTr("Pause all")
-            icon.source: App.screenPlayManager.isPaused ? "qrc:/qt/qml/ScreenPlay/assets/icons/icon_play.svg" : "qrc:/qt/qml/ScreenPlay/assets/icons/icon_pause.svg"
+            icon.source: App.screenPlayManager.isPaused ? "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_play.svg" : "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_pause.svg"
             onTriggered: {
                 App.screenPlayManager.isPaused = !App.screenPlayManager.isPaused
             }
@@ -125,7 +125,7 @@ SystemTrayIcon {
 
         MenuItem {
             text: qsTr("Quit ScreenPlay")
-            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_cancel_presentation.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_cancel_presentation.svg"
             onTriggered: App.exit()
         }
     }

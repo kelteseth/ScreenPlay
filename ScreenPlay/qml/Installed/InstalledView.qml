@@ -214,7 +214,7 @@ Item {
             text: qsTr("Edit in Godot Editor")
             objectName: "editWallpaper"
             enabled: contextMenu.type === SPCore.ContentTypes.InstalledType.GodotWallpaper
-            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_edit.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_edit.svg"
             onClicked: {
                 App.godotHandler.openGodotEditor(contextMenu.absoluteStoragePath, App.globalVariables.godotEditorExecutablePath)
             }
@@ -265,7 +265,7 @@ Item {
             text: qsTr("Update Godot Wallpaper")
             objectName: "editWallpaper"
             enabled: contextMenu.type === SPCore.ContentTypes.InstalledType.GodotWallpaper
-            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_cached.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_cached.svg"
             onClicked: userManualUpdateGodotWallpaperDialog.open()
             hoverEnabled: true
             ToolTip.delay: 500
@@ -300,7 +300,7 @@ Item {
         MenuItem {
             text: qsTr("Open containing folder")
             objectName: "openFolder"
-            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_folder_open.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_folder_open.svg"
             onClicked: {
                 App.util.openFolderInExplorer(contextMenu.absoluteStoragePath)
             }
@@ -309,7 +309,7 @@ Item {
         MenuItem {
             text: qsTr("Export to zip")
             objectName: enabled ? "removeItem" : "removeWorkshopItem"
-            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_import_export_.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_import_export_.svg"
             onClicked: {
                 exportFileDialog.absoluteStoragePath = contextMenu.absoluteStoragePath
                 let urlFileName = QCore.StandardPaths.writableLocation(QCore.StandardPaths.DesktopLocation) + "/" + contextMenu.fileName + ".screenplay"
@@ -321,7 +321,7 @@ Item {
         MenuItem {
             text: enabled ? qsTr("Remove Item") : qsTr("Remove via Workshop")
             objectName: enabled ? "removeItem" : "removeWorkshopItem"
-            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_delete.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_delete.svg"
             enabled: contextMenu.publishedFileID === 0 || !App.globalVariables.isSteamVersion()
             onClicked: {
                 deleteDialog.open()
@@ -331,7 +331,7 @@ Item {
         MenuItem {
             text: qsTr("Open Workshop Page")
             enabled: contextMenu.publishedFileID !== 0 && App.globalVariables.isSteamVersion()
-            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_steam.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_steam.svg"
             onClicked: {
                 Qt.openUrlExternally("steam://url/CommunityFilePage/" + contextMenu.publishedFileID)
             }
@@ -544,7 +544,7 @@ Item {
                     text: qsTr("Set content folder path")
                     onClicked: App.uiAppStateSignals.setNavigation("Settings")
                     icon {
-                        source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_settings.svg"
+                        source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_settings.svg"
                         width: 20
                         height: 20
                     }
@@ -553,7 +553,7 @@ Item {
                     text: qsTr("Get help in the forums")
                     onClicked: Qt.openUrlExternally("https://forum.screen-play.app/")
                     icon {
-                        source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_open_in_new_black.svg"
+                        source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_open_in_new_black.svg"
                         width: 20
                         height: 20
                     }
@@ -696,7 +696,7 @@ Item {
                         }
 
                         icon {
-                            source: App.globalVariables.isStandaloneVersion() ? "qrc:/qt/qml/ScreenPlay/assets/icons/icon_plus.svg" : "qrc:/qt/qml/ScreenPlay/assets/icons/icon_steam.svg"
+                            source: App.globalVariables.isStandaloneVersion() ? "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_plus.svg" : "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_steam.svg"
                             width: 20
                             height: 20
                         }
@@ -705,7 +705,7 @@ Item {
                         text: qsTr("Open Install Folder Path")
                         onClicked: App.util.openFolderInExplorer(App.globalVariables.localStoragePath.toString())
                         icon {
-                            source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_folder_open.svg"
+                            source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_folder_open.svg"
                             width: 20
                             height: 20
                         }

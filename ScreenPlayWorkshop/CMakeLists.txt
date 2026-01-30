@@ -76,16 +76,12 @@ set(RESOURCES
     assets/icons/icon_arrow_left.svg
     assets/icons/icon_arrow_right.svg
     assets/icons/icon_close.svg
-    assets/icons/icon_delete.svg
-    assets/icons/icon_done.svg
     assets/icons/icon_download.svg
-    assets/icons/icon_edit.svg
     assets/icons/icon_file_upload.svg
     assets/icons/icon_info.svg
     assets/icons/icon_open_in_new.svg
     assets/icons/icon_plus.svg
     assets/icons/icon_search.svg
-    assets/icons/icon_star.svg
     assets/icons/icon_steam.svg
     assets/icons/icon_thumb_down.svg
     assets/icons/icon_thumb_up.svg

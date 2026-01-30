@@ -408,7 +408,7 @@ Drawer {
                         btnLaunchContent.enabled = false
                     }
 
-                    icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_plus.svg"
+                    icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_plus.svg"
                     icon.color: "white"
                     font.pointSize: 12
 
@@ -616,7 +616,7 @@ Drawer {
                 right: parent.right
             }
 
-            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_close.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_close.svg"
             icon.width: 15
             icon.height: 15
             onClicked: {

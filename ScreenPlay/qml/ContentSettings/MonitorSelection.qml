@@ -187,7 +187,7 @@ Rectangle {
 
     ToolButton {
         onClicked: App.monitorListModel.reset()
-        icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/font-awsome/rotate-right-solid.svg"
+        icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/font-awsome/rotate-right-solid.svg"
         icon.width: 14
         icon.height: 14
         opacity: hovered ? 1 : .4

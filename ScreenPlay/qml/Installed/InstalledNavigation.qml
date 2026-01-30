@@ -57,7 +57,7 @@ Item {
 
             CustomTabButton {
                 text: qsTr("All")
-                icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_installed.svg"
+                icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_installed.svg"
                 onClicked: {
                     root.installedDrawer.close()
                     App.installedListFilter.sortBySearchType(SPCore.ContentTypes.SearchType.All)
@@ -66,7 +66,7 @@ Item {
 
             CustomTabButton {
                 text: qsTr("Scenes")
-                icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_code.svg"
+                icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_code.svg"
                 onClicked: {
                     root.installedDrawer.close()
                     App.installedListFilter.sortBySearchType(SPCore.ContentTypes.SearchType.Scene)
@@ -75,7 +75,7 @@ Item {
 
             CustomTabButton {
                 text: qsTr("Videos")
-                icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_movie.svg"
+                icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_movie.svg"
                 onClicked: {
                     root.installedDrawer.close()
                     App.installedListFilter.sortBySearchType(SPCore.ContentTypes.SearchType.Wallpaper)
@@ -84,7 +84,7 @@ Item {
 
             CustomTabButton {
                 text: qsTr("Widgets")
-                icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_widgets.svg"
+                icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_widgets.svg"
                 onClicked: {
                     root.installedDrawer.close()
                     App.installedListFilter.sortBySearchType(SPCore.ContentTypes.SearchType.Widget)
@@ -118,7 +118,7 @@ Item {
             ToolButton {
                 id: icnSearch
 
-                icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_search.svg"
+                icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_search.svg"
                 implicitHeight: 30
                 implicitWidth: height
                 icon.width: height
@@ -131,7 +131,7 @@ Item {
 
             property int sortOrder: Qt.DescendingOrder
 
-            icon.source: (btnSortOrder.sortOrder === Qt.AscendingOrder) ? "qrc:/qt/qml/ScreenPlay/assets/icons/icon_sort-down-solid.svg" : "qrc:/qt/qml/ScreenPlay/assets/icons/icon_sort-up-solid.svg"
+            icon.source: (btnSortOrder.sortOrder === Qt.AscendingOrder) ? "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_sort-down-solid.svg" : "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_sort-up-solid.svg"
             icon.width: 12
             icon.height: 12
             hoverEnabled: true

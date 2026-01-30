@@ -109,7 +109,7 @@ Dialog {
                 font.weight: Font.DemiBold
             }
             ToolButton {
-                icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_close.svg"
+                icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_close.svg"
                 icon.color: Material.iconColor
                 icon.width: 20
                 icon.height: 20

@@ -462,7 +462,7 @@ Item {
                                 Button {
                                     visible: !root.isEditMode
                                     text: qsTr("Edit Item")
-                                    icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_edit.svg"
+                                    icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_edit.svg"
                                     icon.color: "white"
                                     highlighted: true
                                     onClicked: root.state = "edit"
@@ -471,7 +471,7 @@ Item {
                                 Button {
                                     visible: root.isEditMode
                                     text: qsTr("Save Changes")
-                                    icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_done.svg"
+                                    icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_done.svg"
                                     icon.color: "white"
                                     highlighted: true
                                     enabled: !root.isSaving
@@ -510,7 +510,7 @@ Item {
 
                                 Button {
                                     text: qsTr("Delete Item")
-                                    icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_delete.svg"
+                                    icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_delete.svg"
                                     icon.color: "white"
                                     Material.background: Material.Red
                                     onClicked: deleteConfirmDialog.open()

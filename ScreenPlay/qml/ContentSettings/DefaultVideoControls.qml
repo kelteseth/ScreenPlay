@@ -55,7 +55,7 @@ FocusScope {
             id: slVolume
 
             headline: qsTr("Volume")
-            iconSource: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_volume.svg"
+            iconSource: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_volume.svg"
             slider.stepSize: 0.1
             Layout.fillWidth: true
             Layout.topMargin: 20

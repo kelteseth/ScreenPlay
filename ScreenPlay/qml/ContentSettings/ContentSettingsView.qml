@@ -511,7 +511,7 @@ Popup {
         height: width
         icon.width: 16
         icon.height: 16
-        icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/font-awsome/close.svg"
+        icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/font-awsome/close.svg"
         icon.color: Material.iconColor
         onClicked: root.close()
 

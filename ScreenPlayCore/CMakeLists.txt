@@ -97,8 +97,77 @@ if(WIN32)
     target_include_directories(ScreenPlayCoreWindowsExtrasLib PUBLIC inc/public/)
 endif()
 
-set(RESOURCES # cmake-format: sort
-              assets/icons/attach_file.svg assets/icons/description.svg assets/icons/folder.svg)
+set(RESOURCES
+    # cmake-format: sort
+    assets/icons/attach_file.svg
+    assets/icons/brand_bluesky.svg
+    assets/icons/brand_github.svg
+    assets/icons/brand_gitlab.svg
+    assets/icons/brand_reddit.svg
+    assets/icons/brand_twitch.svg
+    assets/icons/description.svg
+    assets/icons/exclamation-triangle-solid.svg
+    assets/icons/folder.svg
+    assets/icons/font-awsome/close.svg
+    assets/icons/font-awsome/frown-o.svg
+    assets/icons/font-awsome/lock-solid.svg
+    assets/icons/font-awsome/patreon-brands.svg
+    assets/icons/font-awsome/rotate-right-solid.svg
+    assets/icons/icon_arrow_left.svg
+    assets/icons/icon_arrow_right.svg
+    assets/icons/icon_build.svg
+    assets/icons/icon_cached.svg
+    assets/icons/icon_cake.svg
+    assets/icons/icon_cancel_presentation.svg
+    assets/icons/icon_close.svg
+    assets/icons/icon_close_black_24dp.svg
+    assets/icons/icon_code.svg
+    assets/icons/icon_community.svg
+    assets/icons/icon_contains_audio.svg
+    assets/icons/icon_delete.svg
+    assets/icons/icon_document.svg
+    assets/icons/icon_done.svg
+    assets/icons/icon_download.svg
+    assets/icons/icon_edit.svg
+    assets/icons/icon_emptyWidget.svg
+    assets/icons/icon_folder_open.svg
+    assets/icons/icon_forum.svg
+    assets/icons/icon_help_center.svg
+    assets/icons/icon_import_export_.svg
+    assets/icons/icon_indicator_down.svg
+    assets/icons/icon_info.svg
+    assets/icons/icon_installed.svg
+    assets/icons/icon_launch.svg
+    assets/icons/icon_minimize.svg
+    assets/icons/icon_movie.svg
+    assets/icons/icon_new_releases.svg
+    assets/icons/icon_open_in_new.svg
+    assets/icons/icon_open_in_new_black.svg
+    assets/icons/icon_pause.svg
+    assets/icons/icon_people.svg
+    assets/icons/icon_play.svg
+    assets/icons/icon_plus.svg
+    assets/icons/icon_report_problem.svg
+    assets/icons/icon_schedule.svg
+    assets/icons/icon_search.svg
+    assets/icons/icon_settings.svg
+    assets/icons/icon_share.svg
+    assets/icons/icon_single_image.svg
+    assets/icons/icon_sort-down-solid.svg
+    assets/icons/icon_sort-up-solid.svg
+    assets/icons/icon_steam.svg
+    assets/icons/icon_supervisor_account.svg
+    assets/icons/icon_thumb_down.svg
+    assets/icons/icon_thumb_up.svg
+    assets/icons/icon_upload.svg
+    assets/icons/icon_video_settings.svg
+    assets/icons/icon_volume.svg
+    assets/icons/icon_volume_mute.svg
+    assets/icons/icon_volume_up.svg
+    assets/icons/icon_widgets.svg
+    assets/icons/icon_window.svg
+    assets/icons/item_banner_new.svg
+    assets/icons/monitor_setup.svg)
 
 qt_add_library(ScreenPlayCoreLib STATIC)
 target_compile_features(ScreenPlayCoreLib PRIVATE cxx_std_23)

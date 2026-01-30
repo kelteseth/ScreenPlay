@@ -158,7 +158,7 @@ Item {
         LabelSlider {
             id: sliderQuality
 
-            iconSource: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_settings.svg"
+            iconSource: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_settings.svg"
             headline: qsTr("Set video quality. Lower value means better quality.")
             Layout.preferredWidth: 400
             enabled: comboBoxCodec.currentValue !== Video.VideoCodec.NoConversion
@@ -177,7 +177,7 @@ Item {
         text: qsTr("Open Documentation")
         Material.accent: Material.color(Material.LightGreen)
         highlighted: true
-        icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_document.svg"
+        icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_document.svg"
         icon.color: "white"
         icon.width: 16
         icon.height: 16

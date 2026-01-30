@@ -99,7 +99,7 @@ Rectangle {
                 icon.width: 22
                 text: qsTr("Create")
                 objectName: "Create"
-                icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_plus.svg"
+                icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_plus.svg"
                 onClicked: {
                     root.onPageChanged("Create")
                 }
@@ -111,7 +111,7 @@ Rectangle {
                 enabled: App.globalVariables.isSteamVersion()
                 text: qsTr("Workshop")
                 objectName: "Workshop"
-                icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_steam.svg"
+                icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_steam.svg"
                 onClicked: {
                     root.onPageChanged("Workshop")
                 }
@@ -122,7 +122,7 @@ Rectangle {
                 index: 2
                 text: qsTr("Installed") + " " + App.installedListModel.count
                 objectName: "Installed"
-                icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_installed.svg"
+                icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_installed.svg"
                 onClicked: {
                     root.onPageChanged("Installed")
                 }
@@ -133,7 +133,7 @@ Rectangle {
                 index: 3
                 text: qsTr("Community")
                 objectName: "Community"
-                icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_community.svg"
+                icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_community.svg"
                 onClicked: {
                     root.onPageChanged("Community")
                 }
@@ -144,7 +144,7 @@ Rectangle {
                 index: 4
                 text: qsTr("Settings")
                 objectName: "Settings"
-                icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_settings.svg"
+                icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_settings.svg"
                 onClicked: {
                     root.onPageChanged("Settings")
                 }
@@ -221,7 +221,7 @@ Rectangle {
                     id: miMuteAll
                     height: 45
                     Layout.alignment: Qt.AlignVCenter
-                    icon.source: App.screenPlayManager.isMuted ? "qrc:/qt/qml/ScreenPlay/assets/icons/icon_volume_mute.svg" : "qrc:/qt/qml/ScreenPlay/assets/icons/icon_volume.svg"
+                    icon.source: App.screenPlayManager.isMuted ? "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_volume_mute.svg" : "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_volume.svg"
                     icon.width: root.iconWidth
                     icon.height: root.iconHeight
                     enabled: quickActionRow.contentActive
@@ -237,7 +237,7 @@ Rectangle {
                     height: 45
                     enabled: quickActionRow.contentActive
                     Layout.alignment: Qt.AlignVCenter
-                    icon.source: App.screenPlayManager.isPaused ? "qrc:/qt/qml/ScreenPlay/assets/icons/icon_play.svg" : "qrc:/qt/qml/ScreenPlay/assets/icons/icon_pause.svg"
+                    icon.source: App.screenPlayManager.isPaused ? "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_play.svg" : "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_pause.svg"
                     icon.width: root.iconWidth
                     icon.height: root.iconHeight
                     onClicked: App.screenPlayManager.isPaused = !App.screenPlayManager.isPaused
@@ -251,7 +251,7 @@ Rectangle {
                     height: 45
                     enabled: quickActionRow.contentActive
                     Layout.alignment: Qt.AlignVCenter
-                    icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_close.svg"
+                    icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_close.svg"
                     icon.width: root.iconWidth
                     icon.height: root.iconHeight
                     onClicked: {
@@ -277,7 +277,7 @@ Rectangle {
             id: miConfig
             Layout.maximumHeight: 57
             Layout.minimumHeight: 57
-            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_video_settings.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_video_settings.svg"
             icon.width: root.iconWidth
             icon.height: root.iconHeight
             onClicked: App.uiAppStateSignals.setToggleWallpaperConfiguration()

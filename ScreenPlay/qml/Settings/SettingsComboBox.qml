@@ -86,7 +86,7 @@ Control {
         ToolButton {
             enabled: false
             visible: settingsComboBox.proFeature && App.globalVariables.isBasicVersion()
-            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/font-awsome/lock-solid.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/font-awsome/lock-solid.svg"
             icon.width: 10
             icon.height: 10
             icon.color: "gold"
