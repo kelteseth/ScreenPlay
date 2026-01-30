@@ -59,9 +59,13 @@ QVariant SteamWorkshopListModel::data(const QModelIndex& index, int role) const
 
 void SteamWorkshopListModel::append(WorkshopItem item)
 {
+    const bool wasEmpty = m_workshopItemList.isEmpty();
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
     m_workshopItemList.append(std::move(item));
     endInsertRows();
+    if (wasEmpty) {
+        emit bannerUrlChanged();
+    }
 }
 
 void SteamWorkshopListModel::clear()
@@ -73,6 +77,7 @@ void SteamWorkshopListModel::clear()
     m_workshopItemList.clear();
     m_workshopItemList.squeeze();
     endResetModel();
+    emit bannerUrlChanged();
 }
 
 }

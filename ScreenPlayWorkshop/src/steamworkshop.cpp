@@ -575,22 +575,30 @@ void SteamWorkshop::onRequestUserItemsReturned(SteamUGCQueryCompleted_t* pCallba
 
     queryWorkshopItemFromHandle(m_workshopProfileListModel.get(), pCallback);
 
-    //    SteamUGCDetails_t details;
-    //    for (uint32 i = 0; i < pCallback->m_unTotalMatchingResults; ++i) {
-    //        if (SteamUGC()->GetQueryUGCResult(pCallback->m_handle, i, &details)) {
+    // Calculate aggregate user statistics from loaded profile items
+    updateUserProfileStatistics();
+}
 
-    //            WorkshopItem item { QVariant::fromValue<uint64>(details.m_nPublishedFileId), subscriptionCount, QString(details.m_rgchTitle), QUrl(urlData), additionalPreviewUrl };
+void SteamWorkshop::updateUserProfileStatistics()
+{
+    const int itemCount = m_workshopProfileListModel->rowCount();
+    quint64 totalSubscriptions = 0;
 
-    //            m_workshopListModel->append(item);
-    //            qInfo()
-    //                << details.m_rgchTitle
-    //                << details.m_unVotesDown
-    //                << details.m_unVotesDown
-    //                << details.m_rgchURL
-    //                << details.m_nFileSize
-    //                << details.m_nPublishedFileId;
-    //        }
-    //    }
+    for (int i = 0; i < itemCount; ++i) {
+        const auto index = m_workshopProfileListModel->index(i, 0);
+        const auto subscriptions = m_workshopProfileListModel->data(index, SteamWorkshopListModel::SubscriptionCountRole).toULongLong();
+        totalSubscriptions += subscriptions;
+    }
+
+    if (m_userPublishedItemCount != itemCount) {
+        m_userPublishedItemCount = itemCount;
+        emit userPublishedItemCountChanged(m_userPublishedItemCount);
+    }
+
+    if (m_userTotalSubscriptions != totalSubscriptions) {
+        m_userTotalSubscriptions = totalSubscriptions;
+        emit userTotalSubscriptionsChanged(m_userTotalSubscriptions);
+    }
 }
 }
 

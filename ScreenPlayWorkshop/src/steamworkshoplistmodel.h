@@ -27,6 +27,7 @@ class SteamWorkshopListModel : public QAbstractListModel {
     Q_OBJECT
     Q_PROPERTY(int pages READ pages WRITE setPages NOTIFY pagesChanged)
     Q_PROPERTY(int currentPage READ currentPage WRITE setCurrentPage NOTIFY currentPageChanged)
+    Q_PROPERTY(QUrl bannerUrl READ bannerUrl NOTIFY bannerUrlChanged)
 
 public:
     explicit SteamWorkshopListModel(AppId_t appID, QObject* parent = nullptr);
@@ -47,10 +48,12 @@ public:
 
     int pages() const { return m_pages; }
     int currentPage() const { return m_currentPage; }
+    QUrl bannerUrl() const { return m_workshopItemList.empty() ? QUrl {} : m_workshopItemList.at(0).m_previewImageUrl; }
 
 signals:
     void pagesChanged(int pages);
     void currentPageChanged(int currentPage);
+    void bannerUrlChanged();
 
 public slots:
 

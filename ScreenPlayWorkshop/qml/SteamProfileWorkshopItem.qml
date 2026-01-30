@@ -77,17 +77,14 @@ Item {
         if (root.editVisibility !== root.visibility) {
             root.steamWorkshop.updateItemVisibility(root.publishedFileID, root.editVisibility)
         }
-        root.steamWorkshop.updateItemMetadata(
-            root.publishedFileID,
-            root.editTitle,
-            root.editDescription,
-            root.editTags
-        )
+        root.steamWorkshop.updateItemMetadata(root.publishedFileID, root.editTitle, root.editDescription, root.editTags)
     }
 
     function formatFileSize(bytes: int): string {
-        if (bytes < 1024) return bytes + " B"
-        if (bytes < 1024 * 1024) return Math.round(bytes / 1024) + " KB"
+        if (bytes < 1024)
+            return bytes + " B"
+        if (bytes < 1024 * 1024)
+            return Math.round(bytes / 1024) + " KB"
         return Math.round(bytes / (1024 * 1024)) + " MB"
     }
 
@@ -101,43 +98,25 @@ Item {
 
     function getVisibilityText(vis: int): string {
         switch (vis) {
-            case 0: return qsTr("Public")
-            case 1: return qsTr("Friends Only")
-            case 2: return qsTr("Private")
-            case 3: return qsTr("Unlisted")
-            default: return qsTr("Unknown")
+        case 0:
+            return qsTr("Public")
+        case 1:
+            return qsTr("Friends Only")
+        case 2:
+            return qsTr("Private")
+        case 3:
+            return qsTr("Unlisted")
+        default:
+            return qsTr("Unknown")
         }
     }
 
     Connections {
         target: root.steamWorkshop
 
-        function onRequestProfileItemDetailReturned(
-            publishedFileId: var,
-            title: string,
-            description: string,
-            tags: var,
-            steamIDOwner: int,
-            votesUp: int,
-            votesDown: int,
-            score: real,
-            url: string,
-            fileSize: var,
-            totalFileSize: var,
-            previewUrl: string,
-            timeCreated: int,
-            timeUpdated: int,
-            visibility: int,
-            banned: bool,
-            acceptedForUse: bool,
-            subscriptionCount: int,
-            favoriteCount: int,
-            followerCount: int,
-            uniqueWebsiteViews: int,
-            numChildren: int
-        ): void {
-            if (publishedFileId !== root.publishedFileID) return
-
+        function onRequestProfileItemDetailReturned(publishedFileId: var, title: string, description: string, tags: var, steamIDOwner: int, votesUp: int, votesDown: int, score: real, url: string, fileSize: var, totalFileSize: var, previewUrl: string, timeCreated: int, timeUpdated: int, visibility: int, banned: bool, acceptedForUse: bool, subscriptionCount: int, favoriteCount: int, followerCount: int, uniqueWebsiteViews: int, numChildren: int): void {
+            if (publishedFileId !== root.publishedFileID)
+                return
             root.itemTitle = title
             root.itemDescription = description
             root.itemTags = tags
@@ -167,7 +146,8 @@ Item {
         }
 
         function onWorkshopItemMetadataUpdated(success: bool, publishedFileID: var): void {
-            if (publishedFileID !== root.publishedFileID) return
+            if (publishedFileID !== root.publishedFileID)
+                return
             root.isSaving = false
             if (success) {
                 root.itemTitle = root.editTitle
@@ -179,9 +159,33 @@ Item {
         }
     }
 
-    Rectangle {
+    Image {
+        id: backgroundImage
         anchors.fill: parent
-        color: Material.backgroundColor
+        source: root.previewImageUrl
+        fillMode: Image.PreserveAspectCrop
+
+        Rectangle {
+            anchors.fill: parent
+            gradient: Gradient {
+                GradientStop {
+                    position: 0.0
+                    color: "transparent"
+                }
+                GradientStop {
+                    position: 0.2
+                    color: "transparent"
+                }
+                GradientStop {
+                    position: 0.5
+                    color: Qt.rgba(Material.backgroundColor.r, Material.backgroundColor.g, Material.backgroundColor.b, 0.85)
+                }
+                GradientStop {
+                    position: 1.0
+                    color: Material.backgroundColor
+                }
+            }
+        }
     }
 
     BusyIndicator {
@@ -211,27 +215,12 @@ Item {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 350
 
-                Image {
-                    anchors.fill: parent
-                    source: root.previewImageUrl
-                    fillMode: Image.PreserveAspectCrop
-
-                    Rectangle {
-                        anchors.fill: parent
-                        gradient: Gradient {
-                            GradientStop { position: 0.0; color: "transparent" }
-                            GradientStop { position: 0.4; color: "transparent" }
-                            GradientStop { position: 0.85; color: Qt.rgba(Material.backgroundColor.r, Material.backgroundColor.g, Material.backgroundColor.b, 0.8) }
-                            GradientStop { position: 1.0; color: Material.backgroundColor }
-                        }
-                    }
-                }
-
                 Button {
                     anchors {
                         top: parent.top
                         left: parent.left
-                        margins: 20
+                        topMargin: 20
+                        leftMargin: 50
                     }
                     icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_arrow_left.svg"
                     icon.color: "white"
@@ -245,7 +234,8 @@ Item {
                     anchors {
                         top: parent.top
                         right: parent.right
-                        margins: 20
+                        topMargin: 20
+                        rightMargin: 75
                     }
                     spacing: 10
 
@@ -289,7 +279,9 @@ Item {
                         bottom: parent.bottom
                         left: parent.left
                         right: parent.right
-                        margins: 20
+                        bottomMargin: 20
+                        leftMargin: 50
+                        rightMargin: 75
                     }
                     spacing: 8
 
@@ -323,7 +315,10 @@ Item {
 
             ColumnLayout {
                 Layout.fillWidth: true
-                Layout.margins: 20
+                Layout.topMargin: 20
+                Layout.bottomMargin: 20
+                Layout.leftMargin: 50
+                Layout.rightMargin: 75
                 spacing: 16
 
                 RowLayout {
@@ -393,19 +388,47 @@ Item {
                                 rowSpacing: 8
                                 Layout.fillWidth: true
 
-                                Label { text: qsTr("File ID:"); color: Material.secondaryTextColor }
-                                Label { text: root.publishedFileID; color: Material.foreground; Layout.fillWidth: true }
+                                Label {
+                                    text: qsTr("File ID:")
+                                    color: Material.secondaryTextColor
+                                }
+                                Label {
+                                    text: root.publishedFileID
+                                    color: Material.foreground
+                                    Layout.fillWidth: true
+                                }
 
-                                Label { text: qsTr("File Size:"); color: Material.secondaryTextColor }
-                                Label { text: root.formatFileSize(root.totalFileSize > 0 ? root.totalFileSize : root.fileSize); color: Material.foreground }
+                                Label {
+                                    text: qsTr("File Size:")
+                                    color: Material.secondaryTextColor
+                                }
+                                Label {
+                                    text: root.formatFileSize(root.totalFileSize > 0 ? root.totalFileSize : root.fileSize)
+                                    color: Material.foreground
+                                }
 
-                                Label { text: qsTr("Created:"); color: Material.secondaryTextColor }
-                                Label { text: root.formatDateTime(root.timeCreated); color: Material.foreground }
+                                Label {
+                                    text: qsTr("Created:")
+                                    color: Material.secondaryTextColor
+                                }
+                                Label {
+                                    text: root.formatDateTime(root.timeCreated)
+                                    color: Material.foreground
+                                }
 
-                                Label { text: qsTr("Updated:"); color: Material.secondaryTextColor }
-                                Label { text: root.formatDateTime(root.timeUpdated); color: Material.foreground }
+                                Label {
+                                    text: qsTr("Updated:")
+                                    color: Material.secondaryTextColor
+                                }
+                                Label {
+                                    text: root.formatDateTime(root.timeUpdated)
+                                    color: Material.foreground
+                                }
 
-                                Label { text: qsTr("Visibility:"); color: Material.secondaryTextColor }
+                                Label {
+                                    text: qsTr("Visibility:")
+                                    color: Material.secondaryTextColor
+                                }
                                 RowLayout {
                                     ComboBox {
                                         visible: root.isEditMode
@@ -421,8 +444,16 @@ Item {
                                     }
                                 }
 
-                                Label { text: qsTr("Followers:"); color: Material.secondaryTextColor; visible: root.followerCount > 0 }
-                                Label { text: root.followerCount.toLocaleString(); color: Material.foreground; visible: root.followerCount > 0 }
+                                Label {
+                                    text: qsTr("Followers:")
+                                    color: Material.secondaryTextColor
+                                    visible: root.followerCount > 0
+                                }
+                                Label {
+                                    text: root.followerCount.toLocaleString()
+                                    color: Material.foreground
+                                    visible: root.followerCount > 0
+                                }
                             }
                         }
                     }
@@ -448,94 +479,94 @@ Item {
                                 }
                                 spacing: 12
 
-                            Label {
-                                text: qsTr("Actions")
-                                font.pointSize: 14
-                                font.bold: true
-                                color: Material.foreground
-                            }
+                                Label {
+                                    text: qsTr("Actions")
+                                    font.pointSize: 14
+                                    font.bold: true
+                                    color: Material.foreground
+                                }
 
-                            Flow {
-                                Layout.fillWidth: true
-                                spacing: 10
+                                Flow {
+                                    Layout.fillWidth: true
+                                    spacing: 10
 
-                                Button {
+                                    Button {
+                                        visible: !root.isEditMode
+                                        text: qsTr("Edit Item")
+                                        icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_edit.svg"
+                                        icon.color: "white"
+                                        highlighted: true
+                                        onClicked: root.state = "edit"
+                                    }
+
+                                    Button {
+                                        visible: root.isEditMode
+                                        text: qsTr("Save Changes")
+                                        icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_done.svg"
+                                        icon.color: "white"
+                                        highlighted: true
+                                        enabled: !root.isSaving
+                                        onClicked: root.saveChanges()
+                                    }
+
+                                    Button {
+                                        visible: root.isEditMode
+                                        text: qsTr("Cancel")
+                                        flat: true
+                                        onClicked: root.state = "view"
+                                    }
+
+                                    BusyIndicator {
+                                        visible: root.isSaving
+                                        running: root.isSaving
+                                        implicitWidth: 24
+                                        implicitHeight: 24
+                                    }
+
+                                    Button {
+                                        text: qsTr("Open in Steam")
+                                        icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_steam.svg"
+                                        icon.color: "transparent"
+                                        flat: true
+                                        onClicked: Qt.openUrlExternally("steam://url/CommunityFilePage/" + root.publishedFileID)
+                                    }
+
+                                    Button {
+                                        text: qsTr("Workshop Page")
+                                        icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_open_in_new.svg"
+                                        icon.color: Material.iconColor
+                                        flat: true
+                                        onClicked: Qt.openUrlExternally("https://steamcommunity.com/sharedfiles/filedetails/?id=" + root.publishedFileID)
+                                    }
+
+                                    Button {
+                                        text: qsTr("Delete Item")
+                                        icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_delete.svg"
+                                        icon.color: "white"
+                                        Material.background: Material.Red
+                                        onClicked: deleteConfirmDialog.open()
+                                    }
+                                }
+
+                                Label {
+                                    visible: root.isEditMode
+                                    text: qsTr("Changes are uploaded directly to Steam Workshop.")
+                                    color: Material.secondaryTextColor
+                                    font.pointSize: 10
+                                    wrapMode: Text.WordWrap
+                                    Layout.fillWidth: true
+                                }
+
+                                Label {
                                     visible: !root.isEditMode
-                                    text: qsTr("Edit Item")
-                                    icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_edit.svg"
-                                    icon.color: "white"
-                                    highlighted: true
-                                    onClicked: root.state = "edit"
+                                    text: qsTr("Click 'Edit Item' to modify title, description, tags or visibility.")
+                                    color: Material.secondaryTextColor
+                                    font.pointSize: 10
+                                    wrapMode: Text.WordWrap
+                                    Layout.fillWidth: true
                                 }
-
-                                Button {
-                                    visible: root.isEditMode
-                                    text: qsTr("Save Changes")
-                                    icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_done.svg"
-                                    icon.color: "white"
-                                    highlighted: true
-                                    enabled: !root.isSaving
-                                    onClicked: root.saveChanges()
-                                }
-
-                                Button {
-                                    visible: root.isEditMode
-                                    text: qsTr("Cancel")
-                                    flat: true
-                                    onClicked: root.state = "view"
-                                }
-
-                                BusyIndicator {
-                                    visible: root.isSaving
-                                    running: root.isSaving
-                                    implicitWidth: 24
-                                    implicitHeight: 24
-                                }
-
-                                Button {
-                                    text: qsTr("Open in Steam")
-                                    icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_steam.svg"
-                                    icon.color: "transparent"
-                                    flat: true
-                                    onClicked: Qt.openUrlExternally("steam://url/CommunityFilePage/" + root.publishedFileID)
-                                }
-
-                                Button {
-                                    text: qsTr("Workshop Page")
-                                    icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_open_in_new.svg"
-                                    icon.color: Material.iconColor
-                                    flat: true
-                                    onClicked: Qt.openUrlExternally("https://steamcommunity.com/sharedfiles/filedetails/?id=" + root.publishedFileID)
-                                }
-
-                                Button {
-                                    text: qsTr("Delete Item")
-                                    icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_delete.svg"
-                                    icon.color: "white"
-                                    Material.background: Material.Red
-                                    onClicked: deleteConfirmDialog.open()
-                                }
-                            }
-
-                            Label {
-                                visible: root.isEditMode
-                                text: qsTr("Changes are uploaded directly to Steam Workshop.")
-                                color: Material.secondaryTextColor
-                                font.pointSize: 10
-                                wrapMode: Text.WordWrap
-                                Layout.fillWidth: true
-                            }
-
-                            Label {
-                                visible: !root.isEditMode
-                                text: qsTr("Click 'Edit Item' to modify title, description, tags or visibility.")
-                                color: Material.secondaryTextColor
-                                font.pointSize: 10
-                                wrapMode: Text.WordWrap
-                                Layout.fillWidth: true
                             }
                         }
-                    }
 
                         Rectangle {
                             Layout.fillWidth: true
@@ -696,7 +727,9 @@ Item {
                     }
                 }
 
-                Item { Layout.preferredHeight: 20 }
+                Item {
+                    Layout.preferredHeight: 20
+                }
             }
         }
     }
@@ -770,7 +803,9 @@ Item {
                 Layout.fillWidth: true
                 spacing: 10
 
-                Item { Layout.fillWidth: true }
+                Item {
+                    Layout.fillWidth: true
+                }
 
                 Button {
                     text: qsTr("Cancel")

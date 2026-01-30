@@ -49,6 +49,8 @@ class SteamWorkshop : public QObject {
     Q_PROPERTY(ScreenPlayWorkshop::SteamAccount* steamAccount READ steamAccount WRITE setSteamAccount NOTIFY steamAccountChanged)
     Q_PROPERTY(bool steamErrorRestart READ steamErrorRestart WRITE setSteamErrorRestart RESET resetSteamErrorRestart NOTIFY steamErrorRestartChanged)
     Q_PROPERTY(bool steamErrorAPIInit READ steamErrorAPIInit WRITE setSteamErrorAPIInit RESET resetSteamErrorAPIInit NOTIFY steamErrorAPIInitChanged)
+    Q_PROPERTY(int userPublishedItemCount READ userPublishedItemCount NOTIFY userPublishedItemCountChanged)
+    Q_PROPERTY(quint64 userTotalSubscriptions READ userTotalSubscriptions NOTIFY userTotalSubscriptionsChanged)
 
 public:
     ~SteamWorkshop()
@@ -68,6 +70,8 @@ public:
     SteamAccount* steamAccount() const { return m_steamAccount.get(); }
     SteamWorkshopListModel* workshopListModel() const { return m_workshopListModel.get(); }
     SteamWorkshopListModel* workshopProfileListModel() const { return m_workshopProfileListModel.get(); }
+    int userPublishedItemCount() const { return m_userPublishedItemCount; }
+    quint64 userTotalSubscriptions() const { return m_userTotalSubscriptions; }
 
     bool steamErrorRestart() const;
     void setSteamErrorRestart(bool newSteamErrorRestart);
@@ -189,6 +193,9 @@ signals:
     void workshopListModelChanged(SteamWorkshopListModel* workshopListModel);
     void steamAccountChanged(SteamAccount* steamAccount);
 
+    void userPublishedItemCountChanged(int count);
+    void userTotalSubscriptionsChanged(quint64 total);
+
     void requestItemDetailReturned(const QString& title,
         const QStringList& tags,
         const qulonglong steamIDOwner,
@@ -248,6 +255,7 @@ private:
 
     // List user items
     void onRequestUserItemsReturned(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure);
+    void updateUserProfileStatistics();
     CCallResult<SteamWorkshop, SteamUGCQueryCompleted_t> m_steamUGCListUserItems;
     UGCQueryHandle_t m_UGCListUserItemsHandle = 0;
     SteamAPICall_t m_UGCListUserItemsCall = 0;
@@ -283,6 +291,8 @@ private:
     const quint64 m_appID = 672870;
     bool m_online = false;
     bool m_queryActive = false;
+    int m_userPublishedItemCount = 0;
+    quint64 m_userTotalSubscriptions = 0;
 
     std::unique_ptr<SteamWorkshopListModel> m_workshopListModel;
     std::unique_ptr<SteamWorkshopListModel> m_workshopProfileListModel;

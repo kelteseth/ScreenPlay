@@ -44,7 +44,6 @@ Item {
         }
     ]
 
-    // Replaced RectangularGlow with MultiEffect
     MultiEffect {
         id: effect
 
@@ -264,7 +263,6 @@ Item {
             }
         }
 
-        // Replaced FastBlur with MultiEffect
         MultiEffect {
             id: effBlur
 
@@ -272,7 +270,7 @@ Item {
             source: itemWrapper
             blurEnabled: true
             blurMax: 64
-            blur: 0  // Initially 0, will be changed in states
+            blur: 0
         }
 
         Item {
@@ -437,7 +435,7 @@ Item {
                 PropertyAnimation {
                     target: effBlur
                     duration: 500
-                    properties: "blur"  // Changed from "radius" to "blur"
+                    properties: "blur"
                 }
 
                 PropertyAnimation {
