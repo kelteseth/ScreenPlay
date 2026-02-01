@@ -252,7 +252,6 @@ Item {
             PropertyChanges {
                 effBlur.blur: 1.0
             }
-            
         }
     ]
 
