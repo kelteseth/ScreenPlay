@@ -28,15 +28,13 @@ set(QML
     # cmake-format: sort
     qml/Background.qml
     qml/Forum.qml
-    qml/InstalledItem.qml
-    qml/InstalledItemImage.qml
     qml/Navigation.qml
     qml/PopupOffline.qml
     qml/Sidebar.qml
     qml/SteamProfile.qml
     qml/SteamProfileWorkshopItem.qml
     qml/SteamWorkshop.qml
-    qml/SteamWorkshopStartPage.qml
+    qml/SteamWorkshopView.qml
     qml/TestMain.qml
     qml/upload/PopupSteamWorkshopAgreement.qml
     qml/upload/UploadProject.qml

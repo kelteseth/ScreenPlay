@@ -1,5 +1,6 @@
 import QtQuick
-import QtQuick.Effects  // Changed
+import QtQuick.Effects
+import QtQuick.Controls.Material
 import ScreenPlayWorkshop
 
 Item {
@@ -11,141 +12,75 @@ Item {
     property string name
     property var publishedFileID: 0
     property int itemIndex
+    property int itemsPerRow: 4
     property int subscriptionCount
     property bool isDownloading: false
+    property bool isScrolling: false
+    property bool isInitialLoad: true
     property SteamWorkshop steamWorkshop
+
+    readonly property int rowIndex: Math.floor(root.itemIndex / root.itemsPerRow)
+    readonly property int columnIndex: root.itemIndex % root.itemsPerRow
+    readonly property bool enableAnimations: !root.isScrolling
 
     signal clicked(var publishedFileID, url imgUrl)
 
     width: 320
     height: 180
-    transform: [
-        Rotation {
-            id: rt
 
-            origin.x: width * 0.5
-            origin.y: height * 0.5
-            angle: 0
-
-            axis {
-                x: -0.5
-                y: 0
-                z: 0
-            }
-        },
-        Translate {
-            id: tr
-        },
-        Scale {
-            id: sc
-
-            origin.x: width * 0.5
-            origin.y: height * 0.5
-        }
-    ]
-
-    MultiEffect {
-        id: effect
-
-        width: parent.width
-        height: parent.height
-        source: Item {
-            anchors.fill: parent
-        }
-        shadowEnabled: true
-        shadowBlur: 1.0
-        shadowColor: "black"
-        shadowOpacity: 0.4
-        paddingRect: Qt.rect(-3, -3, 6, 6)
-
-        anchors {
-            top: parent.top
-            topMargin: 3
-        }
-    }
-
-    Timer {
-        id: timerAnim
-
-        interval: 40 * itemIndex * Math.random()
-        running: true
-        repeat: false
-        onTriggered: showAnim.start()
-    }
-
-    ParallelAnimation {
-        id: showAnim
-
-        running: false
-
-        RotationAnimation {
-            target: rt
-            from: 90
-            to: 0
-            duration: 500
-            easing.type: Easing.OutQuint
-            property: "angle"
-        }
-
-        PropertyAnimation {
-            target: root
-            from: 0
-            to: 1
-            duration: 500
-            easing.type: Easing.OutQuint
-            property: "opacity"
-        }
-
-        PropertyAnimation {
-            target: tr
-            from: 80
-            to: 0
-            duration: 500
-            easing.type: Easing.OutQuint
-            property: "y"
-        }
-
-        PropertyAnimation {
-            target: sc
-            from: 0.8
-            to: 1
-            duration: 500
-            easing.type: Easing.OutQuint
-            properties: "xScale,yScale"
-        }
+    Component.onCompleted: {
+        root.isInitialLoad = root.itemIndex < 20
+        showAnimation.start()
     }
 
     Item {
-        id: screenPlay
+        id: animatedContainer
+        anchors.fill: parent
+        opacity: 0
 
-        anchors.centerIn: parent
-        height: 180
-        width: 320
-
-        Image {
-            id: mask
-
-            //source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/images/Window.svg"
-            sourceSize: Qt.size(screenPlay.width, screenPlay.height)
-            visible: false
-            smooth: true
-            fillMode: Image.PreserveAspectFit
-        }
-
-        Item {
+        Rectangle {
             id: itemWrapper
+            color: Material.backgroundColor
 
             anchors {
                 fill: parent
                 margins: 5
             }
 
-            InstalledItemImage {
-                id: screenPlayItemImage
-
+            Image {
+                id: primaryImage
                 anchors.fill: parent
-                sourceImage: root.imgUrl
-                sourceImageGIF: root.additionalPreviewUrl
+                asynchronous: true
+                cache: true
+                sourceSize: Qt.size(320, 180)
+                fillMode: Image.PreserveAspectCrop
+                smooth: false
+                source: root.imgUrl
+
+                onStatusChanged: {
+                    if (status === Image.Error) {
+                        source = "qrc:/qt/qml/ScreenPlayWorkshop/assets/images/missingPreview.png"
+                    }
+                }
+            }
+
+            AnimatedImage {
+                id: animatedImage
+                anchors.fill: parent
+                asynchronous: true
+                playing: animatedImage.enabled
+                sourceSize: Qt.size(320, 180)
+                fillMode: Image.PreserveAspectCrop
+                source: root.additionalPreviewUrl
+                opacity: animatedImage.enabled ? 1 : 0
+                enabled: !root.isScrolling && hoverArea.hovered && root.additionalPreviewUrl !== ""
+
+                OpacityAnimator {
+                    running: animatedImage.enabled
+                    to: animatedImage.enabled ? 1 : 0
+                    duration: 400
+                    easing.type: Easing.OutQuart
+                }
             }
 
             Rectangle {
@@ -215,36 +150,26 @@ Item {
                     fillMode: Image.PreserveAspectFit
                 }
             }
+
+            MultiEffect {
+                id: effBlur
+                anchors.fill: parent
+                source: primaryImage
+                blurEnabled: true
+                blurMax: 64
+                blur: 0
+            }
         }
 
-        MultiEffect {
-            id: maskEffect
-            anchors.fill: itemWrapper
-            source: itemWrapper
-            maskEnabled: true
-            maskSource: mask
-            // Default values for other mask properties:
-            maskSpreadAtMin: 0.0
-            maskSpreadAtMax: 0.0
-            maskThresholdMin: 0.0
-            maskThresholdMax: 1.0
-        }
-
-        // Since MultiEffect can't contain MouseArea, we need to place them separately
         MouseArea {
             anchors.fill: itemWrapper
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-            onContainsMouseChanged: {
-                if (!isDownloading) {
-                    if (containsMouse)
-                        root.state = "hover"
-                    else
-                        root.state = ""
+            enabled: !root.isScrolling
+            acceptedButtons: Qt.LeftButton | Qt.RightButton
+
+            onClicked: function (mouse) {
+                if (mouse.button === Qt.LeftButton) {
+                    root.clicked(root.publishedFileID, root.imgUrl)
                 }
-            }
-            onClicked: {
-                root.clicked(root.publishedFileID, root.imgUrl)
             }
         }
 
@@ -263,187 +188,172 @@ Item {
             }
         }
 
-        MultiEffect {
-            id: effBlur
-
-            anchors.fill: itemWrapper
-            source: itemWrapper
-            blurEnabled: true
-            blurMax: 64
-            blur: 0
-        }
-
-        Item {
-            id: itmDownloading
-
-            opacity: 0
-
-            anchors {
-                top: parent.top
-                topMargin: 50
-                right: parent.right
-                bottom: parent.bottom
-                left: parent.left
-            }
-
-            Text {
-                id: txtDownloading
-
-                text: qsTr("Successfully subscribed to Workshop Item!")
-                color: "white"
-                font.pointSize: 18
-                wrapMode: Text.WordWrap
-                horizontalAlignment: Qt.AlignHCenter
-
-                anchors {
-                    verticalCenter: parent.verticalCenter
-                    right: parent.right
-                    rightMargin: 20
-                    left: parent.left
-                    leftMargin: 20
-                }
-            }
+        HoverHandler {
+            id: hoverArea
+            target: parent
+            acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
+            cursorShape: root.isScrolling ? Qt.ArrowCursor : Qt.PointingHandCursor
         }
     }
 
     states: [
         State {
             name: "hover"
+            when: hoverArea.hovered && root.enableAnimations && !root.isDownloading
 
             PropertyChanges {
-                target: openInWorkshop
-                opacity: 0.75
+                animatedContainer.scale: 1.05
             }
 
             PropertyChanges {
-                target: txtTitle
-                opacity: 1
-                anchors.bottomMargin: 20
+                openInWorkshop.opacity: 0.75
             }
 
             PropertyChanges {
-                target: shadow
-                opacity: 1
+                txtTitle.opacity: 1
+                txtTitle.anchors.bottomMargin: 20
             }
 
             PropertyChanges {
-                target: effBlur
-                blur: 0
+                shadow.opacity: 1
             }
         },
         State {
             name: "downloading"
+            when: root.isDownloading
 
             PropertyChanges {
-                target: openInWorkshop
-                opacity: 0
+                openInWorkshop.opacity: 0
             }
 
             PropertyChanges {
-                target: txtTitle
-                opacity: 0
+                txtTitle.opacity: 0
             }
 
             PropertyChanges {
-                target: shadow
-                opacity: 0
+                shadow.opacity: 0
             }
 
             PropertyChanges {
-                target: effBlur
-                blur: 1.0  // Full blur with blurMax: 64
-            }
-
-            PropertyChanges {
-                target: itmDownloading
-                opacity: 1
-                anchors.topMargin: 0
+                effBlur.blur: 1.0
             }
         },
         State {
             name: "installed"
 
             PropertyChanges {
-                target: txtTitle
-                opacity: 0
+                txtTitle.opacity: 0
             }
 
             PropertyChanges {
-                target: shadow
-                opacity: 0
+                shadow.opacity: 0
             }
 
             PropertyChanges {
-                target: effBlur
-                blur: 1.0  // Full blur with blurMax: 64
+                effBlur.blur: 1.0
             }
-
-            PropertyChanges {
-                target: itmDownloading
-                opacity: 1
-                anchors.topMargin: 0
-            }
-
-            PropertyChanges {
-                target: txtDownloading
-                text: qsTr("Download complete!")
-            }
+            
         }
     ]
+
     transitions: [
         Transition {
-            from: ""
-            to: "hover"
-            reversible: true
+            enabled: root.enableAnimations
 
-            PropertyAnimation {
-                target: openInWorkshop
-                duration: 100
-                properties: "opacity"
-            }
+            ParallelAnimation {
+                ScaleAnimator {
+                    target: animatedContainer
+                    duration: 300
+                    easing.type: Easing.OutQuart
+                }
 
-            PropertyAnimation {
-                target: txtTitle
-                duration: 100
-                properties: "opacity, anchors.bottomMargin"
-            }
+                OpacityAnimator {
+                    target: openInWorkshop
+                    duration: 200
+                    easing.type: Easing.OutQuart
+                }
 
-            PropertyAnimation {
-                target: shadow
-                duration: 100
-                properties: "opacity"
+                OpacityAnimator {
+                    target: txtTitle
+                    duration: 200
+                    easing.type: Easing.OutQuart
+                }
+
+                OpacityAnimator {
+                    target: shadow
+                    duration: 200
+                    easing.type: Easing.OutQuart
+                }
+
+                NumberAnimation {
+                    target: txtTitle
+                    property: "anchors.bottomMargin"
+                    duration: 200
+                    easing.type: Easing.OutQuart
+                }
             }
         },
         Transition {
-            from: "*"
             to: "downloading"
             reversible: true
 
-            PropertyAnimation {
-                target: txtTitle
-                duration: 100
-                properties: "opacity"
-            }
-
-            PropertyAnimation {
-                target: shadow
-                duration: 100
-                properties: "opacity"
-            }
-
             SequentialAnimation {
-                PropertyAnimation {
+                NumberAnimation {
                     target: effBlur
+                    property: "blur"
                     duration: 500
-                    properties: "blur"
-                }
-
-                PropertyAnimation {
-                    target: txtTitle
-                    duration: 200
-                    properties: "opacity, anchors.topMargin"
+                    easing.type: Easing.OutQuart
                 }
             }
         }
     ]
+
+    SequentialAnimation {
+        id: showAnimation
+        running: false
+
+        PauseAnimation {
+            duration: {
+                if (root.isInitialLoad) {
+                    return Math.max(0, (root.rowIndex * 100) + (root.columnIndex * 50))
+                } else {
+                    return Math.max(0, root.columnIndex * 100)
+                }
+            }
+        }
+
+        ParallelAnimation {
+            OpacityAnimator {
+                target: animatedContainer
+                from: 0
+                to: 1
+                duration: 600
+                easing.type: Easing.OutCirc
+            }
+
+            YAnimator {
+                target: animatedContainer
+                from: 80
+                to: 0
+                duration: 500
+                easing.type: Easing.OutCirc
+            }
+
+            ScaleAnimator {
+                target: animatedContainer
+                from: 0.3
+                to: 1
+                duration: 250
+                easing.type: Easing.OutCirc
+            }
+
+            RotationAnimator {
+                target: animatedContainer
+                from: -5
+                to: 0
+                duration: 400
+                easing.type: Easing.OutBack
+            }
+        }
+    }
 }
