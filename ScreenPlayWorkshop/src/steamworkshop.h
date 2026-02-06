@@ -93,6 +93,7 @@ public slots:
     void updateItemVisibility(const QVariant publishedFileID, const int visibility);
     void updateItemMetadata(const QVariant publishedFileID, const QString& title, const QString& description, const QStringList& tags);
     bool searchWorkshop(const ScreenPlayCore::Steam::EUGCQuery enumEUGCQuery);
+    bool loadNextPage();
     void searchWorkshopByText(const QString text, const ScreenPlayCore::Steam::EUGCQuery rankedBy = ScreenPlayCore::Steam::EUGCQuery::K_EUGCQuery_RankedByTrend);
 
     bool checkAndSetQueryActive()
@@ -280,6 +281,8 @@ private:
     PublishedFileId_t m_updateMetadataPublishedFileId = 0;
 
     UGCQueryHandle_t m_searchHandle = 0;
+    ScreenPlayCore::Steam::EUGCQuery m_currentQueryType = ScreenPlayCore::Steam::EUGCQuery::K_EUGCQuery_RankedByTrend;
+    QString m_currentSearchText;
 
     QTimer m_pollTimer;
     QQueue<SteamItemUpdate> m_bulkUploadqueue;

@@ -1,6 +1,7 @@
+pragma ComponentBehavior: Bound
 import QtQuick
-import QtQuick.Effects
 import QtQuick.Controls.Material
+import QtMultimedia
 import ScreenPlayWorkshop
 
 Item {
@@ -14,7 +15,6 @@ Item {
     property int itemIndex
     property int itemsPerRow: 4
     property int subscriptionCount
-    property bool isDownloading: false
     property bool isScrolling: false
     property bool isInitialLoad: true
     property SteamWorkshop steamWorkshop
@@ -68,16 +68,40 @@ Item {
                 id: animatedImage
                 anchors.fill: parent
                 asynchronous: true
-                playing: animatedImage.enabled
+                playing: animatedImage.status === AnimatedImage.Ready && !root.isScrolling && hoverArea.containsMouse
                 sourceSize: Qt.size(320, 180)
                 fillMode: Image.PreserveAspectCrop
                 source: root.additionalPreviewUrl
-                opacity: animatedImage.enabled ? 1 : 0
-                enabled: !root.isScrolling && hoverArea.hovered && root.additionalPreviewUrl !== ""
+                opacity: animatedImage.status === AnimatedImage.Ready && !root.isScrolling && hoverArea.containsMouse ? 1 : 0
+                visible: animatedImage.status !== AnimatedImage.Error
+
+                Behavior on opacity {
+                    OpacityAnimator {
+                        duration: 400
+                        easing.type: Easing.OutQuart
+                    }
+                }
+            }
+
+            Loader {
+                id: videoLoader
+                anchors.fill: parent
+                active: animatedImage.status === AnimatedImage.Error && !root.isScrolling && hoverArea.containsMouse && root.additionalPreviewUrl !== ""
+
+                sourceComponent: Video {
+                    anchors.fill: parent
+                    source: root.additionalPreviewUrl
+                    loops: MediaPlayer.Infinite
+                    fillMode: VideoOutput.PreserveAspectCrop
+
+                    Component.onCompleted: play()
+                }
 
                 OpacityAnimator {
-                    running: animatedImage.enabled
-                    to: animatedImage.enabled ? 1 : 0
+                    target: videoLoader
+                    running: videoLoader.active
+                    from: 0
+                    to: 1
                     duration: 400
                     easing.type: Easing.OutQuart
                 }
@@ -107,9 +131,10 @@ Item {
                     }
                 }
             }
+        }
 
-            Text {
-                id: txtTitle
+        Text {
+            id: txtTitle
 
                 text: root.name
                 opacity: 0
@@ -128,42 +153,35 @@ Item {
                     leftMargin: 20
                     bottomMargin: -50
                 }
+        }
+
+        Item {
+            id: openInWorkshop
+
+            height: 20
+            width: 20
+            z: 99
+            opacity: 0
+
+            anchors {
+                margins: 10
+                top: itemWrapper.top
+                right: itemWrapper.right
             }
 
-            Item {
-                id: openInWorkshop
-
-                height: 20
-                width: 20
-                z: 99
-                opacity: 0
-
-                anchors {
-                    margins: 10
-                    top: parent.top
-                    right: parent.right
-                }
-
-                Image {
-                    source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_open_in_new.svg"
-                    sourceSize: Qt.size(parent.width, parent.height)
-                    fillMode: Image.PreserveAspectFit
-                }
-            }
-
-            MultiEffect {
-                id: effBlur
-                anchors.fill: parent
-                source: primaryImage
-                blurEnabled: true
-                blurMax: 64
-                blur: 0
+            Image {
+                source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_open_in_new.svg"
+                sourceSize: Qt.size(parent.width, parent.height)
+                fillMode: Image.PreserveAspectFit
             }
         }
 
         MouseArea {
+            id: hoverArea
             anchors.fill: itemWrapper
             enabled: !root.isScrolling
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
             acceptedButtons: Qt.LeftButton | Qt.RightButton
 
             onClicked: function (mouse) {
@@ -187,19 +205,12 @@ Item {
                 right: itemWrapper.right
             }
         }
-
-        HoverHandler {
-            id: hoverArea
-            target: parent
-            acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
-            cursorShape: root.isScrolling ? Qt.ArrowCursor : Qt.PointingHandCursor
-        }
     }
 
     states: [
         State {
             name: "hover"
-            when: hoverArea.hovered && root.enableAnimations && !root.isDownloading
+            when: hoverArea.containsMouse && root.enableAnimations
 
             PropertyChanges {
                 animatedContainer.scale: 1.05
@@ -217,41 +228,6 @@ Item {
             PropertyChanges {
                 shadow.opacity: 1
             }
-        },
-        State {
-            name: "downloading"
-            when: root.isDownloading
-
-            PropertyChanges {
-                openInWorkshop.opacity: 0
-            }
-
-            PropertyChanges {
-                txtTitle.opacity: 0
-            }
-
-            PropertyChanges {
-                shadow.opacity: 0
-            }
-
-            PropertyChanges {
-                effBlur.blur: 1.0
-            }
-        },
-        State {
-            name: "installed"
-
-            PropertyChanges {
-                txtTitle.opacity: 0
-            }
-
-            PropertyChanges {
-                shadow.opacity: 0
-            }
-
-            PropertyChanges {
-                effBlur.blur: 1.0
-            }
         }
     ]
 
@@ -266,20 +242,23 @@ Item {
                     easing.type: Easing.OutQuart
                 }
 
-                OpacityAnimator {
+                NumberAnimation {
                     target: openInWorkshop
+                    property: "opacity"
                     duration: 200
                     easing.type: Easing.OutQuart
                 }
 
-                OpacityAnimator {
+                NumberAnimation {
                     target: txtTitle
+                    property: "opacity"
                     duration: 200
                     easing.type: Easing.OutQuart
                 }
 
-                OpacityAnimator {
+                NumberAnimation {
                     target: shadow
+                    property: "opacity"
                     duration: 200
                     easing.type: Easing.OutQuart
                 }
@@ -292,19 +271,6 @@ Item {
                 }
             }
         },
-        Transition {
-            to: "downloading"
-            reversible: true
-
-            SequentialAnimation {
-                NumberAnimation {
-                    target: effBlur
-                    property: "blur"
-                    duration: 500
-                    easing.type: Easing.OutQuart
-                }
-            }
-        }
     ]
 
     SequentialAnimation {

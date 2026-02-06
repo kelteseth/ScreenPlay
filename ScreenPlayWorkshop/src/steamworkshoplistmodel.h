@@ -28,6 +28,8 @@ class SteamWorkshopListModel : public QAbstractListModel {
     Q_PROPERTY(int pages READ pages WRITE setPages NOTIFY pagesChanged)
     Q_PROPERTY(int currentPage READ currentPage WRITE setCurrentPage NOTIFY currentPageChanged)
     Q_PROPERTY(QUrl bannerUrl READ bannerUrl NOTIFY bannerUrlChanged)
+    Q_PROPERTY(bool hasMore READ hasMore NOTIFY hasMoreChanged)
+    Q_PROPERTY(bool isLoading READ isLoading NOTIFY isLoadingChanged)
 
 public:
     explicit SteamWorkshopListModel(AppId_t appID, QObject* parent = nullptr);
@@ -49,11 +51,15 @@ public:
     int pages() const { return m_pages; }
     int currentPage() const { return m_currentPage; }
     QUrl bannerUrl() const { return m_workshopItemList.empty() ? QUrl {} : m_workshopItemList.at(0).m_previewImageUrl; }
+    bool hasMore() const { return m_currentPage < m_pages; }
+    bool isLoading() const { return m_isLoading; }
 
 signals:
     void pagesChanged(int pages);
     void currentPageChanged(int currentPage);
     void bannerUrlChanged();
+    void hasMoreChanged();
+    void isLoadingChanged();
 
 public slots:
 
@@ -95,6 +101,7 @@ public slots:
 
         m_pages = pages;
         emit pagesChanged(m_pages);
+        emit hasMoreChanged();
     }
 
     void setCurrentPage(int currentPage)
@@ -104,6 +111,33 @@ public slots:
 
         m_currentPage = currentPage;
         emit currentPageChanged(m_currentPage);
+        emit hasMoreChanged();
+    }
+
+    void setIsLoading(bool isLoading)
+    {
+        if (m_isLoading == isLoading)
+            return;
+
+        m_isLoading = isLoading;
+        emit isLoadingChanged();
+    }
+
+    void reset()
+    {
+        clear();
+        m_currentPage = 1;
+        m_pages = 1;
+        emit currentPageChanged(m_currentPage);
+        emit pagesChanged(m_pages);
+        emit hasMoreChanged();
+    }
+
+    void incrementPage()
+    {
+        m_currentPage++;
+        emit currentPageChanged(m_currentPage);
+        emit hasMoreChanged();
     }
 
 private:
@@ -113,5 +147,6 @@ private:
     const quint64 m_appID = 0;
     int m_pages = 1;
     int m_currentPage = 1;
+    bool m_isLoading = false;
 };
 }

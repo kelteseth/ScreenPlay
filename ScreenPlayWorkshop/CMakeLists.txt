@@ -41,7 +41,6 @@ set(QML
     qml/upload/UploadProjectBigItem.qml
     qml/upload/UploadProjectItem.qml
     qml/Workshop.qml
-    qml/WorkshopInstalled.qml
     qml/WorkshopItem.qml)
 
 set(SOURCES
@@ -127,8 +126,7 @@ qt_add_qml_module(
     RESOURCES
     ${RESOURCES})
 
-# Add qtquickcontrols2.conf at the root resource path so Qt can find it
-# This is needed for test executables that link to this library
+# Add qtquickcontrols2.conf at the root resource path so Qt can find it This is needed for test executables that link to this library
 qt_add_resources(
     ScreenPlayWorkshopLib
     "qtquickcontrols2"

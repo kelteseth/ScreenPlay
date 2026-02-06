@@ -64,8 +64,8 @@ bool SteamWorkshop::init()
 
 bool SteamWorkshop::checkOnline()
 {
-    if (!m_online) {
-        qWarning() << "Trying to call steam api while offline";
+    if (!m_online || m_steamErrorAPIInit) {
+        qWarning() << "Trying to call steam api while offline or not initialized";
         qWarning() << "steamErrorAPIInit: " << m_steamErrorAPIInit;
         qWarning() << "steamErrorRestart: " << m_steamErrorRestart;
         return false;
@@ -101,6 +101,12 @@ void SteamWorkshop::requestWorkshopItemDetails(const QVariant publishedFileID)
 
     if (!checkOnline())
         return;
+
+    if (!SteamUGC()) {
+        qWarning() << "SteamUGC() is null in requestWorkshopItemDetails";
+        m_queryActive = false;
+        return;
+    }
 
     auto id = publishedFileID.toULongLong();
     auto uGCRegquestItemDetailHandle = SteamUGC()->CreateQueryUGCDetailsRequest(&id, 1);
@@ -420,7 +426,21 @@ bool SteamWorkshop::searchWorkshop(const ScreenPlayCore::Steam::EUGCQuery enumEU
         return false;
     }
 
-    auto m_searchHandle = SteamUGC()->CreateQueryAllUGCRequest(
+    if (!SteamUGC()) {
+        qWarning() << "SteamUGC() returned null in searchWorkshop - Steam API not properly initialized";
+        m_queryActive = false;
+        return false;
+    }
+
+    // Store current query type for loadNextPage
+    m_currentQueryType = enumEUGCQuery;
+    m_currentSearchText.clear();
+
+    // Reset model for new search
+    m_workshopListModel->reset();
+    m_workshopListModel->setIsLoading(true);
+
+    m_searchHandle = SteamUGC()->CreateQueryAllUGCRequest(
         static_cast<EUGCQuery>(enumEUGCQuery),
         EUGCMatchingUGCType::k_EUGCMatchingUGCType_Items,
         m_appID,
@@ -428,8 +448,6 @@ bool SteamWorkshop::searchWorkshop(const ScreenPlayCore::Steam::EUGCQuery enumEU
         m_workshopListModel->currentPage());
 
     qInfo() << m_searchHandle;
-
-    m_workshopListModel->clear();
 
     // Important: First send the request to get the Steam API Call then set the handler
     SteamUGC()->SetReturnAdditionalPreviews(m_searchHandle, true);
@@ -439,15 +457,80 @@ bool SteamWorkshop::searchWorkshop(const ScreenPlayCore::Steam::EUGCQuery enumEU
     return true;
 }
 
+/*!
+    \brief Loads the next page of workshop items for endless scrolling.
+    Appends results to the existing list instead of replacing them.
+*/
+bool SteamWorkshop::loadNextPage()
+{
+    qInfo() << "loadNextPage";
+
+    if (!m_workshopListModel->hasMore()) {
+        qInfo() << "No more pages to load";
+        return false;
+    }
+
+    if (!checkAndSetQueryActive())
+        return false;
+
+    if (!checkOnline())
+        return false;
+
+    if (m_searchHandle != 0) {
+        qInfo() << "Invalid m_searchHandle";
+        return false;
+    }
+
+    if (!SteamUGC()) {
+        qWarning() << "SteamUGC() returned null - Steam API not properly initialized";
+        return false;
+    }
+
+    m_workshopListModel->incrementPage();
+    m_workshopListModel->setIsLoading(true);
+
+    UGCQueryHandle_t searchHandle;
+
+    if (m_currentSearchText.isEmpty()) {
+        searchHandle = SteamUGC()->CreateQueryAllUGCRequest(
+            static_cast<EUGCQuery>(m_currentQueryType),
+            EUGCMatchingUGCType::k_EUGCMatchingUGCType_Items,
+            m_appID,
+            m_appID,
+            m_workshopListModel->currentPage());
+    } else {
+        searchHandle = SteamUGC()->CreateQueryAllUGCRequest(
+            static_cast<EUGCQuery>(m_currentQueryType),
+            EUGCMatchingUGCType::k_EUGCMatchingUGCType_Items,
+            m_appID,
+            m_appID,
+            m_workshopListModel->currentPage());
+
+        if (!SteamUGC()->SetSearchText(searchHandle, m_currentSearchText.toUtf8().data())) {
+            qWarning() << "Search text failed for next page: " << m_currentSearchText;
+            m_workshopListModel->setIsLoading(false);
+            return false;
+        }
+    }
+
+    SteamUGC()->SetReturnAdditionalPreviews(searchHandle, true);
+    SteamUGC()->SetReturnKeyValueTags(searchHandle, true);
+    SteamUGC()->SetReturnLongDescription(searchHandle, true);
+    m_steamUGCQuerySearchWorkshopResult.Set(SteamUGC()->SendQueryUGCRequest(searchHandle), this, &SteamWorkshop::onWorkshopSearched);
+    return true;
+}
+
 void SteamWorkshop::onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure)
 {
     m_queryActive = false;
+    m_searchHandle = 0;
+    m_workshopListModel->setIsLoading(false);
     if (bIOFailure) {
         qWarning() << "onWorkshopSearched ioFailure";
         return;
     }
 
-    qInfo() << "onWorkshopSearched" << m_searchHandle;
+    qInfo() << "onWorkshopSearched";
     queryWorkshopItemFromHandle(m_workshopListModel.get(), pCallback);
 }
 
@@ -538,7 +621,6 @@ bool SteamWorkshop::queryWorkshopItemFromHandle(SteamWorkshopListModel* listMode
 
 void SteamWorkshop::searchWorkshopByText(const QString text, const ScreenPlayCore::Steam::EUGCQuery rankedBy)
 {
-
     qInfo() << "searchWorkshopByText" << text;
 
     if (!checkAndSetQueryActive())
@@ -547,6 +629,20 @@ void SteamWorkshop::searchWorkshopByText(const QString text, const ScreenPlayCor
     if (!checkOnline())
         return;
 
+    if (!SteamUGC()) {
+        qWarning() << "SteamUGC() returned null in searchWorkshopByText - Steam API not properly initialized";
+        m_queryActive = false;
+        return;
+    }
+
+    // Store current query for loadNextPage
+    m_currentQueryType = rankedBy;
+    m_currentSearchText = text;
+
+    // Reset model for new search
+    m_workshopListModel->reset();
+    m_workshopListModel->setIsLoading(true);
+
     auto searchHandle = SteamUGC()->CreateQueryAllUGCRequest(
         static_cast<EUGCQuery>(rankedBy),
         EUGCMatchingUGCType::k_EUGCMatchingUGCType_Items,
@@ -554,14 +650,16 @@ void SteamWorkshop::searchWorkshopByText(const QString text, const ScreenPlayCor
         m_appID,
         m_workshopListModel->currentPage());
 
-    m_workshopListModel->clear();
-    QString a = text;
-    if (!SteamUGC()->SetSearchText(searchHandle, QByteArray(a.toUtf8()).data())) {
-        qWarning() << "Search Failed with query: " << a;
+    if (!SteamUGC()->SetSearchText(searchHandle, text.toUtf8().data())) {
+        qWarning() << "Search Failed with query: " << text;
+        m_workshopListModel->setIsLoading(false);
         return;
     }
 
     // Important: First send the request to get the Steam API Call then set the handler
+    SteamUGC()->SetReturnAdditionalPreviews(searchHandle, true);
+    SteamUGC()->SetReturnKeyValueTags(searchHandle, true);
+    SteamUGC()->SetReturnLongDescription(searchHandle, true);
     m_steamUGCQuerySearchWorkshopResult.Set(SteamUGC()->SendQueryUGCRequest(searchHandle), this, &SteamWorkshop::onWorkshopSearched);
 }
 

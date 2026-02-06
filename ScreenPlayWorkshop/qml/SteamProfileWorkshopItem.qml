@@ -22,6 +22,14 @@ Item {
     required property var publishedFileID
     required property url previewImageUrl
 
+    focus: true
+    Keys.onEscapePressed: root.stackView.pop()
+    // Mouse back button is a pointer event, not a key event, so TapHandler is needed
+    TapHandler {
+        acceptedButtons: Qt.BackButton
+        onTapped: root.stackView.pop()
+    }
+
     property string itemTitle: ""
     property string itemDescription: ""
     property var itemTags: []
@@ -219,7 +227,7 @@ Item {
                     anchors {
                         top: parent.top
                         left: parent.left
-                        topMargin: 20
+                        topMargin: 55
                         leftMargin: 50
                     }
                     icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_arrow_left.svg"

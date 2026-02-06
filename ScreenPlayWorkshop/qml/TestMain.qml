@@ -20,7 +20,6 @@ Window {
         objectName: "screenPlayWorkshop"
         Component.onCompleted: {
             if (screenPlayWorkshop.init()) {
-                print("init")
                 stackView.push("qrc:/qt/qml/ScreenPlayWorkshop/qml/SteamWorkshopView.qml", {
                     "stackView": stackView,
                     "screenPlayWorkshop": screenPlayWorkshop,

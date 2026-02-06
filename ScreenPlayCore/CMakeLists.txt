@@ -25,7 +25,6 @@ set(QML
     qml/CloseIcon.qml
     qml/ColorImage.qml
     qml/Dialog.qml
-    qml/MaterialGridView.qml
     qml/Dialogs/CriticalError.qml
     qml/Dialogs/MonitorConfiguration.qml
     qml/Dialogs/SteamNotAvailable.qml
@@ -40,6 +39,7 @@ set(QML
     qml/InstantPopup.js
     qml/LabelSlider.qml
     qml/LicenseSelector.qml
+    qml/MaterialGridView.qml
     qml/MaterialSnackBar.qml
     qml/ModalBackgroundBlur.qml
     qml/MouseHoverBlocker.qml

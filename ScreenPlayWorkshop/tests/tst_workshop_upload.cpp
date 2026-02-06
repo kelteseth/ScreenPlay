@@ -39,7 +39,7 @@ class WorkshopUploadTest : public QObject {
 private slots:
     void initTestCase()
     {
-        
+
         qSetMessagePattern("[%{time yy.MM.dd HH:mm:ss.zzz}] %{if-category}%{category}.%{endif}%{type} | %{function} | %{message}\n   Loc: [%{file}:%{line}]");
         // https://steamcommunity.com/profiles/76561198744817917/myworkshopfiles?appid=672870
         qInfo() << "Initializing Workshop Upload test case...";
@@ -212,7 +212,8 @@ void WorkshopUploadTest::upload_and_delete_workshop_item()
     const int uploadTimeoutMs = 180000; // 3 minutes for multiple uploads
     const bool uploadSuccess = waitForCondition([&uploadsCompleted, expectedUploads]() {
         return uploadsCompleted >= expectedUploads;
-    }, uploadTimeoutMs);
+    },
+        uploadTimeoutMs);
     QVERIFY2(uploadSuccess, "Uploads did not complete within timeout");
     QVERIFY2(!uploadedFileIDs.isEmpty(), "No valid publishedFileIDs received from uploads");
 

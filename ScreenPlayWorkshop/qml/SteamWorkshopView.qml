@@ -15,6 +15,8 @@ Item {
     property Background background
 
     StackView.onActivated: {
+        if (!root.steamWorkshop)
+            return
         root.state = "searching"
         root.steamWorkshop.searchWorkshopByText("")
     }
@@ -38,9 +40,15 @@ Item {
     Connections {
         id: searchConnection
         target: root.steamWorkshop
+        enabled: root.steamWorkshop !== null
         function onWorkshopBannerCompleted(): void {
+            if (!root.steamWorkshop || !root.steamWorkshop.workshopListModel)
+                return
+            if (!gridView.headerItem)
+                return
             gridView.headerItem.bannerTxt.text = root.steamWorkshop.workshopListModel.getBannerText()
-            root.background.backgroundImage = root.steamWorkshop.workshopListModel.getBannerUrl()
+            if (root.background)
+                root.background.backgroundImage = root.steamWorkshop.workshopListModel.getBannerUrl()
             gridView.headerItem.banner.bannerPublishedFileID = root.steamWorkshop.workshopListModel.getBannerID()
             gridView.headerItem.bannerTxtUnderline.numberSubscriber = root.steamWorkshop.workshopListModel.getBannerAmountSubscriber()
         }
@@ -59,7 +67,8 @@ Item {
             popupSteamWorkshopAgreement.open()
         }
 
-        target: root.steamWorkshop.uploadListModel
+        target: root.steamWorkshop ? root.steamWorkshop.uploadListModel : null
+        enabled: root.steamWorkshop !== null
     }
 
     SPCore.MaterialGridView {
@@ -82,10 +91,28 @@ Item {
 
         onContentYChanged: {
             // Calculate parallax scrolling
-            if (contentY >= 0)
-                background.imageOffsetTop = (contentY * -0.4)
-            else
-                background.imageOffsetTop = 0
+            if (root.background) {
+                if (contentY >= 0)
+                    root.background.imageOffsetTop = (contentY * -0.4)
+                else
+                    root.background.imageOffsetTop = 0
+            }
+
+            // Endless scrolling: load more when near the bottom
+            gridView.checkLoadMore()
+        }
+
+        function checkLoadMore(): void {
+            if (!gridView.atYEnd)
+                return
+            if (!root.steamWorkshop)
+                return
+            const model = root.steamWorkshop.workshopListModel
+            if (!model)
+                return
+            if (model.hasMore && !model.isLoading) {
+                root.steamWorkshop.loadNextPage()
+            }
         }
 
         header: Item {
@@ -469,51 +496,34 @@ Item {
             snapMode: ScrollBar.SnapOnRelease
         }
 
-        footer: RowLayout {
-            height: 150
+        footer: Item {
             width: parent.width
-            spacing: 10
+            height: footerContent.implicitHeight + 40
 
-            Item {
-                Layout.fillWidth: true
-            }
+            ColumnLayout {
+                id: footerContent
+                anchors.centerIn: parent
+                spacing: 10
 
-            Button {
-                id: btnBack
-
-                Layout.alignment: Qt.AlignVCenter
-                text: qsTr("Back")
-                enabled: root.steamWorkshop.workshopListModel.currentPage > 1
-                onClicked: {
-                    root.state = "searching"
-                    root.steamWorkshop.workshopListModel.setCurrentPage(root.steamWorkshop.workshopListModel.currentPage - 1)
-                    root.steamWorkshop.searchWorkshop(SPCore.Steam.EUGCQuery.K_EUGCQuery_RankedByTrend)
+                BusyIndicator {
+                    Layout.alignment: Qt.AlignHCenter
+                    running: root.steamWorkshop.workshopListModel.isLoading
+                    visible: running
                 }
-            }
 
-            Text {
-                id: txtPage
-
-                Layout.alignment: Qt.AlignVCenter
-                text: root.steamWorkshop.workshopListModel.currentPage + "/" + root.steamWorkshop.workshopListModel.pages
-                color: Material.primaryTextColor
-            }
-
-            Button {
-                id: btnForward
-
-                Layout.alignment: Qt.AlignVCenter
-                text: qsTr("Forward")
-                enabled: root.steamWorkshop.workshopListModel.currentPage <= root.steamWorkshop.workshopListModel.pages - 1
-                onClicked: {
-                    root.state = "searching"
-                    root.steamWorkshop.workshopListModel.setCurrentPage(root.steamWorkshop.workshopListModel.currentPage + 1)
-                    root.steamWorkshop.searchWorkshop(SPCore.Steam.EUGCQuery.K_EUGCQuery_RankedByTrend)
+                Label {
+                    Layout.alignment: Qt.AlignHCenter
+                    text: qsTr("Loading more...")
+                    color: Material.secondaryTextColor
+                    visible: root.steamWorkshop.workshopListModel.isLoading
                 }
-            }
 
-            Item {
-                Layout.fillWidth: true
+                Label {
+                    Layout.alignment: Qt.AlignHCenter
+                    text: qsTr("No more items")
+                    color: Material.secondaryTextColor
+                    visible: !root.steamWorkshop.workshopListModel.hasMore && !root.steamWorkshop.workshopListModel.isLoading && root.steamWorkshop.workshopListModel.currentPage > 1
+                }
             }
         }
     }

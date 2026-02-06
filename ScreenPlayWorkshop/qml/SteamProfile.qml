@@ -15,13 +15,22 @@ import ScreenPlayCore as SPCore
 */
 Item {
     id: root
-    objectName: "WorkshopProfilePage"
+    objectName: "SteamProfile"
 
     required property ScreenPlayWorkshop screenPlayWorkshop
     required property SteamWorkshop steamWorkshop
     required property StackView stackView
 
-    StackView.onActivated: root.steamWorkshop.requestUserItems()
+    // Only load once on push, not when revealed by popping SteamProfileWorkshopItem
+    Component.onCompleted: root.steamWorkshop.requestUserItems()
+
+    focus: true
+    Keys.onEscapePressed: root.stackView.pop()
+    // Mouse back button is a pointer event, not a key event, so TapHandler is needed
+    TapHandler {
+        acceptedButtons: Qt.BackButton
+        onTapped: root.stackView.pop()
+    }
 
     Image {
         id: backgroundImage
