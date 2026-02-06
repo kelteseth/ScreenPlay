@@ -366,11 +366,12 @@ Item {
                     Layout.fillWidth: true
                     spacing: 16
 
-                    Rectangle {
+                    SPCore.ImageBlurContainer {
                         Layout.fillWidth: true
                         Layout.alignment: Qt.AlignTop
                         implicitHeight: detailsColumn.implicitHeight + 30
-                        color: Material.dialogColor
+                        backgroundSource: backgroundImage
+                        scrollY: scrollView.contentY
                         radius: 8
 
                         ColumnLayout {
@@ -471,10 +472,11 @@ Item {
                         Layout.alignment: Qt.AlignTop
                         spacing: 16
 
-                        Rectangle {
+                        SPCore.ImageBlurContainer {
                             Layout.fillWidth: true
                             implicitHeight: actionsColumn.implicitHeight + 30
-                            color: Material.dialogColor
+                            backgroundSource: backgroundImage
+                            scrollY: scrollView.contentY
                             radius: 8
 
                             ColumnLayout {
@@ -576,10 +578,11 @@ Item {
                             }
                         }
 
-                        Rectangle {
+                        SPCore.ImageBlurContainer {
                             Layout.fillWidth: true
                             implicitHeight: tagsColumn.implicitHeight + 30
-                            color: Material.dialogColor
+                            backgroundSource: backgroundImage
+                            scrollY: scrollView.contentY
                             radius: 8
                             visible: (root.itemTags.length > 0 && root.itemTags[0] !== "") || root.isEditMode
 
@@ -692,10 +695,11 @@ Item {
                     }
                 }
 
-                Rectangle {
+                SPCore.ImageBlurContainer {
                     Layout.fillWidth: true
                     implicitHeight: descColumn.implicitHeight + 30
-                    color: Material.dialogColor
+                    backgroundSource: backgroundImage
+                    scrollY: scrollView.contentY
                     radius: 8
                     visible: root.itemDescription !== "" || root.isEditMode
 
@@ -835,14 +839,15 @@ Item {
         }
     }
 
-    component StatCard: Rectangle {
+    component StatCard: SPCore.ImageBlurContainer {
         id: statCard
 
         required property string title
         required property string value
         required property string iconSource
 
-        color: Material.dialogColor
+        backgroundSource: backgroundImage
+        scrollY: scrollView.contentY
         radius: 8
         implicitHeight: 70
 

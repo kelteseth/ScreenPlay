@@ -20,6 +20,7 @@ Item {
     required property ScreenPlayWorkshop screenPlayWorkshop
     required property SteamWorkshop steamWorkshop
     required property StackView stackView
+    required property Background background
 
     // Only load once on push, not when revealed by popping SteamProfileWorkshopItem
     Component.onCompleted: root.steamWorkshop.requestUserItems()
@@ -252,14 +253,15 @@ Item {
         }
     }
 
-    component ProfileStatCard: Rectangle {
+    component ProfileStatCard: SPCore.ImageBlurContainer {
         id: statCard
 
         required property string title
         required property string value
         required property string iconSource
 
-        color: Material.dialogColor
+        backgroundSource: backgroundImage
+        scrollY: scrollView.contentY
         radius: 8
         implicitWidth: 90
         implicitHeight: 70

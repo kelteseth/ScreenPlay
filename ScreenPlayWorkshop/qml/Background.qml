@@ -4,6 +4,11 @@ import QtQuick.Effects
 Rectangle {
     id: root
 
+    /*! Plain, unprocessed copy of the background for use as a
+        ShaderEffectSource (e.g. ImageBlurContainer). Hidden so it never
+        renders on its own. */
+    property alias image: plainImage
+
     property string backgroundImage: ""
     property int imageOffsetTop: 0
     property int stackViewDepth: 0
@@ -34,6 +39,20 @@ Rectangle {
     }
 
     Image {
+        id: plainImage
+        height: plainImage.sourceSize.height
+        source: root.backgroundImage
+        visible: false
+
+        anchors {
+            topMargin: root.imageOffsetTop
+            top: parent.top
+            right: parent.right
+            left: parent.left
+        }
+    }
+
+    Image {
         id: maskSource
 
         visible: false
@@ -44,7 +63,6 @@ Rectangle {
         id: bgImage
 
         height: bgImage.sourceSize.height
-        //fillMode: Image.PreserveAspectCrop
         opacity: 0
         source: root.backgroundImage
 

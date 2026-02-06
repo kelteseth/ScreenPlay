@@ -210,9 +210,10 @@ Item {
                 }
             }
 
-            Rectangle {
+            SPCore.ImageBlurContainer {
                 id: searchBar
-                color: Material.backgroundColor
+                backgroundSource: root.background.image
+                scrollY: gridView.contentY
                 radius: 3
                 width: parent.width - 10
                 height: 70
@@ -270,7 +271,8 @@ Item {
                         stackView.push("qrc:/qt/qml/ScreenPlayWorkshop/qml/SteamProfile.qml", {
                             "screenPlayWorkshop": root.screenPlayWorkshop,
                             "steamWorkshop": root.steamWorkshop,
-                            "stackView": root.stackView
+                            "stackView": root.stackView,
+                            "background": root.background
                         })
                     }
                 }
@@ -544,9 +546,9 @@ Item {
             elide: textObj.elide
         }
 
-        background: Rectangle {
-            opacity: .9
-            color: Material.theme === Material.Light ? Material.background : "#242424"
+        background: SPCore.ImageBlurContainer {
+            backgroundSource: root.background.image
+            radius: 3
         }
         padding: 10
     }

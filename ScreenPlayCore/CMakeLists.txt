@@ -35,6 +35,7 @@ set(QML
     qml/GrowIconLink.qml
     qml/Headline.qml
     qml/HeadlineSection.qml
+    qml/ImageBlurContainer.qml
     qml/ImageSelector.qml
     qml/InstantPopup.js
     qml/LabelSlider.qml
