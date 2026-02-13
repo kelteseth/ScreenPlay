@@ -151,24 +151,6 @@ Item {
             }
         }
 
-        remove: Transition {
-            SequentialAnimation {
-
-                NumberAnimation {
-                    property: "opacity"
-                    to: 0
-                    duration: 200
-                    easing.type: Easing.InOutQuart
-                }
-                NumberAnimation {
-                    properties: "y"
-                    to: 100
-                    duration: 200
-                    easing.type: Easing.InOutQuart
-                }
-            }
-        }
-
         anchors {
             topMargin: 0
             rightMargin: 0

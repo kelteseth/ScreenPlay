@@ -20,6 +20,7 @@ Drawer {
     property bool subscribed: false
 
     signal tagClicked(var tag)
+    signal unsubscribed(var publishedFileID)
 
     function setWorkshopItem(publishedFileID, imgUrl, videoPreview, subscriptionCount) {
         if (root.publishedFileID === publishedFileID) {
@@ -183,7 +184,7 @@ Drawer {
                     font.pointSize: 14
                     font.bold: true
                     text: total > 0 ? Math.round((root.votesUp / total) * 100) + qsTr("% positive") : qsTr("No votes yet")
-                    ToolTip.visible: hovered
+                    ToolTip.visible: voteHover.hovered
                     ToolTip.text: root.votesUp + " 👍  /  " + root.votesDown + " 👎"
 
                     HoverHandler {
@@ -357,6 +358,8 @@ Drawer {
                 if (root.subscribed) {
                     root.subscribed = false
                     root.steamWorkshop.unsubscribeItem(root.publishedFileID)
+                    root.unsubscribed(root.publishedFileID)
+                    root.close()
                 } else {
                     root.subscribed = true
                     root.steamWorkshop.subscribeItem(root.publishedFileID)

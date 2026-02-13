@@ -334,7 +334,9 @@ void SteamWorkshop::resetSteamErrorRestart()
     setSteamErrorRestart({}); // TODO: Adapt to use your actual default value
 }
 
-void SteamWorkshop::requestUserItems()
+void SteamWorkshop::requestUserItems(
+    const ScreenPlayCore::Steam::EUserUGCList listType,
+    const ScreenPlayCore::Steam::EUserUGCListSortOrder sortOrder)
 {
     if (!checkAndSetQueryActive())
         return;
@@ -342,13 +344,16 @@ void SteamWorkshop::requestUserItems()
     if (!checkOnline())
         return;
 
+    m_currentProfileListType = listType;
+    m_currentProfileSortOrder = sortOrder;
     m_workshopProfileListModel->clear();
+    m_workshopProfileListModel->setIsLoading(true);
 
     m_UGCListUserItemsHandle = SteamUGC()->CreateQueryUserUGCRequest(
         m_steamAccount->accountID(),
-        EUserUGCList::k_EUserUGCList_Published,
+        static_cast<EUserUGCList>(listType),
         EUGCMatchingUGCType::k_EUGCMatchingUGCType_Items,
-        EUserUGCListSortOrder::k_EUserUGCListSortOrder_LastUpdatedDesc,
+        static_cast<EUserUGCListSortOrder>(sortOrder),
         m_appID,
         m_appID,
         1);
@@ -360,6 +365,44 @@ void SteamWorkshop::requestUserItems()
     if (!SteamUtils()->IsAPICallCompleted(m_UGCListUserItemsCall, &failed)) {
         qInfo() << "CreateQueryUserUGCRequest failed " << failed;
     }
+}
+
+/*!
+    \brief Loads the next page of user items for the profile view.
+
+    Appends results to the existing profile list instead of replacing them,
+    mirroring the endless-scrolling behaviour of the main workshop page.
+*/
+bool SteamWorkshop::loadNextProfilePage()
+{
+    qInfo() << "loadNextProfilePage";
+
+    if (!m_workshopProfileListModel->hasMore()) {
+        qInfo() << "No more profile pages to load";
+        return false;
+    }
+
+    if (!checkAndSetQueryActive())
+        return false;
+
+    if (!checkOnline())
+        return false;
+
+    m_workshopProfileListModel->incrementPage();
+    m_workshopProfileListModel->setIsLoading(true);
+
+    m_UGCListUserItemsHandle = SteamUGC()->CreateQueryUserUGCRequest(
+        m_steamAccount->accountID(),
+        static_cast<EUserUGCList>(m_currentProfileListType),
+        EUGCMatchingUGCType::k_EUGCMatchingUGCType_Items,
+        static_cast<EUserUGCListSortOrder>(m_currentProfileSortOrder),
+        m_appID,
+        m_appID,
+        m_workshopProfileListModel->currentPage());
+
+    m_UGCListUserItemsCall = SteamUGC()->SendQueryUGCRequest(m_UGCListUserItemsHandle);
+    m_steamUGCListUserItems.Set(m_UGCListUserItemsCall, this, &SteamWorkshop::onRequestUserItemsReturned);
+    return true;
 }
 
 void SteamWorkshop::vote(const QVariant publishedFileID, const bool voteUp)
@@ -610,7 +653,14 @@ bool SteamWorkshop::queryWorkshopItemFromHandle(SteamWorkshopListModel* listMode
                     additionalPreviewUrl = QByteArray(pchURLOrVideoID);
                 }
 
-                WorkshopItem item { QVariant::fromValue<uint64>(details.m_nPublishedFileId), subscriptionCount, QString(details.m_rgchTitle), QUrl(urlData), additionalPreviewUrl };
+                WorkshopItem item {
+                    QVariant::fromValue<uint64>(details.m_nPublishedFileId),
+                    subscriptionCount,
+                    QString(details.m_rgchTitle),
+                    QUrl(urlData),
+                    additionalPreviewUrl,
+                    details.m_ulSteamIDOwner == m_steamAccount->steamID64()
+                };
 
                 listModel->append(std::move(item));
 
@@ -687,6 +737,7 @@ void SteamWorkshop::searchWorkshopByText(const QString text, const ScreenPlayCor
 void SteamWorkshop::onRequestUserItemsReturned(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure)
 {
     m_queryActive = false;
+    m_workshopProfileListModel->setIsLoading(false);
     if (bIOFailure) {
         qDebug() << bIOFailure;
         return;

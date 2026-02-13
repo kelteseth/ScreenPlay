@@ -29,6 +29,7 @@ public:
 
     QString username() const { return m_username; }
     quint32 accountID() const { return m_accountID; }
+    quint64 steamID64() const { return m_steamID.ConvertToUint64(); }
     QImage avatar() const { return m_avatar; }
     quint32 amountSubscribedItems() const { return m_amountSubscribedItems; }
 

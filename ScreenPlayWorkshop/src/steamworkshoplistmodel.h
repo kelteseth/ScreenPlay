@@ -41,6 +41,7 @@ public:
         AdditionalPreviewUrlRole,
         PublishedFileIDRole,
         SubscriptionCountRole,
+        IsOwnItemRole,
     };
     Q_ENUM(WorkshopRole)
 
@@ -82,7 +83,7 @@ public slots:
 
     void clear();
 
-    void removeByPublishedFileID(quint64 publishedFileID)
+    Q_INVOKABLE void removeByPublishedFileID(quint64 publishedFileID)
     {
         for (int i = 0; i < m_workshopItemList.size(); ++i) {
             if (m_workshopItemList.at(i).m_publishedFileID == publishedFileID) {

@@ -20,18 +20,21 @@ struct WorkshopItem {
         const quint64 subscriptionCount,
         const QString& title,
         const QUrl& previewImageUrl,
-        const QUrl& additionalPreviewUrl)
+        const QUrl& additionalPreviewUrl,
+        const bool isOwnItem = false)
     {
         m_publishedFileID = publishedFileID;
         m_subscriptionCount = subscriptionCount;
         m_title = title;
         m_previewImageUrl = previewImageUrl;
         m_additionalPreviewUrl = additionalPreviewUrl;
+        m_isOwnItem = isOwnItem;
     }
     QUrl m_previewImageUrl = {};
     QString m_title = {};
     QUrl m_additionalPreviewUrl = {};
     quint64 m_subscriptionCount = {};
     QVariant m_publishedFileID = {};
+    bool m_isOwnItem = false;
 };
 }

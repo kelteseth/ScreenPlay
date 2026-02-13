@@ -25,6 +25,13 @@ Item {
     // Only load once on push, not when revealed by popping SteamProfileWorkshopItem
     Component.onCompleted: root.steamWorkshop.requestUserItems()
 
+    function refreshItems(): void {
+        root.steamWorkshop.requestUserItems(
+            gridView.headerItem.cbListType.currentValue,
+            gridView.headerItem.cbSortOrder.currentValue
+        )
+    }
+
     focus: true
     Keys.onEscapePressed: root.stackView.pop()
     // Mouse back button is a pointer event, not a key event, so TapHandler is needed
@@ -62,239 +69,281 @@ Item {
         }
     }
 
-    Flickable {
-        id: scrollView
+    SPCore.MaterialGridView {
+        id: gridView
+        objectName: "profileGridView"
 
-        anchors.fill: parent
-        contentWidth: root.width
-        contentHeight: gridView.height + header.height + 150
+        cellWidth: 330
+        cellHeight: 190
+        model: root.steamWorkshop.workshopProfileListModel
+        boundsBehavior: Flickable.StopAtBounds
+        maximumFlickVelocity: 3000
+        flickDeceleration: 7500
 
-        Item {
-            id: header
-            height: 120
-            anchors {
-                top: parent.top
-                topMargin: 20
-                left: parent.left
-                right: parent.right
-                leftMargin: 50
-                rightMargin: 75
-            }
+        anchors {
+            fill: parent
+            leftMargin: 45
+        }
 
-            RowLayout {
-                anchors.fill: parent
-                anchors.verticalCenter: parent.verticalCenter
-                spacing: 16
+        onContentYChanged: {
+            gridView.checkLoadMore()
+        }
 
-                Button {
-                    id: backButton
-                    icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_arrow_left.svg"
-                    icon.color: "white"
-                    flat: true
-                    onClicked: root.stackView.pop()
-                    ToolTip.visible: hovered
-                    ToolTip.text: qsTr("Back to Workshop")
+        function checkLoadMore(): void {
+            if (!gridView.atYEnd)
+                return
+            const model = root.steamWorkshop.workshopProfileListModel
+            if (!model)
+                return
+            if (model.hasMore && !model.isLoading)
+                root.steamWorkshop.loadNextProfilePage()
+        }
+
+        header: Item {
+            id: headerItem
+
+            property alias cbListType: cbListType
+            property alias cbSortOrder: cbSortOrder
+
+            height: 90 + 20 // navigation bar + top margin
+            width: gridView.width - gridView.anchors.leftMargin
+
+            SPCore.ImageBlurContainer {
+                id: headerBar
+                backgroundSource: backgroundImage
+                flickable: gridView
+                stackView: root.stackView
+                width: parent.width
+                height: 70
+                radius: 8
+                clip: true
+
+                anchors {
+                    top: parent.top
+                    topMargin: 20
+                    left: parent.left
                 }
 
-                SteamImage {
-                    id: avatar
+                RowLayout {
+                    anchors.fill: parent
+                    anchors.margins: 8
+                    spacing: 12
 
-                    Layout.preferredWidth: 64
-                    Layout.preferredHeight: 64
-                    Component.onCompleted: {
-                        root.steamWorkshop.steamAccount.loadAvatar()
+                    Button {
+                        id: backButton
+                        Layout.preferredWidth: implicitWidth
+                        icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_arrow_left.svg"
+                        flat: true
+                        onClicked: root.stackView.pop()
+                        ToolTip.visible: hovered
+                        ToolTip.text: qsTr("Back to Workshop")
                     }
 
-                    Connections {
-                        function onAvatarChanged(_avatar: var): void {
-                            avatar.setImage(_avatar)
+                    SteamImage {
+                        id: avatar
+                        Layout.preferredWidth: 55
+                        Layout.preferredHeight: 55
+                        Component.onCompleted: {
+                            root.steamWorkshop.steamAccount.loadAvatar()
+                        }
+                        Connections {
+                            function onAvatarChanged(_avatar: var): void {
+                                avatar.setImage(_avatar)
+                            }
+                            target: root.steamWorkshop.steamAccount
+                        }
+                    }
+
+                    ColumnLayout {
+                        spacing: 0
+
+                        Label {
+                            text: root.steamWorkshop.steamAccount.username
+                            font.pointSize: 14
+                            font.bold: true
+                            color: "white"
                         }
 
-                        target: root.steamWorkshop.steamAccount
-                    }
-                }
-
-                ColumnLayout {
-                    spacing: 2
-
-                    Label {
-                        text: root.steamWorkshop.steamAccount.username
-                        font.pointSize: 14
-                        font.bold: true
-                        color: "white"
+                        Label {
+                            text: root.steamWorkshop.userTotalSubscriptions.toLocaleString() + " " + qsTr("Subscribers")
+                            font.pointSize: 11
+                            color: Qt.rgba(1, 1, 1, 0.7)
+                        }
                     }
 
-                    Label {
-                        text: qsTr("Workshop Creator")
-                        font.pointSize: 9
-                        color: Qt.rgba(1, 1, 1, 0.7)
+                    Item {
+                        Layout.fillWidth: true
+                    }
+
+                    ComboBox {
+                        id: cbListType
+                        Layout.preferredWidth: 200
+                        Layout.alignment: Qt.AlignVCenter
+                        textRole: "text"
+                        valueRole: "value"
+                        currentIndex: 0
+                        model: [
+                            {
+                                "value": SPCore.Steam.EUserUGCList.K_EUserUGCList_Published,
+                                "text": qsTr("Your Uploads")
+                            },
+                            {
+                                "value": SPCore.Steam.EUserUGCList.K_EUserUGCList_Subscribed,
+                                "text": qsTr("Subscribed")
+                            },
+                            {
+                                "value": SPCore.Steam.EUserUGCList.K_EUserUGCList_Favorited,
+                                "text": qsTr("Favorites")
+                            }
+                        ]
+                        onActivated: root.refreshItems()
+                    }
+
+                    ComboBox {
+                        id: cbSortOrder
+                        Layout.preferredWidth: 200
+                        Layout.alignment: Qt.AlignVCenter
+                        textRole: "text"
+                        valueRole: "value"
+                        currentIndex: 0
+                        model: [
+                            {
+                                "value": SPCore.Steam.EUserUGCListSortOrder.K_EUserUGCListSortOrder_LastUpdatedDesc,
+                                "text": qsTr("Last Updated")
+                            },
+                            {
+                                "value": SPCore.Steam.EUserUGCListSortOrder.K_EUserUGCListSortOrder_CreationOrderDesc,
+                                "text": qsTr("Newest First")
+                            },
+                            {
+                                "value": SPCore.Steam.EUserUGCListSortOrder.K_EUserUGCListSortOrder_CreationOrderAsc,
+                                "text": qsTr("Oldest First")
+                            },
+                            {
+                                "value": SPCore.Steam.EUserUGCListSortOrder.K_EUserUGCListSortOrder_TitleAsc,
+                                "text": qsTr("Title A-Z")
+                            },
+                            {
+                                "value": SPCore.Steam.EUserUGCListSortOrder.K_EUserUGCListSortOrder_SubscriptionDateDesc,
+                                "text": qsTr("Subscription Date")
+                            },
+                            {
+                                "value": SPCore.Steam.EUserUGCListSortOrder.K_EUserUGCListSortOrder_VoteScoreDesc,
+                                "text": qsTr("Vote Score")
+                            }
+                        ]
+                        onActivated: root.refreshItems()
                     }
                 }
+            }
 
-                Item {
-                    Layout.fillWidth: true
+            // Empty state — shown when the query finished with no results.
+            ColumnLayout {
+                anchors {
+                    top: headerBar.bottom
+                    topMargin: 80
+                    horizontalCenter: parent.horizontalCenter
+                }
+                spacing: 12
+                visible: gridView.count === 0
+                         && !root.steamWorkshop.workshopProfileListModel.isLoading
+
+                Label {
+                    Layout.alignment: Qt.AlignHCenter
+                    text: "¯\\_(ツ)_/¯"
+                    font.pointSize: 32
+                    color: Material.secondaryTextColor
                 }
 
-                ProfileStatCard {
-                    title: qsTr("Published")
-                    value: root.steamWorkshop.userPublishedItemCount.toLocaleString()
-                    iconSource: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_file_upload.svg"
+                Label {
+                    Layout.alignment: Qt.AlignHCenter
+                    text: qsTr("Nothing here but tumbleweeds and broken dreams.")
+                    font.pointSize: 14
+                    color: Material.secondaryTextColor
                 }
 
-                ProfileStatCard {
-                    title: qsTr("Subscribers")
-                    value: root.steamWorkshop.userTotalSubscriptions.toLocaleString()
-                    iconSource: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_download.svg"
+                Label {
+                    Layout.alignment: Qt.AlignHCenter
+                    text: qsTr("Try a different list or go create something amazing!")
+                    font.pointSize: 11
+                    color: Qt.rgba(Material.secondaryTextColor.r,
+                                   Material.secondaryTextColor.g,
+                                   Material.secondaryTextColor.b, 0.6)
                 }
             }
         }
 
-        SPCore.MaterialGridView {
-            id: gridView
-            objectName: "profileGridView"
+        delegate: WorkshopItem {
+            id: workshopItem
+            objectName: "profileWorkshopItem" + index
+            imgUrl: m_workshopPreview
+            name: m_workshopTitle
+            publishedFileID: m_publishedFileID
+            additionalPreviewUrl: m_additionalPreviewUrl
+            subscriptionCount: m_subscriptionCount
+            itemIndex: index
+            steamWorkshop: root.steamWorkshop
 
-            cellWidth: 320
-            cellHeight: 180
-            height: contentHeight
-            interactive: false
-            model: root.steamWorkshop.workshopProfileListModel
-            boundsBehavior: Flickable.StopAtBounds
-
-            anchors {
-                top: header.bottom
-                topMargin: 20
-                left: parent.left
-                right: parent.right
-                leftMargin: 50
-                rightMargin: 55
-            }
-
-            delegate: Item {
-                id: delegateItem
-
-                width: gridView.cellWidth
-                height: gridView.cellHeight
-                objectName: "profileWorkshopItem" + index
-
-                WorkshopItem {
-                    id: workshopItem
-                    imgUrl: m_workshopPreview
-                    name: m_workshopTitle
-                    publishedFileID: m_publishedFileID
-                    additionalPreviewUrl: m_additionalPreviewUrl
-                    subscriptionCount: m_subscriptionCount
-                    itemIndex: index
-                    steamWorkshop: root.steamWorkshop
-
-                    anchors {
-                        fill: parent
-                        margins: 5
-                    }
-
-                    onClicked: (publishedFileID, imgUrl) => {
-                        root.stackView.push("qrc:/qt/qml/ScreenPlayWorkshop/qml/SteamProfileWorkshopItem.qml", {
-                            "stackView": root.stackView,
-                            "steamWorkshop": root.steamWorkshop,
-                            "publishedFileID": publishedFileID,
-                            "previewImageUrl": imgUrl
-                        })
-                    }
+            onClicked: (publishedFileID, imgUrl) => {
+                if (m_isOwnItem) {
+                    root.stackView.push("qrc:/qt/qml/ScreenPlayWorkshop/qml/SteamProfileWorkshopItem.qml", {
+                        "stackView": root.stackView,
+                        "steamWorkshop": root.steamWorkshop,
+                        "publishedFileID": publishedFileID,
+                        "previewImageUrl": imgUrl
+                    })
+                } else {
+                    sidebar.setWorkshopItem(publishedFileID, imgUrl,
+                                            m_additionalPreviewUrl, m_subscriptionCount)
                 }
             }
+        }
 
-            ScrollBar.vertical: ScrollBar {
-                id: workshopScrollBar
-                snapMode: ScrollBar.SnapOnRelease
-            }
+        ScrollBar.vertical: ScrollBar {
+            snapMode: ScrollBar.SnapOnRelease
+        }
 
-            footer: RowLayout {
-                height: 150
-                width: parent.width
+        footer: Item {
+            width: parent.width
+            height: footerContent.implicitHeight + 40
+
+            ColumnLayout {
+                id: footerContent
+                anchors.centerIn: parent
                 spacing: 10
 
-                Item {
-                    Layout.fillWidth: true
-                }
-
-                Button {
-                    id: btnBack
-
-                    Layout.alignment: Qt.AlignVCenter
-                    text: qsTr("Previous")
-                    enabled: root.steamWorkshop.workshopProfileListModel.currentPage > 1
-                    onClicked: {
-                        root.steamWorkshop.workshopProfileListModel.setCurrentPage(root.steamWorkshop.workshopProfileListModel.currentPage - 1)
-                    }
+                BusyIndicator {
+                    Layout.alignment: Qt.AlignHCenter
+                    running: root.steamWorkshop.workshopProfileListModel.isLoading
+                    visible: running
                 }
 
                 Label {
-                    id: txtPage
-
-                    Layout.alignment: Qt.AlignVCenter
-                    text: root.steamWorkshop.workshopProfileListModel.currentPage + "/" + root.steamWorkshop.workshopProfileListModel.pages
-                    color: Material.primaryTextColor
+                    Layout.alignment: Qt.AlignHCenter
+                    text: qsTr("Loading more...")
+                    color: Material.secondaryTextColor
+                    visible: root.steamWorkshop.workshopProfileListModel.isLoading
                 }
 
-                Button {
-                    id: btnForward
-
-                    Layout.alignment: Qt.AlignVCenter
-                    text: qsTr("Next")
-                    enabled: root.steamWorkshop.workshopProfileListModel.currentPage <= root.steamWorkshop.workshopProfileListModel.pages - 1
-                    onClicked: {
-                        root.steamWorkshop.workshopProfileListModel.setCurrentPage(root.steamWorkshop.workshopProfileListModel.currentPage + 1)
-                    }
-                }
-
-                Item {
-                    Layout.fillWidth: true
+                Label {
+                    Layout.alignment: Qt.AlignHCenter
+                    text: qsTr("That's everything! You've reached the end of the internet... well, your corner of it.")
+                    color: Material.secondaryTextColor
+                    visible: !root.steamWorkshop.workshopProfileListModel.hasMore
+                             && !root.steamWorkshop.workshopProfileListModel.isLoading
+                             && root.steamWorkshop.workshopProfileListModel.currentPage > 1
                 }
             }
         }
     }
 
-    component ProfileStatCard: SPCore.ImageBlurContainer {
-        id: statCard
+    Sidebar {
+        id: sidebar
 
-        required property string title
-        required property string value
-        required property string iconSource
-
-        backgroundSource: backgroundImage
-        flickable: scrollView
-        stackView: root.stackView
-        radius: 8
-        implicitWidth: 90
-        implicitHeight: 70
-
-        ColumnLayout {
-            anchors.centerIn: parent
-            spacing: 4
-
-            RowLayout {
-                Layout.alignment: Qt.AlignHCenter
-                spacing: 4
-
-                SPCore.ColorImage {
-                    source: statCard.iconSource
-                    sourceSize: Qt.size(12, 12)
-                    opacity: 0.7
-                }
-
-                Label {
-                    text: statCard.title
-                    font.pointSize: 9
-                    color: Material.secondaryTextColor
-                }
-            }
-
-            Label {
-                Layout.alignment: Qt.AlignHCenter
-                text: statCard.value
-                font.pointSize: 14
-                font.bold: true
-                color: Material.foreground
-            }
+        topMargin: 60
+        steamWorkshop: root.steamWorkshop
+        onUnsubscribed: publishedFileID => {
+            root.steamWorkshop.workshopProfileListModel.removeByPublishedFileID(publishedFileID)
         }
     }
 }

@@ -86,7 +86,10 @@ public:
 public slots:
     bool checkOnline();
     void bulkUploadToWorkshop(QStringList absoluteStoragePaths);
-    void requestUserItems();
+    void requestUserItems(
+        const ScreenPlayCore::Steam::EUserUGCList listType = ScreenPlayCore::Steam::EUserUGCList::K_EUserUGCList_Published,
+        const ScreenPlayCore::Steam::EUserUGCListSortOrder sortOrder = ScreenPlayCore::Steam::EUserUGCListSortOrder::K_EUserUGCListSortOrder_LastUpdatedDesc);
+    bool loadNextProfilePage();
     void requestWorkshopItemDetails(const QVariant publishedFileID);
     void requestProfileItemDetails(const QVariant publishedFileID);
     void vote(const QVariant publishedFileID, const bool voteUp);
@@ -263,6 +266,8 @@ private:
     CCallResult<SteamWorkshop, SteamUGCQueryCompleted_t> m_steamUGCListUserItems;
     UGCQueryHandle_t m_UGCListUserItemsHandle = 0;
     SteamAPICall_t m_UGCListUserItemsCall = 0;
+    ScreenPlayCore::Steam::EUserUGCList m_currentProfileListType = ScreenPlayCore::Steam::EUserUGCList::K_EUserUGCList_Published;
+    ScreenPlayCore::Steam::EUserUGCListSortOrder m_currentProfileSortOrder = ScreenPlayCore::Steam::EUserUGCListSortOrder::K_EUserUGCListSortOrder_LastUpdatedDesc;
 
     // General Item detail
     void onRequestItemDetailReturned(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure);
