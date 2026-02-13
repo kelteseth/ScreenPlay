@@ -75,8 +75,13 @@ bool ProjectFile::init()
     if (obj.contains("url"))
         url = QUrl(obj.value("url").toString());
 
+    // Steam Workshop IDs (PublishedFileId_t) are uint64 values that
+    // regularly exceed INT_MAX. The JSON field is often serialised as a
+    // string (e.g. "2968713114"). We store it as a QVariant via
+    // toVariant() so the original representation is preserved and can
+    // later be converted with toULongLong().
     if (obj.contains("workshopid"))
-        publishedFileID = obj.value("workshopid").toInt(0);
+        publishedFileID = obj.value("workshopid").toVariant();
 
     if (obj.contains("previewThumbnail")) {
         preview = obj.value("previewThumbnail").toString();

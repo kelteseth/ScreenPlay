@@ -60,8 +60,8 @@ Page {
     }
 
     width: 800
-    height: 240
-    padding: 20
+    height: 120
+    padding: 10
     onPreviewImagePathChanged: img.source = Qt.resolvedUrl("file:///" + previewImagePath)
     // Everything that is not OK is a fail. See steam_qt_enums_generated.h
     // EResult: 0=None, 1=OK, 2=Fail, etc.
@@ -85,7 +85,7 @@ Page {
         color: Material.theme === Material.Light ? "white" : Material.background
 
         layer.effect: ElevationEffect {
-            elevation: 6
+            elevation: 4
         }
     }
 
@@ -96,7 +96,7 @@ Page {
         Image {
             id: img
 
-            // 16:9 aspect ratio, width calculated from parent height
+            fillMode: Image.PreserveAspectCrop
             width: parent.height * (16 / 9)
 
             anchors {
@@ -107,13 +107,14 @@ Page {
         }
 
         ColumnLayout {
-            spacing: 10
+            spacing: 4
 
             anchors {
                 top: parent.top
                 right: parent.right
                 left: img.right
-                margins: 20
+                bottom: parent.bottom
+                margins: 10
             }
 
             Text {
@@ -123,8 +124,8 @@ Page {
                 verticalAlignment: Text.AlignVCenter
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 color: Material.primaryTextColor
-                font.pointSize: 18
-                Layout.preferredHeight: 30
+                font.pointSize: 14
+                elide: Text.ElideRight
                 Layout.fillWidth: true
             }
 
@@ -135,30 +136,24 @@ Page {
 
                 text: qsTr("Status:") + " " + statusText
                 verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 color: Material.primaryTextColor
-                font.pointSize: 14
-                Layout.preferredHeight: 30
+                font.pointSize: 11
+                opacity: 0.7
             }
 
             Item {
-                Layout.preferredHeight: 60
-                Layout.fillWidth: true
+                Layout.fillHeight: true
             }
 
-            ColumnLayout {
-                spacing: 10
+            RowLayout {
+                spacing: 8
                 Layout.fillWidth: true
 
                 Text {
-                    text: qsTr("Progress:") + " " + Math.ceil(root.effectiveProgress) + "%"
+                    text: Math.ceil(root.effectiveProgress) + "%"
                     verticalAlignment: Text.AlignVCenter
-                    horizontalAlignment: Text.AlignHCenter
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     color: Material.primaryTextColor
-                    font.pointSize: 14
-                    height: 50
+                    font.pointSize: 11
                 }
 
                 ProgressBar {

@@ -57,12 +57,23 @@ public:
         PublishedFileID,
         Tags,
         SearchType,
+        LastModified,
+        IsOnWorkshop,
+        TypeString,
     };
     Q_ENUM(ScreenPlayItem)
+
+    enum class SortField {
+        Title,
+        LastModified,
+    };
+    Q_ENUM(SortField)
 
     QUrl absoluteStoragePath() const { return m_absoluteStoragePath; }
     void init();
     void init(const QUrl& contentPath);
+
+    Q_INVOKABLE void sort(SortField field, bool ascending);
 
 public slots:
     void loadInstalledContent();

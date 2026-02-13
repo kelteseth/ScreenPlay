@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "installedlistmodel.h"
+#include <ScreenPlayCore/contenttypes.h>
 
 namespace ScreenPlayWorkshop {
 
@@ -66,6 +67,21 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
             return m_screenPlayFiles.at(row).tags;
         case static_cast<int>(ScreenPlayItem::SearchType):
             return QVariant::fromValue(m_screenPlayFiles.at(row).searchType);
+        case static_cast<int>(ScreenPlayItem::LastModified):
+            return m_screenPlayFiles.at(row).lastModified;
+        case static_cast<int>(ScreenPlayItem::IsOnWorkshop): {
+            const auto& pfid = m_screenPlayFiles.at(row).publishedFileID;
+            if (!pfid.isValid())
+                return false;
+            // Steam PublishedFileId_t is uint64 – the value may be stored
+            // as either a JSON number or a string. toULongLong() handles
+            // both representations correctly.
+            bool ok = false;
+            const auto id = pfid.toULongLong(&ok);
+            return ok && id > 0;
+        }
+        case static_cast<int>(ScreenPlayItem::TypeString):
+            return ScreenPlay::ContentTypes::toString(m_screenPlayFiles.at(row).type);
         default:
             return QVariant();
         }
@@ -86,6 +102,9 @@ QHash<int, QByteArray> InstalledListModel::roleNames() const
         { static_cast<int>(ScreenPlayItem::PublishedFileID), "m_publishedFileID" },
         { static_cast<int>(ScreenPlayItem::Tags), "m_tags" },
         { static_cast<int>(ScreenPlayItem::SearchType), "m_searchType" },
+        { static_cast<int>(ScreenPlayItem::LastModified), "m_lastModified" },
+        { static_cast<int>(ScreenPlayItem::IsOnWorkshop), "m_isOnWorkshop" },
+        { static_cast<int>(ScreenPlayItem::TypeString), "m_typeString" },
     };
 }
 
@@ -158,6 +177,25 @@ void InstalledListModel::reset()
     m_screenPlayFiles.squeeze();
     endResetModel();
     loadInstalledContent();
+}
+
+void InstalledListModel::sort(SortField field, bool ascending)
+{
+    if (m_screenPlayFiles.isEmpty())
+        return;
+
+    beginResetModel();
+    std::sort(m_screenPlayFiles.begin(), m_screenPlayFiles.end(),
+        [field, ascending](const ScreenPlay::ProjectFile& a, const ScreenPlay::ProjectFile& b) {
+            if (field == SortField::LastModified) {
+                return ascending ? a.lastModified < b.lastModified
+                                 : a.lastModified > b.lastModified;
+            }
+            // SortField::Title
+            const auto cmp = a.title.compare(b.title, Qt::CaseInsensitive);
+            return ascending ? cmp < 0 : cmp > 0;
+        });
+    endResetModel();
 }
 }
 

@@ -282,7 +282,7 @@ Item {
                     text: qsTr("Upload")
                     icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_file_upload.svg"
                     onClicked: {
-                        stackView.push("qrc:/qt/qml/ScreenPlayWorkshop/qml/upload/UploadProject.qml", {
+                        stackView.push("qrc:/qt/qml/ScreenPlayWorkshop/qml/upload/SteamUploadView.qml", {
                             "screenPlayWorkshop": root.screenPlayWorkshop,
                             "steamWorkshop": root.steamWorkshop,
                             "stackView": root.stackView

@@ -37,7 +37,7 @@ set(QML
     qml/SteamWorkshopView.qml
     qml/TestMain.qml
     qml/upload/PopupSteamWorkshopAgreement.qml
-    qml/upload/UploadProject.qml
+    qml/upload/SteamUploadView.qml
     qml/upload/UploadProjectBigItem.qml
     qml/upload/UploadProjectItem.qml
     qml/Workshop.qml
@@ -56,6 +56,7 @@ set(SOURCES
 
 set(HEADER
     # cmake-format: sort
+    src/installedlistfilter.h
     src/installedlistmodel.h
     src/screenplayworkshop.h
     src/steamaccount.h
