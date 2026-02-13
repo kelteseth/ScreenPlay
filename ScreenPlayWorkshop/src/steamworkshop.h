@@ -5,6 +5,7 @@
 #include <QDateTime>
 #include <QDebug>
 #include <QDir>
+#include <QDirIterator>
 #include <QFile>
 #include <QFileInfo>
 #include <QFuture>
@@ -82,10 +83,14 @@ public:
     void resetSteamErrorAPIInit();
 
     Q_INVOKABLE bool isSubscribed(const QVariant publishedFileID) const;
+    Q_INVOKABLE QVariantMap getItemInstallInfo(const QVariant publishedFileID) const;
+    Q_INVOKABLE QVariantList getItemFileList(const QVariant publishedFileID) const;
 
 public slots:
     bool checkOnline();
     void bulkUploadToWorkshop(QStringList absoluteStoragePaths);
+    void updateItemContent(const QVariant publishedFileID, const QString& absoluteContentPath, const QString& changeNote);
+    QVariantMap getContentUpdateProgress() const;
     void requestUserItems(
         const ScreenPlayCore::Steam::EUserUGCList listType = ScreenPlayCore::Steam::EUserUGCList::K_EUserUGCList_Published,
         const ScreenPlayCore::Steam::EUserUGCListSortOrder sortOrder = ScreenPlayCore::Steam::EUserUGCListSortOrder::K_EUserUGCListSortOrder_LastUpdatedDesc);
@@ -238,6 +243,8 @@ signals:
         const quint32 numChildren);
 
     void workshopItemMetadataUpdated(bool success, QVariant publishedFileID);
+    void workshopItemContentUpdated(bool success, QVariant publishedFileID);
+    void workshopItemContentUpdateProgress(float progress, int status);
 
     void workshopProfileListModelChanged(SteamWorkshopListModel*);
 
@@ -287,6 +294,12 @@ private:
     void onUpdateItemMetadataReturned(SubmitItemUpdateResult_t* pCallback, bool bIOFailure);
     CCallResult<SteamWorkshop, SubmitItemUpdateResult_t> m_steamUGCUpdateMetadata;
     PublishedFileId_t m_updateMetadataPublishedFileId = 0;
+
+    // Content update (files)
+    void onUpdateItemContentReturned(SubmitItemUpdateResult_t* pCallback, bool bIOFailure);
+    CCallResult<SteamWorkshop, SubmitItemUpdateResult_t> m_steamUGCUpdateContent;
+    UGCUpdateHandle_t m_contentUpdateHandle = k_UGCUpdateHandleInvalid;
+    PublishedFileId_t m_updateContentPublishedFileId = 0;
 
     UGCQueryHandle_t m_searchHandle = 0;
     ScreenPlayCore::Steam::EUGCQuery m_currentQueryType = ScreenPlayCore::Steam::EUGCQuery::K_EUGCQuery_RankedByTrend;

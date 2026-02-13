@@ -371,8 +371,7 @@ Item {
                         anchors {
                             right: parent.right
                             rightMargin: 0
-                            bottom: parent.bottom
-                            bottomMargin: 0
+                            verticalCenter: parent.verticalCenter
                         }
                     }
                 }

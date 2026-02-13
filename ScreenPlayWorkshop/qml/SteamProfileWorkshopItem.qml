@@ -57,6 +57,13 @@ Item {
     property var editTags: []
     property int editVisibility: 0
 
+    property bool isSubscribed: false
+    property bool isContentUpdating: false
+    property real contentUpdateProgress: 0
+    property int contentUpdateStatus: 0
+    property var itemFiles: []
+    property string installPath: ""
+
     readonly property bool isEditMode: root.state === "edit"
 
     state: "view"
@@ -86,6 +93,32 @@ Item {
             root.steamWorkshop.updateItemVisibility(root.publishedFileID, root.editVisibility)
         }
         root.steamWorkshop.updateItemMetadata(root.publishedFileID, root.editTitle, root.editDescription, root.editTags)
+    }
+
+    function loadInstalledFiles(): void {
+        const fileList = root.steamWorkshop.getItemFileList(root.publishedFileID)
+        root.itemFiles = fileList
+        const installInfo = root.steamWorkshop.getItemInstallInfo(root.publishedFileID)
+        root.installPath = installInfo["path"] ?? ""
+    }
+
+    function getUpdateStatusText(status: int): string {
+        switch (status) {
+        case 0:
+            return qsTr("Invalid")
+        case 1:
+            return qsTr("Preparing config...")
+        case 2:
+            return qsTr("Preparing content...")
+        case 3:
+            return qsTr("Uploading content...")
+        case 4:
+            return qsTr("Uploading preview...")
+        case 5:
+            return qsTr("Committing changes...")
+        default:
+            return qsTr("Updating...")
+        }
     }
 
     function formatFileSize(bytes: int): string {
@@ -145,6 +178,8 @@ Item {
             root.uniqueWebsiteViews = uniqueWebsiteViews
             root.numChildren = numChildren
             root.isLoading = false
+            root.isSubscribed = root.steamWorkshop.isSubscribed(root.publishedFileID)
+            root.loadInstalledFiles()
         }
 
         function onWorkshopItemDeleted(success: bool, publishedFileID: var): void {
@@ -164,6 +199,29 @@ Item {
                 root.visibility = root.editVisibility
                 root.state = "view"
             }
+        }
+
+        function onWorkshopItemContentUpdated(success: bool, publishedFileID: var): void {
+            if (publishedFileID !== root.publishedFileID)
+                return
+            root.isContentUpdating = false
+            root.contentUpdateProgress = 0
+            contentUpdateTimer.stop()
+            if (success) {
+                root.loadInstalledFiles()
+            }
+        }
+    }
+
+    Timer {
+        id: contentUpdateTimer
+        interval: 250
+        repeat: true
+        running: root.isContentUpdating
+        onTriggered: {
+            const info = root.steamWorkshop.getContentUpdateProgress()
+            root.contentUpdateProgress = info["progress"]
+            root.contentUpdateStatus = info["status"]
         }
     }
 
@@ -202,13 +260,178 @@ Item {
         visible: root.isLoading
     }
 
+    SPCore.ImageBlurContainer {
+        id: headerBar
+        backgroundSource: backgroundImage
+        flickable: scrollView
+        stackView: root.stackView
+        width: parent.width - 90
+        height: 70
+        radius: 8
+        clip: true
+        visible: !root.isLoading
+
+        anchors {
+            top: parent.top
+            topMargin: 20
+            horizontalCenter: parent.horizontalCenter
+        }
+
+        RowLayout {
+            anchors.fill: parent
+            anchors.margins: 8
+            spacing: 12
+
+            Button {
+                Layout.preferredWidth: implicitWidth
+                icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_arrow_left.svg"
+                flat: true
+                onClicked: root.stackView.pop()
+                ToolTip.visible: hovered
+                ToolTip.text: qsTr("Back to Profile")
+            }
+
+            ColumnLayout {
+                spacing: 0
+
+                Label {
+                    text: root.itemTitle
+                    font.pointSize: 14
+                    font.bold: true
+                    color: "white"
+                    elide: Text.ElideRight
+                    Layout.maximumWidth: 400
+                }
+
+                Label {
+                    text: qsTr("Published: %1 • Updated: %2").arg(root.formatDate(root.timeCreated)).arg(root.formatDate(root.timeUpdated))
+                    font.pointSize: 10
+                    color: Qt.rgba(1, 1, 1, 0.7)
+                    visible: !root.isLoading
+                }
+            }
+
+            Item {
+                Layout.fillWidth: true
+            }
+
+            Rectangle {
+                visible: root.banned
+                color: Material.color(Material.Red)
+                radius: 4
+                implicitWidth: bannedLabel.width + 16
+                implicitHeight: 28
+
+                Label {
+                    id: bannedLabel
+                    anchors.centerIn: parent
+                    text: qsTr("BANNED")
+                    color: "white"
+                    font.bold: true
+                    font.pointSize: 10
+                }
+            }
+
+            Rectangle {
+                visible: root.acceptedForUse
+                color: Material.color(Material.Green)
+                radius: 4
+                implicitWidth: acceptedLabel.width + 16
+                implicitHeight: 28
+
+                Label {
+                    id: acceptedLabel
+                    anchors.centerIn: parent
+                    text: qsTr("ACCEPTED")
+                    color: "white"
+                    font.bold: true
+                    font.pointSize: 10
+                }
+            }
+
+            Button {
+                visible: !root.isEditMode
+                text: qsTr("Edit")
+                icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_edit.svg"
+                highlighted: true
+                onClicked: root.state = "edit"
+            }
+
+            Button {
+                visible: root.isEditMode
+                text: qsTr("Save")
+                icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_done.svg"
+                highlighted: true
+                enabled: !root.isSaving
+                onClicked: root.saveChanges()
+            }
+
+            Button {
+                visible: root.isEditMode
+                text: qsTr("Cancel")
+                onClicked: root.state = "view"
+            }
+
+            BusyIndicator {
+                visible: root.isSaving
+                running: root.isSaving
+                implicitWidth: 24
+                implicitHeight: 24
+            }
+
+            Button {
+                text: root.isSubscribed ? qsTr("Unsubscribe") : qsTr("Subscribe")
+                icon.source: root.isSubscribed
+                    ? "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_close.svg"
+                    : "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_download.svg"
+                highlighted: !root.isSubscribed
+                onClicked: {
+                    if (root.isSubscribed) {
+                        root.steamWorkshop.unsubscribeItem(root.publishedFileID)
+                    } else {
+                        root.steamWorkshop.subscribeItem(root.publishedFileID)
+                    }
+                    root.isSubscribed = !root.isSubscribed
+                }
+            }
+
+            Button {
+                visible: root.installPath !== ""
+                text: qsTr("Open Folder")
+                icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_open_in_new.svg"
+                onClicked: Qt.openUrlExternally("file:///" + root.installPath)
+            }
+
+            Button {
+                text: qsTr("Steam")
+                icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_steam.svg"
+                onClicked: Qt.openUrlExternally("steam://url/CommunityFilePage/" + root.publishedFileID)
+            }
+
+            Button {
+                text: qsTr("Delete")
+                icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_delete.svg"
+                icon.color: "white"
+                Material.background: Material.Red
+                onClicked: deleteConfirmDialog.open()
+            }
+        }
+    }
+
     Flickable {
         id: scrollView
-        anchors.fill: parent
-        contentWidth: parent.width
-        contentHeight: mainColumn.implicitHeight + 40
         visible: !root.isLoading
         clip: true
+        contentWidth: parent.width
+        contentHeight: mainColumn.implicitHeight + 40
+
+        anchors {
+            top: headerBar.bottom
+            topMargin: 20
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
 
         ScrollBar.vertical: ScrollBar {
             policy: ScrollBar.AsNeeded
@@ -221,66 +444,7 @@ Item {
 
             Item {
                 Layout.fillWidth: true
-                Layout.preferredHeight: 350
-
-                Button {
-                    anchors {
-                        top: parent.top
-                        left: parent.left
-                        topMargin: 55
-                        leftMargin: 50
-                    }
-                    icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_arrow_left.svg"
-                    icon.color: "white"
-                    flat: true
-                    onClicked: root.stackView.pop()
-                    ToolTip.visible: hovered
-                    ToolTip.text: qsTr("Back to Profile")
-                }
-
-                RowLayout {
-                    anchors {
-                        top: parent.top
-                        right: parent.right
-                        topMargin: 20
-                        rightMargin: 75
-                    }
-                    spacing: 10
-
-                    Rectangle {
-                        visible: root.banned
-                        color: Material.color(Material.Red)
-                        radius: 4
-                        implicitWidth: bannedLabel.width + 16
-                        implicitHeight: 28
-
-                        Label {
-                            id: bannedLabel
-                            anchors.centerIn: parent
-                            text: qsTr("BANNED")
-                            color: "white"
-                            font.bold: true
-                            font.pointSize: 10
-                        }
-                    }
-
-                    Rectangle {
-                        visible: root.acceptedForUse
-                        color: Material.color(Material.Green)
-                        radius: 4
-                        implicitWidth: acceptedLabel.width + 16
-                        implicitHeight: 28
-
-                        Label {
-                            id: acceptedLabel
-                            anchors.centerIn: parent
-                            text: qsTr("ACCEPTED")
-                            color: "white"
-                            font.bold: true
-                            font.pointSize: 10
-                        }
-                    }
-                }
+                Layout.preferredHeight: 300
 
                 ColumnLayout {
                     anchors {
@@ -366,108 +530,7 @@ Item {
                     Layout.fillWidth: true
                     spacing: 16
 
-                    SPCore.ImageBlurContainer {
-                        Layout.fillWidth: true
-                        Layout.alignment: Qt.AlignTop
-                        implicitHeight: detailsColumn.implicitHeight + 30
-                        backgroundSource: backgroundImage
-                        flickable: scrollView
-                        stackView: root.stackView
-                        radius: 8
-
-                        ColumnLayout {
-                            id: detailsColumn
-                            anchors {
-                                left: parent.left
-                                right: parent.right
-                                top: parent.top
-                                margins: 15
-                            }
-                            spacing: 12
-
-                            Label {
-                                text: qsTr("Details")
-                                font.pointSize: 14
-                                font.bold: true
-                                color: Material.foreground
-                            }
-
-                            GridLayout {
-                                columns: 2
-                                columnSpacing: 20
-                                rowSpacing: 8
-                                Layout.fillWidth: true
-
-                                Label {
-                                    text: qsTr("File ID:")
-                                    color: Material.secondaryTextColor
-                                }
-                                Label {
-                                    text: root.publishedFileID
-                                    color: Material.foreground
-                                    Layout.fillWidth: true
-                                }
-
-                                Label {
-                                    text: qsTr("File Size:")
-                                    color: Material.secondaryTextColor
-                                }
-                                Label {
-                                    text: root.formatFileSize(root.totalFileSize > 0 ? root.totalFileSize : root.fileSize)
-                                    color: Material.foreground
-                                }
-
-                                Label {
-                                    text: qsTr("Created:")
-                                    color: Material.secondaryTextColor
-                                }
-                                Label {
-                                    text: root.formatDateTime(root.timeCreated)
-                                    color: Material.foreground
-                                }
-
-                                Label {
-                                    text: qsTr("Updated:")
-                                    color: Material.secondaryTextColor
-                                }
-                                Label {
-                                    text: root.formatDateTime(root.timeUpdated)
-                                    color: Material.foreground
-                                }
-
-                                Label {
-                                    text: qsTr("Visibility:")
-                                    color: Material.secondaryTextColor
-                                }
-                                RowLayout {
-                                    ComboBox {
-                                        visible: root.isEditMode
-                                        model: [qsTr("Public"), qsTr("Friends Only"), qsTr("Private"), qsTr("Unlisted")]
-                                        currentIndex: root.editVisibility
-                                        onActivated: index => root.editVisibility = index
-                                        Layout.preferredWidth: 140
-                                    }
-                                    Label {
-                                        visible: !root.isEditMode
-                                        text: root.getVisibilityText(root.visibility)
-                                        color: Material.foreground
-                                    }
-                                }
-
-                                Label {
-                                    text: qsTr("Followers:")
-                                    color: Material.secondaryTextColor
-                                    visible: root.followerCount > 0
-                                }
-                                Label {
-                                    text: root.followerCount.toLocaleString()
-                                    color: Material.foreground
-                                    visible: root.followerCount > 0
-                                }
-                            }
-                        }
-                    }
-
+                    // Left column: Description + Details
                     ColumnLayout {
                         Layout.fillWidth: true
                         Layout.alignment: Qt.AlignTop
@@ -475,14 +538,59 @@ Item {
 
                         SPCore.ImageBlurContainer {
                             Layout.fillWidth: true
-                            implicitHeight: actionsColumn.implicitHeight + 30
+                            implicitHeight: descColumn.implicitHeight + 30
+                            backgroundSource: backgroundImage
+                            flickable: scrollView
+                            stackView: root.stackView
+                            radius: 8
+                            visible: root.itemDescription !== "" || root.isEditMode
+
+                            ColumnLayout {
+                                id: descColumn
+                                anchors {
+                                    fill: parent
+                                    margins: 15
+                                }
+                                spacing: 10
+
+                                Label {
+                                    text: qsTr("Description")
+                                    font.pointSize: 14
+                                    font.bold: true
+                                    color: Material.foreground
+                                }
+
+                                TextArea {
+                                    visible: root.isEditMode
+                                    text: root.editDescription
+                                    onTextChanged: root.editDescription = text
+                                    wrapMode: Text.WordWrap
+                                    Layout.fillWidth: true
+                                    Layout.minimumHeight: 100
+                                    placeholderText: qsTr("Enter description...")
+                                }
+
+                                Label {
+                                    visible: !root.isEditMode
+                                    text: root.itemDescription || qsTr("No description")
+                                    wrapMode: Text.WordWrap
+                                    Layout.fillWidth: true
+                                    color: root.itemDescription ? Material.foreground : Material.secondaryTextColor
+                                    font.pointSize: 11
+                                }
+                            }
+                        }
+
+                        SPCore.ImageBlurContainer {
+                            Layout.fillWidth: true
+                            implicitHeight: detailsColumn.implicitHeight + 30
                             backgroundSource: backgroundImage
                             flickable: scrollView
                             stackView: root.stackView
                             radius: 8
 
                             ColumnLayout {
-                                id: actionsColumn
+                                id: detailsColumn
                                 anchors {
                                     left: parent.left
                                     right: parent.right
@@ -492,92 +600,94 @@ Item {
                                 spacing: 12
 
                                 Label {
-                                    text: qsTr("Actions")
+                                    text: qsTr("Details")
                                     font.pointSize: 14
                                     font.bold: true
                                     color: Material.foreground
                                 }
 
-                                Flow {
+                                GridLayout {
+                                    columns: 2
+                                    columnSpacing: 20
+                                    rowSpacing: 8
                                     Layout.fillWidth: true
-                                    spacing: 10
 
-                                    Button {
-                                        visible: !root.isEditMode
-                                        text: qsTr("Edit Item")
-                                        icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_edit.svg"
-                                        icon.color: "white"
-                                        highlighted: true
-                                        onClicked: root.state = "edit"
+                                    Label {
+                                        text: qsTr("File ID:")
+                                        color: Material.secondaryTextColor
+                                    }
+                                    Label {
+                                        text: root.publishedFileID
+                                        color: Material.foreground
+                                        Layout.fillWidth: true
                                     }
 
-                                    Button {
-                                        visible: root.isEditMode
-                                        text: qsTr("Save Changes")
-                                        icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_done.svg"
-                                        icon.color: "white"
-                                        highlighted: true
-                                        enabled: !root.isSaving
-                                        onClicked: root.saveChanges()
+                                    Label {
+                                        text: qsTr("File Size:")
+                                        color: Material.secondaryTextColor
+                                    }
+                                    Label {
+                                        text: root.formatFileSize(root.totalFileSize > 0 ? root.totalFileSize : root.fileSize)
+                                        color: Material.foreground
                                     }
 
-                                    Button {
-                                        visible: root.isEditMode
-                                        text: qsTr("Cancel")
-                                        flat: true
-                                        onClicked: root.state = "view"
+                                    Label {
+                                        text: qsTr("Created:")
+                                        color: Material.secondaryTextColor
+                                    }
+                                    Label {
+                                        text: root.formatDateTime(root.timeCreated)
+                                        color: Material.foreground
                                     }
 
-                                    BusyIndicator {
-                                        visible: root.isSaving
-                                        running: root.isSaving
-                                        implicitWidth: 24
-                                        implicitHeight: 24
+                                    Label {
+                                        text: qsTr("Updated:")
+                                        color: Material.secondaryTextColor
+                                    }
+                                    Label {
+                                        text: root.formatDateTime(root.timeUpdated)
+                                        color: Material.foreground
                                     }
 
-                                    Button {
-                                        text: qsTr("Open in Steam")
-                                        icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_steam.svg"
-                                        flat: true
-                                        onClicked: Qt.openUrlExternally("steam://url/CommunityFilePage/" + root.publishedFileID)
+                                    Label {
+                                        text: qsTr("Visibility:")
+                                        color: Material.secondaryTextColor
+                                    }
+                                    RowLayout {
+                                        ComboBox {
+                                            visible: root.isEditMode
+                                            model: [qsTr("Public"), qsTr("Friends Only"), qsTr("Private"), qsTr("Unlisted")]
+                                            currentIndex: root.editVisibility
+                                            onActivated: index => root.editVisibility = index
+                                            Layout.preferredWidth: 140
+                                        }
+                                        Label {
+                                            visible: !root.isEditMode
+                                            text: root.getVisibilityText(root.visibility)
+                                            color: Material.foreground
+                                        }
                                     }
 
-                                    Button {
-                                        text: qsTr("Workshop Page")
-                                        icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_open_in_new.svg"
-                                        icon.color: Material.iconColor
-                                        flat: true
-                                        onClicked: Qt.openUrlExternally("https://steamcommunity.com/sharedfiles/filedetails/?id=" + root.publishedFileID)
+                                    Label {
+                                        text: qsTr("Followers:")
+                                        color: Material.secondaryTextColor
+                                        visible: root.followerCount > 0
                                     }
-
-                                    Button {
-                                        text: qsTr("Delete Item")
-                                        icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_delete.svg"
-                                        icon.color: "white"
-                                        Material.background: Material.Red
-                                        onClicked: deleteConfirmDialog.open()
+                                    Label {
+                                        text: root.followerCount.toLocaleString()
+                                        color: Material.foreground
+                                        visible: root.followerCount > 0
                                     }
-                                }
-
-                                Label {
-                                    visible: root.isEditMode
-                                    text: qsTr("Changes are uploaded directly to Steam Workshop.")
-                                    color: Material.secondaryTextColor
-                                    font.pointSize: 10
-                                    wrapMode: Text.WordWrap
-                                    Layout.fillWidth: true
-                                }
-
-                                Label {
-                                    visible: !root.isEditMode
-                                    text: qsTr("Click 'Edit Item' to modify title, description, tags or visibility.")
-                                    color: Material.secondaryTextColor
-                                    font.pointSize: 10
-                                    wrapMode: Text.WordWrap
-                                    Layout.fillWidth: true
                                 }
                             }
                         }
+                    }
+
+                    // Right column: Tags + Files
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        Layout.alignment: Qt.AlignTop
+                        spacing: 16
 
                         SPCore.ImageBlurContainer {
                             Layout.fillWidth: true
@@ -694,50 +804,109 @@ Item {
                                 }
                             }
                         }
-                    }
-                }
 
-                SPCore.ImageBlurContainer {
-                    Layout.fillWidth: true
-                    implicitHeight: descColumn.implicitHeight + 30
-                    backgroundSource: backgroundImage
-                    flickable: scrollView
-                    stackView: root.stackView
-                    radius: 8
-                    visible: root.itemDescription !== "" || root.isEditMode
-
-                    ColumnLayout {
-                        id: descColumn
-                        anchors {
-                            fill: parent
-                            margins: 15
-                        }
-                        spacing: 10
-
-                        Label {
-                            text: qsTr("Description")
-                            font.pointSize: 14
-                            font.bold: true
-                            color: Material.foreground
-                        }
-
-                        TextArea {
-                            visible: root.isEditMode
-                            text: root.editDescription
-                            onTextChanged: root.editDescription = text
-                            wrapMode: Text.WordWrap
+                        SPCore.ImageBlurContainer {
                             Layout.fillWidth: true
-                            Layout.minimumHeight: 100
-                            placeholderText: qsTr("Enter description...")
-                        }
+                            implicitHeight: filesColumn.implicitHeight + 30
+                            backgroundSource: backgroundImage
+                            flickable: scrollView
+                            stackView: root.stackView
+                            radius: 8
 
-                        Label {
-                            visible: !root.isEditMode
-                            text: root.itemDescription || qsTr("No description")
-                            wrapMode: Text.WordWrap
-                            Layout.fillWidth: true
-                            color: root.itemDescription ? Material.foreground : Material.secondaryTextColor
-                            font.pointSize: 11
+                            ColumnLayout {
+                                id: filesColumn
+                                anchors {
+                                    left: parent.left
+                                    right: parent.right
+                                    top: parent.top
+                                    margins: 15
+                                }
+                                spacing: 10
+
+                                RowLayout {
+                                    Layout.fillWidth: true
+
+                                    Label {
+                                        text: qsTr("Files")
+                                        font.pointSize: 14
+                                        font.bold: true
+                                        color: Material.foreground
+                                        Layout.fillWidth: true
+                                    }
+
+                                    Label {
+                                        visible: root.itemFiles.length > 0
+                                        text: root.itemFiles.length + " " + qsTr("files")
+                                        font.pointSize: 10
+                                        color: Material.secondaryTextColor
+                                    }
+                                }
+
+                                ColumnLayout {
+                                    visible: root.isContentUpdating
+                                    Layout.fillWidth: true
+                                    spacing: 6
+
+                                    Label {
+                                        text: root.getUpdateStatusText(root.contentUpdateStatus)
+                                        font.pointSize: 10
+                                        color: Material.secondaryTextColor
+                                    }
+
+                                    ProgressBar {
+                                        Layout.fillWidth: true
+                                        from: 0
+                                        to: 1
+                                        value: root.contentUpdateProgress
+                                        indeterminate: root.contentUpdateProgress <= 0
+                                    }
+                                }
+
+                                Button {
+                                    visible: root.installPath !== "" && !root.isContentUpdating
+                                    text: qsTr("Update Workshop Content")
+                                    icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_upload.svg"
+                                    highlighted: true
+                                    Layout.fillWidth: true
+                                    onClicked: changeNoteDialog.open()
+                                }
+
+                                Label {
+                                    visible: root.installPath === "" && root.itemFiles.length === 0
+                                    text: qsTr("Item not installed locally. Subscribe to see files.")
+                                    wrapMode: Text.WordWrap
+                                    Layout.fillWidth: true
+                                    color: Material.secondaryTextColor
+                                    font.pointSize: 10
+                                }
+
+                                Repeater {
+                                    model: root.itemFiles
+
+                                    delegate: RowLayout {
+                                        id: fileDelegate
+                                        required property var modelData
+                                        required property int index
+
+                                        Layout.fillWidth: true
+                                        spacing: 8
+
+                                        Label {
+                                            text: fileDelegate.modelData["name"]
+                                            elide: Text.ElideMiddle
+                                            Layout.fillWidth: true
+                                            color: Material.foreground
+                                            font.pointSize: 10
+                                        }
+
+                                        Label {
+                                            text: root.formatFileSize(fileDelegate.modelData["size"])
+                                            color: Material.secondaryTextColor
+                                            font.pointSize: 10
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -745,6 +914,54 @@ Item {
                 Item {
                     Layout.preferredHeight: 20
                 }
+            }
+        }
+    }
+
+    Dialog {
+        id: changeNoteDialog
+        title: qsTr("Update Workshop Content")
+        modal: true
+        anchors.centerIn: parent
+        width: 420
+        standardButtons: Dialog.Ok | Dialog.Cancel
+
+        onAccepted: {
+            root.isContentUpdating = true
+            root.contentUpdateProgress = 0
+            root.steamWorkshop.updateItemContent(root.publishedFileID, root.installPath, changeNoteField.text)
+        }
+
+        ColumnLayout {
+            width: parent.width
+            spacing: 12
+
+            Label {
+                text: qsTr("Modify the files in the installed folder, then submit your changes here.")
+                wrapMode: Text.WordWrap
+                Layout.fillWidth: true
+                color: Material.foreground
+            }
+
+            Label {
+                text: qsTr("Change note (optional):")
+                color: Material.foreground
+            }
+
+            TextArea {
+                id: changeNoteField
+                Layout.fillWidth: true
+                Layout.minimumHeight: 80
+                placeholderText: qsTr("Describe what changed...")
+                wrapMode: Text.WordWrap
+            }
+
+            Label {
+                text: qsTr("Content folder: %1").arg(root.installPath)
+                color: Material.secondaryTextColor
+                font.pointSize: 10
+                wrapMode: Text.WordWrap
+                Layout.fillWidth: true
             }
         }
     }
@@ -824,7 +1041,6 @@ Item {
 
                 Button {
                     text: qsTr("Cancel")
-                    flat: true
                     onClicked: deleteConfirmDialog.close()
                 }
 
@@ -832,7 +1048,6 @@ Item {
                     text: qsTr("Delete Permanently")
                     icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_close.svg"
                     icon.color: "white"
-                    Material.background: Material.Red
                     onClicked: {
                         root.steamWorkshop.deleteItem(root.publishedFileID)
                         deleteConfirmDialog.close()

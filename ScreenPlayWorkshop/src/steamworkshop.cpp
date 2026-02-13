@@ -298,6 +298,114 @@ void SteamWorkshop::onUpdateItemMetadataReturned(SubmitItemUpdateResult_t* pCall
     emit workshopItemMetadataUpdated(success, QVariant::fromValue<quint64>(pCallback->m_nPublishedFileId));
 }
 
+/*! \brief Returns install info for a subscribed workshop item: path, sizeOnDisk, timestamp. */
+QVariantMap SteamWorkshop::getItemInstallInfo(const QVariant publishedFileID) const
+{
+    QVariantMap result;
+    if (!SteamUGC())
+        return result;
+
+    const auto id = publishedFileID.toULongLong();
+    uint64 punSizeOnDisk = 0;
+    char pchFolder[4096];
+    uint32 punTimeStamp = 0;
+
+    if (!SteamUGC()->GetItemInstallInfo(id, &punSizeOnDisk, pchFolder, sizeof(pchFolder), &punTimeStamp)) {
+        return result;
+    }
+
+    result["path"] = QString::fromUtf8(pchFolder);
+    result["sizeOnDisk"] = QVariant::fromValue<quint64>(punSizeOnDisk);
+    result["timestamp"] = punTimeStamp;
+    return result;
+}
+
+/*! \brief Returns a list of files inside an installed workshop item's folder. Each entry is a map with name, size, isDir. */
+QVariantList SteamWorkshop::getItemFileList(const QVariant publishedFileID) const
+{
+    QVariantList files;
+    const auto installInfo = getItemInstallInfo(publishedFileID);
+    if (installInfo.isEmpty())
+        return files;
+
+    const auto path = installInfo["path"].toString();
+    QDirIterator it(path, QDir::Files | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
+
+    const QDir baseDir(path);
+    while (it.hasNext()) {
+        it.next();
+        QVariantMap entry;
+        entry["name"] = baseDir.relativeFilePath(it.filePath());
+        entry["size"] = it.fileInfo().size();
+        files.append(entry);
+    }
+
+    return files;
+}
+
+/*! \brief Starts a content update for a workshop item from a local folder. Emits progress signals. */
+void SteamWorkshop::updateItemContent(const QVariant publishedFileID, const QString& absoluteContentPath, const QString& changeNote)
+{
+    if (!checkOnline())
+        return;
+
+    m_updateContentPublishedFileId = publishedFileID.toULongLong();
+    m_contentUpdateHandle = SteamUGC()->StartItemUpdate(m_appID, m_updateContentPublishedFileId);
+
+    SteamUGC()->SetItemContent(m_contentUpdateHandle, absoluteContentPath.toUtf8().constData());
+
+    const auto apiCall = SteamUGC()->SubmitItemUpdate(
+        m_contentUpdateHandle,
+        changeNote.isEmpty() ? nullptr : changeNote.toUtf8().constData());
+    m_steamUGCUpdateContent.Set(apiCall, this, &SteamWorkshop::onUpdateItemContentReturned);
+}
+
+void SteamWorkshop::onUpdateItemContentReturned(SubmitItemUpdateResult_t* pCallback, bool bIOFailure)
+{
+    m_contentUpdateHandle = k_UGCUpdateHandleInvalid;
+
+    if (bIOFailure) {
+        qWarning() << "onUpdateItemContentReturned IO Failure";
+        emit workshopItemContentUpdated(false, QVariant::fromValue<quint64>(m_updateContentPublishedFileId));
+        return;
+    }
+
+    const bool success = (pCallback->m_eResult == k_EResultOK);
+    if (success) {
+        qInfo() << "Successfully updated item content:" << pCallback->m_nPublishedFileId;
+    } else {
+        qWarning() << "Failed to update item content:" << pCallback->m_nPublishedFileId
+                   << "Result:" << pCallback->m_eResult;
+    }
+    emit workshopItemContentUpdated(success, QVariant::fromValue<quint64>(pCallback->m_nPublishedFileId));
+}
+
+/*! \brief Returns the current content update progress as a map with progress (0..1) and status. */
+QVariantMap SteamWorkshop::getContentUpdateProgress() const
+{
+    QVariantMap result;
+    if (m_contentUpdateHandle == k_UGCUpdateHandleInvalid) {
+        result["progress"] = 0.0;
+        result["status"] = 0;
+        return result;
+    }
+
+    uint64 bytesProcessed = 0;
+    uint64 bytesTotal = 0;
+    const auto status = SteamUGC()->GetItemUpdateProgress(m_contentUpdateHandle, &bytesProcessed, &bytesTotal);
+
+    auto progress = 0.0;
+    if (bytesTotal > 0) {
+        progress = static_cast<double>(bytesProcessed) / static_cast<double>(bytesTotal);
+    }
+
+    result["progress"] = progress;
+    result["status"] = static_cast<int>(status);
+    result["bytesProcessed"] = QVariant::fromValue<quint64>(bytesProcessed);
+    result["bytesTotal"] = QVariant::fromValue<quint64>(bytesTotal);
+    return result;
+}
+
 bool SteamWorkshop::steamErrorAPIInit() const
 {
     return m_steamErrorAPIInit;
