@@ -275,7 +275,7 @@ Item {
                 Layout.alignment: Qt.AlignHCenter
                 spacing: 4
 
-                Image {
+                SPCore.ColorImage {
                     source: statCard.iconSource
                     sourceSize: Qt.size(12, 12)
                     opacity: 0.7

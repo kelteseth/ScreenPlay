@@ -538,7 +538,6 @@ Item {
                                     Button {
                                         text: qsTr("Open in Steam")
                                         icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_steam.svg"
-                                        icon.color: "transparent"
                                         flat: true
                                         onClicked: Qt.openUrlExternally("steam://url/CommunityFilePage/" + root.publishedFileID)
                                     }
@@ -866,7 +865,7 @@ Item {
             RowLayout {
                 spacing: 6
 
-                Image {
+                SPCore.ColorImage {
                     source: statCard.iconSource
                     sourceSize: Qt.size(14, 14)
                     opacity: 0.7

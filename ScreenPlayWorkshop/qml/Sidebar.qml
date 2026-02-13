@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material
 import ScreenPlayWorkshop
+import ScreenPlayCore as SPCore
 
 Drawer {
     id: root
@@ -140,7 +141,7 @@ Drawer {
             cursorShape: Qt.PointingHandCursor
             onClicked: root.close()
 
-            Image {
+            SPCore.ColorImage {
                 id: imgBack
 
                 source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_arrow_right.svg"
@@ -340,7 +341,6 @@ Drawer {
 
             font.pointSize: 10
             icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_open_in_new.svg"
-            icon.color: "transparent"
             height: 25
             text: qsTr("Open In Steam")
             onClicked: Qt.openUrlExternally("steam://url/CommunityFilePage/" + root.publishedFileID)

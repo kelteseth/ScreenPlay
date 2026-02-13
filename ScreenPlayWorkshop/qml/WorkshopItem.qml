@@ -3,6 +3,7 @@ import QtQuick
 import QtQuick.Controls.Material
 import QtMultimedia
 import ScreenPlayWorkshop
+import ScreenPlayCore as SPCore
 
 Item {
     id: root
@@ -169,7 +170,7 @@ Item {
                 right: itemWrapper.right
             }
 
-            Image {
+            SPCore.ColorImage {
                 source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_open_in_new.svg"
                 sourceSize: Qt.size(parent.width, parent.height)
                 fillMode: Image.PreserveAspectFit

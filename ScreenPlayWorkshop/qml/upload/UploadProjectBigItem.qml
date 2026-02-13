@@ -4,6 +4,7 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Controls.Material.impl
 import "../"
+import ScreenPlayCore as SPCore
 
 Item {
     id: root
@@ -72,7 +73,7 @@ Item {
                 }
             }
 
-            Image {
+            SPCore.ColorImage {
                 id: icnType
 
                 width: 20
