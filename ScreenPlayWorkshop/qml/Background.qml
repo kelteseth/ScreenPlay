@@ -82,12 +82,17 @@ Rectangle {
             gradient: Gradient {
                 GradientStop {
                     position: 0
-                    color: "#00ffffff"
+                    color: "#00161C1D"
                 }
 
                 GradientStop {
-                    position: 0.6
-                    color: "#00ffffff"
+                    position: 0.4
+                    color: "#00161C1D"
+                }
+
+                GradientStop {
+                    position: 0.75
+                    color: "#80161C1D"
                 }
 
                 GradientStop {
@@ -165,7 +170,7 @@ Rectangle {
 
             PropertyChanges {
                 target: bgColor
-                opacity: 0.8
+                opacity: 0.4
             }
 
             PropertyChanges {
@@ -184,7 +189,7 @@ Rectangle {
 
             PropertyChanges {
                 target: bgColor
-                opacity: 0.85
+                opacity: 0.5
             }
 
             PropertyChanges {
@@ -214,8 +219,8 @@ Rectangle {
 
             PropertyAnimation {
                 targets: [bgImage, bgColor, blur]
-                duration: 200
-                easing.type: Easing.InOutQuart
+                duration: 600
+                easing.type: Easing.InOutQuad
                 property: "opacity"
             }
         },

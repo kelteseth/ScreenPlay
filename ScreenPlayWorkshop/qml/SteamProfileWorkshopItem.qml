@@ -371,7 +371,8 @@ Item {
                         Layout.alignment: Qt.AlignTop
                         implicitHeight: detailsColumn.implicitHeight + 30
                         backgroundSource: backgroundImage
-                        scrollY: scrollView.contentY
+                        flickable: scrollView
+                        stackView: root.stackView
                         radius: 8
 
                         ColumnLayout {
@@ -476,7 +477,8 @@ Item {
                             Layout.fillWidth: true
                             implicitHeight: actionsColumn.implicitHeight + 30
                             backgroundSource: backgroundImage
-                            scrollY: scrollView.contentY
+                            flickable: scrollView
+                            stackView: root.stackView
                             radius: 8
 
                             ColumnLayout {
@@ -582,7 +584,8 @@ Item {
                             Layout.fillWidth: true
                             implicitHeight: tagsColumn.implicitHeight + 30
                             backgroundSource: backgroundImage
-                            scrollY: scrollView.contentY
+                            flickable: scrollView
+                            stackView: root.stackView
                             radius: 8
                             visible: (root.itemTags.length > 0 && root.itemTags[0] !== "") || root.isEditMode
 
@@ -699,7 +702,8 @@ Item {
                     Layout.fillWidth: true
                     implicitHeight: descColumn.implicitHeight + 30
                     backgroundSource: backgroundImage
-                    scrollY: scrollView.contentY
+                    flickable: scrollView
+                    stackView: root.stackView
                     radius: 8
                     visible: root.itemDescription !== "" || root.isEditMode
 
@@ -847,7 +851,8 @@ Item {
         required property string iconSource
 
         backgroundSource: backgroundImage
-        scrollY: scrollView.contentY
+        flickable: scrollView
+        stackView: root.stackView
         radius: 8
         implicitHeight: 70
 

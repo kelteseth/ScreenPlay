@@ -14,9 +14,7 @@ Item {
     property SteamWorkshop steamWorkshop
     property Background background
 
-    StackView.onActivated: {
-        if (!root.steamWorkshop)
-            return
+    Component.onCompleted: {
         root.state = "searching"
         root.steamWorkshop.searchWorkshopByText("")
     }
@@ -40,15 +38,9 @@ Item {
     Connections {
         id: searchConnection
         target: root.steamWorkshop
-        enabled: root.steamWorkshop !== null
         function onWorkshopBannerCompleted(): void {
-            if (!root.steamWorkshop || !root.steamWorkshop.workshopListModel)
-                return
-            if (!gridView.headerItem)
-                return
             gridView.headerItem.bannerTxt.text = root.steamWorkshop.workshopListModel.getBannerText()
-            if (root.background)
-                root.background.backgroundImage = root.steamWorkshop.workshopListModel.getBannerUrl()
+            root.background.backgroundImage = root.steamWorkshop.workshopListModel.getBannerUrl()
             gridView.headerItem.banner.bannerPublishedFileID = root.steamWorkshop.workshopListModel.getBannerID()
             gridView.headerItem.bannerTxtUnderline.numberSubscriber = root.steamWorkshop.workshopListModel.getBannerAmountSubscriber()
         }
@@ -67,8 +59,7 @@ Item {
             popupSteamWorkshopAgreement.open()
         }
 
-        target: root.steamWorkshop ? root.steamWorkshop.uploadListModel : null
-        enabled: root.steamWorkshop !== null
+        target: root.steamWorkshop.uploadListModel
     }
 
     SPCore.MaterialGridView {
@@ -93,7 +84,7 @@ Item {
             // Calculate parallax scrolling
             if (root.background) {
                 if (contentY >= 0)
-                    root.background.imageOffsetTop = (contentY * -0.4)
+                    root.background.imageOffsetTop = (contentY * -0.8)
                 else
                     root.background.imageOffsetTop = 0
             }
@@ -213,8 +204,9 @@ Item {
             SPCore.ImageBlurContainer {
                 id: searchBar
                 backgroundSource: root.background.image
-                scrollY: gridView.contentY
-                radius: 3
+                flickable: gridView
+                stackView: root.stackView
+                radius: 8
                 width: parent.width - 10
                 height: 70
                 clip: true
@@ -228,14 +220,15 @@ Item {
                 SteamImage {
                     id: avatar
 
-                    width: 70
-                    height: 70
+                    width: 55
+                    height: 55
                     Component.onCompleted: {
                         steamWorkshop.steamAccount.loadAvatar()
                     }
 
                     anchors {
                         left: parent.left
+                        leftMargin: 8
                         verticalCenter: parent.verticalCenter
                     }
 
@@ -548,7 +541,8 @@ Item {
 
         background: SPCore.ImageBlurContainer {
             backgroundSource: root.background.image
-            radius: 3
+            flickable: gridView
+            stackView: root.stackView
         }
         padding: 10
     }

@@ -261,7 +261,8 @@ Item {
         required property string iconSource
 
         backgroundSource: backgroundImage
-        scrollY: scrollView.contentY
+        flickable: scrollView
+        stackView: root.stackView
         radius: 8
         implicitWidth: 90
         implicitHeight: 70

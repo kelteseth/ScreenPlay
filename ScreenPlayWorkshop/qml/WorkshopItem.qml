@@ -136,23 +136,23 @@ Item {
         Text {
             id: txtTitle
 
-                text: root.name
-                opacity: 0
-                height: 30
-                width: 180
-                verticalAlignment: Text.AlignVCenter
-                color: "white"
-                font.pointSize: 14
-                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            text: root.name
+            opacity: 0
+            height: 30
+            width: 180
+            verticalAlignment: Text.AlignVCenter
+            color: "white"
+            font.pointSize: 14
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 
-                anchors {
-                    bottom: parent.bottom
-                    right: parent.right
-                    rightMargin: 20
-                    left: parent.left
-                    leftMargin: 20
-                    bottomMargin: -50
-                }
+            anchors {
+                bottom: parent.bottom
+                right: parent.right
+                rightMargin: 20
+                left: parent.left
+                leftMargin: 20
+                bottomMargin: -50
+            }
         }
 
         Item {
@@ -270,7 +270,7 @@ Item {
                     easing.type: Easing.OutQuart
                 }
             }
-        },
+        }
     ]
 
     SequentialAnimation {

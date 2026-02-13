@@ -81,6 +81,8 @@ public:
     void setSteamErrorAPIInit(bool newSteamErrorAPIInit);
     void resetSteamErrorAPIInit();
 
+    Q_INVOKABLE bool isSubscribed(const QVariant publishedFileID) const;
+
 public slots:
     bool checkOnline();
     void bulkUploadToWorkshop(QStringList absoluteStoragePaths);
@@ -89,6 +91,7 @@ public slots:
     void requestProfileItemDetails(const QVariant publishedFileID);
     void vote(const QVariant publishedFileID, const bool voteUp);
     void subscribeItem(const QVariant publishedFileID);
+    void unsubscribeItem(const QVariant publishedFileID);
     void deleteItem(const QVariant publishedFileID);
     void updateItemVisibility(const QVariant publishedFileID, const int visibility);
     void updateItemMetadata(const QVariant publishedFileID, const QString& title, const QString& description, const QStringList& tags);

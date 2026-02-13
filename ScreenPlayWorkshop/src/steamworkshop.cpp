@@ -370,12 +370,33 @@ void SteamWorkshop::vote(const QVariant publishedFileID, const bool voteUp)
     SteamUGC()->SetUserItemVote(publishedFileID.toULongLong(), voteUp);
 }
 
+/*! \brief Returns true if the current user is subscribed to the given workshop item. */
+bool SteamWorkshop::isSubscribed(const QVariant publishedFileID) const
+{
+    if (!SteamUGC())
+        return false;
+
+    const auto state = SteamUGC()->GetItemState(publishedFileID.toULongLong());
+    return (state & k_EItemStateSubscribed) != 0;
+}
+
+/*! \brief Subscribes to the given workshop item. */
 void SteamWorkshop::subscribeItem(const QVariant publishedFileID)
 {
     if (!checkOnline())
         return;
 
     SteamUGC()->SubscribeItem(publishedFileID.toULongLong());
+    m_steamAccount->loadAmountSubscribedItems();
+}
+
+/*! \brief Unsubscribes from the given workshop item. */
+void SteamWorkshop::unsubscribeItem(const QVariant publishedFileID)
+{
+    if (!checkOnline())
+        return;
+
+    SteamUGC()->UnsubscribeItem(publishedFileID.toULongLong());
     m_steamAccount->loadAmountSubscribedItems();
 }
 

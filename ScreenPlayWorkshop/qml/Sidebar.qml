@@ -14,6 +14,8 @@ Drawer {
     property var publishedFileID
     property int itemIndex
     property int subscriptionCount
+    property int votesUp: 0
+    property int votesDown: 0
     property bool subscribed: false
 
     signal tagClicked(var tag)
@@ -47,6 +49,7 @@ Drawer {
 
     Connections {
         function onRequestItemDetailReturned(title, tags, steamIDOwner, description, votesUp, votesDown, url, fileSize, publishedFileId) {
+            root.subscribed = steamWorkshop.isSubscribed(publishedFileId)
             tagListModel.clear();
             // Even if the tags array is empty it still contains
             // one empty string, resulting in an empty button
@@ -63,14 +66,11 @@ Drawer {
             txtTitle.text = title
             const size = Math.floor((1000 * ((fileSize / 1024) / 1000)) / 1000)
             txtFileSize.text = qsTr("Size: ") + size + " MB"
-            pbVotes.to = votesDown + votesUp
-            pbVotes.value = votesUp
-            txtVotesDown.text = votesDown
-            txtVotesUp.text = votesUp
+            root.votesUp = votesUp
+            root.votesDown = votesDown
             if (description === "")
                 description = qsTr("No description...")
             txtDescription.text = description
-            pbVotes.hoverText = votesUp + " / " + votesDown
         }
 
         target: steamWorkshop
@@ -78,7 +78,9 @@ Drawer {
 
     Item {
         id: imgWrapper
-
+        // Keys must be used in an Item and Drawer is not an Item...
+        Keys.onEscapePressed: root.close()
+        focus: true
         width: parent.width
         height: 220
 
@@ -165,55 +167,57 @@ Drawer {
             Layout.fillWidth: true
             spacing: 20
 
-            ColumnLayout {
-                Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-                spacing: 20
+            RowLayout {
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignTop
+                spacing: 10
 
-                RowLayout {
-                    Layout.maximumWidth: 280
-                    Layout.alignment: Qt.AlignHCenter
-                    spacing: 20
+                Text {
+                    id: txtVotePercentage
 
-                    ToolButton {
-                        id: txtVotesUp
+                    property int total: root.votesUp + root.votesDown
 
-                        Layout.fillWidth: true
-                        icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_thumb_up.svg"
-                        icon.color: Material.iconColor
-                        ToolTip.visible: hovered
-                        ToolTip.text: qsTr("Click here if you like the content")
-                        onClicked: {
-                            steamWorkshop.vote(root.publishedFileID, true)
-                            txtVotesUp.highlighted = true
-                            txtVotesDown.highlighted = false
-                        }
-                    }
+                    Layout.fillWidth: true
+                    color: Material.primaryTextColor
+                    font.pointSize: 14
+                    font.bold: true
+                    text: total > 0 ? Math.round((root.votesUp / total) * 100) + qsTr("% positive") : qsTr("No votes yet")
+                    ToolTip.visible: hovered
+                    ToolTip.text: root.votesUp + " 👍  /  " + root.votesDown + " 👎"
 
-                    ToolButton {
-                        id: txtVotesDown
-
-                        Layout.fillWidth: true
-                        icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_thumb_down.svg"
-                        icon.color: Material.iconColor
-                        ToolTip.visible: hovered
-                        ToolTip.text: qsTr("Click here if you do not like the content")
-                        onClicked: {
-                            steamWorkshop.vote(root.publishedFileID, false)
-                            txtVotesUp.highlighted = false
-                            txtVotesDown.highlighted = true
-                        }
+                    HoverHandler {
+                        id: voteHover
                     }
                 }
 
-                ProgressBar {
-                    id: pbVotes
+                ToolButton {
+                    id: txtVotesUp
 
-                    property string hoverText
-
-                    Layout.alignment: Qt.AlignHCenter
-                    Layout.fillWidth: true
+                    text: root.votesUp
+                    icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_thumb_up.svg"
+                    icon.color: Material.iconColor
                     ToolTip.visible: hovered
-                    ToolTip.text: hoverText
+                    ToolTip.text: qsTr("Click here if you like the content")
+                    onClicked: {
+                        steamWorkshop.vote(root.publishedFileID, true)
+                        txtVotesUp.highlighted = true
+                        txtVotesDown.highlighted = false
+                    }
+                }
+
+                ToolButton {
+                    id: txtVotesDown
+
+                    text: root.votesDown
+                    icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_thumb_down.svg"
+                    icon.color: Material.iconColor
+                    ToolTip.visible: hovered
+                    ToolTip.text: qsTr("Click here if you do not like the content")
+                    onClicked: {
+                        steamWorkshop.vote(root.publishedFileID, false)
+                        txtVotesUp.highlighted = false
+                        txtVotesDown.highlighted = true
+                    }
                 }
             }
 
@@ -227,6 +231,13 @@ Drawer {
                 flickableDirection: Flickable.HorizontalFlick
                 ScrollBar.horizontal: ScrollBar {
                     height: 5
+                }
+
+                WheelHandler {
+                    orientation: Qt.Vertical
+                    onWheel: event => {
+                        tagsFlickable.contentX = Math.max(0, Math.min(tagsFlickable.contentX - event.angleDelta.y, tagsFlickable.contentWidth - tagsFlickable.width))
+                    }
                 }
                 contentWidth: rpTagList.childrenRect.width + rowTagList.width + (rpTagList.count * rowTagList.spacing)
                 contentHeight: 40
@@ -285,13 +296,15 @@ Drawer {
 
             Rectangle {
                 Layout.fillWidth: true
+                Layout.fillHeight: true
                 Layout.minimumHeight: 150
-                Layout.alignment: Qt.AlignTop
-                //txtDescription.paintedHeight > 100
                 color: Material.backgroundColor
                 radius: 3
+                clip: true
 
                 ScrollView {
+                    id: descriptionScrollView
+
                     anchors.fill: parent
                     anchors.margins: 20
                     clip: true
@@ -301,7 +314,7 @@ Drawer {
                     Text {
                         id: txtDescription
 
-                        width: parent.width
+                        width: descriptionScrollView.availableWidth
                         color: Material.primaryTextColor
                         font.pointSize: 12
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
@@ -336,13 +349,18 @@ Drawer {
         Button {
             id: btnSubscribe
 
-            highlighted: !root.subscribed
-            enabled: !root.subscribed
-            icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_download.svg"
-            text: root.subscribed ? qsTr("Subscribed!") : qsTr("Subscribe")
+            highlighted: true
+            Material.accent: root.subscribed ? Material.Red : Material.primary
+            icon.source: root.subscribed ? "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_close.svg" : "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_download.svg"
+            text: root.subscribed ? qsTr("Unsubscribe") : qsTr("Subscribe")
             onClicked: {
-                root.subscribed = true
-                root.steamWorkshop.subscribeItem(root.publishedFileID)
+                if (root.subscribed) {
+                    root.subscribed = false
+                    root.steamWorkshop.unsubscribeItem(root.publishedFileID)
+                } else {
+                    root.subscribed = true
+                    root.steamWorkshop.subscribeItem(root.publishedFileID)
+                }
             }
         }
     }
