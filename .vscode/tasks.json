@@ -20,8 +20,8 @@
         },
         {
             "type": "shell",
-            "label": "⚙️ Build Godot Wallpaper plugin",
-            "command": "uv run Tools/build_godot.py --build_path ${command:cmake.buildDirectory}/bin",
+            "label": "⚙️ Build GodotWallpaper",
+            "command": "uv run Tools/build_godot.py --build_path ${command:cmake.buildDirectory}/ScreenPlay",
         },
         {
             "type": "shell",
