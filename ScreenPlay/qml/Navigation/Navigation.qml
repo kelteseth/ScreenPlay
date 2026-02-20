@@ -4,6 +4,8 @@ import QtQuick.Layouts
 import QtQuick.Window
 import QtQuick.Controls.Material
 import QtQuick.Controls.Material.impl
+import QtQuick.Controls.impl
+import QtQuick.Effects
 import ScreenPlay
 import "../Components"
 
@@ -123,8 +125,103 @@ Rectangle {
                 text: qsTr("Installed") + " " + App.installedListModel.count
                 objectName: "Installed"
                 icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_installed.svg"
+                icon.color: shineColor
                 onClicked: {
                     root.onPageChanged("Installed")
+                }
+
+                property bool initialLoadDone: false
+                property color shineColor: Material.foreground
+                property real shineGlow: 0.0
+
+                contentItem: Item {
+                    implicitWidth: innerLabel.implicitWidth
+                    implicitHeight: innerLabel.implicitHeight
+
+                    // Blurred glow copy rendered behind the sharp label
+                    IconLabel {
+                        id: glowLabel
+                        anchors.fill: parent
+                        spacing: navInstalled.spacing
+                        mirrored: navInstalled.mirrored
+                        display: navInstalled.display
+                        icon: navInstalled.icon
+                        text: navInstalled.text
+                        font: navInstalled.font
+                        color: Material.color(Material.Orange)
+                        visible: navInstalled.shineGlow > 0
+                        layer.enabled: navInstalled.shineGlow > 0
+                        layer.effect: MultiEffect {
+                            blurEnabled: true
+                            blur: navInstalled.shineGlow * 0.9
+                            blurMax: 32
+                            brightness: navInstalled.shineGlow * 0.5
+                        }
+                    }
+
+                    // Sharp label on top
+                    IconLabel {
+                        id: innerLabel
+                        anchors.fill: parent
+                        spacing: navInstalled.spacing
+                        mirrored: navInstalled.mirrored
+                        display: navInstalled.display
+                        icon: navInstalled.icon
+                        text: navInstalled.text
+                        font: navInstalled.font
+                        color: navInstalled.shineColor
+                    }
+                }
+
+                SequentialAnimation {
+                    id: shineAnimation
+                    ParallelAnimation {
+                        ColorAnimation {
+                            target: navInstalled
+                            property: "shineColor"
+                            to: Material.color(Material.Orange)
+                            duration: 400
+                            easing.type: Easing.OutCubic
+                        }
+                        NumberAnimation {
+                            target: navInstalled
+                            property: "shineGlow"
+                            to: 1.0
+                            duration: 400
+                            easing.type: Easing.OutCubic
+                        }
+                    }
+                    PauseAnimation {
+                        duration: 500
+                    }
+                    ParallelAnimation {
+                        ColorAnimation {
+                            target: navInstalled
+                            property: "shineColor"
+                            to: navInstalled.Material.foreground
+                            duration: 700
+                            easing.type: Easing.InCubic
+                        }
+                        NumberAnimation {
+                            target: navInstalled
+                            property: "shineGlow"
+                            to: 0.0
+                            duration: 700
+                            easing.type: Easing.InCubic
+                        }
+                    }
+                }
+
+                Connections {
+                    target: App.installedListModel
+                    function onInstalledLoadingFinished() {
+                        navInstalled.initialLoadDone = true
+                    }
+                    function onCountChanged(count: int) {
+                        if (!navInstalled.initialLoadDone)
+                            return
+                        shineAnimation.restart()
+                    }
                 }
             }
 

@@ -54,9 +54,17 @@ InstalledListModel::InstalledListModel(
 */
 void InstalledListModel::init()
 {
-    QString projectsPath = m_globalVariables->localStoragePath().toLocalFile();
+    const QString projectsPath = m_globalVariables->localStoragePath().toLocalFile();
     if (projectsPath.isEmpty())
         return;
+
+    // Watch the root content directory so that new workshop downloads (new subdirs) trigger a reload
+    m_fileSystemWatcher.addPath(projectsPath);
+
+    // Watch each existing content subfolder and its files
+    for (const QFileInfo& subDir : QDir(projectsPath).entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs)) {
+        m_fileSystemWatcher.addPath(subDir.absoluteFilePath());
+    }
     QDirIterator projectFilesIter(projectsPath, { "*.qml", "*.html", "*.css", "*.js", "*.png", "project.json" }, QDir::Files | QDir::NoSymLinks, QDirIterator::Subdirectories);
     while (projectFilesIter.hasNext()) {
         m_fileSystemWatcher.addPath(projectFilesIter.next());
@@ -276,6 +284,24 @@ void InstalledListModel::loadInstalledContent()
         loadFiles(installedPath);
 
         setCount(counter);
+
+        // Register any newly downloaded content directories with the watcher.
+        // Must run on the main thread since QFileSystemWatcher is not thread-safe.
+        QMetaObject::invokeMethod(this, [this]() {
+            const QString rootPath = m_globalVariables->localStoragePath().toLocalFile();
+            const QStringList alreadyWatched = m_fileSystemWatcher.directories() + m_fileSystemWatcher.files();
+            for (const QFileInfo& subDir : QDir(rootPath).entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs)) {
+                if (!alreadyWatched.contains(subDir.absoluteFilePath()))
+                    m_fileSystemWatcher.addPath(subDir.absoluteFilePath());
+                QDirIterator newFilesIter(subDir.absoluteFilePath(), { "*.qml", "*.html", "*.css", "*.js", "*.png", "project.json" }, QDir::Files | QDir::NoSymLinks);
+                while (newFilesIter.hasNext()) {
+                    const QString fp = newFilesIter.next();
+                    if (!alreadyWatched.contains(fp))
+                        m_fileSystemWatcher.addPath(fp);
+                }
+            }
+        }, Qt::QueuedConnection);
+
         emit installedLoadingFinished();
         m_isLoading = false;
     });
