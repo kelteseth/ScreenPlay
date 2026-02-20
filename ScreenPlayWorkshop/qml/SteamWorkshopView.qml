@@ -38,11 +38,24 @@ Item {
     Connections {
         id: searchConnection
         target: root.steamWorkshop
+
+        property string bannerCreatorSteamID: ""
+
         function onWorkshopBannerCompleted(): void {
             gridView.headerItem.bannerTxt.text = root.steamWorkshop.workshopListModel.getBannerText()
             root.background.backgroundImage = root.steamWorkshop.workshopListModel.getBannerUrl()
             gridView.headerItem.banner.bannerPublishedFileID = root.steamWorkshop.workshopListModel.getBannerID()
             gridView.headerItem.bannerTxtUnderline.numberSubscriber = root.steamWorkshop.workshopListModel.getBannerAmountSubscriber()
+            gridView.headerItem.bannerCreatorLabel.creatorName = ""
+            gridView.headerItem.bannerCreatorLabel.creatorSteamID = ""
+            searchConnection.bannerCreatorSteamID = root.steamWorkshop.workshopListModel.getBannerCreatorSteamID()
+        }
+
+        function onCreatorNameReady(name: string, steamID64: string): void {
+            if (steamID64 === searchConnection.bannerCreatorSteamID) {
+                gridView.headerItem.bannerCreatorLabel.creatorName = name
+                gridView.headerItem.bannerCreatorLabel.creatorSteamID = steamID64
+            }
         }
 
         function onWorkshopSearchCompleted(itemCount: int): void {
@@ -112,6 +125,7 @@ Item {
             property alias banner: banner
             property alias bannerTxt: bannerTxt
             property alias bannerTxtUnderline: bannerTxtUnderline
+            property alias bannerCreatorLabel: bannerCreatorLabel
 
             height: 450 + 100 + 90 // banner + topMargin + search bar
             width: gridView.width - gridView.anchors.leftMargin
@@ -163,6 +177,27 @@ Item {
                     HeaderLabel {
                         id: bannerTxt
                         font.pointSize: 42
+                    }
+
+                    HeaderLabel {
+                        id: bannerCreatorLabel
+
+                        property string creatorName: ""
+                        property string creatorSteamID: ""
+
+                        text: creatorName ? qsTr("By %1").arg(creatorName) : ""
+                        visible: creatorName !== ""
+                        font.pointSize: 14
+                        font.underline: true
+
+                        MouseArea {
+                            anchors.fill: parent
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: {
+                                gridView.headerItem.searchField.text = bannerCreatorLabel.creatorName
+                                root.steamWorkshop.searchWorkshopByUser(bannerCreatorLabel.creatorSteamID)
+                            }
+                        }
                     }
 
                     RowLayout {
@@ -544,6 +579,10 @@ Item {
             gridView.headerItem.searchField.text = quoted
             root.steamWorkshop.searchWorkshopByText(quoted)
             sidebar.close()
+        }
+        onCreatorSearchRequested: (creatorName, creatorSteamID) => {
+            gridView.headerItem.searchField.text = creatorName
+            root.steamWorkshop.searchWorkshopByUser(creatorSteamID)
         }
     }
 

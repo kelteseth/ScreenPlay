@@ -94,6 +94,34 @@ void SteamWorkshop::onWorkshopItemInstalled(ItemInstalled_t* itemInstalled)
     emit workshopItemInstalled(itemInstalled->m_unAppID, itemInstalled->m_nPublishedFileId);
 }
 
+void SteamWorkshop::onPersonaStateChange(PersonaStateChange_t* pCallback)
+{
+    if (!(pCallback->m_nChangeFlags & k_EPersonaChangeName))
+        return;
+    if (!m_pendingCreatorRequests.contains(pCallback->m_ulSteamID))
+        return;
+
+    m_pendingCreatorRequests.remove(pCallback->m_ulSteamID);
+    const CSteamID steamID(pCallback->m_ulSteamID);
+    const auto name = QString(SteamFriends()->GetFriendPersonaName(steamID));
+    const auto steamID64 = QString::number(pCallback->m_ulSteamID);
+    emit creatorNameReady(name, steamID64);
+}
+
+/*! \brief Requests the Steam persona name for the given steamID64. Emits creatorNameReady when available. */
+void SteamWorkshop::requestCreatorName(const QString& steamID64)
+{
+    const CSteamID creatorID(steamID64.toULongLong());
+    if (!SteamFriends()->RequestUserInformation(creatorID, true)) {
+        // Already cached
+        const auto name = QString(SteamFriends()->GetFriendPersonaName(creatorID));
+        emit creatorNameReady(name, steamID64);
+    } else {
+        // Will arrive via onPersonaStateChange
+        m_pendingCreatorRequests.insert(creatorID.ConvertToUint64());
+    }
+}
+
 void SteamWorkshop::requestWorkshopItemDetails(const QVariant publishedFileID)
 {
     if (!checkAndSetQueryActive())
@@ -136,6 +164,8 @@ void SteamWorkshop::onRequestItemDetailReturned(SteamUGCQueryCompleted_t* pCallb
                 QString::fromUtf8(details.m_rgchURL),
                 QVariant::fromValue<int32>(details.m_nFileSize),
                 QVariant::fromValue<uint64>(details.m_nPublishedFileId));
+            // Call after emit so QML has already stored creatorSteamID when creatorNameReady fires
+            requestCreatorName(QString::number(details.m_ulSteamIDOwner));
         } else {
             qWarning() << "GetQueryUGCResult failed!";
         }
@@ -598,6 +628,7 @@ bool SteamWorkshop::searchWorkshop(const ScreenPlayCore::Steam::EUGCQuery enumEU
     // Store current query type for loadNextPage
     m_currentQueryType = enumEUGCQuery;
     m_currentSearchText.clear();
+    m_currentUserAccountID = 0;
 
     // Reset model for new search
     m_workshopListModel->reset();
@@ -654,7 +685,16 @@ bool SteamWorkshop::loadNextPage()
 
     UGCQueryHandle_t searchHandle;
 
-    if (m_currentSearchText.isEmpty()) {
+    if (m_currentUserAccountID != 0) {
+        searchHandle = SteamUGC()->CreateQueryUserUGCRequest(
+            m_currentUserAccountID,
+            EUserUGCList::k_EUserUGCList_Published,
+            EUGCMatchingUGCType::k_EUGCMatchingUGCType_All,
+            EUserUGCListSortOrder::k_EUserUGCListSortOrder_LastUpdatedDesc,
+            m_appID,
+            m_appID,
+            m_workshopListModel->currentPage());
+    } else if (m_currentSearchText.isEmpty()) {
         searchHandle = SteamUGC()->CreateQueryAllUGCRequest(
             static_cast<EUGCQuery>(m_currentQueryType),
             EUGCMatchingUGCType::k_EUGCMatchingUGCType_Items,
@@ -682,6 +722,47 @@ bool SteamWorkshop::loadNextPage()
     SteamUGC()->SetReturnLongDescription(searchHandle, true);
     m_steamUGCQuerySearchWorkshopResult.Set(SteamUGC()->SendQueryUGCRequest(searchHandle), this, &SteamWorkshop::onWorkshopSearched);
     return true;
+}
+
+/*! \brief Searches the workshop for items published by a specific user. */
+void SteamWorkshop::searchWorkshopByUser(const QString& steamID64)
+{
+    qInfo() << "searchWorkshopByUser" << steamID64;
+
+    if (!checkAndSetQueryActive())
+        return;
+
+    if (!checkOnline())
+        return;
+
+    if (!SteamUGC()) {
+        qWarning() << "SteamUGC() returned null in searchWorkshopByUser";
+        m_queryActive = false;
+        return;
+    }
+
+    const CSteamID creatorID(steamID64.toULongLong());
+    const AccountID_t accountID = creatorID.GetAccountID();
+
+    m_currentUserAccountID = accountID;
+    m_currentSearchText.clear();
+
+    m_workshopListModel->reset();
+    m_workshopListModel->setIsLoading(true);
+
+    const auto searchHandle = SteamUGC()->CreateQueryUserUGCRequest(
+        accountID,
+        EUserUGCList::k_EUserUGCList_Published,
+        EUGCMatchingUGCType::k_EUGCMatchingUGCType_All,
+        EUserUGCListSortOrder::k_EUserUGCListSortOrder_LastUpdatedDesc,
+        m_appID,
+        m_appID,
+        m_workshopListModel->currentPage());
+
+    SteamUGC()->SetReturnAdditionalPreviews(searchHandle, true);
+    SteamUGC()->SetReturnKeyValueTags(searchHandle, true);
+    SteamUGC()->SetReturnLongDescription(searchHandle, true);
+    m_steamUGCQuerySearchWorkshopResult.Set(SteamUGC()->SendQueryUGCRequest(searchHandle), this, &SteamWorkshop::onWorkshopSearched);
 }
 
 void SteamWorkshop::onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure)
@@ -751,7 +832,8 @@ bool SteamWorkshop::queryWorkshopItemFromHandle(SteamWorkshopListModel* listMode
                     QUrl(urlData),
                     additionalPreviewUrl,
                     QString(details.m_rgchTags).split(",", Qt::SkipEmptyParts),
-                    details.m_ulSteamIDOwner == m_steamAccount->steamID64()
+                    details.m_ulSteamIDOwner == m_steamAccount->steamID64(),
+                    details.m_ulSteamIDOwner
                 };
 
                 listModel->append(std::move(item));
@@ -759,6 +841,7 @@ bool SteamWorkshop::queryWorkshopItemFromHandle(SteamWorkshopListModel* listMode
                 // Do not change the background image on every page
                 if (i == 0 && listModel->currentPage() == 1) {
                     emit workshopBannerCompleted();
+                    requestCreatorName(QString::number(details.m_ulSteamIDOwner));
                 }
             }
         } else {
@@ -837,6 +920,7 @@ void SteamWorkshop::searchWorkshopByText(const QString text, const ScreenPlayCor
     // Store current query for loadNextPage
     m_currentQueryType = rankedBy;
     m_currentSearchText = text;
+    m_currentUserAccountID = 0;
 
     const auto parsed = parseSearchInput(text);
     m_currentSearchTags = parsed.tags;

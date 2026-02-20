@@ -13,6 +13,7 @@
 #include <QObject>
 #include <QQmlEngine>
 #include <QRegularExpression>
+#include <QSet>
 #include <QTimer>
 #include <QUrl>
 #include <QtConcurrent/QtConcurrent>
@@ -106,6 +107,8 @@ public slots:
     bool searchWorkshop(const ScreenPlayCore::Steam::EUGCQuery enumEUGCQuery);
     bool loadNextPage();
     void searchWorkshopByText(const QString text, const ScreenPlayCore::Steam::EUGCQuery rankedBy = ScreenPlayCore::Steam::EUGCQuery::K_EUGCQuery_RankedByTrend);
+    Q_INVOKABLE void searchWorkshopByUser(const QString& steamID64);
+    Q_INVOKABLE void requestCreatorName(const QString& steamID64);
 
     bool checkAndSetQueryActive()
     {
@@ -192,6 +195,7 @@ public slots:
 signals:
     void workshopSearchCompleted(const int itemCount);
     void workshopBannerCompleted();
+    void creatorNameReady(const QString& name, const QString& steamID64);
     void workshopItemCreatedSuccessful(bool userNeedsToAcceptWorkshopLegalAgreement, int eResult, QVariant publishedFileId);
 
     void workshopItemInstalled(int appID, QVariant publishedFileID);
@@ -259,6 +263,7 @@ private:
     bool queryWorkshopItemFromHandle(SteamWorkshopListModel* listModel, SteamUGCQueryCompleted_t* pCallback);
 
     STEAM_CALLBACK(SteamWorkshop, onWorkshopItemInstalled, ItemInstalled_t);
+    STEAM_CALLBACK(SteamWorkshop, onPersonaStateChange, PersonaStateChange_t);
 
     CCallResult<SteamWorkshop, SteamUGCQueryCompleted_t> m_steamUGCQuerySearchWorkshopResult;
 
@@ -298,6 +303,8 @@ private:
     PublishedFileId_t m_updateContentPublishedFileId = 0;
 
     UGCQueryHandle_t m_searchHandle = 0;
+    QSet<quint64> m_pendingCreatorRequests;
+    AccountID_t m_currentUserAccountID = 0;
     ScreenPlayCore::Steam::EUGCQuery m_currentQueryType = ScreenPlayCore::Steam::EUGCQuery::K_EUGCQuery_RankedByTrend;
     QString m_currentSearchText;
     QStringList m_currentSearchTags;

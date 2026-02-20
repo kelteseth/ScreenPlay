@@ -19,9 +19,12 @@ Drawer {
     property int votesDown: 0
     property bool subscribed: false
     property bool subscriptionStateKnown: false
+    property var creatorSteamID: null
+    property string creatorName: ""
 
     signal tagClicked(var tag)
     signal unsubscribed(var publishedFileID)
+    signal creatorSearchRequested(string creatorName, var creatorSteamID)
 
     function setWorkshopItem(publishedFileID, imgUrl, videoPreview, subscriptionCount) {
         if (root.publishedFileID === publishedFileID) {
@@ -37,6 +40,8 @@ Drawer {
         root.videoPreview = videoPreview
         root.subscribed = false
         root.subscriptionStateKnown = false
+        root.creatorName = ""
+        root.creatorSteamID = null
         txtVotesUp.highlighted = false
         txtVotesDown.highlighted = false
         if (!root.visible)
@@ -52,10 +57,16 @@ Drawer {
     interactive: false
     topPadding: 0
 
+    onClosed: {
+        root.creatorName = ""
+        root.creatorSteamID = null
+    }
+
     Connections {
-        function onRequestItemDetailReturned(title, tags, steamIDOwner, description, votesUp, votesDown, url, fileSize, publishedFileId) {
+        function onRequestItemDetailReturned(title: string, tags: var, steamIDOwner: var, description: string, votesUp: var, votesDown: var, url: string, fileSize: var, publishedFileId: var) {
             root.subscribed = steamWorkshop.isSubscribed(publishedFileId)
             root.subscriptionStateKnown = true
+            root.creatorSteamID = steamIDOwner
             tagListModel.clear();
             // Even if the tags array is empty it still contains
             // one empty string, resulting in an empty button
@@ -77,6 +88,12 @@ Drawer {
             if (description === "")
                 description = qsTr("No description...")
             txtDescription.text = description
+        }
+
+        function onCreatorNameReady(name: string, steamID64: string): void {
+            // Sidebar tracks one item at a time; use the precise C++ string to override the quint64 var
+            root.creatorName = name
+            root.creatorSteamID = steamID64
         }
 
         target: steamWorkshop
@@ -357,13 +374,24 @@ Drawer {
         }
 
         ToolButton {
-            id: btnOpenInSteam
+            id: btnCreator
 
             font.pointSize: 10
-            icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_open_in_new.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_search.svg"
             height: 25
-            text: qsTr("Open In Steam")
-            onClicked: Qt.openUrlExternally("steam://url/CommunityFilePage/" + root.publishedFileID)
+            visible: root.creatorName !== ""
+            text: root.creatorName ? qsTr("More by %1").arg(root.creatorName) : ""
+            onClicked: {
+                root.close()
+                root.creatorSearchRequested(root.creatorName, root.creatorSteamID)
+            }
+
+            Behavior on implicitWidth {
+                SmoothedAnimation {
+                    velocity: 200
+                    easing.type: Easing.InOutQuad
+                }
+            }
         }
 
         Button {
@@ -371,9 +399,12 @@ Drawer {
 
             enabled: root.subscriptionStateKnown
             highlighted: true
-            Material.accent: root.subscribed ? Material.Red : root.Material.accent
+            Material.accent: root.subscribed ? Material.color(Material.Red) : root.Material.accent
             icon.source: !root.subscriptionStateKnown ? "" : root.subscribed ? "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_close.svg" : "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_download.svg"
             text: !root.subscriptionStateKnown ? qsTr("Loading...") : root.subscribed ? qsTr("Unsubscribe") : qsTr("Subscribe")
+            ToolTip.visible: hovered && root.subscribed
+            ToolTip.delay: 500
+            ToolTip.text: qsTr("Steam will delete the content from your PC once ScreenPlay no longer runs.")
 
             Behavior on implicitWidth {
                 SmoothedAnimation {

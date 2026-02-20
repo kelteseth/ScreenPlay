@@ -81,7 +81,11 @@ public slots:
     {
         return m_workshopItemList.empty() ? int {} : m_workshopItemList.at(0).m_subscriptionCount;
     }
-
+    // Returns steamID64 as string to preserve precision in QML
+    QString getBannerCreatorSteamID()
+    {
+        return m_workshopItemList.empty() ? QString {} : QString::number(m_workshopItemList.at(0).m_steamIDOwner);
+    }
     void clear();
 
     Q_INVOKABLE void removeByPublishedFileID(quint64 publishedFileID)

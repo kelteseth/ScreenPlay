@@ -22,7 +22,8 @@ struct WorkshopItem {
         const QUrl& previewImageUrl,
         const QUrl& additionalPreviewUrl,
         const QStringList& tags = {},
-        const bool isOwnItem = false)
+        const bool isOwnItem = false,
+        const quint64 steamIDOwner = 0)
     {
         m_publishedFileID = publishedFileID;
         m_subscriptionCount = subscriptionCount;
@@ -31,6 +32,7 @@ struct WorkshopItem {
         m_additionalPreviewUrl = additionalPreviewUrl;
         m_tags = tags;
         m_isOwnItem = isOwnItem;
+        m_steamIDOwner = steamIDOwner;
     }
     QUrl m_previewImageUrl = {};
     QString m_title = {};
@@ -39,5 +41,6 @@ struct WorkshopItem {
     quint64 m_subscriptionCount = {};
     QVariant m_publishedFileID = {};
     bool m_isOwnItem = false;
+    quint64 m_steamIDOwner = {};
 };
 }
