@@ -52,15 +52,6 @@ public:
     file_end = """
 };
 }
-
-
-
-
-
-
-
-
-..........
     """
 
     with open(path) as json_file:

@@ -128,7 +128,7 @@ void SteamWorkshop::onRequestItemDetailReturned(SteamUGCQueryCompleted_t* pCallb
 
             emit requestItemDetailReturned(
                 QString::fromUtf8(details.m_rgchTitle),
-                QString::fromUtf8(details.m_rgchTags).split(","),
+                QString::fromUtf8(details.m_rgchTags).split(",", Qt::SkipEmptyParts),
                 details.m_ulSteamIDOwner,
                 QString::fromUtf8(details.m_rgchDescription),
                 details.m_unVotesUp,
@@ -188,7 +188,7 @@ void SteamWorkshop::onRequestProfileItemDetailReturned(SteamUGCQueryCompleted_t*
                 QVariant::fromValue<uint64>(details.m_nPublishedFileId),
                 QString::fromUtf8(details.m_rgchTitle),
                 QString::fromUtf8(details.m_rgchDescription),
-                QString::fromUtf8(details.m_rgchTags).split(","),
+                QString::fromUtf8(details.m_rgchTags).split(",", Qt::SkipEmptyParts),
                 details.m_ulSteamIDOwner,
                 details.m_unVotesUp,
                 details.m_unVotesDown,
@@ -214,40 +214,17 @@ void SteamWorkshop::onRequestProfileItemDetailReturned(SteamUGCQueryCompleted_t*
     SteamUGC()->ReleaseQueryUGCRequest(pCallback->m_handle);
 }
 
-void SteamWorkshop::updateItemVisibility(const QVariant publishedFileID, const int visibility)
-{
-    if (!checkOnline())
-        return;
-
-    auto id = publishedFileID.toULongLong();
-    auto updateHandle = SteamUGC()->StartItemUpdate(m_appID, id);
-    SteamUGC()->SetItemVisibility(updateHandle, static_cast<ERemoteStoragePublishedFileVisibility>(visibility));
-    auto apiCall = SteamUGC()->SubmitItemUpdate(updateHandle, "Visibility update");
-    m_steamUGCUpdateVisibility.Set(apiCall, this, &SteamWorkshop::onUpdateItemVisibilityReturned);
-}
-
-void SteamWorkshop::onUpdateItemVisibilityReturned(SubmitItemUpdateResult_t* pCallback, bool bIOFailure)
-{
-    if (bIOFailure) {
-        qWarning() << "onUpdateItemVisibilityReturned IO Failure";
-        return;
-    }
-
-    const bool success = (pCallback->m_eResult == k_EResultOK);
-    if (success) {
-        qInfo() << "Successfully updated item visibility:" << pCallback->m_nPublishedFileId;
-    } else {
-        qWarning() << "Failed to update item visibility:" << pCallback->m_nPublishedFileId
-                   << "Result:" << pCallback->m_eResult;
-    }
-}
-
-void SteamWorkshop::updateItemMetadata(const QVariant publishedFileID, const QString& title, const QString& description, const QStringList& tags)
+void SteamWorkshop::updateItemMetadata(const QVariant publishedFileID, const QString& title, const QString& description, const QStringList& tags, const int visibility)
 {
     if (!checkOnline())
         return;
 
     m_updateMetadataPublishedFileId = publishedFileID.toULongLong();
+    qInfo() << "updateItemMetadata: fileId=" << m_updateMetadataPublishedFileId
+            << "title=" << title
+            << "tags=" << tags
+            << "visibility=" << visibility;
+
     auto updateHandle = SteamUGC()->StartItemUpdate(m_appID, m_updateMetadataPublishedFileId);
 
     if (!title.isEmpty()) {
@@ -265,8 +242,12 @@ void SteamWorkshop::updateItemMetadata(const QVariant publishedFileID, const QSt
             if (!tag.isEmpty() && tag.length() <= 255) {
                 tagBytes.append(tag.toUtf8());
                 tagPointers.append(tagBytes.last().constData());
+            } else {
+                qWarning() << "updateItemMetadata: skipping invalid tag:" << tag << "length:" << tag.length();
             }
         }
+
+        qInfo() << "updateItemMetadata: setting" << tagPointers.size() << "tags";
 
         if (!tagPointers.isEmpty()) {
             SteamParamStringArray_t steamTags;
@@ -276,7 +257,16 @@ void SteamWorkshop::updateItemMetadata(const QVariant publishedFileID, const QSt
         }
     }
 
-    auto apiCall = SteamUGC()->SubmitItemUpdate(updateHandle, "Metadata update");
+    if (visibility >= 0) {
+        SteamUGC()->SetItemVisibility(updateHandle, static_cast<ERemoteStoragePublishedFileVisibility>(visibility));
+    }
+
+    auto apiCall = SteamUGC()->SubmitItemUpdate(updateHandle, nullptr);
+    if (apiCall == k_uAPICallInvalid) {
+        qWarning() << "updateItemMetadata: SubmitItemUpdate returned invalid API call!";
+        emit workshopItemMetadataUpdated(false, QVariant::fromValue<quint64>(m_updateMetadataPublishedFileId), 0);
+        return;
+    }
     m_steamUGCUpdateMetadata.Set(apiCall, this, &SteamWorkshop::onUpdateItemMetadataReturned);
 }
 
@@ -284,7 +274,7 @@ void SteamWorkshop::onUpdateItemMetadataReturned(SubmitItemUpdateResult_t* pCall
 {
     if (bIOFailure) {
         qWarning() << "onUpdateItemMetadataReturned IO Failure";
-        emit workshopItemMetadataUpdated(false, QVariant::fromValue<quint64>(m_updateMetadataPublishedFileId));
+        emit workshopItemMetadataUpdated(false, QVariant::fromValue<quint64>(m_updateMetadataPublishedFileId), 0);
         return;
     }
 
@@ -293,9 +283,10 @@ void SteamWorkshop::onUpdateItemMetadataReturned(SubmitItemUpdateResult_t* pCall
         qInfo() << "Successfully updated item metadata:" << pCallback->m_nPublishedFileId;
     } else {
         qWarning() << "Failed to update item metadata:" << pCallback->m_nPublishedFileId
-                   << "Result:" << pCallback->m_eResult;
+                   << "EResult:" << pCallback->m_eResult
+                   << "NeedsWorkshopAgreement:" << pCallback->m_bUserNeedsToAcceptWorkshopLegalAgreement;
     }
-    emit workshopItemMetadataUpdated(success, QVariant::fromValue<quint64>(pCallback->m_nPublishedFileId));
+    emit workshopItemMetadataUpdated(success, QVariant::fromValue<quint64>(pCallback->m_nPublishedFileId), static_cast<int>(pCallback->m_eResult));
 }
 
 /*! \brief Returns install info for a subscribed workshop item: path, sizeOnDisk, timestamp. */
@@ -678,9 +669,10 @@ bool SteamWorkshop::loadNextPage()
             m_appID,
             m_workshopListModel->currentPage());
 
-        if (!SteamUGC()->SetSearchText(searchHandle, m_currentSearchText.toUtf8().data())) {
-            qWarning() << "Search text failed for next page: " << m_currentSearchText;
+        const ParsedSearch parsed { m_currentSearchText, m_currentSearchTags };
+        if (!applySearchFilters(searchHandle, parsed)) {
             m_workshopListModel->setIsLoading(false);
+            m_queryActive = false;
             return false;
         }
     }
@@ -713,15 +705,6 @@ bool SteamWorkshop::queryWorkshopItemFromHandle(SteamWorkshopListModel* listMode
     SteamUGCDetails_t details;
     const int urlLength = 200;
     char url[urlLength];
-    uint32 previews = 0;
-    uint32 subscriber = 0;
-
-    // Tags
-    uint32 keyValueTags = 0;
-    const int cchKeySize = 2000;
-    char* cchKey[cchKeySize];
-    const int cchValueSize = 2000;
-    char* pchValue[cchValueSize];
 
     const uint32 totalResults = pCallback->m_unTotalMatchingResults;
     const uint32 results = pCallback->m_unNumResultsReturned;
@@ -767,6 +750,7 @@ bool SteamWorkshop::queryWorkshopItemFromHandle(SteamWorkshopListModel* listMode
                     QString(details.m_rgchTitle),
                     QUrl(urlData),
                     additionalPreviewUrl,
+                    QString(details.m_rgchTags).split(",", Qt::SkipEmptyParts),
                     details.m_ulSteamIDOwner == m_steamAccount->steamID64()
                 };
 
@@ -776,15 +760,6 @@ bool SteamWorkshop::queryWorkshopItemFromHandle(SteamWorkshopListModel* listMode
                 if (i == 0 && listModel->currentPage() == 1) {
                     emit workshopBannerCompleted();
                 }
-
-                //                const int keyValueTagsCount = SteamUGC()->GetQueryUGCNumKeyValueTags(pCallback->m_handle, i);
-                //                for (int j = 0; j < keyValueTagsCount; ++j) {
-                //                    const int keySize = 2000;
-                //                    char key[keySize];
-                //                    const int valueSize = 2000;
-                //                    char value[valueSize];
-                //                    SteamUGC()->GetQueryUGCKeyValueTag(pCallback->m_handle, i, j, key, keySize, value, valueSize);
-                //                }
             }
         } else {
             qWarning() << "Loading error! Index: " << i;
@@ -795,6 +770,51 @@ bool SteamWorkshop::queryWorkshopItemFromHandle(SteamWorkshopListModel* listMode
     SteamUGC()->ReleaseQueryUGCRequest(pCallback->m_handle);
 
     emit workshopSearchCompleted(results);
+    return true;
+}
+
+/*! \brief Parses search input, extracting quoted strings as tags. */
+SteamWorkshop::ParsedSearch SteamWorkshop::parseSearchInput(const QString& input) const
+{
+    ParsedSearch result;
+    QStringList tags;
+    QString remaining = input;
+
+    // Extract all "quoted" strings as tags
+    static const QRegularExpression tagRegex("\"([^\"]+)\"");
+    auto it = tagRegex.globalMatch(input);
+    while (it.hasNext()) {
+        const auto match = it.next();
+        tags.append(match.captured(1).trimmed());
+        remaining.replace(match.captured(0), "");
+    }
+
+    result.text = remaining.simplified();
+    result.tags = tags;
+
+    if (!tags.isEmpty()) {
+        qInfo() << "parseSearchInput: text=" << result.text << "tags=" << result.tags;
+    }
+
+    return result;
+}
+
+/*! \brief Applies search text and required tags to a UGC query handle. */
+bool SteamWorkshop::applySearchFilters(UGCQueryHandle_t handle, const ParsedSearch& parsed)
+{
+    if (!parsed.text.isEmpty()) {
+        if (!SteamUGC()->SetSearchText(handle, parsed.text.toUtf8().constData())) {
+            qWarning() << "SetSearchText failed:" << parsed.text;
+            return false;
+        }
+    }
+
+    for (const auto& tag : parsed.tags) {
+        if (!SteamUGC()->AddRequiredTag(handle, tag.toUtf8().constData())) {
+            qWarning() << "AddRequiredTag failed:" << tag;
+        }
+    }
+
     return true;
 }
 
@@ -818,6 +838,9 @@ void SteamWorkshop::searchWorkshopByText(const QString text, const ScreenPlayCor
     m_currentQueryType = rankedBy;
     m_currentSearchText = text;
 
+    const auto parsed = parseSearchInput(text);
+    m_currentSearchTags = parsed.tags;
+
     // Reset model for new search
     m_workshopListModel->reset();
     m_workshopListModel->setIsLoading(true);
@@ -829,9 +852,9 @@ void SteamWorkshop::searchWorkshopByText(const QString text, const ScreenPlayCor
         m_appID,
         m_workshopListModel->currentPage());
 
-    if (!SteamUGC()->SetSearchText(searchHandle, text.toUtf8().data())) {
-        qWarning() << "Search Failed with query: " << text;
+    if (!applySearchFilters(searchHandle, parsed)) {
         m_workshopListModel->setIsLoading(false);
+        m_queryActive = false;
         return;
     }
 

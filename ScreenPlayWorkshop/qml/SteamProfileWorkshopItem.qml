@@ -89,10 +89,8 @@ Item {
 
     function saveChanges(): void {
         root.isSaving = true
-        if (root.editVisibility !== root.visibility) {
-            root.steamWorkshop.updateItemVisibility(root.publishedFileID, root.editVisibility)
-        }
-        root.steamWorkshop.updateItemMetadata(root.publishedFileID, root.editTitle, root.editDescription, root.editTags)
+        const vis = root.editVisibility !== root.visibility ? root.editVisibility : -1
+        root.steamWorkshop.updateItemMetadata(root.publishedFileID, root.editTitle, root.editDescription, root.editTags, vis)
     }
 
     function loadInstalledFiles(): void {
@@ -188,7 +186,7 @@ Item {
             }
         }
 
-        function onWorkshopItemMetadataUpdated(success: bool, publishedFileID: var): void {
+        function onWorkshopItemMetadataUpdated(success: bool, publishedFileID: var, eResult: int): void {
             if (publishedFileID !== root.publishedFileID)
                 return
             root.isSaving = false
@@ -198,6 +196,9 @@ Item {
                 root.itemTags = root.editTags
                 root.visibility = root.editVisibility
                 root.state = "view"
+            } else {
+                errorDialog.errorCode = eResult
+                errorDialog.open()
             }
         }
 
@@ -873,7 +874,7 @@ Item {
 
                                 Label {
                                     visible: root.installPath === "" && root.itemFiles.length === 0
-                                    text: qsTr("Item not installed locally. Subscribe to see files.")
+                                    text: qsTr("Item not installed locally. Subscribe to see and update the files.")
                                     wrapMode: Text.WordWrap
                                     Layout.fillWidth: true
                                     color: Material.secondaryTextColor
@@ -1052,6 +1053,63 @@ Item {
                         root.steamWorkshop.deleteItem(root.publishedFileID)
                         deleteConfirmDialog.close()
                     }
+                }
+            }
+        }
+    }
+
+    Dialog {
+        id: errorDialog
+
+        property int errorCode: 0
+
+        function getErrorMessage(code: int): string {
+            switch (code) {
+            case 15:
+                return qsTr("Access denied. Possible reasons:") + "<br><br>"
+                    + "• " + qsTr("This item may be under review. Check the status on the <a href='steam://url/CommunityFilePage/%1'>workshop page</a>").arg(root.publishedFileID)
+                    + "<br>" + "• " + qsTr("You do not have permission to edit this item")
+                    + "<br>" + "• " + qsTr("You need to <a href='https://steamcommunity.com/sharedfiles/workshoplegalagreement'>accept the Steam Workshop legal agreement</a>")
+            case 9:
+                return qsTr("Invalid parameter:") + "<br><br>"
+                    + "• " + qsTr("Check your title is not empty or too long")
+                    + "<br>" + "• " + qsTr("Check your description length")
+                    + "<br>" + "• " + qsTr("Check your tags are valid")
+            case 25:
+                return qsTr("Update limit exceeded:") + "<br><br>"
+                    + "• " + qsTr("Please wait a while before trying again")
+            case 24:
+                return qsTr("Workshop legal agreement has not been accepted:") + "<br><br>"
+                    + "• " + qsTr("Please <a href='https://steamcommunity.com/sharedfiles/workshoplegalagreement'>accept the agreement here</a>")
+            default:
+                return qsTr("Steam returned error code %1:").arg(code) + "<br><br>"
+                    + "• " + qsTr("Please try again later")
+            }
+        }
+
+        title: qsTr("⚠️ Update Failed")
+        modal: true
+        anchors.centerIn: parent
+        width: 420
+        standardButtons: Dialog.Ok
+
+        ColumnLayout {
+            width: parent.width
+            spacing: 12
+
+            Label {
+                text: errorDialog.getErrorMessage(errorDialog.errorCode)
+                textFormat: Text.RichText
+                wrapMode: Text.WordWrap
+                Layout.fillWidth: true
+                color: Material.foreground
+                font.pointSize: 11
+                onLinkActivated: link => Qt.openUrlExternally(link)
+
+                MouseArea {
+                    anchors.fill: parent
+                    acceptedButtons: Qt.NoButton
+                    cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
                 }
             }
         }

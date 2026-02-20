@@ -41,6 +41,7 @@ public:
         AdditionalPreviewUrlRole,
         PublishedFileIDRole,
         SubscriptionCountRole,
+        TagsRole,
         IsOwnItemRole,
     };
     Q_ENUM(WorkshopRole)

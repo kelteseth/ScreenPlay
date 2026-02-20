@@ -48,6 +48,7 @@ Drawer {
     modal: false
     width: 400
     interactive: false
+    topPadding: 0
 
     Connections {
         function onRequestItemDetailReturned(title, tags, steamIDOwner, description, votesUp, votesDown, url, fileSize, publishedFileId) {
@@ -83,8 +84,13 @@ Drawer {
         // Keys must be used in an Item and Drawer is not an Item...
         Keys.onEscapePressed: root.close()
         focus: true
-        width: parent.width
         height: 220
+
+        anchors {
+            top: parent.top
+            left: parent.left
+            right: parent.right
+        }
 
         Image {
             id: img
@@ -351,7 +357,7 @@ Drawer {
             id: btnSubscribe
 
             highlighted: true
-            Material.accent: root.subscribed ? Material.Red : Material.primary
+            Material.accent: root.subscribed ? Material.Red : root.Material.accent
             icon.source: root.subscribed ? "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_close.svg" : "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_download.svg"
             text: root.subscribed ? qsTr("Unsubscribe") : qsTr("Subscribe")
             onClicked: {

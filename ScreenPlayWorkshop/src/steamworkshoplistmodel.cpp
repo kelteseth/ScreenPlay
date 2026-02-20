@@ -17,6 +17,7 @@ QHash<int, QByteArray> SteamWorkshopListModel::roleNames() const
         { AdditionalPreviewUrlRole, "m_additionalPreviewUrl" },
         { PublishedFileIDRole, "m_publishedFileID" },
         { SubscriptionCountRole, "m_subscriptionCount" },
+        { TagsRole, "m_tags" },
         { IsOwnItemRole, "m_isOwnItem" },
     };
     return roles;
@@ -52,6 +53,8 @@ QVariant SteamWorkshopListModel::data(const QModelIndex& index, int role) const
             return m_workshopItemList.at(row).m_publishedFileID;
         case SubscriptionCountRole:
             return m_workshopItemList.at(row).m_subscriptionCount;
+        case TagsRole:
+            return m_workshopItemList.at(row).m_tags;
         case IsOwnItemRole:
             return m_workshopItemList.at(row).m_isOwnItem;
         default:

@@ -142,25 +142,28 @@ void SteamWorkshopItem::uploadItemToWorkshop(CreateItemResult_t* pCallback, bool
         tags.append(jsonObject.value("type").toString());
     }
 
-    const int count = tags.count();
-    SteamParamStringArray_t* pTags = new SteamParamStringArray_t();
-    pTags->m_ppStrings = new const char*[count];
-    int i = 0;
-
     m_UGCUpdateHandle = SteamUGC()->StartItemUpdate(m_appID, pCallback->m_nPublishedFileId);
 
+    // Keep QByteArray objects alive so the const char* pointers remain valid
+    QVector<QByteArray> tagByteArrays;
     QVector<const char*> tagCharArray;
     for (const auto& tag : tags) {
         if (tag.length() > 255) {
             qInfo() << "Skip too long tag (max 255):" << tag;
             continue;
         }
-        tagCharArray.append(tag.toUtf8());
+        tagByteArrays.append(tag.toUtf8());
     }
-    pTags->m_nNumStrings = tagCharArray.count();
-    pTags->m_ppStrings = tagCharArray.data();
+    tagCharArray.reserve(tagByteArrays.size());
+    for (const auto& ba : tagByteArrays) {
+        tagCharArray.append(ba.constData());
+    }
 
-    bool success = SteamUGC()->SetItemTags(m_UGCUpdateHandle, pTags);
+    SteamParamStringArray_t pTags;
+    pTags.m_nNumStrings = tagCharArray.count();
+    pTags.m_ppStrings = tagCharArray.data();
+
+    const bool success = SteamUGC()->SetItemTags(m_UGCUpdateHandle, &pTags);
     if (!success) {
         qWarning() << "Failed to set item tags";
     }

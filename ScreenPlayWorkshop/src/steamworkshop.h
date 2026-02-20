@@ -12,6 +12,7 @@
 #include <QFutureWatcher>
 #include <QObject>
 #include <QQmlEngine>
+#include <QRegularExpression>
 #include <QTimer>
 #include <QUrl>
 #include <QtConcurrent/QtConcurrent>
@@ -101,8 +102,7 @@ public slots:
     void subscribeItem(const QVariant publishedFileID);
     void unsubscribeItem(const QVariant publishedFileID);
     void deleteItem(const QVariant publishedFileID);
-    void updateItemVisibility(const QVariant publishedFileID, const int visibility);
-    void updateItemMetadata(const QVariant publishedFileID, const QString& title, const QString& description, const QStringList& tags);
+    void updateItemMetadata(const QVariant publishedFileID, const QString& title, const QString& description, const QStringList& tags, const int visibility = -1);
     bool searchWorkshop(const ScreenPlayCore::Steam::EUGCQuery enumEUGCQuery);
     bool loadNextPage();
     void searchWorkshopByText(const QString text, const ScreenPlayCore::Steam::EUGCQuery rankedBy = ScreenPlayCore::Steam::EUGCQuery::K_EUGCQuery_RankedByTrend);
@@ -242,7 +242,7 @@ signals:
         const quint64 uniqueWebsiteViews,
         const quint32 numChildren);
 
-    void workshopItemMetadataUpdated(bool success, QVariant publishedFileID);
+    void workshopItemMetadataUpdated(bool success, QVariant publishedFileID, int eResult);
     void workshopItemContentUpdated(bool success, QVariant publishedFileID);
     void workshopItemContentUpdateProgress(float progress, int status);
 
@@ -286,11 +286,7 @@ private:
     void onRequestProfileItemDetailReturned(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure);
     CCallResult<SteamWorkshop, SteamUGCQueryCompleted_t> m_steamUGCProfileItemDetails;
 
-    // Visibility update
-    void onUpdateItemVisibilityReturned(SubmitItemUpdateResult_t* pCallback, bool bIOFailure);
-    CCallResult<SteamWorkshop, SubmitItemUpdateResult_t> m_steamUGCUpdateVisibility;
-
-    // Metadata update (title, description, tags)
+    // Metadata update (title, description, tags, visibility)
     void onUpdateItemMetadataReturned(SubmitItemUpdateResult_t* pCallback, bool bIOFailure);
     CCallResult<SteamWorkshop, SubmitItemUpdateResult_t> m_steamUGCUpdateMetadata;
     PublishedFileId_t m_updateMetadataPublishedFileId = 0;
@@ -304,6 +300,14 @@ private:
     UGCQueryHandle_t m_searchHandle = 0;
     ScreenPlayCore::Steam::EUGCQuery m_currentQueryType = ScreenPlayCore::Steam::EUGCQuery::K_EUGCQuery_RankedByTrend;
     QString m_currentSearchText;
+    QStringList m_currentSearchTags;
+
+    struct ParsedSearch {
+        QString text;
+        QStringList tags;
+    };
+    ParsedSearch parseSearchInput(const QString& input) const;
+    bool applySearchFilters(UGCQueryHandle_t handle, const ParsedSearch& parsed);
 
     QTimer m_pollTimer;
     QQueue<SteamItemUpdate> m_bulkUploadqueue;

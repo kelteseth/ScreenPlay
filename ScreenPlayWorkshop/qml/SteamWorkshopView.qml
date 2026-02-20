@@ -202,7 +202,7 @@ Item {
 
             SPCore.ImageBlurContainer {
                 id: searchBar
-                backgroundSource: root.background.image
+                backgroundSource: root.background
                 flickable: gridView
                 stackView: root.stackView
                 radius: 8
@@ -306,29 +306,19 @@ Item {
                     TextField {
                         id: tiSearch
                         placeholderTextColor: Material.secondaryTextColor
-                        placeholderText: qsTr("Search for Wallpaper and Widgets...")
+                        placeholderText: qsTr("Search wallpapers, or filter by \"tag\" using quotes")
                         Keys.onReturnPressed: event => {
                             event.accepted = true
                             tiSearch.searchWorkshop()
                         }
 
-                        // WORKAROUND:
-                        // onEditingFinished causes internal qml layout crash in Qt 6.4
-                        Timer {
-                            id: timer
-                            interval: 300
-                            repeat: false
-                            onTriggered: tiSearch.searchWorkshop()
-                        }
-
-                        onTextEdited: timer.restart()
+                        onEditingFinished: tiSearch.searchWorkshop()
                         function searchWorkshop(): void {
                             if (root.state === "searching") {
                                 print("SEARCHING")
                                 return
                             }
                             root.state = "searching"
-                            print("EDITING FINISHED", root.state)
                             if (tiSearch.text === "") {
                                 Qt.callLater(function () {
                                     root.steamWorkshop.searchWorkshop(SPCore.Steam.EUGCQuery.K_EUGCQuery_RankedByTrend)
@@ -537,7 +527,7 @@ Item {
         }
 
         background: SPCore.ImageBlurContainer {
-            backgroundSource: root.background.image
+            backgroundSource: root.background
             flickable: gridView
             stackView: root.stackView
         }
@@ -550,8 +540,9 @@ Item {
         topMargin: 60
         steamWorkshop: root.steamWorkshop
         onTagClicked: tag => {
-            gridView.headerItem.searchField.text = tag
-            root.steamWorkshop.searchWorkshopByText(tag)
+            const quoted = '"' + tag + '"'
+            gridView.headerItem.searchField.text = quoted
+            root.steamWorkshop.searchWorkshopByText(quoted)
             sidebar.close()
         }
     }

@@ -4,21 +4,21 @@ import QtQuick.Effects
 Rectangle {
     id: root
 
-    /*! Plain, unprocessed copy of the background for use as a
-        ShaderEffectSource (e.g. ImageBlurContainer). Hidden so it never
-        renders on its own. */
-    property alias image: plainImage
+    /*! Exposes the stable committed image for external ShaderEffectSource
+        consumers such as the ImageBlurContainer. */
+    property alias image: bgCurrent.imageItem
 
     property string backgroundImage: ""
     property int imageOffsetTop: 0
     property int stackViewDepth: 0
+
+    /*! True while a crossfade transition between two background images is
+        running. Bind ImageBlurContainer.backgroundTransitioning to this so
+        the blur stays up-to-date during the animation. */
+    readonly property bool transitioning: transitionAnim.running
+
     onStackViewDepthChanged: {
-        if (stackViewDepth > 1) {
-            root.state = "backgroundBlur"
-            return true
-        }
-        root.state = "backgroundImage"
-        return false
+        root.state = stackViewDepth > 1 ? "backgroundBlur" : "backgroundImage"
     }
 
     color: "#161C1D"
@@ -32,23 +32,71 @@ Rectangle {
     }
 
     onBackgroundImageChanged: {
-        if (backgroundImage === "")
+        if (backgroundImage === "") {
+            transitionAnim.stop()
+            bgNext.source = ""
+            bgNext.opacity = 0
+            bgCurrent.source = ""
+            bgCurrent.opacity = 0
             root.state = ""
-        else
+            return
+        }
+        bgNext.source = backgroundImage
+        transitionAnim.restart()
+        if (root.state === "")
             root.state = "backgroundImage"
     }
 
-    Image {
-        id: plainImage
-        height: plainImage.sourceSize.height
-        source: root.backgroundImage
-        visible: false
+    /*! \brief Pure visual container: a single image with a gradient overlay.
+        All transition logic lives in Background.qml which manages two
+        instances (bgCurrent / bgNext) and switches between them. */
+    component FadeImage: Item {
+        id: fadeRoot
 
-        anchors {
-            topMargin: root.imageOffsetTop
-            top: parent.top
-            right: parent.right
-            left: parent.left
+        property string source: ""
+        // Exposes the inner Image for MultiEffect sourcing.
+        property alias imageItem: img
+        required property int offsetTop
+
+        Image {
+            id: img
+
+            height: img.sourceSize.height
+            source: fadeRoot.source
+
+            anchors {
+                top: parent.top
+                topMargin: fadeRoot.offsetTop
+                left: parent.left
+                right: parent.right
+            }
+
+            Rectangle {
+                anchors.fill: parent
+                z: 4
+
+                gradient: Gradient {
+                    GradientStop {
+                        position: 0
+                        color: "#00161C1D"
+                    }
+
+                    GradientStop {
+                        position: 0.4
+                        color: "#00161C1D"
+                    }
+
+                    GradientStop {
+                        position: 0.75
+                        color: "#80161C1D"
+                    }
+
+                    GradientStop {
+                        position: 1
+                        color: "#161C1D"
+                    }
+                }
+            }
         }
     }
 
@@ -59,77 +107,77 @@ Rectangle {
         source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/images/mask_workshop.png"
     }
 
-    Image {
-        id: bgImage
+    // Stable committed layer. Always holds the last fully-transitioned image.
+    FadeImage {
+        id: bgCurrent
 
-        height: bgImage.sourceSize.height
+        offsetTop: root.imageOffsetTop
         opacity: 0
-        source: root.backgroundImage
-
-        anchors {
-            topMargin: root.imageOffsetTop
-            top: parent.top
-            right: parent.right
-            left: parent.left
-        }
-
-        Rectangle {
-            id: gradient
-
-            anchors.fill: parent
-            z: 4
-
-            gradient: Gradient {
-                GradientStop {
-                    position: 0
-                    color: "#00161C1D"
-                }
-
-                GradientStop {
-                    position: 0.4
-                    color: "#00161C1D"
-                }
-
-                GradientStop {
-                    position: 0.75
-                    color: "#80161C1D"
-                }
-
-                GradientStop {
-                    position: 1
-                    color: "#161C1D"
-                }
-            }
-        }
+        anchors.fill: parent
     }
 
+    // Incoming layer. Fades in over bgCurrent during a transition.
+    FadeImage {
+        id: bgNext
+
+        offsetTop: root.imageOffsetTop
+        opacity: 0
+        z: 2
+        anchors.fill: parent
+    }
+
+    // Persistent blur used by backgroundBlur / backgroundColor states.
     MultiEffect {
         id: blur
-        anchors.fill: bgImage
-        source: bgImage
+
+        anchors.fill: bgCurrent
+        source: bgCurrent.imageItem
         blurEnabled: true
         blurMax: 64
-        blur: 0.25 // Equivalent to radius 16 in FastBlur when blurMax is 64
+        blur: 0.25
         autoPaddingEnabled: true
         opacity: 0
+        z: 4
     }
 
+    // Dark tint overlay for backgroundColor / backgroundBlur states.
     Rectangle {
         id: bgColor
 
         color: "#161C1D"
         opacity: 0
         anchors.fill: parent
+        z: 5
+    }
+
+    ParallelAnimation {
+        id: transitionAnim
+
+        OpacityAnimator {
+            target: bgCurrent
+            from: bgCurrent.opacity
+            to: 0
+            duration: 400
+        }
+
+        OpacityAnimator {
+            target: bgNext
+            from: 0
+            to: 1
+            duration: 400
+        }
+
+        onFinished: {
+            bgCurrent.source = bgNext.source
+            bgCurrent.opacity = 1
+            bgNext.opacity = 0
+            bgNext.source = ""
+        }
     }
 
     states: [
         State {
             name: ""
-
-            PropertyChanges {
-                target: bgImage
-                opacity: 0
-            }
 
             PropertyChanges {
                 target: bgColor
@@ -145,11 +193,6 @@ Rectangle {
             name: "backgroundImage"
 
             PropertyChanges {
-                target: bgImage
-                opacity: 1
-            }
-
-            PropertyChanges {
                 target: bgColor
                 opacity: 0
             }
@@ -157,16 +200,11 @@ Rectangle {
             PropertyChanges {
                 target: blur
                 opacity: 0
-                blur: 0.25 // Equivalent to radius 16
+                blur: 0.25
             }
         },
         State {
             name: "backgroundColor"
-
-            PropertyChanges {
-                target: bgImage
-                opacity: 1
-            }
 
             PropertyChanges {
                 target: bgColor
@@ -176,16 +214,11 @@ Rectangle {
             PropertyChanges {
                 target: blur
                 opacity: 1
-                blur: 0.25 // Equivalent to radius 16
+                blur: 0.25
             }
         },
         State {
             name: "backgroundBlur"
-
-            PropertyChanges {
-                target: bgImage
-                opacity: 1
-            }
 
             PropertyChanges {
                 target: bgColor
@@ -195,7 +228,7 @@ Rectangle {
             PropertyChanges {
                 target: blur
                 opacity: 1
-                blur: 1.0 // Equivalent to radius 64
+                blur: 1.0
             }
         }
     ]
@@ -206,7 +239,7 @@ Rectangle {
             reversible: true
 
             PropertyAnimation {
-                targets: [bgImage, bgColor, blur]
+                targets: [bgColor, blur]
                 duration: 500
                 easing.type: Easing.InOutQuart
                 property: "opacity"
@@ -218,7 +251,7 @@ Rectangle {
             reversible: true
 
             PropertyAnimation {
-                targets: [bgImage, bgColor, blur]
+                targets: [bgColor, blur]
                 duration: 600
                 easing.type: Easing.InOutQuad
                 property: "opacity"
@@ -230,17 +263,17 @@ Rectangle {
             reversible: true
 
             PropertyAnimation {
-                targets: [bgImage, bgColor, blur]
-                duration: 300
+                targets: [bgColor, blur]
+                duration: 120
                 easing.type: Easing.InOutQuart
                 property: "opacity"
             }
 
             PropertyAnimation {
                 target: blur
-                duration: 300
+                duration: 120
                 easing.type: Easing.InOutQuart
-                property: "blur" // Changed from "radius" to "blur"
+                property: "blur"
             }
         }
     ]

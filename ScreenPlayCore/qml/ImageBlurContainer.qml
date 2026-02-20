@@ -6,7 +6,8 @@ import QtQuick.Effects
     \qmltype ImageBlurContainer
     \brief Blurs a region of a background image and overlays a tint.
 
-    Point \c backgroundSource at a visible Image, bind \c flickable to the
+    Point \c backgroundSource at the background Item to sample and blur
+    (e.g. the full Background rectangle), bind \c flickable to the
     enclosing Flickable / GridView, done. Falls back to a plain tinted
     rectangle when no source is set.
 */
@@ -14,7 +15,7 @@ Item {
     id: root
 
     // The visual item to sample and blur behind this panel.
-    property Image backgroundSource: null
+    property Item backgroundSource: null
 
     // Blur intensity from 0.0 (none) to 1.0 (maximum).
     property real blurAmount: 0.6
@@ -38,6 +39,7 @@ Item {
     // Bind to the enclosing StackView so the blur refreshes
     // after push/pop transitions complete.
     property StackView stackView: null
+
 
     Connections {
         target: root.flickable
