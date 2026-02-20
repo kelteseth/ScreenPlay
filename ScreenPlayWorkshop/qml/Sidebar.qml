@@ -18,6 +18,7 @@ Drawer {
     property int votesUp: 0
     property int votesDown: 0
     property bool subscribed: false
+    property bool subscriptionStateKnown: false
 
     signal tagClicked(var tag)
     signal unsubscribed(var publishedFileID)
@@ -35,6 +36,7 @@ Drawer {
         root.subscriptionCount = subscriptionCount
         root.videoPreview = videoPreview
         root.subscribed = false
+        root.subscriptionStateKnown = false
         txtVotesUp.highlighted = false
         txtVotesDown.highlighted = false
         if (!root.visible)
@@ -53,6 +55,7 @@ Drawer {
     Connections {
         function onRequestItemDetailReturned(title, tags, steamIDOwner, description, votesUp, votesDown, url, fileSize, publishedFileId) {
             root.subscribed = steamWorkshop.isSubscribed(publishedFileId)
+            root.subscriptionStateKnown = true
             tagListModel.clear();
             // Even if the tags array is empty it still contains
             // one empty string, resulting in an empty button
@@ -259,6 +262,17 @@ Drawer {
                         id: tagListModel
                     }
 
+                    Text {
+                        visible: rpTagList.count === 0
+                        width: tagsFlickable.width
+                        height: parent.height
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        text: qsTr("No tags o((>ω< ))o")
+                        color: Material.secondaryTextColor
+                        font.pointSize: 10
+                    }
+
                     Repeater {
                         id: rpTagList
 
@@ -340,7 +354,6 @@ Drawer {
         anchors {
             horizontalCenter: parent.horizontalCenter
             bottom: parent.bottom
-            bottomMargin: 20
         }
 
         ToolButton {
@@ -356,10 +369,19 @@ Drawer {
         Button {
             id: btnSubscribe
 
+            enabled: root.subscriptionStateKnown
             highlighted: true
             Material.accent: root.subscribed ? Material.Red : root.Material.accent
-            icon.source: root.subscribed ? "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_close.svg" : "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_download.svg"
-            text: root.subscribed ? qsTr("Unsubscribe") : qsTr("Subscribe")
+            icon.source: !root.subscriptionStateKnown ? "" : root.subscribed ? "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_close.svg" : "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_download.svg"
+            text: !root.subscriptionStateKnown ? qsTr("Loading...") : root.subscribed ? qsTr("Unsubscribe") : qsTr("Subscribe")
+
+            Behavior on implicitWidth {
+                SmoothedAnimation {
+                    velocity: 200
+                    easing.type: Easing.InOutQuad
+                }
+            }
+
             onClicked: {
                 if (root.subscribed) {
                     root.subscribed = false
@@ -369,6 +391,7 @@ Drawer {
                 } else {
                     root.subscribed = true
                     root.steamWorkshop.subscribeItem(root.publishedFileID)
+                    root.close()
                 }
             }
         }
@@ -376,7 +399,6 @@ Drawer {
 
     background: Rectangle {
         color: Material.theme === Material.Light ? "white" : Qt.darker(Material.background)
-        opacity: 0.95
     }
 
     enter: Transition {
