@@ -41,7 +41,6 @@ private slots:
     {
 
         qSetMessagePattern("[%{time yy.MM.dd HH:mm:ss.zzz}] %{if-category}%{category}.%{endif}%{type} | %{function} | %{message}\n   Loc: [%{file}:%{line}]");
-        // https://steamcommunity.com/profiles/76561198744817917/myworkshopfiles?appid=672870
         qInfo() << "Initializing Workshop Upload test case...";
 
         QGuiApplication::setOrganizationName("ScreenPlay");
