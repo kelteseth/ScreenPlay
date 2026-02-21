@@ -143,6 +143,12 @@ void SteamWorkshopItem::uploadItemToWorkshop(CreateItemResult_t* pCallback, bool
     }
 
     m_UGCUpdateHandle = SteamUGC()->StartItemUpdate(m_appID, pCallback->m_nPublishedFileId);
+    if (m_UGCUpdateHandle == k_UGCUpdateHandleInvalid) {
+        qWarning() << "StartItemUpdate returned invalid handle - cannot upload item";
+        setStatus(ScreenPlayCore::Steam::EResult::K_EResultFail);
+        emit uploadComplete(false);
+        return;
+    }
 
     // Keep QByteArray objects alive so the const char* pointers remain valid
     QVector<QByteArray> tagByteArrays;
