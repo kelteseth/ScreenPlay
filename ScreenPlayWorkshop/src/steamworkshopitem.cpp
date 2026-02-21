@@ -17,7 +17,10 @@ SteamWorkshopItem::SteamWorkshopItem(const QString& name, const QUrl& absolutePa
 void SteamWorkshopItem::createWorkshopItem()
 {
     SteamAPICall_t hSteamAPICall = SteamUGC()->CreateItem(m_appID, EWorkshopFileType::k_EWorkshopFileTypeCommunity);
-    m_createWorkshopItemCallResult.Set(hSteamAPICall, this, &SteamWorkshopItem::uploadItemToWorkshop);
+    SteamAsyncCall<CreateItemResult_t>::create(
+        hSteamAPICall,
+        [this](CreateItemResult_t* cb, bool io) { uploadItemToWorkshop(cb, io); },
+        this);
 }
 
 void SteamWorkshopItem::checkUploadProgress()
@@ -150,26 +153,8 @@ void SteamWorkshopItem::uploadItemToWorkshop(CreateItemResult_t* pCallback, bool
         return;
     }
 
-    // Keep QByteArray objects alive so the const char* pointers remain valid
-    QVector<QByteArray> tagByteArrays;
-    QVector<const char*> tagCharArray;
-    for (const auto& tag : tags) {
-        if (tag.length() > 255) {
-            qInfo() << "Skip too long tag (max 255):" << tag;
-            continue;
-        }
-        tagByteArrays.append(tag.toUtf8());
-    }
-    tagCharArray.reserve(tagByteArrays.size());
-    for (const auto& ba : tagByteArrays) {
-        tagCharArray.append(ba.constData());
-    }
-
-    SteamParamStringArray_t pTags;
-    pTags.m_nNumStrings = tagCharArray.count();
-    pTags.m_ppStrings = tagCharArray.data();
-
-    const bool success = SteamUGC()->SetItemTags(m_UGCUpdateHandle, &pTags);
+    SteamTagArray tagArray(tags);
+    const bool success = SteamUGC()->SetItemTags(m_UGCUpdateHandle, tagArray.get());
     if (!success) {
         qWarning() << "Failed to set item tags";
     }
@@ -190,7 +175,10 @@ void SteamWorkshopItem::uploadItemToWorkshop(CreateItemResult_t* pCallback, bool
         return;
     }
 
-    m_submitItemUpdateResultResult.Set(apicall, this, &SteamWorkshopItem::submitItemUpdateStatus);
+    SteamAsyncCall<SubmitItemUpdateResult_t>::create(
+        apicall,
+        [this](SubmitItemUpdateResult_t* cb, bool io) { submitItemUpdateStatus(cb, io); },
+        this);
     m_updateTimer.start(m_updateTimerInterval);
 }
 

@@ -19,7 +19,9 @@
 #include "steam/steam_api.h"
 
 #include "ScreenPlayCore/util.h"
+#include "steamasynccall.h"
 #include "steamapiwrapper.h"
+#include "steamtagarray.h"
 
 namespace ScreenPlayWorkshop {
 
@@ -128,12 +130,8 @@ signals:
     void publishedFileIdChanged(QVariant publishedFileId);
 
 private:
-    CCallResult<SteamWorkshopItem, CreateItemResult_t> m_createWorkshopItemCallResult;
     void uploadItemToWorkshop(CreateItemResult_t* pCallback, bool bIOFailure);
-
-    CCallResult<SteamWorkshopItem, SubmitItemUpdateResult_t> m_submitItemUpdateResultResult;
     void submitItemUpdateStatus(SubmitItemUpdateResult_t* pCallback, bool bIOFailure);
-
     void saveWorkshopID();
 
 private:
@@ -146,7 +144,6 @@ private:
     ScreenPlayCore::Steam::EItemUpdateStatus m_uploadState { ScreenPlayCore::Steam::EItemUpdateStatus::K_EItemUpdateStatusInvalid };
     ScreenPlayCore::Steam::EResult m_status { ScreenPlayCore::Steam::EResult::K_EResultNone };
     UGCUpdateHandle_t m_UGCUpdateHandle { 0 };
-    SubmitItemUpdateResult_t m_submitItemUpdateResultHandle;
     QTimer m_updateTimer;
     QVariant m_publishedFileId { 0 };
 };

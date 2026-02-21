@@ -153,28 +153,28 @@ Item {
     Connections {
         target: root.steamWorkshop
 
-        function onRequestProfileItemDetailReturned(publishedFileId: var, title: string, description: string, tags: var, steamIDOwner: int, votesUp: int, votesDown: int, score: real, url: string, fileSize: var, totalFileSize: var, previewUrl: string, timeCreated: int, timeUpdated: int, visibility: int, banned: bool, acceptedForUse: bool, subscriptionCount: int, favoriteCount: int, followerCount: int, uniqueWebsiteViews: int, numChildren: int): void {
-            if (publishedFileId !== root.publishedFileID)
+        function onRequestProfileItemDetailReturned(detail): void {
+            if (detail.publishedFileId !== root.publishedFileID)
                 return
-            root.itemTitle = title
-            root.itemDescription = description
-            root.itemTags = tags
-            root.votesUp = votesUp
-            root.votesDown = votesDown
-            root.score = score
-            root.itemUrl = url
-            root.fileSize = fileSize
-            root.totalFileSize = totalFileSize
-            root.timeCreated = timeCreated
-            root.timeUpdated = timeUpdated
-            root.visibility = visibility
-            root.banned = banned
-            root.acceptedForUse = acceptedForUse
-            root.subscriptionCount = subscriptionCount
-            root.favoriteCount = favoriteCount
-            root.followerCount = followerCount
-            root.uniqueWebsiteViews = uniqueWebsiteViews
-            root.numChildren = numChildren
+            root.itemTitle = detail.title
+            root.itemDescription = detail.description
+            root.itemTags = detail.tags
+            root.votesUp = detail.votesUp
+            root.votesDown = detail.votesDown
+            root.score = detail.score
+            root.itemUrl = detail.url
+            root.fileSize = detail.fileSize
+            root.totalFileSize = detail.totalFileSize
+            root.timeCreated = detail.timeCreated
+            root.timeUpdated = detail.timeUpdated
+            root.visibility = detail.visibility
+            root.banned = detail.banned
+            root.acceptedForUse = detail.acceptedForUse
+            root.subscriptionCount = detail.subscriptionCount
+            root.favoriteCount = detail.favoriteCount
+            root.followerCount = detail.followerCount
+            root.uniqueWebsiteViews = detail.uniqueWebsiteViews
+            root.numChildren = detail.numChildren
             root.isLoading = false
             root.isSubscribed = root.steamWorkshop.isSubscribed(root.publishedFileID)
             root.loadInstalledFiles()

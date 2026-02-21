@@ -25,7 +25,11 @@
 #include "steam/steam_api.h"
 
 #include "steamaccount.h"
+#include "steamasynccall.h"
+#include "steamtagarray.h"
 #include "steamworkshoplistmodel.h"
+#include "workshopitemdetail.h"
+#include "ugcquerybuilder.h"
 #include "uploadlistmodel.h"
 
 namespace ScreenPlayWorkshop {
@@ -205,39 +209,8 @@ signals:
     void userPublishedItemCountChanged(int count);
     void userTotalSubscriptionsChanged(quint64 total);
 
-    void requestItemDetailReturned(const QString& title,
-        const QStringList& tags,
-        const qulonglong steamIDOwner,
-        const QString& description,
-        const quint64 votesUp,
-        const quint64 votesDown,
-        const QString& url,
-        const QVariant fileSize,
-        const QVariant publishedFileId);
-
-    void requestProfileItemDetailReturned(
-        const QVariant publishedFileId,
-        const QString& title,
-        const QString& description,
-        const QStringList& tags,
-        const qulonglong steamIDOwner,
-        const quint64 votesUp,
-        const quint64 votesDown,
-        const float score,
-        const QString& url,
-        const QVariant fileSize,
-        const QVariant totalFileSize,
-        const QString& previewUrl,
-        const quint32 timeCreated,
-        const quint32 timeUpdated,
-        const int visibility,
-        const bool banned,
-        const bool acceptedForUse,
-        const quint64 subscriptionCount,
-        const quint64 favoriteCount,
-        const quint64 followerCount,
-        const quint64 uniqueWebsiteViews,
-        const quint32 numChildren);
+    void requestItemDetailReturned(const WorkshopItemDetail& detail);
+    void requestProfileItemDetailReturned(const WorkshopProfileItemDetail& detail);
 
     void workshopItemMetadataUpdated(bool success, QVariant publishedFileID, int eResult);
     void workshopItemContentUpdated(bool success, QVariant publishedFileID);
@@ -258,42 +231,15 @@ private:
     STEAM_CALLBACK(SteamWorkshop, onWorkshopItemInstalled, ItemInstalled_t);
     STEAM_CALLBACK(SteamWorkshop, onPersonaStateChange, PersonaStateChange_t);
 
-    CCallResult<SteamWorkshop, SteamUGCQueryCompleted_t> m_steamUGCQuerySearchWorkshopResult;
-
-    // Delete item
-    void onDeleteItemReturned(DeleteItemResult_t* pCallback, bool bIOFailure);
-    CCallResult<SteamWorkshop, DeleteItemResult_t> m_steamUGCDeleteItem;
-    PublishedFileId_t m_deleteItemPublishedFileId = 0;
-
-    // List user items
+    // User items (profile) — callback kept as method because it's shared by
+    // requestUserItems() and loadNextProfilePage().
     void onRequestUserItemsReturned(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure);
     void updateUserProfileStatistics();
-    CCallResult<SteamWorkshop, SteamUGCQueryCompleted_t> m_steamUGCListUserItems;
-    UGCQueryHandle_t m_UGCListUserItemsHandle = 0;
-    SteamAPICall_t m_UGCListUserItemsCall = 0;
     ScreenPlayCore::Steam::EUserUGCList m_currentProfileListType = ScreenPlayCore::Steam::EUserUGCList::K_EUserUGCList_Published;
     ScreenPlayCore::Steam::EUserUGCListSortOrder m_currentProfileSortOrder = ScreenPlayCore::Steam::EUserUGCListSortOrder::K_EUserUGCListSortOrder_LastUpdatedDesc;
 
-    // General Item detail
-    void onRequestItemDetailReturned(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure);
-    CCallResult<SteamWorkshop, SteamUGCQueryCompleted_t> m_steamUGCItemDetails;
-    UGCQueryHandle_t m_UGCRegquestItemDetailHandle = 0;
-    SteamAPICall_t m_UGCRegquestItemDetailCall = 0;
-
-    // Profile Item detail (with statistics)
-    void onRequestProfileItemDetailReturned(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure);
-    CCallResult<SteamWorkshop, SteamUGCQueryCompleted_t> m_steamUGCProfileItemDetails;
-
-    // Metadata update (title, description, tags, visibility)
-    void onUpdateItemMetadataReturned(SubmitItemUpdateResult_t* pCallback, bool bIOFailure);
-    CCallResult<SteamWorkshop, SubmitItemUpdateResult_t> m_steamUGCUpdateMetadata;
-    PublishedFileId_t m_updateMetadataPublishedFileId = 0;
-
-    // Content update (files)
-    void onUpdateItemContentReturned(SubmitItemUpdateResult_t* pCallback, bool bIOFailure);
-    CCallResult<SteamWorkshop, SubmitItemUpdateResult_t> m_steamUGCUpdateContent;
+    // Content update progress tracking (read by getContentUpdateProgress())
     UGCUpdateHandle_t m_contentUpdateHandle = k_UGCUpdateHandleInvalid;
-    PublishedFileId_t m_updateContentPublishedFileId = 0;
 
     UGCQueryHandle_t m_searchHandle = 0;
     QSet<quint64> m_pendingCreatorRequests;
@@ -307,7 +253,6 @@ private:
         QStringList tags;
     };
     ParsedSearch parseSearchInput(const QString& input) const;
-    bool applySearchFilters(UGCQueryHandle_t handle, const ParsedSearch& parsed);
 
     QTimer m_pollTimer;
 

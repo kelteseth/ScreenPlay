@@ -63,31 +63,32 @@ Drawer {
     }
 
     Connections {
-        function onRequestItemDetailReturned(title: string, tags: var, steamIDOwner: var, description: string, votesUp: var, votesDown: var, url: string, fileSize: var, publishedFileId: var) {
-            root.subscribed = steamWorkshop.isSubscribed(publishedFileId)
+        function onRequestItemDetailReturned(detail) {
+            root.subscribed = steamWorkshop.isSubscribed(detail.publishedFileId)
             root.subscriptionStateKnown = true
-            root.creatorSteamID = steamIDOwner
+            root.creatorSteamID = detail.steamIDOwner
             tagListModel.clear();
             // Even if the tags array is empty it still contains
             // one empty string, resulting in an empty button
-            if (tags.length > 1) {
-                for (var i in tags) {
+            if (detail.tags.length > 1) {
+                for (var i in detail.tags) {
                     tagListModel.append({
-                        "name": tags[i]
+                        "name": detail.tags[i]
                     })
                 }
                 rpTagList.model = tagListModel
             } else {
                 rpTagList.model = null
             }
-            txtTitle.text = title
-            const size = Math.floor((1000 * ((fileSize / 1024) / 1000)) / 1000)
+            txtTitle.text = detail.title
+            const size = Math.floor((1000 * ((detail.fileSize / 1024) / 1000)) / 1000)
             txtFileSize.text = qsTr("Size: ") + size + " MB"
-            root.votesUp = votesUp
-            root.votesDown = votesDown
-            if (description === "")
-                description = qsTr("No description...")
-            txtDescription.text = description
+            root.votesUp = detail.votesUp
+            root.votesDown = detail.votesDown
+            let desc = detail.description
+            if (desc === "")
+                desc = qsTr("No description...")
+            txtDescription.text = desc
         }
 
         function onCreatorNameReady(name: string, steamID64: string): void {

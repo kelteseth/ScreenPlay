@@ -61,12 +61,16 @@ set(HEADER
     src/screenplayworkshop.h
     src/steamaccount.h
     src/steamapiwrapper.h
+    src/steamasynccall.h
     src/steamqmlimageprovider.h
+    src/steamtagarray.h
     src/steamworkshop.h
     src/steamworkshopitem.h
     src/steamworkshoplistmodel.h
+    src/ugcquerybuilder.h
     src/uploadlistmodel.h
-    src/workshopitem.h)
+    src/workshopitem.h
+    src/workshopitemdetail.h)
 
 set(RESOURCES
     # cmake-format: sort

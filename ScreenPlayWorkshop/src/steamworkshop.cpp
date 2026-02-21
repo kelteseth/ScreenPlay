@@ -137,40 +137,37 @@ void SteamWorkshop::requestWorkshopItemDetails(const QVariant publishedFileID)
     }
 
     auto id = publishedFileID.toULongLong();
-    auto uGCRegquestItemDetailHandle = SteamUGC()->CreateQueryUGCDetailsRequest(&id, 1);
-    auto uGCRegquestItemDetailCall = SteamUGC()->SendQueryUGCRequest(uGCRegquestItemDetailHandle);
-    m_steamUGCItemDetails.Set(uGCRegquestItemDetailCall, this, &SteamWorkshop::onRequestItemDetailReturned);
-}
+    auto apiCall = UGCQueryBuilder::details(&id, 1).send();
 
-void SteamWorkshop::onRequestItemDetailReturned(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure)
-{
-    m_queryActive = false;
-    if (bIOFailure) {
-        qWarning() << "onRequestItemDetailReturned bIOFailure" << bIOFailure;
-        return;
-    }
-
-    SteamUGCDetails_t details;
-    for (uint32 i = 0; i < pCallback->m_unTotalMatchingResults; ++i) {
-        if (SteamUGC()->GetQueryUGCResult(pCallback->m_handle, i, &details)) {
-
-            emit requestItemDetailReturned(
-                QString::fromUtf8(details.m_rgchTitle),
-                QString::fromUtf8(details.m_rgchTags).split(",", Qt::SkipEmptyParts),
-                details.m_ulSteamIDOwner,
-                QString::fromUtf8(details.m_rgchDescription),
-                details.m_unVotesUp,
-                details.m_unVotesDown,
-                QString::fromUtf8(details.m_rgchURL),
-                QVariant::fromValue<int32>(details.m_nFileSize),
-                QVariant::fromValue<uint64>(details.m_nPublishedFileId));
-            // Call after emit so QML has already stored creatorSteamID when creatorNameReady fires
-            requestCreatorName(QString::number(details.m_ulSteamIDOwner));
-        } else {
-            qWarning() << "GetQueryUGCResult failed!";
+    SteamAsyncCall<SteamUGCQueryCompleted_t>::create(apiCall, [this](SteamUGCQueryCompleted_t* pCallback, bool bIOFailure) {
+        m_queryActive = false;
+        if (bIOFailure) {
+            qWarning() << "requestWorkshopItemDetails IO failure";
+            return;
         }
-    }
-    SteamUGC()->ReleaseQueryUGCRequest(pCallback->m_handle);
+
+        SteamUGCDetails_t details;
+        for (uint32 i = 0; i < pCallback->m_unTotalMatchingResults; ++i) {
+            if (SteamUGC()->GetQueryUGCResult(pCallback->m_handle, i, &details)) {
+                WorkshopItemDetail detail;
+                detail.title = QString::fromUtf8(details.m_rgchTitle);
+                detail.tags = QString::fromUtf8(details.m_rgchTags).split(",", Qt::SkipEmptyParts);
+                detail.steamIDOwner = details.m_ulSteamIDOwner;
+                detail.description = QString::fromUtf8(details.m_rgchDescription);
+                detail.votesUp = details.m_unVotesUp;
+                detail.votesDown = details.m_unVotesDown;
+                detail.url = QString::fromUtf8(details.m_rgchURL);
+                detail.fileSize = QVariant::fromValue<int32>(details.m_nFileSize);
+                detail.publishedFileId = QVariant::fromValue<uint64>(details.m_nPublishedFileId);
+                emit requestItemDetailReturned(detail);
+                // Call after emit so QML has already stored creatorSteamID when creatorNameReady fires
+                requestCreatorName(QString::number(details.m_ulSteamIDOwner));
+            } else {
+                qWarning() << "GetQueryUGCResult failed!";
+            }
+        }
+        SteamUGC()->ReleaseQueryUGCRequest(pCallback->m_handle);
+    }, this);
 }
 
 void SteamWorkshop::requestProfileItemDetails(const QVariant publishedFileID)
@@ -182,66 +179,64 @@ void SteamWorkshop::requestProfileItemDetails(const QVariant publishedFileID)
         return;
 
     auto id = publishedFileID.toULongLong();
-    auto handle = SteamUGC()->CreateQueryUGCDetailsRequest(&id, 1);
-    SteamUGC()->SetReturnLongDescription(handle, true);
-    SteamUGC()->SetReturnKeyValueTags(handle, true);
-    SteamUGC()->SetReturnChildren(handle, true);
-    auto apiCall = SteamUGC()->SendQueryUGCRequest(handle);
-    m_steamUGCProfileItemDetails.Set(apiCall, this, &SteamWorkshop::onRequestProfileItemDetailReturned);
-}
+    auto apiCall = UGCQueryBuilder::details(&id, 1)
+                       .withLongDescription()
+                       .withKeyValueTags()
+                       .withChildren()
+                       .send();
 
-void SteamWorkshop::onRequestProfileItemDetailReturned(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure)
-{
-    m_queryActive = false;
-    if (bIOFailure) {
-        qWarning() << "onRequestProfileItemDetailReturned bIOFailure" << bIOFailure;
-        return;
-    }
-
-    SteamUGCDetails_t details;
-    for (uint32 i = 0; i < pCallback->m_unTotalMatchingResults; ++i) {
-        if (SteamUGC()->GetQueryUGCResult(pCallback->m_handle, i, &details)) {
-            const int urlLength = 512;
-            std::array<char, 512> previewUrl {};
-            SteamUGC()->GetQueryUGCPreviewURL(pCallback->m_handle, i, previewUrl.data(), urlLength);
-
-            quint64 subscriptionCount = 0;
-            quint64 favoriteCount = 0;
-            quint64 followerCount = 0;
-            quint64 uniqueWebsiteViews = 0;
-            SteamUGC()->GetQueryUGCStatistic(pCallback->m_handle, i, EItemStatistic::k_EItemStatistic_NumSubscriptions, &subscriptionCount);
-            SteamUGC()->GetQueryUGCStatistic(pCallback->m_handle, i, EItemStatistic::k_EItemStatistic_NumFavorites, &favoriteCount);
-            SteamUGC()->GetQueryUGCStatistic(pCallback->m_handle, i, EItemStatistic::k_EItemStatistic_NumFollowers, &followerCount);
-            SteamUGC()->GetQueryUGCStatistic(pCallback->m_handle, i, EItemStatistic::k_EItemStatistic_NumUniqueWebsiteViews, &uniqueWebsiteViews);
-
-            emit requestProfileItemDetailReturned(
-                QVariant::fromValue<uint64>(details.m_nPublishedFileId),
-                QString::fromUtf8(details.m_rgchTitle),
-                QString::fromUtf8(details.m_rgchDescription),
-                QString::fromUtf8(details.m_rgchTags).split(",", Qt::SkipEmptyParts),
-                details.m_ulSteamIDOwner,
-                details.m_unVotesUp,
-                details.m_unVotesDown,
-                details.m_flScore,
-                QString::fromUtf8(details.m_rgchURL),
-                QVariant::fromValue<int32>(details.m_nFileSize),
-                QVariant::fromValue<uint64>(details.m_ulTotalFilesSize),
-                QString::fromUtf8(previewUrl.data()),
-                details.m_rtimeCreated,
-                details.m_rtimeUpdated,
-                static_cast<int>(details.m_eVisibility),
-                details.m_bBanned,
-                details.m_bAcceptedForUse,
-                subscriptionCount,
-                favoriteCount,
-                followerCount,
-                uniqueWebsiteViews,
-                details.m_unNumChildren);
-        } else {
-            qWarning() << "GetQueryUGCResult failed for profile item!";
+    SteamAsyncCall<SteamUGCQueryCompleted_t>::create(apiCall, [this](SteamUGCQueryCompleted_t* pCallback, bool bIOFailure) {
+        m_queryActive = false;
+        if (bIOFailure) {
+            qWarning() << "requestProfileItemDetails IO failure";
+            return;
         }
-    }
-    SteamUGC()->ReleaseQueryUGCRequest(pCallback->m_handle);
+
+        SteamUGCDetails_t details;
+        for (uint32 i = 0; i < pCallback->m_unTotalMatchingResults; ++i) {
+            if (SteamUGC()->GetQueryUGCResult(pCallback->m_handle, i, &details)) {
+                std::array<char, 512> previewUrl {};
+                SteamUGC()->GetQueryUGCPreviewURL(pCallback->m_handle, i, previewUrl.data(), 512);
+
+                quint64 subscriptionCount = 0;
+                quint64 favoriteCount = 0;
+                quint64 followerCount = 0;
+                quint64 uniqueWebsiteViews = 0;
+                SteamUGC()->GetQueryUGCStatistic(pCallback->m_handle, i, EItemStatistic::k_EItemStatistic_NumSubscriptions, &subscriptionCount);
+                SteamUGC()->GetQueryUGCStatistic(pCallback->m_handle, i, EItemStatistic::k_EItemStatistic_NumFavorites, &favoriteCount);
+                SteamUGC()->GetQueryUGCStatistic(pCallback->m_handle, i, EItemStatistic::k_EItemStatistic_NumFollowers, &followerCount);
+                SteamUGC()->GetQueryUGCStatistic(pCallback->m_handle, i, EItemStatistic::k_EItemStatistic_NumUniqueWebsiteViews, &uniqueWebsiteViews);
+
+                WorkshopProfileItemDetail detail;
+                detail.publishedFileId = QVariant::fromValue<uint64>(details.m_nPublishedFileId);
+                detail.title = QString::fromUtf8(details.m_rgchTitle);
+                detail.description = QString::fromUtf8(details.m_rgchDescription);
+                detail.tags = QString::fromUtf8(details.m_rgchTags).split(",", Qt::SkipEmptyParts);
+                detail.steamIDOwner = details.m_ulSteamIDOwner;
+                detail.votesUp = details.m_unVotesUp;
+                detail.votesDown = details.m_unVotesDown;
+                detail.score = details.m_flScore;
+                detail.url = QString::fromUtf8(details.m_rgchURL);
+                detail.fileSize = QVariant::fromValue<int32>(details.m_nFileSize);
+                detail.totalFileSize = QVariant::fromValue<uint64>(details.m_ulTotalFilesSize);
+                detail.previewUrl = QString::fromUtf8(previewUrl.data());
+                detail.timeCreated = details.m_rtimeCreated;
+                detail.timeUpdated = details.m_rtimeUpdated;
+                detail.visibility = static_cast<int>(details.m_eVisibility);
+                detail.banned = details.m_bBanned;
+                detail.acceptedForUse = details.m_bAcceptedForUse;
+                detail.subscriptionCount = subscriptionCount;
+                detail.favoriteCount = favoriteCount;
+                detail.followerCount = followerCount;
+                detail.uniqueWebsiteViews = uniqueWebsiteViews;
+                detail.numChildren = details.m_unNumChildren;
+                emit requestProfileItemDetailReturned(detail);
+            } else {
+                qWarning() << "GetQueryUGCResult failed for profile item!";
+            }
+        }
+        SteamUGC()->ReleaseQueryUGCRequest(pCallback->m_handle);
+    }, this);
 }
 
 void SteamWorkshop::updateItemMetadata(const QVariant publishedFileID, const QString& title, const QString& description, const QStringList& tags, const int visibility)
@@ -249,74 +244,53 @@ void SteamWorkshop::updateItemMetadata(const QVariant publishedFileID, const QSt
     if (!checkOnline())
         return;
 
-    m_updateMetadataPublishedFileId = publishedFileID.toULongLong();
-    qInfo() << "updateItemMetadata: fileId=" << m_updateMetadataPublishedFileId
+    const auto fileId = publishedFileID.toULongLong();
+    qInfo() << "updateItemMetadata: fileId=" << fileId
             << "title=" << title
             << "tags=" << tags
             << "visibility=" << visibility;
 
-    auto updateHandle = SteamUGC()->StartItemUpdate(m_appID, m_updateMetadataPublishedFileId);
+    auto updateHandle = SteamUGC()->StartItemUpdate(m_appID, fileId);
 
-    if (!title.isEmpty()) {
+    if (!title.isEmpty())
         SteamUGC()->SetItemTitle(updateHandle, title.toUtf8().constData());
-    }
 
-    if (!description.isEmpty()) {
+    if (!description.isEmpty())
         SteamUGC()->SetItemDescription(updateHandle, description.toUtf8().constData());
+
+    SteamTagArray tagArray(tags);
+    if (!tagArray.isEmpty()) {
+        qInfo() << "updateItemMetadata: setting" << tagArray.count() << "tags";
+        SteamUGC()->SetItemTags(updateHandle, tagArray.get());
     }
 
-    if (!tags.isEmpty()) {
-        QVector<QByteArray> tagBytes;
-        QVector<const char*> tagPointers;
-        for (const auto& tag : tags) {
-            if (!tag.isEmpty() && tag.length() <= 255) {
-                tagBytes.append(tag.toUtf8());
-                tagPointers.append(tagBytes.last().constData());
-            } else {
-                qWarning() << "updateItemMetadata: skipping invalid tag:" << tag << "length:" << tag.length();
-            }
-        }
-
-        qInfo() << "updateItemMetadata: setting" << tagPointers.size() << "tags";
-
-        if (!tagPointers.isEmpty()) {
-            SteamParamStringArray_t steamTags;
-            steamTags.m_ppStrings = tagPointers.data();
-            steamTags.m_nNumStrings = tagPointers.size();
-            SteamUGC()->SetItemTags(updateHandle, &steamTags);
-        }
-    }
-
-    if (visibility >= 0) {
+    if (visibility >= 0)
         SteamUGC()->SetItemVisibility(updateHandle, static_cast<ERemoteStoragePublishedFileVisibility>(visibility));
-    }
 
     auto apiCall = SteamUGC()->SubmitItemUpdate(updateHandle, nullptr);
     if (apiCall == k_uAPICallInvalid) {
         qWarning() << "updateItemMetadata: SubmitItemUpdate returned invalid API call!";
-        emit workshopItemMetadataUpdated(false, QVariant::fromValue<quint64>(m_updateMetadataPublishedFileId), 0);
-        return;
-    }
-    m_steamUGCUpdateMetadata.Set(apiCall, this, &SteamWorkshop::onUpdateItemMetadataReturned);
-}
-
-void SteamWorkshop::onUpdateItemMetadataReturned(SubmitItemUpdateResult_t* pCallback, bool bIOFailure)
-{
-    if (bIOFailure) {
-        qWarning() << "onUpdateItemMetadataReturned IO Failure";
-        emit workshopItemMetadataUpdated(false, QVariant::fromValue<quint64>(m_updateMetadataPublishedFileId), 0);
+        emit workshopItemMetadataUpdated(false, QVariant::fromValue<quint64>(fileId), 0);
         return;
     }
 
-    const bool success = (pCallback->m_eResult == k_EResultOK);
-    if (success) {
-        qInfo() << "Successfully updated item metadata:" << pCallback->m_nPublishedFileId;
-    } else {
-        qWarning() << "Failed to update item metadata:" << pCallback->m_nPublishedFileId
-                   << "EResult:" << pCallback->m_eResult
-                   << "NeedsWorkshopAgreement:" << pCallback->m_bUserNeedsToAcceptWorkshopLegalAgreement;
-    }
-    emit workshopItemMetadataUpdated(success, QVariant::fromValue<quint64>(pCallback->m_nPublishedFileId), static_cast<int>(pCallback->m_eResult));
+    SteamAsyncCall<SubmitItemUpdateResult_t>::create(apiCall, [this, fileId](SubmitItemUpdateResult_t* pCallback, bool bIOFailure) {
+        if (bIOFailure) {
+            qWarning() << "updateItemMetadata IO Failure";
+            emit workshopItemMetadataUpdated(false, QVariant::fromValue<quint64>(fileId), 0);
+            return;
+        }
+
+        const bool success = (pCallback->m_eResult == k_EResultOK);
+        if (success) {
+            qInfo() << "Successfully updated item metadata:" << pCallback->m_nPublishedFileId;
+        } else {
+            qWarning() << "Failed to update item metadata:" << pCallback->m_nPublishedFileId
+                       << "EResult:" << pCallback->m_eResult
+                       << "NeedsWorkshopAgreement:" << pCallback->m_bUserNeedsToAcceptWorkshopLegalAgreement;
+        }
+        emit workshopItemMetadataUpdated(success, QVariant::fromValue<quint64>(pCallback->m_nPublishedFileId), static_cast<int>(pCallback->m_eResult));
+    }, this);
 }
 
 /*! \brief Returns install info for a subscribed workshop item: path, sizeOnDisk, timestamp. */
@@ -370,35 +344,33 @@ void SteamWorkshop::updateItemContent(const QVariant publishedFileID, const QStr
     if (!checkOnline())
         return;
 
-    m_updateContentPublishedFileId = publishedFileID.toULongLong();
-    m_contentUpdateHandle = SteamUGC()->StartItemUpdate(m_appID, m_updateContentPublishedFileId);
+    const auto fileId = publishedFileID.toULongLong();
+    m_contentUpdateHandle = SteamUGC()->StartItemUpdate(m_appID, fileId);
 
     SteamUGC()->SetItemContent(m_contentUpdateHandle, absoluteContentPath.toUtf8().constData());
 
     const auto apiCall = SteamUGC()->SubmitItemUpdate(
         m_contentUpdateHandle,
         changeNote.isEmpty() ? nullptr : changeNote.toUtf8().constData());
-    m_steamUGCUpdateContent.Set(apiCall, this, &SteamWorkshop::onUpdateItemContentReturned);
-}
 
-void SteamWorkshop::onUpdateItemContentReturned(SubmitItemUpdateResult_t* pCallback, bool bIOFailure)
-{
-    m_contentUpdateHandle = k_UGCUpdateHandleInvalid;
+    SteamAsyncCall<SubmitItemUpdateResult_t>::create(apiCall, [this, fileId](SubmitItemUpdateResult_t* pCallback, bool bIOFailure) {
+        m_contentUpdateHandle = k_UGCUpdateHandleInvalid;
 
-    if (bIOFailure) {
-        qWarning() << "onUpdateItemContentReturned IO Failure";
-        emit workshopItemContentUpdated(false, QVariant::fromValue<quint64>(m_updateContentPublishedFileId));
-        return;
-    }
+        if (bIOFailure) {
+            qWarning() << "updateItemContent IO Failure";
+            emit workshopItemContentUpdated(false, QVariant::fromValue<quint64>(fileId));
+            return;
+        }
 
-    const bool success = (pCallback->m_eResult == k_EResultOK);
-    if (success) {
-        qInfo() << "Successfully updated item content:" << pCallback->m_nPublishedFileId;
-    } else {
-        qWarning() << "Failed to update item content:" << pCallback->m_nPublishedFileId
-                   << "Result:" << pCallback->m_eResult;
-    }
-    emit workshopItemContentUpdated(success, QVariant::fromValue<quint64>(pCallback->m_nPublishedFileId));
+        const bool success = (pCallback->m_eResult == k_EResultOK);
+        if (success) {
+            qInfo() << "Successfully updated item content:" << pCallback->m_nPublishedFileId;
+        } else {
+            qWarning() << "Failed to update item content:" << pCallback->m_nPublishedFileId
+                       << "Result:" << pCallback->m_eResult;
+        }
+        emit workshopItemContentUpdated(success, QVariant::fromValue<quint64>(pCallback->m_nPublishedFileId));
+    }, this);
 }
 
 /*! \brief Returns the current content update progress as a map with progress (0..1) and status. */
@@ -478,22 +450,16 @@ void SteamWorkshop::requestUserItems(
     m_workshopProfileListModel->clear();
     m_workshopProfileListModel->setIsLoading(true);
 
-    m_UGCListUserItemsHandle = SteamUGC()->CreateQueryUserUGCRequest(
-        m_steamAccount->accountID(),
-        static_cast<EUserUGCList>(listType),
-        EUGCMatchingUGCType::k_EUGCMatchingUGCType_Items,
-        static_cast<EUserUGCListSortOrder>(sortOrder),
-        m_appID,
-        m_appID,
-        1);
+    auto apiCall = UGCQueryBuilder::userItems(
+                       m_steamAccount->accountID(), m_appID,
+                       static_cast<EUserUGCList>(listType),
+                       EUGCMatchingUGCType::k_EUGCMatchingUGCType_Items,
+                       static_cast<EUserUGCListSortOrder>(sortOrder),
+                       1)
+                       .send();
 
-    m_UGCListUserItemsCall = SteamUGC()->SendQueryUGCRequest(m_UGCListUserItemsHandle);
-    m_steamUGCListUserItems.Set(m_UGCListUserItemsCall, this, &SteamWorkshop::onRequestUserItemsReturned);
-    bool failed = false;
-
-    if (!SteamUtils()->IsAPICallCompleted(m_UGCListUserItemsCall, &failed)) {
-        qInfo() << "CreateQueryUserUGCRequest failed " << failed;
-    }
+    SteamAsyncCall<SteamUGCQueryCompleted_t>::create(apiCall,
+        [this](auto* cb, bool io) { onRequestUserItemsReturned(cb, io); }, this);
 }
 
 /*!
@@ -520,17 +486,16 @@ bool SteamWorkshop::loadNextProfilePage()
     m_workshopProfileListModel->incrementPage();
     m_workshopProfileListModel->setIsLoading(true);
 
-    m_UGCListUserItemsHandle = SteamUGC()->CreateQueryUserUGCRequest(
-        m_steamAccount->accountID(),
-        static_cast<EUserUGCList>(m_currentProfileListType),
-        EUGCMatchingUGCType::k_EUGCMatchingUGCType_Items,
-        static_cast<EUserUGCListSortOrder>(m_currentProfileSortOrder),
-        m_appID,
-        m_appID,
-        m_workshopProfileListModel->currentPage());
+    auto apiCall = UGCQueryBuilder::userItems(
+                       m_steamAccount->accountID(), m_appID,
+                       static_cast<EUserUGCList>(m_currentProfileListType),
+                       EUGCMatchingUGCType::k_EUGCMatchingUGCType_Items,
+                       static_cast<EUserUGCListSortOrder>(m_currentProfileSortOrder),
+                       m_workshopProfileListModel->currentPage())
+                       .send();
 
-    m_UGCListUserItemsCall = SteamUGC()->SendQueryUGCRequest(m_UGCListUserItemsHandle);
-    m_steamUGCListUserItems.Set(m_UGCListUserItemsCall, this, &SteamWorkshop::onRequestUserItemsReturned);
+    SteamAsyncCall<SteamUGCQueryCompleted_t>::create(apiCall,
+        [this](auto* cb, bool io) { onRequestUserItemsReturned(cb, io); }, this);
     return true;
 }
 
@@ -577,31 +542,28 @@ void SteamWorkshop::deleteItem(const QVariant publishedFileID)
     if (!checkOnline())
         return;
 
-    m_deleteItemPublishedFileId = publishedFileID.toULongLong();
-    qInfo() << "Deleting workshop item:" << m_deleteItemPublishedFileId;
+    const auto fileId = publishedFileID.toULongLong();
+    qInfo() << "Deleting workshop item:" << fileId;
 
-    SteamAPICall_t hSteamAPICall = SteamUGC()->DeleteItem(m_deleteItemPublishedFileId);
-    m_steamUGCDeleteItem.Set(hSteamAPICall, this, &SteamWorkshop::onDeleteItemReturned);
-}
+    SteamAsyncCall<DeleteItemResult_t>::create(SteamUGC()->DeleteItem(fileId),
+        [this, fileId](DeleteItemResult_t* pCallback, bool bIOFailure) {
+            if (bIOFailure) {
+                qWarning() << "deleteItem IO Failure";
+                emit workshopItemDeleted(false, QVariant::fromValue<quint64>(fileId));
+                return;
+            }
 
-void SteamWorkshop::onDeleteItemReturned(DeleteItemResult_t* pCallback, bool bIOFailure)
-{
-    if (bIOFailure) {
-        qWarning() << "onDeleteItemReturned IO Failure";
-        emit workshopItemDeleted(false, QVariant::fromValue<quint64>(m_deleteItemPublishedFileId));
-        return;
-    }
-
-    const bool success = (pCallback->m_eResult == k_EResultOK);
-    if (success) {
-        qInfo() << "Successfully deleted workshop item:" << m_deleteItemPublishedFileId;
-        m_workshopProfileListModel->removeByPublishedFileID(m_deleteItemPublishedFileId);
-    } else {
-        qWarning() << "Failed to delete workshop item:" << m_deleteItemPublishedFileId
-                   << "Result:" << pCallback->m_eResult;
-    }
-
-    emit workshopItemDeleted(success, QVariant::fromValue<quint64>(m_deleteItemPublishedFileId));
+            const bool success = (pCallback->m_eResult == k_EResultOK);
+            if (success) {
+                qInfo() << "Successfully deleted workshop item:" << fileId;
+                m_workshopProfileListModel->removeByPublishedFileID(fileId);
+            } else {
+                qWarning() << "Failed to delete workshop item:" << fileId
+                           << "Result:" << pCallback->m_eResult;
+            }
+            emit workshopItemDeleted(success, QVariant::fromValue<quint64>(fileId));
+        },
+        this);
 }
 
 bool SteamWorkshop::searchWorkshop(const ScreenPlayCore::Steam::EUGCQuery enumEUGCQuery)
@@ -634,20 +596,14 @@ bool SteamWorkshop::searchWorkshop(const ScreenPlayCore::Steam::EUGCQuery enumEU
     m_workshopListModel->reset();
     m_workshopListModel->setIsLoading(true);
 
-    m_searchHandle = SteamUGC()->CreateQueryAllUGCRequest(
-        static_cast<EUGCQuery>(enumEUGCQuery),
-        EUGCMatchingUGCType::k_EUGCMatchingUGCType_Items,
-        m_appID,
-        m_appID,
-        m_workshopListModel->currentPage());
+    auto query = UGCQueryBuilder::allItems(m_appID, static_cast<EUGCQuery>(enumEUGCQuery), m_workshopListModel->currentPage())
+                     .withDefaults();
 
+    m_searchHandle = query.handle();
     qInfo() << m_searchHandle;
 
-    // Important: First send the request to get the Steam API Call then set the handler
-    SteamUGC()->SetReturnAdditionalPreviews(m_searchHandle, true);
-    SteamUGC()->SetReturnKeyValueTags(m_searchHandle, true);
-    SteamUGC()->SetReturnLongDescription(m_searchHandle, true);
-    m_steamUGCQuerySearchWorkshopResult.Set(SteamUGC()->SendQueryUGCRequest(m_searchHandle), this, &SteamWorkshop::onWorkshopSearched);
+    SteamAsyncCall<SteamUGCQueryCompleted_t>::create(query.send(),
+        [this](auto* cb, bool io) { onWorkshopSearched(cb, io); }, this);
     return true;
 }
 
@@ -683,44 +639,28 @@ bool SteamWorkshop::loadNextPage()
     m_workshopListModel->incrementPage();
     m_workshopListModel->setIsLoading(true);
 
-    UGCQueryHandle_t searchHandle;
+    const auto page = m_workshopListModel->currentPage();
+    UGCQueryBuilder query;
 
     if (m_currentUserAccountID != 0) {
-        searchHandle = SteamUGC()->CreateQueryUserUGCRequest(
-            m_currentUserAccountID,
+        query = UGCQueryBuilder::userItems(
+            m_currentUserAccountID, m_appID,
             EUserUGCList::k_EUserUGCList_Published,
             EUGCMatchingUGCType::k_EUGCMatchingUGCType_All,
             EUserUGCListSortOrder::k_EUserUGCListSortOrder_LastUpdatedDesc,
-            m_appID,
-            m_appID,
-            m_workshopListModel->currentPage());
-    } else if (m_currentSearchText.isEmpty()) {
-        searchHandle = SteamUGC()->CreateQueryAllUGCRequest(
-            static_cast<EUGCQuery>(m_currentQueryType),
-            EUGCMatchingUGCType::k_EUGCMatchingUGCType_Items,
-            m_appID,
-            m_appID,
-            m_workshopListModel->currentPage());
+            page);
     } else {
-        searchHandle = SteamUGC()->CreateQueryAllUGCRequest(
-            static_cast<EUGCQuery>(m_currentQueryType),
-            EUGCMatchingUGCType::k_EUGCMatchingUGCType_Items,
-            m_appID,
-            m_appID,
-            m_workshopListModel->currentPage());
-
-        const ParsedSearch parsed { m_currentSearchText, m_currentSearchTags };
-        if (!applySearchFilters(searchHandle, parsed)) {
-            m_workshopListModel->setIsLoading(false);
-            m_queryActive = false;
-            return false;
+        query = UGCQueryBuilder::allItems(m_appID, static_cast<EUGCQuery>(m_currentQueryType), page);
+        if (!m_currentSearchText.isEmpty()) {
+            const ParsedSearch parsed { m_currentSearchText, m_currentSearchTags };
+            query.withSearchText(parsed.text).withRequiredTags(parsed.tags);
         }
     }
 
-    SteamUGC()->SetReturnAdditionalPreviews(searchHandle, true);
-    SteamUGC()->SetReturnKeyValueTags(searchHandle, true);
-    SteamUGC()->SetReturnLongDescription(searchHandle, true);
-    m_steamUGCQuerySearchWorkshopResult.Set(SteamUGC()->SendQueryUGCRequest(searchHandle), this, &SteamWorkshop::onWorkshopSearched);
+    query.withDefaults();
+
+    SteamAsyncCall<SteamUGCQueryCompleted_t>::create(query.send(),
+        [this](auto* cb, bool io) { onWorkshopSearched(cb, io); }, this);
     return true;
 }
 
@@ -742,27 +682,23 @@ void SteamWorkshop::searchWorkshopByUser(const QString& steamID64)
     }
 
     const CSteamID creatorID(steamID64.toULongLong());
-    const AccountID_t accountID = creatorID.GetAccountID();
-
-    m_currentUserAccountID = accountID;
+    m_currentUserAccountID = creatorID.GetAccountID();
     m_currentSearchText.clear();
 
     m_workshopListModel->reset();
     m_workshopListModel->setIsLoading(true);
 
-    const auto searchHandle = SteamUGC()->CreateQueryUserUGCRequest(
-        accountID,
-        EUserUGCList::k_EUserUGCList_Published,
-        EUGCMatchingUGCType::k_EUGCMatchingUGCType_All,
-        EUserUGCListSortOrder::k_EUserUGCListSortOrder_LastUpdatedDesc,
-        m_appID,
-        m_appID,
-        m_workshopListModel->currentPage());
+    auto apiCall = UGCQueryBuilder::userItems(
+                       m_currentUserAccountID, m_appID,
+                       EUserUGCList::k_EUserUGCList_Published,
+                       EUGCMatchingUGCType::k_EUGCMatchingUGCType_All,
+                       EUserUGCListSortOrder::k_EUserUGCListSortOrder_LastUpdatedDesc,
+                       m_workshopListModel->currentPage())
+                       .withDefaults()
+                       .send();
 
-    SteamUGC()->SetReturnAdditionalPreviews(searchHandle, true);
-    SteamUGC()->SetReturnKeyValueTags(searchHandle, true);
-    SteamUGC()->SetReturnLongDescription(searchHandle, true);
-    m_steamUGCQuerySearchWorkshopResult.Set(SteamUGC()->SendQueryUGCRequest(searchHandle), this, &SteamWorkshop::onWorkshopSearched);
+    SteamAsyncCall<SteamUGCQueryCompleted_t>::create(apiCall,
+        [this](auto* cb, bool io) { onWorkshopSearched(cb, io); }, this);
 }
 
 void SteamWorkshop::onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure)
@@ -880,24 +816,6 @@ SteamWorkshop::ParsedSearch SteamWorkshop::parseSearchInput(const QString& input
     return result;
 }
 
-/*! \brief Applies search text and required tags to a UGC query handle. */
-bool SteamWorkshop::applySearchFilters(UGCQueryHandle_t handle, const ParsedSearch& parsed)
-{
-    if (!parsed.text.isEmpty()) {
-        if (!SteamUGC()->SetSearchText(handle, parsed.text.toUtf8().constData())) {
-            qWarning() << "SetSearchText failed:" << parsed.text;
-            return false;
-        }
-    }
-
-    for (const auto& tag : parsed.tags) {
-        if (!SteamUGC()->AddRequiredTag(handle, tag.toUtf8().constData())) {
-            qWarning() << "AddRequiredTag failed:" << tag;
-        }
-    }
-
-    return true;
-}
 
 void SteamWorkshop::searchWorkshopByText(const QString text, const ScreenPlayCore::Steam::EUGCQuery rankedBy)
 {
@@ -927,24 +845,14 @@ void SteamWorkshop::searchWorkshopByText(const QString text, const ScreenPlayCor
     m_workshopListModel->reset();
     m_workshopListModel->setIsLoading(true);
 
-    auto searchHandle = SteamUGC()->CreateQueryAllUGCRequest(
-        static_cast<EUGCQuery>(rankedBy),
-        EUGCMatchingUGCType::k_EUGCMatchingUGCType_Items,
-        m_appID,
-        m_appID,
-        m_workshopListModel->currentPage());
+    auto apiCall = UGCQueryBuilder::allItems(m_appID, static_cast<EUGCQuery>(rankedBy), m_workshopListModel->currentPage())
+                       .withDefaults()
+                       .withSearchText(parsed.text)
+                       .withRequiredTags(parsed.tags)
+                       .send();
 
-    if (!applySearchFilters(searchHandle, parsed)) {
-        m_workshopListModel->setIsLoading(false);
-        m_queryActive = false;
-        return;
-    }
-
-    // Important: First send the request to get the Steam API Call then set the handler
-    SteamUGC()->SetReturnAdditionalPreviews(searchHandle, true);
-    SteamUGC()->SetReturnKeyValueTags(searchHandle, true);
-    SteamUGC()->SetReturnLongDescription(searchHandle, true);
-    m_steamUGCQuerySearchWorkshopResult.Set(SteamUGC()->SendQueryUGCRequest(searchHandle), this, &SteamWorkshop::onWorkshopSearched);
+    SteamAsyncCall<SteamUGCQueryCompleted_t>::create(apiCall,
+        [this](auto* cb, bool io) { onWorkshopSearched(cb, io); }, this);
 }
 
 void SteamWorkshop::onRequestUserItemsReturned(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure)
