@@ -212,11 +212,12 @@ void SteamWorkshopItem::submitItemUpdateStatus(SubmitItemUpdateResult_t* pCallba
 
         emit uploadComplete(false);
         setUploadProgress(0);
+        break;
     }
-    default: {
-
-        qDebug() << "Delete item with status: " << status();
-        // SteamUGC()->DeleteItem(pCallback->m_nPublishedFileId);
+    default: { 
+        // Intermediate/unexpected states — log but do not treat as completed
+        qDebug() << "Unexpected submit result:" << pCallback->m_eResult;
+        break;
     }
     }
 
