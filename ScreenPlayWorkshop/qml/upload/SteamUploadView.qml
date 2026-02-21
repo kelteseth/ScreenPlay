@@ -83,9 +83,9 @@ Item {
                         if (mdl.rowCount() === 0)
                             return
                         const idx = mdl.index(0, 0)
-                        const storagePath = mdl.data(idx, 263)
+                        const storagePath = mdl.data(idx, 263);
                         // AbsoluteStoragePath
-                        const preview = mdl.data(idx, 258)
+                        const preview = mdl.data(idx, 258);
                         // Preview
                         if (storagePath && preview)
                             backgroundImage.source = Qt.resolvedUrl(storagePath + "/" + preview)
