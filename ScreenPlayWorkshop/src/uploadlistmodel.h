@@ -15,7 +15,11 @@ class UploadListModel : public QAbstractListModel {
     Q_OBJECT
 
 public:
-    UploadListModel() { }
+    UploadListModel()
+    {
+        // Auto-clear the list once all items finish so the next upload session starts clean
+        QObject::connect(this, &UploadListModel::uploadCompleted, this, &UploadListModel::clearWhenFinished);
+    }
 
     enum class UploadListModelRole {
         NameRole = Qt::UserRole + 1,
@@ -100,8 +104,17 @@ public slots:
             static_cast<int>(UploadListModelRole::Status),
             static_cast<int>(UploadListModelRole::UploadState) };
 
-        // Capture roles by value to avoid dangling reference when signal fires after append() returns
-        const auto onDataChanged = [this, roles]() { emit this->dataChanged(index(0, 0), index(rowCount() - 1, 0), roles); };
+        // Capture the item pointer so we can locate its exact row at signal time instead of
+        // invalidating every row in the model on every progress tick.
+        const auto onDataChanged = [this, roles, rawItem = item.get()]() {
+            const auto it = std::find_if(m_uploadListModelItems.cbegin(), m_uploadListModelItems.cend(),
+                [rawItem](const auto& i) { return i.get() == rawItem; });
+            if (it == m_uploadListModelItems.cend())
+                return;
+            const int row = static_cast<int>(std::distance(m_uploadListModelItems.cbegin(), it));
+            const auto idx = index(row, 0);
+            emit this->dataChanged(idx, idx, roles);
+        };
 
         QObject::connect(item.get(), &SteamWorkshopItem::userNeedsToAcceptWorkshopLegalAgreement, this, &UploadListModel::userNeedsToAcceptWorkshopLegalAgreement);
         QObject::connect(item.get(), &SteamWorkshopItem::uploadProgressChanged, this, onDataChanged);

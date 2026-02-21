@@ -119,7 +119,7 @@ public slots:
 signals:
     void nameChanged(QString name);
     void absolutePathChanged(QUrl absolutePath);
-    void uploadProgressChanged(float uploadProgress);
+    void uploadProgressChanged(int uploadProgress);
     void uploadStateChanged(ScreenPlayCore::Steam::EItemUpdateStatus uploadState);
     void removeThis(SteamWorkshopItem* item);
     void absolutePreviewImagePathChanged(QUrl absolutePreviewImagePath);
@@ -148,7 +148,7 @@ private:
     ScreenPlayCore::Steam::EItemUpdateStatus m_uploadState { ScreenPlayCore::Steam::EItemUpdateStatus::K_EItemUpdateStatusInvalid };
     ScreenPlayCore::Steam::EResult m_status { ScreenPlayCore::Steam::EResult::K_EResultNone };
     UGCUpdateHandle_t m_UGCUpdateHandle { 0 };
-    SubmitItemUpdateResult_t m_submitItemUpdateResultHanlde;
+    SubmitItemUpdateResult_t m_submitItemUpdateResultHandle;
     QTimer m_updateTimer;
     QVariant m_publishedFileId { 0 };
 };
