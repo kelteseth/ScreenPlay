@@ -127,20 +127,27 @@ void InstalledListModel::loadInstalledContent()
     if (m_loadContentFutureWatcher.isRunning())
         return;
 
-    m_loadContentFuture = QtConcurrent::run([this]() {
-        QFileInfoList list = QDir(m_absoluteStoragePath.toLocalFile()).entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
-
+    // Collect valid paths on a background thread to avoid blocking the UI,
+    // then append to the model on the main thread via the watcher's finished signal
+    // to keep all QAbstractListModel mutations on the correct thread.
+    const auto basePath = m_absoluteStoragePath.toLocalFile();
+    m_loadContentFuture = QtConcurrent::run([basePath]() {
+        QStringList paths;
+        const auto list = QDir(basePath).entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
         for (const auto& item : list) {
-            const QString absoluteFilePath = m_absoluteStoragePath.toLocalFile() + "/" + item.baseName() + "/project.json";
-
-            if (!QFile::exists(absoluteFilePath))
-                continue;
-
-            append(absoluteFilePath);
+            const QString absoluteFilePath = basePath + "/" + item.baseName() + "/project.json";
+            if (QFile::exists(absoluteFilePath))
+                paths.append(absoluteFilePath);
         }
-
-        emit installedLoadingFinished();
+        return paths;
     });
+
+    QObject::connect(&m_loadContentFutureWatcher, &QFutureWatcher<QStringList>::finished, this, [this]() {
+        for (const auto& path : m_loadContentFutureWatcher.result())
+            append(path);
+        emit installedLoadingFinished();
+    }, Qt::SingleShotConnection);
+
     m_loadContentFutureWatcher.setFuture(m_loadContentFuture);
 }
 
