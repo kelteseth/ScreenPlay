@@ -17,8 +17,11 @@ class UploadListModel : public QAbstractListModel {
 public:
     UploadListModel()
     {
-        // Auto-clear the list once all items finish so the next upload session starts clean
-        QObject::connect(this, &UploadListModel::uploadCompleted, this, &UploadListModel::clearWhenFinished);
+        // Defer the clear to the next event loop iteration. clearWhenFinished destroys all
+        // SteamWorkshopItem objects; a direct connection would do that while statusChanged is
+        // still being dispatched on one of those items, causing a use-after-free in Qt's
+        // signal machinery (QQmlData::isSignalConnected on a deleted object).
+        QObject::connect(this, &UploadListModel::uploadCompleted, this, &UploadListModel::clearWhenFinished, Qt::QueuedConnection);
     }
 
     enum class UploadListModelRole {
