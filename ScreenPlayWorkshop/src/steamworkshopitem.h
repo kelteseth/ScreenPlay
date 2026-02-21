@@ -16,8 +16,6 @@
 
 // Steam
 #include "ScreenPlayCore/steamenumsgenerated.h"
-#include "cstring"
-#include "stdlib.h"
 #include "steam/steam_api.h"
 
 #include "ScreenPlayCore/util.h"

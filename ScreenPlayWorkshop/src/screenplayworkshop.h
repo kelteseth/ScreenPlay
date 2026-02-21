@@ -70,7 +70,6 @@ public slots:
     }
 
 signals:
-    void workshopListModelLoaded(SteamWorkshopListModel* li);
     void installedListModelChanged(InstalledListModel* installedListModel);
     void installedListFilterChanged();
     void steamWorkshopChanged(SteamWorkshop* steamWorkshop);

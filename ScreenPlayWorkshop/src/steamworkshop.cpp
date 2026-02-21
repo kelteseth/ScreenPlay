@@ -202,8 +202,8 @@ void SteamWorkshop::onRequestProfileItemDetailReturned(SteamUGCQueryCompleted_t*
     for (uint32 i = 0; i < pCallback->m_unTotalMatchingResults; ++i) {
         if (SteamUGC()->GetQueryUGCResult(pCallback->m_handle, i, &details)) {
             const int urlLength = 512;
-            char previewUrl[urlLength];
-            SteamUGC()->GetQueryUGCPreviewURL(pCallback->m_handle, i, previewUrl, urlLength);
+            std::array<char, 512> previewUrl {};
+            SteamUGC()->GetQueryUGCPreviewURL(pCallback->m_handle, i, previewUrl.data(), urlLength);
 
             quint64 subscriptionCount = 0;
             quint64 favoriteCount = 0;
@@ -226,7 +226,7 @@ void SteamWorkshop::onRequestProfileItemDetailReturned(SteamUGCQueryCompleted_t*
                 QString::fromUtf8(details.m_rgchURL),
                 QVariant::fromValue<int32>(details.m_nFileSize),
                 QVariant::fromValue<uint64>(details.m_ulTotalFilesSize),
-                QString::fromUtf8(previewUrl),
+                QString::fromUtf8(previewUrl.data()),
                 details.m_rtimeCreated,
                 details.m_rtimeUpdated,
                 static_cast<int>(details.m_eVisibility),
@@ -328,14 +328,14 @@ QVariantMap SteamWorkshop::getItemInstallInfo(const QVariant publishedFileID) co
 
     const auto id = publishedFileID.toULongLong();
     uint64 punSizeOnDisk = 0;
-    char pchFolder[4096];
+    std::array<char, 4096> pchFolder {};
     uint32 punTimeStamp = 0;
 
-    if (!SteamUGC()->GetItemInstallInfo(id, &punSizeOnDisk, pchFolder, sizeof(pchFolder), &punTimeStamp)) {
+    if (!SteamUGC()->GetItemInstallInfo(id, &punSizeOnDisk, pchFolder.data(), pchFolder.size(), &punTimeStamp)) {
         return result;
     }
 
-    result["path"] = QString::fromUtf8(pchFolder);
+    result["path"] = QString::fromUtf8(pchFolder.data());
     result["sizeOnDisk"] = QVariant::fromValue<quint64>(punSizeOnDisk);
     result["timestamp"] = punTimeStamp;
     return result;
@@ -442,7 +442,7 @@ void SteamWorkshop::setSteamErrorAPIInit(bool newSteamErrorAPIInit)
 
 void SteamWorkshop::resetSteamErrorAPIInit()
 {
-    setSteamErrorAPIInit({}); // TODO: Adapt to use your actual default value
+    setSteamErrorAPIInit(false);
 }
 
 bool SteamWorkshop::steamErrorRestart() const
@@ -460,7 +460,7 @@ void SteamWorkshop::setSteamErrorRestart(bool newSteamErrorRestart)
 
 void SteamWorkshop::resetSteamErrorRestart()
 {
-    setSteamErrorRestart({}); // TODO: Adapt to use your actual default value
+    setSteamErrorRestart(false);
 }
 
 void SteamWorkshop::requestUserItems(
@@ -784,8 +784,8 @@ bool SteamWorkshop::queryWorkshopItemFromHandle(SteamWorkshopListModel* listMode
     qInfo() << "queryWorkshopItemFromHandle";
 
     SteamUGCDetails_t details;
-    const int urlLength = 200;
-    char url[urlLength];
+    constexpr int urlLength = 200;
+    std::array<char, 200> url {};
 
     const uint32 totalResults = pCallback->m_unTotalMatchingResults;
     const uint32 results = pCallback->m_unNumResultsReturned;
@@ -805,8 +805,8 @@ bool SteamWorkshop::queryWorkshopItemFromHandle(SteamWorkshopListModel* listMode
 
         if (SteamUGC()->GetQueryUGCResult(pCallback->m_handle, i, &details)) {
 
-            if (SteamUGC()->GetQueryUGCPreviewURL(pCallback->m_handle, i, url, static_cast<uint32>(urlLength))) {
-                QByteArray urlData(url);
+            if (SteamUGC()->GetQueryUGCPreviewURL(pCallback->m_handle, i, url.data(), static_cast<uint32>(urlLength))) {
+                QByteArray urlData(url.data());
 
                 // Todo use multiple preview for gif hover effect
                 quint64 subscriptionCount = 0;
@@ -816,13 +816,11 @@ bool SteamWorkshop::queryWorkshopItemFromHandle(SteamWorkshopListModel* listMode
                 QUrl additionalPreviewUrl;
 
                 for (int j = 0; j < addPreviewCount; ++j) {
-                    const int cchURLSize = 2000;
-                    char pchURLOrVideoID[cchURLSize];
-                    const int pchOriginalFileNameSize = 2000;
-                    char pchOriginalFileName[pchOriginalFileNameSize];
+                    std::array<char, 2000> pchURLOrVideoID {};
+                    std::array<char, 2000> pchOriginalFileName {};
                     EItemPreviewType previewType;
-                    SteamUGC()->GetQueryUGCAdditionalPreview(pCallback->m_handle, i, j, pchURLOrVideoID, cchURLSize, pchOriginalFileName, pchOriginalFileNameSize, &previewType);
-                    additionalPreviewUrl = QByteArray(pchURLOrVideoID);
+                    SteamUGC()->GetQueryUGCAdditionalPreview(pCallback->m_handle, i, j, pchURLOrVideoID.data(), pchURLOrVideoID.size(), pchOriginalFileName.data(), pchOriginalFileName.size(), &previewType);
+                    additionalPreviewUrl = QByteArray(pchURLOrVideoID.data());
                 }
 
                 WorkshopItem item {
@@ -954,7 +952,7 @@ void SteamWorkshop::onRequestUserItemsReturned(SteamUGCQueryCompleted_t* pCallba
     m_queryActive = false;
     m_workshopProfileListModel->setIsLoading(false);
     if (bIOFailure) {
-        qDebug() << bIOFailure;
+        qWarning() << "onRequestUserItemsReturned IO Failure";
         return;
     }
 

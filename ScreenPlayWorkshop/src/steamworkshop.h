@@ -18,6 +18,7 @@
 #include <QUrl>
 #include <QtConcurrent/QtConcurrent>
 #include <QtQml>
+#include <array>
 
 // Steam
 #include "ScreenPlayCore/steamenumsgenerated.h"
@@ -28,14 +29,6 @@
 #include "uploadlistmodel.h"
 
 namespace ScreenPlayWorkshop {
-
-struct SteamItemUpdate {
-    SteamItemUpdate(QString absoluteStoragePath) { this->absoluteStoragePath = absoluteStoragePath; }
-    QString absoluteStoragePath;
-    UGCUpdateHandle_t steamUGCUpdateHandle = 0;
-    quint64 itemProcessed = 0;
-    quint64 bytesTotal = 0;
-};
 
 class SteamWorkshop : public QObject {
     Q_OBJECT
@@ -317,7 +310,6 @@ private:
     bool applySearchFilters(UGCQueryHandle_t handle, const ParsedSearch& parsed);
 
     QTimer m_pollTimer;
-    QQueue<SteamItemUpdate> m_bulkUploadqueue;
 
     bool m_steamErrorRestart = false;
     bool m_steamErrorAPIInit = false;
