@@ -42,19 +42,18 @@ Item {
         property string bannerCreatorSteamID: ""
 
         function onWorkshopBannerCompleted(): void {
-            gridView.headerItem.bannerTxt.text = root.steamWorkshop.workshopListModel.getBannerText()
-            root.background.backgroundImage = root.steamWorkshop.workshopListModel.getBannerUrl()
-            gridView.headerItem.banner.bannerPublishedFileID = root.steamWorkshop.workshopListModel.getBannerID()
-            gridView.headerItem.bannerTxtUnderline.numberSubscriber = root.steamWorkshop.workshopListModel.getBannerAmountSubscriber()
-            gridView.headerItem.bannerCreatorLabel.creatorName = ""
-            gridView.headerItem.bannerCreatorLabel.creatorSteamID = ""
-            searchConnection.bannerCreatorSteamID = root.steamWorkshop.workshopListModel.getBannerCreatorSteamID()
+            const info = root.steamWorkshop.workshopListModel.getBannerInfo()
+            root.background.backgroundImage = info.imageUrl
+            gridView.headerItem.bannerInfo = info
+            gridView.headerItem.creatorName = ""
+            gridView.headerItem.creatorSteamID = ""
+            searchConnection.bannerCreatorSteamID = info.creatorSteamID
         }
 
         function onCreatorNameReady(name: string, steamID64: string): void {
             if (steamID64 === searchConnection.bannerCreatorSteamID) {
-                gridView.headerItem.bannerCreatorLabel.creatorName = name
-                gridView.headerItem.bannerCreatorLabel.creatorSteamID = steamID64
+                gridView.headerItem.creatorName = name
+                gridView.headerItem.creatorSteamID = steamID64
             }
         }
 
@@ -122,18 +121,15 @@ Item {
         header: Item {
             id: header
             property alias searchField: tiSearch
-            property alias banner: banner
-            property alias bannerTxt: bannerTxt
-            property alias bannerTxtUnderline: bannerTxtUnderline
-            property alias bannerCreatorLabel: bannerCreatorLabel
+            property bannerInfo bannerInfo
+            property string creatorName: ""
+            property string creatorSteamID: ""
 
             height: 450 + 100 + 90 // banner + topMargin + search bar
             width: gridView.width - gridView.anchors.leftMargin
 
             Item {
                 id: banner
-
-                property var bannerPublishedFileID
 
                 height: 450
 
@@ -169,24 +165,21 @@ Item {
 
                     HeaderLabel {
                         id: bannerTxtUnderline
-                        property int numberSubscriber: 0
-                        text: numberSubscriber + " SUBSCRIBED TO:"
+                        text: header.bannerInfo.subscriptionCount + " SUBSCRIBED TO:"
                         font.pointSize: 12
                     }
 
                     HeaderLabel {
                         id: bannerTxt
+                        text: header.bannerInfo.title
                         font.pointSize: 42
                     }
 
                     HeaderLabel {
                         id: bannerCreatorLabel
 
-                        property string creatorName: ""
-                        property string creatorSteamID: ""
-
-                        text: creatorName ? qsTr("By %1").arg(creatorName) : ""
-                        visible: creatorName !== ""
+                        text: header.creatorName ? qsTr("By %1").arg(header.creatorName) : ""
+                        visible: header.creatorName !== ""
                         font.pointSize: 14
                         font.underline: true
 
@@ -194,8 +187,8 @@ Item {
                             anchors.fill: parent
                             cursorShape: Qt.PointingHandCursor
                             onClicked: {
-                                gridView.headerItem.searchField.text = bannerCreatorLabel.creatorName
-                                root.steamWorkshop.searchWorkshopByUser(bannerCreatorLabel.creatorSteamID)
+                                gridView.headerItem.searchField.text = header.creatorName
+                                root.steamWorkshop.searchWorkshopByUser(header.creatorSteamID)
                             }
                         }
                     }
@@ -210,7 +203,7 @@ Item {
                             icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_download.svg"
                             onClicked: {
                                 text = qsTr("Downloading...")
-                                root.steamWorkshop.subscribeItem(root.steamWorkshop.workshopListModel.getBannerID())
+                                root.steamWorkshop.subscribeItem(root.steamWorkshop.workshopListModel.getBannerInfo().publishedFileID)
                             }
                         }
 
@@ -227,7 +220,7 @@ Item {
                                 }
                             }
                             ToolButton {
-                                onClicked: Qt.openUrlExternally("steam://url/CommunityFilePage/" + banner.bannerPublishedFileID)
+                                onClicked: Qt.openUrlExternally("steam://url/CommunityFilePage/" + header.bannerInfo.publishedFileID)
                                 icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_open_in_new.svg"
                             }
                         }

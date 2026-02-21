@@ -7,6 +7,7 @@
 #include <QVariant>
 #include <QVector>
 #include <QtConcurrent/QtConcurrent>
+#include <QtQml/qqml.h>
 #include <memory>
 
 #include "workshopitem.h"
@@ -22,6 +23,31 @@
 
 */
 namespace ScreenPlayWorkshop {
+
+/*!
+    \class ScreenPlayWorkshop::BannerInfo
+    \inmodule ScreenPlayWorkshop
+    \brief Aggregates all banner-related data for the first workshop item,
+           returned as a single value type to QML.
+*/
+struct BannerInfo {
+    Q_GADGET
+    QML_VALUE_TYPE(bannerInfo)
+    QML_STRUCTURED_VALUE
+    Q_PROPERTY(QUrl imageUrl MEMBER imageUrl)
+    Q_PROPERTY(QString title MEMBER title)
+    Q_PROPERTY(QVariant publishedFileID MEMBER publishedFileID)
+    Q_PROPERTY(quint64 subscriptionCount MEMBER subscriptionCount)
+    Q_PROPERTY(QString creatorSteamID MEMBER creatorSteamID)
+
+public:
+    Q_INVOKABLE BannerInfo() = default;
+    QUrl imageUrl;
+    QString title;
+    QVariant publishedFileID;
+    quint64 subscriptionCount = 0;
+    QString creatorSteamID;
+};
 
 class SteamWorkshopListModel : public QAbstractListModel {
     Q_OBJECT
@@ -65,26 +91,19 @@ signals:
 
 public slots:
 
-    QUrl getBannerUrl()
+    Q_INVOKABLE BannerInfo getBannerInfo() const
     {
-        return m_workshopItemList.empty() ? QUrl {} : m_workshopItemList.at(0).m_previewImageUrl;
-    }
-    QString getBannerText()
-    {
-        return m_workshopItemList.empty() ? QString {} : m_workshopItemList.at(0).m_title;
-    }
-    QVariant getBannerID()
-    {
-        return m_workshopItemList.empty() ? QVariant {} : m_workshopItemList.at(0).m_publishedFileID;
-    }
-    quint64 getBannerAmountSubscriber()
-    {
-        return m_workshopItemList.empty() ? int {} : m_workshopItemList.at(0).m_subscriptionCount;
-    }
-    // Returns steamID64 as string to preserve precision in QML
-    QString getBannerCreatorSteamID()
-    {
-        return m_workshopItemList.empty() ? QString {} : QString::number(m_workshopItemList.at(0).m_steamIDOwner);
+        if (m_workshopItemList.empty())
+            return {};
+        const auto& item = m_workshopItemList.at(0);
+        BannerInfo info;
+        info.imageUrl = item.m_previewImageUrl;
+        info.title = item.m_title;
+        info.publishedFileID = item.m_publishedFileID;
+        info.subscriptionCount = item.m_subscriptionCount;
+        // steamID64 stored as string to preserve precision in QML
+        info.creatorSteamID = QString::number(item.m_steamIDOwner);
+        return info;
     }
     void clear();
 
