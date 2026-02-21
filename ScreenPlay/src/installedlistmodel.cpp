@@ -299,8 +299,7 @@ void InstalledListModel::loadInstalledContent()
                     if (!alreadyWatched.contains(fp))
                         m_fileSystemWatcher.addPath(fp);
                 }
-            }
-        }, Qt::QueuedConnection);
+            } }, Qt::QueuedConnection);
 
         emit installedLoadingFinished();
         m_isLoading = false;

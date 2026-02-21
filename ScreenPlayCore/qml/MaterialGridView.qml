@@ -17,12 +17,26 @@ GridView {
 
     remove: Transition {
         ParallelAnimation {
-            NumberAnimation { property: "scale"; to: 0; duration: 300; easing.type: Easing.InBack }
-            NumberAnimation { property: "opacity"; to: 0; duration: 300; easing.type: Easing.InQuad }
+            NumberAnimation {
+                property: "scale"
+                to: 0
+                duration: 300
+                easing.type: Easing.InBack
+            }
+            NumberAnimation {
+                property: "opacity"
+                to: 0
+                duration: 300
+                easing.type: Easing.InQuad
+            }
         }
     }
 
     displaced: Transition {
-        NumberAnimation { properties: "x,y"; duration: 400; easing.type: Easing.OutCubic }
+        NumberAnimation {
+            properties: "x,y"
+            duration: 400
+            easing.type: Easing.OutCubic
+        }
     }
 }

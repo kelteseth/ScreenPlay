@@ -33,7 +33,7 @@ Item {
     }
 
     Component.onCompleted: {
-        resetState()
+        resetState();
         // Default: sort by Date Modified, most recent first (descending)
         root.screenPlayWorkshop.installedListFilter.sort(1, false)
     }
@@ -83,8 +83,10 @@ Item {
                         if (mdl.rowCount() === 0)
                             return
                         const idx = mdl.index(0, 0)
-                        const storagePath = mdl.data(idx, 263) // AbsoluteStoragePath
-                        const preview = mdl.data(idx, 258)     // Preview
+                        const storagePath = mdl.data(idx, 263)
+                        // AbsoluteStoragePath
+                        const preview = mdl.data(idx, 258)
+                        // Preview
                         if (storagePath && preview)
                             backgroundImage.source = Qt.resolvedUrl(storagePath + "/" + preview)
                     }
@@ -168,9 +170,7 @@ Item {
                                 }
 
                                 Label {
-                                    text: root.selectionCount > 0
-                                        ? qsTr("%1 selected").arg(root.selectionCount)
-                                        : qsTr("Select items to upload")
+                                    text: root.selectionCount > 0 ? qsTr("%1 selected").arg(root.selectionCount) : qsTr("Select items to upload")
                                     font.pointSize: 11
                                     color: Qt.rgba(1, 1, 1, 0.7)
                                 }
@@ -188,8 +188,14 @@ Item {
                                 valueRole: "value"
                                 currentIndex: 1
                                 model: [
-                                    { "value": 0, "text": qsTr("Name") },
-                                    { "value": 1, "text": qsTr("Date Modified") }
+                                    {
+                                        "value": 0,
+                                        "text": qsTr("Name")
+                                    },
+                                    {
+                                        "value": 1,
+                                        "text": qsTr("Date Modified")
+                                    }
                                 ]
                                 onActivated: {
                                     root.screenPlayWorkshop.installedListFilter.sort(cbSort.currentValue, root.ascending)
@@ -199,9 +205,7 @@ Item {
                             Button {
                                 id: btnSortOrder
                                 flat: true
-                                icon.source: root.ascending
-                                    ? "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_sort-up-solid.svg"
-                                    : "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_sort-down-solid.svg"
+                                icon.source: root.ascending ? "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_sort-up-solid.svg" : "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_sort-down-solid.svg"
                                 ToolTip.visible: hovered
                                 ToolTip.text: root.ascending ? qsTr("Ascending") : qsTr("Descending")
                                 onClicked: {

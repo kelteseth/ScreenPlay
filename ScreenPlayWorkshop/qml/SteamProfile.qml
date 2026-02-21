@@ -26,10 +26,7 @@ Item {
     Component.onCompleted: root.steamWorkshop.requestUserItems()
 
     function refreshItems(): void {
-        root.steamWorkshop.requestUserItems(
-            gridView.headerItem.cbListType.currentValue,
-            gridView.headerItem.cbSortOrder.currentValue
-        )
+        root.steamWorkshop.requestUserItems(gridView.headerItem.cbListType.currentValue, gridView.headerItem.cbSortOrder.currentValue)
     }
 
     focus: true
@@ -245,8 +242,7 @@ Item {
                     horizontalCenter: parent.horizontalCenter
                 }
                 spacing: 12
-                visible: gridView.count === 0
-                         && !root.steamWorkshop.workshopProfileListModel.isLoading
+                visible: gridView.count === 0 && !root.steamWorkshop.workshopProfileListModel.isLoading
 
                 Label {
                     Layout.alignment: Qt.AlignHCenter
@@ -266,9 +262,7 @@ Item {
                     Layout.alignment: Qt.AlignHCenter
                     text: qsTr("Try a different list or go create something amazing!")
                     font.pointSize: 11
-                    color: Qt.rgba(Material.secondaryTextColor.r,
-                                   Material.secondaryTextColor.g,
-                                   Material.secondaryTextColor.b, 0.6)
+                    color: Qt.rgba(Material.secondaryTextColor.r, Material.secondaryTextColor.g, Material.secondaryTextColor.b, 0.6)
                 }
             }
         }
@@ -293,8 +287,7 @@ Item {
                         "previewImageUrl": imgUrl
                     })
                 } else {
-                    sidebar.setWorkshopItem(publishedFileID, imgUrl,
-                                            m_additionalPreviewUrl, m_subscriptionCount)
+                    sidebar.setWorkshopItem(publishedFileID, imgUrl, m_additionalPreviewUrl, m_subscriptionCount)
                 }
             }
         }
@@ -329,9 +322,7 @@ Item {
                     Layout.alignment: Qt.AlignHCenter
                     text: qsTr("That's everything! You've reached the end of the internet... well, your corner of it.")
                     color: Material.secondaryTextColor
-                    visible: !root.steamWorkshop.workshopProfileListModel.hasMore
-                             && !root.steamWorkshop.workshopProfileListModel.isLoading
-                             && root.steamWorkshop.workshopProfileListModel.currentPage > 1
+                    visible: !root.steamWorkshop.workshopProfileListModel.hasMore && !root.steamWorkshop.workshopProfileListModel.isLoading && root.steamWorkshop.workshopProfileListModel.currentPage > 1
                 }
             }
         }
