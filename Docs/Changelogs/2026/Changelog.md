@@ -27,6 +27,7 @@ Version: v1.0.0 (in progress, branch: revise-steam-workshop)
 - **`SteamWorkshopItem` animations** aligned with InstalledView card style ([`96d922d0`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/96d922d0))
 - **Icons moved into ScreenPlayCore** module ([`760e47c1`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/760e47c1))
 - Sidebar background blur revised ([`c36fd08d`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/c36fd08d))
+- **Sentry CLI updated** to 3.2.1 in CI ([`bb5e55b0`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/bb5e55b00ff7c03499fa5a08011976d2971234c4))
 
 ## Fixed
 
