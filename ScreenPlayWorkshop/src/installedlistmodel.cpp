@@ -153,28 +153,22 @@ void InstalledListModel::loadInstalledContent()
 
 QVariantMap InstalledListModel::get(QString folderName)
 {
+    const auto it = std::ranges::find_if(m_screenPlayFiles,
+        [&folderName](const ScreenPlay::ProjectFile& f) { return f.folderName == folderName; });
 
-    if (m_screenPlayFiles.count() == 0)
+    if (it == m_screenPlayFiles.end())
         return {};
 
-    QVariantMap map;
-
-    for (int i = 0; i < m_screenPlayFiles.count(); i++) {
-
-        if (m_screenPlayFiles[i].folderName == folderName) {
-            map.insert("m_title", m_screenPlayFiles[i].title);
-            map.insert("m_preview", m_screenPlayFiles[i].preview);
-            map.insert("m_previewGIF", m_screenPlayFiles[i].previewGIF);
-            map.insert("m_previewWebP", m_screenPlayFiles[i].previewWebP);
-            map.insert("m_file", m_screenPlayFiles[i].file);
-            map.insert("m_type", QVariant::fromValue(m_screenPlayFiles[i].type));
-            map.insert("m_absoluteStoragePath", QUrl::fromLocalFile(m_screenPlayFiles[i].projectJsonFilePath.dir().path()));
-            map.insert("m_publishedFileID", m_screenPlayFiles[i].publishedFileID);
-            return map;
-        }
-    }
-
-    return map;
+    return {
+        { "m_title", it->title },
+        { "m_preview", it->preview },
+        { "m_previewGIF", it->previewGIF },
+        { "m_previewWebP", it->previewWebP },
+        { "m_file", it->file },
+        { "m_type", QVariant::fromValue(it->type) },
+        { "m_absoluteStoragePath", QUrl::fromLocalFile(it->projectJsonFilePath.dir().path()) },
+        { "m_publishedFileID", it->publishedFileID },
+    };
 }
 
 void InstalledListModel::reset()
