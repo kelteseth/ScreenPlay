@@ -115,7 +115,7 @@ void SteamWorkshop::bulkUploadToWorkshop(QStringList absoluteStoragePaths)
     uploadListModel()->clearWhenFinished();
 
     qCInfo(workshopSteam) << "bulkUploadToWorkshop called with" << absoluteStoragePaths.size()
-            << "paths:" << absoluteStoragePaths;
+                          << "paths:" << absoluteStoragePaths;
 
     for (const QString& path : absoluteStoragePaths) {
         qCInfo(workshopSteam) << "Append " << path;

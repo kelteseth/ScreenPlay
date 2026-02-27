@@ -168,9 +168,9 @@ void SteamWorkshopItemOps::updateItemMetadata(const QVariant publishedFileID, co
 
     const auto fileId = publishedFileID.toULongLong();
     qCInfo(workshopItemOps) << "updateItemMetadata: fileId=" << fileId
-            << "title=" << title
-            << "tags=" << tags
-            << "visibility=" << visibility;
+                            << "title=" << title
+                            << "tags=" << tags
+                            << "visibility=" << visibility;
 
     auto updateHandle = SteamUGC()->StartItemUpdate(m_appID, fileId);
 
