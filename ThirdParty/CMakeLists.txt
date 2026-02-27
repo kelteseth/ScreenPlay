@@ -11,8 +11,8 @@ FetchContent_Declare(
 # Do not use vcpkg qcoro. This will add all of Qt as a vcpkg dependcy.
 FetchContent_Declare(
     qcoro
-    GIT_REPOSITORY https://github.com/danvratil/qcoro.git
-    GIT_TAG 3a6efdb
+    GIT_REPOSITORY https://github.com/qcoro/qcoro.git
+    GIT_TAG v0.13.0
     # Workaround because: 1. QtCreator cannot handle QML_ELEMENT stuff when it is in bin folder
     # https://bugreports.qt.io/browse/QTCREATORBUG-27083
     SOURCE_DIR ${THIRD_PARTY_PATH}/qqcoro)
