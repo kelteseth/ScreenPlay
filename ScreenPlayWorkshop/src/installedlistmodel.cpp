@@ -2,13 +2,34 @@
 #include "installedlistmodel.h"
 #include <ScreenPlayCore/contenttypes.h>
 
+#include <QLoggingCategory>
+
+Q_LOGGING_CATEGORY(workshopInstalled, "screenplay.workshop.installed")
+
 namespace ScreenPlayWorkshop {
 
+/*!
+    \class ScreenPlayWorkshop::InstalledListModel
+    \inmodule ScreenPlayWorkshop
+    \brief Lists all installed items from a given path.
+*/
+
+/*!
+    \fn InstalledListModel::InstalledListModel(QObject *parent)
+    \brief Constructs an empty InstalledListModel with the given \a parent.
+           Call \c init() or \c init(const QUrl &) to populate the model.
+*/
 InstalledListModel::InstalledListModel(QObject* parent)
     : QAbstractListModel(parent)
 {
 }
 
+/*!
+    \fn void InstalledListModel::init()
+    \brief Initialises the model using the content path stored in QSettings
+           (\c ScreenPlayContentPath). Calls \c loadInstalledContent() to
+           scan for installed items.
+*/
 void InstalledListModel::init()
 {
     QSettings settings;
@@ -19,12 +40,22 @@ void InstalledListModel::init()
     loadInstalledContent();
 }
 
+/*!
+    \fn void InstalledListModel::init(const QUrl &contentPath)
+    \brief Initialises the model with an explicit \a contentPath and calls
+           \c loadInstalledContent() to populate the list.
+*/
 void InstalledListModel::init(const QUrl& contentPath)
 {
     m_absoluteStoragePath = contentPath;
     loadInstalledContent();
 }
 
+/*!
+    \fn int InstalledListModel::rowCount(const QModelIndex &parent) const
+    \brief Returns the number of installed items in the model.
+           Returns 0 for any valid \a parent (flat list).
+*/
 int InstalledListModel::rowCount(const QModelIndex& parent) const
 {
     if (parent.isValid())
@@ -33,6 +64,11 @@ int InstalledListModel::rowCount(const QModelIndex& parent) const
     return m_screenPlayFiles.count();
 }
 
+/*!
+    \fn QVariant InstalledListModel::data(const QModelIndex &index, int role) const
+    \brief Returns the data for the item at \a index under the given \a role.
+           Returns an invalid QVariant for out-of-bounds indices or unknown roles.
+*/
 QVariant InstalledListModel::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid())
@@ -88,6 +124,11 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
     return QVariant();
 }
 
+/*!
+    \fn QHash<int, QByteArray> InstalledListModel::roleNames() const
+    \brief Returns the role-name map used by QML delegates to access item
+           properties such as \c m_title, \c m_preview, and \c m_type.
+*/
 QHash<int, QByteArray> InstalledListModel::roleNames() const
 {
     return {
@@ -108,6 +149,11 @@ QHash<int, QByteArray> InstalledListModel::roleNames() const
     };
 }
 
+/*!
+    \fn void InstalledListModel::append(const QString &projectJsonFilePath)
+    \brief Parses the project at \a projectJsonFilePath and appends it to the
+           model. Logs a warning and returns early if the project is invalid.
+*/
 void InstalledListModel::append(const QString& projectJsonFilePath)
 {
     beginInsertRows(QModelIndex(), m_screenPlayFiles.size(), m_screenPlayFiles.size());
@@ -115,13 +161,20 @@ void InstalledListModel::append(const QString& projectJsonFilePath)
     ProjectFile projectFile;
     projectFile.projectJsonFilePath = QFileInfo(projectJsonFilePath);
     if (!projectFile.init()) {
-        qWarning() << "Invalid project at " << projectJsonFilePath;
+        qCWarning(workshopInstalled) << "Invalid project at " << projectJsonFilePath;
         return;
     }
     m_screenPlayFiles.append(std::move(projectFile));
     endInsertRows();
 }
 
+/*!
+    \fn void InstalledListModel::loadInstalledContent()
+    \brief Scans \c m_absoluteStoragePath for \c project.json files on a
+           background thread via QtConcurrent and appends each found item on
+           the main thread. Emits \c installedLoadingFinished when done.
+           Does nothing if a scan is already in progress.
+*/
 void InstalledListModel::loadInstalledContent()
 {
     if (m_loadContentFutureWatcher.isRunning())
@@ -145,12 +198,17 @@ void InstalledListModel::loadInstalledContent()
     QObject::connect(&m_loadContentFutureWatcher, &QFutureWatcher<QStringList>::finished, this, [this]() {
         for (const auto& path : m_loadContentFutureWatcher.result())
             append(path);
-        emit installedLoadingFinished();
-    }, Qt::SingleShotConnection);
+        emit installedLoadingFinished(); }, Qt::SingleShotConnection);
 
     m_loadContentFutureWatcher.setFuture(m_loadContentFuture);
 }
 
+/*!
+    \fn QVariantMap InstalledListModel::get(QString folderName)
+    \brief Finds the installed item whose folder name matches \a folderName
+           and returns its properties as a map. Returns an empty map if no
+           matching item is found.
+*/
 QVariantMap InstalledListModel::get(QString folderName)
 {
     const auto it = std::ranges::find_if(m_screenPlayFiles,
@@ -171,6 +229,11 @@ QVariantMap InstalledListModel::get(QString folderName)
     };
 }
 
+/*!
+    \fn void InstalledListModel::reset()
+    \brief Clears all items from the model and reloads installed content
+           from \c m_absoluteStoragePath.
+*/
 void InstalledListModel::reset()
 {
     beginResetModel();
@@ -180,6 +243,11 @@ void InstalledListModel::reset()
     loadInstalledContent();
 }
 
+/*!
+    \fn void InstalledListModel::sort(SortField field, bool ascending)
+    \brief Sorts the model in-place by \a field (\c Title or \c LastModified).
+           Pass \c true for \a ascending for A→Z / oldest-first ordering.
+*/
 void InstalledListModel::sort(SortField field, bool ascending)
 {
     if (m_screenPlayFiles.isEmpty())

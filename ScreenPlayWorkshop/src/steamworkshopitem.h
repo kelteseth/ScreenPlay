@@ -20,7 +20,6 @@
 
 #include "ScreenPlayCore/util.h"
 #include "steamasynccall.h"
-#include "steamapiwrapper.h"
 #include "steamtagarray.h"
 
 namespace ScreenPlayWorkshop {

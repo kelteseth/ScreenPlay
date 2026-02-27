@@ -23,10 +23,10 @@ Item {
     required property Background background
 
     // Only load once on push, not when revealed by popping SteamProfileWorkshopItem
-    Component.onCompleted: root.steamWorkshop.requestUserItems()
+    Component.onCompleted: root.steamWorkshop.profile.requestUserItems()
 
     function refreshItems(): void {
-        root.steamWorkshop.requestUserItems(gridView.headerItem.cbListType.currentValue, gridView.headerItem.cbSortOrder.currentValue)
+        root.steamWorkshop.profile.requestUserItems(gridView.headerItem.cbListType.currentValue, gridView.headerItem.cbSortOrder.currentValue)
     }
 
     focus: true
@@ -40,7 +40,7 @@ Item {
     Image {
         id: backgroundImage
         anchors.fill: parent
-        source: root.steamWorkshop.workshopProfileListModel.bannerUrl
+        source: root.steamWorkshop.profile.workshopProfileListModel.bannerUrl
         fillMode: Image.PreserveAspectCrop
 
         Rectangle {
@@ -72,7 +72,7 @@ Item {
 
         cellWidth: 330
         cellHeight: 190
-        model: root.steamWorkshop.workshopProfileListModel
+        model: root.steamWorkshop.profile.workshopProfileListModel
         boundsBehavior: Flickable.StopAtBounds
         maximumFlickVelocity: 3000
         flickDeceleration: 7500
@@ -89,11 +89,11 @@ Item {
         function checkLoadMore(): void {
             if (!gridView.atYEnd)
                 return
-            const model = root.steamWorkshop.workshopProfileListModel
+            const model = root.steamWorkshop.profile.workshopProfileListModel
             if (!model)
                 return
             if (model.hasMore && !model.isLoading)
-                root.steamWorkshop.loadNextProfilePage()
+                root.steamWorkshop.profile.loadNextProfilePage()
         }
 
         header: Item {
@@ -162,7 +162,7 @@ Item {
                         }
 
                         Label {
-                            text: root.steamWorkshop.userTotalSubscriptions.toLocaleString() + " " + qsTr("Subscribers")
+                            text: root.steamWorkshop.profile.userTotalSubscriptions.toLocaleString() + " " + qsTr("Subscribers")
                             font.pointSize: 11
                             color: Qt.rgba(1, 1, 1, 0.7)
                         }
@@ -242,7 +242,7 @@ Item {
                     horizontalCenter: parent.horizontalCenter
                 }
                 spacing: 12
-                visible: gridView.count === 0 && !root.steamWorkshop.workshopProfileListModel.isLoading
+                visible: gridView.count === 0 && !root.steamWorkshop.profile.workshopProfileListModel.isLoading
 
                 Label {
                     Layout.alignment: Qt.AlignHCenter
@@ -307,7 +307,7 @@ Item {
 
                 BusyIndicator {
                     Layout.alignment: Qt.AlignHCenter
-                    running: root.steamWorkshop.workshopProfileListModel.isLoading
+                    running: root.steamWorkshop.profile.workshopProfileListModel.isLoading
                     visible: running
                 }
 
@@ -315,14 +315,14 @@ Item {
                     Layout.alignment: Qt.AlignHCenter
                     text: qsTr("Loading more...")
                     color: Material.secondaryTextColor
-                    visible: root.steamWorkshop.workshopProfileListModel.isLoading
+                    visible: root.steamWorkshop.profile.workshopProfileListModel.isLoading
                 }
 
                 Label {
                     Layout.alignment: Qt.AlignHCenter
                     text: qsTr("That's everything! You've reached the end of the internet... well, your corner of it.")
                     color: Material.secondaryTextColor
-                    visible: !root.steamWorkshop.workshopProfileListModel.hasMore && !root.steamWorkshop.workshopProfileListModel.isLoading && root.steamWorkshop.workshopProfileListModel.currentPage > 1
+                    visible: !root.steamWorkshop.profile.workshopProfileListModel.hasMore && !root.steamWorkshop.profile.workshopProfileListModel.isLoading && root.steamWorkshop.profile.workshopProfileListModel.currentPage > 1
                 }
             }
         }
@@ -334,7 +334,7 @@ Item {
         topMargin: 60
         steamWorkshop: root.steamWorkshop
         onUnsubscribed: publishedFileID => {
-            root.steamWorkshop.workshopProfileListModel.removeByPublishedFileID(publishedFileID)
+            root.steamWorkshop.profile.workshopProfileListModel.removeByPublishedFileID(publishedFileID)
         }
     }
 }

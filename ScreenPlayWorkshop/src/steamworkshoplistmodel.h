@@ -15,11 +15,6 @@
 #include "ScreenPlayCore/steamenumsgenerated.h"
 #include "steam/steam_api.h"
 
-/*!
-    \class Steam Workshop List Model
-    \brief Gets filled and managed by the Steam Workshop Class
-
-*/
 namespace ScreenPlayWorkshop {
 
 /*!

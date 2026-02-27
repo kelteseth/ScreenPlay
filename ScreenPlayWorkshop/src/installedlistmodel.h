@@ -25,11 +25,6 @@
 
 #include "ScreenPlayCore/projectfile.h"
 
-/*!
-    \class Installed List Model
-    \brief Lists all installed items from a given Path
-
-*/
 namespace ScreenPlayWorkshop {
 
 class InstalledListModel : public QAbstractListModel {

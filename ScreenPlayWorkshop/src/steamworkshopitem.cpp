@@ -208,7 +208,7 @@ void SteamWorkshopItem::submitItemUpdateStatus(SubmitItemUpdateResult_t* pCallba
         setUploadProgress(0);
         break;
     }
-    default: { 
+    default: {
         // Intermediate/unexpected states — log but do not treat as completed
         qDebug() << "Unexpected submit result:" << pCallback->m_eResult;
         break;

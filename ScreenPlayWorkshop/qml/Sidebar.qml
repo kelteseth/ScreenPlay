@@ -46,7 +46,7 @@ Drawer {
         txtVotesDown.highlighted = false
         if (!root.visible)
             root.open()
-        steamWorkshop.requestWorkshopItemDetails(publishedFileID)
+        steamWorkshop.itemOps.requestWorkshopItemDetails(publishedFileID)
     }
 
     edge: Qt.RightEdge
@@ -63,8 +63,10 @@ Drawer {
     }
 
     Connections {
+        target: steamWorkshop.itemOps
+
         function onRequestItemDetailReturned(detail) {
-            root.subscribed = steamWorkshop.isSubscribed(detail.publishedFileId)
+            root.subscribed = steamWorkshop.itemOps.isSubscribed(detail.publishedFileId)
             root.subscriptionStateKnown = true
             root.creatorSteamID = detail.steamIDOwner
             tagListModel.clear();
@@ -90,14 +92,15 @@ Drawer {
                 desc = qsTr("No description...")
             txtDescription.text = desc
         }
+    }
+
+    Connections {
+        target: steamWorkshop
 
         function onCreatorNameReady(name: string, steamID64: string): void {
-            // Sidebar tracks one item at a time; use the precise C++ string to override the quint64 var
             root.creatorName = name
             root.creatorSteamID = steamID64
         }
-
-        target: steamWorkshop
     }
 
     Item {
@@ -228,7 +231,7 @@ Drawer {
                     ToolTip.visible: hovered
                     ToolTip.text: qsTr("Click here if you like the content")
                     onClicked: {
-                        steamWorkshop.vote(root.publishedFileID, true)
+                        steamWorkshop.itemOps.vote(root.publishedFileID, true)
                         txtVotesUp.highlighted = true
                         txtVotesDown.highlighted = false
                     }
@@ -243,7 +246,7 @@ Drawer {
                     ToolTip.visible: hovered
                     ToolTip.text: qsTr("Click here if you do not like the content")
                     onClicked: {
-                        steamWorkshop.vote(root.publishedFileID, false)
+                        steamWorkshop.itemOps.vote(root.publishedFileID, false)
                         txtVotesUp.highlighted = false
                         txtVotesDown.highlighted = true
                     }
@@ -417,12 +420,12 @@ Drawer {
             onClicked: {
                 if (root.subscribed) {
                     root.subscribed = false
-                    root.steamWorkshop.unsubscribeItem(root.publishedFileID)
+                    root.steamWorkshop.itemOps.unsubscribeItem(root.publishedFileID)
                     root.unsubscribed(root.publishedFileID)
                     root.close()
                 } else {
                     root.subscribed = true
-                    root.steamWorkshop.subscribeItem(root.publishedFileID)
+                    root.steamWorkshop.itemOps.subscribeItem(root.publishedFileID)
                     root.close()
                 }
             }

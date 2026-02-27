@@ -17,8 +17,7 @@ namespace ScreenPlayWorkshop {
            while keeping the underlying QByteArray storage alive.
 
     This replaces the error-prone pattern of manually managing QByteArray +
-    const char* vectors that was duplicated across multiple files (and was
-    buggy in steamapiwrapper.cpp where .toUtf8() temporaries dangled).
+    const char* vectors that was duplicated across multiple files.
 
     Usage:
     \code

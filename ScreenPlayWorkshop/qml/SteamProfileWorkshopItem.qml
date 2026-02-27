@@ -84,19 +84,19 @@ Item {
 
     StackView.onActivated: {
         root.isLoading = true
-        root.steamWorkshop.requestProfileItemDetails(root.publishedFileID)
+        root.steamWorkshop.itemOps.requestProfileItemDetails(root.publishedFileID)
     }
 
     function saveChanges(): void {
         root.isSaving = true
         const vis = root.editVisibility !== root.visibility ? root.editVisibility : -1
-        root.steamWorkshop.updateItemMetadata(root.publishedFileID, root.editTitle, root.editDescription, root.editTags, vis)
+        root.steamWorkshop.itemOps.updateItemMetadata(root.publishedFileID, root.editTitle, root.editDescription, root.editTags, vis)
     }
 
     function loadInstalledFiles(): void {
-        const fileList = root.steamWorkshop.getItemFileList(root.publishedFileID)
+        const fileList = root.steamWorkshop.itemOps.getItemFileList(root.publishedFileID)
         root.itemFiles = fileList
-        const installInfo = root.steamWorkshop.getItemInstallInfo(root.publishedFileID)
+        const installInfo = root.steamWorkshop.itemOps.getItemInstallInfo(root.publishedFileID)
         root.installPath = installInfo["path"] ?? ""
     }
 
@@ -151,7 +151,7 @@ Item {
     }
 
     Connections {
-        target: root.steamWorkshop
+        target: root.steamWorkshop.itemOps
 
         function onRequestProfileItemDetailReturned(detail): void {
             if (detail.publishedFileId !== root.publishedFileID)
@@ -176,7 +176,7 @@ Item {
             root.uniqueWebsiteViews = detail.uniqueWebsiteViews
             root.numChildren = detail.numChildren
             root.isLoading = false
-            root.isSubscribed = root.steamWorkshop.isSubscribed(root.publishedFileID)
+            root.isSubscribed = root.steamWorkshop.itemOps.isSubscribed(root.publishedFileID)
             root.loadInstalledFiles()
         }
 
@@ -220,7 +220,7 @@ Item {
         repeat: true
         running: root.isContentUpdating
         onTriggered: {
-            const info = root.steamWorkshop.getContentUpdateProgress()
+            const info = root.steamWorkshop.itemOps.getContentUpdateProgress()
             root.contentUpdateProgress = info["progress"]
             root.contentUpdateStatus = info["status"]
         }
@@ -386,9 +386,9 @@ Item {
                 highlighted: !root.isSubscribed
                 onClicked: {
                     if (root.isSubscribed) {
-                        root.steamWorkshop.unsubscribeItem(root.publishedFileID)
+                        root.steamWorkshop.itemOps.unsubscribeItem(root.publishedFileID)
                     } else {
-                        root.steamWorkshop.subscribeItem(root.publishedFileID)
+                        root.steamWorkshop.itemOps.subscribeItem(root.publishedFileID)
                     }
                     root.isSubscribed = !root.isSubscribed
                 }
@@ -928,7 +928,7 @@ Item {
         onAccepted: {
             root.isContentUpdating = true
             root.contentUpdateProgress = 0
-            root.steamWorkshop.updateItemContent(root.publishedFileID, root.installPath, changeNoteField.text)
+            root.steamWorkshop.itemOps.updateItemContent(root.publishedFileID, root.installPath, changeNoteField.text)
         }
 
         ColumnLayout {
@@ -1048,7 +1048,7 @@ Item {
                     icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_close.svg"
                     icon.color: "white"
                     onClicked: {
-                        root.steamWorkshop.deleteItem(root.publishedFileID)
+                        root.steamWorkshop.itemOps.deleteItem(root.publishedFileID)
                         deleteConfirmDialog.close()
                     }
                 }

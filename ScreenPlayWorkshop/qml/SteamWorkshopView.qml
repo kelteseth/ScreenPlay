@@ -16,7 +16,7 @@ Item {
 
     Component.onCompleted: {
         root.state = "searching"
-        root.steamWorkshop.searchWorkshopByText("")
+        root.steamWorkshop.search.searchWorkshopByText("")
     }
 
     onVisibleChanged: {
@@ -37,12 +37,12 @@ Item {
 
     Connections {
         id: searchConnection
-        target: root.steamWorkshop
+        target: root.steamWorkshop.search
 
         property string bannerCreatorSteamID: ""
 
         function onWorkshopBannerCompleted(): void {
-            const info = root.steamWorkshop.workshopListModel.getBannerInfo()
+            const info = root.steamWorkshop.search.workshopListModel.getBannerInfo()
             root.background.backgroundImage = info.imageUrl
             gridView.headerItem.bannerInfo = info
             gridView.headerItem.creatorName = ""
@@ -50,15 +50,19 @@ Item {
             searchConnection.bannerCreatorSteamID = info.creatorSteamID
         }
 
+        function onWorkshopSearchCompleted(itemCount: int): void {
+            root.state = ""
+        }
+    }
+
+    Connections {
+        target: root.steamWorkshop
+
         function onCreatorNameReady(name: string, steamID64: string): void {
             if (steamID64 === searchConnection.bannerCreatorSteamID) {
                 gridView.headerItem.creatorName = name
                 gridView.headerItem.creatorSteamID = steamID64
             }
-        }
-
-        function onWorkshopSearchCompleted(itemCount: int): void {
-            root.state = ""
         }
     }
 
@@ -84,7 +88,7 @@ Item {
         cellHeight: 190
         maximumFlickVelocity: 3000
         flickDeceleration: 7500
-        model: root.steamWorkshop.workshopListModel
+        model: root.steamWorkshop.search.workshopListModel
         boundsBehavior: Flickable.StopAtBounds
 
         anchors {
@@ -110,11 +114,11 @@ Item {
                 return
             if (!root.steamWorkshop)
                 return
-            const model = root.steamWorkshop.workshopListModel
+            const model = root.steamWorkshop.search.workshopListModel
             if (!model)
                 return
             if (model.hasMore && !model.isLoading) {
-                root.steamWorkshop.loadNextPage()
+                root.steamWorkshop.search.loadNextPage()
             }
         }
 
@@ -188,7 +192,7 @@ Item {
                             cursorShape: Qt.PointingHandCursor
                             onClicked: {
                                 gridView.headerItem.searchField.text = header.creatorName
-                                root.steamWorkshop.searchWorkshopByUser(header.creatorSteamID)
+                                root.steamWorkshop.search.searchWorkshopByUser(header.creatorSteamID)
                             }
                         }
                     }
@@ -203,7 +207,7 @@ Item {
                             icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_download.svg"
                             onClicked: {
                                 text = qsTr("Downloading...")
-                                root.steamWorkshop.subscribeItem(root.steamWorkshop.workshopListModel.getBannerInfo().publishedFileID)
+                                root.steamWorkshop.itemOps.subscribeItem(root.steamWorkshop.search.workshopListModel.getBannerInfo().publishedFileID)
                             }
                         }
 
@@ -349,12 +353,12 @@ Item {
                             root.state = "searching"
                             if (tiSearch.text === "") {
                                 Qt.callLater(function () {
-                                    root.steamWorkshop.searchWorkshop(SPCore.Steam.EUGCQuery.K_EUGCQuery_RankedByTrend)
+                                    root.steamWorkshop.search.searchWorkshop(SPCore.Steam.EUGCQuery.K_EUGCQuery_RankedByTrend)
                                 })
                                 return
                             }
                             Qt.callLater(function () {
-                                root.steamWorkshop.searchWorkshopByText(tiSearch.text)
+                                root.steamWorkshop.search.searchWorkshopByText(tiSearch.text)
                             })
                         }
 
@@ -375,13 +379,13 @@ Item {
                                 root.state = "searching"
                                 tiSearch.clear()
                                 Qt.callLater(function () {
-                                    root.steamWorkshop.searchWorkshop(SPCore.Steam.EUGCQuery.K_EUGCQuery_RankedByTrend)
+                                    root.steamWorkshop.search.searchWorkshop(SPCore.Steam.EUGCQuery.K_EUGCQuery_RankedByTrend)
                                 })
                                 return
                             }
                             root.state = "searching"
                             Qt.callLater(function () {
-                                root.steamWorkshop.searchWorkshopByText(tiSearch.text)
+                                root.steamWorkshop.search.searchWorkshopByText(tiSearch.text)
                             })
                         }
                         icon.width: 20
@@ -473,7 +477,7 @@ Item {
                     ]
                     onActivated: {
                         root.state = "searching"
-                        root.steamWorkshop.searchWorkshop(cbQuerySort.currentValue)
+                        root.steamWorkshop.search.searchWorkshop(cbQuerySort.currentValue)
                     }
 
                     anchors {
@@ -517,7 +521,7 @@ Item {
 
                 BusyIndicator {
                     Layout.alignment: Qt.AlignHCenter
-                    running: root.steamWorkshop.workshopListModel.isLoading
+                    running: root.steamWorkshop.search.workshopListModel.isLoading
                     visible: running
                 }
 
@@ -525,14 +529,14 @@ Item {
                     Layout.alignment: Qt.AlignHCenter
                     text: qsTr("Loading more...")
                     color: Material.secondaryTextColor
-                    visible: root.steamWorkshop.workshopListModel.isLoading
+                    visible: root.steamWorkshop.search.workshopListModel.isLoading
                 }
 
                 Label {
                     Layout.alignment: Qt.AlignHCenter
                     text: qsTr("No more items")
                     color: Material.secondaryTextColor
-                    visible: !root.steamWorkshop.workshopListModel.hasMore && !root.steamWorkshop.workshopListModel.isLoading && root.steamWorkshop.workshopListModel.currentPage > 1
+                    visible: !root.steamWorkshop.search.workshopListModel.hasMore && !root.steamWorkshop.search.workshopListModel.isLoading && root.steamWorkshop.search.workshopListModel.currentPage > 1
                 }
             }
         }
@@ -570,12 +574,12 @@ Item {
         onTagClicked: tag => {
             const quoted = '"' + tag + '"'
             gridView.headerItem.searchField.text = quoted
-            root.steamWorkshop.searchWorkshopByText(quoted)
+            root.steamWorkshop.search.searchWorkshopByText(quoted)
             sidebar.close()
         }
         onCreatorSearchRequested: (creatorName, creatorSteamID) => {
             gridView.headerItem.searchField.text = creatorName
-            root.steamWorkshop.searchWorkshopByUser(creatorSteamID)
+            root.steamWorkshop.search.searchWorkshopByUser(creatorSteamID)
         }
     }
 

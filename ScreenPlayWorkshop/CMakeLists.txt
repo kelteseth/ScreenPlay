@@ -48,11 +48,13 @@ set(SOURCES
     src/installedlistmodel.cpp
     src/screenplayworkshop.cpp
     src/steamaccount.cpp
-    src/steamapiwrapper.cpp
     src/steamqmlimageprovider.cpp
     src/steamworkshop.cpp
     src/steamworkshopitem.cpp
-    src/steamworkshoplistmodel.cpp)
+    src/steamworkshopitemops.cpp
+    src/steamworkshoplistmodel.cpp
+    src/steamworkshopprofile.cpp
+    src/steamworkshopsearch.cpp)
 
 set(HEADER
     # cmake-format: sort
@@ -60,13 +62,15 @@ set(HEADER
     src/installedlistmodel.h
     src/screenplayworkshop.h
     src/steamaccount.h
-    src/steamapiwrapper.h
     src/steamasynccall.h
     src/steamqmlimageprovider.h
     src/steamtagarray.h
     src/steamworkshop.h
     src/steamworkshopitem.h
+    src/steamworkshopitemops.h
     src/steamworkshoplistmodel.h
+    src/steamworkshopprofile.h
+    src/steamworkshopsearch.h
     src/ugcquerybuilder.h
     src/uploadlistmodel.h
     src/workshopitem.h

@@ -11,8 +11,7 @@ namespace ScreenPlayWorkshop {
 /*!
     \class ScreenPlayWorkshop::SteamAsyncCall
     \inmodule ScreenPlayWorkshop
-    \brief RAII wrapper that connects a SteamAPICall_t to a std::function callback,
-           replacing the verbose CCallResult + member-function-pointer pattern.
+    \brief RAII wrapper that connects a SteamAPICall_t to a std::function callback.
 
     Usage:
     \code
