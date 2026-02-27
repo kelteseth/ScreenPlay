@@ -411,7 +411,7 @@ Item {
                 text: qsTr("Delete")
                 icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_delete.svg"
                 icon.color: "white"
-                Material.background: Material.Red
+                Material.background: Material.color(Material.Red)
                 onClicked: deleteConfirmDialog.open()
             }
         }

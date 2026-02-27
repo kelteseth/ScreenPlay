@@ -58,6 +58,7 @@ Drawer {
     topPadding: 0
 
     onClosed: {
+        root.publishedFileID = undefined
         root.creatorName = ""
         root.creatorSteamID = null
     }
@@ -373,7 +374,10 @@ Drawer {
         spacing: 20
 
         anchors {
-            horizontalCenter: parent.horizontalCenter
+            right: parent.right
+            left: parent.left
+            rightMargin: 20
+            leftMargin: 20
             bottom: parent.bottom
         }
 
@@ -381,6 +385,7 @@ Drawer {
             id: btnCreator
 
             font.pointSize: 10
+            Layout.alignment: Qt.AlignLeft
             icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_search.svg"
             height: 25
             visible: root.creatorName !== ""
@@ -402,6 +407,7 @@ Drawer {
             id: btnSubscribe
 
             enabled: root.subscriptionStateKnown
+            Layout.alignment: Qt.AlignRight
             highlighted: true
             Material.accent: root.subscribed ? Material.color(Material.Red) : root.Material.accent
             icon.source: !root.subscriptionStateKnown ? "" : root.subscribed ? "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_close.svg" : "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_download.svg"
