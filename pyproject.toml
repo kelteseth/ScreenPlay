@@ -9,6 +9,7 @@ dependencies = [
     "requests",
     "setuptools",  # distutils
     "termcolor",
+    "rich",
 ]
 
 [tool.uv]

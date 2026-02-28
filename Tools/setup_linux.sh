@@ -74,7 +74,7 @@ main() {
     echo "Setting up extra-cmake-modules..."
     setup_repo "https://invent.kde.org/frameworks/extra-cmake-modules.git" "extra-cmake-modules"
     cd extra-cmake-modules
-    git checkout tags/v6.18.0
+    git checkout tags/v6.22.0
     configure_cmake "extra-cmake-modules"
     make
     $SUDO make install
@@ -86,7 +86,7 @@ main() {
     cd layer-shell-qt
     
     # Set up Qt paths
-    local QT_DIR="../../../aqt/6.10.1/gcc_64"
+    local QT_DIR="../../../aqt/6.10.2/gcc_64"
     local QT_PATHS="$QT_DIR/bin:$PATH"
     
     # Verify Qt directory exists
