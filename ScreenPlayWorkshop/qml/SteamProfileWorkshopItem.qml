@@ -52,6 +52,7 @@ Item {
     property bool isLoading: true
 
     property bool isSaving: false
+    property bool isDeleting: false
     property string editTitle: ""
     property string editDescription: ""
     property var editTags: []
@@ -181,7 +182,11 @@ Item {
         }
 
         function onWorkshopItemDeleted(success: bool, publishedFileID: var): void {
-            if (publishedFileID === root.publishedFileID && success) {
+            if (publishedFileID !== root.publishedFileID)
+                return
+            root.isDeleting = false
+            deleteConfirmDialog.close()
+            if (success) {
                 root.stackView.pop()
             }
         }
@@ -1040,6 +1045,7 @@ Item {
 
                 Button {
                     text: qsTr("Cancel")
+                    enabled: !root.isDeleting
                     onClicked: deleteConfirmDialog.close()
                 }
 
@@ -1047,10 +1053,18 @@ Item {
                     text: qsTr("Delete Permanently")
                     icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_close.svg"
                     icon.color: "white"
+                    enabled: !root.isDeleting
                     onClicked: {
+                        root.isDeleting = true
                         root.steamWorkshop.itemOps.deleteItem(root.publishedFileID)
-                        deleteConfirmDialog.close()
                     }
+                }
+
+                BusyIndicator {
+                    visible: root.isDeleting
+                    running: root.isDeleting
+                    implicitWidth: 28
+                    implicitHeight: 28
                 }
             }
         }

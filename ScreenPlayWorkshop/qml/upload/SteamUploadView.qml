@@ -64,7 +64,6 @@ Item {
         currentIndex: 0
         interactive: false
 
-        // ── Page 1: Grid selection ──────────────────────────────────────
         Item {
             id: firstPage
 
@@ -257,13 +256,34 @@ Item {
             }
         }
 
-        // ── Page 2: Upload progress ─────────────────────────────────────
         Item {
             id: secondPage
+
+            property bool uploadDone: false
+
+            SPCore.FireworksEffect {
+                id: fireworks
+                anchors.fill: parent
+                visible: secondPage.uploadDone
+            }
+
+            Timer {
+                id: burstTimer
+                interval: 1400
+                repeat: true
+                running: secondPage.uploadDone
+                onTriggered: {
+                    const margin = 80
+                    const x = margin + Math.random() * (secondPage.width - margin * 2)
+                    const y = margin + Math.random() * (secondPage.height * 0.65)
+                    fireworks.triggerBurst(x, y)
+                }
+            }
 
             ListView {
                 id: listView
                 objectName: "uploadListView"
+                visible: !secondPage.uploadDone
 
                 boundsBehavior: Flickable.DragOverBounds
                 maximumFlickVelocity: 7000
@@ -277,7 +297,7 @@ Item {
                     top: parent.top
                     left: parent.left
                     right: parent.right
-                    bottom: btnFinish.top
+                    bottom: parent.bottom
                     leftMargin: 60
                     rightMargin: 60
                     topMargin: 25
@@ -313,30 +333,48 @@ Item {
                 }
             }
 
-            Button {
-                id: btnFinish
-                objectName: "btnFinish"
+            ColumnLayout {
+                anchors.centerIn: parent
+                visible: secondPage.uploadDone
+                spacing: 24
 
-                text: qsTr("Finish")
-                highlighted: true
-                enabled: false
-                onClicked: {
-                    root.steamWorkshop.uploadListModel.clearWhenFinished()
-                    root.resetState()
-                    root.stackView.pop()
+                Label {
+                    Layout.alignment: Qt.AlignHCenter
+                    text: qsTr("🎉 Upload Complete!")
+                    font.pointSize: 22
+                    font.bold: true
+                    color: Material.foreground
                 }
 
-                anchors {
-                    right: listView.right
-                    bottom: parent.bottom
-                    bottomMargin: 25
+                Label {
+                    Layout.alignment: Qt.AlignHCenter
+                    text: qsTr("Your items are now on the Steam Workshop.")
+                    font.pointSize: 13
+                    color: Material.foreground
+                    opacity: 0.7
                 }
 
-                Connections {
-                    function onUploadCompleted(): void {
-                        btnFinish.enabled = true
+                Button {
+                    id: btnFinish
+                    objectName: "btnFinish"
+                    Layout.alignment: Qt.AlignHCenter
+                    text: qsTr("Finish")
+                    highlighted: true
+                    onClicked: {
+                        burstTimer.stop()
+                        root.steamWorkshop.uploadListModel.clearWhenFinished()
+                        root.resetState()
+                        secondPage.uploadDone = false
+                        root.stackView.pop()
                     }
-                    target: root.steamWorkshop.uploadListModel
+                }
+            }
+
+            Connections {
+                target: root.steamWorkshop.uploadListModel
+                function onUploadCompleted(): void {
+                    secondPage.uploadDone = true
+                    fireworks.triggerBurst(secondPage.width / 2, secondPage.height * 0.3)
                 }
             }
         }

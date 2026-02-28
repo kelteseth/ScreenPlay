@@ -31,6 +31,7 @@ set(QML
     qml/ErrorPopup.qml
     qml/FileDropAnimation.qml
     qml/FileSelector.qml
+    qml/FireworksEffect.qml
     qml/Grow.qml
     qml/GrowIconLink.qml
     qml/Headline.qml
