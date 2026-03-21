@@ -39,18 +39,18 @@
             "name": "linux-gcc-debug",
             "binaryDir": "${sourceDir}/Build/Gcc_Debug",
             "inherits": [
+                "debug",
                 "config-develop",
-                "linux-gcc-base",
-                "debug"
+                "linux-gcc-base"
             ]
         },
         {
             "name": "linux-gcc-relwithdebinfo",
             "binaryDir": "${sourceDir}/Build/Gcc_RelWithDebInfo",
             "inherits": [
+                "relwithdebinfo",
                 "config-develop",
-                "linux-gcc-base",
-                "relwithdebinfo"
+                "linux-gcc-base"
             ]
         },
         {
@@ -60,9 +60,9 @@
                 "CMAKE_BINARY_DIR": "${sourceDir}/Build/Gcc_Release"
             },
             "inherits": [
+                "release",
                 "config-develop",
-                "linux-gcc-base",
-                "release"
+                "linux-gcc-base"
             ]
         },
         {
@@ -78,18 +78,18 @@
             "name": "linux-clang-debug",
             "binaryDir": "${sourceDir}/Build/Clang_Debug",
             "inherits": [
+                "debug",
                 "config-develop",
-                "linux-clang-base",
-                "debug"
+                "linux-clang-base"
             ]
         },
         {
             "name": "linux-clang-relwithdebinfo",
             "binaryDir": "${sourceDir}/Build/Clang_RelWithDebInfo",
             "inherits": [
+                "relwithdebinfo",
                 "config-develop",
-                "linux-clang-base",
-                "relwithdebinfo"
+                "linux-clang-base"
             ]
         },
         {
@@ -99,9 +99,9 @@
                 "CMAKE_BINARY_DIR": "${sourceDir}/Build/Clang_Release"
             },
             "inherits": [
+                "release",
                 "config-develop",
-                "linux-clang-base",
-                "release"
+                "linux-clang-base"
             ]
         },
         {
