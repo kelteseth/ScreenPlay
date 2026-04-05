@@ -552,7 +552,6 @@ void ScreenPlayTimelineManager::updateMonitorListModelData(const int selectedTim
         auto wallpaperOpt = timeline->screenPlayWallpaperByMonitorIndex(monitor.m_monitorIndex);
         if (wallpaperDataOpt.has_value()) {
             const WallpaperData wallpaperData = wallpaperDataOpt.value();
-            auto activeWallpaper = wallpaperOpt.value();
             const auto absolutePath = wallpaperData.absolutePath();
             const auto previewImg = absolutePath + "/" + wallpaperData.previewImage();
             const auto previewWebP = absolutePath + "/" + wallpaperData.previewWebP();
@@ -561,8 +560,16 @@ void ScreenPlayTimelineManager::updateMonitorListModelData(const int selectedTim
             m_monitorListModel->setData(modelIndex, previewWebP, (int)PreviewWebP);
             m_monitorListModel->setData(modelIndex, previewGIF, (int)PreviewGIF);
             m_monitorListModel->setData(modelIndex, (int)wallpaperData.type(), (int)InstalledType);
-            m_monitorListModel->setData(modelIndex, activeWallpaper->appID(), (int)AppID);
-            m_monitorListModel->setData(modelIndex, (int)activeWallpaper->state(), (int)AppState);
+            // wallpaperOpt is only populated when the timeline is active (process is running).
+            // For inactive timelines we have config data but no running process.
+            if (wallpaperOpt.has_value()) {
+                auto activeWallpaper = wallpaperOpt.value();
+                m_monitorListModel->setData(modelIndex, activeWallpaper->appID(), (int)AppID);
+                m_monitorListModel->setData(modelIndex, (int)activeWallpaper->state(), (int)AppState);
+            } else {
+                m_monitorListModel->setData(modelIndex, "", (int)AppID);
+                m_monitorListModel->setData(modelIndex, (int)ScreenPlayEnums::AppState::NotSet, (int)AppState);
+            }
         } else {
             m_monitorListModel->setData(modelIndex, "", (int)PreviewImage);
             m_monitorListModel->setData(modelIndex, "", (int)PreviewWebP);
