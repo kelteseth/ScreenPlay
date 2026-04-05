@@ -47,6 +47,10 @@ void ScreenPlaySDK::start()
 
 ScreenPlaySDK::~ScreenPlaySDK()
 {
+    if (global_sdkPtr == this) {
+        qInstallMessageHandler(nullptr);
+        global_sdkPtr = nullptr;
+    }
     m_socket.disconnectFromServer();
 }
 
@@ -133,8 +137,8 @@ void ScreenPlaySDK::readyRead()
 
             bool volumeParsedOK = false;
             float volumeParsed = QVariant(obj.value("volume").toVariant()).toFloat(&volumeParsedOK);
-            if (!volumeParsedOK && (volumeParsed > 0.0 && volumeParsed <= 1.0)) {
-                qCWarning(screenPlaySDK) << "Command replaced contained bad volume float value: " << volumeParsed;
+            if (volumeParsedOK && (volumeParsed < 0.0f || volumeParsed > 1.0f)) {
+                qCWarning(screenPlaySDK) << "Command replace contained out-of-range volume value:" << volumeParsed;
             }
 
             qCInfo(screenPlaySDK)
@@ -186,12 +190,14 @@ void ScreenPlaySDK::pingAlive()
     if (!m_socket.waitForBytesWritten(500)) {
         qCInfo(screenPlaySDK) << "Cannot ping to main application. Closing!";
         emit sdkDisconnected();
+        return;
     }
 
     // Instead of waiting, check the socket state
     if (m_socket.state() != QLocalSocket::ConnectedState) {
         qCInfo(screenPlaySDK) << "Socket no longer connected. Closing!";
         emit sdkDisconnected();
+        return;
     }
 
     // Check if a PID is set first
