@@ -65,6 +65,9 @@ bool ScreenPlayWidget::start()
 
 QCoro::Task<Result> ScreenPlayWidget::close()
 {
+    m_pingAliveTimer.stop();
+    m_stabilityTimer.stop();
+
     if (!m_connection) {
         qCritical() << "Cannot request quit, widget never connected!";
         co_return Result { true, {}, "Widget was never connected" };
