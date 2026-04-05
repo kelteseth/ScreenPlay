@@ -135,16 +135,17 @@ std::expected<bool, ScreenPlayTimelineManager::TimelineManagerError> ScreenPlayT
         return true;
     }
 
-    // For basic version, force timeline to span whole day
+    // For basic version, force timeline to span whole day.
+    // Use separate mutable variables to avoid const_cast UB.
+    QTime effectiveStartTime = startTime;
+    QTime effectiveEndTime = endTime;
     if (m_globalVariables->isBasicVersion()) {
-        // Always spans 00:00:00 to 23:59:59 for basic version
-        QTime defaultStartTime = QTime::fromString("00:00:00", m_timelineTimeFormat);
-        QTime defaultEndTime = QTime::fromString("23:59:59", m_timelineTimeFormat);
-
+        const QTime defaultStartTime = QTime::fromString("00:00:00", m_timelineTimeFormat);
+        const QTime defaultEndTime = QTime::fromString("23:59:59", m_timelineTimeFormat);
         if (startTime != defaultStartTime || endTime != defaultEndTime) {
             qCInfo(screenPlayTimelineManager) << "Basic version: Enforcing full day timeline span";
-            const_cast<QTime&>(startTime) = defaultStartTime;
-            const_cast<QTime&>(endTime) = defaultEndTime;
+            effectiveStartTime = defaultStartTime;
+            effectiveEndTime = defaultEndTime;
         }
     }
 
@@ -156,11 +157,11 @@ std::expected<bool, ScreenPlayTimelineManager::TimelineManagerError> ScreenPlayT
     QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::activeWallpaperCountChanged, this, &ScreenPlayTimelineManager::activeWallpaperCountChanged);
     QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::wallpaperRestartFailed, this, &ScreenPlayTimelineManager::handleWallpaperRestartFailed);
 
-    newTimelineSection->startTime = startTime;
-    newTimelineSection->endTime = endTime;
+    newTimelineSection->startTime = effectiveStartTime;
+    newTimelineSection->endTime = effectiveEndTime;
     newTimelineSection->settings = m_settings;
     newTimelineSection->globalVariables = m_globalVariables;
-    newTimelineSection->relativePosition = m_util.calculateRelativePosition(endTime);
+    newTimelineSection->relativePosition = m_util.calculateRelativePosition(effectiveEndTime);
     newTimelineSection->index = m_wallpaperTimelineSectionsList.length();
     newTimelineSection->identifier = m_util.generateRandomString(4);
 
