@@ -392,6 +392,20 @@ if(${SCREENPLAY_TESTS})
     if(${SCREENPLAY_STEAM})
         target_link_libraries(tst_ScreenPlayGui PUBLIC ScreenPlayWorkshopLib ScreenPlayWorkshopLibplugin)
     endif()
+
+    # Timeline unit tests - data-driven tests for ScreenPlayTimelineManager logic,
+    # structural invariants, and regression coverage for timeline bug fixes.
+    qt_add_executable(tst_timeline tests/tst_timeline.cpp)
+    target_link_libraries(tst_timeline PRIVATE ScreenPlayLib ScreenPlayLibplugin Qt6::Test)
+    generate_cmake_variable_header(tst_timeline)
+    add_dependencies(tst_timeline ScreenPlayLib)
+
+    # External process unit tests - widget/wallpaper lifecycle state machine,
+    # timer-stop regression for ScreenPlayWidget::close(), signal/state coverage.
+    qt_add_executable(tst_external_process tests/tst_external_process.cpp)
+    target_link_libraries(tst_external_process PRIVATE ScreenPlayLib ScreenPlayLibplugin Qt6::Test)
+    generate_cmake_variable_header(tst_external_process)
+    add_dependencies(tst_external_process ScreenPlayLib)
 endif()
 
 if(WIN32)
