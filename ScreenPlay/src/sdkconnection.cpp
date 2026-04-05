@@ -54,7 +54,7 @@ void ScreenPlay::SDKConnection::readyRead()
     for (const QString& msg : messages) {
         if (msg == "ping") {
             emit pingAliveReceived();
-            return;
+            continue; // process remaining messages in the same packet
         }
 
         // The first message allways contains the appID
