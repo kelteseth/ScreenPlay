@@ -83,10 +83,9 @@ void ScreenPlay::SDKConnection::readyRead()
             emit appConnected(this);
 
         } else if (msg.startsWith("command=")) {
-            QString command = msg;
-            command.remove("command=");
-            if (msg == "requestRaise") {
-                qCInfo(sdkConnection) << "Another ScreenPlay instance reuqested this one to raise!";
+            const QString command = msg.mid(QString("command=").length());
+            if (command == "requestRaise") {
+                qCInfo(sdkConnection) << "Another ScreenPlay instance requested this one to raise!";
                 emit requestRaise();
             }
         } else if (msg.startsWith("{") && msg.endsWith("}")) {
