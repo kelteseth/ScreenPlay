@@ -134,6 +134,13 @@ bool ScreenPlay::SDKConnection::close()
 
     qCInfo(sdkConnection) << "Close " << m_type << m_appID << m_socket->state();
     m_socket->disconnectFromServer();
+
+    // disconnectFromServer() is asynchronous — the socket moves through ClosingState
+    // before reaching UnconnectedState. Wait briefly so callers get an accurate
+    // indication of the final state, but do not block indefinitely.
+    if (m_socket->state() != QLocalSocket::UnconnectedState) {
+        m_socket->waitForDisconnected(500);
+    }
     m_socket->close();
 
     return m_socket->state() == QLocalSocket::UnconnectedState;
