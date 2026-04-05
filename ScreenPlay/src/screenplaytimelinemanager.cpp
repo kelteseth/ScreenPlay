@@ -879,7 +879,9 @@ QCoro::Task<Result> ScreenPlayTimelineManager::removeTimelineAt(const int index)
 
     m_wallpaperTimelineSectionsList.removeAt(index);
     sortAndUpdateIndices();
-    const int newTimelineIndex = index - 1;
+    // When removing index 0, the section that was at index+1 is now at index 0.
+    // Using index-1 in that case would produce -1, which is invalid.
+    const int newTimelineIndex = (index == 0) ? 0 : index - 1;
     if (removeActiveTimelineSection) {
         auto result = co_await startAllWallpaperAtTimelineIndex(newTimelineIndex);
         if (!result.success()) {
