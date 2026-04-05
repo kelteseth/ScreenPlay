@@ -406,6 +406,13 @@ if(${SCREENPLAY_TESTS})
     target_link_libraries(tst_external_process PRIVATE ScreenPlayLib ScreenPlayLibplugin Qt6::Test)
     generate_cmake_variable_header(tst_external_process)
     add_dependencies(tst_external_process ScreenPlayLib)
+
+    # SDK IPC unit tests - SDKConnection readyRead protocol parsing, sendMessage
+    # round-trip, and close() return-value regression coverage.
+    qt_add_executable(tst_sdk tests/tst_sdk.cpp)
+    target_link_libraries(tst_sdk PRIVATE ScreenPlayLib ScreenPlayLibplugin Qt6::Test Qt6::Network)
+    generate_cmake_variable_header(tst_sdk)
+    add_dependencies(tst_sdk ScreenPlayLib)
 endif()
 
 if(WIN32)
