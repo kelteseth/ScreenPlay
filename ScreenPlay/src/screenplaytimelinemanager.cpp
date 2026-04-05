@@ -235,7 +235,7 @@ QCoro::Task<void> ScreenPlayTimelineManager::checkActiveWallpaperTimeline()
     for (const auto& section : std::as_const(m_wallpaperTimelineSectionsList)) {
         if (section->state == WallpaperTimelineSection::State::Failed) {
             qCDebug(screenPlayTimelineManager) << "Timeline" << section->identifier << " failed, removing";
-            removeTimelineAt(section->index);
+            co_await removeTimelineAt(section->index);
             co_return;
         }
         if (section->state == WallpaperTimelineSection::State::Active) {
