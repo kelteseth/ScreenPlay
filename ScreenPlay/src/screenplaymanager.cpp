@@ -816,7 +816,7 @@ bool ScreenPlayManager::loadProfiles()
         saveProfiles();
     }
 
-    // The can happen if the user unpluggs a wallpaper but it still exists
+    // This can happen if the user unplugs a wallpaper but it still exists
     // in the profiles.json. For this we save all profiles with now active
     // content.
     if (containsInvalidData) {
@@ -824,9 +824,10 @@ bool ScreenPlayManager::loadProfiles()
             m_errorManager->displayError("Some wallpapers or widgets from profiles.json could not be loaded. This may happen if files have been moved or monitors have been disconnected. The configuration will be updated automatically.");
         }
         saveProfiles();
-    } else {
-        m_screenPlayTimelineManager.startup();
     }
+    // Always attempt startup so successfully loaded timelines run even when
+    // some other entries (e.g. a missing widget) produced invalid data.
+    m_screenPlayTimelineManager.startup();
 
     return true;
 }
