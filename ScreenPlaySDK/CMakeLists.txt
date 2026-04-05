@@ -7,7 +7,7 @@ set(CMAKE_AUTOMOC ON)
 
 find_package(
     Qt6
-    COMPONENTS Quick Network Core
+    COMPONENTS Core Network
     REQUIRED)
 
 qt_standard_project_setup(REQUIRES 6.8)
@@ -28,7 +28,5 @@ target_include_directories(ScreenPlaySDKLib PUBLIC inc/public/)
 target_link_libraries(
     ScreenPlaySDKLib
     PUBLIC Qt6::Core
-           Qt6::Quick
-           Qt6::Gui
            Qt6::Network
            ScreenPlayCoreLib)

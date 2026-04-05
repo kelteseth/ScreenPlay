@@ -70,7 +70,7 @@ void BaseWindow::connectToMainApp()
     if (!debugMode()) {
         m_sdk = std::make_unique<ScreenPlaySDK>(appID(), QVariant::fromValue(type()).toString());
         m_sdk->setMainAppPID(m_mainAppPID);
-        connect(m_sdk.get(), &ScreenPlaySDK::incommingMessage, this, &BaseWindow::messageReceived);
+        connect(m_sdk.get(), &ScreenPlaySDK::incomingMessage, this, &BaseWindow::messageReceived);
         connect(m_sdk.get(), &ScreenPlaySDK::replaceWallpaper, this, &BaseWindow::replaceWallpaper);
         connect(m_sdk.get(), &ScreenPlaySDK::sdkDisconnected, this, &BaseWindow::destroyThis);
         sdk()->start();
@@ -80,7 +80,7 @@ void BaseWindow::connectToMainApp()
 /*!
  \brief messageReceived.
  */
-void BaseWindow::messageReceived(QString key, QString value)
+void BaseWindow::messageReceived(const QString& key, const QString& value)
 {
     if (key == "volume") {
         bool ok = false;
