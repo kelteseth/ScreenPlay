@@ -348,6 +348,9 @@ QCoro::Task<void> ScreenPlayTimelineManager::checkActiveWallpaperTimeline()
 
                 if (!newNotStartedTimeline->replaceScreenPlayWallpaperAtMonitorIndex(QVector<int> { monitorIndex }, runningScreenPlayWallpaper)) {
                     qCCritical(screenPlayTimelineManager) << "Failed to replace wallpaper for monitor" << monitorIndex;
+                    // The wallpaper was already taken from oldRunningTimeline. Return it there
+                    // to prevent the process from running orphaned with no owning section.
+                    oldRunningTimeline->replaceScreenPlayWallpaperAtMonitorIndex(QVector<int> { monitorIndex }, runningScreenPlayWallpaper);
                     newNotStartedTimeline->state = WallpaperTimelineSection::State::Failed;
                     co_return;
                 }
