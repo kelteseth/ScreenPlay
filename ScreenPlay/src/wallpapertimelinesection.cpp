@@ -75,12 +75,18 @@ bool WallpaperTimelineSection::replaceScreenPlayWallpaperAtMonitorIndex(const QV
 {
     for (auto it = wallpaperList.begin(); it != wallpaperList.end(); ++it) {
         const auto wallpaperMonitors = (*it)->monitors();
+        // Check if ALL requested monitors are present in this wallpaper
+        bool allFound = true;
         for (const auto& monitor : monitors) {
-            if (std::find(wallpaperMonitors.begin(), wallpaperMonitors.end(), monitor) != wallpaperMonitors.end()) {
-                wallpaperList.erase(it);
-                wallpaperList.push_back(screenPlayWallpaper);
-                return true;
+            if (std::find(wallpaperMonitors.begin(), wallpaperMonitors.end(), monitor) == wallpaperMonitors.end()) {
+                allFound = false;
+                break;
             }
+        }
+        if (allFound) {
+            wallpaperList.erase(it);
+            wallpaperList.push_back(screenPlayWallpaper);
+            return true;
         }
     }
     return false;

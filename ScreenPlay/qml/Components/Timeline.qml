@@ -306,25 +306,23 @@ Control {
         }
 
         function removeSection(index: int): void {
-            console.debug(LoggingCategories.timeline, timeline.stopPositionList)
-            console.debug(LoggingCategories.timeline, timeline.sectionList)
+            console.debug(LoggingCategories.timeline, "removeSection", index, "sectionsList:", JSON.stringify(timeline.sectionsList.map(s => s.relativeLinePosition)))
             const isLast = index === timeline.sectionsList.length - 1
             if (isLast)
                 return
-            // ORDER is important here! First destory the object
-            // and then remove i f
-            let section = timeline.sectionsList[index]
-            section.lineHandle.destroy()
-            section.lineIndicator.destroy()
-            section.destroy()
-            timeline.sectionsList.splice(index, 1)
-            updatePositions()
             App.screenPlayManager.removeTimelineAt(index).then(result => {
                 if (!result.success) {
                     InstantPopup.openErrorPopup(timeline, result.message)
                     btnReset.resetting = false
                     return
                 }
+                // Only destroy QML objects after the C++ side succeeds
+                let section = timeline.sectionsList[index]
+                section.lineHandle.destroy()
+                section.lineIndicator.destroy()
+                section.destroy()
+                timeline.sectionsList.splice(index, 1)
+                updatePositions()
             })
         }
 

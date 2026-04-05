@@ -209,10 +209,9 @@ bool ScreenPlayTimelineManager::moveTimelineAt(const int index, const QString id
 
     const auto timelineCount = m_wallpaperTimelineSectionsList.size();
     // Only update the next timeline startTime
-    // if we are not end last wallpaper, that always
+    // if we are not the last wallpaper, that always
     // must end at 24:00
-    // TODO CRASH
-    if (index <= timelineCount) {
+    if (index + 1 < timelineCount) {
         auto& wallpapterTimelineSectionNext = m_wallpaperTimelineSectionsList.at(index + 1);
         wallpapterTimelineSectionNext->startTime = newPositionTime;
     }
@@ -526,7 +525,11 @@ QCoro::Task<void> ScreenPlayTimelineManager::startup()
         qCCritical(screenPlayTimelineManager) << "No current timeline found. There must always be an active timeline.";
         co_return;
     }
-    co_await activateTimeline(currentTimeline->index, currentTimeline->identifier);
+    auto result = co_await activateTimeline(currentTimeline->index, currentTimeline->identifier);
+    if (!result.success()) {
+        qCCritical(screenPlayTimelineManager) << "Failed to activate timeline during startup:" << result.message();
+        co_return;
+    }
     printTimelines();
     setActiveTimelineIndex(currentTimeline->index);
     m_contentTimer.start();
@@ -657,6 +660,9 @@ bool ScreenPlayTimelineManager::addTimelineAt(const int index, const float relat
     // We directly get the new index of 0 in this example from qml
 
     auto newTimelineSection = std::make_shared<WallpaperTimelineSection>();
+    QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::requestUpdateMonitorListModel, this, [this]() {
+        updateMonitorListModelData(selectedTimelineIndex());
+    });
     QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::requestSaveProfiles, this, &ScreenPlayTimelineManager::requestSaveProfiles);
     QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::activeWallpaperCountChanged, this, &ScreenPlayTimelineManager::activeWallpaperCountChanged);
     QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::wallpaperRestartFailed, this, &ScreenPlayTimelineManager::handleWallpaperRestartFailed);
@@ -894,6 +900,7 @@ QCoro::Task<Result> ScreenPlayTimelineManager::removeTimelineAt(const int index)
     }
     printTimelines();
     setActiveTimelineIndex(newTimelineIndex);
+    setSelectedTimelineIndex(newTimelineIndex);
 
     co_return Result { true };
 }
@@ -916,10 +923,7 @@ void ScreenPlayTimelineManager::printTimelines() const
         out += runningIndicator + " Timeline: " + QString::number(timeline->index) + ": "
             + timeline->identifier + "\t"
             + QString::number(timeline->relativePosition) + "\t"
-            + QVariant::fromValue(timeline->state).toString() + "\t\t"
-            + "wallpaper data count: " + QString::number(timeline->wallpaperData().size())
-            + " start: " + timeline->startTime.toString() + " "
-            + " end: " + timeline->endTime.toString() + "\n";
+            + QVariant::fromValue(timeline->state).toString() + "\n";
 
         if (timeline->wallpaperList.size() > 0) {
             for (const auto& wallpaper : timeline->wallpaperList) {
@@ -930,8 +934,13 @@ void ScreenPlayTimelineManager::printTimelines() const
                     + " - " + wallpaper->absolutePath() + "\n";
             }
         }
-        if (timeline->wallpaperData().size() > 0) {
-            for (const auto& wallpaperData : timeline->wallpaperData()) {
+        const auto wallpaperDataList = timeline->wallpaperData();
+        out += "wallpaper data count: " + QString::number(wallpaperDataList.size())
+            + " start: " + timeline->startTime.toString() + " "
+            + " end: " + timeline->endTime.toString() + "\n";
+
+        if (!wallpaperDataList.empty()) {
+            for (const auto& wallpaperData : wallpaperDataList) {
                 out += "   └─ 💾 WALLPAPER DATA   -> Monitor " + QString::number(wallpaperData.monitors().first()) + "\t\t"
                     + " - " + wallpaperData.absolutePath() + "\n";
             }
@@ -979,6 +988,8 @@ QCoro::Task<Result> ScreenPlayTimelineManager::setValueAtMonitorTimelineIndex(
                 wallpaper->updateGodot3DScale(value.toFloat());
             } else if (!category.isEmpty()) {
                 wallpaper->updateProperty(category, key, value);
+            } else {
+                co_return Result { false, {}, QString("Unknown key '%1' with empty category for wallpaper on monitor %2").arg(key).arg(monitorIndex) };
             }
 
             // If it's currently active, also send the update to the running process
@@ -1155,6 +1166,8 @@ void ScreenPlayTimelineManager::handleWallpaperRestartFailed(const QString& appI
             return;
         }
         for (auto& activeWallpaper : timelineSection->wallpaperList) {
+            if (activeWallpaper->appID() != appID)
+                continue;
             for (const auto& monitor : activeWallpaper->monitors()) {
                 // Use the new setMonitorData function to update multiple roles at once
                 QHash<MonitorListModel::MonitorRole, QVariant> monitorData;
@@ -1246,8 +1259,7 @@ QCoro::Task<Result> ScreenPlayTimelineManager::stopTimelineAndClearWallpaperData
         co_return Result { false, {}, QString("Timeline is not in active state: %1").arg(QVariant::fromValue(timelineSection->state).toString()) };
     }
 
-    if (disableTimeline)
-        timelineSection->state = Closing;
+    timelineSection->state = Closing;
 
     if (timelineSection->wallpaperList.empty()) {
         timelineSection->state = Inactive;
@@ -1275,14 +1287,12 @@ QCoro::Task<Result> ScreenPlayTimelineManager::stopTimelineAndClearWallpaperData
     }
 
     if (anyFailed) {
-        if (disableTimeline)
-            timelineSection->state = Failed; // Mark timeline as failed
+        timelineSection->state = Failed; // Mark timeline as failed
         co_return Result { false, {}, QString("Unable to close one or more wallpapers") };
     }
 
     timelineSection->wallpaperList.clear();
-    if (disableTimeline)
-        timelineSection->state = Inactive;
+    timelineSection->state = disableTimeline ? Inactive : Active;
     co_return Result { true };
 }
 
