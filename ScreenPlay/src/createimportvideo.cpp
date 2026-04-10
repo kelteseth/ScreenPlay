@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
 #include "ScreenPlay/createimportvideo.h"
+#include "ScreenPlay/gifoptimizer.h"
 #include "ScreenPlayCore/util.h"
 #include <QGuiApplication>
 #include <QLoggingCategory>
+#include <cmath>
 
 Q_LOGGING_CATEGORY(createImportVideo, "screenplay.createimportvideo")
 
@@ -62,6 +64,35 @@ void CreateImportVideo::setupFFMPEG()
         qFatal("FFMPEG executable not found!");
     }
 #endif
+}
+
+/*!
+  \brief Computes an ffmpeg crop=W:H filter string that extracts the largest centered 16:9 region
+         from the source video. Handles wider-than-16:9 (crop sides) and taller-than-16:9
+         (square, portrait — crop top/bottom) sources. Returns an empty string if dimensions
+         are not yet known.
+ */
+QString CreateImportVideo::build16x9CropFilter() const
+{
+    if (m_videoWidth <= 0 || m_videoHeight <= 0)
+        return {};
+
+    int cropW, cropH;
+    if (m_videoWidth * 9 > m_videoHeight * 16) {
+        // Source is wider than 16:9 → keep full height, crop width
+        cropH = m_videoHeight;
+        cropW = (m_videoHeight * 16) / 9;
+    } else {
+        // Source is taller than 16:9 (portrait / square) → keep full width, crop height
+        cropW = m_videoWidth;
+        cropH = (m_videoWidth * 9) / 16;
+    }
+    // Codec requires even dimensions
+    cropW = (cropW / 2) * 2;
+    cropH = (cropH / 2) * 2;
+    qCInfo(createImportVideo) << "16:9 crop filter: crop=" << cropW << ":" << cropH
+                              << "from source" << m_videoWidth << "x" << m_videoHeight;
+    return QString("crop=%1:%2").arg(cropW).arg(cropH);
 }
 
 /*!
@@ -130,7 +161,7 @@ bool CreateImportVideo::createWallpaperInfo()
         args.append("-select_streams");
         args.append("v:0");
         args.append("-show_entries");
-        args.append("stream=nb_read_frames,r_frame_rate");
+        args.append("stream=nb_read_frames,r_frame_rate,width,height");
     } else {
         args.append("-show_format");
         args.append("-show_streams");
@@ -195,12 +226,11 @@ bool CreateImportVideo::analyzeWebmReadFrames(const QJsonObject& obj)
     const QJsonObject firstStream = streams.first().toObject();
     qCInfo(createImportVideo) << "streams:" << streams;
 
+    m_skipAudio = true;
     for (const auto& stream : streams) {
-        QString codec_type = stream.toObject().value("codec_type").toString();
-        if (codec_type == "audio") {
+        if (stream.toObject().value("codec_type").toString() == "audio") {
             m_skipAudio = false;
-        } else {
-            m_skipAudio = true;
+            break;
         }
     }
 
@@ -211,6 +241,9 @@ bool CreateImportVideo::analyzeWebmReadFrames(const QJsonObject& obj)
         return false;
     }
     m_numberOfFrames = numberOfFrames;
+    m_videoWidth = firstStream.value("width").toInt();
+    m_videoHeight = firstStream.value("height").toInt();
+    qCInfo(createImportVideo) << "Video dimensions (WebM):" << m_videoWidth << "x" << m_videoHeight;
 
     // "r_frame_rate": "25/1"
     QString frameRate = firstStream.value("r_frame_rate").toString();
@@ -265,6 +298,8 @@ bool CreateImportVideo::analyzeVideo(const QJsonObject& obj)
         m_sourceCodec = Video::VideoCodec::H264;
     } else if (codecName == "hevc") {
         m_sourceCodec = Video::VideoCodec::H265; // HEVC is H.265
+    } else if (codecName == "mjpeg") {
+        m_sourceCodec = Video::VideoCodec::MJPEG;
     } else {
         m_sourceCodec = Video::VideoCodec::Unknown;
     }
@@ -298,6 +333,10 @@ bool CreateImportVideo::analyzeVideo(const QJsonObject& obj)
 
     if (!hasAudioStream)
         m_skipAudio = true;
+
+    m_videoWidth = videoStream.value("width").toInt();
+    m_videoHeight = videoStream.value("height").toInt();
+    qCInfo(createImportVideo) << "Video dimensions:" << m_videoWidth << "x" << m_videoHeight;
 
     // Number of frames is a string for some reason...
     bool okParseNumberOfFrames { false };
@@ -418,24 +457,26 @@ bool CreateImportVideo::createWallpaperVideoPreview()
     if (!m_smallVideo) {
         qCInfo(createImportVideo) << "Regular video length detected!";
         args.append("-vf");
-        // We allways want to have a 5 second clip via 24fps -> 120 frames
-        // Divided by the number of frames we can skip (timeInSeconds * Framrate)
-        // scale & crop parameter: https://unix.stackexchange.com/a/284731
-        args.append("select='not(mod(n," + QString::number((m_length / 5)) + "))',setpts=N/FRAME_RATE/TB,crop=in_h*16/9:in_h,scale=-2:480");
+        {
+            const QString crop = build16x9CropFilter();
+            const QString cropPart = crop.isEmpty() ? QString() : ("," + crop);
+            args.append("select='not(mod(n," + QString::number((m_length / 5)) + "))',setpts=N/FRAME_RATE/TB" + cropPart + ",scale=854:480");
+        }
     }
     // Disable audio
     args.append("-an");
     args.append(m_exportPath + "/preview.webm");
     emit processOutput("ffmpeg " + Util().toString(args));
 
-    const QString ffmpegOut = waitForFinished(args);
+    // Use MergedChannels so ffmpeg stderr (stats, errors) is captured and visible in QML logs
+    const QString ffmpegOut = waitForFinished(args, QProcess::MergedChannels);
+    emit processOutput(ffmpegOut);
+
     const QFile previewVideo(m_exportPath + "/preview.webm");
     if (!previewVideo.exists() || !(previewVideo.size() > 0)) {
         emit createWallpaperStateChanged(Import::State::ConvertingPreviewVideoError);
         return false;
     }
-
-    emit processOutput(ffmpegOut);
 
     emit createWallpaperStateChanged(Import::State::ConvertingPreviewVideoFinished);
 
@@ -457,6 +498,11 @@ bool CreateImportVideo::createWallpaperWebpPreview()
     QStringList args;
     args.append("-y");
     args.append("-stats");
+    // Limit to 3 seconds to stay under Steam's 1MB additional preview limit.
+    if (!m_smallVideo) {
+        args.append("-t");
+        args.append("3");
+    }
     args.append("-i");
     if (m_isWebm) {
         args.append(m_videoPath);
@@ -464,17 +510,32 @@ bool CreateImportVideo::createWallpaperWebpPreview()
         args.append(m_exportPath + "/preview.webm");
     }
 
-    // Convert to WebP animated image with optimized settings
+    // Convert to WebP animated image, cropped to 16:9 at 636x358.
+    // 636 width matches the Steam web preview display size.
+    // The input (preview.webm) is already ~5s, but we add -t 5 above as a
+    // safety net for the m_isWebm path where we read from the original.
+    // Lower quality (40) and higher compression (6) to stay under Steam's
+    // 1MB AddItemPreviewFile limit.
+    // IMPORTANT: when the input is preview.webm it is already 16:9 (854x480),
+    // so do NOT apply crop again - only scale. Crop is only needed when reading
+    // directly from the original source video (m_isWebm path).
     args.append("-vf");
-    args.append("fps=12,scale=w=480:h=-1");
+    if (m_isWebm) {
+        const QString crop = build16x9CropFilter();
+        const QString cropPart = crop.isEmpty() ? QString() : (crop + ",");
+        args.append(cropPart + "fps=12,scale=636:358");
+    } else {
+        // preview.webm is already cropped - just resample fps and scale down
+        args.append("fps=12,scale=636:358");
+    }
     args.append("-c:v");
     args.append("libwebp");
     args.append("-lossless");
     args.append("0");
     args.append("-compression_level");
-    args.append("4");
+    args.append("6");
     args.append("-quality");
-    args.append("75");
+    args.append("40");
     args.append("-preset");
     args.append("default");
     args.append("-loop");
@@ -483,19 +544,56 @@ bool CreateImportVideo::createWallpaperWebpPreview()
 
     emit processOutput("ffmpeg " + Util().toString(args));
 
-    const QString ffmpegOut = waitForFinished(args);
+    // Use MergedChannels so ffmpeg stderr (errors, stats) appears in QML logs
+    const QString ffmpegOut = waitForFinished(args, QProcess::MergedChannels);
+    emit processOutput(ffmpegOut);
 
-    if (!ffmpegOut.isEmpty()) {
-        const QFile previewWebp(m_exportPath + "/preview.webp");
-        if (!previewWebp.exists() || !(previewWebp.size() > 0)) {
-            emit createWallpaperStateChanged(Import::State::ConvertingPreviewWebpError);
-            return false;
-        }
+    const QFile previewWebp(m_exportPath + "/preview.webp");
+    if (!previewWebp.exists() || !(previewWebp.size() > 0)) {
+        emit createWallpaperStateChanged(Import::State::ConvertingPreviewWebpError);
+        return false;
     }
 
-    emit processOutput(ffmpegOut);
     emit createWallpaperStateChanged(Import::State::ConvertingPreviewWebpFinished);
 
+    return true;
+}
+
+/*!
+  \brief Creates an optimised animated GIF preview via \c GifOptimizer.
+         Uses the already-generated preview.webm (5 s, 854x480, 16:9) as
+         input and adaptively reduces quality until the output fits under
+         Steam's 1 MB AddItemPreviewFile limit.
+  Returns \c false if the optimisation fails or no tier fits.
+ */
+bool CreateImportVideo::createWallpaperGifPreview()
+{
+    emit createWallpaperStateChanged(Import::State::ConvertingPreviewGif);
+
+    GifOptimizer optimizer(m_ffmpegExecutable, m_interrupt);
+    connect(&optimizer, &GifOptimizer::processOutput,
+        this, &CreateImportVideo::processOutput);
+
+    const QString inputPath = m_exportPath + "/preview.webm";
+    const QString outputPath = m_exportPath + "/preview.gif";
+
+    auto result = optimizer.optimize(inputPath, outputPath);
+
+    if (!result) {
+        emit processOutput(result.error().message);
+        emit createWallpaperStateChanged(Import::State::ConvertingPreviewGifError);
+        return false;
+    }
+
+    emit processOutput(QString("GIF created: %1 bytes, %2x%3 @ %4fps, %5 colors, pass %6")
+                            .arg(result->fileSize)
+                            .arg(result->width)
+                            .arg(result->height)
+                            .arg(result->fps)
+                            .arg(result->maxColors)
+                            .arg(result->passUsed));
+
+    emit createWallpaperStateChanged(Import::State::ConvertingPreviewGifFinished);
     return true;
 }
 
@@ -530,13 +628,16 @@ bool CreateImportVideo::createWallpaperImageThumbnailPreview()
     }
     args.append("-q:v");
     args.append("2");
-    if (m_smallVideo) {
-        args.append("-vf");
-        // Select first frame https://stackoverflow.com/a/44073745/12619313
-        args.append("select=eq(n\\,0), scale=320:-1");
-    } else {
-        args.append("-vf");
-        args.append("scale=320:-1");
+    args.append("-vf");
+    {
+        const QString crop = build16x9CropFilter();
+        const QString cropPart = crop.isEmpty() ? QString() : (crop + ",");
+        if (m_smallVideo) {
+            // Select first frame https://stackoverflow.com/a/44073745/12619313
+            args.append("select=eq(n\\,0)," + cropPart + "scale=320:180");
+        } else {
+            args.append(cropPart + "scale=320:180");
+        }
     }
     args.append(m_exportPath + "/previewThumbnail.jpg");
 
@@ -583,13 +684,17 @@ bool CreateImportVideo::createWallpaperImagePreview()
     }
     args.append("-q:v");
     args.append("2");
-    if (m_smallVideo) {
-        args.append("-vf");
-        // Select first frame https://stackoverflow.com/a/44073745/12619313
-        args.append("select=eq(n\\,0), scale=480:-1");
-    } else {
-        args.append("-vf");
-        args.append("scale=480:-1");
+    args.append("-vf");
+    {
+        // Crop to 16:9 and scale to 854x480 for a consistent preview size.
+        const QString crop = build16x9CropFilter();
+        const QString cropPart = crop.isEmpty() ? QString() : (crop + ",");
+        if (m_smallVideo) {
+            // Select first frame https://stackoverflow.com/a/44073745/12619313
+            args.append("select=eq(n\\,0)," + cropPart + "scale=854:480");
+        } else {
+            args.append(cropPart + "scale=854:480");
+        }
     }
     args.append(m_exportPath + "/preview.jpg");
 
@@ -703,151 +808,107 @@ bool CreateImportVideo::createWallpaperVideo()
     QString targetCodec;
     QString targetFileEnding;
     QString targetFormat;
-    bool usesTwoPassEncoding = false;
 
     if (m_targetCodec == Video::VideoCodec::VP8) {
         targetCodec = "libvpx";
         targetFileEnding = ".webm";
         targetFormat = "webm";
-        usesTwoPassEncoding = true;
     } else if (m_targetCodec == Video::VideoCodec::VP9) {
         targetCodec = "libvpx-vp9";
         targetFileEnding = ".webm";
         targetFormat = "webm";
-        usesTwoPassEncoding = true;
     } else if (m_targetCodec == Video::VideoCodec::AV1) {
-        targetCodec = "libaom-av1";
+        if (QOperatingSystemVersion::currentType() == QOperatingSystemVersion::Windows) {
+            targetCodec = "libsvtav1";
+        } else {
+            targetCodec = "libaom-av1";
+        }
         targetFileEnding = ".mkv";
         targetFormat = "matroska";
-        usesTwoPassEncoding = true;
     } else if (m_targetCodec == Video::VideoCodec::H264) {
         targetFileEnding = ".mp4";
         targetFormat = "mp4";
-        usesTwoPassEncoding = false;
-        if (QOperatingSystemVersion::currentType() == QOperatingSystemVersion::Windows) {
-            targetCodec = "h264_mf";
-        } else {
+        // if (QOperatingSystemVersion::currentType() == QOperatingSystemVersion::Windows) {
+        //     targetCodec = "h264_mf";
+        // } else {
             targetCodec = "libx264";
-        }
+        // }
     }
 
     const QString convertedFileAbsolutePath { m_exportPath + "/" + sourceFile.completeBaseName() + targetFileEnding };
+    const int threads = QThread::idealThreadCount();
 
     QStringList args;
-    if (usesTwoPassEncoding) {
-        // Two-pass encoding for VP8/VP9/AV1
-        args.append("-hide_banner");
-        args.append("-y");
-        args.append("-stats");
-        args.append("-i");
-        args.append(m_videoPath);
-        args.append("-c:v");
-        args.append(targetCodec);
+    args.append("-hide_banner");
+    args.append("-y");
+    args.append("-stats");
+    args.append("-i");
+    args.append(m_videoPath);
+    args.append("-c:v");
+    args.append(targetCodec);
+
+    if (m_targetCodec == Video::VideoCodec::VP8
+        || m_targetCodec == Video::VideoCodec::VP9
+        || m_targetCodec == Video::VideoCodec::AV1) {
+        // Single-pass CRF: constant quality, no bitrate cap needed for local wallpapers.
+        // -b:v 0 tells libvpx to use pure CRF mode (no bitrate ceiling).
         args.append("-b:v");
-        args.append("13000k");
-        args.append("-threads");
-        args.append(QString::number(QThread::idealThreadCount()));
-        qCInfo(createImportVideo) << "threads" << QThread::idealThreadCount() << "m_quality" << m_quality;
-
-        // VP9/VP8 specific parameters
-        if (m_targetCodec == Video::VideoCodec::VP8 || m_targetCodec == Video::VideoCodec::VP9) {
-            args.append("-speed");
-            args.append("4");
-            args.append("-tile-columns");
-            args.append("0");
-            args.append("-frame-parallel");
-            args.append("0");
-        }
-
+        args.append("0");
         args.append("-crf");
         args.append(QString::number(m_quality));
-        args.append("-pass");
-        args.append("1");
-        args.append("-an");
-        args.append("-f");
-        args.append(targetFormat);
-
-#ifdef Q_OS_WIN
-        args.append("NULL");
-#else
-        args.append("/dev/null");
-#endif
-
-        waitForFinished(args);
-
-        // Second pass
-        args.clear();
-        args.append("-hide_banner");
-        args.append("-y");
-        args.append("-stats");
-        args.append("-i");
-        args.append(m_videoPath);
-        args.append("-c:v");
-        args.append(targetCodec);
-        args.append("-b:v");
-        args.append("13000k");
         args.append("-threads");
-        args.append(QString::number(QThread::idealThreadCount()));
+        args.append(QString::number(threads));
 
-        // VP9/VP8 specific parameters for second pass
-        if (m_targetCodec == Video::VideoCodec::VP8 || m_targetCodec == Video::VideoCodec::VP9) {
+        if (m_targetCodec == Video::VideoCodec::VP9) {
+            // -speed 2: good quality/speed tradeoff (0=slowest/best, 5=fastest)
             args.append("-speed");
-            args.append("0");
+            args.append("2");
+            // Enable tile-column parallelism so threads are actually used.
+            // tile-columns=2 → 4 tile columns for ≥1080p, good for 4-16 threads.
             args.append("-tile-columns");
-            args.append("0");
-            args.append("-frame-parallel");
-            args.append("0");
+            args.append("2");
+            args.append("-row-mt");
+            args.append("1");
             args.append("-auto-alt-ref");
             args.append("1");
             args.append("-lag-in-frames");
             args.append("25");
+        } else if (m_targetCodec == Video::VideoCodec::VP8) {
+            args.append("-speed");
+            args.append("2");
         }
 
-        args.append("-crf");
-        args.append(QString::number(m_quality));
-        args.append("-pass");
-        args.append("2");
+        qCInfo(createImportVideo) << "threads" << threads << "m_quality" << m_quality;
+
+        if (!m_skipAudio) {
+            args.append("-c:a");
+            args.append("libopus");
+            args.append("-b:a");
+            args.append("128k");
+        } else {
+            args.append("-an");
+        }
+
         args.append(convertedFileAbsolutePath);
     } else {
-        // Single-pass encoding for H.264
-        args.append("-hide_banner");
-        args.append("-y");
-        args.append("-stats");
-        args.append("-i");
-        args.append(m_videoPath);
-        args.append("-c:v");
-        args.append(targetCodec);
-
-        // Use CRF for quality control (lower = better quality)
-        // For H.264: 18-23 is visually lossless to high quality
-        // Map input quality (likely 0-100) to CRF (51-18)
-        int h264Crf = 18; // Default to high quality
-        if (m_quality > 0 && m_quality <= 100) {
-            // Map quality 0-100 to CRF 28-18 (higher quality range)
-            h264Crf = 28 - static_cast<int>((m_quality / 100.0) * 10);
-        }
+        // Single-pass CRF encoding for H.264.
+        // m_quality uses the VP9-style scale (0 = best, 63 = worst).
+        // Map linearly to the useful H.264 CRF range: 17 (visually lossless) – 28 (acceptable).
+        // No bitrate cap needed for local wallpapers (same rationale as VP9 path).
+        int h264Crf = 17 + static_cast<int>(std::round(m_quality * 11.0 / 63.0));
         args.append("-crf");
         args.append(QString::number(h264Crf));
 
-        // Use slower preset for better quality/compression ratio
         args.append("-preset");
         args.append("slow");
 
-        // Set pixel format for compatibility and quality
         args.append("-pix_fmt");
         args.append("yuv420p");
 
-        // Add bitrate limit to prevent extremely large files
-        args.append("-maxrate");
-        args.append("15000k");
-        args.append("-bufsize");
-        args.append("30000k");
-
         args.append("-threads");
-        args.append(QString::number(QThread::idealThreadCount()));
-        qCInfo(createImportVideo) << "threads" << QThread::idealThreadCount() << "m_quality" << m_quality << "h264Crf" << h264Crf;
+        args.append(QString::number(threads));
+        qCInfo(createImportVideo) << "threads" << threads << "m_quality" << m_quality << "h264Crf" << h264Crf;
 
-        // Copy audio if present (unless skipped)
         if (!m_skipAudio) {
             args.append("-c:a");
             args.append("aac");

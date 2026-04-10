@@ -58,10 +58,12 @@ public:
     Video::VideoCodec m_targetCodec;
     Video::VideoCodec m_sourceCodec;
 
-    const int m_quality = 50;
+    const int m_quality = 10;
     int m_numberOfFrames { 0 };
     int m_length { 0 };
     int m_framerate { 0 };
+    int m_videoWidth { 0 };
+    int m_videoHeight { 0 };
 
 signals:
     void createWallpaperStateChanged(ScreenPlay::Import::State state);
@@ -74,6 +76,7 @@ public slots:
     bool createWallpaperInfo();
     bool createWallpaperVideoPreview();
     bool createWallpaperWebpPreview();
+    bool createWallpaperGifPreview();
     bool createWallpaperImagePreview();
     bool createWallpaperVideo();
     bool extractWallpaperAudio();
@@ -101,6 +104,10 @@ private:
     bool analyzeWebmReadFrames(const QJsonObject& obj);
     bool analyzeVideo(const QJsonObject& obj);
     void setupFFMPEG();
+
+public:
+    // Returns "crop=W:H" centered on the 16:9 region of the source, or "" if dimensions unknown.
+    QString build16x9CropFilter() const;
 
 private:
     QString m_ffprobeExecutable;
