@@ -74,8 +74,7 @@ bool SteamWorkshopSearch::searchWorkshop(const ScreenPlayCore::Steam::EUGCQuery 
     m_workshopListModel->reset();
     m_workshopListModel->setIsLoading(true);
 
-    auto query = UGCQueryBuilder::allItems(m_appID, static_cast<EUGCQuery>(enumEUGCQuery), m_workshopListModel->currentPage())
-                     .withDefaults();
+    auto query = UGCQueryBuilder::allItems(m_appID, static_cast<EUGCQuery>(enumEUGCQuery), m_workshopListModel->currentPage());
 
     m_searchHandle = query.handle();
     qCInfo(workshopSearch) << m_searchHandle;
@@ -136,8 +135,6 @@ bool SteamWorkshopSearch::loadNextPage()
         }
     }
 
-    query.withDefaults();
-
     SteamAsyncCall<SteamUGCQueryCompleted_t>::create(query.send(), [this](auto* cb, bool io) { onWorkshopSearched(cb, io); }, this);
     return true;
 }
@@ -175,7 +172,6 @@ void SteamWorkshopSearch::searchWorkshopByText(const QString& text, const Screen
     m_workshopListModel->setIsLoading(true);
 
     auto apiCall = UGCQueryBuilder::allItems(m_appID, static_cast<EUGCQuery>(rankedBy), m_workshopListModel->currentPage())
-                       .withDefaults()
                        .withSearchText(parsed.text)
                        .withRequiredTags(parsed.tags)
                        .send();
@@ -217,7 +213,6 @@ void SteamWorkshopSearch::searchWorkshopByUser(const QString& steamID64)
         EUGCMatchingUGCType::k_EUGCMatchingUGCType_All,
         EUserUGCListSortOrder::k_EUserUGCListSortOrder_LastUpdatedDesc,
         m_workshopListModel->currentPage())
-                       .withDefaults()
                        .send();
 
     SteamAsyncCall<SteamUGCQueryCompleted_t>::create(apiCall, [this](auto* cb, bool io) { onWorkshopSearched(cb, io); }, this);
@@ -284,15 +279,47 @@ bool SteamWorkshopSearch::queryWorkshopItemFromHandle(SteamWorkshopListModel* li
                 SteamUGC()->GetQueryUGCStatistic(pCallback->m_handle, i, EItemStatistic::k_EItemStatistic_NumSubscriptions, &subscriptionCount);
 
                 int addPreviewCount = SteamUGC()->GetQueryUGCNumAdditionalPreviews(pCallback->m_handle, i);
-                QUrl additionalPreviewUrl;
+                QUrl additionalPreviewUrl;      // animated preview (GIF or Steam-converted WebP→GIF)
+                qInfo() << "Item" << details.m_rgchTitle
+                        << "mainPreview:" << urlData
+                        << "addPreviewCount:" << addPreviewCount;
 
                 for (int j = 0; j < addPreviewCount; ++j) {
                     std::array<char, 2000> pchURLOrVideoID {};
                     std::array<char, 2000> pchOriginalFileName {};
                     EItemPreviewType previewType;
-                    SteamUGC()->GetQueryUGCAdditionalPreview(pCallback->m_handle, i, j, pchURLOrVideoID.data(), pchURLOrVideoID.size(), pchOriginalFileName.data(), pchOriginalFileName.size(), &previewType);
-                    additionalPreviewUrl = QByteArray(pchURLOrVideoID.data());
+                    SteamUGC()->GetQueryUGCAdditionalPreview(
+                        pCallback->m_handle,
+                         i, 
+                         j, 
+                         pchURLOrVideoID.data(), 
+                         pchURLOrVideoID.size(), 
+                         pchOriginalFileName.data(), 
+                         pchOriginalFileName.size(),
+                          &previewType);
+                    const QString previewUrl = QByteArray(pchURLOrVideoID.data());
+                    const QString originalFileName = QByteArray(pchOriginalFileName.data());
+                    qInfo() << "Additional preview" << j << "of" << addPreviewCount
+                            << "url:" << previewUrl
+                            << "originalFileName:" << originalFileName
+                            << "previewType:" << static_cast<int>(previewType);
+
+                    // Steam CDN URLs have no file extension (ugc/{id}/{hash}/?imw=...),
+                    // so we must classify by originalFileName.
+                    // Animated previews: .gif, .webp (Steam converts WebP→GIF on serve).
+                    // Static previews: .jpg, .png — skip, we already have the main preview.
+                    if (originalFileName.endsWith(".gif", Qt::CaseInsensitive)
+                        || originalFileName.endsWith(".webp", Qt::CaseInsensitive)) {
+                        // Strip query params (imw, imh, impolicy, etc.) — they cause
+                        // Steam's CDN to re-encode/resize, which can break animation.
+                        QUrl rawUrl(previewUrl);
+                        rawUrl.setQuery(QString());
+                        additionalPreviewUrl = rawUrl;
+                    }
+                    // .jpg/.png additional previews are intentionally ignored
                 }
+                qInfo() << "Resolved animated preview for" << details.m_rgchTitle
+                        << "url:" << additionalPreviewUrl;
 
                 WorkshopItem item {
                     QVariant::fromValue<uint64>(details.m_nPublishedFileId),
@@ -300,6 +327,7 @@ bool SteamWorkshopSearch::queryWorkshopItemFromHandle(SteamWorkshopListModel* li
                     QString(details.m_rgchTitle),
                     QUrl(urlData),
                     additionalPreviewUrl,
+                    QUrl(), // WebP URL unused — Steam converts WebP to GIF
                     QString(details.m_rgchTags).split(",", Qt::SkipEmptyParts),
                     details.m_ulSteamIDOwner == m_facade.steamAccount()->steamID64(),
                     details.m_ulSteamIDOwner

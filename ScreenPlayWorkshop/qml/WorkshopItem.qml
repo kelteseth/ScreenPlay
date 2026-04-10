@@ -11,6 +11,7 @@ Item {
 
     property url imgUrl
     property url additionalPreviewUrl
+    property url additionalPreviewWebpUrl
     property string name
     property var publishedFileID: 0
     property int itemIndex
@@ -25,6 +26,9 @@ Item {
     readonly property bool enableAnimations: !root.isScrolling
 
     signal clicked(var publishedFileID, url imgUrl)
+
+    // Prefer animated WebP (higher quality) over GIF when available
+    readonly property url bestAnimatedPreviewUrl: root.additionalPreviewWebpUrl != "" ? root.additionalPreviewWebpUrl : root.additionalPreviewUrl
 
     width: 320
     height: 180
@@ -72,7 +76,9 @@ Item {
                 playing: animatedImage.status === AnimatedImage.Ready && !root.isScrolling && hoverArea.containsMouse
                 sourceSize: Qt.size(320, 180)
                 fillMode: Image.PreserveAspectCrop
-                source: root.additionalPreviewUrl
+                // Lazy-load: only fetch the animated preview when hovered.
+                // Qt detects GIF/WebP from content bytes, no extension needed.
+                source: hoverArea.containsMouse && root.bestAnimatedPreviewUrl != "" ? root.bestAnimatedPreviewUrl : ""
                 opacity: animatedImage.status === AnimatedImage.Ready && !root.isScrolling && hoverArea.containsMouse ? 1 : 0
                 visible: animatedImage.status !== AnimatedImage.Error
 
@@ -87,11 +93,11 @@ Item {
             Loader {
                 id: videoLoader
                 anchors.fill: parent
-                active: animatedImage.status === AnimatedImage.Error && !root.isScrolling && hoverArea.containsMouse && root.additionalPreviewUrl !== ""
+                active: animatedImage.status === AnimatedImage.Error && !root.isScrolling && hoverArea.containsMouse && root.bestAnimatedPreviewUrl !== ""
 
                 sourceComponent: Video {
                     anchors.fill: parent
-                    source: root.additionalPreviewUrl
+                    source: root.bestAnimatedPreviewUrl
                     loops: MediaPlayer.Infinite
                     fillMode: VideoOutput.PreserveAspectCrop
 

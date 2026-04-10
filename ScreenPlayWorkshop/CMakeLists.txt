@@ -145,25 +145,26 @@ qt_add_resources(
     qtquickcontrols2.conf)
 
 if(${SCREENPLAY_STEAM})
-    if(APPLE)
-        # Copy Steam files after the ScreenPlayApp target is built (when the .app bundle exists)
-        add_custom_command(
-            TARGET ScreenPlayWorkshopLib
-            POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/"
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt"
-                    "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/"
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${STEAM_BINARY_PATH}" "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/"
-            COMMENT "Copying Steam files to macOS bundle")
+    # Copy Steam runtime files to all output directories that need them
+    set(_steam_copy_dirs ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
-        # Install Steam files for macOS
+    # Test executables in the ScreenPlay subproject have a different output directory
+    if(${SCREENPLAY_TESTS})
+        list(APPEND _steam_copy_dirs "${CMAKE_BINARY_DIR}/ScreenPlay")
+    endif()
+
+    list(REMOVE_DUPLICATES _steam_copy_dirs)
+
+    foreach(_dir ${_steam_copy_dirs})
+        file(MAKE_DIRECTORY "${_dir}")
+        file(COPY_FILE "${STEAM_BINARY_PATH}" "${_dir}/${STEAM_BINARY}" ONLY_IF_DIFFERENT)
+        file(COPY_FILE "${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt" "${_dir}/steam_appid.txt" ONLY_IF_DIFFERENT)
+    endforeach()
+
+    if(APPLE)
         install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt" DESTINATION "ScreenPlay.app/Contents/MacOS/")
         install(FILES "${STEAM_BINARY_PATH}" DESTINATION "ScreenPlay.app/Contents/MacOS/")
     else()
-        configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
-        configure_file(${STEAM_BINARY_PATH} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
-
-        # Install Steam files for Windows/Linux
         install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt" DESTINATION "${CMAKE_INSTALL_BINDIR}")
         install(FILES "${STEAM_BINARY_PATH}" DESTINATION "${CMAKE_INSTALL_BINDIR}")
     endif()

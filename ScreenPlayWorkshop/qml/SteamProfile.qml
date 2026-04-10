@@ -274,6 +274,7 @@ Item {
             name: m_workshopTitle
             publishedFileID: m_publishedFileID
             additionalPreviewUrl: m_additionalPreviewUrl
+            additionalPreviewWebpUrl: m_additionalPreviewWebpUrl
             subscriptionCount: m_subscriptionCount
             itemIndex: index
             steamWorkshop: root.steamWorkshop

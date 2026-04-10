@@ -58,6 +58,7 @@ public:
         TitleRole,
         ImageUrlRole,
         AdditionalPreviewUrlRole,
+        AdditionalPreviewWebpUrlRole,
         PublishedFileIDRole,
         SubscriptionCountRole,
         TagsRole,

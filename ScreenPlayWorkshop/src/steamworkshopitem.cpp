@@ -106,31 +106,7 @@ void SteamWorkshopItem::uploadItemToWorkshop(CreateItemResult_t* pCallback, bool
         youtube = jsonObject.value("youtube").toString();
     }
 
-    if (!youtube.isEmpty()) {
-        SteamUGC()->AddItemPreviewVideo(m_UGCUpdateHandle, QByteArray(youtube.toUtf8().data()));
-    }
-
     QDir absoluteContentdir { absoluteContentPath };
-
-    if (jsonObject.contains("previewGIF")) {
-        const QString previewGIF = jsonObject.value("previewGIF").toString();
-        QFile previewGifFile { absoluteContentdir.path() + "/" + previewGIF };
-        qInfo() << previewGifFile.size();
-        if (previewGifFile.exists() && previewGifFile.size() <= (1000 * 1000))
-            SteamUGC()->AddItemPreviewFile(m_UGCUpdateHandle,
-                QByteArray(QString { absoluteContentPath + "/" + previewGIF }.toUtf8()).data(),
-                EItemPreviewType::k_EItemPreviewType_Image);
-    }
-
-    if (absoluteContentdir.exists("previewWEBM")) {
-        const QString previewWEBM = jsonObject.value("previewWEBM").toString();
-        QFile previewWEBMFile { absoluteContentdir.path() + "/" + previewWEBM };
-        qInfo() << previewWEBMFile.size();
-        if (previewWEBMFile.exists() && previewWEBMFile.size() <= (1000 * 1000))
-            SteamUGC()->AddItemPreviewFile(m_UGCUpdateHandle,
-                QByteArray(QString { absoluteContentPath + "/preview.webm" }.toUtf8()).data(),
-                EItemPreviewType::k_EItemPreviewType_Image);
-    }
 
     QStringList tags;
     if (jsonObject.contains("tags")) {
@@ -145,6 +121,7 @@ void SteamWorkshopItem::uploadItemToWorkshop(CreateItemResult_t* pCallback, bool
         tags.append(jsonObject.value("type").toString());
     }
 
+    // StartItemUpdate MUST be called before any Set*/Add* calls
     m_UGCUpdateHandle = SteamUGC()->StartItemUpdate(m_appID, pCallback->m_nPublishedFileId);
     if (m_UGCUpdateHandle == k_UGCUpdateHandleInvalid) {
         qWarning() << "StartItemUpdate returned invalid handle - cannot upload item";
@@ -158,13 +135,47 @@ void SteamWorkshopItem::uploadItemToWorkshop(CreateItemResult_t* pCallback, bool
     if (!success) {
         qWarning() << "Failed to set item tags";
     }
-    SteamUGC()->AddItemPreviewFile(m_UGCUpdateHandle, QByteArray(preview.toUtf8()).data(), EItemPreviewType::k_EItemPreviewType_Image);
     SteamUGC()->SetItemTitle(m_UGCUpdateHandle, QByteArray(title.toUtf8().data()));
     SteamUGC()->SetItemDescription(m_UGCUpdateHandle, QByteArray(description.toUtf8()).data());
     SteamUGC()->SetItemUpdateLanguage(m_UGCUpdateHandle, QByteArray(language.toUtf8()).data());
     SteamUGC()->SetItemContent(m_UGCUpdateHandle, QByteArray(absoluteContentPath.toUtf8()).data());
     SteamUGC()->SetItemPreview(m_UGCUpdateHandle, QByteArray(preview.toUtf8()).data());
     SteamUGC()->SetItemVisibility(m_UGCUpdateHandle, ERemoteStoragePublishedFileVisibility::k_ERemoteStoragePublishedFileVisibilityPublic);
+
+    if (!youtube.isEmpty()) {
+        SteamUGC()->AddItemPreviewVideo(m_UGCUpdateHandle, QByteArray(youtube.toUtf8().data()));
+    }
+
+    // NOTE: preview.jpg is already set as main preview via SetItemPreview above.
+    // Do NOT also add it via AddItemPreviewFile — Steam returns k_EResultInvalidParam (8)
+    // when the same file appears as both main and additional preview.
+
+    // Upload ONE animated preview: prefer WebP (<1MB), fall back to GIF (<1MB).
+    // Steam requires additional previews to be under 1MB.
+    bool uploadedAnimatedPreview = false;
+    if (jsonObject.contains("previewWEBP")) {
+        const QString previewWEBP = jsonObject.value("previewWEBP").toString();
+        QFile previewWEBPFile { absoluteContentdir.path() + "/" + previewWEBP };
+        qInfo() << "previewWEBP path:" << previewWEBPFile.fileName() << "size:" << previewWEBPFile.size();
+        if (previewWEBPFile.exists() && previewWEBPFile.size() <= (1000 * 1000)) {
+            SteamUGC()->AddItemPreviewFile(m_UGCUpdateHandle,
+                QByteArray(QString { absoluteContentPath + "/" + previewWEBP }.toUtf8()).data(),
+                EItemPreviewType::k_EItemPreviewType_Image);
+            uploadedAnimatedPreview = true;
+            qInfo() << "Uploaded WebP as animated preview";
+        }
+    }
+    if (!uploadedAnimatedPreview && jsonObject.contains("previewGIF")) {
+        const QString previewGIF = jsonObject.value("previewGIF").toString();
+        QFile previewGIFFile { absoluteContentdir.path() + "/" + previewGIF };
+        qInfo() << "previewGIF path:" << previewGIFFile.fileName() << "size:" << previewGIFFile.size();
+        if (previewGIFFile.exists() && previewGIFFile.size() <= (1000 * 1000)) {
+            SteamUGC()->AddItemPreviewFile(m_UGCUpdateHandle,
+                QByteArray(QString { absoluteContentPath + "/" + previewGIF }.toUtf8()).data(),
+                EItemPreviewType::k_EItemPreviewType_Image);
+            qInfo() << "Uploaded GIF as animated preview (WebP was too large or missing)";
+        }
+    }
 
     m_publishedFileId = QVariant::fromValue<uint64>(pCallback->m_nPublishedFileId);
     saveWorkshopID();
@@ -209,8 +220,9 @@ void SteamWorkshopItem::submitItemUpdateStatus(SubmitItemUpdateResult_t* pCallba
         break;
     }
     default: {
-        // Intermediate/unexpected states — log but do not treat as completed
-        qDebug() << "Unexpected submit result:" << pCallback->m_eResult;
+        qWarning() << "Upload failed with Steam result:" << pCallback->m_eResult;
+        emit uploadComplete(false);
+        setUploadProgress(0);
         break;
     }
     }

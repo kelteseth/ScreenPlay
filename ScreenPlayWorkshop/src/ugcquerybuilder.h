@@ -18,7 +18,6 @@ namespace ScreenPlayWorkshop {
     Usage:
     \code
     auto apiCall = UGCQueryBuilder::allItems(appID, queryType, page)
-        .withDefaults()
         .withSearchText("space")
         .send();
     \endcode
@@ -37,6 +36,7 @@ public:
             queryType,
             k_EUGCMatchingUGCType_Items,
             appID, appID, page);
+        b.applyDefaults();
         return b;
     }
 
@@ -50,6 +50,7 @@ public:
         b.m_handle = SteamUGC()->CreateQueryUserUGCRequest(
             accountID, list, matchingType, sortOrder,
             appID, appID, page);
+        b.applyDefaults();
         return b;
     }
 
@@ -57,6 +58,7 @@ public:
     {
         UGCQueryBuilder b;
         b.m_handle = SteamUGC()->CreateQueryUGCDetailsRequest(ids, count);
+        b.applyDefaults();
         return b;
     }
 
@@ -64,7 +66,7 @@ public:
 
     UGCQueryBuilder& withPreviews()
     {
-        SteamUGC()->SetReturnAdditionalPreviews(m_handle, true);
+        const bool ok = SteamUGC()->SetReturnAdditionalPreviews(m_handle, true);
         return *this;
     }
 
@@ -84,13 +86,6 @@ public:
     {
         SteamUGC()->SetReturnChildren(m_handle, true);
         return *this;
-    }
-
-    /// Convenience: sets additional previews, key-value tags, and long description
-    /// (the three flags every workshop search query needs).
-    UGCQueryBuilder& withDefaults()
-    {
-        return withPreviews().withKeyValueTags().withLongDescription();
     }
 
     UGCQueryBuilder& withSearchText(const QString& text)
@@ -120,6 +115,14 @@ public:
 
 private:
     UGCQueryHandle_t m_handle = 0;
+
+    /// Applied automatically by every factory method.
+    void applyDefaults()
+    {
+        withPreviews();
+        withKeyValueTags();
+        withLongDescription();
+    }
 };
 
 } // namespace ScreenPlayWorkshop

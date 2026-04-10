@@ -73,8 +73,7 @@ Page {
         }
 
         // For errors, show a generic message with the error code
-        // This avoids the massive switch statement while still being informative
-        root.contentItem.txtStatus.statusText = qsTr("Error: %1").arg(steamStatus)
+        txtStatus.statusText = qsTr("Error: %1").arg(steamStatus)
         root.contentItem.state = "error"
     }
 

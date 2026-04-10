@@ -12,6 +12,7 @@
 #include "ScreenPlayCore/testhelper.h"
 #include "screenplayworkshop.h"
 #include "steamworkshop.h"
+#include "steamworkshopitemops.h"
 #include "uploadlistmodel.h"
 
 #include "CMakeVariables.h"
@@ -248,7 +249,7 @@ void WorkshopUploadTest::upload_and_delete_workshop_item()
             bool deleteCompleted = false;
             bool deleteSuccess = false;
 
-            auto connection = QObject::connect(m_steamWorkshop, &ScreenPlayWorkshop::SteamWorkshop::workshopItemDeleted,
+            auto connection = QObject::connect(m_steamWorkshop->itemOps(), &ScreenPlayWorkshop::SteamWorkshopItemOps::workshopItemDeleted,
                 this, [&deleteCompleted, &deleteSuccess, fileID](bool success, QVariant publishedFileID) {
                     if (publishedFileID == fileID) {
                         deleteCompleted = true;
@@ -259,7 +260,7 @@ void WorkshopUploadTest::upload_and_delete_workshop_item()
 
             const quint64 itemId = fileID.toULongLong();
             qInfo() << "Requesting deletion of workshop item:" << itemId;
-            m_steamWorkshop->deleteItem(fileID);
+            m_steamWorkshop->itemOps()->deleteItem(fileID);
 
             const bool deleteFinished = waitForCondition([&deleteCompleted]() { return deleteCompleted; }, 30000);
             QObject::disconnect(connection);
