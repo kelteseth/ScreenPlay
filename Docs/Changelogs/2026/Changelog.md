@@ -19,6 +19,8 @@ Version: v1.0.0 (in progress, branch: revise-steam-workshop)
 - **Workshop upload test** ([`96f82efc`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/96f82efc))
 - **Background blur item** reusable component ([`d3cacb61`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/d3cacb61))
 - **Controls config** for Godot wallpapers ([`be932d14`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/be932d14))
+- **`FireworksEffect`** — reusable particle fireworks component added to `ScreenPlayCore` (MIT, based on [Partycles](https://jonathanleane.github.io/partycles/))
+- **Upload completion fireworks** — Workshop upload page shows a fireworks celebration and completion message once all items finish uploading
 
 ## Changed
 
@@ -27,6 +29,8 @@ Version: v1.0.0 (in progress, branch: revise-steam-workshop)
 - **`SteamWorkshopItem` animations** aligned with InstalledView card style ([`96d922d0`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/96d922d0))
 - **Icons moved into ScreenPlayCore** module ([`760e47c1`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/760e47c1))
 - Sidebar background blur revised ([`c36fd08d`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/c36fd08d))
+- **Delete workshop item dialog** stays open with a spinner while the Steam API call is in flight (can take up to 10 s); closes and pops the page only on success
+- **Workshop item detail page** coerces all Steam `publishedFileID` comparisons to `String` to avoid JS float precision loss for 64-bit IDs
 - **Sentry CLI updated** to 3.2.1 in CI ([`bb5e55b0`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/bb5e55b00ff7c03499fa5a08011976d2971234c4))
 
 ## Fixed

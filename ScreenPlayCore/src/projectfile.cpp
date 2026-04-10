@@ -102,7 +102,10 @@ bool ProjectFile::init()
     }
 
     if (type == ContentTypes::InstalledType::GifWallpaper) {
-        preview = previewGIF;
+        // Prefer static preview images over the GIF itself.
+        // Only fall back to the GIF if no preview/previewThumbnail was set.
+        if (preview.isEmpty())
+            preview = previewGIF;
     }
     if (type == ContentTypes::InstalledType::WebsiteWallpaper) {
         if (url.isEmpty()) {

@@ -106,21 +106,24 @@ def run_io_tasks_in_parallel(tasks):
 
 
 def get_vs_env_dict():
-    vcvars: str  # We support 2019 or 2022
+    vcvars: str  # We support 2019, 2022 or 18 (2026)
 
     # Hardcoded VS path
     # check if vcvars64.bat is available.
     msvc_2019_path = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\Build\\vcvars64.bat"
     msvc_2022_path = "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Auxiliary\\Build\\vcvars64.bat"
+    msvc_18_path = "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Auxiliary\\Build\\vcvars64.bat"
 
     if Path(msvc_2019_path).exists():
         vcvars = msvc_2019_path
     # Prefer newer MSVC and override if exists
     if Path(msvc_2022_path).exists():
         vcvars = msvc_2022_path
+    if Path(msvc_18_path).exists():
+        vcvars = msvc_18_path
     if not vcvars:
         raise RuntimeError(
-            "No Visual Studio installation found, only 2019 and 2022 are supported.")
+            "No Visual Studio installation found, only 2019, 2022 and 18 (2026) are supported.")
 
     print(f"\n\nLoading MSVC env variables via {vcvars}\n\n")
 
