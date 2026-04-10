@@ -13,6 +13,7 @@ set(SOURCES
     src/app.cpp
     src/create.cpp
     src/createimportvideo.cpp
+    src/gifoptimizer.cpp
     src/errormanager.cpp
     src/globalvariables.cpp
     src/installedcontentdata.cpp
@@ -42,6 +43,7 @@ set(HEADER
     inc/public/ScreenPlay/createimportstates.h
     inc/public/ScreenPlay/createimportvideo.h
     inc/public/ScreenPlay/errormanager.h
+    inc/public/ScreenPlay/gifoptimizer.h
     inc/public/ScreenPlay/globalvariables.h
     inc/public/ScreenPlay/installedcontentdata.h
     inc/public/ScreenPlay/installedlistfilter.h
@@ -326,6 +328,38 @@ if(${SCREENPLAY_TESTS})
     if(${SCREENPLAY_STEAM})
         target_link_libraries(tst_ScreenPlayGui PUBLIC ScreenPlayWorkshopLib ScreenPlayWorkshopLibplugin)
     endif()
+
+    # Video import tests
+    qt_add_executable(tst_VideoImport tests/tst_VideoImport.cpp)
+    target_link_libraries(
+        tst_VideoImport
+        PRIVATE ScreenPlayLib
+                ScreenPlayLibplugin
+                Qt6::Gui
+                Qt6::Test)
+
+    generate_cmake_variable_header(tst_VideoImport)
+    add_dependencies(tst_VideoImport ScreenPlayLib)
+
+    if(${SCREENPLAY_STEAM})
+        target_link_libraries(tst_VideoImport PUBLIC ScreenPlayWorkshopLib ScreenPlayWorkshopLibplugin)
+    endif()
+
+    # GIF optimizer tests
+    qt_add_executable(tst_GifOptimizer tests/tst_GifOptimizer.cpp)
+    target_link_libraries(
+        tst_GifOptimizer
+        PRIVATE ScreenPlayLib
+                ScreenPlayLibplugin
+                Qt6::Gui
+                Qt6::Test)
+
+    generate_cmake_variable_header(tst_GifOptimizer)
+    add_dependencies(tst_GifOptimizer ScreenPlayLib)
+
+    if(${SCREENPLAY_STEAM})
+        target_link_libraries(tst_GifOptimizer PUBLIC ScreenPlayWorkshopLib ScreenPlayWorkshopLibplugin)
+    endif()
 endif()
 
 if(WIN32)
@@ -446,41 +480,6 @@ qt_add_lrelease(
 
 if(APPLE)
     add_dependencies(ScreenPlayApp screenplay_translations)
-endif()
-
-if(${SCREENPLAY_STEAM})
-    if(APPLE)
-        # Add post-build commands for Steam integration
-        add_custom_command(
-            TARGET ScreenPlayApp
-            POST_BUILD
-            # Copy Steam API library
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${STEAM_BINARY_PATH}"
-                    "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/${STEAM_BINARY}"
-            # Create Steam App ID file
-            COMMAND ${CMAKE_COMMAND} -E echo "672870" > "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/steam_appid.txt"
-            COMMENT "Copying Steam files from ${STEAM_BINARY_PATH} to bundle...")
-
-        # Print the paths for debugging
-        message(STATUS "Steam root: ${STEAM_ROOT}")
-        message(STATUS "Steam binary: ${STEAM_BINARY}")
-        message(STATUS "Steam binary path: ${STEAM_BINARY_PATH}")
-    elseif(WIN32)
-        add_custom_command(
-            TARGET ScreenPlayApp
-            POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${STEAM_BINARY_PATH}" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
-
-        file(WRITE "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/steam_appid.txt" "672870")
-    elseif(UNIX AND NOT APPLE)
-        set(OUT_DIR "${CMAKE_BINARY_DIR}/ScreenPlay")
-        add_custom_command(
-            TARGET ScreenPlayApp
-            POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${STEAM_BINARY_PATH}" "${OUT_DIR}")
-
-        file(WRITE "${OUT_DIR}/steam_appid.txt" "672870")
-    endif()
 endif()
 
 # Note: We need the variables in the lib and exe!
