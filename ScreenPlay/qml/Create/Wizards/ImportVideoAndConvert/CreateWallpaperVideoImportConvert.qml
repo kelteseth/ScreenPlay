@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
+import QtMultimedia
 import ScreenPlay
 
 import ScreenPlayCore as SPCore
@@ -55,14 +56,16 @@ Item {
             case Import.State.ConvertingPreviewVideo:
                 txtConvert.text = qsTr("Generating 5 second preview video...")
                 break
+            case Import.State.ConvertingPreviewVideoFinished:
+                previewPlayer.source = "file:///" + App.create.workingDir + "/preview.webm"
+                previewPlayer.play()
+                videoPreview.visible = true
+                imgPreview.visible = false
+                break
             case Import.State.ConvertingPreviewGif:
                 txtConvert.text = qsTr("Generating preview gif...")
                 break
             case Import.State.ConvertingPreviewGifFinished:
-                gifPreview.source = "file:///" + App.create.workingDir + "/preview.gif"
-                imgPreview.visible = false
-                gifPreview.visible = true
-                gifPreview.playing = true
                 break
             case Import.State.ConvertingAudio:
                 txtConvert.text = qsTr("Converting Audio...")
@@ -151,14 +154,19 @@ Item {
                 anchors.fill: parent
             }
 
-            AnimatedImage {
-                id: gifPreview
+            VideoOutput {
+                id: videoPreview
 
-                fillMode: Image.PreserveAspectCrop
-                asynchronous: true
-                playing: true
+                fillMode: VideoOutput.PreserveAspectCrop
                 visible: false
                 anchors.fill: parent
+            }
+
+            MediaPlayer {
+                id: previewPlayer
+
+                videoOutput: videoPreview
+                loops: MediaPlayer.Infinite
             }
 
             Rectangle {
