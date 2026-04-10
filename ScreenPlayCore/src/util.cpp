@@ -439,7 +439,10 @@ std::optional<ScreenPlay::Video::VideoCodec> Util::getVideoCodecFromString(const
         return ScreenPlay::Video::VideoCodec::H264;
 
     if (type.contains("h265", Qt::CaseInsensitive))
-        return ScreenPlay::Video::VideoCodec::H264;
+        return ScreenPlay::Video::VideoCodec::H265;
+
+    if (type.contains("mjpeg", Qt::CaseInsensitive))
+        return ScreenPlay::Video::VideoCodec::MJPEG;
 
     return std::nullopt;
 }

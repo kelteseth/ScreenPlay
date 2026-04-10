@@ -85,7 +85,8 @@ public:
         VP9,
         AV1,
         H264,
-        H265
+        H265,
+        MJPEG
     };
     Q_ENUM(VideoCodec)
 };
