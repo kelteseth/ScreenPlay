@@ -582,13 +582,32 @@ void Wizards::createPreviewImage(const QString& name, const QString& targetPath)
 }
 
 /*!
+  \brief Returns the path to the Content directory, using the source tree
+  in dev builds and the install-relative path in deploy builds.
+*/
+QString Wizards::contentPath()
+{
+#if SCREENPLAY_DEPLOY_VERSION
+#if defined(Q_OS_MACOS)
+    // ScreenPlay.app/Contents/MacOS/exe → ScreenPlay.app/Contents/Resources/Content
+    return QCoreApplication::applicationDirPath() + "/../Resources/Content";
+#else
+    // bin/exe → bin/Content
+    return QCoreApplication::applicationDirPath() + "/Content";
+#endif
+#else
+    return QStringLiteral(SCREENPLAY_SOURCE_DIR) + "/Content";
+#endif
+}
+
+/*!
   \brief Copies example content to the user's installed content folder.
 */
 QCoro::QmlTask Wizards::copyExampleContent(
     const QString& examplePath)
 {
     return QCoro::QmlTask([this, examplePath]() -> QCoro::Task<Result> {
-        const QString sourcePath = QCoreApplication::applicationDirPath() + "/../Content/" + examplePath;
+        const QString sourcePath = contentPath() + "/" + examplePath;
 
         // Create unique target folder name with current date time
         const QString currentTime = QDateTime::currentDateTime().toString("yyyy_MM_dd_hhmmss_zzz");
@@ -626,7 +645,7 @@ QCoro::QmlTask Wizards::copyExampleContent(
 QVector<QVariantMap> Wizards::getExampleContent() const
 {
     QVector<QVariantMap> examples;
-    const QString contentPath = QCoreApplication::applicationDirPath() + "/../Content";
+    const QString contentPath = Wizards::contentPath();
 
     QDir contentDir(contentPath);
     if (!contentDir.exists()) {

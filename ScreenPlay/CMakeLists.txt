@@ -458,6 +458,24 @@ if(APPLE)
         COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts"
                 "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/Resources/fonts"
         COMMENT "Copying fonts to macOS bundle")
+
+    # Copy Content to bundle
+    add_custom_command(
+        TARGET ScreenPlayApp
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_CURRENT_SOURCE_DIR}/../Content"
+                "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/Resources/Content"
+        COMMENT "Copying example content to macOS bundle")
+endif()
+
+# Copy Content folder next to the executable for dev builds
+if(NOT APPLE)
+    add_custom_command(
+        TARGET ScreenPlayApp
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_CURRENT_SOURCE_DIR}/../Content"
+                "$<TARGET_FILE_DIR:ScreenPlayApp>/Content"
+        COMMENT "Copying example content to build directory")
 endif()
 
 # Must be set before qt_add_lrelease
@@ -497,7 +515,7 @@ install(
 if(WIN32)
     install(
         DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../Content/"
-        DESTINATION "${CMAKE_INSTALL_BINDIR}/../Content"
+        DESTINATION "${CMAKE_INSTALL_BINDIR}/Content"
         OPTIONAL)
 elseif(APPLE)
     install(
@@ -507,7 +525,7 @@ elseif(APPLE)
 elseif(UNIX)
     install(
         DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../Content/"
-        DESTINATION "${CMAKE_INSTALL_BINDIR}/../Content"
+        DESTINATION "${CMAKE_INSTALL_BINDIR}/Content"
         OPTIONAL)
 endif()
 

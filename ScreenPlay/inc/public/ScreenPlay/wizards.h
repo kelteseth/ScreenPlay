@@ -104,6 +104,8 @@ public:
 
     Q_INVOKABLE QVector<QVariantMap> getExampleContent() const;
 
+    static QString contentPath();
+
 private:
     void createPreviewImage(const QString& name, const QString& targetPath);
 
