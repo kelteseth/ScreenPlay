@@ -74,8 +74,6 @@ Item {
         cellHeight: 190
         model: root.steamWorkshop.profile.workshopProfileListModel
         boundsBehavior: Flickable.StopAtBounds
-        maximumFlickVelocity: 3000
-        flickDeceleration: 7500
 
         anchors {
             fill: parent

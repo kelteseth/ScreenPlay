@@ -57,7 +57,7 @@ FocusScope {
             Layout.fillWidth: true
         }
 
-        ListView {
+        SPCore.MaterialListView {
             id: listView
             Layout.fillWidth: true
             Layout.fillHeight: true

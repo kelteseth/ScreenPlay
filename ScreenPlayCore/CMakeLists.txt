@@ -42,6 +42,7 @@ set(QML
     qml/LabelSlider.qml
     qml/LicenseSelector.qml
     qml/MaterialGridView.qml
+    qml/MaterialListView.qml
     qml/MaterialSnackBar.qml
     qml/ModalBackgroundBlur.qml
     qml/MouseHoverBlocker.qml

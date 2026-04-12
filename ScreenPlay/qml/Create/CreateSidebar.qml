@@ -23,7 +23,7 @@ Rectangle {
     Component.onCompleted: expanded = true
     color: Material.background
 
-    ListView {
+    MaterialListView {
         id: listView
         objectName: "wizardsListView"
 

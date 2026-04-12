@@ -86,8 +86,6 @@ Item {
 
         cellWidth: 330
         cellHeight: 190
-        maximumFlickVelocity: 3000
-        flickDeceleration: 7500
         model: root.steamWorkshop.search.workshopListModel
         boundsBehavior: Flickable.StopAtBounds
 

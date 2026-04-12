@@ -280,15 +280,12 @@ Item {
                 }
             }
 
-            ListView {
+            SPCore.MaterialListView {
                 id: listView
                 objectName: "uploadListView"
                 visible: !secondPage.uploadDone
 
-                boundsBehavior: Flickable.DragOverBounds
-                maximumFlickVelocity: 7000
-                flickDeceleration: 5000
-                cacheBuffer: 1000
+                boundsBehavior: Flickable.DragAndOvershootBounds
                 clip: true
                 model: root.steamWorkshop.uploadListModel
                 spacing: 20

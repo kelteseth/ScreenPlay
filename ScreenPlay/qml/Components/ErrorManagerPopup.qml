@@ -130,7 +130,7 @@ Dialog {
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
             ScrollBar.vertical.policy: ScrollBar.AsNeeded
 
-            ListView {
+            SPCore.MaterialListView {
                 id: listView
 
                 model: App.errorManager
