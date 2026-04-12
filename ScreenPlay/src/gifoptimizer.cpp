@@ -79,7 +79,7 @@ std::vector<GifOptimizer::ResolutionTier> GifOptimizer::resolutionTiers()
 std::expected<GifOptimizeResult, GifOptimizeError> GifOptimizer::optimize(
     const QString& inputPath,
     const QString& outputPath,
-    const Settings& settings)
+    Settings settings)
 {
     if (!QFile::exists(inputPath)) {
         return std::unexpected(GifOptimizeError {
