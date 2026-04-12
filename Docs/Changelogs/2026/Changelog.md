@@ -41,6 +41,7 @@ Period: 2026-01-01 – present
 
 **Shared components**
 - `MaterialGridView` — reusable grid with scroll defaults and remove/displaced transitions ([`df0c17d8`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/df0c17d8))
+- `MaterialListView` — reusable list with matching scroll defaults and transitions ([`81006d3d`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/81006d3d))
 - `ImageBlurContainer` — reusable blurred header background ([`d3cacb61`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/d3cacb61))
 - `FireworksEffect` — particle fireworks component (MIT, based on [Partycles](https://jonathanleane.github.io/partycles/))
 - All app icons consolidated into `ScreenPlayCore/assets/icons/` (60+ SVGs) ([`760e47c1`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/760e47c1))
@@ -74,6 +75,9 @@ Period: 2026-01-01 – present
 - Background blur during scrolling and `StackView` navigation ([`c36fd08d`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/c36fd08d))
 - Icon colour inconsistencies ([`22a217c9`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/22a217c9))
 - Prevent duplicate page pushes in `ScreenPlayMain`
+
+**Build & paths**
+- Example content directory not found in dev builds — now uses `SCREENPLAY_SOURCE_DIR` for dev and exe-relative paths for deploy ([`32481236`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/32481236))
 
 **C++ correctness**
 - `QAbstractListModel` mutations on background thread in `loadInstalledContent` ([`2cbaaed8`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/2cbaaed8))
@@ -115,6 +119,7 @@ Period: 2026-01-01 – present
 - CMake preset inherits reordered so `config-develop` overrides build-type defaults ([`852a6ae1`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/852a6ae1))
 - vcpkg updated and doctest added ([`2d0f77ad`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/2d0f77ad))
 - Sentry CLI updated to 3.2.1 in CI ([`bb5e55b0`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/bb5e55b00ff7c03499fa5a08011976d2971234c4))
+- Content folder copied to build directory at build time via `copy_directory_if_different` ([`32481236`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/32481236))
 
 ---
 
