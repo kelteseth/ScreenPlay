@@ -72,7 +72,7 @@ public:
     [[nodiscard]] std::expected<GifOptimizeResult, GifOptimizeError> optimize(
         const QString& inputPath,
         const QString& outputPath,
-        Settings settings = {});
+        Settings settings = Settings{});
 
 signals:
     void processOutput(QString text);
