@@ -34,7 +34,8 @@ public:
             return;
         m_hideWorkshopItems = hide;
         emit hideWorkshopItemsChanged();
-        invalidateFilter();
+        beginFilterChange();
+        endFilterChange();
     }
 
     /*!

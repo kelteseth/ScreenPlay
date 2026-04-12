@@ -127,7 +127,7 @@ public slots:
         QObject::connect(item.get(), &SteamWorkshopItem::uploadComplete, this, [this, itemPtr = item.get()](bool successful) {
             emit this->itemUploadCompleted(itemPtr->publishedFileId(), successful);
         });
-        QObject::connect(item.get(), &SteamWorkshopItem::statusChanged, this, [=](ScreenPlayCore::Steam::EResult status) {
+        QObject::connect(item.get(), &SteamWorkshopItem::statusChanged, this, [=, this](ScreenPlayCore::Steam::EResult status) {
             onDataChanged();
 
             if (m_uploadListModelItems.empty()) {

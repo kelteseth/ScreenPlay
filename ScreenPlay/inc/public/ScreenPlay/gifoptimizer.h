@@ -61,8 +61,13 @@ class GifOptimizer : public QObject {
 
 public:
     struct Settings {
-        int maxSizeBytes = 1024 * 1024; // Steam's 1 MB limit
-        double maxDurationSecs = 0.0; // 0 = use full input duration
+        int maxSizeBytes;
+        double maxDurationSecs;
+        Settings()
+            : maxSizeBytes(1024 * 1024) // Steam's 1 MB limit
+            , maxDurationSecs(0.0) // 0 = use full input duration
+        {
+        }
     };
 
     explicit GifOptimizer(const QString& ffmpegPath,
@@ -72,7 +77,7 @@ public:
     [[nodiscard]] std::expected<GifOptimizeResult, GifOptimizeError> optimize(
         const QString& inputPath,
         const QString& outputPath,
-        Settings settings = Settings {});
+        Settings settings = {});
 
 signals:
     void processOutput(QString text);
