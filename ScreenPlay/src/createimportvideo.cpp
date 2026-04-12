@@ -586,12 +586,12 @@ bool CreateImportVideo::createWallpaperGifPreview()
     }
 
     emit processOutput(QString("GIF created: %1 bytes, %2x%3 @ %4fps, %5 colors, pass %6")
-                            .arg(result->fileSize)
-                            .arg(result->width)
-                            .arg(result->height)
-                            .arg(result->fps)
-                            .arg(result->maxColors)
-                            .arg(result->passUsed));
+            .arg(result->fileSize)
+            .arg(result->width)
+            .arg(result->height)
+            .arg(result->fps)
+            .arg(result->maxColors)
+            .arg(result->passUsed));
 
     emit createWallpaperStateChanged(Import::State::ConvertingPreviewGifFinished);
     return true;
@@ -831,7 +831,7 @@ bool CreateImportVideo::createWallpaperVideo()
         // if (QOperatingSystemVersion::currentType() == QOperatingSystemVersion::Windows) {
         //     targetCodec = "h264_mf";
         // } else {
-            targetCodec = "libx264";
+        targetCodec = "libx264";
         // }
     }
 

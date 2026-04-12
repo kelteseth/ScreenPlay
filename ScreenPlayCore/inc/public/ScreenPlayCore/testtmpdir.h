@@ -3,8 +3,8 @@
 
 #include <QDateTime>
 #include <QDir>
-#include <QString>
 #include <QStandardPaths>
+#include <QString>
 
 namespace ScreenPlay {
 

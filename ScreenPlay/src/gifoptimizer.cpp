@@ -34,28 +34,22 @@ std::vector<GifOptimizer::ResolutionTier> GifOptimizer::resolutionTiers()
 {
     return {
         // Tier 0 — Highest: close to source resolution, fine dither
-        { .width = 640, .height = 360, .maxColors = 256,
-            .statsMode = "diff", .bayerScale = 1 },
+        { .width = 640, .height = 360, .maxColors = 256, .statsMode = "diff", .bayerScale = 1 },
 
         // Tier 1 — High: moderate downscale
-        { .width = 480, .height = 270, .maxColors = 256,
-            .statsMode = "diff", .bayerScale = 2 },
+        { .width = 480, .height = 270, .maxColors = 256, .statsMode = "diff", .bayerScale = 2 },
 
         // Tier 2 — Medium
-        { .width = 400, .height = 225, .maxColors = 256,
-            .statsMode = "diff", .bayerScale = 2 },
+        { .width = 400, .height = 225, .maxColors = 256, .statsMode = "diff", .bayerScale = 2 },
 
         // Tier 3 — Reduced palette
-        { .width = 320, .height = 180, .maxColors = 192,
-            .statsMode = "diff", .bayerScale = 3 },
+        { .width = 320, .height = 180, .maxColors = 192, .statsMode = "diff", .bayerScale = 3 },
 
         // Tier 4 — Low
-        { .width = 256, .height = 144, .maxColors = 128,
-            .statsMode = "single", .bayerScale = 4 },
+        { .width = 256, .height = 144, .maxColors = 128, .statsMode = "single", .bayerScale = 4 },
 
         // Tier 5 — Minimum: guaranteed small
-        { .width = 192, .height = 108, .maxColors = 96,
-            .statsMode = "single", .bayerScale = 5 },
+        { .width = 192, .height = 108, .maxColors = 96, .statsMode = "single", .bayerScale = 5 },
     };
 }
 

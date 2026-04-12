@@ -13,8 +13,8 @@ set(SOURCES
     src/app.cpp
     src/create.cpp
     src/createimportvideo.cpp
-    src/gifoptimizer.cpp
     src/errormanager.cpp
+    src/gifoptimizer.cpp
     src/globalvariables.cpp
     src/installedcontentdata.cpp
     src/installedlistfilter.cpp

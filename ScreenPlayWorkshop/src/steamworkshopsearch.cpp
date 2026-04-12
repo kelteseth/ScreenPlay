@@ -279,7 +279,7 @@ bool SteamWorkshopSearch::queryWorkshopItemFromHandle(SteamWorkshopListModel* li
                 SteamUGC()->GetQueryUGCStatistic(pCallback->m_handle, i, EItemStatistic::k_EItemStatistic_NumSubscriptions, &subscriptionCount);
 
                 int addPreviewCount = SteamUGC()->GetQueryUGCNumAdditionalPreviews(pCallback->m_handle, i);
-                QUrl additionalPreviewUrl;      // animated preview (GIF or Steam-converted WebP→GIF)
+                QUrl additionalPreviewUrl; // animated preview (GIF or Steam-converted WebP→GIF)
                 qInfo() << "Item" << details.m_rgchTitle
                         << "mainPreview:" << urlData
                         << "addPreviewCount:" << addPreviewCount;
@@ -290,13 +290,13 @@ bool SteamWorkshopSearch::queryWorkshopItemFromHandle(SteamWorkshopListModel* li
                     EItemPreviewType previewType;
                     SteamUGC()->GetQueryUGCAdditionalPreview(
                         pCallback->m_handle,
-                         i, 
-                         j, 
-                         pchURLOrVideoID.data(), 
-                         pchURLOrVideoID.size(), 
-                         pchOriginalFileName.data(), 
-                         pchOriginalFileName.size(),
-                          &previewType);
+                        i,
+                        j,
+                        pchURLOrVideoID.data(),
+                        pchURLOrVideoID.size(),
+                        pchOriginalFileName.data(),
+                        pchOriginalFileName.size(),
+                        &previewType);
                     const QString previewUrl = QByteArray(pchURLOrVideoID.data());
                     const QString originalFileName = QByteArray(pchOriginalFileName.data());
                     qInfo() << "Additional preview" << j << "of" << addPreviewCount

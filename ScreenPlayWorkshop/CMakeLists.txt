@@ -157,8 +157,16 @@ if(${SCREENPLAY_STEAM})
 
     foreach(_dir ${_steam_copy_dirs})
         file(MAKE_DIRECTORY "${_dir}")
-        file(COPY_FILE "${STEAM_BINARY_PATH}" "${_dir}/${STEAM_BINARY}" ONLY_IF_DIFFERENT)
-        file(COPY_FILE "${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt" "${_dir}/steam_appid.txt" ONLY_IF_DIFFERENT)
+        file(
+            COPY_FILE
+            "${STEAM_BINARY_PATH}"
+            "${_dir}/${STEAM_BINARY}"
+            ONLY_IF_DIFFERENT)
+        file(
+            COPY_FILE
+            "${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt"
+            "${_dir}/steam_appid.txt"
+            ONLY_IF_DIFFERENT)
     endforeach()
 
     if(APPLE)
@@ -198,10 +206,10 @@ if(${SCREENPLAY_STEAM})
         add_dependencies(tst_WorkshopUpload ScreenPlayWorkshopLib)
 
         if(APPLE)
-            set_target_properties(tst_ScreenPlayWorkshop
-                                  PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
-            set_target_properties(tst_WorkshopUpload
-                                  PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
+            set_target_properties(tst_ScreenPlayWorkshop PROPERTIES RUNTIME_OUTPUT_DIRECTORY
+                                                                    "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
+            set_target_properties(tst_WorkshopUpload PROPERTIES RUNTIME_OUTPUT_DIRECTORY
+                                                                "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
         endif()
     endif()
 endif()

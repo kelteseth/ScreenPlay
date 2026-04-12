@@ -284,186 +284,184 @@ bool Create::canSkipConversion(ScreenPlay::Video::VideoCodec codec)
 QCoro::QmlTask Create::probeVideoInfo(const QString& videoPath)
 {
     return QCoro::QmlTask([videoPath]() -> QCoro::Task<QVariantMap> {
-    QVariantMap info;
-    ScreenPlay::Util util;
+        QVariantMap info;
+        ScreenPlay::Util util;
 
-    QString localVideoPath;
-    if (videoPath.startsWith("file://") || videoPath.startsWith("qrc:")) {
-        localVideoPath = util.toLocal(videoPath);
-    } else {
-        localVideoPath = QDir::toNativeSeparators(videoPath);
-    }
+        QString localVideoPath;
+        if (videoPath.startsWith("file://") || videoPath.startsWith("qrc:")) {
+            localVideoPath = util.toLocal(videoPath);
+        } else {
+            localVideoPath = QDir::toNativeSeparators(videoPath);
+        }
 
-    QString ffprobeExecutable;
+        QString ffprobeExecutable;
 #ifdef Q_OS_LINUX
-    ffprobeExecutable = "ffprobe";
+        ffprobeExecutable = "ffprobe";
 #else
-    ffprobeExecutable = QGuiApplication::applicationDirPath() + "/ffprobe" + util.executableBinEnding();
+        ffprobeExecutable = QGuiApplication::applicationDirPath() + "/ffprobe" + util.executableBinEnding();
 #endif
 
 #ifndef Q_OS_LINUX
-    if (!QFileInfo::exists(ffprobeExecutable))
-        co_return info;
+        if (!QFileInfo::exists(ffprobeExecutable))
+            co_return info;
 #endif
 
-    QStringList args;
-    args << "-v" << "error"
-         << "-print_format" << "json"
-         << "-show_format" << "-show_streams"
-         << localVideoPath;
+        QStringList args;
+        args << "-v" << "error"
+             << "-print_format" << "json"
+             << "-show_format" << "-show_streams"
+             << localVideoPath;
 
-    QProcess process;
-    process.setProgram(ffprobeExecutable);
-    process.setArguments(args);
+        QProcess process;
+        process.setProgram(ffprobeExecutable);
+        process.setArguments(args);
 
-    using namespace QCoro;
-    auto coroProcess = qCoro(process);
-    co_await coroProcess.start();
-    co_await coroProcess.waitForFinished(10000);
+        using namespace QCoro;
+        auto coroProcess = qCoro(process);
+        co_await coroProcess.start();
+        co_await coroProcess.waitForFinished(10000);
 
-    if (process.exitCode() != 0)
-        co_return info;
+        if (process.exitCode() != 0)
+            co_return info;
 
-    auto obj = util.parseQByteArrayToQJsonObject(process.readAllStandardOutput());
-    if (!obj)
-        co_return info;
+        auto obj = util.parseQByteArrayToQJsonObject(process.readAllStandardOutput());
+        if (!obj)
+            co_return info;
 
-    // --- Streams ---
-    const QJsonArray streams = obj->value("streams").toArray();
-    QJsonObject videoStream;
-    QJsonObject audioStream;
-    for (const auto& s : streams) {
-        QJsonObject st = s.toObject();
-        if (st.value("codec_type").toString() == "video" && videoStream.isEmpty())
-            videoStream = st;
-        else if (st.value("codec_type").toString() == "audio" && audioStream.isEmpty())
-            audioStream = st;
-    }
+        // --- Streams ---
+        const QJsonArray streams = obj->value("streams").toArray();
+        QJsonObject videoStream;
+        QJsonObject audioStream;
+        for (const auto& s : streams) {
+            QJsonObject st = s.toObject();
+            if (st.value("codec_type").toString() == "video" && videoStream.isEmpty())
+                videoStream = st;
+            else if (st.value("codec_type").toString() == "audio" && audioStream.isEmpty())
+                audioStream = st;
+        }
 
-    // --- Format ---
-    const QJsonObject fmt = obj->value("format").toObject();
-    const QString container = fmt.value("format_long_name").toString();
-    if (!container.isEmpty())
-        info.insert("Container", container);
+        // --- Format ---
+        const QJsonObject fmt = obj->value("format").toObject();
+        const QString container = fmt.value("format_long_name").toString();
+        if (!container.isEmpty())
+            info.insert("Container", container);
 
-    // --- Video ---
-    if (!videoStream.isEmpty()) {
-        const QString codec = videoStream.value("codec_long_name").toString();
-        if (!codec.isEmpty())
-            info.insert("Video Codec", codec);
+        // --- Video ---
+        if (!videoStream.isEmpty()) {
+            const QString codec = videoStream.value("codec_long_name").toString();
+            if (!codec.isEmpty())
+                info.insert("Video Codec", codec);
 
-        // Detect codec enum for QML codec selection
-        const QString codecName = videoStream.value("codec_name").toString();
-        Video::VideoCodec detectedCodec = Video::VideoCodec::Unknown;
-        if (codecName == "h264")
-            detectedCodec = Video::VideoCodec::H264;
-        else if (codecName == "hevc" || codecName == "h265")
-            detectedCodec = Video::VideoCodec::H265;
-        else if (codecName == "vp8")
-            detectedCodec = Video::VideoCodec::VP8;
-        else if (codecName == "vp9")
-            detectedCodec = Video::VideoCodec::VP9;
-        else if (codecName == "av1")
-            detectedCodec = Video::VideoCodec::AV1;
-        else if (codecName == "mjpeg")
-            detectedCodec = Video::VideoCodec::MJPEG;
-        info.insert("detectedCodec", QVariant::fromValue(detectedCodec));
+            // Detect codec enum for QML codec selection
+            const QString codecName = videoStream.value("codec_name").toString();
+            Video::VideoCodec detectedCodec = Video::VideoCodec::Unknown;
+            if (codecName == "h264")
+                detectedCodec = Video::VideoCodec::H264;
+            else if (codecName == "hevc" || codecName == "h265")
+                detectedCodec = Video::VideoCodec::H265;
+            else if (codecName == "vp8")
+                detectedCodec = Video::VideoCodec::VP8;
+            else if (codecName == "vp9")
+                detectedCodec = Video::VideoCodec::VP9;
+            else if (codecName == "av1")
+                detectedCodec = Video::VideoCodec::AV1;
+            else if (codecName == "mjpeg")
+                detectedCodec = Video::VideoCodec::MJPEG;
+            info.insert("detectedCodec", QVariant::fromValue(detectedCodec));
 
-        const int w = videoStream.value("width").toInt();
-        const int h = videoStream.value("height").toInt();
-        if (w > 0 && h > 0)
-            info.insert("Resolution", QString("%1 x %2").arg(w).arg(h));
+            const int w = videoStream.value("width").toInt();
+            const int h = videoStream.value("height").toInt();
+            if (w > 0 && h > 0)
+                info.insert("Resolution", QString("%1 x %2").arg(w).arg(h));
 
-        const QString pixFmt = videoStream.value("pix_fmt").toString();
-        if (!pixFmt.isEmpty())
-            info.insert("Pixel Format", pixFmt);
+            const QString pixFmt = videoStream.value("pix_fmt").toString();
+            if (!pixFmt.isEmpty())
+                info.insert("Pixel Format", pixFmt);
 
-        // Frame rate
-        const QString avgFr = videoStream.value("avg_frame_rate").toString();
-        if (!avgFr.isEmpty()) {
-            QStringList parts = avgFr.split('/');
-            if (parts.size() == 2) {
-                double num = parts[0].toDouble();
-                double den = parts[1].toDouble();
-                if (den > 0)
-                    info.insert("Frame Rate", QString::number(std::round(num / den * 100.0) / 100.0, 'f', 2) + " fps");
+            // Frame rate
+            const QString avgFr = videoStream.value("avg_frame_rate").toString();
+            if (!avgFr.isEmpty()) {
+                QStringList parts = avgFr.split('/');
+                if (parts.size() == 2) {
+                    double num = parts[0].toDouble();
+                    double den = parts[1].toDouble();
+                    if (den > 0)
+                        info.insert("Frame Rate", QString::number(std::round(num / den * 100.0) / 100.0, 'f', 2) + " fps");
+                }
+            }
+
+            // Video bitrate
+            const QString vBitrate = videoStream.value("bit_rate").toString();
+            if (!vBitrate.isEmpty()) {
+                bool ok = false;
+                double kbps = vBitrate.toDouble(&ok) / 1000.0;
+                if (ok)
+                    info.insert("Video Bitrate", QString::number(static_cast<int>(kbps)) + " kb/s");
+            }
+
+            const QString profile = videoStream.value("profile").toString();
+            if (!profile.isEmpty())
+                info.insert("Profile", profile);
+
+            const QString level = videoStream.value("level").toVariant().toString();
+            if (!level.isEmpty() && level != "0" && level != "-99")
+                info.insert("Level", level);
+
+            const int nbFrames = videoStream.value("nb_frames").toString().toInt();
+            if (nbFrames > 0)
+                info.insert("Total Frames", QString::number(nbFrames));
+        }
+
+        // --- Audio ---
+        if (!audioStream.isEmpty()) {
+            const QString aCodec = audioStream.value("codec_long_name").toString();
+            if (!aCodec.isEmpty())
+                info.insert("Audio Codec", aCodec);
+
+            const QString sampleRate = audioStream.value("sample_rate").toString();
+            if (!sampleRate.isEmpty())
+                info.insert("Sample Rate", sampleRate + " Hz");
+
+            const int channels = audioStream.value("channels").toInt();
+            if (channels > 0)
+                info.insert("Audio Channels", QString::number(channels));
+
+            const QString aBitrate = audioStream.value("bit_rate").toString();
+            if (!aBitrate.isEmpty()) {
+                bool ok = false;
+                double kbps = aBitrate.toDouble(&ok) / 1000.0;
+                if (ok)
+                    info.insert("Audio Bitrate", QString::number(static_cast<int>(kbps)) + " kb/s");
+            }
+        } else {
+            info.insert("Audio", "None");
+        }
+
+        // --- Duration / File size ---
+        const QString duration = fmt.value("duration").toString();
+        if (!duration.isEmpty()) {
+            bool ok = false;
+            double secs = duration.toDouble(&ok);
+            if (ok) {
+                int mins = static_cast<int>(secs) / 60;
+                double remSecs = secs - mins * 60;
+                info.insert("Duration", QString("%1:%2").arg(mins, 2, 10, QChar('0')).arg(remSecs, 5, 'f', 2, QChar('0')));
             }
         }
 
-        // Video bitrate
-        const QString vBitrate = videoStream.value("bit_rate").toString();
-        if (!vBitrate.isEmpty()) {
+        const QString fileSize = fmt.value("size").toString();
+        if (!fileSize.isEmpty()) {
             bool ok = false;
-            double kbps = vBitrate.toDouble(&ok) / 1000.0;
-            if (ok)
-                info.insert("Video Bitrate", QString::number(static_cast<int>(kbps)) + " kb/s");
+            double bytes = fileSize.toDouble(&ok);
+            if (ok) {
+                if (bytes >= 1073741824.0)
+                    info.insert("File Size", QString::number(bytes / 1073741824.0, 'f', 2) + " GB");
+                else
+                    info.insert("File Size", QString::number(bytes / 1048576.0, 'f', 2) + " MB");
+            }
         }
 
-        const QString profile = videoStream.value("profile").toString();
-        if (!profile.isEmpty())
-            info.insert("Profile", profile);
-
-        const QString level = videoStream.value("level").toVariant().toString();
-        if (!level.isEmpty() && level != "0" && level != "-99")
-            info.insert("Level", level);
-
-        const int nbFrames = videoStream.value("nb_frames").toString().toInt();
-        if (nbFrames > 0)
-            info.insert("Total Frames", QString::number(nbFrames));
-    }
-
-    // --- Audio ---
-    if (!audioStream.isEmpty()) {
-        const QString aCodec = audioStream.value("codec_long_name").toString();
-        if (!aCodec.isEmpty())
-            info.insert("Audio Codec", aCodec);
-
-        const QString sampleRate = audioStream.value("sample_rate").toString();
-        if (!sampleRate.isEmpty())
-            info.insert("Sample Rate", sampleRate + " Hz");
-
-        const int channels = audioStream.value("channels").toInt();
-        if (channels > 0)
-            info.insert("Audio Channels", QString::number(channels));
-
-        const QString aBitrate = audioStream.value("bit_rate").toString();
-        if (!aBitrate.isEmpty()) {
-            bool ok = false;
-            double kbps = aBitrate.toDouble(&ok) / 1000.0;
-            if (ok)
-                info.insert("Audio Bitrate", QString::number(static_cast<int>(kbps)) + " kb/s");
-        }
-    } else {
-        info.insert("Audio", "None");
-    }
-
-    // --- Duration / File size ---
-    const QString duration = fmt.value("duration").toString();
-    if (!duration.isEmpty()) {
-        bool ok = false;
-        double secs = duration.toDouble(&ok);
-        if (ok) {
-            int mins = static_cast<int>(secs) / 60;
-            double remSecs = secs - mins * 60;
-            info.insert("Duration", QString("%1:%2")
-                                        .arg(mins, 2, 10, QChar('0'))
-                                        .arg(remSecs, 5, 'f', 2, QChar('0')));
-        }
-    }
-
-    const QString fileSize = fmt.value("size").toString();
-    if (!fileSize.isEmpty()) {
-        bool ok = false;
-        double bytes = fileSize.toDouble(&ok);
-        if (ok) {
-            if (bytes >= 1073741824.0)
-                info.insert("File Size", QString::number(bytes / 1073741824.0, 'f', 2) + " GB");
-            else
-                info.insert("File Size", QString::number(bytes / 1048576.0, 'f', 2) + " MB");
-        }
-    }
-
-    co_return info;
+        co_return info;
     }());
 }
 
