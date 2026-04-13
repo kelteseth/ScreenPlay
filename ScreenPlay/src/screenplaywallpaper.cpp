@@ -196,6 +196,10 @@ bool ScreenPlayWallpaper::start()
 {
     setState(ScreenPlayEnums::AppState::Starting);
 
+    // Update dynamic arguments with current values before starting
+    // This ensures restarted wallpapers receive the latest settings
+    updateDynamicArguments();
+
     if (m_wallpaperData.type() == ContentTypes::InstalledType::GodotWallpaper) {
         m_process.setProgram(m_globalVariables->godotWallpaperExecutablePath().toString());
     } else {
@@ -401,6 +405,16 @@ void ScreenPlayWallpaper::syncAllProperties()
         return;
     }
 
+    // Sync volume and fillmode first
+    QJsonObject volumeObj;
+    volumeObj.insert("volume", m_wallpaperData.volume());
+    m_connection->sendMessage(QJsonDocument(volumeObj).toJson(QJsonDocument::Compact));
+
+    QJsonObject fillModeObj;
+    fillModeObj.insert("fillmode", QVariant::fromValue(m_wallpaperData.fillMode()).toString());
+    m_connection->sendMessage(QJsonDocument(fillModeObj).toJson(QJsonDocument::Compact));
+
+    // Sync custom properties
     const QJsonObject& properties = m_wallpaperData.properties();
     for (auto categoryIt = properties.constBegin(); categoryIt != properties.constEnd(); ++categoryIt) {
         const QString& category = categoryIt.key();
@@ -422,6 +436,28 @@ bool ScreenPlayWallpaper::setWallpaperData(const WallpaperData wallpaperData)
     }
     m_wallpaperData = wallpaperData;
     return true;
+}
+
+/*!
+    \brief Updates command-line arguments with current wallpaper settings.
+
+    The command-line arguments (m_appArgumentsList) are built once in the
+    constructor with initial values. When the user changes settings like
+    volume or fillmode, m_wallpaperData is updated but m_appArgumentsList
+    is not. This function refreshes the dynamic arguments before start()
+    so that restarted wallpapers (e.g., after a crash) receive the latest
+    user-configured values instead of the stale initial ones.
+*/
+void ScreenPlayWallpaper::updateDynamicArguments()
+{
+    auto updateArg = [this](const QString& key, const QString& value) {
+        int i = m_appArgumentsList.indexOf(key);
+        if (i >= 0 && i + 1 < m_appArgumentsList.size())
+            m_appArgumentsList[i + 1] = value;
+    };
+
+    updateArg("--volume", QString::number(static_cast<double>(m_wallpaperData.volume())));
+    updateArg("--fillmode", QVariant::fromValue(m_wallpaperData.fillMode()).toString());
 }
 
 void ScreenPlayWallpaper::setMonitors(QVector<int> monitors)

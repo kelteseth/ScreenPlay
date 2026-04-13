@@ -85,6 +85,7 @@ protected:
 
 private:
     void syncAllProperties();
+    void updateDynamicArguments();
 
 private:
     const std::shared_ptr<Settings> m_settings;
