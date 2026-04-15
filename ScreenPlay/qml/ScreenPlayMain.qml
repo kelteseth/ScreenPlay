@@ -26,6 +26,7 @@ ApplicationWindow {
         if (!App.settings.silentStart) {
             App.showDockIcon(true)
             applicationWindow.show()
+            applicationWindow.raise()
         }
 
         const isSteamVersion = App.globalVariables.isSteamVersion()
@@ -73,6 +74,8 @@ ApplicationWindow {
         function onRequestRaise() {
             App.showDockIcon(true)
             applicationWindow.show()
+            applicationWindow.raise()
+            applicationWindow.requestActivate()
         }
         target: App.screenPlayManager
     }
