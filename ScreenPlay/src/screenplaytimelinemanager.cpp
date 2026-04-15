@@ -156,6 +156,9 @@ std::expected<bool, ScreenPlayTimelineManager::TimelineManagerError> ScreenPlayT
     QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::requestSaveProfiles, this, &ScreenPlayTimelineManager::requestSaveProfiles);
     QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::activeWallpaperCountChanged, this, &ScreenPlayTimelineManager::activeWallpaperCountChanged);
     QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::wallpaperRestartFailed, this, &ScreenPlayTimelineManager::handleWallpaperRestartFailed);
+    QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::wallpaperRemoved, this, [this]() {
+        emit notifyUiReloadTimelinePreviewImage();
+    });
 
     newTimelineSection->startTime = effectiveStartTime;
     newTimelineSection->endTime = effectiveEndTime;
@@ -666,6 +669,9 @@ bool ScreenPlayTimelineManager::addTimelineAt(const int index, const float relat
     QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::requestSaveProfiles, this, &ScreenPlayTimelineManager::requestSaveProfiles);
     QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::activeWallpaperCountChanged, this, &ScreenPlayTimelineManager::activeWallpaperCountChanged);
     QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::wallpaperRestartFailed, this, &ScreenPlayTimelineManager::handleWallpaperRestartFailed);
+    QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::wallpaperRemoved, this, [this]() {
+        emit notifyUiReloadTimelinePreviewImage();
+    });
     newTimelineSection->settings = m_settings;
     newTimelineSection->globalVariables = m_globalVariables;
     newTimelineSection->index = index;
@@ -1184,6 +1190,8 @@ void ScreenPlayTimelineManager::handleWallpaperRestartFailed(const QString& appI
     }
     // Save so we do not start the broken wallpaper it next time
     emit requestSaveProfiles();
+    // Note: notifyUiReloadTimelinePreviewImage is emitted via wallpaperRemoved signal
+    // after the wallpaper is actually removed from wallpaperList
     emit wallpaperRestartFailed(appID, message);
 }
 

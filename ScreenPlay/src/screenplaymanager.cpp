@@ -40,10 +40,11 @@ ScreenPlayManager::ScreenPlayManager(
     QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::activeWallpaperCountChanged, this, &ScreenPlayManager::setActiveWallpaperCounter);
     QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::notifyUiReloadTimelinePreviewImage, this, &ScreenPlayManager::notifyUiReloadTimelinePreviewImage);
     QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::wallpaperRestartFailed, this, [this](const QString& appID, const QString& message) {
+        // Ensure the main window is visible and raised so the user can see the error
+        emit this->requestRaise();
         if (m_errorManager) {
             m_errorManager->displayError(message);
         }
-        emit this->notifyUiReloadTimelinePreviewImage();
     });
 
     QObject::connect(this, &ScreenPlayManager::selectedTimelineIndexChanged, &m_screenPlayTimelineManager, &ScreenPlayTimelineManager::setSelectedTimelineIndex);
@@ -256,6 +257,8 @@ bool ScreenPlayManager::startWidget(
         }
     });
     QObject::connect(widget.get(), &ScreenPlayWidget::restartFailed, this, [this](const QString& appID, const QString& message) {
+        // Ensure the main window is visible and raised so the user can see the error
+        emit this->requestRaise();
         if (m_errorManager) {
             m_errorManager->displayError(message);
         }

@@ -157,11 +157,15 @@ std::shared_ptr<ScreenPlayWallpaper> WallpaperTimelineSection::addWallpaper(cons
         updateActiveWallpaperCounter();
     });
     QObject::connect(screenPlayWallpaper.get(), &ScreenPlayWallpaper::restartFailed, this, [this](const QString& appID, const QString& message) {
-        // Remove broken wallpaper
+        // Emit signal first so handleWallpaperRestartFailed can still find the wallpaper
+        // to update monitor list model with correct monitor indices
+        emit wallpaperRestartFailed(appID, message);
+        // Then remove broken wallpaper from the list
         std::erase_if(wallpaperList, [&appID](const std::shared_ptr<ScreenPlayWallpaper>& wallpaper) {
             return wallpaper->appID() == appID;
         });
-        emit wallpaperRestartFailed(appID, message);
+        // Emit after removal so timeline preview can be updated with wallpaper gone
+        emit wallpaperRemoved(appID);
     });
     wallpaperList.push_back(screenPlayWallpaper);
 

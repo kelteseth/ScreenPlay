@@ -65,6 +65,7 @@ signals:
     void requestUpdateMonitorListModel();
     void activeWallpaperCountChanged(const int count);
     void wallpaperRestartFailed(const QString& appID, const QString& message);
+    void wallpaperRemoved(const QString& appID);
 
 public slots:
     void updateActiveWallpaperCounter();
