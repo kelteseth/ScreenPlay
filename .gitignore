@@ -78,6 +78,10 @@ Thumbs.db
 
 #CMake
 CMakeLists.txt.user
+
+# FetchContent downloaded dependencies
+ThirdParty/qqcoro/
+ThirdParty/QArchive/
 CMakeCache.txt
 CMakeFiles
 CMakeScripts
