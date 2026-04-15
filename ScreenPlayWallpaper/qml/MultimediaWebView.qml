@@ -17,8 +17,8 @@ Item {
         src += "var videoSource = document.getElementById('videoSource');"
         src += "videoSource.src = '" + Wallpaper.projectSourceFileAbsolute + "';"
         src += "videoPlayer.load();"
-        src += "videoPlayer.volume = " + Wallpaper.volume + ";"
-        src += "videoPlayer.setAttribute('style', 'object-fit :" + Wallpaper.fillMode + ";');"
+        src += "videoPlayer.volume = " + Wallpaper.currentState.volume + ";"
+        src += "videoPlayer.setAttribute('style', 'object-fit :" + Wallpaper.currentState.fillMode + ";');"
         src += "videoPlayer.play();"
         print(src)
         return src
@@ -70,25 +70,19 @@ Item {
 
         interval: 300
         onTriggered: {
-            webView.visible = !Wallpaper.visualsPaused
-            txtVisualsPaused.visible = Wallpaper.visualsPaused
+            webView.visible = !Wallpaper.currentState.visualsPaused
+            txtVisualsPaused.visible = Wallpaper.currentState.visualsPaused
         }
     }
 
     Connections {
-        function onReloadVideo(oldType) {
-            webView.runJavaScript(root.getSetVideoCommand())
-        }
-
-        function onQmlExit() {
-            webView.runJavaScript("var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = 0;")
-        }
+        target: Wallpaper.currentState
 
         function onMutedChanged(muted) {
             if (muted)
                 webView.runJavaScript("var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = 0;")
             else
-                webView.runJavaScript("var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = " + Wallpaper.volume + ";")
+                webView.runJavaScript("var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = " + Wallpaper.currentState.volume + ";")
         }
 
         function onFillModeChanged(fillMode) {
@@ -124,7 +118,17 @@ Item {
                     webView.runJavaScript("var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.pause();")
             }
         }
+    }
 
+    Connections {
         target: Wallpaper
+
+        function onReloadVideo(oldType) {
+            webView.runJavaScript(root.getSetVideoCommand())
+        }
+
+        function onQmlExit() {
+            webView.runJavaScript("var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = 0;")
+        }
     }
 }

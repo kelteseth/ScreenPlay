@@ -40,7 +40,7 @@ elseif(UNIX)
 endif()
 
 set(SOURCES ${SOURCES} src/basewindow.cpp)
-set(HEADER ${HEADER} src/basewindow.h)
+set(HEADER ${HEADER} src/basewindow.h src/wallpaperstate.h)
 
 set(QML
     # cmake-format: sort

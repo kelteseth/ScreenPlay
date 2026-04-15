@@ -11,7 +11,8 @@ Item {
     }
 
     required property url source
-    required property real volume
+    required property real volume        // Current/outgoing volume
+    required property real targetVolume  // Volume for incoming video during transition
     required property bool muted
     required property string fillMode
     property bool loops: false
@@ -19,8 +20,23 @@ Item {
     property bool isPlaying
     property real normalizedPosition: 0
 
+    // Emitted when crossfade transition completes
+    signal transitionFinished()
+
     property int _activePlayer: CrossFadeVideoPlayer.Player.One
     property bool _initialized: false
+    property bool _transitioning: false
+
+    onVolumeChanged: {
+        // Only update active player's volume when NOT transitioning
+        if (!_transitioning) {
+            if (_activePlayer === CrossFadeVideoPlayer.Player.One) {
+                ao1.volume = volume
+            } else {
+                ao2.volume = volume
+            }
+        }
+    }
 
     onNormalizedPositionChanged: {
         if (_activePlayer === CrossFadeVideoPlayer.Player.One) {
@@ -32,58 +48,56 @@ Item {
 
     onSourceChanged: {
         if (!_initialized) {
+            ao1.volume = root.volume
             mediaPlayer1.source = root.source
             mediaPlayer1.play()
             root._initialized = true
             return
         }
 
-        // Stop any ongoing animations
+        // Stop any ongoing transition
         fadeOut.stop()
+        ao1FadeIn.stop()
+        ao1FadeOut.stop()
+        ao2FadeIn.stop()
+        ao2FadeOut.stop()
+        _transitioning = false
 
         if (_activePlayer === CrossFadeVideoPlayer.Player.One) {
-            // Prepare player two for transition
-            mediaPlayer2.source = root.source;
+            // Switching TO player Two
+            mediaPlayer2.source = root.source
+            ao2.volume = 0  // Incoming starts silent
 
-            // New video starts behind and invisible
             vo2.z = 0
             vo2.opacity = 0
             vo1.z = 1
-            vo1.opacity = 1;
+            vo1.opacity = 1
 
-            // Configure fade out for current (vo1), new video (vo2) stays at opacity 1 behind it
             fadeOut.target = vo1
-
             root._activePlayer = CrossFadeVideoPlayer.Player.Two
         } else {
-            // Prepare player one for transition
-            mediaPlayer1.source = source;
+            // Switching TO player One
+            mediaPlayer1.source = source
+            ao1.volume = 0  // Incoming starts silent
 
-            // New video starts behind and invisible
             vo1.z = 0
             vo1.opacity = 0
             vo2.z = 1
-            vo2.opacity = 1;
+            vo2.opacity = 1
 
-            // Configure fade out for current (vo2), new video (vo1) stays at opacity 1 behind it
             fadeOut.target = vo2
-
             root._activePlayer = CrossFadeVideoPlayer.Player.One
         }
 
-        // Wait for video to be ready before starting transition
         startCrossFadeTimer.start()
     }
 
     onIsPlayingChanged: {
-        // Only respond to the isPlaying property for controlling playback
-        // after initialization
         if (_initialized) {
             if (isPlaying) {
-                root._activePlayer === CrossFadeVideoPlayer.Player.One ? mediaPlayer1.play() : mediaPlayer2.play()
                 if (root._activePlayer === CrossFadeVideoPlayer.Player.One) {
                     mediaPlayer1.play()
-                } else if (root._activePlayer === CrossFadeVideoPlayer.Player.Two) {
+                } else {
                     mediaPlayer2.play()
                 }
             } else {
@@ -110,14 +124,14 @@ Item {
         id: mediaPlayer1
         loops: root.loops ? MediaPlayer.Infinite : 1
         videoOutput: vo1
-        audioOutput: ao
+        audioOutput: ao1
     }
 
     MediaPlayer {
         id: mediaPlayer2
         loops: root.loops ? MediaPlayer.Infinite : 1
         videoOutput: vo2
-        audioOutput: ao
+        audioOutput: ao2
     }
 
     VideoOutput {
@@ -134,11 +148,22 @@ Item {
         z: 0
     }
 
+    AudioOutput {
+        id: ao1
+        muted: root.muted
+    }
+
+    AudioOutput {
+        id: ao2
+        volume: 0
+        muted: root.muted
+    }
+
     Timer {
         id: startCrossFadeTimer
-        interval: 16  // Start checking immediately (one frame)
+        interval: 16
         repeat: true
-        property int maxAttempts: 60  // Maximum wait time ~1 second at 60fps
+        property int maxAttempts: 60
         property int attempts: 0
 
         onTriggered: {
@@ -147,31 +172,17 @@ Item {
             const incomingPlayer = root._activePlayer === CrossFadeVideoPlayer.Player.One ? mediaPlayer1 : mediaPlayer2
             const incomingOutput = root._activePlayer === CrossFadeVideoPlayer.Player.One ? vo1 : vo2
 
-            // Check if the incoming video has buffered frames and is actually playing
             if (incomingPlayer.hasVideo && incomingPlayer.playbackState === MediaPlayer.PlayingState) {
-                // Video is ready, make it visible behind the current video and start fade
                 stop()
-                attempts = 0;
-
-                // Ensure playback
-                incomingPlayer.play();
-
-                // Set new video to full opacity but behind (z is already set)
-                incomingOutput.opacity = 1;
-
-                // Fade out the current video (which is in front)
-                fadeOut.start()
+                attempts = 0
+                startCrossFade(incomingPlayer, incomingOutput)
             } else if (attempts >= maxAttempts) {
-                // Fallback: force start after timeout to prevent infinite waiting
                 console.warn("Video warmup timeout, forcing crossfade")
                 stop()
                 attempts = 0
-
                 incomingPlayer.play()
-                incomingOutput.opacity = 1
-                fadeOut.start()
+                startCrossFade(incomingPlayer, incomingOutput)
             } else {
-                // Not ready yet, ensure player is playing and continue waiting
                 if (incomingPlayer.playbackState !== MediaPlayer.PlayingState) {
                     incomingPlayer.play()
                 }
@@ -179,7 +190,32 @@ Item {
         }
     }
 
-    // Split the crossfade into two parallel animations
+    function startCrossFade(incomingPlayer, incomingOutput) {
+        _transitioning = true
+
+        incomingPlayer.play()
+        incomingOutput.opacity = 1
+        fadeOut.start()
+
+        // Audio crossfade: outgoing fades from current volume to 0
+        //                  incoming fades from 0 to targetVolume
+        if (_activePlayer === CrossFadeVideoPlayer.Player.One) {
+            ao1FadeIn.to = root.targetVolume
+            ao1FadeIn.start()
+            ao2FadeOut.start()
+        } else {
+            ao2FadeIn.to = root.targetVolume
+            ao2FadeIn.start()
+            ao1FadeOut.start()
+        }
+    }
+
+    function finishTransition() {
+        _transitioning = false
+        root.transitionFinished()
+    }
+
+    // Video opacity fade
     NumberAnimation {
         id: fadeOut
         property: "opacity"
@@ -188,7 +224,6 @@ Item {
         duration: root.crossFadeDuration
         easing.type: Easing.InOutQuad
         onFinished: {
-            // After fade completes, stop the old player and reset z-order
             if (target === vo1) {
                 mediaPlayer1.stop()
                 vo1.z = 0
@@ -198,12 +233,44 @@ Item {
                 vo2.z = 0
                 vo1.z = 1
             }
+            finishTransition()
         }
     }
 
-    AudioOutput {
-        id: ao
-        volume: root.volume
-        muted: root.muted
+    // Audio fades
+    NumberAnimation {
+        id: ao1FadeIn
+        target: ao1
+        property: "volume"
+        from: 0
+        duration: root.crossFadeDuration
+        easing.type: Easing.InOutQuad
+    }
+
+    NumberAnimation {
+        id: ao1FadeOut
+        target: ao1
+        property: "volume"
+        to: 0
+        duration: root.crossFadeDuration
+        easing.type: Easing.InOutQuad
+    }
+
+    NumberAnimation {
+        id: ao2FadeIn
+        target: ao2
+        property: "volume"
+        from: 0
+        duration: root.crossFadeDuration
+        easing.type: Easing.InOutQuad
+    }
+
+    NumberAnimation {
+        id: ao2FadeOut
+        target: ao2
+        property: "volume"
+        to: 0
+        duration: root.crossFadeDuration
+        easing.type: Easing.InOutQuad
     }
 }

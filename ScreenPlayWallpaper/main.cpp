@@ -24,6 +24,8 @@
 #include "src/macwindow.h"
 #endif
 
+#include "src/wallpaperstate.h"
+
 int main(int argc, char* argv[])
 {
     // Graphics API will be set later based on command line arguments
@@ -271,10 +273,19 @@ int main(int argc, char* argv[])
     window->setActiveScreensList(activeScreensList.value());
     window->setProjectPath(path);
     window->setAppID(appID);
-    window->setVolume(volumeFloat);
-    window->setFillMode(fillmode);
+    // Initialize both state objects with the same values
+    window->currentState()->setVolume(volumeFloat);
+    window->currentState()->setFillMode(fillmode);
+    window->currentState()->setLoops(true);
+    window->currentState()->setIsPlaying(true);
+    window->currentState()->setCheckWallpaperVisible(checkWallpaperVisible);
+    // Target state starts with the same values
+    window->targetState()->setVolume(volumeFloat);
+    window->targetState()->setFillMode(fillmode);
+    window->targetState()->setLoops(true);
+    window->targetState()->setIsPlaying(true);
+    window->targetState()->setCheckWallpaperVisible(checkWallpaperVisible);
     window->setType(installedType.value());
-    window->setCheckWallpaperVisible(checkWallpaperVisible);
     window->setDebugMode(mainAppPidInt == -1);
     window->setMainAppPID(mainAppPidInt);
     window->setReapplySpacesEnabled(reapplySpaces);

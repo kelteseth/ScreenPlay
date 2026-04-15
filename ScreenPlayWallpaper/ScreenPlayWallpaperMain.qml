@@ -340,7 +340,7 @@ Rectangle {
             }
 
             Text {
-                text: "fillMode " + Wallpaper.fillMode
+                text: "fillMode " + Wallpaper.currentState.fillMode
                 font.pointSize: 14
             }
 
