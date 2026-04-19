@@ -199,6 +199,7 @@ Item {
                         spacing: 10
 
                         Button {
+                            id: btnBannerDownload
                             text: qsTr("Download now!")
                             Material.accent: Material.color(Material.Orange)
                             highlighted: true
@@ -206,6 +207,13 @@ Item {
                             onClicked: {
                                 text = qsTr("Downloading...")
                                 root.steamWorkshop.itemOps.subscribeItem(root.steamWorkshop.search.workshopListModel.getBannerInfo().publishedFileID)
+                            }
+
+                            Connections {
+                                target: root.steamWorkshop
+                                function onWorkshopItemInstalled() {
+                                    btnBannerDownload.text = qsTr("Download now!")
+                                }
                             }
                         }
 
