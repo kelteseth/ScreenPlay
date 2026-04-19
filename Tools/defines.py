@@ -41,8 +41,8 @@ QT6_SOURCE_MODULES = [
 ]
 QT_TOOLS_PATH = QT_PATH.joinpath("Tools/")
 QT_IFW_VERSION = "4.8.1"
-# 27.02.2026 https://github.com/microsoft/vcpkg :
-VCPKG_VERSION = "1e199d3"
+# 19.04.2026 https://github.com/microsoft/vcpkg :
+VCPKG_VERSION = "256acc64012b23a13041d8705805e1f23b43a024"
 VCPKG_BASE_PACKAGES =  [
         "curl",
         "openssl",
