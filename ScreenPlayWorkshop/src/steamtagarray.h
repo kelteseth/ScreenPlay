@@ -51,6 +51,11 @@ public:
     bool isEmpty() const { return m_pointers.isEmpty(); }
     int count() const { return m_pointers.size(); }
 
+    SteamTagArray(const SteamTagArray&) = delete;
+    SteamTagArray& operator=(const SteamTagArray&) = delete;
+    SteamTagArray(SteamTagArray&&) = delete;
+    SteamTagArray& operator=(SteamTagArray&&) = delete;
+
 private:
     QVector<QByteArray> m_storage;
     QVector<const char*> m_pointers;
