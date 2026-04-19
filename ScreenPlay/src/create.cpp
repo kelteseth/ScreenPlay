@@ -528,15 +528,20 @@ void Create::saveWallpaper(
     obj.insert("youtube", youtube);
     obj.insert("videoCodec", QVariant::fromValue<Video::VideoCodec>(actualCodec).toString());
 
+    // When NoConversion is used the file is copied with its original extension,
+    // so derive the extension from the source path rather than the codec.
     QString fileEnding;
-    if (actualCodec == Video::VideoCodec::H264 || actualCodec == Video::VideoCodec::H265)
-        fileEnding = ".mp4";
-    else if (actualCodec == Video::VideoCodec::AV1)
-        fileEnding = ".mkv";
-    else if (actualCodec == Video::VideoCodec::VP8 || actualCodec == Video::VideoCodec::VP9)
-        fileEnding = ".webm";
-    else
+    if (codec == Video::VideoCodec::NoConversion) {
         fileEnding = "." + filePathFile.suffix();
+    } else if (actualCodec == Video::VideoCodec::H264 || actualCodec == Video::VideoCodec::H265) {
+        fileEnding = ".mp4";
+    } else if (actualCodec == Video::VideoCodec::AV1) {
+        fileEnding = ".mkv";
+    } else if (actualCodec == Video::VideoCodec::VP8 || actualCodec == Video::VideoCodec::VP9) {
+        fileEnding = ".webm";
+    } else {
+        fileEnding = "." + filePathFile.suffix();
+    }
 
     obj.insert("file", filePathFile.completeBaseName() + fileEnding);
     obj.insert("previewWEBP", "preview.webp");
