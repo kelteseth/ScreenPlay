@@ -51,6 +51,9 @@ Item {
         if (App.util.isWidget(type)) {
             return "qrc:/qt/qml/ScreenPlay/assets/icons/icon_widgets.svg"
         }
+        if (type === Util.ContentTypes.InstalledType.GodotWallpaper) {
+            return "qrc:/qt/qml/ScreenPlay/assets/icons/brand_godot.svg"
+        }
         if (App.util.isScene(type)) {
             return "qrc:/qt/qml/ScreenPlay/assets/icons/icon_code.svg"
         }

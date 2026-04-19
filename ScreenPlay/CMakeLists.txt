@@ -145,6 +145,7 @@ set(RESOURCES
     assets/icons/brand_bluesky.svg
     assets/icons/brand_github.svg
     assets/icons/brand_gitlab.svg
+    assets/icons/brand_godot.svg
     assets/icons/brand_reddit.svg
     assets/icons/brand_twitch.svg
     assets/icons/exclamation-triangle-solid.svg
