@@ -45,6 +45,9 @@ public:
     {
         qDebug() << "Steam workshop destructor";
         m_pollTimer.stop();
+        m_itemOps.reset();
+        m_profile.reset();
+        m_search.reset();
         SteamAPI_Shutdown();
     }
     bool init();
