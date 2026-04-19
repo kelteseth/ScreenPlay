@@ -55,7 +55,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
     enum WorkshopRole {
-        TitleRole,
+        TitleRole = Qt::UserRole,
         ImageUrlRole,
         AdditionalPreviewUrlRole,
         AdditionalPreviewWebpUrlRole,
