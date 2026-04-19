@@ -85,7 +85,8 @@ Item {
         }
 
         function checkLoadMore(): void {
-            if (!gridView.atYEnd)
+            const remaining = contentHeight - (contentY + height)
+            if (remaining > height * 2)
                 return
             const model = root.steamWorkshop.profile.workshopProfileListModel
             if (!model)

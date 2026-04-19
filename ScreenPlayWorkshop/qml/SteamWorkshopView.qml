@@ -108,7 +108,10 @@ Item {
         }
 
         function checkLoadMore(): void {
-            if (!gridView.atYEnd)
+            // Start loading before the user hits the bottom.
+            // Trigger when the remaining content is less than two viewport heights.
+            const remaining = contentHeight - (contentY + height)
+            if (remaining > height * 2)
                 return
             if (!root.steamWorkshop)
                 return
