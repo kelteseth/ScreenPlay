@@ -30,6 +30,8 @@ Item {
                 detectedCodec = result.detectedCodec
             }
             updateCodecSelection()
+        }).catch(error => {
+            console.error("CreateWallpaperSettings: probeVideoInfo failed:", error)
         })
     }
 
