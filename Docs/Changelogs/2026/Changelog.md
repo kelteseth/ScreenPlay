@@ -17,7 +17,7 @@ Period: 2026-01-01 – present
 **Workshop — Browse**
 - Endless scrolling via `loadNextPage()` with `hasMore`/`isLoading` state ([`42ba6a60`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/42ba6a60))
 - Gold shine effect on new content ([`7b5c5e2c`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/7b5c5e2c))
-- Clickable creator name to filter by author ([`23b78231`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/23b78231))
+- Clickable creator name to filter by author ([`41168ee2`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/41168ee2))
 - Video preview fallback via `QtMultimedia` in `WorkshopItem`
 - Sidebar subscribe UX and tag empty-state improvements ([`23b78231`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/23b78231))
 - UGC query builder (`ugcquerybuilder.h`) for type-safe Steam queries ([`588d44ca`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/588d44ca))
@@ -69,6 +69,12 @@ Period: 2026-01-01 – present
 - Workshop restore auto-clear and `dataChanged` scoped to single row ([`fa363faa`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/fa363faa))
 - `SteamProfile` items loaded on `Component.onCompleted` instead of `StackView.onActivated` to avoid reloading on back-navigation
 - File system watcher missing workshop downloads ([`7b5c5e2c`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/7b5c5e2c))
+- Download button stuck on "Downloading…" after item was installed ([`c011130f`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/c011130f))
+- Crash on shutdown when sub-objects outlived `SteamAPI_Shutdown` ([`82543bb8`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/82543bb8))
+
+**Video import**
+- Imported video not appearing when using NoConversion — wrong file extension written to `project.json` ([`2813080a`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/2813080a))
+- Import could fail on videos with unusual frame rates (division by zero) ([`a8c522d6`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/a8c522d6))
 
 **UI & rendering**
 - Image stretching fixed with `PreserveAspectCrop`
@@ -113,6 +119,7 @@ Period: 2026-01-01 – present
 - `ScreenPlayCore` module alias defaulted to `SPCore`
 - Icons moved into `ScreenPlayCore` module ([`760e47c1`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/760e47c1))
 - Sidebar background blur revised ([`c36fd08d`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/c36fd08d))
+- Endless scroll triggers earlier (2× viewport threshold) for smoother browsing ([`200e2892`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/200e2892))
 
 **Build & dependencies**
 - FFmpeg upgraded to 8.1, Windows download switched to full 7z archive ([`3094aa90`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/3094aa90))
