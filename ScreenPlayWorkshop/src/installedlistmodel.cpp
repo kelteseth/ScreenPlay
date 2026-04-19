@@ -156,7 +156,6 @@ QHash<int, QByteArray> InstalledListModel::roleNames() const
 */
 void InstalledListModel::append(const QString& projectJsonFilePath)
 {
-    beginInsertRows(QModelIndex(), m_screenPlayFiles.size(), m_screenPlayFiles.size());
     using namespace ScreenPlay;
     ProjectFile projectFile;
     projectFile.projectJsonFilePath = QFileInfo(projectJsonFilePath);
@@ -164,6 +163,7 @@ void InstalledListModel::append(const QString& projectJsonFilePath)
         qCWarning(workshopInstalled) << "Invalid project at " << projectJsonFilePath;
         return;
     }
+    beginInsertRows(QModelIndex(), m_screenPlayFiles.size(), m_screenPlayFiles.size());
     m_screenPlayFiles.append(std::move(projectFile));
     endInsertRows();
 }
