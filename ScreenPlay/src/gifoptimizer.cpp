@@ -57,11 +57,11 @@ std::vector<GifOptimizer::ResolutionTier> GifOptimizer::resolutionTiers()
  * \brief Two-phase best-fit optimiser — fps-first strategy.
  *
  * Smooth animation matters more than resolution for a small preview GIF,
- * so the algorithm guarantees at least \c MinFps (24) before considering
+ * so the algorithm guarantees at least \c MinFps (12) before considering
  * resolution.
  *
  * \b{Phase 1 — Tier scan:} walks tiers from highest to lowest resolution
- * and probes each at \c MinFps (24fps).  The first tier whose encode fits
+ * and probes each at \c MinFps (12fps).  The first tier whose encode fits
  * the budget becomes the winner.
  *
  * \b{Phase 2 — FPS maximise:} binary-searches fps from \c MinFps to
@@ -341,7 +341,6 @@ QString GifOptimizer::runProcess(const QStringList& args)
                 process->kill();
             break;
         }
-        QCoreApplication::processEvents();
     }
 
     QString output = process->readAll();

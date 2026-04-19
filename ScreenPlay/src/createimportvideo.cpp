@@ -257,6 +257,11 @@ bool CreateImportVideo::analyzeWebmReadFrames(const QJsonObject& obj)
     const double first = frameRateList.at(0).toDouble();
     const double second = frameRateList.at(1).toDouble();
 
+    if (second == 0.0) {
+        qCWarning(createImportVideo) << "Error: frame rate denominator is zero";
+        return false;
+    }
+
     m_framerate = std::ceil(first / second);
 
     // If the video is to short
@@ -373,6 +378,12 @@ bool CreateImportVideo::analyzeVideo(const QJsonObject& obj)
 
         const double first = avgFrameRateList.at(0).toDouble();
         const double second = avgFrameRateList.at(1).toDouble();
+
+        if (second == 0.0) {
+            qCWarning(createImportVideo) << "Error: frame rate denominator is zero";
+            return false;
+        }
+
         m_framerate = std::ceil(first / second);
 
         // Calculate number of frames from duration and frame rate
@@ -415,6 +426,11 @@ bool CreateImportVideo::analyzeVideo(const QJsonObject& obj)
 
     const double first = avgFrameRateList.at(0).toDouble();
     const double second = avgFrameRateList.at(1).toDouble();
+
+    if (second == 0.0) {
+        qCWarning(createImportVideo) << "Error: frame rate denominator is zero";
+        return false;
+    }
 
     m_framerate = std::ceil(first / second);
 
@@ -644,15 +660,14 @@ bool CreateImportVideo::createWallpaperImageThumbnailPreview()
     emit processOutput("ffmpeg " + Util().toString(args));
 
     const QString ffmpegOut = waitForFinished(args);
-    if (!ffmpegOut.isEmpty()) {
-        const QFile previewImg(m_exportPath + "/previewThumbnail.jpg");
-        if (!previewImg.exists() || !(previewImg.size() > 0)) {
-            emit createWallpaperStateChanged(Import::State::ConvertingPreviewImageThumbnailError);
-            return false;
-        }
+    emit processOutput(ffmpegOut);
+
+    const QFile previewImg(m_exportPath + "/previewThumbnail.jpg");
+    if (!previewImg.exists() || !(previewImg.size() > 0)) {
+        emit createWallpaperStateChanged(Import::State::ConvertingPreviewImageThumbnailError);
+        return false;
     }
 
-    emit processOutput(ffmpegOut);
     emit createWallpaperStateChanged(Import::State::ConvertingPreviewImageThumbnailFinished);
 
     return true;
@@ -700,15 +715,14 @@ bool CreateImportVideo::createWallpaperImagePreview()
 
     emit processOutput("ffmpeg " + Util().toString(args));
     const QString ffmpegOut = waitForFinished(args);
-    if (!ffmpegOut.isEmpty()) {
-        const QFile previewImg(m_exportPath + "/preview.jpg");
-        if (!previewImg.exists() || !(previewImg.size() > 0)) {
-            emit createWallpaperStateChanged(Import::State::ConvertingPreviewImageError);
-            return false;
-        }
+    emit processOutput(ffmpegOut);
+
+    const QFile previewImg(m_exportPath + "/preview.jpg");
+    if (!previewImg.exists() || !(previewImg.size() > 0)) {
+        emit createWallpaperStateChanged(Import::State::ConvertingPreviewImageError);
+        return false;
     }
 
-    emit processOutput(ffmpegOut);
     emit createWallpaperStateChanged(Import::State::ConvertingPreviewImageFinished);
 
     return true;
@@ -968,18 +982,16 @@ bool CreateImportVideo::extractWallpaperAudio()
     args.append(m_exportPath + "/audio.mp3");
 
     const QString tmpErrImg = waitForFinished(args);
+    emit processOutput(tmpErrImg);
 
-    if (!tmpErrImg.isEmpty()) {
-        const QFile previewImg(m_exportPath + "/audio.mp3");
-        if (!previewImg.exists() || !(previewImg.size() > 0)) {
-            qCDebug(createImportVideo) << args;
-            qCDebug(createImportVideo) << tmpErrImg;
-            emit createWallpaperStateChanged(Import::State::ConvertingAudioError);
-            return false;
-        }
+    const QFile audioFile(m_exportPath + "/audio.mp3");
+    if (!audioFile.exists() || !(audioFile.size() > 0)) {
+        qCDebug(createImportVideo) << args;
+        qCDebug(createImportVideo) << tmpErrImg;
+        emit createWallpaperStateChanged(Import::State::ConvertingAudioError);
+        return false;
     }
 
-    emit processOutput(tmpErrImg);
     emit createWallpaperStateChanged(Import::State::ConvertingAudioFinished);
 
     return true;
@@ -1045,7 +1057,6 @@ QString CreateImportVideo::waitForFinished(
             }
             break;
         }
-        QCoreApplication::processEvents();
     }
     QString processOutput;
     if (processChannelMode == QProcess::SeparateChannels) {
