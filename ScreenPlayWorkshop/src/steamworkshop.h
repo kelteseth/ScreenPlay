@@ -73,7 +73,34 @@ public:
     void resetSteamErrorAPIInit();
 
     bool checkOnline();
-    bool checkAndSetQueryActive();
+
+    /*!
+        \brief RAII guard that acquires the query-active flag on construction
+               and resets it on destruction unless dismiss() is called.
+               Use dismiss() once the async Steam call is in flight
+               (the callback takes over responsibility for resetting the flag).
+    */
+    class QueryGuard {
+    public:
+        explicit QueryGuard(SteamWorkshop& workshop)
+            : m_workshop(workshop)
+            , m_acquired(workshop.checkAndSetQueryActive())
+        {
+        }
+        ~QueryGuard()
+        {
+            if (m_acquired)
+                m_workshop.setQueryActive(false);
+        }
+        explicit operator bool() const { return m_acquired; }
+        void dismiss() { m_acquired = false; }
+        QueryGuard(const QueryGuard&) = delete;
+        QueryGuard& operator=(const QueryGuard&) = delete;
+
+    private:
+        SteamWorkshop& m_workshop;
+        bool m_acquired;
+    };
 
 public slots:
     void bulkUploadToWorkshop(QStringList absoluteStoragePaths);
@@ -136,6 +163,8 @@ signals:
     void steamErrorAPIInitChanged();
 
 private:
+    bool checkAndSetQueryActive();
+
     STEAM_CALLBACK(SteamWorkshop, onWorkshopItemInstalled, ItemInstalled_t);
     STEAM_CALLBACK(SteamWorkshop, onPersonaStateChange, PersonaStateChange_t);
 

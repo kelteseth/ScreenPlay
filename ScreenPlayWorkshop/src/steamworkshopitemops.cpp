@@ -18,12 +18,12 @@ namespace ScreenPlayWorkshop {
 */
 
 /*!
-    \fn SteamWorkshopItemOps::SteamWorkshopItemOps(SteamWorkshop &facade, quint64 appID)
-    \brief Constructs a SteamWorkshopItemOps that operates on behalf of \a facade
+    \fn SteamWorkshopItemOps::SteamWorkshopItemOps(SteamWorkshop &workshop, quint64 appID)
+    \brief Constructs a SteamWorkshopItemOps that operates on behalf of \a workshop
            using the Steam App ID \a appID.
 */
-SteamWorkshopItemOps::SteamWorkshopItemOps(SteamWorkshop& facade, quint64 appID)
-    : m_facade(facade)
+SteamWorkshopItemOps::SteamWorkshopItemOps(SteamWorkshop& workshop, quint64 appID)
+    : m_workshop(workshop)
     , m_appID(appID)
 {
 }
@@ -37,23 +37,24 @@ SteamWorkshopItemOps::SteamWorkshopItemOps(SteamWorkshop& facade, quint64 appID)
 */
 void SteamWorkshopItemOps::requestWorkshopItemDetails(const QVariant publishedFileID)
 {
-    if (!m_facade.checkAndSetQueryActive())
+    SteamWorkshop::QueryGuard guard(m_workshop);
+    if (!guard)
         return;
 
-    if (!m_facade.checkOnline())
+    if (!m_workshop.checkOnline())
         return;
 
     if (!SteamUGC()) {
         qCWarning(workshopItemOps) << "SteamUGC() is null in requestWorkshopItemDetails";
-        m_facade.setQueryActive(false);
         return;
     }
 
     auto id = publishedFileID.toULongLong();
     auto apiCall = UGCQueryBuilder::details(&id, 1).send();
 
+    guard.dismiss();
     SteamAsyncCall<SteamUGCQueryCompleted_t>::create(apiCall, [this](SteamUGCQueryCompleted_t* pCallback, bool bIOFailure) {
-        m_facade.setQueryActive(false);
+        m_workshop.setQueryActive(false);
         if (bIOFailure) {
             qCWarning(workshopItemOps) << "requestWorkshopItemDetails IO failure";
             return;
@@ -73,7 +74,7 @@ void SteamWorkshopItemOps::requestWorkshopItemDetails(const QVariant publishedFi
                 detail.fileSize = QVariant::fromValue<int32>(details.m_nFileSize);
                 detail.publishedFileId = QVariant::fromValue<uint64>(details.m_nPublishedFileId);
                 emit requestItemDetailReturned(detail);
-                m_facade.requestCreatorName(QString::number(details.m_ulSteamIDOwner));
+                m_workshop.requestCreatorName(QString::number(details.m_ulSteamIDOwner));
             } else {
                 qCWarning(workshopItemOps) << "GetQueryUGCResult failed!";
             }
@@ -89,10 +90,11 @@ void SteamWorkshopItemOps::requestWorkshopItemDetails(const QVariant publishedFi
 */
 void SteamWorkshopItemOps::requestProfileItemDetails(const QVariant publishedFileID)
 {
-    if (!m_facade.checkAndSetQueryActive())
+    SteamWorkshop::QueryGuard guard(m_workshop);
+    if (!guard)
         return;
 
-    if (!m_facade.checkOnline())
+    if (!m_workshop.checkOnline())
         return;
 
     auto id = publishedFileID.toULongLong();
@@ -102,8 +104,9 @@ void SteamWorkshopItemOps::requestProfileItemDetails(const QVariant publishedFil
                        .withChildren()
                        .send();
 
+    guard.dismiss();
     SteamAsyncCall<SteamUGCQueryCompleted_t>::create(apiCall, [this](SteamUGCQueryCompleted_t* pCallback, bool bIOFailure) {
-        m_facade.setQueryActive(false);
+        m_workshop.setQueryActive(false);
         if (bIOFailure) {
             qCWarning(workshopItemOps) << "requestProfileItemDetails IO failure";
             return;
@@ -163,7 +166,7 @@ void SteamWorkshopItemOps::requestProfileItemDetails(const QVariant publishedFil
 */
 void SteamWorkshopItemOps::updateItemMetadata(const QVariant publishedFileID, const QString& title, const QString& description, const QStringList& tags, const int visibility)
 {
-    if (!m_facade.checkOnline())
+    if (!m_workshop.checkOnline())
         return;
 
     const auto fileId = publishedFileID.toULongLong();
@@ -278,7 +281,7 @@ QVariantList SteamWorkshopItemOps::getItemFileList(const QVariant publishedFileI
 */
 void SteamWorkshopItemOps::updateItemContent(const QVariant publishedFileID, const QString& absoluteContentPath, const QString& changeNote)
 {
-    if (!m_facade.checkOnline())
+    if (!m_workshop.checkOnline())
         return;
 
     const auto fileId = publishedFileID.toULongLong();
@@ -344,12 +347,12 @@ QVariantMap SteamWorkshopItemOps::getContentUpdateProgress() const
     \fn void SteamWorkshopItemOps::deleteItem(const QVariant publishedFileID)
     \brief Permanently deletes the Workshop item identified by \a publishedFileID
            from Steam. Emits \c workshopItemDeleted when the Steam callback
-           returns. The facade wires this signal to remove the item from the
+           returns. The workshop wires this signal to remove the item from the
            profile list model.
 */
 void SteamWorkshopItemOps::deleteItem(const QVariant publishedFileID)
 {
-    if (!m_facade.checkOnline())
+    if (!m_workshop.checkOnline())
         return;
 
     const auto fileId = publishedFileID.toULongLong();
@@ -379,7 +382,7 @@ void SteamWorkshopItemOps::deleteItem(const QVariant publishedFileID)
 */
 void SteamWorkshopItemOps::vote(const QVariant publishedFileID, const bool voteUp)
 {
-    if (!m_facade.checkOnline())
+    if (!m_workshop.checkOnline())
         return;
 
     SteamUGC()->SetUserItemVote(publishedFileID.toULongLong(), voteUp);
@@ -407,11 +410,11 @@ bool SteamWorkshopItemOps::isSubscribed(const QVariant publishedFileID) const
 */
 void SteamWorkshopItemOps::subscribeItem(const QVariant publishedFileID)
 {
-    if (!m_facade.checkOnline())
+    if (!m_workshop.checkOnline())
         return;
 
     SteamUGC()->SubscribeItem(publishedFileID.toULongLong());
-    m_facade.steamAccount()->loadAmountSubscribedItems();
+    m_workshop.steamAccount()->loadAmountSubscribedItems();
 }
 
 /*!
@@ -422,11 +425,11 @@ void SteamWorkshopItemOps::subscribeItem(const QVariant publishedFileID)
 */
 void SteamWorkshopItemOps::unsubscribeItem(const QVariant publishedFileID)
 {
-    if (!m_facade.checkOnline())
+    if (!m_workshop.checkOnline())
         return;
 
     SteamUGC()->UnsubscribeItem(publishedFileID.toULongLong());
-    m_facade.steamAccount()->loadAmountSubscribedItems();
+    m_workshop.steamAccount()->loadAmountSubscribedItems();
 }
 
 } // namespace ScreenPlayWorkshop

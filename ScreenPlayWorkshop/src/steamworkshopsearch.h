@@ -29,7 +29,7 @@ class SteamWorkshopSearch : public QObject {
     Q_PROPERTY(ScreenPlayWorkshop::SteamWorkshopListModel* workshopListModel READ workshopListModel CONSTANT)
 
 public:
-    explicit SteamWorkshopSearch(SteamWorkshop& facade, quint64 appID);
+    explicit SteamWorkshopSearch(SteamWorkshop& workshop, quint64 appID);
 
     void init();
 
@@ -56,7 +56,7 @@ private:
     void onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure);
     ParsedSearch parseSearchInput(const QString& input) const;
 
-    SteamWorkshop& m_facade;
+    SteamWorkshop& m_workshop;
     quint64 m_appID;
 
     UGCQueryHandle_t m_searchHandle = 0;

@@ -28,7 +28,7 @@ class SteamWorkshopItemOps : public QObject {
     QML_UNCREATABLE("Created by SteamWorkshop")
 
 public:
-    explicit SteamWorkshopItemOps(SteamWorkshop& facade, quint64 appID);
+    explicit SteamWorkshopItemOps(SteamWorkshop& workshop, quint64 appID);
 
     Q_INVOKABLE void requestWorkshopItemDetails(const QVariant publishedFileID);
     Q_INVOKABLE void requestProfileItemDetails(const QVariant publishedFileID);
@@ -57,7 +57,7 @@ signals:
     void workshopItemDeleted(bool success, QVariant publishedFileID);
 
 private:
-    SteamWorkshop& m_facade;
+    SteamWorkshop& m_workshop;
     quint64 m_appID;
     UGCUpdateHandle_t m_contentUpdateHandle = k_UGCUpdateHandleInvalid;
 };

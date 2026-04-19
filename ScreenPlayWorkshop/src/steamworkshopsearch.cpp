@@ -18,12 +18,12 @@ namespace ScreenPlayWorkshop {
 */
 
 /*!
-    \fn SteamWorkshopSearch::SteamWorkshopSearch(SteamWorkshop &facade, quint64 appID)
-    \brief Constructs a SteamWorkshopSearch that operates on behalf of \a facade
+    \fn SteamWorkshopSearch::SteamWorkshopSearch(SteamWorkshop &workshop, quint64 appID)
+    \brief Constructs a SteamWorkshopSearch that operates on behalf of \a workshop
            using the Steam App ID \a appID.
 */
-SteamWorkshopSearch::SteamWorkshopSearch(SteamWorkshop& facade, quint64 appID)
-    : m_facade(facade)
+SteamWorkshopSearch::SteamWorkshopSearch(SteamWorkshop& workshop, quint64 appID)
+    : m_workshop(workshop)
     , m_appID(appID)
 {
 }
@@ -50,10 +50,11 @@ bool SteamWorkshopSearch::searchWorkshop(const ScreenPlayCore::Steam::EUGCQuery 
 {
     qCInfo(workshopSearch) << "searchWorkshop";
 
-    if (!m_facade.checkAndSetQueryActive())
+    SteamWorkshop::QueryGuard guard(m_workshop);
+    if (!guard)
         return false;
 
-    if (!m_facade.checkOnline())
+    if (!m_workshop.checkOnline())
         return false;
 
     if (m_searchHandle != 0) {
@@ -63,7 +64,6 @@ bool SteamWorkshopSearch::searchWorkshop(const ScreenPlayCore::Steam::EUGCQuery 
 
     if (!SteamUGC()) {
         qCWarning(workshopSearch) << "SteamUGC() returned null in searchWorkshop - Steam API not properly initialized";
-        m_facade.setQueryActive(false);
         return false;
     }
 
@@ -80,6 +80,7 @@ bool SteamWorkshopSearch::searchWorkshop(const ScreenPlayCore::Steam::EUGCQuery 
     qCInfo(workshopSearch) << m_searchHandle;
 
     SteamAsyncCall<SteamUGCQueryCompleted_t>::create(query.send(), [this](auto* cb, bool io) { onWorkshopSearched(cb, io); }, this);
+    guard.dismiss();
     return true;
 }
 
@@ -98,10 +99,11 @@ bool SteamWorkshopSearch::loadNextPage()
         return false;
     }
 
-    if (!m_facade.checkAndSetQueryActive())
+    SteamWorkshop::QueryGuard guard(m_workshop);
+    if (!guard)
         return false;
 
-    if (!m_facade.checkOnline())
+    if (!m_workshop.checkOnline())
         return false;
 
     if (m_searchHandle != 0) {
@@ -136,6 +138,7 @@ bool SteamWorkshopSearch::loadNextPage()
     }
 
     SteamAsyncCall<SteamUGCQueryCompleted_t>::create(query.send(), [this](auto* cb, bool io) { onWorkshopSearched(cb, io); }, this);
+    guard.dismiss();
     return true;
 }
 
@@ -149,15 +152,15 @@ void SteamWorkshopSearch::searchWorkshopByText(const QString& text, const Screen
 {
     qCInfo(workshopSearch) << "searchWorkshopByText" << text;
 
-    if (!m_facade.checkAndSetQueryActive())
+    SteamWorkshop::QueryGuard guard(m_workshop);
+    if (!guard)
         return;
 
-    if (!m_facade.checkOnline())
+    if (!m_workshop.checkOnline())
         return;
 
     if (!SteamUGC()) {
         qCWarning(workshopSearch) << "SteamUGC() returned null in searchWorkshopByText - Steam API not properly initialized";
-        m_facade.setQueryActive(false);
         return;
     }
 
@@ -177,6 +180,7 @@ void SteamWorkshopSearch::searchWorkshopByText(const QString& text, const Screen
                        .send();
 
     SteamAsyncCall<SteamUGCQueryCompleted_t>::create(apiCall, [this](auto* cb, bool io) { onWorkshopSearched(cb, io); }, this);
+    guard.dismiss();
 }
 
 /*!
@@ -188,15 +192,15 @@ void SteamWorkshopSearch::searchWorkshopByUser(const QString& steamID64)
 {
     qCInfo(workshopSearch) << "searchWorkshopByUser" << steamID64;
 
-    if (!m_facade.checkAndSetQueryActive())
+    SteamWorkshop::QueryGuard guard(m_workshop);
+    if (!guard)
         return;
 
-    if (!m_facade.checkOnline())
+    if (!m_workshop.checkOnline())
         return;
 
     if (!SteamUGC()) {
         qCWarning(workshopSearch) << "SteamUGC() returned null in searchWorkshopByUser";
-        m_facade.setQueryActive(false);
         return;
     }
 
@@ -216,6 +220,7 @@ void SteamWorkshopSearch::searchWorkshopByUser(const QString& steamID64)
                        .send();
 
     SteamAsyncCall<SteamUGCQueryCompleted_t>::create(apiCall, [this](auto* cb, bool io) { onWorkshopSearched(cb, io); }, this);
+    guard.dismiss();
 }
 
 /*!
@@ -226,7 +231,7 @@ void SteamWorkshopSearch::searchWorkshopByUser(const QString& steamID64)
 */
 void SteamWorkshopSearch::onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure)
 {
-    m_facade.setQueryActive(false);
+    m_workshop.setQueryActive(false);
     m_searchHandle = 0;
     m_workshopListModel->setIsLoading(false);
     if (bIOFailure) {
@@ -329,7 +334,7 @@ bool SteamWorkshopSearch::queryWorkshopItemFromHandle(SteamWorkshopListModel* li
                     additionalPreviewUrl,
                     QUrl(), // WebP URL unused — Steam converts WebP to GIF
                     QString(details.m_rgchTags).split(",", Qt::SkipEmptyParts),
-                    details.m_ulSteamIDOwner == m_facade.steamAccount()->steamID64(),
+                    details.m_ulSteamIDOwner == m_workshop.steamAccount()->steamID64(),
                     details.m_ulSteamIDOwner
                 };
 
@@ -337,7 +342,7 @@ bool SteamWorkshopSearch::queryWorkshopItemFromHandle(SteamWorkshopListModel* li
 
                 if (i == 0 && listModel->currentPage() == 1) {
                     emit workshopBannerCompleted();
-                    m_facade.requestCreatorName(QString::number(details.m_ulSteamIDOwner));
+                    m_workshop.requestCreatorName(QString::number(details.m_ulSteamIDOwner));
                 }
             }
         } else {

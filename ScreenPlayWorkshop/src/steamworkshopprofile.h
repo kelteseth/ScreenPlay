@@ -27,7 +27,7 @@ class SteamWorkshopProfile : public QObject {
     Q_PROPERTY(quint64 userTotalSubscriptions READ userTotalSubscriptions NOTIFY userTotalSubscriptionsChanged)
 
 public:
-    explicit SteamWorkshopProfile(SteamWorkshop& facade, SteamWorkshopSearch& search, quint64 appID);
+    explicit SteamWorkshopProfile(SteamWorkshop& workshop, SteamWorkshopSearch& search, quint64 appID);
 
     void init();
 
@@ -48,7 +48,7 @@ private:
     void onRequestUserItemsReturned(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure);
     void updateUserProfileStatistics();
 
-    SteamWorkshop& m_facade;
+    SteamWorkshop& m_workshop;
     SteamWorkshopSearch& m_search;
     quint64 m_appID;
 

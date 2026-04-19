@@ -10,7 +10,7 @@ namespace ScreenPlayWorkshop {
 /*!
     \class ScreenPlayWorkshop::SteamWorkshop
     \inmodule ScreenPlayWorkshop
-    \brief Thin QML-facing facade that composes SteamWorkshopSearch,
+    \brief Thin QML-facing class that composes SteamWorkshopSearch,
            SteamWorkshopProfile and SteamWorkshopItemOps.
 
     Sub-objects are exposed directly to QML via the \c search, \c profile

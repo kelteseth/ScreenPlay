@@ -19,13 +19,13 @@ namespace ScreenPlayWorkshop {
 */
 
 /*!
-    \fn SteamWorkshopProfile::SteamWorkshopProfile(SteamWorkshop &facade, SteamWorkshopSearch &search, quint64 appID)
-    \brief Constructs a SteamWorkshopProfile. The \a facade is used for online
+    \fn SteamWorkshopProfile::SteamWorkshopProfile(SteamWorkshop &workshop, SteamWorkshopSearch &search, quint64 appID)
+    \brief Constructs a SteamWorkshopProfile. The \a workshop is used for online
            checks and account access; \a search provides the shared
            queryWorkshopItemFromHandle() helper; \a appID identifies the Steam app.
 */
-SteamWorkshopProfile::SteamWorkshopProfile(SteamWorkshop& facade, SteamWorkshopSearch& search, quint64 appID)
-    : m_facade(facade)
+SteamWorkshopProfile::SteamWorkshopProfile(SteamWorkshop& workshop, SteamWorkshopSearch& search, quint64 appID)
+    : m_workshop(workshop)
     , m_search(search)
     , m_appID(appID)
 {
@@ -51,10 +51,11 @@ void SteamWorkshopProfile::requestUserItems(
     const ScreenPlayCore::Steam::EUserUGCList listType,
     const ScreenPlayCore::Steam::EUserUGCListSortOrder sortOrder)
 {
-    if (!m_facade.checkAndSetQueryActive())
+    SteamWorkshop::QueryGuard guard(m_workshop);
+    if (!guard)
         return;
 
-    if (!m_facade.checkOnline())
+    if (!m_workshop.checkOnline())
         return;
 
     m_currentProfileListType = listType;
@@ -63,7 +64,7 @@ void SteamWorkshopProfile::requestUserItems(
     m_workshopProfileListModel->setIsLoading(true);
 
     auto apiCall = UGCQueryBuilder::userItems(
-        m_facade.steamAccount()->accountID(), m_appID,
+        m_workshop.steamAccount()->accountID(), m_appID,
         static_cast<EUserUGCList>(listType),
         EUGCMatchingUGCType::k_EUGCMatchingUGCType_Items,
         static_cast<EUserUGCListSortOrder>(sortOrder),
@@ -71,6 +72,7 @@ void SteamWorkshopProfile::requestUserItems(
                        .send();
 
     SteamAsyncCall<SteamUGCQueryCompleted_t>::create(apiCall, [this](auto* cb, bool io) { onRequestUserItemsReturned(cb, io); }, this);
+    guard.dismiss();
 }
 
 /*!
@@ -88,17 +90,18 @@ bool SteamWorkshopProfile::loadNextProfilePage()
         return false;
     }
 
-    if (!m_facade.checkAndSetQueryActive())
+    SteamWorkshop::QueryGuard guard(m_workshop);
+    if (!guard)
         return false;
 
-    if (!m_facade.checkOnline())
+    if (!m_workshop.checkOnline())
         return false;
 
     m_workshopProfileListModel->incrementPage();
     m_workshopProfileListModel->setIsLoading(true);
 
     auto apiCall = UGCQueryBuilder::userItems(
-        m_facade.steamAccount()->accountID(), m_appID,
+        m_workshop.steamAccount()->accountID(), m_appID,
         static_cast<EUserUGCList>(m_currentProfileListType),
         EUGCMatchingUGCType::k_EUGCMatchingUGCType_Items,
         static_cast<EUserUGCListSortOrder>(m_currentProfileSortOrder),
@@ -106,6 +109,7 @@ bool SteamWorkshopProfile::loadNextProfilePage()
                        .send();
 
     SteamAsyncCall<SteamUGCQueryCompleted_t>::create(apiCall, [this](auto* cb, bool io) { onRequestUserItemsReturned(cb, io); }, this);
+    guard.dismiss();
     return true;
 }
 
@@ -117,7 +121,7 @@ bool SteamWorkshopProfile::loadNextProfilePage()
 */
 void SteamWorkshopProfile::onRequestUserItemsReturned(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure)
 {
-    m_facade.setQueryActive(false);
+    m_workshop.setQueryActive(false);
     m_workshopProfileListModel->setIsLoading(false);
     if (bIOFailure) {
         qCWarning(workshopProfile) << "onRequestUserItemsReturned IO Failure";
