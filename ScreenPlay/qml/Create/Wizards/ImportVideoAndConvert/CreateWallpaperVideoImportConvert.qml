@@ -302,6 +302,43 @@ Item {
                 width: parent.width
                 Layout.fillWidth: true
             }
+
+            Text {
+                text: qsTr("Does your wallpaper contain any of the following?")
+                color: Material.secondaryTextColor
+                font.pointSize: 11
+                font.family: App.settings.font
+                Layout.fillWidth: true
+                Layout.topMargin: 16
+            }
+
+            ColumnLayout {
+                Layout.fillWidth: true
+                spacing: -4
+
+                Switch {
+                    id: switchNsfw
+                    text: qsTr("🔞 NSFW")
+                    font.family: App.settings.font
+                    ToolTip.visible: hovered
+                    ToolTip.delay: 300
+                    ToolTip.text: qsTr("Not Safe For Work — mark if this wallpaper contains adult, violent, or otherwise sensitive content.")
+                }
+
+                Switch {
+                    id: switchAnime
+                    text: qsTr("🌸 Anime")
+                    font.family: App.settings.font
+                    ToolTip.visible: hovered
+                    ToolTip.delay: 300
+                    ToolTip.text: qsTr("Mark if this wallpaper features anime or manga art style content.")
+                }
+            }
+
+            Item {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+            }
         }
 
         Row {
@@ -342,7 +379,12 @@ Item {
                 onClicked: {
                     if (conversionFinishedSuccessful) {
                         btnSave.enabled = false
-                        App.create.saveWallpaper(textFieldName.text, textFieldDescription.text, root.filePath, previewSelector.imageSource, textFieldYoutubeURL.text, root.codec, textFieldTags.getTags())
+                        let tags = textFieldTags.getTags()
+                        if (switchNsfw.checked)
+                            tags.push("NSFW")
+                        if (switchAnime.checked)
+                            tags.push("Anime")
+                        App.create.saveWallpaper(textFieldName.text, textFieldDescription.text, root.filePath, previewSelector.imageSource, textFieldYoutubeURL.text, root.codec, tags)
                         savePopup.open()
                     }
                 }

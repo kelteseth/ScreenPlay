@@ -32,6 +32,7 @@ Period: 2026-01-01 – present
 
 **Video import & previews**
 - Video import pipeline overhaul — 16:9 crop, single-pass CRF, preview improvements ([`983da1fe`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/983da1fe))
+- NSFW (🔞) and Anime (🌸) toggle switches on video import with tooltip hints — saved as tags in `project.json`
 - GifOptimizer — adaptive two-phase GIF encoder for Steam 1 MB preview limit ([`d8b69d9b`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/d8b69d9b))
 - GIF wallpaper preview extraction on import ([`7e438315`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/7e438315))
 - GIF wallpaper preview fallback and MSVC 18 support ([`050f786f`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/050f786f))
