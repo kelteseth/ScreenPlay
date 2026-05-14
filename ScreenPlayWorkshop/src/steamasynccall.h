@@ -35,9 +35,18 @@ public:
         \brief Creates a new SteamAsyncCall that will invoke \a callback when
                the Steam API call identified by \a apiCall completes.
                The call is parented to \a parent for automatic lifetime management.
+
+               Returns nullptr if \a apiCall is k_uAPICallInvalid — i.e. the
+               underlying Steam call failed synchronously (SteamUGC not
+               initialised, no logged-in user, etc.). The callback is not
+               invoked in that case; the caller must handle the failure.
     */
-    static SteamAsyncCall* create(SteamAPICall_t apiCall, Callback callback, QObject* parent = nullptr)
+    static SteamAsyncCall* create(SteamAPICall_t apiCall, Callback callback, QObject* parent)
     {
+        if (apiCall == k_uAPICallInvalid) {
+            qCritical("SteamAsyncCall: refused k_uAPICallInvalid; the underlying Steam call failed synchronously");
+            return nullptr;
+        }
         return new SteamAsyncCall(apiCall, std::move(callback), parent);
     }
 
