@@ -156,3 +156,52 @@ Period: 2026-01-01 – present
 - **Qt updated** to 6.10.2 ([`962eb055`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/962eb055))
 - **vcpkg, qcoro, and Windows ffmpeg** updated ([`6c0daf96`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/6c0daf96))
 - **`rich` and `requests`** added to `pyproject.toml` dependencies
+
+---
+
+## [!115](https://gitlab.com/kelteseth/ScreenPlay/-/merge_requests/115) Timeline, External Process & SDK Bug Fixes
+
+#### New
+
+**Refactoring**
+- `WallpaperState` extracted as a dedicated `QObject` to consolidate playback state (volume, fillmode, isLooping, playbackRate, current time, muted) previously scattered across `ScreenPlayWallpaper` — restored settings now survive crash-restart correctly ([`4fa35085`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/4fa35085))
+
+**Tests**
+- `tst_timeline` — data-driven coverage for `ScreenPlayTimelineManager` (structural invariants, regression coverage for timeline bug fixes) ([`154a4845`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/154a4845))
+- `tst_external_process` — widget/wallpaper lifecycle state machine, timer-stop regression for `ScreenPlayWidget::close()`, signal/state coverage ([`154a4845`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/154a4845))
+- `tst_sdk` — `SDKConnection` `readyRead` protocol parsing, `sendMessage` round-trip, and `close()` return-value regression coverage ([`979a120c`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/979a120c))
+
+#### Fixed
+
+**Timeline**
+- 11 bugs in the timeline flow from QML through to the wallpaper process ([`32a8de68`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/32a8de68))
+- `co_await` missing on `removeTimelineAt` in `checkActiveWallpaperTimeline` — coroutine result was discarded ([`93f32d6b`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/93f32d6b))
+- Crash in `updateMonitorListModelData` when the timeline is inactive ([`fe75c54c`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/fe75c54c))
+- `setActiveTimelineIndex(-1)` triggered when removing the timeline at index 0 with 3+ sections ([`a39f6c9d`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/a39f6c9d))
+- `const_cast` undefined behaviour when enforcing full-day span for the basic version — section now stores `effectiveStart`/`effectiveEnd` instead of mutating const input ([`829cf949`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/829cf949))
+
+**External process / wallpaper lifecycle**
+- `ScreenPlayWidget::close()` did not stop the ping and stability timers, leaving them firing on a closed widget ([`226370f2`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/226370f2))
+- Orphaned wallpaper process when live-replace placement fails ([`9cac2c91`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/9cac2c91))
+- UI not updated when a wallpaper crashes after exhausting its max retry budget ([`c3d6c38d`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/c3d6c38d))
+- Saved settings (volume, fillmode) not re-applied when a wallpaper restarts after a crash ([`30958116`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/30958116))
+
+**SDK**
+- `ScreenPlaySDK` rewritten — removed `global_sdkPtr`, fixed infinite recursion, null-pointer crash, protocol mismatch, and revised the cleanup API ([`f87c6f1d`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/f87c6f1d))
+- `SDKConnection::readyRead` dropped messages when a ping arrived in the same TCP packet as another message ([`71b05c8a`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/71b05c8a))
+- `SDKConnection::close()` always returned `false` because the disconnect is async ([`721ad0cf`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/721ad0cf))
+- `SDKConnection` `requestRaise` command was dead code and never fired ([`2c78f2a9`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/2c78f2a9))
+- Volume validation logic, double `sdkDisconnected` emission, and `global_sdkPtr` dangling on destruction ([`924e35d5`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/924e35d5))
+
+**Startup & UI**
+- `startup()` never called when `profiles.json` had partial load failures ([`f3323f3b`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/f3323f3b))
+- Missing `raise()` calls so the main window reliably comes to the front ([`fa68328e`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/fa68328e))
+
+**Misc**
+- `GifWallpaper` search-type classification ([`9ca639c7`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/9ca639c7))
+- Sentry crashpad handler path ([`09ce97c3`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/09ce97c3))
+- `brand_godot.svg` rendering in the Qt SVG renderer ([`996b4a67`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/996b4a67))
+- CI: accidentally tracked `qqcoro` gitlink removed ([`dfa70327`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/dfa70327))
+
+#### Changed
+- **vcpkg** updated to 19.04.2026 ([`64501b85`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/64501b85))
