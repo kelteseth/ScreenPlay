@@ -106,6 +106,7 @@ Period: 2026-01-01 – present
 - `SteamWorkshopStartPage.qml` → renamed to `SteamWorkshopView.qml`
 - `SteamWorkshop` god-class split into `SteamWorkshopSearch`, `SteamWorkshopProfile`, `SteamWorkshopItemOps` sub-objects ([`be8a38c5`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/be8a38c5))
 - `ScreenPlayWorkshop` refactored — reduced Steam API boilerplate and improved type safety ([`2aa56401`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/2aa56401))
+- Steamworks `SteamAPI_Init` and `SteamAPI_RestartAppIfNecessary` failure modes documented inline at the call site so future debugging does not require chasing the SDK reference ([`ccad7257`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/ccad7257))
 - Sidebar refactored to use a single unified struct ([`e450ae9c`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/e450ae9c))
 - `SteamWorkshopView` converted from `Flickable` + `GridView` to a pure `GridView` ([`c14ac273`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/c14ac273))
 - `SteamProfile` rewritten with `MaterialGridView` and header section matching browse layout
@@ -126,8 +127,12 @@ Period: 2026-01-01 – present
 - FFmpeg upgraded to 8.1, Windows download switched to full 7z archive ([`3094aa90`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/3094aa90))
 - CMake preset inherits reordered so `config-develop` overrides build-type defaults ([`852a6ae1`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/852a6ae1))
 - vcpkg updated and doctest added ([`2d0f77ad`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/2d0f77ad))
+- Steamworks SDK updated to v1.64; update procedure documented in `ThirdParty/Steam/SteamSDKUpdate.md` ([`3f164c07`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/3f164c07))
 - Sentry CLI updated to 3.2.1 in CI ([`bb5e55b0`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/bb5e55b00ff7c03499fa5a08011976d2971234c4))
 - Content folder copied to build directory at build time via `copy_directory_if_different` ([`32481236`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/32481236))
+- ffmpeg/ffprobe path resolution centralised in `Util::ffmpegExecutable()` / `ffprobeExecutable()` / `isFFmpegBundled()` — collapses four duplicated `#ifdef` blocks across `create.cpp`, `createimportvideo.cpp`, and `tst_GifOptimizer.cpp` ([`180d129a`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/180d129a))
+- `Wizards::contentPath()` moved to `Util::bundledExampleContentPath()` so non-Wizards callers can reuse it; per-OS branching converted from `#ifdef` to runtime `QOperatingSystemVersion` ([`60630a1a`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/60630a1a))
+- `Qt6::Concurrent` added as a `ScreenPlay` target dependency ([`9e4c8f03`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/9e4c8f03))
 
 ---
 
