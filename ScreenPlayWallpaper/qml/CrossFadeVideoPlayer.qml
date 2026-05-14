@@ -21,7 +21,7 @@ Item {
     property real normalizedPosition: 0
 
     // Emitted when crossfade transition completes
-    signal transitionFinished()
+    signal transitionFinished
 
     property int _activePlayer: CrossFadeVideoPlayer.Player.One
     property bool _initialized: false
@@ -66,7 +66,8 @@ Item {
         if (_activePlayer === CrossFadeVideoPlayer.Player.One) {
             // Switching TO player Two
             mediaPlayer2.source = root.source
-            ao2.volume = 0  // Incoming starts silent
+            ao2.volume = 0
+            // Incoming starts silent
 
             vo2.z = 0
             vo2.opacity = 0
@@ -78,7 +79,8 @@ Item {
         } else {
             // Switching TO player One
             mediaPlayer1.source = source
-            ao1.volume = 0  // Incoming starts silent
+            ao1.volume = 0
+            // Incoming starts silent
 
             vo1.z = 0
             vo1.opacity = 0
@@ -195,7 +197,7 @@ Item {
 
         incomingPlayer.play()
         incomingOutput.opacity = 1
-        fadeOut.start()
+        fadeOut.start();
 
         // Audio crossfade: outgoing fades from current volume to 0
         //                  incoming fades from 0 to targetVolume

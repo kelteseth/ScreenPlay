@@ -25,8 +25,4 @@ target_compile_features(ScreenPlaySDKLib PRIVATE cxx_std_23)
 
 target_include_directories(ScreenPlaySDKLib PUBLIC inc/public/)
 
-target_link_libraries(
-    ScreenPlaySDKLib
-    PUBLIC Qt6::Core
-           Qt6::Network
-           ScreenPlayCoreLib)
+target_link_libraries(ScreenPlaySDKLib PUBLIC Qt6::Core Qt6::Network ScreenPlayCoreLib)

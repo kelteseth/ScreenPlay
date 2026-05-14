@@ -178,12 +178,12 @@ private slots:
 
         // First section starts at midnight, ends somewhere in the middle
         const QTime sec0Start = QTime::fromString(sections[0].toObject().value("startTime").toString(), "hh:mm:ss");
-        const QTime sec0End   = QTime::fromString(sections[0].toObject().value("endTime").toString(), "hh:mm:ss");
+        const QTime sec0End = QTime::fromString(sections[0].toObject().value("endTime").toString(), "hh:mm:ss");
         const QTime sec1Start = QTime::fromString(sections[1].toObject().value("startTime").toString(), "hh:mm:ss");
-        const QTime sec1End   = QTime::fromString(sections[1].toObject().value("endTime").toString(), "hh:mm:ss");
+        const QTime sec1End = QTime::fromString(sections[1].toObject().value("endTime").toString(), "hh:mm:ss");
 
         QCOMPARE(sec0Start, QTime(0, 0, 0));
-        QCOMPARE(sec0End, sec1Start);     // sections are contiguous
+        QCOMPARE(sec0End, sec1Start); // sections are contiguous
         QCOMPARE(sec1End, QTime(23, 59, 59));
         QVERIFY(sec0End < sec1End);
     }
@@ -343,11 +343,11 @@ private slots:
         QTest::addColumn<int>("expectedIndex");
 
         // Three sections: 00:00:00-08:00:00, 08:00:00-20:00:00, 20:00:00-23:59:59
-        QTest::newRow("in_first_section")   << "04:00:00" << 0;
-        QTest::newRow("in_second_section")  << "14:00:00" << 1;
-        QTest::newRow("in_last_section")    << "22:00:00" << 2;
-        QTest::newRow("at_exact_boundary")  << "08:00:00" << 1; // boundary belongs to the right section
-        QTest::newRow("midnight")           << "00:00:00" << 0;
+        QTest::newRow("in_first_section") << "04:00:00" << 0;
+        QTest::newRow("in_second_section") << "14:00:00" << 1;
+        QTest::newRow("in_last_section") << "22:00:00" << 2;
+        QTest::newRow("at_exact_boundary") << "08:00:00" << 1; // boundary belongs to the right section
+        QTest::newRow("midnight") << "00:00:00" << 0;
     }
 
     // Note: we cannot override QTime::currentTime() so we test containsTime directly.
@@ -372,7 +372,7 @@ private slots:
         for (int i = 0; i < sections.size(); ++i) {
             const QJsonObject s = sections[i].toObject();
             const QTime start = QTime::fromString(s.value("startTime").toString(), "hh:mm:ss");
-            const QTime end   = QTime::fromString(s.value("endTime").toString(), "hh:mm:ss");
+            const QTime end = QTime::fromString(s.value("endTime").toString(), "hh:mm:ss");
             // Replicate containsTime: [start, end)
             if (t >= start && t < end) {
                 QCOMPARE(i, expectedIndex);
@@ -411,7 +411,7 @@ private slots:
 
         auto sections = f.tlm().timelineSections();
         // Section 1's startTime must equal section 0's new endTime
-        const QString sec0End   = sections[0].toObject().value("endTime").toString();
+        const QString sec0End = sections[0].toObject().value("endTime").toString();
         const QString sec1Start = sections[1].toObject().value("startTime").toString();
         QCOMPARE(sec0End, sec1Start);
     }
@@ -440,10 +440,10 @@ private slots:
         QCOMPARE(secondDump.size(), firstDump.size());
 
         for (int i = 0; i < firstDump.size(); ++i) {
-            const QJsonObject orig    = firstDump[i].toObject();
+            const QJsonObject orig = firstDump[i].toObject();
             const QJsonObject rebuilt = secondDump[i].toObject();
             QCOMPARE(rebuilt.value("startTime").toString(), orig.value("startTime").toString());
-            QCOMPARE(rebuilt.value("endTime").toString(),   orig.value("endTime").toString());
+            QCOMPARE(rebuilt.value("endTime").toString(), orig.value("endTime").toString());
         }
     }
 
