@@ -204,6 +204,9 @@ public:
     Q_INVOKABLE QString generateRandomString(quint32 length = 32);
     QString executableAppEnding();
     QString executableBinEnding();
+    static bool isFFmpegBundled();
+    static QString ffmpegExecutable();
+    static QString ffprobeExecutable();
     QStringList getAvailableWallpaper() const;
     QStringList getAvailableWidgets() const;
     QStringList getAvailableTypes() const;

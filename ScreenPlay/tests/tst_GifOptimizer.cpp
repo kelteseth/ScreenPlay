@@ -12,6 +12,7 @@
 #include "ScreenPlay/createimportvideo.h"
 #include "ScreenPlay/gifoptimizer.h"
 #include "ScreenPlayCore/testtmpdir.h"
+#include "ScreenPlayCore/util.h"
 
 #include "CMakeVariables.h"
 
@@ -53,21 +54,6 @@ private:
     {
         QFileInfo fi(path);
         return fi.exists() && fi.size() > 0;
-    }
-
-    QString ffmpegPath()
-    {
-#ifdef Q_OS_LINUX
-        return "ffmpeg";
-#else
-        const QString suffix =
-#ifdef Q_OS_WIN
-            ".exe";
-#else
-            "";
-#endif
-        return QGuiApplication::applicationDirPath() + "/ffmpeg" + suffix;
-#endif
     }
 
     void printDirSummary(const QString& label, const QString& dir)
@@ -137,7 +123,7 @@ private slots:
         QVERIFY(importer->createWallpaperVideoPreview());
         QVERIFY(fileExistsAndNonEmpty(dir + "/preview.webm"));
 
-        ScreenPlay::GifOptimizer optimizer(ffmpegPath(), interrupt);
+        ScreenPlay::GifOptimizer optimizer(ScreenPlay::Util::ffmpegExecutable(), interrupt);
         auto result = optimizer.optimize(dir + "/preview.webm", dir + "/preview.gif");
 
         if (!result.has_value()) {
@@ -172,7 +158,7 @@ private slots:
         QVERIFY(importer->createWallpaperVideoPreview());
         QVERIFY(fileExistsAndNonEmpty(dir + "/preview.webm"));
 
-        ScreenPlay::GifOptimizer optimizer(ffmpegPath(), interrupt);
+        ScreenPlay::GifOptimizer optimizer(ScreenPlay::Util::ffmpegExecutable(), interrupt);
         auto result = optimizer.optimize(dir + "/preview.webm", dir + "/preview.gif");
 
         if (!result.has_value()) {
@@ -207,7 +193,7 @@ private slots:
         QVERIFY(importer->createWallpaperVideoPreview());
         QVERIFY(fileExistsAndNonEmpty(dir + "/preview.webm"));
 
-        ScreenPlay::GifOptimizer optimizer(ffmpegPath(), interrupt);
+        ScreenPlay::GifOptimizer optimizer(ScreenPlay::Util::ffmpegExecutable(), interrupt);
         auto result = optimizer.optimize(dir + "/preview.webm", dir + "/preview.gif");
 
         if (!result.has_value()) {
@@ -236,7 +222,7 @@ private slots:
         const QString dir = makeSubDir("missing_input");
         std::atomic<bool> interrupt { false };
 
-        ScreenPlay::GifOptimizer optimizer(ffmpegPath(), interrupt);
+        ScreenPlay::GifOptimizer optimizer(ScreenPlay::Util::ffmpegExecutable(), interrupt);
 
         auto result = optimizer.optimize(
             dir + "/does_not_exist.webm", dir + "/preview.gif");

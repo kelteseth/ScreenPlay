@@ -9,7 +9,6 @@
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
-#include <QGuiApplication>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -170,30 +169,17 @@ void Create::createWallpaperStart(QString videoPath, ScreenPlay::Video::VideoCod
 ScreenPlay::Video::VideoCodec Create::detectVideoCodec(const QString& videoPath)
 {
     ScreenPlay::Util util;
-    // Handle both URL strings and regular file paths
-    QString localVideoPath;
-    if (videoPath.startsWith("file://") || videoPath.startsWith("qrc:")) {
-        localVideoPath = util.toLocal(videoPath);
-    } else {
-        // Already a local path, use as-is
-        localVideoPath = QDir::toNativeSeparators(videoPath);
-    }
+    const QString localVideoPath = videoPath.startsWith("file://")
+        ? util.toLocal(videoPath)
+        : QDir::toNativeSeparators(videoPath);
 
     QProcess process;
-    QString ffprobeExecutable;
+    const QString ffprobeExecutable = Util::ffprobeExecutable();
 
-#ifdef Q_OS_LINUX
-    ffprobeExecutable = "ffprobe";
-#else
-    ffprobeExecutable = QGuiApplication::applicationDirPath() + "/ffprobe" + util.executableBinEnding();
-#endif
-
-#ifndef Q_OS_LINUX
-    if (!QFileInfo::exists(ffprobeExecutable)) {
+    if (Util::isFFmpegBundled() && !QFileInfo::exists(ffprobeExecutable)) {
         qCWarning(create) << "FFPROBE executable not found!";
         return ScreenPlay::Video::VideoCodec::Unknown;
     }
-#endif
 
     QStringList args;
     args.append("-v");
@@ -287,24 +273,14 @@ QCoro::QmlTask Create::probeVideoInfo(const QString& videoPath)
         QVariantMap info;
         ScreenPlay::Util util;
 
-        QString localVideoPath;
-        if (videoPath.startsWith("file://") || videoPath.startsWith("qrc:")) {
-            localVideoPath = util.toLocal(videoPath);
-        } else {
-            localVideoPath = QDir::toNativeSeparators(videoPath);
-        }
+        const QString localVideoPath = videoPath.startsWith("file://")
+            ? util.toLocal(videoPath)
+            : QDir::toNativeSeparators(videoPath);
 
-        QString ffprobeExecutable;
-#ifdef Q_OS_LINUX
-        ffprobeExecutable = "ffprobe";
-#else
-        ffprobeExecutable = QGuiApplication::applicationDirPath() + "/ffprobe" + util.executableBinEnding();
-#endif
+        const QString ffprobeExecutable = Util::ffprobeExecutable();
 
-#ifndef Q_OS_LINUX
-        if (!QFileInfo::exists(ffprobeExecutable))
+        if (Util::isFFmpegBundled() && !QFileInfo::exists(ffprobeExecutable))
             co_return info;
-#endif
 
         QStringList args;
         args << "-v" << "error"

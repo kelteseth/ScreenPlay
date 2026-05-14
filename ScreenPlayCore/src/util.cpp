@@ -207,6 +207,51 @@ QString Util::executableBinEnding()
 }
 
 /*!
+  \brief True when ffmpeg/ffprobe are shipped next to the application binary
+         (Windows and macOS). False on Linux, where we rely on system PATH.
+*/
+bool Util::isFFmpegBundled()
+{
+    using QOsv = QOperatingSystemVersion;
+    const auto os = QOsv::currentType();
+    return os == QOsv::Windows || os == QOsv::MacOS;
+}
+
+/*!
+  \brief Returns the path used to invoke ffmpeg.
+         Bundled platforms (Windows/macOS) resolve to a binary next to the
+         application executable (Contents/MacOS on macOS); Linux returns the
+         bare name and relies on the system PATH.
+*/
+QString Util::ffmpegExecutable()
+{
+    using QOsv = QOperatingSystemVersion;
+    const QString suffix = QOsv::currentType() == QOsv::Windows
+        ? QStringLiteral(".exe")
+        : QString();
+    const QString name = QStringLiteral("ffmpeg") + suffix;
+    return isFFmpegBundled()
+        ? QGuiApplication::applicationDirPath() + QLatin1Char('/') + name
+        : name;
+}
+
+/*!
+  \brief Returns the path used to invoke ffprobe.
+         Same resolution rules as ffmpegExecutable().
+*/
+QString Util::ffprobeExecutable()
+{
+    using QOsv = QOperatingSystemVersion;
+    const QString suffix = QOsv::currentType() == QOsv::Windows
+        ? QStringLiteral(".exe")
+        : QString();
+    const QString name = QStringLiteral("ffprobe") + suffix;
+    return isFFmpegBundled()
+        ? QGuiApplication::applicationDirPath() + QLatin1Char('/') + name
+        : name;
+}
+
+/*!
   \brief Return .exe on windows, .app on osx otherwise empty string.
 */
 QString Util::executableAppEnding()

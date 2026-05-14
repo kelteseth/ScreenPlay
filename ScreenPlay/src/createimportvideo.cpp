@@ -44,26 +44,16 @@ CreateImportVideo::CreateImportVideo(
 
 void CreateImportVideo::setupFFMPEG()
 {
+    m_ffprobeExecutable = Util::ffprobeExecutable();
+    m_ffmpegExecutable = Util::ffmpegExecutable();
 
-    Util util;
-#ifdef Q_OS_LINUX
-    // Use system ffmpeg
-    m_ffprobeExecutable = "ffprobe";
-    m_ffmpegExecutable = "ffmpeg";
-#else
-    m_ffprobeExecutable = QGuiApplication::applicationDirPath() + "/ffprobe" + util.executableBinEnding();
-    m_ffmpegExecutable = QGuiApplication::applicationDirPath() + "/ffmpeg" + util.executableBinEnding();
-#endif
-// We use system ffmpeg on linux
-#ifndef Q_OS_LINUX
-    if (!QFileInfo::exists(m_ffprobeExecutable)) {
+    if (!Util::isFFmpegBundled())
+        return; // system PATH is used; QProcess will surface a startup error if missing
+
+    if (!QFileInfo::exists(m_ffprobeExecutable))
         qFatal("FFPROBE executable not found!");
-    }
-
-    if (!QFileInfo::exists(m_ffmpegExecutable)) {
+    if (!QFileInfo::exists(m_ffmpegExecutable))
         qFatal("FFMPEG executable not found!");
-    }
-#endif
 }
 
 /*!
