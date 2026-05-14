@@ -24,6 +24,7 @@
             "hidden": true,
             "cacheVariables": {
                 "QT_QML_DEBUG": "ON",
+                "SCREENPLAY_TESTS": "ON",
                 "CMAKE_BUILD_TYPE": {
                     "type": "STRING",
                     "value": "Debug"
@@ -109,7 +110,7 @@
                 "SCREENPLAY_STEAM": "ON",
                 "SCREENPLAY_DEPLOY": "OFF",
                 "SCREENPLAY_INSTALLER": "OFF",
-                "SCREENPLAY_TESTS": "OFF",
+                "SCREENPLAY_TESTS": "ON",
                 "SCREENPLAY_GODOT": "ON"
             }
         },

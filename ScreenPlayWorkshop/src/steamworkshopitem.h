@@ -16,12 +16,11 @@
 
 // Steam
 #include "ScreenPlayCore/steamenumsgenerated.h"
-#include "cstring"
-#include "stdlib.h"
 #include "steam/steam_api.h"
 
 #include "ScreenPlayCore/util.h"
-#include "steamapiwrapper.h"
+#include "steamasynccall.h"
+#include "steamtagarray.h"
 
 namespace ScreenPlayWorkshop {
 
@@ -31,8 +30,9 @@ class SteamWorkshopItem : public QObject {
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QUrl absolutePath READ absolutePath WRITE setAbsolutePath NOTIFY absolutePathChanged)
     Q_PROPERTY(int uploadProgress READ uploadProgress WRITE setUploadProgress NOTIFY uploadProgressChanged)
+    Q_PROPERTY(ScreenPlayCore::Steam::EItemUpdateStatus uploadState READ uploadState WRITE setUploadState NOTIFY uploadStateChanged)
     Q_PROPERTY(QUrl absolutePreviewImagePath READ absolutePreviewImagePath WRITE setAbsolutePreviewImagePath NOTIFY absolutePreviewImagePathChanged)
-    Q_PROPERTY(ScreenPlayWorkshop::Steam::EResult status READ status WRITE setStatus NOTIFY statusChanged)
+    Q_PROPERTY(ScreenPlayCore::Steam::EResult status READ status WRITE setStatus NOTIFY statusChanged)
     Q_PROPERTY(QVariant publishedFileId READ publishedFileId WRITE setPublishedFileId NOTIFY publishedFileIdChanged)
 
 public:
@@ -41,8 +41,9 @@ public:
     QString name() const { return m_name; }
     QUrl absolutePath() const { return m_absolutePath; }
     int uploadProgress() const { return m_uploadProgress; }
+    ScreenPlayCore::Steam::EItemUpdateStatus uploadState() const { return m_uploadState; }
     QUrl absolutePreviewImagePath() const { return m_absolutePreviewImagePath; }
-    ScreenPlayWorkshop::Steam::EResult status() const { return m_status; }
+    ScreenPlayCore::Steam::EResult status() const { return m_status; }
     QVariant publishedFileId() const { return m_publishedFileId; }
 
 public slots:
@@ -77,6 +78,15 @@ public slots:
         emit uploadProgressChanged(m_uploadProgress);
     }
 
+    void setUploadState(ScreenPlayCore::Steam::EItemUpdateStatus uploadState)
+    {
+        if (m_uploadState == uploadState)
+            return;
+
+        m_uploadState = uploadState;
+        emit uploadStateChanged(m_uploadState);
+    }
+
     void setAbsolutePreviewImagePath(QUrl absolutePreviewImagePath)
     {
 
@@ -87,7 +97,7 @@ public slots:
         emit absolutePreviewImagePathChanged(m_absolutePreviewImagePath);
     }
 
-    void setStatus(ScreenPlayWorkshop::Steam::EResult status)
+    void setStatus(ScreenPlayCore::Steam::EResult status)
     {
         if (m_status == status)
             return;
@@ -108,22 +118,19 @@ public slots:
 signals:
     void nameChanged(QString name);
     void absolutePathChanged(QUrl absolutePath);
-    void uploadProgressChanged(float uploadProgress);
+    void uploadProgressChanged(int uploadProgress);
+    void uploadStateChanged(ScreenPlayCore::Steam::EItemUpdateStatus uploadState);
     void removeThis(SteamWorkshopItem* item);
     void absolutePreviewImagePathChanged(QUrl absolutePreviewImagePath);
     void uploadComplete(bool successful);
-    void statusChanged(ScreenPlayWorkshop::Steam::EResult status);
+    void statusChanged(ScreenPlayCore::Steam::EResult status);
     void uploadFailed(const quint64 m_PublishedFileId);
     void userNeedsToAcceptWorkshopLegalAgreement();
     void publishedFileIdChanged(QVariant publishedFileId);
 
 private:
-    CCallResult<SteamWorkshopItem, CreateItemResult_t> m_createWorkshopItemCallResult;
     void uploadItemToWorkshop(CreateItemResult_t* pCallback, bool bIOFailure);
-
-    CCallResult<SteamWorkshopItem, SubmitItemUpdateResult_t> m_submitItemUpdateResultResult;
     void submitItemUpdateStatus(SubmitItemUpdateResult_t* pCallback, bool bIOFailure);
-
     void saveWorkshopID();
 
 private:
@@ -133,9 +140,9 @@ private:
     quint64 m_appID { 0 };
     const int m_updateTimerInterval { 500 };
     int m_uploadProgress { 0 }; // 0 - 100
-    ScreenPlayWorkshop::Steam::EResult m_status { ScreenPlayWorkshop::Steam::EResult::K_EResultNone };
+    ScreenPlayCore::Steam::EItemUpdateStatus m_uploadState { ScreenPlayCore::Steam::EItemUpdateStatus::K_EItemUpdateStatusInvalid };
+    ScreenPlayCore::Steam::EResult m_status { ScreenPlayCore::Steam::EResult::K_EResultNone };
     UGCUpdateHandle_t m_UGCUpdateHandle { 0 };
-    SubmitItemUpdateResult_t m_submitItemUpdateResultHanlde;
     QTimer m_updateTimer;
     QVariant m_publishedFileId { 0 };
 };

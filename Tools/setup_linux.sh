@@ -81,10 +81,13 @@ main() {
     cd ..
 
     # Install layer-shell-qt
+    # Pinned: HEAD tracks ECM > 6.22 over time; v6.6.5 still works with the
+    # ECM v6.22.0 we install above and with our Qt 6.10.x bundle.
     echo "Setting up layer-shell-qt..."
     setup_repo "https://invent.kde.org/plasma/layer-shell-qt.git" "layer-shell-qt"
     cd layer-shell-qt
-    
+    git checkout tags/v6.6.5
+
     # Set up Qt paths
     local QT_DIR="../../../aqt/6.10.2/gcc_64"
     local QT_PATHS="$QT_DIR/bin:$PATH"

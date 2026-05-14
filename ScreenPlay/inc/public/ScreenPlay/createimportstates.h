@@ -31,6 +31,9 @@ public:
         ConvertingPreviewWebp,
         ConvertingPreviewWebpFinished,
         ConvertingPreviewWebpError,
+        ConvertingPreviewGif,
+        ConvertingPreviewGifFinished,
+        ConvertingPreviewGifError,
         ConvertingAudio,
         ConvertingAudioFinished,
         ConvertingAudioError, // 20

@@ -37,7 +37,6 @@ S_API ISteamApps * SteamAPI_ISteamClient_GetISteamApps( ISteamClient* self, HSte
 S_API ISteamNetworking * SteamAPI_ISteamClient_GetISteamNetworking( ISteamClient* self, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char * pchVersion );
 S_API ISteamRemoteStorage * SteamAPI_ISteamClient_GetISteamRemoteStorage( ISteamClient* self, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char * pchVersion );
 S_API ISteamScreenshots * SteamAPI_ISteamClient_GetISteamScreenshots( ISteamClient* self, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char * pchVersion );
-S_API ISteamGameSearch * SteamAPI_ISteamClient_GetISteamGameSearch( ISteamClient* self, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char * pchVersion );
 S_API uint32 SteamAPI_ISteamClient_GetIPCCallCount( ISteamClient* self );
 S_API void SteamAPI_ISteamClient_SetWarningMessageHook( ISteamClient* self, SteamAPIWarningMessageHook_t pFunction );
 S_API bool SteamAPI_ISteamClient_BShutdownIfAllPipesClosed( ISteamClient* self );
@@ -45,7 +44,6 @@ S_API ISteamHTTP * SteamAPI_ISteamClient_GetISteamHTTP( ISteamClient* self, HSte
 S_API ISteamController * SteamAPI_ISteamClient_GetISteamController( ISteamClient* self, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char * pchVersion );
 S_API ISteamUGC * SteamAPI_ISteamClient_GetISteamUGC( ISteamClient* self, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char * pchVersion );
 S_API ISteamMusic * SteamAPI_ISteamClient_GetISteamMusic( ISteamClient* self, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char * pchVersion );
-S_API ISteamMusicRemote * SteamAPI_ISteamClient_GetISteamMusicRemote( ISteamClient* self, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char * pchVersion );
 S_API ISteamHTMLSurface * SteamAPI_ISteamClient_GetISteamHTMLSurface( ISteamClient* self, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char * pchVersion );
 S_API ISteamInventory * SteamAPI_ISteamClient_GetISteamInventory( ISteamClient* self, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char * pchVersion );
 S_API ISteamVideo * SteamAPI_ISteamClient_GetISteamVideo( ISteamClient* self, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char * pchVersion );
@@ -316,27 +314,6 @@ S_API HServerQuery SteamAPI_ISteamMatchmakingServers_PlayerDetails( ISteamMatchm
 S_API HServerQuery SteamAPI_ISteamMatchmakingServers_ServerRules( ISteamMatchmakingServers* self, uint32 unIP, uint16 usPort, ISteamMatchmakingRulesResponse * pRequestServersResponse );
 S_API void SteamAPI_ISteamMatchmakingServers_CancelServerQuery( ISteamMatchmakingServers* self, HServerQuery hServerQuery );
 
-// ISteamGameSearch
-
-// A versioned accessor is exported by the library
-S_API ISteamGameSearch *SteamAPI_SteamGameSearch_v001();
-// Inline, unversioned accessor to get the current version.  Essentially the same as SteamGameSearch(), but using this ensures that you are using a matching library.
-inline ISteamGameSearch *SteamAPI_SteamGameSearch() { return SteamAPI_SteamGameSearch_v001(); }
-S_API EGameSearchErrorCode_t SteamAPI_ISteamGameSearch_AddGameSearchParams( ISteamGameSearch* self, const char * pchKeyToFind, const char * pchValuesToFind );
-S_API EGameSearchErrorCode_t SteamAPI_ISteamGameSearch_SearchForGameWithLobby( ISteamGameSearch* self, uint64_steamid steamIDLobby, int nPlayerMin, int nPlayerMax );
-S_API EGameSearchErrorCode_t SteamAPI_ISteamGameSearch_SearchForGameSolo( ISteamGameSearch* self, int nPlayerMin, int nPlayerMax );
-S_API EGameSearchErrorCode_t SteamAPI_ISteamGameSearch_AcceptGame( ISteamGameSearch* self );
-S_API EGameSearchErrorCode_t SteamAPI_ISteamGameSearch_DeclineGame( ISteamGameSearch* self );
-S_API EGameSearchErrorCode_t SteamAPI_ISteamGameSearch_RetrieveConnectionDetails( ISteamGameSearch* self, uint64_steamid steamIDHost, char * pchConnectionDetails, int cubConnectionDetails );
-S_API EGameSearchErrorCode_t SteamAPI_ISteamGameSearch_EndGameSearch( ISteamGameSearch* self );
-S_API EGameSearchErrorCode_t SteamAPI_ISteamGameSearch_SetGameHostParams( ISteamGameSearch* self, const char * pchKey, const char * pchValue );
-S_API EGameSearchErrorCode_t SteamAPI_ISteamGameSearch_SetConnectionDetails( ISteamGameSearch* self, const char * pchConnectionDetails, int cubConnectionDetails );
-S_API EGameSearchErrorCode_t SteamAPI_ISteamGameSearch_RequestPlayersForGame( ISteamGameSearch* self, int nPlayerMin, int nPlayerMax, int nMaxTeamSize );
-S_API EGameSearchErrorCode_t SteamAPI_ISteamGameSearch_HostConfirmGameStart( ISteamGameSearch* self, uint64 ullUniqueGameID );
-S_API EGameSearchErrorCode_t SteamAPI_ISteamGameSearch_CancelRequestPlayersForGame( ISteamGameSearch* self );
-S_API EGameSearchErrorCode_t SteamAPI_ISteamGameSearch_SubmitPlayerResult( ISteamGameSearch* self, uint64 ullUniqueGameID, uint64_steamid steamIDPlayer, EPlayerResult_t EPlayerResult );
-S_API EGameSearchErrorCode_t SteamAPI_ISteamGameSearch_EndGame( ISteamGameSearch* self, uint64 ullUniqueGameID );
-
 // ISteamParties
 
 // A versioned accessor is exported by the library
@@ -476,9 +453,9 @@ S_API bool SteamAPI_ISteamUserStats_GetAchievementProgressLimitsFloat( ISteamUse
 // ISteamApps
 
 // A versioned accessor is exported by the library
-S_API ISteamApps *SteamAPI_SteamApps_v008();
+S_API ISteamApps *SteamAPI_SteamApps_v009();
 // Inline, unversioned accessor to get the current version.  Essentially the same as SteamApps(), but using this ensures that you are using a matching library.
-inline ISteamApps *SteamAPI_SteamApps() { return SteamAPI_SteamApps_v008(); }
+inline ISteamApps *SteamAPI_SteamApps() { return SteamAPI_SteamApps_v009(); }
 S_API bool SteamAPI_ISteamApps_BIsSubscribed( ISteamApps* self );
 S_API bool SteamAPI_ISteamApps_BIsLowViolence( ISteamApps* self );
 S_API bool SteamAPI_ISteamApps_BIsCybercafe( ISteamApps* self );
@@ -510,7 +487,7 @@ S_API bool SteamAPI_ISteamApps_BIsSubscribedFromFamilySharing( ISteamApps* self 
 S_API bool SteamAPI_ISteamApps_BIsTimedTrial( ISteamApps* self, uint32 * punSecondsAllowed, uint32 * punSecondsPlayed );
 S_API bool SteamAPI_ISteamApps_SetDlcContext( ISteamApps* self, AppId_t nAppID );
 S_API int SteamAPI_ISteamApps_GetNumBetas( ISteamApps* self, int * pnAvailable, int * pnPrivate );
-S_API bool SteamAPI_ISteamApps_GetBetaInfo( ISteamApps* self, int iBetaIndex, uint32 * punFlags, uint32 * punBuildID, char * pchBetaName, int cchBetaName, char * pchDescription, int cchDescription );
+S_API bool SteamAPI_ISteamApps_GetBetaInfo( ISteamApps* self, int iBetaIndex, uint32 * punFlags, uint32 * punBuildID, char * pchBetaName, int cchBetaName, char * pchDescription, int cchDescription, uint32 * punLastUpdated );
 S_API bool SteamAPI_ISteamApps_SetActiveBeta( ISteamApps* self, const char * pchBetaName );
 
 // ISteamNetworking
@@ -578,45 +555,6 @@ S_API void SteamAPI_ISteamMusic_PlayPrevious( ISteamMusic* self );
 S_API void SteamAPI_ISteamMusic_PlayNext( ISteamMusic* self );
 S_API void SteamAPI_ISteamMusic_SetVolume( ISteamMusic* self, float flVolume );
 S_API float SteamAPI_ISteamMusic_GetVolume( ISteamMusic* self );
-
-// ISteamMusicRemote
-
-// A versioned accessor is exported by the library
-S_API ISteamMusicRemote *SteamAPI_SteamMusicRemote_v001();
-// Inline, unversioned accessor to get the current version.  Essentially the same as SteamMusicRemote(), but using this ensures that you are using a matching library.
-inline ISteamMusicRemote *SteamAPI_SteamMusicRemote() { return SteamAPI_SteamMusicRemote_v001(); }
-S_API bool SteamAPI_ISteamMusicRemote_RegisterSteamMusicRemote( ISteamMusicRemote* self, const char * pchName );
-S_API bool SteamAPI_ISteamMusicRemote_DeregisterSteamMusicRemote( ISteamMusicRemote* self );
-S_API bool SteamAPI_ISteamMusicRemote_BIsCurrentMusicRemote( ISteamMusicRemote* self );
-S_API bool SteamAPI_ISteamMusicRemote_BActivationSuccess( ISteamMusicRemote* self, bool bValue );
-S_API bool SteamAPI_ISteamMusicRemote_SetDisplayName( ISteamMusicRemote* self, const char * pchDisplayName );
-S_API bool SteamAPI_ISteamMusicRemote_SetPNGIcon_64x64( ISteamMusicRemote* self, void * pvBuffer, uint32 cbBufferLength );
-S_API bool SteamAPI_ISteamMusicRemote_EnablePlayPrevious( ISteamMusicRemote* self, bool bValue );
-S_API bool SteamAPI_ISteamMusicRemote_EnablePlayNext( ISteamMusicRemote* self, bool bValue );
-S_API bool SteamAPI_ISteamMusicRemote_EnableShuffled( ISteamMusicRemote* self, bool bValue );
-S_API bool SteamAPI_ISteamMusicRemote_EnableLooped( ISteamMusicRemote* self, bool bValue );
-S_API bool SteamAPI_ISteamMusicRemote_EnableQueue( ISteamMusicRemote* self, bool bValue );
-S_API bool SteamAPI_ISteamMusicRemote_EnablePlaylists( ISteamMusicRemote* self, bool bValue );
-S_API bool SteamAPI_ISteamMusicRemote_UpdatePlaybackStatus( ISteamMusicRemote* self, AudioPlayback_Status nStatus );
-S_API bool SteamAPI_ISteamMusicRemote_UpdateShuffled( ISteamMusicRemote* self, bool bValue );
-S_API bool SteamAPI_ISteamMusicRemote_UpdateLooped( ISteamMusicRemote* self, bool bValue );
-S_API bool SteamAPI_ISteamMusicRemote_UpdateVolume( ISteamMusicRemote* self, float flValue );
-S_API bool SteamAPI_ISteamMusicRemote_CurrentEntryWillChange( ISteamMusicRemote* self );
-S_API bool SteamAPI_ISteamMusicRemote_CurrentEntryIsAvailable( ISteamMusicRemote* self, bool bAvailable );
-S_API bool SteamAPI_ISteamMusicRemote_UpdateCurrentEntryText( ISteamMusicRemote* self, const char * pchText );
-S_API bool SteamAPI_ISteamMusicRemote_UpdateCurrentEntryElapsedSeconds( ISteamMusicRemote* self, int nValue );
-S_API bool SteamAPI_ISteamMusicRemote_UpdateCurrentEntryCoverArt( ISteamMusicRemote* self, void * pvBuffer, uint32 cbBufferLength );
-S_API bool SteamAPI_ISteamMusicRemote_CurrentEntryDidChange( ISteamMusicRemote* self );
-S_API bool SteamAPI_ISteamMusicRemote_QueueWillChange( ISteamMusicRemote* self );
-S_API bool SteamAPI_ISteamMusicRemote_ResetQueueEntries( ISteamMusicRemote* self );
-S_API bool SteamAPI_ISteamMusicRemote_SetQueueEntry( ISteamMusicRemote* self, int nID, int nPosition, const char * pchEntryText );
-S_API bool SteamAPI_ISteamMusicRemote_SetCurrentQueueEntry( ISteamMusicRemote* self, int nID );
-S_API bool SteamAPI_ISteamMusicRemote_QueueDidChange( ISteamMusicRemote* self );
-S_API bool SteamAPI_ISteamMusicRemote_PlaylistWillChange( ISteamMusicRemote* self );
-S_API bool SteamAPI_ISteamMusicRemote_ResetPlaylistEntries( ISteamMusicRemote* self );
-S_API bool SteamAPI_ISteamMusicRemote_SetPlaylistEntry( ISteamMusicRemote* self, int nID, int nPosition, const char * pchEntryText );
-S_API bool SteamAPI_ISteamMusicRemote_SetCurrentPlaylistEntry( ISteamMusicRemote* self, int nID );
-S_API bool SteamAPI_ISteamMusicRemote_PlaylistDidChange( ISteamMusicRemote* self );
 
 // ISteamHTTP
 
@@ -858,6 +796,9 @@ S_API SteamAPICall_t SteamAPI_ISteamUGC_GetWorkshopEULAStatus( ISteamUGC* self )
 S_API uint32 SteamAPI_ISteamUGC_GetUserContentDescriptorPreferences( ISteamUGC* self, EUGCContentDescriptorID * pvecDescriptors, uint32 cMaxEntries );
 S_API bool SteamAPI_ISteamUGC_SetItemsDisabledLocally( ISteamUGC* self, PublishedFileId_t * pvecPublishedFileIDs, uint32 unNumPublishedFileIDs, bool bDisabledLocally );
 S_API bool SteamAPI_ISteamUGC_SetSubscriptionsLoadOrder( ISteamUGC* self, PublishedFileId_t * pvecPublishedFileIDs, uint32 unNumPublishedFileIDs );
+S_API bool SteamAPI_ISteamUGC_MarkDownloadedItemAsUnused( ISteamUGC* self, PublishedFileId_t nPublishedFileID );
+S_API uint32 SteamAPI_ISteamUGC_GetNumDownloadedItems( ISteamUGC* self );
+S_API uint32 SteamAPI_ISteamUGC_GetDownloadedItems( ISteamUGC* self, PublishedFileId_t * pvecPublishedFileIDs, uint32 cMaxEntries );
 
 // ISteamHTMLSurface
 
@@ -1005,12 +946,17 @@ S_API bool SteamAPI_ISteamParentalSettings_BIsFeatureInBlockList( ISteamParental
 // ISteamRemotePlay
 
 // A versioned accessor is exported by the library
-S_API ISteamRemotePlay *SteamAPI_SteamRemotePlay_v003();
+S_API ISteamRemotePlay *SteamAPI_SteamRemotePlay_v004();
 // Inline, unversioned accessor to get the current version.  Essentially the same as SteamRemotePlay(), but using this ensures that you are using a matching library.
-inline ISteamRemotePlay *SteamAPI_SteamRemotePlay() { return SteamAPI_SteamRemotePlay_v003(); }
+inline ISteamRemotePlay *SteamAPI_SteamRemotePlay() { return SteamAPI_SteamRemotePlay_v004(); }
 S_API uint32 SteamAPI_ISteamRemotePlay_GetSessionCount( ISteamRemotePlay* self );
 S_API RemotePlaySessionID_t SteamAPI_ISteamRemotePlay_GetSessionID( ISteamRemotePlay* self, int iSessionIndex );
+S_API bool SteamAPI_ISteamRemotePlay_BSessionRemotePlayTogether( ISteamRemotePlay* self, RemotePlaySessionID_t unSessionID );
 S_API uint64_steamid SteamAPI_ISteamRemotePlay_GetSessionSteamID( ISteamRemotePlay* self, RemotePlaySessionID_t unSessionID );
+S_API uint32 SteamAPI_ISteamRemotePlay_GetSessionGuestID( ISteamRemotePlay* self, RemotePlaySessionID_t unSessionID );
+S_API int SteamAPI_ISteamRemotePlay_GetSmallSessionAvatar( ISteamRemotePlay* self, RemotePlaySessionID_t unSessionID );
+S_API int SteamAPI_ISteamRemotePlay_GetMediumSessionAvatar( ISteamRemotePlay* self, RemotePlaySessionID_t unSessionID );
+S_API int SteamAPI_ISteamRemotePlay_GetLargeSessionAvatar( ISteamRemotePlay* self, RemotePlaySessionID_t unSessionID );
 S_API const char * SteamAPI_ISteamRemotePlay_GetSessionClientName( ISteamRemotePlay* self, RemotePlaySessionID_t unSessionID );
 S_API ESteamDeviceFormFactor SteamAPI_ISteamRemotePlay_GetSessionClientFormFactor( ISteamRemotePlay* self, RemotePlaySessionID_t unSessionID );
 S_API bool SteamAPI_ISteamRemotePlay_BGetSessionClientResolution( ISteamRemotePlay* self, RemotePlaySessionID_t unSessionID, int * pnResolutionX, int * pnResolutionY );

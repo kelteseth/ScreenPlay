@@ -4,7 +4,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material
 import ScreenPlay
-import ScreenPlayCore as Util
+import ScreenPlayCore as SPCore
 
 FocusScope {
     id: root
@@ -44,7 +44,7 @@ FocusScope {
             margins: 20
         }
 
-        Util.Headline {
+        SPCore.Headline {
             text: qsTr("Install Example Content")
             Layout.fillWidth: true
         }
@@ -57,7 +57,7 @@ FocusScope {
             Layout.fillWidth: true
         }
 
-        ListView {
+        SPCore.MaterialListView {
             id: listView
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -179,7 +179,7 @@ FocusScope {
     }
 
     // Snackbar for success/error messages
-    Util.MaterialSnackBar {
+    SPCore.MaterialSnackBar {
         id: snackBar
     }
 }

@@ -1,13 +1,31 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "steamworkshop.h"
 
-namespace ScreenPlayWorkshop {
-/*!
-    \class Steam Workshop
-    \brief A wrapper class between the C Steam API and ScreenPlay
+#include <QLoggingCategory>
 
+Q_LOGGING_CATEGORY(workshopSteam, "screenplay.workshop.steam")
+
+namespace ScreenPlayWorkshop {
+
+/*!
+    \class ScreenPlayWorkshop::SteamWorkshop
+    \inmodule ScreenPlayWorkshop
+    \brief Thin QML-facing class that composes SteamWorkshopSearch,
+           SteamWorkshopProfile and SteamWorkshopItemOps.
+
+    Sub-objects are exposed directly to QML via the \c search, \c profile
+    and \c itemOps properties. QML calls methods on them directly.
 */
 
+/*!
+    \fn bool SteamWorkshop::init()
+    \brief Initialises the Steam API, creates all sub-objects and starts the poll
+           timer.
+
+    Must be called once after construction. Returns \c false and sets the
+    appropriate error property if Steam is not running or the app ID does not
+    match.
+*/
 bool SteamWorkshop::init()
 {
     // https://partner.steamgames.com/doc/sdk/api#SteamAPI_Init
@@ -23,8 +41,9 @@ bool SteamWorkshop::init()
     // - Your App ID is not completely set up, i.e. in Release State: Unavailable, or it's missing default packages.
     // If you're running into initialization issues then see the Debugging the Steamworks API documentation to learn about the various methods of debugging the Steamworks API.
     // IF THE FAMILY SHARING IS ENABLED THIS WILL FAIL ! #13
+
     if (!SteamAPI_Init()) {
-        qWarning() << "SteamAPI_Init failed";
+        qCWarning(workshopSteam) << "SteamAPI_Init failed";
         m_steamErrorAPIInit = true;
         return false;
     }
@@ -45,15 +64,34 @@ bool SteamWorkshop::init()
     // needs to be taken. One exception is if a steam_appid.txt file is present then this will return
     // false regardless. This allows you to develop and test without launching your game through the
     // Steam client. Make sure to remove the steam_appid.txt file when uploading the game to your Steam depot!
+
     if (SteamAPI_RestartAppIfNecessary(m_appID)) {
-        qWarning() << "SteamAPI_RestartAppIfNecessary failed";
+        qCWarning(workshopSteam) << "SteamAPI_RestartAppIfNecessary failed";
         m_steamErrorRestart = true;
+        return false;
     }
 
     m_steamAccount = std::make_unique<SteamAccount>();
-    m_workshopListModel = std::make_unique<SteamWorkshopListModel>(m_appID);
-    m_workshopProfileListModel = std::make_unique<SteamWorkshopListModel>(m_appID);
     m_uploadListModel = std::make_unique<UploadListModel>();
+
+    m_search = std::make_unique<SteamWorkshopSearch>(*this, m_appID);
+    m_search->init();
+
+    m_profile = std::make_unique<SteamWorkshopProfile>(*this, *m_search, m_appID);
+    m_profile->init();
+
+    m_itemOps = std::make_unique<SteamWorkshopItemOps>(*this, m_appID);
+
+    // Wire cross-cutting concern: a successful delete removes the item from
+    // the profile list model so the UI stays in sync.
+    connect(m_itemOps.get(), &SteamWorkshopItemOps::workshopItemDeleted,
+        this, [this](bool success, QVariant publishedFileID) {
+            if (success && m_profile) {
+                m_profile->workshopProfileListModel()
+                    ->removeByPublishedFileID(publishedFileID.toULongLong());
+            }
+        });
+
     QObject::connect(&m_pollTimer, &QTimer::timeout, this, []() { SteamAPI_RunCallbacks(); });
     m_pollTimer.start(100);
 
@@ -62,78 +100,126 @@ bool SteamWorkshop::init()
     return true;
 }
 
+/*!
+    \fn bool SteamWorkshop::checkOnline()
+    \brief Returns \c true when the Steam API is initialised and the user is
+           considered online. Logs a warning and returns \c false otherwise.
+*/
 bool SteamWorkshop::checkOnline()
 {
-    if (!m_online) {
-        qWarning() << "Trying to call steam api while offline";
-        qWarning() << "steamErrorAPIInit: " << m_steamErrorAPIInit;
-        qWarning() << "steamErrorRestart: " << m_steamErrorRestart;
+    if (!m_online || m_steamErrorAPIInit) {
+        qCWarning(workshopSteam) << "Trying to call steam api while offline or not initialized";
+        qCWarning(workshopSteam) << "steamErrorAPIInit: " << m_steamErrorAPIInit;
+        qCWarning(workshopSteam) << "steamErrorRestart: " << m_steamErrorRestart;
         return false;
     }
     return true;
 }
 
-void SteamWorkshop::bulkUploadToWorkshop(QStringList absoluteStoragePaths)
+/*!
+    \fn bool SteamWorkshop::checkAndSetQueryActive()
+    \brief Atomically checks whether a UGC query is already in flight and, if
+           not, marks one as active. Returns \c false (and logs a warning) when
+           a concurrent query is detected so callers can bail out early.
+*/
+bool SteamWorkshop::checkAndSetQueryActive()
 {
-    for (const QString& path : absoluteStoragePaths) {
-        qInfo() << "Append " << absoluteStoragePaths;
-        uploadListModel()->append("", path, m_appID);
+    if (m_queryActive) {
+        qCWarning(workshopSteam) << "Query already active! Abort";
+        return false;
     }
+
+    m_queryActive = true;
+
+    return m_queryActive;
 }
 
+/*!
+    \fn void SteamWorkshop::bulkUploadToWorkshop(QStringList absoluteStoragePaths)
+    \brief Queues all paths in \a absoluteStoragePaths for sequential Steam
+           Workshop upload via the \c uploadListModel.
+*/
+void SteamWorkshop::bulkUploadToWorkshop(QStringList absoluteStoragePaths)
+{
+    // Clear any leftover items from previous uploads
+    uploadListModel()->clearWhenFinished();
+
+    qCInfo(workshopSteam) << "bulkUploadToWorkshop called with" << absoluteStoragePaths.size()
+                          << "paths:" << absoluteStoragePaths;
+
+    for (const QString& path : absoluteStoragePaths) {
+        qCInfo(workshopSteam) << "Append " << path;
+        uploadListModel()->append("", path, m_appID);
+    }
+
+    qCInfo(workshopSteam) << "Model now has" << uploadListModel()->rowCount() << "items";
+}
+
+/*!
+    \fn void SteamWorkshop::onWorkshopItemInstalled(ItemInstalled_t* itemInstalled)
+    \brief Steam callback fired when a subscribed item has finished installing
+           or updating on disk. Forwards the event as the \c workshopItemInstalled
+           signal.
+*/
 void SteamWorkshop::onWorkshopItemInstalled(ItemInstalled_t* itemInstalled)
 {
-    // GetItemInstallInfo(itemInstalled->m_nPublishedFileId, uint64 *punSizeOnDisk, char *pchFolder, uint32 cchFolderSize, uint32 *punTimeStamp );
     emit workshopItemInstalled(itemInstalled->m_unAppID, itemInstalled->m_nPublishedFileId);
 }
 
-void SteamWorkshop::requestWorkshopItemDetails(const QVariant publishedFileID)
+/*!
+    \fn void SteamWorkshop::onPersonaStateChange(PersonaStateChange_t* pCallback)
+    \brief Steam callback fired when a friend's persona state changes. Used to
+           resolve pending creator name requests initiated by requestCreatorName().
+*/
+void SteamWorkshop::onPersonaStateChange(PersonaStateChange_t* pCallback)
 {
-    if (!checkAndSetQueryActive())
+    if (!(pCallback->m_nChangeFlags & k_EPersonaChangeName))
+        return;
+    if (!m_pendingCreatorRequests.contains(pCallback->m_ulSteamID))
         return;
 
-    if (!checkOnline())
-        return;
-
-    auto id = publishedFileID.toULongLong();
-    auto uGCRegquestItemDetailHandle = SteamUGC()->CreateQueryUGCDetailsRequest(&id, 1);
-    auto uGCRegquestItemDetailCall = SteamUGC()->SendQueryUGCRequest(uGCRegquestItemDetailHandle);
-    m_steamUGCItemDetails.Set(uGCRegquestItemDetailCall, this, &SteamWorkshop::onRequestItemDetailReturned);
+    m_pendingCreatorRequests.remove(pCallback->m_ulSteamID);
+    const CSteamID steamID(pCallback->m_ulSteamID);
+    const auto name = QString(SteamFriends()->GetFriendPersonaName(steamID));
+    const auto steamID64 = QString::number(pCallback->m_ulSteamID);
+    emit creatorNameReady(name, steamID64);
 }
 
-void SteamWorkshop::onRequestItemDetailReturned(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure)
+/*!
+    \fn void SteamWorkshop::requestCreatorName(const QString &steamID64)
+    \brief Asynchronously resolves the Steam persona name for \a steamID64.
+
+    If the name is already in the local friend cache it is emitted immediately
+    via \c creatorNameReady; otherwise the request is queued and the result is
+    delivered once the \c PersonaStateChange_t callback fires.
+*/
+void SteamWorkshop::requestCreatorName(const QString& steamID64)
 {
-    m_queryActive = false;
-    if (bIOFailure) {
-        qWarning() << "onRequestItemDetailReturned bIOFailure" << bIOFailure;
-        return;
-    }
-
-    SteamUGCDetails_t details;
-    for (uint32 i = 0; i < pCallback->m_unTotalMatchingResults; ++i) {
-        if (SteamUGC()->GetQueryUGCResult(pCallback->m_handle, i, &details)) {
-
-            emit requestItemDetailReturned(
-                QString::fromUtf8(details.m_rgchTitle),
-                QString::fromUtf8(details.m_rgchTags).split(","),
-                details.m_ulSteamIDOwner,
-                QString::fromUtf8(details.m_rgchDescription),
-                details.m_unVotesUp,
-                details.m_unVotesDown,
-                QString::fromUtf8(details.m_rgchURL),
-                QVariant::fromValue<int32>(details.m_nFileSize),
-                QVariant::fromValue<uint64>(details.m_nPublishedFileId));
-        } else {
-            qWarning() << "GetQueryUGCResult failed!";
-        }
+    const CSteamID creatorID(steamID64.toULongLong());
+    if (!SteamFriends()->RequestUserInformation(creatorID, true)) {
+        // Already cached
+        const auto name = QString(SteamFriends()->GetFriendPersonaName(creatorID));
+        emit creatorNameReady(name, steamID64);
+    } else {
+        // Will arrive via onPersonaStateChange
+        m_pendingCreatorRequests.insert(creatorID.ConvertToUint64());
     }
 }
 
+/*!
+    \fn bool SteamWorkshop::steamErrorAPIInit() const
+    \brief Returns \c true when \c SteamAPI_Init() failed during init().
+*/
 bool SteamWorkshop::steamErrorAPIInit() const
 {
     return m_steamErrorAPIInit;
 }
 
+/*!
+    \fn void SteamWorkshop::setSteamErrorAPIInit(bool newSteamErrorAPIInit)
+    \brief Sets the \c steamErrorAPIInit property to \a newSteamErrorAPIInit
+           and emits \c steamErrorAPIInitChanged if the value changed.
+*/
 void SteamWorkshop::setSteamErrorAPIInit(bool newSteamErrorAPIInit)
 {
     if (m_steamErrorAPIInit == newSteamErrorAPIInit)
@@ -142,16 +228,30 @@ void SteamWorkshop::setSteamErrorAPIInit(bool newSteamErrorAPIInit)
     emit steamErrorAPIInitChanged();
 }
 
+/*!
+    \fn void SteamWorkshop::resetSteamErrorAPIInit()
+    \brief Resets the \c steamErrorAPIInit property to \c false.
+*/
 void SteamWorkshop::resetSteamErrorAPIInit()
 {
-    setSteamErrorAPIInit({}); // TODO: Adapt to use your actual default value
+    setSteamErrorAPIInit(false);
 }
 
+/*!
+    \fn bool SteamWorkshop::steamErrorRestart() const
+    \brief Returns \c true when \c SteamAPI_RestartAppIfNecessary() indicated
+           that the process was not launched through Steam.
+*/
 bool SteamWorkshop::steamErrorRestart() const
 {
     return m_steamErrorRestart;
 }
 
+/*!
+    \fn void SteamWorkshop::setSteamErrorRestart(bool newSteamErrorRestart)
+    \brief Sets the \c steamErrorRestart property to \a newSteamErrorRestart
+           and emits \c steamErrorRestartChanged if the value changed.
+*/
 void SteamWorkshop::setSteamErrorRestart(bool newSteamErrorRestart)
 {
     if (m_steamErrorRestart == newSteamErrorRestart)
@@ -160,241 +260,15 @@ void SteamWorkshop::setSteamErrorRestart(bool newSteamErrorRestart)
     emit steamErrorRestartChanged();
 }
 
+/*!
+    \fn void SteamWorkshop::resetSteamErrorRestart()
+    \brief Resets the \c steamErrorRestart property to \c false.
+*/
 void SteamWorkshop::resetSteamErrorRestart()
 {
-    setSteamErrorRestart({}); // TODO: Adapt to use your actual default value
+    setSteamErrorRestart(false);
 }
 
-void SteamWorkshop::requestUserItems()
-{
-    if (!checkAndSetQueryActive())
-        return;
-
-    if (!checkOnline())
-        return;
-
-    m_UGCListUserItemsHandle = SteamUGC()->CreateQueryUserUGCRequest(
-        m_steamAccount->accountID(),
-        EUserUGCList::k_EUserUGCList_Published,
-        EUGCMatchingUGCType::k_EUGCMatchingUGCType_Items,
-        EUserUGCListSortOrder::k_EUserUGCListSortOrder_LastUpdatedDesc,
-        m_appID,
-        m_appID,
-        1);
-
-    m_UGCListUserItemsCall = SteamUGC()->SendQueryUGCRequest(m_UGCListUserItemsHandle);
-    m_steamUGCListUserItems.Set(m_UGCListUserItemsCall, this, &SteamWorkshop::onRequestUserItemsReturned);
-    bool failed = false;
-
-    if (!SteamUtils()->IsAPICallCompleted(m_UGCListUserItemsCall, &failed)) {
-        qInfo() << "CreateQueryUserUGCRequest failed " << failed;
-    }
-}
-
-void SteamWorkshop::vote(const QVariant publishedFileID, const bool voteUp)
-{
-    if (!checkOnline())
-        return;
-
-    SteamUGC()->SetUserItemVote(publishedFileID.toULongLong(), voteUp);
-}
-
-void SteamWorkshop::subscribeItem(const QVariant publishedFileID)
-{
-    if (!checkOnline())
-        return;
-
-    SteamUGC()->SubscribeItem(publishedFileID.toULongLong());
-    m_steamAccount->loadAmountSubscribedItems();
-}
-
-bool SteamWorkshop::searchWorkshop(const ScreenPlayWorkshop::Steam::EUGCQuery enumEUGCQuery)
-{
-    qInfo() << "searchWorkshop";
-
-    if (!checkAndSetQueryActive())
-        return false;
-
-    if (!checkOnline())
-        return false;
-
-    if (m_searchHandle != 0) {
-        qInfo() << "Invalid m_searchHandle";
-        return false;
-    }
-
-    auto m_searchHandle = SteamUGC()->CreateQueryAllUGCRequest(
-        static_cast<EUGCQuery>(enumEUGCQuery),
-        EUGCMatchingUGCType::k_EUGCMatchingUGCType_Items,
-        m_appID,
-        m_appID,
-        m_workshopListModel->currentPage());
-
-    qInfo() << m_searchHandle;
-
-    m_workshopListModel->clear();
-
-    // Important: First send the request to get the Steam API Call then set the handler
-    SteamUGC()->SetReturnAdditionalPreviews(m_searchHandle, true);
-    SteamUGC()->SetReturnKeyValueTags(m_searchHandle, true);
-    SteamUGC()->SetReturnLongDescription(m_searchHandle, true);
-    m_steamUGCQuerySearchWorkshopResult.Set(SteamUGC()->SendQueryUGCRequest(m_searchHandle), this, &SteamWorkshop::onWorkshopSearched);
-    return true;
-}
-
-void SteamWorkshop::onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure)
-{
-    m_queryActive = false;
-    if (bIOFailure) {
-        qWarning() << "onWorkshopSearched ioFailure";
-        return;
-    }
-
-    qInfo() << "onWorkshopSearched" << m_searchHandle;
-    queryWorkshopItemFromHandle(m_workshopListModel.get(), pCallback);
-}
-
-bool SteamWorkshop::queryWorkshopItemFromHandle(SteamWorkshopListModel* listModel, SteamUGCQueryCompleted_t* pCallback)
-{
-    qInfo() << "queryWorkshopItemFromHandle";
-
-    SteamUGCDetails_t details;
-    const int urlLength = 200;
-    char url[urlLength];
-    uint32 previews = 0;
-    uint32 subscriber = 0;
-
-    // Tags
-    uint32 keyValueTags = 0;
-    const int cchKeySize = 2000;
-    char* cchKey[cchKeySize];
-    const int cchValueSize = 2000;
-    char* pchValue[cchValueSize];
-
-    const uint32 totalResults = pCallback->m_unTotalMatchingResults;
-    const uint32 results = pCallback->m_unNumResultsReturned;
-
-    if (totalResults <= 0 || results <= 0) {
-        qWarning() << "Invalid result count. Aborting! totalResults:" << totalResults << "results " << results;
-        SteamUGC()->ReleaseQueryUGCRequest(pCallback->m_handle);
-        emit workshopSearchCompleted(0);
-        return false;
-    }
-
-    const float maxResultsPerPage = 50;
-    const int pages = std::ceil(static_cast<double>(totalResults) / maxResultsPerPage);
-    listModel->setPages(pages);
-
-    for (uint32 i = 0; i < results; i++) {
-
-        if (SteamUGC()->GetQueryUGCResult(pCallback->m_handle, i, &details)) {
-
-            if (SteamUGC()->GetQueryUGCPreviewURL(pCallback->m_handle, i, url, static_cast<uint32>(urlLength))) {
-                QByteArray urlData(url);
-
-                // Todo use multiple preview for gif hover effect
-                quint64 subscriptionCount = 0;
-                SteamUGC()->GetQueryUGCStatistic(pCallback->m_handle, i, EItemStatistic::k_EItemStatistic_NumSubscriptions, &subscriptionCount);
-
-                int addPreviewCount = SteamUGC()->GetQueryUGCNumAdditionalPreviews(pCallback->m_handle, i);
-                QUrl additionalPreviewUrl;
-
-                for (int j = 0; j < addPreviewCount; ++j) {
-                    const int cchURLSize = 2000;
-                    char pchURLOrVideoID[cchURLSize];
-                    const int pchOriginalFileNameSize = 2000;
-                    char pchOriginalFileName[pchOriginalFileNameSize];
-                    EItemPreviewType previewType;
-                    SteamUGC()->GetQueryUGCAdditionalPreview(pCallback->m_handle, i, j, pchURLOrVideoID, cchURLSize, pchOriginalFileName, pchOriginalFileNameSize, &previewType);
-                    additionalPreviewUrl = QByteArray(pchURLOrVideoID);
-                }
-
-                WorkshopItem item { QVariant::fromValue<uint64>(details.m_nPublishedFileId), subscriptionCount, QString(details.m_rgchTitle), QUrl(urlData), additionalPreviewUrl };
-
-                listModel->append(std::move(item));
-
-                // Do not change the background image on every page
-                if (i == 0 && listModel->currentPage() == 1) {
-                    emit workshopBannerCompleted();
-                }
-
-                //                const int keyValueTagsCount = SteamUGC()->GetQueryUGCNumKeyValueTags(pCallback->m_handle, i);
-                //                for (int j = 0; j < keyValueTagsCount; ++j) {
-                //                    const int keySize = 2000;
-                //                    char key[keySize];
-                //                    const int valueSize = 2000;
-                //                    char value[valueSize];
-                //                    SteamUGC()->GetQueryUGCKeyValueTag(pCallback->m_handle, i, j, key, keySize, value, valueSize);
-                //                }
-            }
-        } else {
-            qWarning() << "Loading error! Index: " << i;
-        }
-    }
-
-    qInfo() << m_searchHandle << pCallback->m_handle;
-    SteamUGC()->ReleaseQueryUGCRequest(pCallback->m_handle);
-
-    emit workshopSearchCompleted(results);
-    return true;
-}
-
-void SteamWorkshop::searchWorkshopByText(const QString text, const ScreenPlayWorkshop::Steam::EUGCQuery rankedBy)
-{
-
-    qInfo() << "searchWorkshopByText" << text;
-
-    if (!checkAndSetQueryActive())
-        return;
-
-    if (!checkOnline())
-        return;
-
-    auto searchHandle = SteamUGC()->CreateQueryAllUGCRequest(
-        static_cast<EUGCQuery>(rankedBy),
-        EUGCMatchingUGCType::k_EUGCMatchingUGCType_Items,
-        m_appID,
-        m_appID,
-        m_workshopListModel->currentPage());
-
-    m_workshopListModel->clear();
-    QString a = text;
-    if (!SteamUGC()->SetSearchText(searchHandle, QByteArray(a.toUtf8()).data())) {
-        qWarning() << "Search Failed with query: " << a;
-        return;
-    }
-
-    // Important: First send the request to get the Steam API Call then set the handler
-    m_steamUGCQuerySearchWorkshopResult.Set(SteamUGC()->SendQueryUGCRequest(searchHandle), this, &SteamWorkshop::onWorkshopSearched);
-}
-
-void SteamWorkshop::onRequestUserItemsReturned(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure)
-{
-    m_queryActive = false;
-    if (bIOFailure) {
-        qDebug() << bIOFailure;
-        return;
-    }
-
-    queryWorkshopItemFromHandle(m_workshopProfileListModel.get(), pCallback);
-
-    //    SteamUGCDetails_t details;
-    //    for (uint32 i = 0; i < pCallback->m_unTotalMatchingResults; ++i) {
-    //        if (SteamUGC()->GetQueryUGCResult(pCallback->m_handle, i, &details)) {
-
-    //            WorkshopItem item { QVariant::fromValue<uint64>(details.m_nPublishedFileId), subscriptionCount, QString(details.m_rgchTitle), QUrl(urlData), additionalPreviewUrl };
-
-    //            m_workshopListModel->append(item);
-    //            qInfo()
-    //                << details.m_rgchTitle
-    //                << details.m_unVotesDown
-    //                << details.m_unVotesDown
-    //                << details.m_rgchURL
-    //                << details.m_nFileSize
-    //                << details.m_nPublishedFileId;
-    //        }
-    //    }
-}
-}
+} // namespace ScreenPlayWorkshop
 
 #include "moc_steamworkshop.cpp"

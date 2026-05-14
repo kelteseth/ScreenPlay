@@ -15,7 +15,14 @@ class UploadListModel : public QAbstractListModel {
     Q_OBJECT
 
 public:
-    UploadListModel() { QObject::connect(this, &UploadListModel::uploadCompleted, this, &UploadListModel::clearWhenFinished); }
+    UploadListModel()
+    {
+        // Defer the clear to the next event loop iteration. clearWhenFinished destroys all
+        // SteamWorkshopItem objects; a direct connection would do that while statusChanged is
+        // still being dispatched on one of those items, causing a use-after-free in Qt's
+        // signal machinery (QQmlData::isSignalConnected on a deleted object).
+        QObject::connect(this, &UploadListModel::uploadCompleted, this, &UploadListModel::clearWhenFinished, Qt::QueuedConnection);
+    }
 
     enum class UploadListModelRole {
         NameRole = Qt::UserRole + 1,
@@ -23,6 +30,7 @@ public:
         UploadProgressRole,
         AbsolutePreviewImagePath,
         Status,
+        UploadState,
     };
     Q_ENUM(UploadListModelRole)
 
@@ -58,6 +66,8 @@ public:
                 return m_uploadListModelItems.at(row)->absolutePreviewImagePath();
             case UploadListModelRole::Status:
                 return static_cast<int>(m_uploadListModelItems.at(row)->status());
+            case UploadListModelRole::UploadState:
+                return static_cast<int>(m_uploadListModelItems.at(row)->uploadState());
             }
         return QVariant();
     }
@@ -70,23 +80,19 @@ public:
             { static_cast<int>(UploadListModelRole::UploadProgressRole), "m_uploadProgress" },
             { static_cast<int>(UploadListModelRole::AbsolutePreviewImagePath), "m_absolutePreviewImagePath" },
             { static_cast<int>(UploadListModelRole::Status), "m_status" },
+            { static_cast<int>(UploadListModelRole::UploadState), "m_uploadState" },
         };
     }
 
 signals:
     void uploadCompleted();
+    void itemUploadCompleted(QVariant publishedFileId, bool successful);
     void userNeedsToAcceptWorkshopLegalAgreement();
 
 public slots:
 
-    void clearWhenFinished()
+    Q_INVOKABLE void clearWhenFinished()
     {
-
-        for (const auto& item : m_uploadListModelItems) {
-            if (item->uploadProgress() != 100)
-                return;
-        }
-
         beginResetModel();
         m_uploadListModelItems.clear();
         endResetModel();
@@ -98,24 +104,46 @@ public slots:
         const auto roles = QVector<int> { static_cast<int>(UploadListModelRole::UploadProgressRole),
             static_cast<int>(UploadListModelRole::NameRole),
             static_cast<int>(UploadListModelRole::AbsolutePreviewImagePath),
-            static_cast<int>(UploadListModelRole::Status) };
+            static_cast<int>(UploadListModelRole::Status),
+            static_cast<int>(UploadListModelRole::UploadState) };
 
-        const auto onDataChanged = [&]() { emit this->dataChanged(index(0, 0), index(rowCount() - 1, 0), roles); };
+        // Capture the item pointer so we can locate its exact row at signal time instead of
+        // invalidating every row in the model on every progress tick.
+        const auto onDataChanged = [this, roles, rawItem = item.get()]() {
+            const auto it = std::find_if(m_uploadListModelItems.cbegin(), m_uploadListModelItems.cend(),
+                [rawItem](const auto& i) { return i.get() == rawItem; });
+            if (it == m_uploadListModelItems.cend())
+                return;
+            const int row = static_cast<int>(std::distance(m_uploadListModelItems.cbegin(), it));
+            const auto idx = index(row, 0);
+            emit this->dataChanged(idx, idx, roles);
+        };
 
         QObject::connect(item.get(), &SteamWorkshopItem::userNeedsToAcceptWorkshopLegalAgreement, this, &UploadListModel::userNeedsToAcceptWorkshopLegalAgreement);
         QObject::connect(item.get(), &SteamWorkshopItem::uploadProgressChanged, this, onDataChanged);
+        QObject::connect(item.get(), &SteamWorkshopItem::uploadStateChanged, this, onDataChanged);
         QObject::connect(item.get(), &SteamWorkshopItem::nameChanged, this, onDataChanged);
         QObject::connect(item.get(), &SteamWorkshopItem::absolutePreviewImagePathChanged, this, onDataChanged);
-        QObject::connect(item.get(), &SteamWorkshopItem::uploadComplete, this, [=](bool successful) { onDataChanged(); });
-        QObject::connect(item.get(), &SteamWorkshopItem::statusChanged, this, [=](ScreenPlayWorkshop::Steam::EResult status) {
+        QObject::connect(item.get(), &SteamWorkshopItem::uploadComplete, this, [this, itemPtr = item.get()](bool successful) {
+            emit this->itemUploadCompleted(itemPtr->publishedFileId(), successful);
+        });
+        QObject::connect(item.get(), &SteamWorkshopItem::statusChanged, this, [=, this](ScreenPlayCore::Steam::EResult status) {
             onDataChanged();
+
+            if (m_uploadListModelItems.empty()) {
+                qWarning() << "uploadListModel items empty during statusChanged check";
+                return;
+            }
 
             bool allItemsUploaded = std::all_of(m_uploadListModelItems.cbegin(), m_uploadListModelItems.cend(), [](const auto& item) {
                 const auto status = item->status();
-                return status == ScreenPlayWorkshop::Steam::EResult::K_EResultOK || status == ScreenPlayWorkshop::Steam::EResult::K_EResultFail;
+                return status == ScreenPlayCore::Steam::EResult::K_EResultOK || status == ScreenPlayCore::Steam::EResult::K_EResultFail;
             });
 
+            qInfo() << "statusChanged: allItemsUploaded =" << allItemsUploaded << "itemCount =" << m_uploadListModelItems.size();
+
             if (allItemsUploaded) {
+                qInfo() << "Emitting uploadCompleted signal";
                 emit this->uploadCompleted();
             }
         });

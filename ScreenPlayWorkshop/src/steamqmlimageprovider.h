@@ -16,33 +16,45 @@ class SteamQMLImageProvider : public QQuickItem {
 public:
     SteamQMLImageProvider(QQuickItem* parent);
     SteamQMLImageProvider() { setFlag(QQuickItem::ItemHasContents); }
-    ~SteamQMLImageProvider()
+
+    QSGNode* updatePaintNode(QSGNode* oldNode, QQuickItem::UpdatePaintNodeData*) override
     {
-        if (m_texture)
-            m_texture->deleteLater();
-    }
-    QSGNode* updatePaintNode(QSGNode* oldNode, QQuickItem::UpdatePaintNodeData*)
-    {
+        // Don't render anything until we have an image
+        if (m_image.isNull() || !window()) {
+            delete oldNode;
+            return nullptr;
+        }
+
         QSGSimpleTextureNode* node = static_cast<QSGSimpleTextureNode*>(oldNode);
         if (!node) {
             node = new QSGSimpleTextureNode();
+            // Let the node own and delete the texture on the render thread
+            node->setOwnsTexture(true);
         }
-        m_texture = window()->createTextureFromImage(m_image);
-        node->setTexture(m_texture);
+
+        // Only create new texture if image changed
+        if (m_imageChanged) {
+            // Node owns the texture, so setting a new one will delete the old one
+            node->setTexture(window()->createTextureFromImage(m_image));
+            m_imageChanged = false;
+        }
+
         node->setRect(boundingRect());
         return node;
     }
 public slots:
     void setImage(QImage image)
     {
+        if (image.isNull() || boundingRect().width() <= 0)
+            return;
 
         m_image = image.scaledToWidth(boundingRect().width(), Qt::TransformationMode::SmoothTransformation);
-
+        m_imageChanged = true;
         update();
     }
 
 private:
     QImage m_image;
-    QSGTexture* m_texture = nullptr;
+    bool m_imageChanged = false;
 };
 }

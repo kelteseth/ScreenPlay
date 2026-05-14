@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "ScreenPlayCore/util.h"
+#include "CMakeVariables.h"
 #include "core/qcoroprocess.h"
 
 #include <QDesktopServices>
@@ -204,6 +205,72 @@ QString Util::generateRandomString(quint32 length)
 QString Util::executableBinEnding()
 {
     return QOperatingSystemVersion::currentType() == QOperatingSystemVersion::Windows ? ".exe" : "";
+}
+
+/*!
+  \brief True when ffmpeg/ffprobe are shipped next to the application binary
+         (Windows and macOS). False on Linux, where we rely on system PATH.
+*/
+bool Util::isFFmpegBundled()
+{
+    using QOsv = QOperatingSystemVersion;
+    const auto os = QOsv::currentType();
+    return os == QOsv::Windows || os == QOsv::MacOS;
+}
+
+/*!
+  \brief Returns the path used to invoke ffmpeg.
+         Bundled platforms (Windows/macOS) resolve to a binary next to the
+         application executable (Contents/MacOS on macOS); Linux returns the
+         bare name and relies on the system PATH.
+*/
+QString Util::ffmpegExecutable()
+{
+    using QOsv = QOperatingSystemVersion;
+    const QString suffix = QOsv::currentType() == QOsv::Windows
+        ? QStringLiteral(".exe")
+        : QString();
+    const QString name = QStringLiteral("ffmpeg") + suffix;
+    return isFFmpegBundled()
+        ? QGuiApplication::applicationDirPath() + QLatin1Char('/') + name
+        : name;
+}
+
+/*!
+  \brief Returns the path used to invoke ffprobe.
+         Same resolution rules as ffmpegExecutable().
+*/
+QString Util::ffprobeExecutable()
+{
+    using QOsv = QOperatingSystemVersion;
+    const QString suffix = QOsv::currentType() == QOsv::Windows
+        ? QStringLiteral(".exe")
+        : QString();
+    const QString name = QStringLiteral("ffprobe") + suffix;
+    return isFFmpegBundled()
+        ? QGuiApplication::applicationDirPath() + QLatin1Char('/') + name
+        : name;
+}
+
+/*!
+  \brief Returns the path to the bundled example Content directory shipped
+         with ScreenPlay (not the user's downloaded/local storage path).
+         Dev builds resolve to the in-source Content folder (SCREENPLAY_SOURCE_DIR);
+         deploy builds resolve relative to the application binary
+         (Contents/Resources/Content on macOS, /Content next to the exe elsewhere).
+*/
+QString Util::bundledExampleContentPath()
+{
+    if (SCREENPLAY_DEPLOY_VERSION) {
+        using QOsv = QOperatingSystemVersion;
+        if (QOsv::currentType() == QOsv::MacOS) {
+            // ScreenPlay.app/Contents/MacOS/exe → ScreenPlay.app/Contents/Resources/Content
+            return QGuiApplication::applicationDirPath() + QStringLiteral("/../Resources/Content");
+        }
+        // bin/exe → bin/Content
+        return QGuiApplication::applicationDirPath() + QStringLiteral("/Content");
+    }
+    return QStringLiteral(SCREENPLAY_SOURCE_DIR) + QStringLiteral("/Content");
 }
 
 /*!
@@ -439,7 +506,10 @@ std::optional<ScreenPlay::Video::VideoCodec> Util::getVideoCodecFromString(const
         return ScreenPlay::Video::VideoCodec::H264;
 
     if (type.contains("h265", Qt::CaseInsensitive))
-        return ScreenPlay::Video::VideoCodec::H264;
+        return ScreenPlay::Video::VideoCodec::H265;
+
+    if (type.contains("mjpeg", Qt::CaseInsensitive))
+        return ScreenPlay::Video::VideoCodec::MJPEG;
 
     return std::nullopt;
 }

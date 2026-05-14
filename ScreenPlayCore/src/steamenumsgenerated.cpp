@@ -1,5 +1,5 @@
 #include "ScreenPlayCore/steamenumsgenerated.h"
 
-namespace ScreenPlayWorkshop {
+namespace ScreenPlayCore {
 Steam::Steam() { }
-} // namespace ScreenPlayWorkshop
+} // namespace ScreenPlayCore

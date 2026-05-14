@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import ScreenPlay
 
-import ScreenPlayCore as Util
+import ScreenPlayCore as SPCore
 
 WizardPage {
     id: root
@@ -24,19 +24,19 @@ WizardPage {
             left: parent.left
         }
 
-        Util.Headline {
+        SPCore.Headline {
             text: qsTr("Create a HTML Wallpaper")
             Layout.fillWidth: true
         }
 
-        Util.HeadlineSection {
+        SPCore.HeadlineSection {
             text: qsTr("General")
         }
 
         RowLayout {
             spacing: 20
 
-            Util.TextField {
+            SPCore.TextField {
                 id: tfTitle
 
                 Layout.fillWidth: true
@@ -45,7 +45,7 @@ WizardPage {
                 onTextChanged: root.ready = text.length >= 1
             }
 
-            Util.TextField {
+            SPCore.TextField {
                 id: tfCreatedBy
 
                 Layout.fillWidth: true
@@ -53,7 +53,7 @@ WizardPage {
             }
         }
 
-        Util.TextField {
+        SPCore.TextField {
             id: tfDescription
 
             Layout.fillWidth: true
@@ -64,18 +64,18 @@ WizardPage {
             height: 10
         }
 
-        Util.HeadlineSection {
+        SPCore.HeadlineSection {
             text: qsTr("License & Tags")
         }
 
         RowLayout {
             spacing: 20
 
-            Util.LicenseSelector {
+            SPCore.LicenseSelector {
                 id: cbLicense
             }
 
-            Util.TagSelector {
+            SPCore.TagSelector {
                 id: tagSelector
 
                 Layout.fillWidth: true
@@ -86,11 +86,11 @@ WizardPage {
             height: 30
         }
 
-        Util.HeadlineSection {
+        SPCore.HeadlineSection {
             text: qsTr("Preview Image")
         }
 
-        Util.ImageSelector {
+        SPCore.ImageSelector {
             id: previewSelector
 
             Layout.fillWidth: true

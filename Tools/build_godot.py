@@ -50,9 +50,10 @@ def build_godot(abs_build_path: str,  build_type: str):
     screenPlayWallpaperGodot_executable = Path(abs_build_path).joinpath(defines.SCREENPLAYWALLPAPER_GODOT_EXECUTABLE).resolve()
     
     # Determine platform-specific export target and library folder
+    is_debug = 'debug' in build_type.lower()
     if sys.platform == "win32":
         platform_folder = "Windows-AMD64"
-        export_target = "Windows Desktop"
+        export_target = "Windows Desktop MSVC Debug" if is_debug else "Windows Desktop MSVC Release"
         lib_extensions = ["*.dll"]
     elif sys.platform == "darwin":
         platform_folder = "Darwin-x86_64"  # Could also be Darwin-arm64 for Apple Silicon
@@ -60,12 +61,12 @@ def build_godot(abs_build_path: str,  build_type: str):
         lib_extensions = ["*.dylib", "*.so"]
     elif sys.platform == "linux":
         platform_folder = "Linux-x86_64"
-        export_target = "Linux/X11"
+        export_target = "Linux"
         lib_extensions = ["*.so"]
     else:
         raise Exception(f"Unsupported platform: {sys.platform}")
     
-    if 'debug' in build_type:
+    if is_debug:
         export_type = " --export-debug"
     else:
         export_type = " --export-release"

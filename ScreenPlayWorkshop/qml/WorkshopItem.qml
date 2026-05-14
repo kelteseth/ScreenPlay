@@ -1,151 +1,117 @@
+pragma ComponentBehavior: Bound
 import QtQuick
-import QtQuick.Effects  // Changed
+import QtQuick.Controls.Material
+import QtMultimedia
 import ScreenPlayWorkshop
+import ScreenPlayCore as SPCore
 
 Item {
     id: root
+    objectName: "workshopItem" + itemIndex
 
     property url imgUrl
     property url additionalPreviewUrl
+    property url additionalPreviewWebpUrl
     property string name
     property var publishedFileID: 0
     property int itemIndex
+    property int itemsPerRow: 4
     property int subscriptionCount
-    property bool isDownloading: false
+    property bool isScrolling: false
+    property bool isInitialLoad: true
     property SteamWorkshop steamWorkshop
+
+    readonly property int rowIndex: Math.floor(root.itemIndex / root.itemsPerRow)
+    readonly property int columnIndex: root.itemIndex % root.itemsPerRow
+    readonly property bool enableAnimations: !root.isScrolling
 
     signal clicked(var publishedFileID, url imgUrl)
 
+    // Prefer animated WebP (higher quality) over GIF when available
+    readonly property url bestAnimatedPreviewUrl: root.additionalPreviewWebpUrl != "" ? root.additionalPreviewWebpUrl : root.additionalPreviewUrl
+
     width: 320
     height: 180
-    transform: [
-        Rotation {
-            id: rt
 
-            origin.x: width * 0.5
-            origin.y: height * 0.5
-            angle: 0
-
-            axis {
-                x: -0.5
-                y: 0
-                z: 0
-            }
-        },
-        Translate {
-            id: tr
-        },
-        Scale {
-            id: sc
-
-            origin.x: width * 0.5
-            origin.y: height * 0.5
-        }
-    ]
-
-    // Replaced RectangularGlow with MultiEffect
-    MultiEffect {
-        id: effect
-
-        width: parent.width
-        height: parent.height
-        source: Item {
-            anchors.fill: parent
-        }
-        shadowEnabled: true
-        shadowBlur: 1.0
-        shadowColor: "black"
-        shadowOpacity: 0.4
-        paddingRect: Qt.rect(-3, -3, 6, 6)
-
-        anchors {
-            top: parent.top
-            topMargin: 3
-        }
-    }
-
-    Timer {
-        id: timerAnim
-
-        interval: 40 * itemIndex * Math.random()
-        running: true
-        repeat: false
-        onTriggered: showAnim.start()
-    }
-
-    ParallelAnimation {
-        id: showAnim
-
-        running: false
-
-        RotationAnimation {
-            target: rt
-            from: 90
-            to: 0
-            duration: 500
-            easing.type: Easing.OutQuint
-            property: "angle"
-        }
-
-        PropertyAnimation {
-            target: root
-            from: 0
-            to: 1
-            duration: 500
-            easing.type: Easing.OutQuint
-            property: "opacity"
-        }
-
-        PropertyAnimation {
-            target: tr
-            from: 80
-            to: 0
-            duration: 500
-            easing.type: Easing.OutQuint
-            property: "y"
-        }
-
-        PropertyAnimation {
-            target: sc
-            from: 0.8
-            to: 1
-            duration: 500
-            easing.type: Easing.OutQuint
-            properties: "xScale,yScale"
-        }
+    Component.onCompleted: {
+        root.isInitialLoad = root.itemIndex < 20
+        showAnimation.start()
     }
 
     Item {
-        id: screenPlay
+        id: animatedContainer
+        anchors.fill: parent
+        opacity: 0
 
-        anchors.centerIn: parent
-        height: 180
-        width: 320
-
-        Image {
-            id: mask
-
-            //source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/images/Window.svg"
-            sourceSize: Qt.size(screenPlay.width, screenPlay.height)
-            visible: false
-            smooth: true
-            fillMode: Image.PreserveAspectFit
-        }
-
-        Item {
+        Rectangle {
             id: itemWrapper
+            color: Material.backgroundColor
 
             anchors {
                 fill: parent
                 margins: 5
             }
 
-            InstalledItemImage {
-                id: screenPlayItemImage
-
+            Image {
+                id: primaryImage
                 anchors.fill: parent
-                sourceImage: root.imgUrl
-                sourceImageGIF: root.additionalPreviewUrl
+                asynchronous: true
+                cache: true
+                sourceSize: Qt.size(320, 180)
+                fillMode: Image.PreserveAspectCrop
+                smooth: false
+                source: root.imgUrl
+
+                onStatusChanged: {
+                    if (status === Image.Error) {
+                        source = "qrc:/qt/qml/ScreenPlayWorkshop/assets/images/missingPreview.png"
+                    }
+                }
+            }
+
+            AnimatedImage {
+                id: animatedImage
+                anchors.fill: parent
+                asynchronous: true
+                playing: animatedImage.status === AnimatedImage.Ready && !root.isScrolling && hoverArea.containsMouse
+                sourceSize: Qt.size(320, 180)
+                fillMode: Image.PreserveAspectCrop
+                // Lazy-load: only fetch the animated preview when hovered.
+                // Qt detects GIF/WebP from content bytes, no extension needed.
+                source: hoverArea.containsMouse && root.bestAnimatedPreviewUrl != "" ? root.bestAnimatedPreviewUrl : ""
+                opacity: animatedImage.status === AnimatedImage.Ready && !root.isScrolling && hoverArea.containsMouse ? 1 : 0
+                visible: animatedImage.status !== AnimatedImage.Error
+
+                Behavior on opacity {
+                    OpacityAnimator {
+                        duration: 400
+                        easing.type: Easing.OutQuart
+                    }
+                }
+            }
+
+            Loader {
+                id: videoLoader
+                anchors.fill: parent
+                active: animatedImage.status === AnimatedImage.Error && !root.isScrolling && hoverArea.containsMouse && root.bestAnimatedPreviewUrl !== ""
+
+                sourceComponent: Video {
+                    anchors.fill: parent
+                    source: root.bestAnimatedPreviewUrl
+                    loops: MediaPlayer.Infinite
+                    fillMode: VideoOutput.PreserveAspectCrop
+
+                    Component.onCompleted: play()
+                }
+
+                OpacityAnimator {
+                    target: videoLoader
+                    running: videoLoader.active
+                    from: 0
+                    to: 1
+                    duration: 400
+                    easing.type: Easing.OutQuart
+                }
             }
 
             Rectangle {
@@ -172,79 +138,63 @@ Item {
                     }
                 }
             }
+        }
 
-            Text {
-                id: txtTitle
+        Text {
+            id: txtTitle
 
-                text: root.name
-                opacity: 0
-                height: 30
-                width: 180
-                verticalAlignment: Text.AlignVCenter
-                color: "white"
-                font.pointSize: 14
-                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            text: root.name
+            opacity: 0
+            height: 30
+            width: 180
+            verticalAlignment: Text.AlignVCenter
+            color: "white"
+            font.pointSize: 14
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 
-                anchors {
-                    bottom: parent.bottom
-                    right: parent.right
-                    rightMargin: 20
-                    left: parent.left
-                    leftMargin: 20
-                    bottomMargin: -50
-                }
-            }
-
-            Item {
-                id: openInWorkshop
-
-                height: 20
-                width: 20
-                z: 99
-                opacity: 0
-
-                anchors {
-                    margins: 10
-                    top: parent.top
-                    right: parent.right
-                }
-
-                Image {
-                    source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_open_in_new.svg"
-                    sourceSize: Qt.size(parent.width, parent.height)
-                    fillMode: Image.PreserveAspectFit
-                }
+            anchors {
+                bottom: parent.bottom
+                right: parent.right
+                rightMargin: 20
+                left: parent.left
+                leftMargin: 20
+                bottomMargin: -50
             }
         }
 
-        MultiEffect {
-            id: maskEffect
-            anchors.fill: itemWrapper
-            source: itemWrapper
-            maskEnabled: true
-            maskSource: mask
-            // Default values for other mask properties:
-            maskSpreadAtMin: 0.0
-            maskSpreadAtMax: 0.0
-            maskThresholdMin: 0.0
-            maskThresholdMax: 1.0
+        Item {
+            id: openInWorkshop
+
+            height: 20
+            width: 20
+            z: 99
+            opacity: 0
+
+            anchors {
+                margins: 10
+                top: itemWrapper.top
+                right: itemWrapper.right
+            }
+
+            SPCore.ColorImage {
+                source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_open_in_new.svg"
+                sourceSize: Qt.size(parent.width, parent.height)
+                fillMode: Image.PreserveAspectFit
+            }
         }
 
-        // Since MultiEffect can't contain MouseArea, we need to place them separately
         MouseArea {
+            id: hoverArea
             anchors.fill: itemWrapper
+            enabled: !root.isScrolling
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            onContainsMouseChanged: {
-                if (!isDownloading) {
-                    if (containsMouse)
-                        root.state = "hover"
-                    else
-                        root.state = ""
+            acceptedButtons: Qt.LeftButton | Qt.RightButton
+
+            onClicked: function (mouse) {
+                if (mouse.button === Qt.LeftButton) {
+                    root.clicked(root.publishedFileID, root.imgUrl)
                 }
-            }
-            onClicked: {
-                root.clicked(root.publishedFileID, root.imgUrl)
             }
         }
 
@@ -262,189 +212,120 @@ Item {
                 right: itemWrapper.right
             }
         }
-
-        // Replaced FastBlur with MultiEffect
-        MultiEffect {
-            id: effBlur
-
-            anchors.fill: itemWrapper
-            source: itemWrapper
-            blurEnabled: true
-            blurMax: 64
-            blur: 0  // Initially 0, will be changed in states
-        }
-
-        Item {
-            id: itmDownloading
-
-            opacity: 0
-
-            anchors {
-                top: parent.top
-                topMargin: 50
-                right: parent.right
-                bottom: parent.bottom
-                left: parent.left
-            }
-
-            Text {
-                id: txtDownloading
-
-                text: qsTr("Successfully subscribed to Workshop Item!")
-                color: "white"
-                font.pointSize: 18
-                wrapMode: Text.WordWrap
-                horizontalAlignment: Qt.AlignHCenter
-
-                anchors {
-                    verticalCenter: parent.verticalCenter
-                    right: parent.right
-                    rightMargin: 20
-                    left: parent.left
-                    leftMargin: 20
-                }
-            }
-        }
     }
 
     states: [
         State {
             name: "hover"
+            when: hoverArea.containsMouse && root.enableAnimations
 
             PropertyChanges {
-                target: openInWorkshop
-                opacity: 0.75
+                animatedContainer.scale: 1.05
             }
 
             PropertyChanges {
-                target: txtTitle
-                opacity: 1
-                anchors.bottomMargin: 20
+                openInWorkshop.opacity: 0.75
             }
 
             PropertyChanges {
-                target: shadow
-                opacity: 1
+                txtTitle.opacity: 1
+                txtTitle.anchors.bottomMargin: 20
             }
 
             PropertyChanges {
-                target: effBlur
-                blur: 0
-            }
-        },
-        State {
-            name: "downloading"
-
-            PropertyChanges {
-                target: openInWorkshop
-                opacity: 0
-            }
-
-            PropertyChanges {
-                target: txtTitle
-                opacity: 0
-            }
-
-            PropertyChanges {
-                target: shadow
-                opacity: 0
-            }
-
-            PropertyChanges {
-                target: effBlur
-                blur: 1.0  // Full blur with blurMax: 64
-            }
-
-            PropertyChanges {
-                target: itmDownloading
-                opacity: 1
-                anchors.topMargin: 0
-            }
-        },
-        State {
-            name: "installed"
-
-            PropertyChanges {
-                target: txtTitle
-                opacity: 0
-            }
-
-            PropertyChanges {
-                target: shadow
-                opacity: 0
-            }
-
-            PropertyChanges {
-                target: effBlur
-                blur: 1.0  // Full blur with blurMax: 64
-            }
-
-            PropertyChanges {
-                target: itmDownloading
-                opacity: 1
-                anchors.topMargin: 0
-            }
-
-            PropertyChanges {
-                target: txtDownloading
-                text: qsTr("Download complete!")
+                shadow.opacity: 1
             }
         }
     ]
+
     transitions: [
         Transition {
-            from: ""
-            to: "hover"
-            reversible: true
+            enabled: root.enableAnimations
 
-            PropertyAnimation {
-                target: openInWorkshop
-                duration: 100
-                properties: "opacity"
-            }
-
-            PropertyAnimation {
-                target: txtTitle
-                duration: 100
-                properties: "opacity, anchors.bottomMargin"
-            }
-
-            PropertyAnimation {
-                target: shadow
-                duration: 100
-                properties: "opacity"
-            }
-        },
-        Transition {
-            from: "*"
-            to: "downloading"
-            reversible: true
-
-            PropertyAnimation {
-                target: txtTitle
-                duration: 100
-                properties: "opacity"
-            }
-
-            PropertyAnimation {
-                target: shadow
-                duration: 100
-                properties: "opacity"
-            }
-
-            SequentialAnimation {
-                PropertyAnimation {
-                    target: effBlur
-                    duration: 500
-                    properties: "blur"  // Changed from "radius" to "blur"
+            ParallelAnimation {
+                ScaleAnimator {
+                    target: animatedContainer
+                    duration: 300
+                    easing.type: Easing.OutQuart
                 }
 
-                PropertyAnimation {
-                    target: txtTitle
+                NumberAnimation {
+                    target: openInWorkshop
+                    property: "opacity"
                     duration: 200
-                    properties: "opacity, anchors.topMargin"
+                    easing.type: Easing.OutQuart
+                }
+
+                NumberAnimation {
+                    target: txtTitle
+                    property: "opacity"
+                    duration: 200
+                    easing.type: Easing.OutQuart
+                }
+
+                NumberAnimation {
+                    target: shadow
+                    property: "opacity"
+                    duration: 200
+                    easing.type: Easing.OutQuart
+                }
+
+                NumberAnimation {
+                    target: txtTitle
+                    property: "anchors.bottomMargin"
+                    duration: 200
+                    easing.type: Easing.OutQuart
                 }
             }
         }
     ]
+
+    SequentialAnimation {
+        id: showAnimation
+        running: false
+
+        PauseAnimation {
+            duration: {
+                if (root.isInitialLoad) {
+                    return Math.max(0, (root.rowIndex * 100) + (root.columnIndex * 50))
+                } else {
+                    return Math.max(0, root.columnIndex * 100)
+                }
+            }
+        }
+
+        ParallelAnimation {
+            OpacityAnimator {
+                target: animatedContainer
+                from: 0
+                to: 1
+                duration: 600
+                easing.type: Easing.OutCirc
+            }
+
+            YAnimator {
+                target: animatedContainer
+                from: 80
+                to: 0
+                duration: 500
+                easing.type: Easing.OutCirc
+            }
+
+            ScaleAnimator {
+                target: animatedContainer
+                from: 0.3
+                to: 1
+                duration: 250
+                easing.type: Easing.OutCirc
+            }
+
+            RotationAnimator {
+                target: animatedContainer
+                from: -5
+                to: 0
+                duration: 400
+                easing.type: Easing.OutBack
+            }
+        }
+    }
 }

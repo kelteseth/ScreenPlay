@@ -2,16 +2,15 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQml.XmlListModel
+import ScreenPlayCore as SPCore
 
 Item {
     id: root
 
-    GridView {
+    SPCore.MaterialGridView {
         id: changelogFlickableWrapper
 
         flickableDirection: Flickable.VerticalFlick
-        maximumFlickVelocity: 5000
-        flickDeceleration: 5000
         cellHeight: 250
         cellWidth: 450
         model: feedModel

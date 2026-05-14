@@ -7,7 +7,7 @@ import QtQuick.Layouts
 import QtQuick.Effects
 import QtQuick.Controls.Material.impl
 import ScreenPlay
-import ScreenPlayCore as Util
+import ScreenPlayCore as SPCore
 import "qrc:/qt/qml/ScreenPlayCore/qml/InstantPopup.js" as InstantPopup
 
 Dialog {
@@ -62,7 +62,7 @@ Dialog {
         ignoreUnknownSignals: true
     }
 
-    Overlay.modal: Util.ModalBackgroundBlur {
+    Overlay.modal: SPCore.ModalBackgroundBlur {
         id: blurBg
         sourceItem: root.modalSource
         colorOverlayOpacity: .4
@@ -109,7 +109,7 @@ Dialog {
                 font.weight: Font.DemiBold
             }
             ToolButton {
-                icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_close.svg"
+                icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_close.svg"
                 icon.color: Material.iconColor
                 icon.width: 20
                 icon.height: 20
@@ -130,7 +130,7 @@ Dialog {
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
             ScrollBar.vertical.policy: ScrollBar.AsNeeded
 
-            ListView {
+            SPCore.MaterialListView {
                 id: listView
 
                 model: App.errorManager

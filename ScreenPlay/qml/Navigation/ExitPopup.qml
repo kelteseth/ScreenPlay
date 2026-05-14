@@ -6,7 +6,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import ScreenPlay
-import ScreenPlayCore as Util
+import ScreenPlayCore as SPCore
 
 Popup {
     id: root
@@ -23,7 +23,7 @@ Popup {
     }
     modal: true
 
-    Overlay.modal: Util.ModalBackgroundBlur {
+    Overlay.modal: SPCore.ModalBackgroundBlur {
         id: blurBg
         sourceItem: root.modalSource
     }

@@ -4,7 +4,7 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Dialogs
 import ScreenPlay
-import ScreenPlayCore as Util
+import ScreenPlayCore as SPCore
 import "../../"
 
 Item {
@@ -26,7 +26,7 @@ Item {
             margins: 20
         }
 
-        Util.Headline {
+        SPCore.Headline {
             Layout.fillWidth: true
             text: qsTr("Import Video Wallpaper")
         }
@@ -116,7 +116,7 @@ Item {
         text: qsTr("Open Documentation")
         Material.accent: Material.color(Material.LightGreen)
         highlighted: true
-        icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_document.svg"
+        icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_document.svg"
         icon.color: "white"
         icon.width: 16
         icon.height: 16

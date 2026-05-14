@@ -14,6 +14,7 @@ set(SOURCES
     src/create.cpp
     src/createimportvideo.cpp
     src/errormanager.cpp
+    src/gifoptimizer.cpp
     src/globalvariables.cpp
     src/installedcontentdata.cpp
     src/installedlistfilter.cpp
@@ -42,6 +43,7 @@ set(HEADER
     inc/public/ScreenPlay/createimportstates.h
     inc/public/ScreenPlay/createimportvideo.h
     inc/public/ScreenPlay/errormanager.h
+    inc/public/ScreenPlay/gifoptimizer.h
     inc/public/ScreenPlay/globalvariables.h
     inc/public/ScreenPlay/installedcontentdata.h
     inc/public/ScreenPlay/installedlistfilter.h
@@ -142,72 +144,6 @@ set(RESOURCES
     "legal/Font Awesome Free License.txt"
     "legal/Qt LGPLv3.txt"
     assets/icons/app.ico
-    assets/icons/brand_bluesky.svg
-    assets/icons/brand_github.svg
-    assets/icons/brand_gitlab.svg
-    assets/icons/brand_reddit.svg
-    assets/icons/brand_twitch.svg
-    assets/icons/exclamation-triangle-solid.svg
-    assets/icons/font-awsome/close.svg
-    assets/icons/font-awsome/frown-o.svg
-    assets/icons/font-awsome/lock-solid.svg
-    assets/icons/font-awsome/patreon-brands.svg
-    assets/icons/font-awsome/rotate-right-solid.svg
-    assets/icons/icon_arrow_left.svg
-    assets/icons/icon_arrow_right.svg
-    assets/icons/icon_build.svg
-    assets/icons/icon_cached.svg
-    assets/icons/icon_cake.afdesign
-    assets/icons/icon_cake.svg
-    assets/icons/icon_cancel_presentation.svg
-    assets/icons/icon_close.svg
-    assets/icons/icon_code.svg
-    assets/icons/icon_community.svg
-    assets/icons/icon_contains_audio.svg
-    assets/icons/icon_delete.svg
-    assets/icons/icon_document.svg
-    assets/icons/icon_done.svg
-    assets/icons/icon_download.svg
-    assets/icons/icon_edit.svg
-    assets/icons/icon_emptyWidget.svg
-    assets/icons/icon_folder_open.svg
-    assets/icons/icon_forum.svg
-    assets/icons/icon_help_center.svg
-    assets/icons/icon_import_export_.svg
-    assets/icons/icon_indicator_down.svg
-    assets/icons/icon_info.svg
-    assets/icons/icon_installed.svg
-    assets/icons/icon_launch.svg
-    assets/icons/icon_minimize.svg
-    assets/icons/icon_movie.svg
-    assets/icons/icon_new_releases.svg
-    assets/icons/icon_open_in_new.svg
-    assets/icons/icon_open_in_new_black.svg
-    assets/icons/icon_pause.svg
-    assets/icons/icon_people.svg
-    assets/icons/icon_play.svg
-    assets/icons/icon_plus.svg
-    assets/icons/icon_report_problem.svg
-    assets/icons/icon_schedule.svg
-    assets/icons/icon_search.svg
-    assets/icons/icon_settings.svg
-    assets/icons/icon_share.svg
-    assets/icons/icon_single_image.svg
-    assets/icons/icon_sort-down-solid.svg
-    assets/icons/icon_sort-up-solid.svg
-    assets/icons/icon_steam.svg
-    assets/icons/icon_supervisor_account.svg
-    assets/icons/icon_thumb_down.svg
-    assets/icons/icon_thumb_up.svg
-    assets/icons/icon_upload.svg
-    assets/icons/icon_video_settings.svg
-    assets/icons/icon_volume.svg
-    assets/icons/icon_volume_mute.svg
-    assets/icons/icon_volume_up.svg
-    assets/icons/icon_widgets.svg
-    assets/icons/icon_window.svg
-    assets/icons/item_banner_new.svg
-    assets/icons/monitor_setup.svg
     assets/icons/steam_default_avatar.png
     assets/images/first_startup_mask.png
     assets/images/installed_item_mask.png
@@ -293,6 +229,7 @@ endif()
 find_package(
     Qt6
     COMPONENTS Core
+               Concurrent
                Quick
                QuickControls2
                Gui
@@ -347,6 +284,7 @@ target_link_libraries(
            Qt6::Gui
            Qt6::Widgets
            Qt6::Core
+           Qt6::Concurrent
            Qt6::WebSockets
            Qt6::Svg
            Qt6::QuickControls2
@@ -391,6 +329,38 @@ if(${SCREENPLAY_TESTS})
 
     if(${SCREENPLAY_STEAM})
         target_link_libraries(tst_ScreenPlayGui PUBLIC ScreenPlayWorkshopLib ScreenPlayWorkshopLibplugin)
+    endif()
+
+    # Video import tests
+    qt_add_executable(tst_VideoImport tests/tst_VideoImport.cpp)
+    target_link_libraries(
+        tst_VideoImport
+        PRIVATE ScreenPlayLib
+                ScreenPlayLibplugin
+                Qt6::Gui
+                Qt6::Test)
+
+    generate_cmake_variable_header(tst_VideoImport)
+    add_dependencies(tst_VideoImport ScreenPlayLib)
+
+    if(${SCREENPLAY_STEAM})
+        target_link_libraries(tst_VideoImport PUBLIC ScreenPlayWorkshopLib ScreenPlayWorkshopLibplugin)
+    endif()
+
+    # GIF optimizer tests
+    qt_add_executable(tst_GifOptimizer tests/tst_GifOptimizer.cpp)
+    target_link_libraries(
+        tst_GifOptimizer
+        PRIVATE ScreenPlayLib
+                ScreenPlayLibplugin
+                Qt6::Gui
+                Qt6::Test)
+
+    generate_cmake_variable_header(tst_GifOptimizer)
+    add_dependencies(tst_GifOptimizer ScreenPlayLib)
+
+    if(${SCREENPLAY_STEAM})
+        target_link_libraries(tst_GifOptimizer PUBLIC ScreenPlayWorkshopLib ScreenPlayWorkshopLibplugin)
     endif()
 endif()
 
@@ -490,6 +460,24 @@ if(APPLE)
         COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts"
                 "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/Resources/fonts"
         COMMENT "Copying fonts to macOS bundle")
+
+    # Copy Content to bundle
+    add_custom_command(
+        TARGET ScreenPlayApp
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_CURRENT_SOURCE_DIR}/../Content"
+                "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/Resources/Content"
+        COMMENT "Copying example content to macOS bundle")
+endif()
+
+# Copy Content folder next to the executable for dev builds
+if(NOT APPLE)
+    add_custom_command(
+        TARGET ScreenPlayApp
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_CURRENT_SOURCE_DIR}/../Content"
+                "$<TARGET_FILE_DIR:ScreenPlayApp>/Content"
+        COMMENT "Copying example content to build directory")
 endif()
 
 # Must be set before qt_add_lrelease
@@ -514,41 +502,6 @@ if(APPLE)
     add_dependencies(ScreenPlayApp screenplay_translations)
 endif()
 
-if(${SCREENPLAY_STEAM})
-    if(APPLE)
-        # Add post-build commands for Steam integration
-        add_custom_command(
-            TARGET ScreenPlayApp
-            POST_BUILD
-            # Copy Steam API library
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${STEAM_BINARY_PATH}"
-                    "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/${STEAM_BINARY}"
-            # Create Steam App ID file
-            COMMAND ${CMAKE_COMMAND} -E echo "672870" > "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/steam_appid.txt"
-            COMMENT "Copying Steam files from ${STEAM_BINARY_PATH} to bundle...")
-
-        # Print the paths for debugging
-        message(STATUS "Steam root: ${STEAM_ROOT}")
-        message(STATUS "Steam binary: ${STEAM_BINARY}")
-        message(STATUS "Steam binary path: ${STEAM_BINARY_PATH}")
-    elseif(WIN32)
-        add_custom_command(
-            TARGET ScreenPlayApp
-            POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${STEAM_BINARY_PATH}" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
-
-        file(WRITE "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/steam_appid.txt" "672870")
-    elseif(UNIX AND NOT APPLE)
-        set(OUT_DIR "${CMAKE_BINARY_DIR}/ScreenPlay")
-        add_custom_command(
-            TARGET ScreenPlayApp
-            POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${STEAM_BINARY_PATH}" "${OUT_DIR}")
-
-        file(WRITE "${OUT_DIR}/steam_appid.txt" "672870")
-    endif()
-endif()
-
 # Note: We need the variables in the lib and exe!
 generate_cmake_variable_header(ScreenPlayApp)
 generate_cmake_variable_header(ScreenPlayLib)
@@ -564,7 +517,7 @@ install(
 if(WIN32)
     install(
         DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../Content/"
-        DESTINATION "${CMAKE_INSTALL_BINDIR}/../Content"
+        DESTINATION "${CMAKE_INSTALL_BINDIR}/Content"
         OPTIONAL)
 elseif(APPLE)
     install(
@@ -574,7 +527,7 @@ elseif(APPLE)
 elseif(UNIX)
     install(
         DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../Content/"
-        DESTINATION "${CMAKE_INSTALL_BINDIR}/../Content"
+        DESTINATION "${CMAKE_INSTALL_BINDIR}/Content"
         OPTIONAL)
 endif()
 

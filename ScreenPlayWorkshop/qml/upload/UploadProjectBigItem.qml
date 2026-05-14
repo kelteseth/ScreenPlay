@@ -4,9 +4,11 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Controls.Material.impl
 import "../"
+import ScreenPlayCore as SPCore
 
 Item {
     id: root
+    objectName: "uploadProjectBigItem" + itemIndex
 
     property bool isProjectValid: false
     property alias checkBox: checkBox
@@ -21,8 +23,6 @@ Item {
     property int itemIndex
 
     signal itemClicked(var folderName, var type, var isActive)
-
-    height: 250
     onTypeChanged: {
         if (type === "widget")
             icnType.source = "icons/icon_widgets.svg"
@@ -41,7 +41,7 @@ Item {
         color: Material.theme === Material.Light ? "white" : Material.background
 
         layer.effect: ElevationEffect {
-            elevation: 6
+            elevation: 4
         }
     }
 
@@ -49,7 +49,7 @@ Item {
         id: screenPlayItemWrapper
 
         anchors.fill: parent
-        anchors.margins: 20
+        anchors.margins: 5
 
         Item {
             id: itemWrapper
@@ -61,7 +61,7 @@ Item {
             Image {
                 id: screenPlayItemImage
                 asynchronous: true
-                width: 400
+                fillMode: Image.PreserveAspectCrop
                 source: root.preview !== "" ? Qt.resolvedUrl(root.absoluteStoragePath + "/" + root.preview) : ""
 
                 anchors {
@@ -69,9 +69,10 @@ Item {
                     left: parent.left
                     bottom: parent.bottom
                 }
+                width: parent.width * 0.55
             }
 
-            Image {
+            SPCore.ColorImage {
                 id: icnType
 
                 width: 20
@@ -86,13 +87,14 @@ Item {
             }
 
             ColumnLayout {
-                spacing: 10
+                spacing: 4
 
                 anchors {
                     top: parent.top
                     right: parent.right
                     left: screenPlayItemImage.right
-                    margins: 20
+                    margins: 10
+                    rightMargin: 30
                 }
 
                 Text {
@@ -100,23 +102,29 @@ Item {
 
                     text: m_title
                     color: Material.foreground
-                    font.pointSize: 18
+                    font.pointSize: 14
+                    elide: Text.ElideRight
+                    Layout.fillWidth: true
                 }
 
                 Text {
-                    text: qsTr("Type: ") + m_type
+                    text: m_typeString
                     color: Material.foreground
+                    font.pointSize: 11
+                    opacity: 0.7
                 }
             }
 
             Button {
                 text: qsTr("Open Folder")
-                onClicked: App.util.openFolderInExplorer(m_absoluteStoragePath)
+                flat: true
+                font.pointSize: 10
+                onClicked: Qt.openUrlExternally(m_absoluteStoragePath)
 
                 anchors {
                     right: parent.right
                     bottom: parent.bottom
-                    margins: 20
+                    margins: 5
                 }
             }
 
@@ -133,13 +141,16 @@ Item {
 
         CheckBox {
             id: checkBox
+            objectName: "itemCheckBox" + root.itemIndex
 
-            onCheckStateChanged: {
-                if (checkState == Qt.Checked)
-                    isSelected = true
-                else
-                    isSelected = false
-                root.itemClicked(folderName, type, isSelected)
+            // Sync checkbox state with isSelected property (for delegate recycling)
+            checked: root.isSelected
+
+            onCheckedChanged: {
+                if (checked !== root.isSelected) {
+                    root.isSelected = checked
+                    root.itemClicked(root.folderName, root.type, root.isSelected)
+                }
             }
 
             anchors {

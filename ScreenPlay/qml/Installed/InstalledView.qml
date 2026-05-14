@@ -6,7 +6,7 @@ import QtQuick.Effects
 import QtQuick.Controls.Material
 import QtCore as QCore
 import ScreenPlay
-import ScreenPlayCore as Util
+import ScreenPlayCore as SPCore
 import "../Components"
 import "qrc:/qt/qml/ScreenPlayCore/qml/InstantPopup.js" as InstantPopup
 
@@ -81,7 +81,7 @@ Item {
         target: App.installedListFilter
     }
 
-    GridView {
+    SPCore.MaterialGridView {
         id: gridView
         objectName: "gridView"
         visible: root.installedLoadingFinished
@@ -94,10 +94,7 @@ Item {
         anchors.fill: parent
         cellWidth: 340
         cellHeight: 200
-        // cacheBuffer: 300
         interactive: root.enabled
-        flickDeceleration: 0.001
-        maximumFlickVelocity: 4000
         onDragStarted: isDragging = true
         onDragEnded: isDragging = false
         model: App.installedListFilter
@@ -132,7 +129,7 @@ Item {
                 // call popup when we are in the closing animtion.
                 if (contextMenu.visible || contextMenu.opened)
                     return
-                if (delegate.type === Util.ContentTypes.InstalledType.GodotWallpaper) {
+                if (delegate.type === SPCore.ContentTypes.InstalledType.GodotWallpaper) {
                     contextMenu.editGodotItem = editGodotWallpaperComp.createObject()
                     contextMenu.insertItem(0, contextMenu.editGodotItem)
                     contextMenu.updateGodotItem = updateGodotWallpaperComp.createObject()
@@ -149,24 +146,6 @@ Item {
                 NumberAnimation {
                     properties: "x,y"
                     duration: 250
-                    easing.type: Easing.InOutQuart
-                }
-            }
-        }
-
-        remove: Transition {
-            SequentialAnimation {
-
-                NumberAnimation {
-                    property: "opacity"
-                    to: 0
-                    duration: 200
-                    easing.type: Easing.InOutQuart
-                }
-                NumberAnimation {
-                    properties: "y"
-                    to: 100
-                    duration: 200
                     easing.type: Easing.InOutQuart
                 }
             }
@@ -216,15 +195,15 @@ Item {
         MenuItem {
             text: qsTr("Edit in Godot Editor")
             objectName: "editWallpaper"
-            enabled: contextMenu.type === Util.ContentTypes.InstalledType.GodotWallpaper
-            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_edit.svg"
+            enabled: contextMenu.type === SPCore.ContentTypes.InstalledType.GodotWallpaper
+            icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_edit.svg"
             onClicked: {
                 App.godotHandler.openGodotEditor(contextMenu.absoluteStoragePath, App.globalVariables.godotEditorExecutablePath)
             }
         }
     }
 
-    Util.Dialog {
+    SPCore.Dialog {
         id: userManualUpdateGodotWallpaperDialog
         modal: true
         anchors.centerIn: Overlay.overlay
@@ -267,8 +246,8 @@ Item {
         MenuItem {
             text: qsTr("Update Godot Wallpaper")
             objectName: "editWallpaper"
-            enabled: contextMenu.type === Util.ContentTypes.InstalledType.GodotWallpaper
-            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_cached.svg"
+            enabled: contextMenu.type === SPCore.ContentTypes.InstalledType.GodotWallpaper
+            icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_cached.svg"
             onClicked: userManualUpdateGodotWallpaperDialog.open()
             hoverEnabled: true
             ToolTip.delay: 500
@@ -303,7 +282,7 @@ Item {
         MenuItem {
             text: qsTr("Open containing folder")
             objectName: "openFolder"
-            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_folder_open.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_folder_open.svg"
             onClicked: {
                 App.util.openFolderInExplorer(contextMenu.absoluteStoragePath)
             }
@@ -312,7 +291,7 @@ Item {
         MenuItem {
             text: qsTr("Export to zip")
             objectName: enabled ? "removeItem" : "removeWorkshopItem"
-            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_import_export_.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_import_export_.svg"
             onClicked: {
                 exportFileDialog.absoluteStoragePath = contextMenu.absoluteStoragePath
                 let urlFileName = QCore.StandardPaths.writableLocation(QCore.StandardPaths.DesktopLocation) + "/" + contextMenu.fileName + ".screenplay"
@@ -324,7 +303,7 @@ Item {
         MenuItem {
             text: enabled ? qsTr("Remove Item") : qsTr("Remove via Workshop")
             objectName: enabled ? "removeItem" : "removeWorkshopItem"
-            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_delete.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_delete.svg"
             enabled: contextMenu.publishedFileID === 0 || !App.globalVariables.isSteamVersion()
             onClicked: {
                 deleteDialog.open()
@@ -334,13 +313,13 @@ Item {
         MenuItem {
             text: qsTr("Open Workshop Page")
             enabled: contextMenu.publishedFileID !== 0 && App.globalVariables.isSteamVersion()
-            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_steam.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_steam.svg"
             onClicked: {
                 Qt.openUrlExternally("steam://url/CommunityFilePage/" + contextMenu.publishedFileID)
             }
         }
     }
-    Util.Dialog {
+    SPCore.Dialog {
         id: deleteDialog
         title: qsTr("Are you sure you want to delete this item?")
         standardButtons: Dialog.Ok | Dialog.Cancel
@@ -365,7 +344,7 @@ Item {
         }
     }
 
-    Util.Dialog {
+    SPCore.Dialog {
         id: exportFileProgressDialog
         modal: true
         anchors.centerIn: Overlay.overlay
@@ -408,7 +387,7 @@ Item {
         }
     }
 
-    Util.SPArchive {
+    SPCore.SPArchive {
         id: archive
     }
 
@@ -442,7 +421,7 @@ Item {
             dropPopup.close()
         }
 
-        Util.Dialog {
+        SPCore.Dialog {
             id: importProjectErrorDialog
             modal: true
             modalSource: root.modalSource
@@ -450,7 +429,7 @@ Item {
             standardButtons: Dialog.Ok
             onAccepted: importProjectErrorDialog.close()
         }
-        Util.Dialog {
+        SPCore.Dialog {
             id: importDialog
             modal: true
             modalSource: root.modalSource
@@ -547,7 +526,7 @@ Item {
                     text: qsTr("Set content folder path")
                     onClicked: App.uiAppStateSignals.setNavigation("Settings")
                     icon {
-                        source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_settings.svg"
+                        source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_settings.svg"
                         width: 20
                         height: 20
                     }
@@ -556,7 +535,7 @@ Item {
                     text: qsTr("Get help in the forums")
                     onClicked: Qt.openUrlExternally("https://forum.screen-play.app/")
                     icon {
-                        source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_open_in_new_black.svg"
+                        source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_open_in_new_black.svg"
                         width: 20
                         height: 20
                     }
@@ -565,7 +544,7 @@ Item {
         }
     }
 
-    Util.RainbowGradient {
+    SPCore.RainbowGradient {
         id: rainbowGradient
         visible: false
         running: noInstalledContentView.enabled
@@ -619,7 +598,7 @@ Item {
         background: Rectangle {
             color: Material.backgroundColor
 
-            Util.RainbowGradient {
+            SPCore.RainbowGradient {
                 id: inlineRainbowGradient
                 visible: noInstalledContentView.visible
                 running: visible
@@ -699,7 +678,7 @@ Item {
                         }
 
                         icon {
-                            source: App.globalVariables.isStandaloneVersion() ? "qrc:/qt/qml/ScreenPlay/assets/icons/icon_plus.svg" : "qrc:/qt/qml/ScreenPlay/assets/icons/icon_steam.svg"
+                            source: App.globalVariables.isStandaloneVersion() ? "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_plus.svg" : "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_steam.svg"
                             width: 20
                             height: 20
                         }
@@ -708,7 +687,7 @@ Item {
                         text: qsTr("Open Install Folder Path")
                         onClicked: App.util.openFolderInExplorer(App.globalVariables.localStoragePath.toString())
                         icon {
-                            source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_folder_open.svg"
+                            source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_folder_open.svg"
                             width: 20
                             height: 20
                         }
@@ -761,7 +740,7 @@ Item {
             dropArea.enabled = true
         }
 
-        Util.FileDropAnimation {
+        SPCore.FileDropAnimation {
             id: fileDropAnimation
             anchors.centerIn: parent
         }
