@@ -229,6 +229,7 @@ endif()
 find_package(
     Qt6
     COMPONENTS Core
+               Concurrent
                Quick
                QuickControls2
                Gui
@@ -283,6 +284,7 @@ target_link_libraries(
            Qt6::Gui
            Qt6::Widgets
            Qt6::Core
+           Qt6::Concurrent
            Qt6::WebSockets
            Qt6::Svg
            Qt6::QuickControls2
