@@ -302,8 +302,8 @@ Item {
                     }
                 }
             }
-        } // end RowLayout
-    } // end ColumnLayout
+        }
+    }
 
     Button {
         id: btnDocumentation
