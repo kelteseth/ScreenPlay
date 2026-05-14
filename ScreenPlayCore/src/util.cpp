@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "ScreenPlayCore/util.h"
+#include "CMakeVariables.h"
 #include "core/qcoroprocess.h"
 
 #include <QDesktopServices>
@@ -249,6 +250,27 @@ QString Util::ffprobeExecutable()
     return isFFmpegBundled()
         ? QGuiApplication::applicationDirPath() + QLatin1Char('/') + name
         : name;
+}
+
+/*!
+  \brief Returns the path to the bundled example Content directory shipped
+         with ScreenPlay (not the user's downloaded/local storage path).
+         Dev builds resolve to the in-source Content folder (SCREENPLAY_SOURCE_DIR);
+         deploy builds resolve relative to the application binary
+         (Contents/Resources/Content on macOS, /Content next to the exe elsewhere).
+*/
+QString Util::bundledExampleContentPath()
+{
+    if (SCREENPLAY_DEPLOY_VERSION) {
+        using QOsv = QOperatingSystemVersion;
+        if (QOsv::currentType() == QOsv::MacOS) {
+            // ScreenPlay.app/Contents/MacOS/exe → ScreenPlay.app/Contents/Resources/Content
+            return QGuiApplication::applicationDirPath() + QStringLiteral("/../Resources/Content");
+        }
+        // bin/exe → bin/Content
+        return QGuiApplication::applicationDirPath() + QStringLiteral("/Content");
+    }
+    return QStringLiteral(SCREENPLAY_SOURCE_DIR) + QStringLiteral("/Content");
 }
 
 /*!

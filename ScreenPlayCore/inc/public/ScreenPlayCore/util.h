@@ -207,6 +207,7 @@ public:
     static bool isFFmpegBundled();
     static QString ffmpegExecutable();
     static QString ffprobeExecutable();
+    static QString bundledExampleContentPath();
     QStringList getAvailableWallpaper() const;
     QStringList getAvailableWidgets() const;
     QStringList getAvailableTypes() const;
