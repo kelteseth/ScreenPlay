@@ -304,7 +304,6 @@ QCoro::QmlTask Create::probeVideoInfo(const QString& videoPath)
         if (!obj)
             co_return info;
 
-        // --- Streams ---
         const QJsonArray streams = obj->value("streams").toArray();
         QJsonObject videoStream;
         QJsonObject audioStream;
@@ -316,13 +315,11 @@ QCoro::QmlTask Create::probeVideoInfo(const QString& videoPath)
                 audioStream = st;
         }
 
-        // --- Format ---
         const QJsonObject fmt = obj->value("format").toObject();
         const QString container = fmt.value("format_long_name").toString();
         if (!container.isEmpty())
             info.insert("Container", container);
 
-        // --- Video ---
         if (!videoStream.isEmpty()) {
             const QString codec = videoStream.value("codec_long_name").toString();
             if (!codec.isEmpty())
@@ -388,7 +385,6 @@ QCoro::QmlTask Create::probeVideoInfo(const QString& videoPath)
                 info.insert("Total Frames", QString::number(nbFrames));
         }
 
-        // --- Audio ---
         if (!audioStream.isEmpty()) {
             const QString aCodec = audioStream.value("codec_long_name").toString();
             if (!aCodec.isEmpty())
@@ -413,7 +409,6 @@ QCoro::QmlTask Create::probeVideoInfo(const QString& videoPath)
             info.insert("Audio", "None");
         }
 
-        // --- Duration / File size ---
         const QString duration = fmt.value("duration").toString();
         if (!duration.isEmpty()) {
             bool ok = false;

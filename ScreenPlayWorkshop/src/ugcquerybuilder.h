@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #pragma once
 
-#include <QDebug>
 #include <QString>
 #include <QStringList>
 
@@ -27,102 +26,31 @@ public:
     /// Default constructor (invalid handle). Assign from a factory method before use.
     UGCQueryBuilder() = default;
 
-    // --- Factory methods ---
-
-    static UGCQueryBuilder allItems(AppId_t appID, EUGCQuery queryType, uint32 page)
-    {
-        UGCQueryBuilder b;
-        b.m_handle = SteamUGC()->CreateQueryAllUGCRequest(
-            queryType,
-            k_EUGCMatchingUGCType_Items,
-            appID, appID, page);
-        b.applyDefaults();
-        return b;
-    }
-
+    static UGCQueryBuilder allItems(AppId_t appID, EUGCQuery queryType, uint32 page);
     static UGCQueryBuilder userItems(AccountID_t accountID, AppId_t appID,
         EUserUGCList list,
         EUGCMatchingUGCType matchingType,
         EUserUGCListSortOrder sortOrder,
-        uint32 page)
-    {
-        UGCQueryBuilder b;
-        b.m_handle = SteamUGC()->CreateQueryUserUGCRequest(
-            accountID, list, matchingType, sortOrder,
-            appID, appID, page);
-        b.applyDefaults();
-        return b;
-    }
+        uint32 page);
+    static UGCQueryBuilder details(PublishedFileId_t* ids, uint32 count);
 
-    static UGCQueryBuilder details(PublishedFileId_t* ids, uint32 count)
-    {
-        UGCQueryBuilder b;
-        b.m_handle = SteamUGC()->CreateQueryUGCDetailsRequest(ids, count);
-        b.applyDefaults();
-        return b;
-    }
-
-    // --- Option setters (fluent) ---
-
-    UGCQueryBuilder& withPreviews()
-    {
-        const bool ok = SteamUGC()->SetReturnAdditionalPreviews(m_handle, true);
-        return *this;
-    }
-
-    UGCQueryBuilder& withKeyValueTags()
-    {
-        SteamUGC()->SetReturnKeyValueTags(m_handle, true);
-        return *this;
-    }
-
-    UGCQueryBuilder& withLongDescription()
-    {
-        SteamUGC()->SetReturnLongDescription(m_handle, true);
-        return *this;
-    }
-
-    UGCQueryBuilder& withChildren()
-    {
-        SteamUGC()->SetReturnChildren(m_handle, true);
-        return *this;
-    }
-
-    UGCQueryBuilder& withSearchText(const QString& text)
-    {
-        if (!text.isEmpty()) {
-            if (!SteamUGC()->SetSearchText(m_handle, text.toUtf8().constData()))
-                qWarning() << "UGCQueryBuilder: SetSearchText failed for:" << text;
-        }
-        return *this;
-    }
-
-    UGCQueryBuilder& withRequiredTags(const QStringList& tags)
-    {
-        for (const auto& tag : tags) {
-            if (!SteamUGC()->AddRequiredTag(m_handle, tag.toUtf8().constData()))
-                qWarning() << "UGCQueryBuilder: AddRequiredTag failed for:" << tag;
-        }
-        return *this;
-    }
-
-    // --- Accessors ---
+    UGCQueryBuilder& withPreviews();
+    UGCQueryBuilder& withKeyValueTags();
+    UGCQueryBuilder& withLongDescription();
+    UGCQueryBuilder& withChildren();
+    UGCQueryBuilder& withSearchText(const QString& text);
+    UGCQueryBuilder& withRequiredTags(const QStringList& tags);
 
     UGCQueryHandle_t handle() const { return m_handle; }
 
     /// Sends the query and returns the SteamAPICall_t handle.
-    SteamAPICall_t send() { return SteamUGC()->SendQueryUGCRequest(m_handle); }
+    SteamAPICall_t send();
 
 private:
     UGCQueryHandle_t m_handle = 0;
 
     /// Applied automatically by every factory method.
-    void applyDefaults()
-    {
-        withPreviews();
-        withKeyValueTags();
-        withLongDescription();
-    }
+    void applyDefaults();
 };
 
 } // namespace ScreenPlayWorkshop

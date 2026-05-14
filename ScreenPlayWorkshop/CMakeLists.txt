@@ -54,7 +54,8 @@ set(SOURCES
     src/steamworkshopitemops.cpp
     src/steamworkshoplistmodel.cpp
     src/steamworkshopprofile.cpp
-    src/steamworkshopsearch.cpp)
+    src/steamworkshopsearch.cpp
+    src/ugcquerybuilder.cpp)
 
 set(HEADER
     # cmake-format: sort
