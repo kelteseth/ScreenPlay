@@ -4,10 +4,11 @@
 #include "ScreenPlay/createimportvideo.h"
 #include "ScreenPlayCore/util.h"
 
+#include "core/qcoroprocess.h"
+
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
-#include <QGuiApplication>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -112,19 +113,22 @@ void Create::createWallpaperStart(QString videoPath, ScreenPlay::Video::VideoCod
             return;
         }
 
-        // Skip preview convert for webm
-        if (!import.m_isWebm) {
-            qCInfo(create) << "createWallpaperVideoPreview()";
-            if (!import.createWallpaperVideoPreview() || m_interrupt) {
-                emit createWallpaperStateChanged(Import::State::Failed);
-                emit import.abortAndCleanup();
-
-                return;
-            }
+        qCInfo(create) << "createWallpaperVideoPreview()";
+        if (!import.createWallpaperVideoPreview() || m_interrupt) {
+            emit createWallpaperStateChanged(Import::State::Failed);
+            emit import.abortAndCleanup();
+            return;
         }
 
         qCInfo(create) << "createWallpaperWebpPreview()";
         if (!import.createWallpaperWebpPreview() || m_interrupt) {
+            emit createWallpaperStateChanged(Import::State::Failed);
+            emit import.abortAndCleanup();
+            return;
+        }
+
+        qCInfo(create) << "createWallpaperGifPreview()";
+        if (!import.createWallpaperGifPreview() || m_interrupt) {
             emit createWallpaperStateChanged(Import::State::Failed);
             emit import.abortAndCleanup();
             return;
@@ -165,30 +169,17 @@ void Create::createWallpaperStart(QString videoPath, ScreenPlay::Video::VideoCod
 ScreenPlay::Video::VideoCodec Create::detectVideoCodec(const QString& videoPath)
 {
     ScreenPlay::Util util;
-    // Handle both URL strings and regular file paths
-    QString localVideoPath;
-    if (videoPath.startsWith("file://") || videoPath.startsWith("qrc:")) {
-        localVideoPath = util.toLocal(videoPath);
-    } else {
-        // Already a local path, use as-is
-        localVideoPath = QDir::toNativeSeparators(videoPath);
-    }
+    const QString localVideoPath = videoPath.startsWith("file://")
+        ? util.toLocal(videoPath)
+        : QDir::toNativeSeparators(videoPath);
 
     QProcess process;
-    QString ffprobeExecutable;
+    const QString ffprobeExecutable = Util::ffprobeExecutable();
 
-#ifdef Q_OS_LINUX
-    ffprobeExecutable = "ffprobe";
-#else
-    ffprobeExecutable = QGuiApplication::applicationDirPath() + "/ffprobe" + util.executableBinEnding();
-#endif
-
-#ifndef Q_OS_LINUX
-    if (!QFileInfo::exists(ffprobeExecutable)) {
+    if (Util::isFFmpegBundled() && !QFileInfo::exists(ffprobeExecutable)) {
         qCWarning(create) << "FFPROBE executable not found!";
         return ScreenPlay::Video::VideoCodec::Unknown;
     }
-#endif
 
     QStringList args;
     args.append("-v");
@@ -242,6 +233,8 @@ ScreenPlay::Video::VideoCodec Create::detectVideoCodec(const QString& videoPath)
         return ScreenPlay::Video::VideoCodec::H264;
     } else if (codecName == "hevc" || codecName == "h265") {
         return ScreenPlay::Video::VideoCodec::H265;
+    } else if (codecName == "mjpeg") {
+        return ScreenPlay::Video::VideoCodec::MJPEG;
     } else {
         qCInfo(create) << "Unknown or unplayable codec detected";
         return ScreenPlay::Video::VideoCodec::Unknown;
@@ -250,7 +243,7 @@ ScreenPlay::Video::VideoCodec Create::detectVideoCodec(const QString& videoPath)
 
 /*!
     \brief Checks if the given codec can be played without conversion.
-           Returns true for VP8, VP9, H264, H265, AV1.
+           Returns true for H264, VP8, VP9, AV1 — the codecs ScreenPlay natively supports.
 */
 bool Create::canSkipConversion(ScreenPlay::Video::VideoCodec codec)
 {
@@ -259,13 +252,188 @@ bool Create::canSkipConversion(ScreenPlay::Video::VideoCodec codec)
     case ScreenPlay::Video::VideoCodec::VP9:
     case ScreenPlay::Video::VideoCodec::AV1:
     case ScreenPlay::Video::VideoCodec::H264:
-    case ScreenPlay::Video::VideoCodec::H265:
         return true;
+    case ScreenPlay::Video::VideoCodec::H265:
     case ScreenPlay::Video::VideoCodec::Unknown:
     case ScreenPlay::Video::VideoCodec::NoConversion:
+    case ScreenPlay::Video::VideoCodec::MJPEG:
         return false;
     }
     return false;
+}
+
+/*!
+    \brief Probes detailed video information via FFprobe and returns it as
+           a key-value map suitable for display in QML. Runs asynchronously
+           via QCoro so the UI thread is not blocked.
+*/
+QCoro::QmlTask Create::probeVideoInfo(const QString& videoPath)
+{
+    return QCoro::QmlTask([videoPath]() -> QCoro::Task<QVariantMap> {
+        QVariantMap info;
+        ScreenPlay::Util util;
+
+        const QString localVideoPath = videoPath.startsWith("file://")
+            ? util.toLocal(videoPath)
+            : QDir::toNativeSeparators(videoPath);
+
+        const QString ffprobeExecutable = Util::ffprobeExecutable();
+
+        if (Util::isFFmpegBundled() && !QFileInfo::exists(ffprobeExecutable))
+            co_return info;
+
+        QStringList args;
+        args << "-v" << "error"
+             << "-print_format" << "json"
+             << "-show_format" << "-show_streams"
+             << localVideoPath;
+
+        QProcess process;
+        process.setProgram(ffprobeExecutable);
+        process.setArguments(args);
+
+        using namespace QCoro;
+        auto coroProcess = qCoro(process);
+        co_await coroProcess.start();
+        co_await coroProcess.waitForFinished(10000);
+
+        if (process.exitCode() != 0)
+            co_return info;
+
+        auto obj = util.parseQByteArrayToQJsonObject(process.readAllStandardOutput());
+        if (!obj)
+            co_return info;
+
+        const QJsonArray streams = obj->value("streams").toArray();
+        QJsonObject videoStream;
+        QJsonObject audioStream;
+        for (const auto& s : streams) {
+            QJsonObject st = s.toObject();
+            if (st.value("codec_type").toString() == "video" && videoStream.isEmpty())
+                videoStream = st;
+            else if (st.value("codec_type").toString() == "audio" && audioStream.isEmpty())
+                audioStream = st;
+        }
+
+        const QJsonObject fmt = obj->value("format").toObject();
+        const QString container = fmt.value("format_long_name").toString();
+        if (!container.isEmpty())
+            info.insert("Container", container);
+
+        if (!videoStream.isEmpty()) {
+            const QString codec = videoStream.value("codec_long_name").toString();
+            if (!codec.isEmpty())
+                info.insert("Video Codec", codec);
+
+            // Detect codec enum for QML codec selection
+            const QString codecName = videoStream.value("codec_name").toString();
+            Video::VideoCodec detectedCodec = Video::VideoCodec::Unknown;
+            if (codecName == "h264")
+                detectedCodec = Video::VideoCodec::H264;
+            else if (codecName == "hevc" || codecName == "h265")
+                detectedCodec = Video::VideoCodec::H265;
+            else if (codecName == "vp8")
+                detectedCodec = Video::VideoCodec::VP8;
+            else if (codecName == "vp9")
+                detectedCodec = Video::VideoCodec::VP9;
+            else if (codecName == "av1")
+                detectedCodec = Video::VideoCodec::AV1;
+            else if (codecName == "mjpeg")
+                detectedCodec = Video::VideoCodec::MJPEG;
+            info.insert("detectedCodec", QVariant::fromValue(detectedCodec));
+
+            const int w = videoStream.value("width").toInt();
+            const int h = videoStream.value("height").toInt();
+            if (w > 0 && h > 0)
+                info.insert("Resolution", QString("%1 x %2").arg(w).arg(h));
+
+            const QString pixFmt = videoStream.value("pix_fmt").toString();
+            if (!pixFmt.isEmpty())
+                info.insert("Pixel Format", pixFmt);
+
+            // Frame rate
+            const QString avgFr = videoStream.value("avg_frame_rate").toString();
+            if (!avgFr.isEmpty()) {
+                QStringList parts = avgFr.split('/');
+                if (parts.size() == 2) {
+                    double num = parts[0].toDouble();
+                    double den = parts[1].toDouble();
+                    if (den > 0)
+                        info.insert("Frame Rate", QString::number(std::round(num / den * 100.0) / 100.0, 'f', 2) + " fps");
+                }
+            }
+
+            // Video bitrate
+            const QString vBitrate = videoStream.value("bit_rate").toString();
+            if (!vBitrate.isEmpty()) {
+                bool ok = false;
+                double kbps = vBitrate.toDouble(&ok) / 1000.0;
+                if (ok)
+                    info.insert("Video Bitrate", QString::number(static_cast<int>(kbps)) + " kb/s");
+            }
+
+            const QString profile = videoStream.value("profile").toString();
+            if (!profile.isEmpty())
+                info.insert("Profile", profile);
+
+            const QString level = videoStream.value("level").toVariant().toString();
+            if (!level.isEmpty() && level != "0" && level != "-99")
+                info.insert("Level", level);
+
+            const int nbFrames = videoStream.value("nb_frames").toString().toInt();
+            if (nbFrames > 0)
+                info.insert("Total Frames", QString::number(nbFrames));
+        }
+
+        if (!audioStream.isEmpty()) {
+            const QString aCodec = audioStream.value("codec_long_name").toString();
+            if (!aCodec.isEmpty())
+                info.insert("Audio Codec", aCodec);
+
+            const QString sampleRate = audioStream.value("sample_rate").toString();
+            if (!sampleRate.isEmpty())
+                info.insert("Sample Rate", sampleRate + " Hz");
+
+            const int channels = audioStream.value("channels").toInt();
+            if (channels > 0)
+                info.insert("Audio Channels", QString::number(channels));
+
+            const QString aBitrate = audioStream.value("bit_rate").toString();
+            if (!aBitrate.isEmpty()) {
+                bool ok = false;
+                double kbps = aBitrate.toDouble(&ok) / 1000.0;
+                if (ok)
+                    info.insert("Audio Bitrate", QString::number(static_cast<int>(kbps)) + " kb/s");
+            }
+        } else {
+            info.insert("Audio", "None");
+        }
+
+        const QString duration = fmt.value("duration").toString();
+        if (!duration.isEmpty()) {
+            bool ok = false;
+            double secs = duration.toDouble(&ok);
+            if (ok) {
+                int mins = static_cast<int>(secs) / 60;
+                double remSecs = secs - mins * 60;
+                info.insert("Duration", QString("%1:%2").arg(mins, 2, 10, QChar('0')).arg(remSecs, 5, 'f', 2, QChar('0')));
+            }
+        }
+
+        const QString fileSize = fmt.value("size").toString();
+        if (!fileSize.isEmpty()) {
+            bool ok = false;
+            double bytes = fileSize.toDouble(&ok);
+            if (ok) {
+                if (bytes >= 1073741824.0)
+                    info.insert("File Size", QString::number(bytes / 1073741824.0, 'f', 2) + " GB");
+                else
+                    info.insert("File Size", QString::number(bytes / 1048576.0, 'f', 2) + " MB");
+            }
+        }
+
+        co_return info;
+    }());
 }
 
 /*!
@@ -331,17 +499,25 @@ void Create::saveWallpaper(
     obj.insert("youtube", youtube);
     obj.insert("videoCodec", QVariant::fromValue<Video::VideoCodec>(actualCodec).toString());
 
+    // When NoConversion is used the file is copied with its original extension,
+    // so derive the extension from the source path rather than the codec.
     QString fileEnding;
-    if (actualCodec == Video::VideoCodec::H264)
+    if (codec == Video::VideoCodec::NoConversion) {
+        fileEnding = "." + filePathFile.suffix();
+    } else if (actualCodec == Video::VideoCodec::H264 || actualCodec == Video::VideoCodec::H265) {
         fileEnding = ".mp4";
-    if (actualCodec == Video::VideoCodec::AV1)
+    } else if (actualCodec == Video::VideoCodec::AV1) {
         fileEnding = ".mkv";
-    if (actualCodec == Video::VideoCodec::VP8 || actualCodec == Video::VideoCodec::VP9)
+    } else if (actualCodec == Video::VideoCodec::VP8 || actualCodec == Video::VideoCodec::VP9) {
         fileEnding = ".webm";
+    } else {
+        fileEnding = "." + filePathFile.suffix();
+    }
 
     obj.insert("file", filePathFile.completeBaseName() + fileEnding);
     obj.insert("previewWEBP", "preview.webp");
     obj.insert("previewWEBM", "preview.webm");
+    obj.insert("previewGIF", "preview.gif");
     obj.insert("preview", previewImageFile.exists() ? previewImageFile.fileName() : "preview.jpg");
     obj.insert("previewThumbnail", "previewThumbnail.jpg");
     obj.insert("type", "videoWallpaper");

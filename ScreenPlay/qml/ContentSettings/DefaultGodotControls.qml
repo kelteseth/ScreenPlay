@@ -207,7 +207,7 @@ FocusScope {
         LabelSlider {
             id: sl3DScale
             headline: qsTr("3D Render Scale")
-            iconSource: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_settings.svg"
+            iconSource: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_settings.svg"
             slider.from: 0.25
             slider.to: 2.0
             slider.stepSize: 0.05

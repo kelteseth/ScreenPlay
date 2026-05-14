@@ -116,9 +116,9 @@ Item {
         height: implicitHeight + 10
         icon.source: {
             if (App.globalVariables.isSteamVersion()) {
-                return "qrc:/qt/qml/ScreenPlay/assets/icons/icon_steam.svg"
+                return "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_steam.svg"
             } else {
-                return "qrc:/qt/qml/ScreenPlay/assets/icons/icon_community.svg"
+                return "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_community.svg"
             }
         }
         icon.width: 18

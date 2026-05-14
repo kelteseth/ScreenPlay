@@ -4,7 +4,6 @@ import QtQuick.Layouts
 import QtQuick.Controls.Material
 import ScreenPlayWorkshop
 import ScreenPlayCore
-import ScreenPlay
 
 Popup {
     id: root

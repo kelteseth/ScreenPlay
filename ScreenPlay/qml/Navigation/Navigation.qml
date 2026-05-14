@@ -4,6 +4,8 @@ import QtQuick.Layouts
 import QtQuick.Window
 import QtQuick.Controls.Material
 import QtQuick.Controls.Material.impl
+import QtQuick.Controls.impl
+import QtQuick.Effects
 import ScreenPlay
 import "../Components"
 
@@ -99,7 +101,7 @@ Rectangle {
                 icon.width: 22
                 text: qsTr("Create")
                 objectName: "Create"
-                icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_plus.svg"
+                icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_plus.svg"
                 onClicked: {
                     root.onPageChanged("Create")
                 }
@@ -111,7 +113,7 @@ Rectangle {
                 enabled: App.globalVariables.isSteamVersion()
                 text: qsTr("Workshop")
                 objectName: "Workshop"
-                icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_steam.svg"
+                icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_steam.svg"
                 onClicked: {
                     root.onPageChanged("Workshop")
                 }
@@ -122,9 +124,104 @@ Rectangle {
                 index: 2
                 text: qsTr("Installed") + " " + App.installedListModel.count
                 objectName: "Installed"
-                icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_installed.svg"
+                icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_installed.svg"
+                icon.color: shineColor
                 onClicked: {
                     root.onPageChanged("Installed")
+                }
+
+                property bool initialLoadDone: false
+                property color shineColor: Material.foreground
+                property real shineGlow: 0.0
+
+                contentItem: Item {
+                    implicitWidth: innerLabel.implicitWidth
+                    implicitHeight: innerLabel.implicitHeight
+
+                    // Blurred glow copy rendered behind the sharp label
+                    IconLabel {
+                        id: glowLabel
+                        anchors.fill: parent
+                        spacing: navInstalled.spacing
+                        mirrored: navInstalled.mirrored
+                        display: navInstalled.display
+                        icon: navInstalled.icon
+                        text: navInstalled.text
+                        font: navInstalled.font
+                        color: Material.color(Material.Orange)
+                        visible: navInstalled.shineGlow > 0
+                        layer.enabled: navInstalled.shineGlow > 0
+                        layer.effect: MultiEffect {
+                            blurEnabled: true
+                            blur: navInstalled.shineGlow * 0.9
+                            blurMax: 32
+                            brightness: navInstalled.shineGlow * 0.5
+                        }
+                    }
+
+                    // Sharp label on top
+                    IconLabel {
+                        id: innerLabel
+                        anchors.fill: parent
+                        spacing: navInstalled.spacing
+                        mirrored: navInstalled.mirrored
+                        display: navInstalled.display
+                        icon: navInstalled.icon
+                        text: navInstalled.text
+                        font: navInstalled.font
+                        color: navInstalled.shineColor
+                    }
+                }
+
+                SequentialAnimation {
+                    id: shineAnimation
+                    ParallelAnimation {
+                        ColorAnimation {
+                            target: navInstalled
+                            property: "shineColor"
+                            to: Material.color(Material.Orange)
+                            duration: 400
+                            easing.type: Easing.OutCubic
+                        }
+                        NumberAnimation {
+                            target: navInstalled
+                            property: "shineGlow"
+                            to: 1.0
+                            duration: 400
+                            easing.type: Easing.OutCubic
+                        }
+                    }
+                    PauseAnimation {
+                        duration: 500
+                    }
+                    ParallelAnimation {
+                        ColorAnimation {
+                            target: navInstalled
+                            property: "shineColor"
+                            to: navInstalled.Material.foreground
+                            duration: 700
+                            easing.type: Easing.InCubic
+                        }
+                        NumberAnimation {
+                            target: navInstalled
+                            property: "shineGlow"
+                            to: 0.0
+                            duration: 700
+                            easing.type: Easing.InCubic
+                        }
+                    }
+                }
+
+                Connections {
+                    target: App.installedListModel
+                    function onInstalledLoadingFinished() {
+                        navInstalled.initialLoadDone = true
+                    }
+                    function onCountChanged(count: int) {
+                        if (!navInstalled.initialLoadDone)
+                            return
+                        shineAnimation.restart()
+                    }
                 }
             }
 
@@ -133,7 +230,7 @@ Rectangle {
                 index: 3
                 text: qsTr("Community")
                 objectName: "Community"
-                icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_community.svg"
+                icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_community.svg"
                 onClicked: {
                     root.onPageChanged("Community")
                 }
@@ -144,7 +241,7 @@ Rectangle {
                 index: 4
                 text: qsTr("Settings")
                 objectName: "Settings"
-                icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_settings.svg"
+                icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_settings.svg"
                 onClicked: {
                     root.onPageChanged("Settings")
                 }
@@ -221,7 +318,7 @@ Rectangle {
                     id: miMuteAll
                     height: 45
                     Layout.alignment: Qt.AlignVCenter
-                    icon.source: App.screenPlayManager.isMuted ? "qrc:/qt/qml/ScreenPlay/assets/icons/icon_volume_mute.svg" : "qrc:/qt/qml/ScreenPlay/assets/icons/icon_volume.svg"
+                    icon.source: App.screenPlayManager.isMuted ? "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_volume_mute.svg" : "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_volume.svg"
                     icon.width: root.iconWidth
                     icon.height: root.iconHeight
                     enabled: quickActionRow.contentActive
@@ -237,7 +334,7 @@ Rectangle {
                     height: 45
                     enabled: quickActionRow.contentActive
                     Layout.alignment: Qt.AlignVCenter
-                    icon.source: App.screenPlayManager.isPaused ? "qrc:/qt/qml/ScreenPlay/assets/icons/icon_play.svg" : "qrc:/qt/qml/ScreenPlay/assets/icons/icon_pause.svg"
+                    icon.source: App.screenPlayManager.isPaused ? "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_play.svg" : "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_pause.svg"
                     icon.width: root.iconWidth
                     icon.height: root.iconHeight
                     onClicked: App.screenPlayManager.isPaused = !App.screenPlayManager.isPaused
@@ -251,7 +348,7 @@ Rectangle {
                     height: 45
                     enabled: quickActionRow.contentActive
                     Layout.alignment: Qt.AlignVCenter
-                    icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_close.svg"
+                    icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_close.svg"
                     icon.width: root.iconWidth
                     icon.height: root.iconHeight
                     onClicked: {
@@ -277,7 +374,7 @@ Rectangle {
             id: miConfig
             Layout.maximumHeight: 57
             Layout.minimumHeight: 57
-            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_video_settings.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_video_settings.svg"
             icon.width: root.iconWidth
             icon.height: root.iconHeight
             onClicked: App.uiAppStateSignals.setToggleWallpaperConfiguration()

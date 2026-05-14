@@ -117,7 +117,9 @@ def setup_qt():
 def run_step(step_num: int, total_steps: int, label: str, fn):
     """Print a numbered rule then run fn()."""
     console.rule(f"[dim]{step_num}/{total_steps}[/]  [bold]{label}[/]")
-    fn()
+    result = fn()
+    if isinstance(result, int) and result != 0:
+        raise RuntimeError(f"Step '{label}' failed with exit code {result}")
 
 
 def main():

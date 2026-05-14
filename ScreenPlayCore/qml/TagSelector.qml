@@ -37,7 +37,7 @@ Item {
             margins: 3
         }
 
-        ListView {
+        MaterialListView {
             orientation: ListView.Horizontal
             model: listModel
             spacing: 10

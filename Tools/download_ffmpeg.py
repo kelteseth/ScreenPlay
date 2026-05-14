@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 import sys
 from zipfile import ZipFile
+from shutil import which
 import platform
 import subprocess
 import os
@@ -30,6 +31,50 @@ def extract_zip(extraction_path, path_and_filename):
         zip_ref.extractall(extraction_path)
     os.remove(path_and_filename)
     console.print(f"  [green]Done[/] — removed tmp file")
+
+
+def find_7z() -> str:
+    """Find the 7-Zip executable."""
+    # Check PATH first
+    sz = which("7z")
+    if sz:
+        return sz
+    # Common Windows install locations
+    for candidate in [
+        os.path.join(os.environ.get("ProgramFiles", ""), "7-Zip", "7z.exe"),
+        os.path.join(os.environ.get("ProgramFiles(x86)", ""), "7-Zip", "7z.exe"),
+    ]:
+        if os.path.isfile(candidate):
+            return candidate
+    return ""
+
+
+def extract_7z_executables(extraction_path, path_and_filename):
+    sz = find_7z()
+    if not sz:
+        raise RuntimeError(
+            "7-Zip not found. Install it from https://7-zip.org and ensure "
+            "'7z' is on PATH or installed in the default location."
+        )
+
+    console.print(f"[bold cyan]Extracting[/] {path_and_filename} with 7-Zip")
+    # Extract only .exe files using 7z
+    subprocess.run(
+        [sz, "e", path_and_filename, "-o" + extraction_path, "*.exe", "-r", "-y"],
+        check=True,
+    )
+
+    os.remove(path_and_filename)
+    console.print(f"  [dim]Removed tmp archive[/]")
+
+    ffplay = os.path.join(extraction_path, "ffplay.exe")
+    if os.path.isfile(ffplay):
+        os.remove(ffplay)
+        console.print(f"  [dim]Removed ffplay.exe[/]")
+
+    for name in ["ffmpeg.exe", "ffprobe.exe"]:
+        if os.path.isfile(os.path.join(extraction_path, name)):
+            console.print(f"  [green]Extracted[/] {name}")
 
 
 def extract_zip_executables(extraction_path, path_and_filename):
@@ -71,9 +116,9 @@ def download_prebuild_ffmpeg_mac(extraction_path: str, progress=None, outer_task
 
 def download_prebuild_ffmpeg_windows(extraction_path: str, progress=None, outer_task=None):
     base_url = "https://www.gyan.dev/ffmpeg/builds/"
-    name = "ffmpeg-release-essentials.zip"
+    name = "ffmpeg-release-full.7z"
 
-    extract_zip_executables(extraction_path, download(base_url, extraction_path, name, progress, outer_task))
+    extract_7z_executables(extraction_path, download(base_url, extraction_path, name, progress, outer_task))
 
 
 def execute(progress=None, outer_task=None) -> bool:

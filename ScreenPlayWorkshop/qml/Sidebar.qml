@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material
 import ScreenPlayWorkshop
+import ScreenPlayCore as SPCore
 
 Drawer {
     id: root
@@ -14,9 +15,16 @@ Drawer {
     property var publishedFileID
     property int itemIndex
     property int subscriptionCount
+    property int votesUp: 0
+    property int votesDown: 0
     property bool subscribed: false
+    property bool subscriptionStateKnown: false
+    property var creatorSteamID: null
+    property string creatorName: ""
 
     signal tagClicked(var tag)
+    signal unsubscribed(var publishedFileID)
+    signal creatorSearchRequested(string creatorName, var creatorSteamID)
 
     function setWorkshopItem(publishedFileID, imgUrl, videoPreview, subscriptionCount) {
         if (root.publishedFileID === publishedFileID) {
@@ -31,11 +39,14 @@ Drawer {
         root.subscriptionCount = subscriptionCount
         root.videoPreview = videoPreview
         root.subscribed = false
+        root.subscriptionStateKnown = false
+        root.creatorName = ""
+        root.creatorSteamID = null
         txtVotesUp.highlighted = false
         txtVotesDown.highlighted = false
         if (!root.visible)
             root.open()
-        steamWorkshop.requestWorkshopItemDetails(publishedFileID)
+        steamWorkshop.itemOps.requestWorkshopItemDetails(publishedFileID)
     }
 
     edge: Qt.RightEdge
@@ -44,43 +55,67 @@ Drawer {
     modal: false
     width: 400
     interactive: false
+    topPadding: 0
+
+    onClosed: {
+        root.publishedFileID = undefined
+        root.creatorName = ""
+        root.creatorSteamID = null
+    }
 
     Connections {
-        function onRequestItemDetailReturned(title, tags, steamIDOwner, description, votesUp, votesDown, url, fileSize, publishedFileId) {
+        target: steamWorkshop.itemOps
+
+        function onRequestItemDetailReturned(detail) {
+            root.subscribed = steamWorkshop.itemOps.isSubscribed(detail.publishedFileId)
+            root.subscriptionStateKnown = true
+            root.creatorSteamID = detail.steamIDOwner
             tagListModel.clear();
             // Even if the tags array is empty it still contains
             // one empty string, resulting in an empty button
-            if (tags.length > 1) {
-                for (var i in tags) {
+            if (detail.tags.length > 1) {
+                for (var i in detail.tags) {
                     tagListModel.append({
-                        "name": tags[i]
+                        "name": detail.tags[i]
                     })
                 }
                 rpTagList.model = tagListModel
             } else {
                 rpTagList.model = null
             }
-            txtTitle.text = title
-            const size = Math.floor((1000 * ((fileSize / 1024) / 1000)) / 1000)
+            txtTitle.text = detail.title
+            const size = Math.floor((1000 * ((detail.fileSize / 1024) / 1000)) / 1000)
             txtFileSize.text = qsTr("Size: ") + size + " MB"
-            pbVotes.to = votesDown + votesUp
-            pbVotes.value = votesUp
-            txtVotesDown.text = votesDown
-            txtVotesUp.text = votesUp
-            if (description === "")
-                description = qsTr("No description...")
-            txtDescription.text = description
-            pbVotes.hoverText = votesUp + " / " + votesDown
+            root.votesUp = detail.votesUp
+            root.votesDown = detail.votesDown
+            let desc = detail.description
+            if (desc === "")
+                desc = qsTr("No description...")
+            txtDescription.text = desc
         }
+    }
 
+    Connections {
         target: steamWorkshop
+
+        function onCreatorNameReady(name: string, steamID64: string): void {
+            root.creatorName = name
+            root.creatorSteamID = steamID64
+        }
     }
 
     Item {
         id: imgWrapper
-
-        width: parent.width
+        // Keys must be used in an Item and Drawer is not an Item...
+        Keys.onEscapePressed: root.close()
+        focus: true
         height: 220
+
+        anchors {
+            top: parent.top
+            left: parent.left
+            right: parent.right
+        }
 
         Image {
             id: img
@@ -138,7 +173,7 @@ Drawer {
             cursorShape: Qt.PointingHandCursor
             onClicked: root.close()
 
-            Image {
+            SPCore.ColorImage {
                 id: imgBack
 
                 source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_arrow_right.svg"
@@ -165,59 +200,63 @@ Drawer {
             Layout.fillWidth: true
             spacing: 20
 
-            ColumnLayout {
-                Layout.maximumWidth: 280
-                Layout.alignment: Qt.AlignHCenter
+            RowLayout {
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignTop
+                spacing: 10
 
-                RowLayout {
+                Text {
+                    id: txtVotePercentage
+
+                    property int total: root.votesUp + root.votesDown
+
                     Layout.fillWidth: true
-                    spacing: 20
+                    color: Material.primaryTextColor
+                    font.pointSize: 14
+                    font.bold: true
+                    text: total > 0 ? Math.round((root.votesUp / total) * 100) + qsTr("% positive") : qsTr("No votes yet")
+                    ToolTip.visible: voteHover.hovered
+                    ToolTip.text: root.votesUp + " 👍  /  " + root.votesDown + " 👎"
 
-                    ToolButton {
-                        id: txtVotesUp
-
-                        Layout.fillWidth: true
-                        icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_thumb_up.svg"
-                        icon.color: "transparent"
-                        ToolTip.visible: hovered
-                        ToolTip.text: qsTr("Click here if you like the content")
-                        onClicked: {
-                            steamWorkshop.vote(root.publishedFileID, true)
-                            txtVotesUp.highlighted = true
-                            txtVotesDown.highlighted = false
-                        }
-                    }
-
-                    ToolButton {
-                        id: txtVotesDown
-
-                        Layout.fillWidth: true
-                        icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_thumb_down.svg"
-                        icon.color: "transparent"
-                        ToolTip.visible: hovered
-                        ToolTip.text: qsTr("Click here if you do not like the content")
-                        onClicked: {
-                            steamWorkshop.vote(root.publishedFileID, false)
-                            txtVotesUp.highlighted = false
-                            txtVotesDown.highlighted = true
-                        }
+                    HoverHandler {
+                        id: voteHover
                     }
                 }
 
-                ProgressBar {
-                    id: pbVotes
+                ToolButton {
+                    id: txtVotesUp
 
-                    property string hoverText
-
-                    Layout.alignment: Qt.AlignHCenter
-                    Layout.fillWidth: true
+                    text: root.votesUp
+                    icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_thumb_up.svg"
+                    icon.color: Material.iconColor
                     ToolTip.visible: hovered
-                    ToolTip.text: hoverText
+                    ToolTip.text: qsTr("Click here if you like the content")
+                    onClicked: {
+                        steamWorkshop.itemOps.vote(root.publishedFileID, true)
+                        txtVotesUp.highlighted = true
+                        txtVotesDown.highlighted = false
+                    }
+                }
+
+                ToolButton {
+                    id: txtVotesDown
+
+                    text: root.votesDown
+                    icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_thumb_down.svg"
+                    icon.color: Material.iconColor
+                    ToolTip.visible: hovered
+                    ToolTip.text: qsTr("Click here if you do not like the content")
+                    onClicked: {
+                        steamWorkshop.itemOps.vote(root.publishedFileID, false)
+                        txtVotesUp.highlighted = false
+                        txtVotesDown.highlighted = true
+                    }
                 }
             }
 
             Flickable {
                 id: tagsFlickable
+                Layout.alignment: Qt.AlignTop
                 Layout.preferredHeight: 55
                 Layout.maximumHeight: 55
                 Layout.fillWidth: true
@@ -225,6 +264,13 @@ Drawer {
                 flickableDirection: Flickable.HorizontalFlick
                 ScrollBar.horizontal: ScrollBar {
                     height: 5
+                }
+
+                WheelHandler {
+                    orientation: Qt.Vertical
+                    onWheel: event => {
+                        tagsFlickable.contentX = Math.max(0, Math.min(tagsFlickable.contentX - event.angleDelta.y, tagsFlickable.contentWidth - tagsFlickable.width))
+                    }
                 }
                 contentWidth: rpTagList.childrenRect.width + rowTagList.width + (rpTagList.count * rowTagList.spacing)
                 contentHeight: 40
@@ -236,6 +282,17 @@ Drawer {
 
                     ListModel {
                         id: tagListModel
+                    }
+
+                    Text {
+                        visible: rpTagList.count === 0
+                        width: tagsFlickable.width
+                        height: parent.height
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        text: qsTr("No tags o((>ω< ))o")
+                        color: Material.secondaryTextColor
+                        font.pointSize: 10
                     }
 
                     Repeater {
@@ -256,6 +313,7 @@ Drawer {
 
             RowLayout {
                 Layout.fillWidth: true
+                Layout.alignment: Qt.AlignTop
                 spacing: 20
 
                 Text {
@@ -282,12 +340,15 @@ Drawer {
 
             Rectangle {
                 Layout.fillWidth: true
+                Layout.fillHeight: true
                 Layout.minimumHeight: 150
-                //txtDescription.paintedHeight > 100
                 color: Material.backgroundColor
                 radius: 3
+                clip: true
 
                 ScrollView {
+                    id: descriptionScrollView
+
                     anchors.fill: parent
                     anchors.margins: 20
                     clip: true
@@ -297,7 +358,7 @@ Drawer {
                     Text {
                         id: txtDescription
 
-                        width: parent.width
+                        width: descriptionScrollView.availableWidth
                         color: Material.primaryTextColor
                         font.pointSize: 12
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
@@ -313,39 +374,72 @@ Drawer {
         spacing: 20
 
         anchors {
-            horizontalCenter: parent.horizontalCenter
+            right: parent.right
+            left: parent.left
+            rightMargin: 20
+            leftMargin: 20
             bottom: parent.bottom
-            bottomMargin: 20
         }
 
         ToolButton {
-            id: btnOpenInSteam
+            id: btnCreator
 
             font.pointSize: 10
-            icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_open_in_new.svg"
-            icon.color: "transparent"
+            Layout.alignment: Qt.AlignLeft
+            icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_search.svg"
             height: 25
-            text: qsTr("Open In Steam")
-            onClicked: Qt.openUrlExternally("steam://url/CommunityFilePage/" + root.publishedFileID)
+            visible: root.creatorName !== ""
+            text: root.creatorName ? qsTr("More by %1").arg(root.creatorName) : ""
+            onClicked: {
+                root.close()
+                root.creatorSearchRequested(root.creatorName, root.creatorSteamID)
+            }
+
+            Behavior on implicitWidth {
+                SmoothedAnimation {
+                    velocity: 200
+                    easing.type: Easing.InOutQuad
+                }
+            }
         }
 
         Button {
             id: btnSubscribe
 
-            highlighted: !root.subscribed
-            enabled: !root.subscribed
-            icon.source: "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_download.svg"
-            text: root.subscribed ? qsTr("Subscribed!") : qsTr("Subscribe")
+            enabled: root.subscriptionStateKnown
+            Layout.alignment: Qt.AlignRight
+            highlighted: true
+            Material.accent: root.subscribed ? Material.color(Material.Red) : root.Material.accent
+            icon.source: !root.subscriptionStateKnown ? "" : root.subscribed ? "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_close.svg" : "qrc:/qt/qml/ScreenPlayWorkshop/assets/icons/icon_download.svg"
+            text: !root.subscriptionStateKnown ? qsTr("Loading...") : root.subscribed ? qsTr("Unsubscribe") : qsTr("Subscribe")
+            ToolTip.visible: hovered && root.subscribed
+            ToolTip.delay: 500
+            ToolTip.text: qsTr("Steam will delete the content from your PC once ScreenPlay no longer runs.")
+
+            Behavior on implicitWidth {
+                SmoothedAnimation {
+                    velocity: 200
+                    easing.type: Easing.InOutQuad
+                }
+            }
+
             onClicked: {
-                root.subscribed = true
-                root.steamWorkshop.subscribeItem(root.publishedFileID)
+                if (root.subscribed) {
+                    root.subscribed = false
+                    root.steamWorkshop.itemOps.unsubscribeItem(root.publishedFileID)
+                    root.unsubscribed(root.publishedFileID)
+                    root.close()
+                } else {
+                    root.subscribed = true
+                    root.steamWorkshop.itemOps.subscribeItem(root.publishedFileID)
+                    root.close()
+                }
             }
         }
     }
 
     background: Rectangle {
         color: Material.theme === Material.Light ? "white" : Qt.darker(Material.background)
-        opacity: 0.95
     }
 
     enter: Transition {

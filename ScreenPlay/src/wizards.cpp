@@ -9,6 +9,8 @@
 #include <QFileInfo>
 #include <QFont>
 #include <QFutureWatcher>
+#include <QImage>
+#include <QImageReader>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -418,11 +420,38 @@ QCoro::QmlTask Wizards::createGifWallpaper(
         const QString workingPath = m_util.toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
         const QString gifFileName = QFileInfo(m_util.toLocal(file)).fileName();
 
+        if (!QFile::copy(m_util.toLocal(file), workingPath + "/" + gifFileName)) {
+            QString errorMessage = tr("Could not copy gif");
+            qCritical() << errorMessage;
+            co_return Result { false, QVariant::fromValue(WizardResult::CopyFileError), errorMessage };
+        }
+
+        // Extract the first frame of the GIF as preview images
+        QImageReader reader(m_util.toLocal(file));
+        if (reader.canRead()) {
+            QImage firstFrame = reader.read();
+            if (!firstFrame.isNull()) {
+                // Save full-size preview (scaled to 854x480 like video previews)
+                QImage preview = firstFrame.scaled(854, 480, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+                preview.save(workingPath + "/preview.jpg", "JPEG", 90);
+
+                // Save thumbnail preview (320x180 like video previews)
+                QImage thumbnail = firstFrame.scaled(320, 180, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+                thumbnail.save(workingPath + "/previewThumbnail.jpg", "JPEG", 90);
+            } else {
+                qCWarning(wizards) << "Could not read first frame from GIF:" << reader.errorString();
+            }
+        } else {
+            qCWarning(wizards) << "Could not open GIF for preview extraction:" << reader.errorString();
+        }
+
         QJsonObject obj;
         obj.insert("license", licenseName);
         obj.insert("creator", creator);
         obj.insert("title", title);
         obj.insert("file", gifFileName);
+        obj.insert("preview", "preview.jpg");
+        obj.insert("previewThumbnail", "previewThumbnail.jpg");
         obj.insert("previewGIF", gifFileName);
         obj.insert("tags", m_util.fillArray(tags));
         obj.insert("type", QVariant::fromValue(ContentTypes::InstalledType::GifWallpaper).toString());
@@ -437,12 +466,6 @@ QCoro::QmlTask Wizards::createGifWallpaper(
             QString errorMessage = tr("Could not write project file");
             qCritical() << errorMessage;
             co_return Result { false, QVariant::fromValue(WizardResult::WriteProjectFileError), errorMessage };
-        }
-
-        if (!QFile::copy(m_util.toLocal(file), workingPath + "/" + gifFileName)) {
-            QString errorMessage = tr("Could not copy gif");
-            qCritical() << errorMessage;
-            co_return Result { false, QVariant::fromValue(WizardResult::CopyFileError), errorMessage };
         }
 
         co_return Result { true };
@@ -565,7 +588,7 @@ QCoro::QmlTask Wizards::copyExampleContent(
     const QString& examplePath)
 {
     return QCoro::QmlTask([this, examplePath]() -> QCoro::Task<Result> {
-        const QString sourcePath = QCoreApplication::applicationDirPath() + "/../Content/" + examplePath;
+        const QString sourcePath = Util::bundledExampleContentPath() + "/" + examplePath;
 
         // Create unique target folder name with current date time
         const QString currentTime = QDateTime::currentDateTime().toString("yyyy_MM_dd_hhmmss_zzz");
@@ -603,7 +626,7 @@ QCoro::QmlTask Wizards::copyExampleContent(
 QVector<QVariantMap> Wizards::getExampleContent() const
 {
     QVector<QVariantMap> examples;
-    const QString contentPath = QCoreApplication::applicationDirPath() + "/../Content";
+    const QString contentPath = Util::bundledExampleContentPath();
 
     QDir contentDir(contentPath);
     if (!contentDir.exists()) {

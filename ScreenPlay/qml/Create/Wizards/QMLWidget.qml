@@ -4,7 +4,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import ScreenPlay
 
-import ScreenPlayCore as Util
+import ScreenPlayCore as SPCore
 
 WizardPage {
     id: root
@@ -16,7 +16,7 @@ WizardPage {
             })
         }
 
-        Util.Headline {
+        SPCore.Headline {
             id: txtHeadline
 
             text: qsTr("Create a QML widget")
@@ -55,7 +55,7 @@ WizardPage {
                     }
                 }
 
-                Util.ImageSelector {
+                SPCore.ImageSelector {
                     id: previewSelector
 
                     Layout.fillWidth: true
@@ -70,11 +70,11 @@ WizardPage {
                 Layout.preferredWidth: root.width * 0.5
                 Layout.alignment: Qt.AlignTop
 
-                Util.HeadlineSection {
+                SPCore.HeadlineSection {
                     text: qsTr("General")
                 }
 
-                Util.TextField {
+                SPCore.TextField {
                     id: tfTitle
 
                     Layout.fillWidth: true
@@ -83,22 +83,22 @@ WizardPage {
                     onTextChanged: root.ready = text.length >= 1
                 }
 
-                Util.TextField {
+                SPCore.TextField {
                     id: tfCreatedBy
 
                     Layout.fillWidth: true
                     placeholderText: qsTr("Created by")
                 }
 
-                Util.LicenseSelector {
+                SPCore.LicenseSelector {
                     id: cbLicense
                 }
 
-                Util.HeadlineSection {
+                SPCore.HeadlineSection {
                     text: qsTr("Tags")
                 }
 
-                Util.TagSelector {
+                SPCore.TagSelector {
                     id: tagSelector
 
                     Layout.fillWidth: true

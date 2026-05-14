@@ -245,7 +245,7 @@ Item {
                     id: headerPerformance
 
                     text: qsTr("Wallpaper and Widgets")
-                    image: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_build.svg"
+                    image: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_build.svg"
                 }
 
                 Column {
@@ -358,7 +358,7 @@ Item {
                     id: headerGodot
 
                     text: qsTr("Godot Engine")
-                    image: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_code.svg"
+                    image: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_code.svg"
                 }
 
                 Column {
@@ -573,7 +573,7 @@ Item {
                     id: headerLicense
 
                     text: qsTr("License & Support")
-                    image: "qrc:/qt/qml/ScreenPlay/assets/icons/font-awsome/lock-solid.svg"
+                    image: "qrc:/qt/qml/ScreenPlayCore/assets/icons/font-awsome/lock-solid.svg"
                 }
 
                 ColumnLayout {
@@ -864,7 +864,7 @@ Item {
                     id: headerAbout
 
                     text: qsTr("About")
-                    image: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_cake.svg"
+                    image: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_cake.svg"
                 }
 
                 Column {
@@ -934,31 +934,31 @@ Item {
                                 }
 
                                 GrowIconLink {
-                                    iconSource: "qrc:/qt/qml/ScreenPlay/assets/icons/brand_github.svg"
+                                    iconSource: "qrc:/qt/qml/ScreenPlayCore/assets/icons/brand_github.svg"
                                     url: "https://github.com/kelteseth"
                                     iconColor: "#eeeeee"
                                 }
 
                                 GrowIconLink {
-                                    iconSource: "qrc:/qt/qml/ScreenPlay/assets/icons/brand_gitlab.svg"
+                                    iconSource: "qrc:/qt/qml/ScreenPlayCore/assets/icons/brand_gitlab.svg"
                                     url: "https://gitlab.com/kelteseth"
                                     iconColor: "#FC6D26"
                                 }
 
                                 GrowIconLink {
-                                    iconSource: "qrc:/qt/qml/ScreenPlay/assets/icons/brand_bluesky.svg"
+                                    iconSource: "qrc:/qt/qml/ScreenPlayCore/assets/icons/brand_bluesky.svg"
                                     url: "https://bsky.app/profile/kelteseth.bsky.social"
                                     iconColor: "#1DA1F2"
                                 }
 
                                 GrowIconLink {
-                                    iconSource: "qrc:/qt/qml/ScreenPlay/assets/icons/brand_twitch.svg"
+                                    iconSource: "qrc:/qt/qml/ScreenPlayCore/assets/icons/brand_twitch.svg"
                                     url: "https://www.twitch.tv/kelteseth/"
                                     color: "#6441A5"
                                 }
 
                                 GrowIconLink {
-                                    iconSource: "qrc:/qt/qml/ScreenPlay/assets/icons/brand_reddit.svg"
+                                    iconSource: "qrc:/qt/qml/ScreenPlayCore/assets/icons/brand_reddit.svg"
                                     url: "https://www.reddit.com/r/ScreenPlayApp/"
                                     iconColor: "#FF4500"
                                 }
@@ -1005,7 +1005,7 @@ Item {
                     SettingsHorizontalSeperator {}
 
                     SettingsButton {
-                        icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_launch.svg"
+                        icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_launch.svg"
                         headline: qsTr("Version")
                         description: App.settings.buildInfos
                         buttonText: qsTr("Open Changelog")

@@ -6,6 +6,7 @@ import ScreenPlayWorkshop
 
 Window {
     id: root
+    objectName: "workshopTestWindow"
     width: 1400
     height: 768
     visible: true
@@ -16,10 +17,10 @@ Window {
 
     ScreenPlayWorkshop {
         id: screenPlayWorkshop
+        objectName: "screenPlayWorkshop"
         Component.onCompleted: {
             if (screenPlayWorkshop.init()) {
-                print("init")
-                stackView.push("qrc:/qt/qml/ScreenPlayWorkshop/qml/SteamWorkshopStartPage.qml", {
+                stackView.push("qrc:/qt/qml/ScreenPlayWorkshop/qml/SteamWorkshopView.qml", {
                     "stackView": stackView,
                     "screenPlayWorkshop": screenPlayWorkshop,
                     "steamWorkshop": screenPlayWorkshop.steamWorkshop,
@@ -52,6 +53,7 @@ Window {
         }
         StackView {
             id: stackView
+            objectName: "workshopStackView"
             property int duration: 300
 
             anchors.fill: parent

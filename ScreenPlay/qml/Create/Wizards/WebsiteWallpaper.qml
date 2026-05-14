@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import ScreenPlay
 
-import ScreenPlayCore as Util
+import ScreenPlayCore as SPCore
 
 WizardPage {
     id: root
@@ -30,19 +30,19 @@ WizardPage {
             left: parent.left
         }
 
-        Util.Headline {
+        SPCore.Headline {
             text: qsTr("Create a Website Wallpaper")
             Layout.fillWidth: true
         }
 
-        Util.HeadlineSection {
+        SPCore.HeadlineSection {
             text: qsTr("General")
         }
 
         RowLayout {
             spacing: 20
 
-            Util.TextField {
+            SPCore.TextField {
                 id: tfTitle
                 Layout.fillWidth: true
                 placeholderText: qsTr("Wallpaper name")
@@ -50,7 +50,7 @@ WizardPage {
                 onTextChanged: layout.validate()
             }
 
-            Util.TextField {
+            SPCore.TextField {
                 id: tfCreatedBy
 
                 Layout.fillWidth: true
@@ -58,14 +58,14 @@ WizardPage {
             }
         }
 
-        Util.TextField {
+        SPCore.TextField {
             id: tfDescription
 
             Layout.fillWidth: true
             placeholderText: qsTr("Description")
         }
 
-        Util.TextField {
+        SPCore.TextField {
             id: tfUrl
             Layout.fillWidth: true
             required: true
@@ -77,11 +77,11 @@ WizardPage {
             height: 10
         }
 
-        Util.HeadlineSection {
+        SPCore.HeadlineSection {
             text: qsTr("Tags")
         }
 
-        Util.TagSelector {
+        SPCore.TagSelector {
             id: tagSelector
 
             Layout.fillWidth: true
@@ -91,11 +91,11 @@ WizardPage {
             height: 10
         }
 
-        Util.HeadlineSection {
+        SPCore.HeadlineSection {
             text: qsTr("Preview Image")
         }
 
-        Util.ImageSelector {
+        SPCore.ImageSelector {
             id: previewSelector
 
             Layout.fillWidth: true

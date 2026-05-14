@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtWebEngine
 import ScreenPlayWidget
-import ScreenPlayCore as Util
+import ScreenPlayCore as SPCore
 
 Item {
     id: root
@@ -78,10 +78,10 @@ Item {
         asynchronous: true
         Component.onCompleted: {
             switch (Widget.type) {
-            case Util.ContentTypes.InstalledType.QMLWidget:
+            case SPCore.ContentTypes.InstalledType.QMLWidget:
                 loader.source = Qt.resolvedUrl(Widget.projectSourceFileAbsolute)
                 break
-            case Util.ContentTypes.InstalledType.HTMLWidget:
+            case SPCore.ContentTypes.InstalledType.HTMLWidget:
                 loader.sourceComponent = webViewComponent
                 break
             }
@@ -182,7 +182,7 @@ Item {
                 right: parent.right
             }
 
-            Util.ColorImage {
+            SPCore.ColorImage {
                 id: imgClose
                 source: "qrc:/qt/qml/ScreenPlayWidget/assets/icons/baseline-close-24px.svg"
                 anchors.centerIn: parent

@@ -120,6 +120,9 @@ ApplicationWindow {
             exitDialog.open()
         }
         function switchPage(name: string): void {
+            // Disable self reloading, because creates issues with the steam plugin loading/unloading
+            if (nav.currentNavigationName === name)
+                return
             stackView.replace(`qrc:/qt/qml/ScreenPlay/qml/${name}/${name}View.qml`, {
                 "modalSource": content
             })

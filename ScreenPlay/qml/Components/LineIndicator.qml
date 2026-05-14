@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Effects
 import QtQuick.Controls
-import ScreenPlayCore as Util
+import ScreenPlayCore as SPCore
 import ScreenPlay
 
 Rectangle {
@@ -41,7 +41,7 @@ Rectangle {
         }
     }
 
-    Util.RainbowGradient {
+    SPCore.RainbowGradient {
         id: inlineRainbowGradient
         height: root.height
         visible: root.isActive
@@ -58,7 +58,7 @@ Rectangle {
         }
     }
 
-    Util.RainbowGradient {
+    SPCore.RainbowGradient {
         id: rainbowGradient
         visible: false
         running: root.isActive
@@ -138,7 +138,7 @@ Rectangle {
             }
         }
 
-        Util.RainbowGradient {
+        SPCore.RainbowGradient {
             width: root.width
             anchors {
                 top: parent.top
@@ -151,7 +151,7 @@ Rectangle {
         }
     }
 
-    Util.RainbowGradient {
+    SPCore.RainbowGradient {
         id: monitorBackground
         width: 70
         height: 48

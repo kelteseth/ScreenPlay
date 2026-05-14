@@ -154,10 +154,11 @@ private slots:
         QVERIFY(result.has_value());
 
         // The section must cover the whole day despite the partial input times
-        auto section = f.tlm().findTimelineSectionForCurrentTime();
-        QVERIFY(section != nullptr);
-        QCOMPARE(section->startTime, QTime(0, 0, 0));
-        QCOMPARE(section->endTime, QTime(23, 59, 59));
+        auto sections = f.tlm().timelineSections();
+        QCOMPARE(sections.size(), 1);
+        const auto section = sections.first().toObject();
+        QCOMPARE(QTime::fromString(section.value("startTime").toString(), "hh:mm:ss"), QTime(0, 0, 0));
+        QCOMPARE(QTime::fromString(section.value("endTime").toString(), "hh:mm:ss"), QTime(23, 59, 59));
     }
 
     // -----------------------------------------------------------------------

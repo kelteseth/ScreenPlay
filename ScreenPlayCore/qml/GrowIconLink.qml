@@ -17,7 +17,7 @@ Rectangle {
         sourceSize: Qt.size(28, 28)
         anchors.centerIn: parent
         smooth: true
-        source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_info.svg"
+        source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_info.svg"
     }
 
     MouseArea {

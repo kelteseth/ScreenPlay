@@ -15,8 +15,12 @@
 
 #include "ScreenPlay/app.h"
 #include "ScreenPlay/create.h"
+#include "ScreenPlayCore/testhelper.h"
 
 #include "CMakeVariables.h"
+
+using ScreenPlay::clickItem;
+using ScreenPlay::findItemDelegate;
 
 class ScreenPlayGuiTest : public QObject {
     Q_OBJECT
@@ -68,36 +72,6 @@ private:
     ScreenPlay::App* m_app = nullptr;
     QQuickWindow* m_window = nullptr;
 };
-
-/*!
- *  For some reason a direct findChild does not work for item
- *  delegates.
- *  https://stackoverflow.com/questions/36767512/how-to-access-qml-listview-delegate-items-from-c
- *
- */
-QQuickItem* findItemDelegate(QQuickItem* listView, const QString objectName)
-{
-    if (!listView->property("contentItem").isValid())
-        return {};
-
-    auto contentItem = listView->property("contentItem").value<QQuickItem*>();
-    auto contentItemChildren = contentItem->childItems();
-    QQuickItem* videoImportConvertButton {};
-    for (auto childItem : contentItemChildren) {
-        if (childItem->objectName() == objectName)
-            return childItem;
-    }
-    return {};
-}
-
-void clickItem(QQuickItem* item, Qt::MouseButton button = Qt::LeftButton)
-{
-    QQuickWindow* itemWindow = item->window();
-    QVERIFY(itemWindow);
-    auto centre = item->mapToScene(QPoint(item->width() / 2, item->height() / 2)).toPoint();
-    qInfo() << "click_:" << centre;
-    QTest::mouseClick(itemWindow, button, Qt::NoModifier, centre);
-}
 
 void ScreenPlayGuiTest::import_convert_video()
 {

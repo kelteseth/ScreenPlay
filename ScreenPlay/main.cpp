@@ -43,9 +43,6 @@ int main(int argc, char* argv[])
     qputenv("QT_QUICK_FLICKABLE_WHEEL_DECELERATION", "5000");
     using namespace ScreenPlay;
     QCoro::Qml::registerTypes();
-#if !defined(Q_OS_LINUX)
-    qputenv("QT_MEDIA_BACKEND", "ffmpeg");
-#endif
 
     QGuiApplication qtGuiApp(argc, argv);
     QGuiApplication::setOrganizationName("ScreenPlay");

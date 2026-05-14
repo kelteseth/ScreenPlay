@@ -17,7 +17,10 @@ SteamWorkshopItem::SteamWorkshopItem(const QString& name, const QUrl& absolutePa
 void SteamWorkshopItem::createWorkshopItem()
 {
     SteamAPICall_t hSteamAPICall = SteamUGC()->CreateItem(m_appID, EWorkshopFileType::k_EWorkshopFileTypeCommunity);
-    m_createWorkshopItemCallResult.Set(hSteamAPICall, this, &SteamWorkshopItem::uploadItemToWorkshop);
+    SteamAsyncCall<CreateItemResult_t>::create(
+        hSteamAPICall,
+        [this](CreateItemResult_t* cb, bool io) { uploadItemToWorkshop(cb, io); },
+        this);
 }
 
 void SteamWorkshopItem::checkUploadProgress()
@@ -26,16 +29,24 @@ void SteamWorkshopItem::checkUploadProgress()
     quint64 _bytesTotoal = 0;
     EItemUpdateStatus status = SteamUGC()->GetItemUpdateProgress(m_UGCUpdateHandle, &_itemProcessed, &_bytesTotoal);
 
-    qInfo() << absolutePath() << absolutePreviewImagePath() << name() << uploadProgress() << "% - " << _itemProcessed << _bytesTotoal << status;
+    const auto newState = static_cast<ScreenPlayCore::Steam::EItemUpdateStatus>(status);
+    const bool stateChanged = (newState != m_uploadState);
 
-    if (_bytesTotoal == 0)
-        return;
+    setUploadState(newState);
 
-    float progress = static_cast<float>(_itemProcessed) / static_cast<float>(_bytesTotoal);
+    // Only log when state changes to reduce console spam
+    if (stateChanged) {
+        qInfo() << name() << "state:" << status << "progress:" << uploadProgress() << "%";
+    }
 
-    // Floating sanity check. Sometimes the values are just way off
-    if (progress > 0.0f && progress < 1.0f)
-        setUploadProgress((progress * 100));
+    // Calculate progress from bytes if available
+    if (_bytesTotoal > 0) {
+        float progress = static_cast<float>(_itemProcessed) / static_cast<float>(_bytesTotoal);
+        // Clamp to valid range and convert to percentage
+        if (progress >= 0.0f && progress <= 1.0f) {
+            setUploadProgress(static_cast<int>(progress * 100));
+        }
+    }
 }
 void SteamWorkshopItem::uploadItemToWorkshop(CreateItemResult_t* pCallback, bool bIOFailure)
 {
@@ -95,31 +106,7 @@ void SteamWorkshopItem::uploadItemToWorkshop(CreateItemResult_t* pCallback, bool
         youtube = jsonObject.value("youtube").toString();
     }
 
-    if (!youtube.isEmpty()) {
-        SteamUGC()->AddItemPreviewVideo(m_UGCUpdateHandle, QByteArray(youtube.toUtf8().data()));
-    }
-
     QDir absoluteContentdir { absoluteContentPath };
-
-    if (jsonObject.contains("previewGIF")) {
-        const QString previewGIF = jsonObject.value("previewGIF").toString();
-        QFile previewGifFile { absoluteContentdir.path() + "/" + previewGIF };
-        qInfo() << previewGifFile.size();
-        if (previewGifFile.exists() && previewGifFile.size() <= (1000 * 1000))
-            SteamUGC()->AddItemPreviewFile(m_UGCUpdateHandle,
-                QByteArray(QString { absoluteContentPath + "/" + previewGIF }.toUtf8()).data(),
-                EItemPreviewType::k_EItemPreviewType_Image);
-    }
-
-    if (absoluteContentdir.exists("previewWEBM")) {
-        const QString previewWEBM = jsonObject.value("previewWEBM").toString();
-        QFile previewWEBMFile { absoluteContentdir.path() + "/" + previewWEBM };
-        qInfo() << previewWEBMFile.size();
-        if (previewWEBMFile.exists() && previewWEBMFile.size() <= (1000 * 1000))
-            SteamUGC()->AddItemPreviewFile(m_UGCUpdateHandle,
-                QByteArray(QString { absoluteContentPath + "/preview.webm" }.toUtf8()).data(),
-                EItemPreviewType::k_EItemPreviewType_Image);
-    }
 
     QStringList tags;
     if (jsonObject.contains("tags")) {
@@ -134,35 +121,61 @@ void SteamWorkshopItem::uploadItemToWorkshop(CreateItemResult_t* pCallback, bool
         tags.append(jsonObject.value("type").toString());
     }
 
-    const int count = tags.count();
-    SteamParamStringArray_t* pTags = new SteamParamStringArray_t();
-    pTags->m_ppStrings = new const char*[count];
-    int i = 0;
-
+    // StartItemUpdate MUST be called before any Set*/Add* calls
     m_UGCUpdateHandle = SteamUGC()->StartItemUpdate(m_appID, pCallback->m_nPublishedFileId);
-
-    QVector<const char*> tagCharArray;
-    for (const auto& tag : tags) {
-        if (tag.length() > 255) {
-            qInfo() << "Skip too long tag (max 255):" << tag;
-            continue;
-        }
-        tagCharArray.append(tag.toUtf8());
+    if (m_UGCUpdateHandle == k_UGCUpdateHandleInvalid) {
+        qWarning() << "StartItemUpdate returned invalid handle - cannot upload item";
+        setStatus(ScreenPlayCore::Steam::EResult::K_EResultFail);
+        emit uploadComplete(false);
+        return;
     }
-    pTags->m_nNumStrings = tagCharArray.count();
-    pTags->m_ppStrings = tagCharArray.data();
 
-    bool success = SteamUGC()->SetItemTags(m_UGCUpdateHandle, pTags);
+    SteamTagArray tagArray(tags);
+    const bool success = SteamUGC()->SetItemTags(m_UGCUpdateHandle, tagArray.get());
     if (!success) {
         qWarning() << "Failed to set item tags";
     }
-    SteamUGC()->AddItemPreviewFile(m_UGCUpdateHandle, QByteArray(preview.toUtf8()).data(), EItemPreviewType::k_EItemPreviewType_Image);
     SteamUGC()->SetItemTitle(m_UGCUpdateHandle, QByteArray(title.toUtf8().data()));
     SteamUGC()->SetItemDescription(m_UGCUpdateHandle, QByteArray(description.toUtf8()).data());
     SteamUGC()->SetItemUpdateLanguage(m_UGCUpdateHandle, QByteArray(language.toUtf8()).data());
     SteamUGC()->SetItemContent(m_UGCUpdateHandle, QByteArray(absoluteContentPath.toUtf8()).data());
     SteamUGC()->SetItemPreview(m_UGCUpdateHandle, QByteArray(preview.toUtf8()).data());
     SteamUGC()->SetItemVisibility(m_UGCUpdateHandle, ERemoteStoragePublishedFileVisibility::k_ERemoteStoragePublishedFileVisibilityPublic);
+
+    if (!youtube.isEmpty()) {
+        SteamUGC()->AddItemPreviewVideo(m_UGCUpdateHandle, QByteArray(youtube.toUtf8().data()));
+    }
+
+    // NOTE: preview.jpg is already set as main preview via SetItemPreview above.
+    // Do NOT also add it via AddItemPreviewFile — Steam returns k_EResultInvalidParam (8)
+    // when the same file appears as both main and additional preview.
+
+    // Upload ONE animated preview: prefer WebP (<1MB), fall back to GIF (<1MB).
+    // Steam requires additional previews to be under 1MB.
+    bool uploadedAnimatedPreview = false;
+    if (jsonObject.contains("previewWEBP")) {
+        const QString previewWEBP = jsonObject.value("previewWEBP").toString();
+        QFile previewWEBPFile { absoluteContentdir.path() + "/" + previewWEBP };
+        qInfo() << "previewWEBP path:" << previewWEBPFile.fileName() << "size:" << previewWEBPFile.size();
+        if (previewWEBPFile.exists() && previewWEBPFile.size() <= (1000 * 1000)) {
+            SteamUGC()->AddItemPreviewFile(m_UGCUpdateHandle,
+                QByteArray(QString { absoluteContentPath + "/" + previewWEBP }.toUtf8()).data(),
+                EItemPreviewType::k_EItemPreviewType_Image);
+            uploadedAnimatedPreview = true;
+            qInfo() << "Uploaded WebP as animated preview";
+        }
+    }
+    if (!uploadedAnimatedPreview && jsonObject.contains("previewGIF")) {
+        const QString previewGIF = jsonObject.value("previewGIF").toString();
+        QFile previewGIFFile { absoluteContentdir.path() + "/" + previewGIF };
+        qInfo() << "previewGIF path:" << previewGIFFile.fileName() << "size:" << previewGIFFile.size();
+        if (previewGIFFile.exists() && previewGIFFile.size() <= (1000 * 1000)) {
+            SteamUGC()->AddItemPreviewFile(m_UGCUpdateHandle,
+                QByteArray(QString { absoluteContentPath + "/" + previewGIF }.toUtf8()).data(),
+                EItemPreviewType::k_EItemPreviewType_Image);
+            qInfo() << "Uploaded GIF as animated preview (WebP was too large or missing)";
+        }
+    }
 
     m_publishedFileId = QVariant::fromValue<uint64>(pCallback->m_nPublishedFileId);
     saveWorkshopID();
@@ -173,7 +186,10 @@ void SteamWorkshopItem::uploadItemToWorkshop(CreateItemResult_t* pCallback, bool
         return;
     }
 
-    m_submitItemUpdateResultResult.Set(apicall, this, &SteamWorkshopItem::submitItemUpdateStatus);
+    SteamAsyncCall<SubmitItemUpdateResult_t>::create(
+        apicall,
+        [this](SubmitItemUpdateResult_t* cb, bool io) { submitItemUpdateStatus(cb, io); },
+        this);
     m_updateTimer.start(m_updateTimerInterval);
 }
 
@@ -189,7 +205,7 @@ void SteamWorkshopItem::submitItemUpdateStatus(SubmitItemUpdateResult_t* pCallba
     if (pCallback->m_bUserNeedsToAcceptWorkshopLegalAgreement)
         emit userNeedsToAcceptWorkshopLegalAgreement();
 
-    setStatus(static_cast<ScreenPlayWorkshop::Steam::EResult>(pCallback->m_eResult));
+    setStatus(static_cast<ScreenPlayCore::Steam::EResult>(pCallback->m_eResult));
 
     switch (pCallback->m_eResult) {
     case EResult::k_EResultOK: {
@@ -201,11 +217,13 @@ void SteamWorkshopItem::submitItemUpdateStatus(SubmitItemUpdateResult_t* pCallba
 
         emit uploadComplete(false);
         setUploadProgress(0);
+        break;
     }
     default: {
-
-        qDebug() << "Delete item with status: " << status();
-        // SteamUGC()->DeleteItem(pCallback->m_nPublishedFileId);
+        qWarning() << "Upload failed with Steam result:" << pCallback->m_eResult;
+        emit uploadComplete(false);
+        setUploadProgress(0);
+        break;
     }
     }
 

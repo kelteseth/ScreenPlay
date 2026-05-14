@@ -3,7 +3,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Effects
 import ScreenPlay
-import ScreenPlayCore as Util
+import ScreenPlayCore as SPCore
 
 Item {
     id: root
@@ -26,7 +26,7 @@ Item {
 
     // Using readonly properties avoids creating bindings when values are static
     readonly property bool hasLicense: {
-        if (App.globalVariables.isBasicVersion() && root.type === Util.ContentTypes.InstalledType.GodotWallpaper) {
+        if (App.globalVariables.isBasicVersion() && root.type === SPCore.ContentTypes.InstalledType.GodotWallpaper) {
             return false
         }
         return true
@@ -49,15 +49,15 @@ Item {
     // Compute type icon once to avoid repeated checks
     readonly property string typeIconSource: {
         if (App.util.isWidget(type)) {
-            return "qrc:/qt/qml/ScreenPlay/assets/icons/icon_widgets.svg"
+            return "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_widgets.svg"
         }
         if (type === Util.ContentTypes.InstalledType.GodotWallpaper) {
             return "qrc:/qt/qml/ScreenPlay/assets/icons/brand_godot.svg"
         }
         if (App.util.isScene(type)) {
-            return "qrc:/qt/qml/ScreenPlay/assets/icons/icon_code.svg"
+            return "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_code.svg"
         }
-        return "qrc:/qt/qml/ScreenPlay/assets/icons/icon_movie.svg"
+        return "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_movie.svg"
     }
 
     // Performance flags
@@ -145,7 +145,7 @@ Item {
                 height: 20
                 opacity: 0.25
                 visible: root.containsAudio
-                source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_contains_audio.svg"
+                source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_contains_audio.svg"
                 sourceSize: Qt.size(20, 20)
                 asynchronous: true
                 anchors {
@@ -203,7 +203,7 @@ Item {
             ToolButton {
                 enabled: false
                 visible: !root.hasLicense
-                icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/font-awsome/lock-solid.svg"
+                icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/font-awsome/lock-solid.svg"
                 icon.height: 14
                 icon.width: 11
                 icon.color: "gold"

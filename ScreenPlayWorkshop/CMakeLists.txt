@@ -8,6 +8,8 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+include(GenerateCMakeVariableHeader)
+
 find_package(LibArchive REQUIRED)
 find_package(
     Qt6
@@ -26,21 +28,19 @@ set(QML
     # cmake-format: sort
     qml/Background.qml
     qml/Forum.qml
-    qml/InstalledItem.qml
-    qml/InstalledItemImage.qml
     qml/Navigation.qml
     qml/PopupOffline.qml
     qml/Sidebar.qml
     qml/SteamProfile.qml
+    qml/SteamProfileWorkshopItem.qml
     qml/SteamWorkshop.qml
-    qml/SteamWorkshopStartPage.qml
+    qml/SteamWorkshopView.qml
     qml/TestMain.qml
     qml/upload/PopupSteamWorkshopAgreement.qml
-    qml/upload/UploadProject.qml
+    qml/upload/SteamUploadView.qml
     qml/upload/UploadProjectBigItem.qml
     qml/upload/UploadProjectItem.qml
     qml/Workshop.qml
-    qml/WorkshopInstalled.qml
     qml/WorkshopItem.qml)
 
 set(SOURCES
@@ -48,24 +48,34 @@ set(SOURCES
     src/installedlistmodel.cpp
     src/screenplayworkshop.cpp
     src/steamaccount.cpp
-    src/steamapiwrapper.cpp
     src/steamqmlimageprovider.cpp
     src/steamworkshop.cpp
     src/steamworkshopitem.cpp
-    src/steamworkshoplistmodel.cpp)
+    src/steamworkshopitemops.cpp
+    src/steamworkshoplistmodel.cpp
+    src/steamworkshopprofile.cpp
+    src/steamworkshopsearch.cpp
+    src/ugcquerybuilder.cpp)
 
 set(HEADER
     # cmake-format: sort
+    src/installedlistfilter.h
     src/installedlistmodel.h
     src/screenplayworkshop.h
     src/steamaccount.h
-    src/steamapiwrapper.h
+    src/steamasynccall.h
     src/steamqmlimageprovider.h
+    src/steamtagarray.h
     src/steamworkshop.h
     src/steamworkshopitem.h
+    src/steamworkshopitemops.h
     src/steamworkshoplistmodel.h
+    src/steamworkshopprofile.h
+    src/steamworkshopsearch.h
+    src/ugcquerybuilder.h
     src/uploadlistmodel.h
-    src/workshopitem.h)
+    src/workshopitem.h
+    src/workshopitemdetail.h)
 
 set(RESOURCES
     # cmake-format: sort
@@ -126,26 +136,44 @@ qt_add_qml_module(
     RESOURCES
     ${RESOURCES})
 
-if(${SCREENPLAY_STEAM})
-    if(APPLE)
-        # Copy Steam files after the ScreenPlayApp target is built (when the .app bundle exists)
-        add_custom_command(
-            TARGET ScreenPlayWorkshopLib
-            POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/"
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt"
-                    "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/"
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${STEAM_BINARY_PATH}" "$<TARGET_BUNDLE_DIR:ScreenPlayApp>/Contents/MacOS/"
-            COMMENT "Copying Steam files to macOS bundle")
+# Add qtquickcontrols2.conf at the root resource path so Qt can find it This is needed for test executables that link to this library
+qt_add_resources(
+    ScreenPlayWorkshopLib
+    "qtquickcontrols2"
+    PREFIX
+    "/"
+    FILES
+    qtquickcontrols2.conf)
 
-        # Install Steam files for macOS
+if(${SCREENPLAY_STEAM})
+    # Copy Steam runtime files to all output directories that need them
+    set(_steam_copy_dirs ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+
+    # Test executables in the ScreenPlay subproject have a different output directory
+    if(${SCREENPLAY_TESTS})
+        list(APPEND _steam_copy_dirs "${CMAKE_BINARY_DIR}/ScreenPlay")
+    endif()
+
+    list(REMOVE_DUPLICATES _steam_copy_dirs)
+
+    foreach(_dir ${_steam_copy_dirs})
+        file(MAKE_DIRECTORY "${_dir}")
+        file(
+            COPY_FILE
+            "${STEAM_BINARY_PATH}"
+            "${_dir}/${STEAM_BINARY}"
+            ONLY_IF_DIFFERENT)
+        file(
+            COPY_FILE
+            "${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt"
+            "${_dir}/steam_appid.txt"
+            ONLY_IF_DIFFERENT)
+    endforeach()
+
+    if(APPLE)
         install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt" DESTINATION "ScreenPlay.app/Contents/MacOS/")
         install(FILES "${STEAM_BINARY_PATH}" DESTINATION "ScreenPlay.app/Contents/MacOS/")
     else()
-        configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
-        configure_file(${STEAM_BINARY_PATH} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
-
-        # Install Steam files for Windows/Linux
         install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt" DESTINATION "${CMAKE_INSTALL_BINDIR}")
         install(FILES "${STEAM_BINARY_PATH}" DESTINATION "${CMAKE_INSTALL_BINDIR}")
     endif()
@@ -163,9 +191,26 @@ if(${SCREENPLAY_STEAM})
                     ScreenPlayCoreLib
                     ScreenPlayCoreLibplugin)
 
+        qt_add_executable(tst_WorkshopUpload tests/tst_workshop_upload.cpp)
+        target_link_libraries(
+            tst_WorkshopUpload
+            PRIVATE Qt6::Quick
+                    Qt6::QuickControls2
+                    Qt6::Test
+                    ScreenPlayWorkshopLib
+                    ScreenPlayWorkshopLibplugin
+                    ScreenPlayCoreLib
+                    ScreenPlayCoreLibplugin)
+
+        # Generate CMakeVariables.h for the workshop upload test
+        generate_cmake_variable_header(tst_WorkshopUpload)
+        add_dependencies(tst_WorkshopUpload ScreenPlayWorkshopLib)
+
         if(APPLE)
-            set_target_properties(tst_ScreenPlayWorkshop
-                                  PROPERTIES RUNTIME_OUTPUT_DIRECTORY"${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
+            set_target_properties(tst_ScreenPlayWorkshop PROPERTIES RUNTIME_OUTPUT_DIRECTORY
+                                                                    "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
+            set_target_properties(tst_WorkshopUpload PROPERTIES RUNTIME_OUTPUT_DIRECTORY
+                                                                "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/")
         endif()
     endif()
 endif()

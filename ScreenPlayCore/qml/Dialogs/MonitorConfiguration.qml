@@ -4,9 +4,9 @@ import QtQuick.Layouts
 import QtQuick.Controls.Material
 import ScreenPlay
 
-import ScreenPlayCore as Util
+import ScreenPlayCore as SPCore
 
-Util.Dialog {
+SPCore.Dialog {
     id: root
 
     standardButtons: Dialog.Ok
@@ -30,7 +30,7 @@ Util.Dialog {
                 Layout.alignment: Qt.AlignHCenter
                 Layout.preferredWidth: 150
                 Layout.preferredHeight: 150
-                source: "qrc:/qt/qml/ScreenPlay/assets/icons/monitor_setup.svg"
+                source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/monitor_setup.svg"
                 fillMode: Image.PreserveAspectFit
             }
 

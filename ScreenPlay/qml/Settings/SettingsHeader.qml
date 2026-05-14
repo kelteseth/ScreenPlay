@@ -8,7 +8,7 @@ import ScreenPlayCore
 Item {
     id: settingsHeader
     property string text: "HEADLINE"
-    property url image: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_settings.svg"
+    property url image: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_settings.svg"
 
     width: parent.width
     height: 60

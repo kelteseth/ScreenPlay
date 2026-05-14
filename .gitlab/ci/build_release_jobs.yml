@@ -1,5 +1,5 @@
 variables:
-  SENTRY_CLI_VERSION: "2.56.1"
+  SENTRY_CLI_VERSION: "3.2.1"
   SENTRY_CLI_DOWNLOAD_URL: "https://github.com/getsentry/sentry-cli/releases/download"
   SENTRY_ORG: "screenplay"
   SENTRY_PROJECT: "screenplay"

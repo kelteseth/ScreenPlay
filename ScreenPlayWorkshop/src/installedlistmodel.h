@@ -25,11 +25,6 @@
 
 #include "ScreenPlayCore/projectfile.h"
 
-/*!
-    \class Installed List Model
-    \brief Lists all installed items from a given Path
-
-*/
 namespace ScreenPlayWorkshop {
 
 class InstalledListModel : public QAbstractListModel {
@@ -57,11 +52,23 @@ public:
         PublishedFileID,
         Tags,
         SearchType,
+        LastModified,
+        IsOnWorkshop,
+        TypeString,
     };
     Q_ENUM(ScreenPlayItem)
 
+    enum class SortField {
+        Title,
+        LastModified,
+    };
+    Q_ENUM(SortField)
+
     QUrl absoluteStoragePath() const { return m_absoluteStoragePath; }
     void init();
+    void init(const QUrl& contentPath);
+
+    Q_INVOKABLE void sort(SortField field, bool ascending);
 
 public slots:
     void loadInstalledContent();
@@ -87,8 +94,8 @@ signals:
 private:
     QVector<ScreenPlay::ProjectFile> m_screenPlayFiles;
     QUrl m_absoluteStoragePath;
-    QFuture<void> m_loadContentFuture;
-    QFutureWatcher<void> m_loadContentFutureWatcher;
+    QFuture<QStringList> m_loadContentFuture;
+    QFutureWatcher<QStringList> m_loadContentFutureWatcher;
 };
 
 }

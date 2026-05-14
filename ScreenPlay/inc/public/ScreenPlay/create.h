@@ -7,7 +7,11 @@
 #include <QObject>
 #include <QQmlEngine>
 #include <QString>
+#include <QVariantMap>
 #include <memory>
+
+#include "qcorotask.h"
+#include "qml/qcoroqmltask.h"
 
 #include "ScreenPlay/createimportstates.h"
 #include "ScreenPlay/globalvariables.h"
@@ -34,11 +38,13 @@ public:
     Q_INVOKABLE void createWallpaperStart(
         QString videoPath,
         ScreenPlay::Video::VideoCodec codec,
-        const int quality = 50);
+        const int quality = 10);
 
     Q_INVOKABLE ScreenPlay::Video::VideoCodec detectVideoCodec(const QString& videoPath);
 
     Q_INVOKABLE bool canSkipConversion(ScreenPlay::Video::VideoCodec codec);
+
+    Q_INVOKABLE QCoro::QmlTask probeVideoInfo(const QString& videoPath);
 
     Q_INVOKABLE void saveWallpaper(const QString title,
         const QString description,

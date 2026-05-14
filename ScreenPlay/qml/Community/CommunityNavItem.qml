@@ -47,7 +47,7 @@ TabButton {
         ToolButton {
             opacity: 0.6
             width: parent.width * 0.2
-            icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_open_in_new.svg"
+            icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_open_in_new.svg"
             icon.color: "transparent"
             icon.width: 16
             icon.height: 16

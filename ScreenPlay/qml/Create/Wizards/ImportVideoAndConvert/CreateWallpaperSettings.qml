@@ -13,38 +13,50 @@ Item {
     property int quality: sliderQuality.slider.value
     property var detectedCodec: Video.VideoCodec.Unknown
     property string videoPath: ""
+    property var videoInfo: ({})
 
     signal next(var codec, var quality)
 
-    Component.onCompleted: {
-        if (videoPath !== "") {
-            detectedCodec = App.create.detectVideoCodec(videoPath)
-            updateCodecSelection()
+    SwipeView.onIsCurrentItemChanged: {
+        if (!SwipeView.isCurrentItem)
+            return
+        if (videoPath === "") {
+            console.error("CreateWallpaperSettings: videoPath is empty!")
+            return
         }
+        App.create.probeVideoInfo(videoPath).then(result => {
+            videoInfo = result
+            if (result.hasOwnProperty("detectedCodec")) {
+                detectedCodec = result.detectedCodec
+            }
+            updateCodecSelection()
+        }).catch(error => {
+            console.error("CreateWallpaperSettings: probeVideoInfo failed:", error)
+        })
     }
 
     function updateCodecSelection() {
-        // Check if conversion can be skipped for the detected codec
         const canSkip = App.create.canSkipConversion(detectedCodec)
 
         if (canSkip) {
-            // Codec is playable, suggest "No Conversion"
-            comboBoxCodec.currentIndex = 0;
-            // No Conversion
+            // H.264, VP8, VP9 are natively supported — suggest skipping conversion
+            comboBoxCodec.currentIndex = 0
             txtDetectedCodec.text = qsTr("✅ Your video codec (%1) is supported! No conversion needed.").arg(codecName(detectedCodec))
             txtDetectedCodec.visible = true
-        } else if (detectedCodec !== Video.VideoCodec.Unknown) {
-            // Codec detected but not playable, suggest conversion to detected codec
+        } else {
+            // All other codecs (H.265, AV1, MJPEG, Unknown) — default to H.264
             for (let i = 0; i < model.count; i++) {
-                if (model.get(i).value === detectedCodec) {
+                if (model.get(i).value === Video.VideoCodec.H264) {
                     comboBoxCodec.currentIndex = i
                     break
                 }
             }
-            txtDetectedCodec.visible = false
-        } else {
-            // Unknown codec, default to H.264
-            txtDetectedCodec.visible = false
+            if (detectedCodec !== Video.VideoCodec.Unknown) {
+                txtDetectedCodec.text = qsTr("⚠️ Your video codec (%1) requires conversion for best compatibility.").arg(codecName(detectedCodec))
+                txtDetectedCodec.visible = true
+            } else {
+                txtDetectedCodec.visible = false
+            }
         }
     }
 
@@ -60,18 +72,21 @@ Item {
             return "VP9"
         case Video.VideoCodec.AV1:
             return "AV1"
+        case Video.VideoCodec.MJPEG:
+            return "MJPEG"
         default:
             return "Unknown"
         }
     }
 
     ColumnLayout {
-        spacing: 40
+        spacing: 20
 
         anchors {
             top: parent.top
             left: parent.left
             right: parent.right
+            bottom: btnDocumentation.top
             margins: 20
         }
 
@@ -92,92 +107,210 @@ Item {
             font.family: App.settings.font
         }
 
-        Text {
-            id: txtDetectedCodec
-            visible: false
-            text: qsTr("✅ Your video codec is supported! No conversion needed.")
-            color: Material.color(Material.Green)
-            Layout.fillWidth: true
-            font.pointSize: 12
-            font.bold: true
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            font.family: App.settings.font
-        }
-
-        ColumnLayout {
+        RowLayout {
             spacing: 20
+            Layout.fillWidth: true
+            Layout.fillHeight: true
 
-            Text {
-                id: txtComboboxHeadline
+            ColumnLayout {
+                spacing: 20
+                Layout.preferredWidth: 420
+                Layout.maximumWidth: 420
+                Layout.fillHeight: true
+                Layout.alignment: Qt.AlignTop
 
-                text: qsTr("Set your preffered video codec:")
-                color: Material.primaryTextColor
-                width: parent.width
-                font.pointSize: 14
-                font.family: App.settings.font
-            }
-
-            ComboBox {
-                id: comboBoxCodec
-
-                Layout.preferredWidth: 400
-                textRole: "text"
-                valueRole: "value"
-                currentIndex: 0
-                font.family: App.settings.font
-
-                onCurrentValueChanged: {
-                    // Disable quality slider when NoConversion is selected
-                    sliderQuality.enabled = (currentValue !== Video.VideoCodec.NoConversion)
+                Text {
+                    id: txtDetectedCodec
+                    visible: false
+                    text: qsTr("✅ Your video codec is supported! No conversion needed.")
+                    color: Material.color(Material.Green)
+                    Layout.fillWidth: true
+                    font.pointSize: 12
+                    font.bold: true
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                    font.family: App.settings.font
                 }
 
-                model: ListModel {
-                    id: model
-                    ListElement {
-                        value: Video.VideoCodec.NoConversion
-                        text: qsTr("🎬 No Conversion (Keep original)")
-                    }
-                    ListElement {
-                        value: Video.VideoCodec.H264
-                        text: qsTr("✨h.264 (Better for all hardware)")
+                ColumnLayout {
+                    spacing: 20
+
+                    Text {
+                        id: txtComboboxHeadline
+
+                        text: qsTr("Set your preffered video codec:")
+                        color: Material.primaryTextColor
+                        width: parent.width
+                        font.pointSize: 14
+                        font.family: App.settings.font
                     }
 
-                    ListElement {
-                        value: Video.VideoCodec.VP9
-                        text: qsTr("VP9 (Better for newer hardware 2018+)")
-                    }
+                    ComboBox {
+                        id: comboBoxCodec
 
-                    ListElement {
-                        value: Video.VideoCodec.VP8
-                        text: qsTr("VP8 (Better for older hardware)")
+                        Layout.preferredWidth: 400
+                        textRole: "text"
+                        valueRole: "value"
+                        currentIndex: 0
+                        font.family: App.settings.font
+
+                        onCurrentValueChanged: {
+                            // Disable quality slider when NoConversion is selected
+                            sliderQuality.enabled = (currentValue !== Video.VideoCodec.NoConversion)
+                        }
+
+                        model: ListModel {
+                            id: model
+                            ListElement {
+                                value: Video.VideoCodec.NoConversion
+                                text: qsTr("🎬 No Conversion (Keep original)")
+                            }
+                            ListElement {
+                                value: Video.VideoCodec.H264
+                                text: qsTr("✨h.264 (Better for all hardware)")
+                            }
+
+                            ListElement {
+                                value: Video.VideoCodec.VP9
+                                text: qsTr("VP9 (Better for newer hardware 2018+)")
+                            }
+
+                            ListElement {
+                                value: Video.VideoCodec.VP8
+                                text: qsTr("VP8 (Better for older hardware)")
+                            }
+                        }
                     }
                 }
-            }
-        }
 
-        LabelSlider {
-            id: sliderQuality
+                LabelSlider {
+                    id: sliderQuality
 
-            iconSource: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_settings.svg"
-            headline: qsTr("Set video quality. Lower value means better quality.")
-            Layout.preferredWidth: 400
-            enabled: comboBoxCodec.currentValue !== Video.VideoCodec.NoConversion
-            opacity: enabled ? 1.0 : 0.5
+                    function qualityLabel(v) {
+                        if (v <= 5)
+                            return qsTr("Quality: Indistinguishable from original (0-5)")
+                        if (v <= 15)
+                            return qsTr("Quality: Very good (6-15)")
+                        if (v <= 28)
+                            return qsTr("Quality: Good (16-28)")
+                        if (v <= 40)
+                            return qsTr("Quality: Acceptable (29-40)")
+                        return qsTr("Quality: Low (41-63)")
+                    }
 
-            slider {
-                from: 63
-                value: 22
-                to: 0
-                stepSize: 1
+                    iconSource: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_settings.svg"
+                    headline: qualityLabel(slider.value)
+                    Layout.preferredWidth: 400
+                    enabled: comboBoxCodec.currentValue !== Video.VideoCodec.NoConversion
+                    opacity: enabled ? 1.0 : 0.25
+
+                    slider {
+                        from: 63
+                        value: 10
+                        to: 0
+                        stepSize: 1
+                    }
+                }
+            } // end left ColumnLayout
+
+            // Video Stats Panel
+            Rectangle {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.minimumWidth: 200
+                color: Qt.rgba(1, 1, 1, 0.05)
+                radius: 8
+                visible: Object.keys(root.videoInfo).length > 0
+
+                ColumnLayout {
+                    anchors.fill: parent
+                    anchors.margins: 16
+                    spacing: 0
+
+                    Text {
+                        text: qsTr("Video Information")
+                        color: Material.primaryTextColor
+                        font.pointSize: 14
+                        font.bold: true
+                        font.family: App.settings.font
+                        Layout.fillWidth: true
+                        Layout.bottomMargin: 12
+                    }
+
+                    Flickable {
+                        id: statsFlickable
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        contentHeight: statsColumn.height
+                        clip: true
+                        boundsBehavior: Flickable.StopAtBounds
+
+                        ScrollBar.vertical: ScrollBar {
+                            policy: statsFlickable.contentHeight > statsFlickable.height ? ScrollBar.AsNeeded : ScrollBar.AlwaysOff
+                        }
+
+                        Column {
+                            id: statsColumn
+                            width: parent.width
+                            spacing: 2
+
+                            Repeater {
+                                // Ordered key list for consistent display
+                                model: {
+                                    const orderedKeys = ["Container", "Video Codec", "Resolution", "Frame Rate", "Pixel Format", "Profile", "Level", "Video Bitrate", "Total Frames", "Duration", "Audio Codec", "Sample Rate", "Audio Channels", "Audio Bitrate", "Audio", "File Size"]
+                                    let result = []
+                                    for (let key of orderedKeys) {
+                                        if (root.videoInfo.hasOwnProperty(key))
+                                            result.push({
+                                                key: key,
+                                                value: root.videoInfo[key]
+                                            })
+                                    }
+                                    return result
+                                }
+
+                                delegate: Column {
+                                    width: statsColumn.width
+                                    topPadding: 6
+                                    bottomPadding: 6
+
+                                    Text {
+                                        text: modelData.key
+                                        color: Material.secondaryTextColor
+                                        font.pointSize: 10
+                                        font.family: App.settings.font
+                                        width: parent.width
+                                        elide: Text.ElideRight
+                                    }
+
+                                    Text {
+                                        text: modelData.value
+                                        color: Material.primaryTextColor
+                                        font.pointSize: 12
+                                        font.family: App.settings.font
+                                        width: parent.width
+                                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                                    }
+
+                                    Rectangle {
+                                        width: parent.width
+                                        height: 1
+                                        color: Qt.rgba(1, 1, 1, 0.08)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
 
     Button {
+        id: btnDocumentation
         text: qsTr("Open Documentation")
         Material.accent: Material.color(Material.LightGreen)
         highlighted: true
-        icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/icon_document.svg"
+        icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_document.svg"
         icon.color: "white"
         icon.width: 16
         icon.height: 16

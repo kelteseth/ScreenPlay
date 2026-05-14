@@ -5,7 +5,7 @@ import QtQuick.Layouts
 import QtQuick.Effects
 import QtQuick.Controls.Material.impl
 import ScreenPlay
-import ScreenPlayCore as Util
+import ScreenPlayCore as SPCore
 import "qrc:/qt/qml/ScreenPlayCore/qml/InstantPopup.js" as InstantPopup
 import "../Components"
 
@@ -41,7 +41,7 @@ Popup {
 
     modal: true
 
-    Overlay.modal: Util.ModalBackgroundBlur {
+    Overlay.modal: SPCore.ModalBackgroundBlur {
         id: blurBg
         sourceItem: root.modalSource
     }
@@ -239,7 +239,7 @@ Popup {
                     onDeselected: function () {
                         defaultVideoControls.visible = false
                         customPropertiesGridView.visible = false
-                        root.selectedInstallType = Util.ContentTypes.InstalledType.Unknown
+                        root.selectedInstallType = SPCore.ContentTypes.InstalledType.Unknown
                     }
 
                     onRequestProjectSettings: function (index, installedType, appID) {
@@ -250,7 +250,7 @@ Popup {
                         }
                         root.selectedInstallType = installedType
 
-                        console.log(LoggingCategories.contentSettings, installedType, Util.ContentTypes.InstalledType.VideoWallpaper)
+                        console.log(LoggingCategories.contentSettings, installedType, SPCore.ContentTypes.InstalledType.VideoWallpaper)
                         root.selectedMonitorIndex = index
                         wallpaperControlsWrapper.updateControls()
                     }
@@ -374,7 +374,7 @@ Popup {
 
                 function updateControls(): void {
                     console.log(LoggingCategories.contentSettings, "updateControls")
-                    if (root.selectedInstallType === Util.ContentTypes.InstalledType.VideoWallpaper) {
+                    if (root.selectedInstallType === SPCore.ContentTypes.InstalledType.VideoWallpaper) {
                         const selectedTimeline = timeline.getSelectedTimeline()
                         if (selectedTimeline === undefined) {
                             console.warn(LoggingCategories.contentSettings, "Invalid selected timeline")
@@ -394,7 +394,7 @@ Popup {
                         defaultVideoControls.sectionIdentifier = selectedTimeline.identifier
                         return
                     }
-                    if (root.selectedInstallType === Util.ContentTypes.InstalledType.GodotWallpaper) {
+                    if (root.selectedInstallType === SPCore.ContentTypes.InstalledType.GodotWallpaper) {
                         const selectedTimeline = timeline.getSelectedTimeline()
                         if (selectedTimeline === undefined) {
                             console.warn(LoggingCategories.contentSettings, "Invalid selected timeline")
@@ -414,7 +414,7 @@ Popup {
                         defaultGodotControls.sectionIdentifier = selectedTimeline.identifier
                         return
                     }
-                    if (root.selectedInstallType === Util.ContentTypes.InstalledType.QMLWallpaper || root.selectedInstallType === Util.ContentTypes.InstalledType.WebsiteWallpaper) {
+                    if (root.selectedInstallType === SPCore.ContentTypes.InstalledType.QMLWallpaper || root.selectedInstallType === SPCore.ContentTypes.InstalledType.WebsiteWallpaper) {
                         let success = App.screenPlayManager.projectSettingsAtMonitorIndex(root.selectedMonitorIndex, root.selectedTimelineIndex, root.selectedSectionIdentifier)
                         if (!success) {
                             console.error(LoggingCategories.contentSettings, "Unable to get requested settings from index: ", root.selectedTimelineIndex)
@@ -455,7 +455,7 @@ Popup {
                     visible: false
                 }
 
-                GridView {
+                SPCore.MaterialGridView {
                     id: customPropertiesGridView
                     property var projectSettingsListmodelRef
                     property int selectedMonitorIndex
@@ -464,8 +464,7 @@ Popup {
                     property string sectionIdentifier
 
                     boundsBehavior: Flickable.DragOverBounds
-                    maximumFlickVelocity: 7000
-                    flickDeceleration: 5000
+
                     cellWidth: 340
                     cellHeight: 50
                     cacheBuffer: 10000
@@ -493,7 +492,7 @@ Popup {
                 }
             }
 
-            Util.MaterialSnackBar {
+            SPCore.MaterialSnackBar {
                 id: snackBar
 
                 Connections {
@@ -512,7 +511,7 @@ Popup {
         height: width
         icon.width: 16
         icon.height: 16
-        icon.source: "qrc:/qt/qml/ScreenPlay/assets/icons/font-awsome/close.svg"
+        icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/font-awsome/close.svg"
         icon.color: Material.iconColor
         onClicked: root.close()
 
