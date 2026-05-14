@@ -7,11 +7,11 @@ set(CMAKE_AUTOMOC ON)
 find_package(Qt6 COMPONENTS Core Quick)
 
 set(HEADER
-    public/steam/isteamtimeline.h
     public/steam/isteamapps.h
     public/steam/isteamappticket.h
     public/steam/isteamclient.h
     public/steam/isteamcontroller.h
+    public/steam/isteamdualsense.h
     public/steam/isteamfriends.h
     public/steam/isteamgamecoordinator.h
     public/steam/isteamgameserver.h
@@ -22,7 +22,6 @@ set(HEADER
     public/steam/isteaminventory.h
     public/steam/isteammatchmaking.h
     public/steam/isteammusic.h
-    public/steam/isteammusicremote.h
     public/steam/isteamnetworking.h
     public/steam/isteamnetworkingmessages.h
     public/steam/isteamnetworkingsockets.h
@@ -32,6 +31,7 @@ set(HEADER
     public/steam/isteamremoteplay.h
     public/steam/isteamremotestorage.h
     public/steam/isteamscreenshots.h
+    public/steam/isteamtimeline.h
     public/steam/isteamugc.h
     public/steam/isteamuser.h
     public/steam/isteamuserstats.h
@@ -46,6 +46,7 @@ set(HEADER
     public/steam/steamclientpublic.h
     public/steam/steamencryptedappticket.h
     public/steam/steamhttpenums.h
+    public/steam/steamnetworkingfakeip.h
     public/steam/steamnetworkingtypes.h
     public/steam/steamps3params.h
     public/steam/steamtypes.h
