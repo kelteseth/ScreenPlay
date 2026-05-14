@@ -11,6 +11,35 @@ Q_LOGGING_CATEGORY(gifOptimizer, "screenplay.gifoptimizer")
 
 namespace ScreenPlay {
 
+/*!
+ * \class GifOptimizer
+ * \inmodule ScreenPlay
+ * \brief Converts a video to an optimised animated GIF that fits under a byte-size limit.
+ *
+ * Designed to take the 5-second preview.webm (854x480, 16:9) as input and produce
+ * a GIF suitable for Steam's 1 MB AddItemPreviewFile limit.
+ *
+ * Uses a two-phase best-fit strategy:
+ * \list
+ *   \li \b{Phase 1 — Tier scan}: finds the highest-resolution tier that can fit
+ *       the budget at minimum fps.
+ *   \li \b{Phase 2 — FPS maximise}: binary-searches fps upward within the winning
+ *       tier so the output uses as much of the budget as possible.
+ * \endlist
+ *
+ * Every tier applies all available GIF optimizations:
+ *
+ * \list
+ *   \li Two-pass palette generation (palettegen + paletteuse)
+ *   \li Bayer dithering — regular patterns that LZW compresses far better than
+ *       error-diffusion (Floyd-Steinberg)
+ *   \li stats_mode=diff — palette tuned to inter-frame differences (animation-aware)
+ *   \li diff_mode=rectangle — only encode changed rectangular regions per frame
+ *   \li Per-frame palette recomputation (new=1) for colour accuracy
+ *   \li max_colors reduction at lower tiers
+ *   \li Lanczos downscaling — smooth gradients that compress well
+ * \endlist
+ */
 GifOptimizer::GifOptimizer(const QString& ffmpegPath,
     std::atomic<bool>& interrupt,
     QObject* parent)
