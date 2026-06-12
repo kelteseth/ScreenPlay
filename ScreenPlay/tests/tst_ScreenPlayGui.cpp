@@ -39,9 +39,9 @@ private slots:
         // Initialize QML engine and get the App singleton instance (like main.cpp does)
         QQuickStyle::setStyle("Material");
         m_engine = std::make_shared<QQmlApplicationEngine>();
+        // First access triggers App::create(), which attaches the engine internally.
         m_app = m_engine->singletonInstance<ScreenPlay::App*>("ScreenPlay", "App");
         QVERIFY(m_app);
-        m_app->setEngine(m_engine);
         m_engine->loadFromModule("ScreenPlay", "ScreenPlayMain");
 
         // Wait for QML to load

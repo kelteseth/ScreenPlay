@@ -16,6 +16,7 @@ class ScreenPlayTimelineManager : public QObject {
     Q_OBJECT
     Q_PROPERTY(int selectedTimelineIndex READ selectedTimelineIndex WRITE setSelectedTimelineIndex NOTIFY selectedTimelineIndexChanged FINAL)
     Q_PROPERTY(int activeTimelineIndex READ activeTimelineIndex WRITE setActiveTimelineIndex NOTIFY activeTimelineIndexChanged FINAL)
+    Q_PROPERTY(int timelineSectionCount READ timelineSectionCount NOTIFY timelineSectionCountChanged FINAL)
 
 public:
     enum class TimelineManagerError {
@@ -72,6 +73,7 @@ public:
     void setMonitorListModel(const std::shared_ptr<MonitorListModel>& monitorListModel);
     int selectedTimelineIndex() const;
     int activeTimelineIndex() const;
+    int timelineSectionCount() const { return m_wallpaperTimelineSectionsList.size(); }
     void printTimelines() const;
     void validateTimelineSections() const;
     void sortAndUpdateIndices();
@@ -93,6 +95,7 @@ signals:
     void activeWallpaperCountChanged(const int count);
     void selectedTimelineIndexChanged(int selectedTimelineIndex);
     void activeTimelineIndexChanged(int activeTimelineIndex);
+    void timelineSectionCountChanged(int count);
     void wallpaperRestartFailed(const QString& appID, const QString& message);
     void notifyUiReloadTimelinePreviewImage();
 

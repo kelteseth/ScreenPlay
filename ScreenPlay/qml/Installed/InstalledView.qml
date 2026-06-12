@@ -100,7 +100,7 @@ Item {
         model: App.installedListFilter
         delegate: InstalledItem {
             id: delegate
-            // objectName: "installedItem" + index
+            objectName: "installedItem" + delegate.index
             isScrolling: gridView.isScrolling
             focus: true
             itemsPerRow: gridView.itemsPerRow

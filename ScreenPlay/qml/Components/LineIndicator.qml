@@ -15,6 +15,9 @@ Rectangle {
     property bool isLast: false
     property alias text: text.text
     property string wallpaperPreviewImage
+    // Set by Timeline.qml so multiple Timelines (drawer / settings) don't
+    // produce colliding remove-button objectNames.
+    property string objectNamePrefix: "timeline"
 
     signal remove(int index)
     signal lineSelected(int index)
@@ -153,7 +156,13 @@ Rectangle {
 
     SPCore.RainbowGradient {
         id: monitorBackground
-        width: 70
+        objectName: root.objectNamePrefix + "Select" + root.index
+        // Clamp to the section bar's width so the thumbnail can never
+        // bleed past its own section. Without this, a freshly-inserted
+        // narrow section's 70px box centers on the boundary and visually
+        // overlaps the adjacent section bars until the user drags the
+        // handle to give the section enough width.
+        width: Math.min(70, root.width)
         height: 48
         radius: 5
         running: root.isActive
@@ -231,6 +240,7 @@ Rectangle {
 
             ToolButton {
                 id: removeButton
+                objectName: root.objectNamePrefix + "Remove" + root.index
                 anchors.fill: parent
                 text: "❌"
                 visible: root.selected

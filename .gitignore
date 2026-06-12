@@ -82,6 +82,7 @@ CMakeLists.txt.user
 # FetchContent downloaded dependencies
 ThirdParty/qqcoro/
 ThirdParty/QArchive/
+ThirdParty/chuck_tester/
 CMakeCache.txt
 CMakeFiles
 CMakeScripts

@@ -9,6 +9,11 @@ import "qrc:/qt/qml/ScreenPlayCore/qml/InstantPopup.js" as InstantPopup
 
 Control {
     id: root
+    // Prefix applied to every objectName inside this Timeline so multiple
+    // instances (e.g. drawer + settings) can be addressed by chuck without
+    // collisions. Defaults are kept stable for existing call sites.
+    property string objectNamePrefix: "timeline"
+    objectName: root.objectNamePrefix + "Root"
     height: 160
     implicitWidth: 600
     topPadding: 20
@@ -21,8 +26,15 @@ Control {
     property int selectedTimelineIndex: 0
     // Do not use this directly, see https://bugreports.qt.io/browse/QTBUG-127633
     property var selectedTimeline: timeline.sectionsList[root.selectedTimelineIndex]
-    property int length: timeline.sectionsList.length
+    // Bound to the C++ source of truth so it actually updates on add/remove —
+    // QML var-array bindings do not observe in-place push/sort.
+    readonly property int length: App.screenPlayManager.timelineSectionCount
+    readonly property int activeTimelineIndex: App.screenPlayManager.activeTimelineIndex
     property Item modalSource
+    // Inverts the default 15-minute snap on handle drags. Toggled by Shift
+    // press/release on any LineHandle that currently has active focus (which
+    // is the handle the user is dragging); see LineHandle.qml.
+    property bool freeDragModifier: false
 
     function getSelectedTimeline(): TimelineSection {
         return timeline.sectionsList[root.selectedTimelineIndex]
@@ -60,16 +72,13 @@ Control {
         property var sectionsList: []
         property var lineColors: ["#1E88E5", "#00897B", "#43A047", "#C0CA33", "#FFB300", "#FB8C00", "#F4511E", "#E53935", "#D81B60", "#8E24AA", "#5E35B1", "#3949AB"]
 
-        // ⚠️ Note: We need to update the lineWidth of every handle, because
-        // at startup the timeline.width gets updated multiple time. This caused
-        // a nasty bug where the initial lineHandle.lineWidth was set to
-        // the implicitWidth of 600, but the actual timeine width was 608 causing
-        // issues with handle movement dragging across boundries.
+        // Each handle's lineWidth is bound to the track width in
+        // createSection, so the startup churn where timeline.width updates
+        // several times (implicitWidth 600 → actual 608) just re-evaluates
+        // each handle's x binding. No manual per-handle width re-sync — and
+        // crucially no frozen creation-time width that desynced drag bounds.
         function load(): void {
             timeline.reset()
-            for (var i = 0; i < sectionsList.length; i++) {
-                sectionsList[i].lineHandle.lineWidth = width
-            }
             timeline.updatePositions()
             timeline.updateActiveTimelineIndex(App.screenPlayManager.activeTimelineIndex)
         }
@@ -107,6 +116,15 @@ Control {
             const sectionObject = timeline.sectionsList[sectionIndex]
             const addTimelineAtSuccess = App.screenPlayManager.addTimelineAt(sectionObject.index, sectionObject.relativeLinePosition, sectionObject.identifier)
             if (!addTimelineAtSuccess) {
+                // C++ rejected the split (e.g. zero-length section because the click
+                // landed in the same second as an existing handle). Roll back the
+                // QML-side handle/indicator that addSection already created so we
+                // don't leave orphan widgets the C++ model never knew about.
+                sectionObject.lineHandle.destroy()
+                sectionObject.lineIndicator.destroy()
+                sectionObject.destroy()
+                timeline.sectionsList.splice(sectionIndex, 1)
+                timeline.updatePositions()
                 InstantPopup.openErrorPopup(timeline, qsTr("Unable to add Timeline"))
                 return false
             }
@@ -232,16 +250,28 @@ Control {
                 return
             }
             section.lineHandle = haComponent.createObject(handleWrapper)
-            section.lineHandle.lineWidth = timeline.width
-            section.lineHandle.x = Math.round(handleWrapper.width * timeline.sectionsList[index].relativeLinePosition);
+            // Pixels are derived from the model: bind the handle's lineWidth to
+            // the live track width so its x re-evaluates on resize instead of
+            // freezing at the creation-time width.
+            section.lineHandle.lineWidth = Qt.binding(function () { return handleWrapper.width })
+            // endSeconds is the source of truth; LineHandle derives x from it.
+            // Rounding to the nearest minute recovers the exact boundary that
+            // the 4-decimal-serialized relativePosition rounds away on load,
+            // and is a no-op for freshly snapped inserts. Two handles can only
+            // share an x if they share a second — which the C++ minSection
+            // check already rejects — so the old "collapses to width 0"
+            // sub-pixel hazard is gone.
+            section.lineHandle.endSeconds = Math.round(stopPosition * 1440) * 60
             // Add vertical offset to make moving easier in the LineHandle.qml
             section.lineHandle.y = 10;
-            // Will be set later
-            section.lineHandle.lineMinimum = timeline.x
-            section.lineHandle.lineMaximum = timeline.x
+            // minSeconds/maxSeconds are set by updatePositions() right after.
             section.lineHandle.identifier = identifier
             section.lineHandle.handleMoved.connect(timeline.onHandleMoved)
             section.lineHandle.activated.connect(timeline.setActiveHandle);
+            // Snap default is on; Shift on the dragged handle flips
+            // freeDragModifier and every handle un-snaps in lockstep.
+            section.lineHandle.snapEnabled = Qt.binding(function() { return !root.freeDragModifier })
+            section.lineHandle.modifierKeyChanged.connect(function(freeDrag) { root.freeDragModifier = freeDrag })
             // Connect the new signal
             let liComponent = Qt.createComponent("LineIndicator.qml")
             if (liComponent.status === Component.Error) {
@@ -274,11 +304,15 @@ Control {
             updatePositions()
             const section = sectionFromHandle(lineHandle)
             if (section === null) {
-                console.debug(LoggingCategories.timeline, lineHandle.linePosition)
+                console.debug(LoggingCategories.timeline, lineHandle.relativePosition)
                 console.error(LoggingCategories.timeline, "Unable to match handle to section list")
                 return
             }
-            App.screenPlayManager.moveTimelineAt(section.index, section.identifier, lineHandle.linePosition, lineHandle.timeString)
+            // Keep the section's stored position in step with the dragged
+            // handle so the next sort/insert sees the live value rather than
+            // the creation-time snapshot.
+            section.relativeLinePosition = lineHandle.relativePosition
+            App.screenPlayManager.moveTimelineAt(section.index, section.identifier, lineHandle.relativePosition, lineHandle.timeString)
         }
 
         function lineIndicatorSelected(selectedTimelineIndex: int): void {
@@ -301,6 +335,10 @@ Control {
             for (var i = 0; i < timeline.sectionsList.length; i++) {
                 timeline.sectionsList[i].index = i
                 timeline.sectionsList[i].lineIndicator.index = i;
+                // Keep test-friendly objectNames in sync with current index order.
+                timeline.sectionsList[i].lineHandle.objectName = root.objectNamePrefix + "Handle" + i
+                timeline.sectionsList[i].lineIndicator.objectName = root.objectNamePrefix + "Indicator" + i
+                timeline.sectionsList[i].lineIndicator.objectNamePrefix = root.objectNamePrefix
                 //console.debug("updateIndicatorIndexes:", timeline.sectionsList[i].index, timeline.sectionsList[i].relativeLinePosition)
             }
         }
@@ -323,37 +361,42 @@ Control {
                 section.destroy()
                 timeline.sectionsList.splice(index, 1)
                 updatePositions()
+                // C++ fires activeTimelineIndexChanged synchronously inside
+                // removeTimelineAt — i.e. BEFORE this splice runs — so the
+                // signal handler iterates the pre-splice sectionsList and
+                // marks the wrong section as active (the one that will land
+                // at activeIndex-1 once we splice). Re-apply the active
+                // index now that sectionsList matches the C++ ordering.
+                updateActiveTimelineIndex(App.screenPlayManager.activeTimelineIndex)
             })
         }
 
         function updatePositions(): void {
-            // Iterate through each handle in the 'sectionList' array
+            // minGap is in *seconds* — it IS minSectionSeconds from
+            // screenplaytimelinemanager.cpp, no pixel conversion. Offsetting
+            // each handle's drag bounds by it stops the user dragging a
+            // section below the size the C++ side would reject (which would
+            // otherwise leave QML and C++ disagreeing about positions).
+            // 300s = 5 minutes; sub-5-min sections render an invalid preview.
+            const minGap = 300
+            const lastIdx = timeline.sectionsList.length - 1
             for (var i = 0; i < timeline.sectionsList.length; i++) {
                 let handle = timeline.sectionsList[i].lineHandle
 
-                // Determine the minimum position for the current handle
-                let prevPos
-                if (i === 0) {
-                    // If it's the first handle, its minimum is 0
-                    prevPos = 0
-                } else {
-                    // Otherwise, it's directly the position of the previous handle
-                    prevPos = timeline.sectionsList[i - 1].lineHandle.x
-                }
+                handle.minSeconds = (i === 0) ? minGap : timeline.sectionsList[i - 1].lineHandle.endSeconds + minGap
+                handle.maxSeconds = (i === lastIdx) ? 86400 : timeline.sectionsList[i + 1].lineHandle.endSeconds - minGap
 
-                // Determine the maximum position for the current handle
-                let nextPos
-                if (i === timeline.sectionsList.length - 1) {
-                    // If it's the last handle, its maximum is the width of the line
-                    nextPos = timeline.width
-                } else {
-                    // Otherwise, it's directly the position of the next handle
-                    nextPos = timeline.sectionsList[i + 1].lineHandle.x
-                }
-
-                // Set the determined minimum and maximum positions for the current handle
-                handle.lineMinimum = prevPos
-                handle.lineMaximum = nextPos
+                // Clamp the hit margin to half the distance to the nearest
+                // neighbour so hit zones never overlap. Without this, a 30px
+                // margin on every handle means a click between two close
+                // handles routes to whichever one wins QML hit-testing
+                // (typically the later child) rather than the closer one.
+                // handle.x is a derived binding now, but it's still the right
+                // pixel anchor for a pointer hit-test radius.
+                const halfLeft = (i === 0) ? Infinity : (handle.x - timeline.sectionsList[i - 1].lineHandle.x) / 2
+                const halfRight = (i === lastIdx) ? Infinity : (timeline.sectionsList[i + 1].lineHandle.x - handle.x) / 2
+                const minSide = Math.min(halfLeft, halfRight)
+                handle.hitMargin = Math.max(5, Math.min(30, minSide))
             }
             updateIndicatorPositions()
             updateLastHandle()
@@ -389,13 +432,17 @@ Control {
                 const lineIndicator = timeline.sectionsList[i].lineIndicator
                 //console.debug(i, lineIndicator.x, lineIndicator.width, timeline.sectionsList[i].relativeLinePosition)
                 const handle = timeline.sectionsList[i].lineHandle
-                lineIndicator.x = handle.dragHandler.xAxis.minimum
-                lineIndicator.width = (handle.linePosition * handle.lineWidth).toFixed(2) - lineIndicator.x
+                // Left edge = this section's left drag bound (previous handle
+                // + minGap) converted to pixels; right edge = this handle's x.
+                // Both derive from the seconds model — no pixel state to drift.
+                lineIndicator.x = handle.minSeconds / 86400 * handle.lineWidth
+                lineIndicator.width = handle.x - lineIndicator.x
             }
         }
 
         Rectangle {
             id: addHandleWrapper
+            objectName: root.objectNamePrefix + "AddArea"
             color: Material.theme === Material.Dark ? Material.color(Material.Grey, Material.Shade900) : Material.color(Material.Grey, Material.Shade100)
             height: 30
             anchors {
@@ -498,18 +545,42 @@ Control {
                                 bottom: parent.bottom
                             }
                         }
+
+                        // 15-minute sub-ticks between hour marks: 3 minor ticks
+                        // per hour at 1/4, 2/4, 3/4 of the hour cell. Shorter
+                        // and lighter than the hour indicator so the hour
+                        // boundaries still read as primary.
+                        Repeater {
+                            model: 3
+                            Rectangle {
+                                required property int index
+                                color: Material.theme === Material.Dark ? Material.color(Material.Grey, Material.Shade700) : Material.color(Material.Grey, Material.Shade500)
+                                width: 1
+                                height: 5
+                                x: timelineIndicatorItem.width * (index + 1) / 4
+                                anchors.bottom: parent.bottom
+                            }
+                        }
                     }
                 }
             }
 
             ToolButton {
                 id: btnAdd
+                objectName: root.objectNamePrefix + "BtnAdd"
                 text: "➕"
                 enabled: !App.globalVariables.isBasicVersion()
                 visible: enabled
                 onClicked: {
                     const absTimelinePosX = btnAdd.x + width * .5
-                    const position = Number(absTimelinePosX / timeline.width).toFixed(6)
+                    const raw = absTimelinePosX / timeline.width
+                    // Match drag behaviour: default snaps to 15 min, Shift
+                    // (freeDragModifier) loosens to 1 min. Keeps the inserted
+                    // boundary aligned with the same grid the user just saw
+                    // their cursor hovering on top of.
+                    const divisor = root.freeDragModifier ? 1440 : 96
+                    const snapped = Math.round(raw * divisor) / divisor
+                    const position = Number(snapped).toFixed(6)
                     timeline.createTimelineAt(position)
                 }
 
@@ -518,7 +589,12 @@ Control {
                     modalSource: root.modalSource
                 }
 
-                x: hoverHandler.point.position.x - width * .5
+                // Default to centre when the user has not hovered yet; once the
+                // pointer enters addHandleWrapper, follow it. Without this fallback
+                // the button starts off-screen left (hoverHandler reports x=0).
+                x: hoverHandler.hovered
+                    ? hoverHandler.point.position.x - width * .5
+                    : addHandleWrapper.width * 0.5 - width * .5
                 anchors.verticalCenter: parent.verticalCenter
             }
         }
@@ -561,6 +637,7 @@ Control {
 
         ToolButton {
             id: btnReset
+            objectName: root.objectNamePrefix + "BtnReset"
             text: resetting ? qsTr("Reseting...") : qsTr("❌ Reset")
             property bool resetting: false
             enabled: !resetting

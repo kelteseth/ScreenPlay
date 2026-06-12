@@ -297,7 +297,7 @@ endif()
 
 qt_add_executable(ScreenPlayApp main.cpp)
 
-target_link_libraries(ScreenPlayApp PRIVATE ScreenPlayLib ScreenPlayLibplugin)
+target_link_libraries(ScreenPlayApp PRIVATE ScreenPlayLib ScreenPlayLibplugin tester)
 
 # Ensure wallpaper and widget executables are built alongside the main app
 add_dependencies(ScreenPlayApp SPWallpaper SPWidget)

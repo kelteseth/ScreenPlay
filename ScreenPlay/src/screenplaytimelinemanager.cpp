@@ -12,6 +12,14 @@ Q_LOGGING_CATEGORY(screenPlayTimelineManager, "screenplay.timeline.manager")
 
 namespace ScreenPlay {
 
+// Minimum duration of a timeline section in seconds. Splits or drags
+// that would produce a shorter section are rejected. Must stay in sync
+// with the matching constant used by the QML drag-bound calculation in
+// Timeline.qml::updatePositions. Anything shorter than this is too
+// narrow to render a meaningful preview thumbnail and produces a sliver
+// section that the user can no longer hit-test or distinguish.
+constexpr int minSectionSeconds = 300;
+
 /*!
  * \brief Calculates the relative position of a given time within a day.
  *      * This function takes a QTime object representing the end time and calculates its
@@ -124,8 +132,12 @@ std::expected<bool, ScreenPlayTimelineManager::TimelineManagerError> ScreenPlayT
 {
     const QTime startTime = QTime::fromString(timelineObj.value("startTime").toString(), m_timelineTimeFormat);
     const QTime endTime = QTime::fromString(timelineObj.value("endTime").toString(), m_timelineTimeFormat);
-    if (startTime > endTime) {
-        qCCritical(screenPlayTimelineManager) << "Invalid time, start time is later than end time: " << startTime.toString() << endTime.toString();
+    if (!startTime.isValid() || !endTime.isValid() || startTime >= endTime) {
+        // Zero-length sections (start == end) are rejected the same as
+        // negative-length — they cannot represent a real time window and
+        // earlier bugs persisted them into profiles, snowballing into
+        // multiple sections at the same timestamp on subsequent loads.
+        qCCritical(screenPlayTimelineManager) << "Invalid time range, rejecting section:" << startTime.toString() << "->" << endTime.toString();
         return std::unexpected(TimelineManagerError::InvalidTimeFormat);
     }
 
@@ -179,6 +191,7 @@ std::expected<bool, ScreenPlayTimelineManager::TimelineManagerError> ScreenPlayT
     }
 
     m_wallpaperTimelineSectionsList.append(newTimelineSection);
+    emit timelineSectionCountChanged(m_wallpaperTimelineSectionsList.size());
     return true;
 }
 
@@ -204,13 +217,31 @@ bool ScreenPlayTimelineManager::moveTimelineAt(const int index, const QString id
         qCCritical(screenPlayTimelineManager) << "Unable to move with invalid time:" << positionTimeString;
         return false;
     }
+
+    // Validate the minimum-section invariant against the *current* state
+    // before mutating anything — otherwise a rejected drag would leave the
+    // section's endTime updated but the next section's startTime stale.
+    const auto timelineCount = m_wallpaperTimelineSectionsList.size();
+    if (wallpapterTimelineSection->startTime.secsTo(newPositionTime) < minSectionSeconds) {
+        qCWarning(screenPlayTimelineManager)
+            << "Rejecting moveTimelineAt: moved section would be shorter than" << minSectionSeconds << "s";
+        return false;
+    }
+    if (index + 1 < timelineCount) {
+        const auto& next = m_wallpaperTimelineSectionsList.at(index + 1);
+        if (newPositionTime.secsTo(next->endTime) < minSectionSeconds) {
+            qCWarning(screenPlayTimelineManager)
+                << "Rejecting moveTimelineAt: would collapse next section below" << minSectionSeconds << "s";
+            return false;
+        }
+    }
+
     wallpapterTimelineSection->endTime = newPositionTime;
     wallpapterTimelineSection->relativePosition = relativePosition;
     // We set the identifier here, because we generate it in qml
     // The identiefier is only used for debugging
     wallpapterTimelineSection->identifier = identifier;
 
-    const auto timelineCount = m_wallpaperTimelineSectionsList.size();
     // Only update the next timeline startTime
     // if we are not the last wallpaper, that always
     // must end at 24:00
@@ -685,6 +716,7 @@ bool ScreenPlayTimelineManager::addTimelineAt(const int index, const float relat
         // must always be at least one active.
         newTimelineSection->state = WallpaperTimelineSection::State::Active;
         m_wallpaperTimelineSectionsList.push_back(newTimelineSection);
+        emit timelineSectionCountChanged(m_wallpaperTimelineSectionsList.size());
     } else {
         // Find the correct position to insert the new section using C++23 ranges
         auto insertPosition = std::ranges::find_if(m_wallpaperTimelineSectionsList, [&](const auto& section) {
@@ -699,6 +731,25 @@ bool ScreenPlayTimelineManager::addTimelineAt(const int index, const float relat
             return QTime::fromString("00:00:00", m_timelineTimeFormat);
         }();
 
+        // Enforce minSectionSeconds on both the new section and the
+        // next section it would shrink. This subsumes the older zero-/
+        // negative-length checks (a 0s section also fails the minimum)
+        // and prevents the user from creating sub-second sections that
+        // round-trip through the loader as start==end.
+        if (newTimelineSection->startTime.secsTo(newTimelineSection->endTime) < minSectionSeconds) {
+            qCWarning(screenPlayTimelineManager)
+                << "Rejecting addTimelineAt: new section shorter than" << minSectionSeconds << "s at"
+                << newTimelineSection->startTime.toString() << "->" << newTimelineSection->endTime.toString();
+            return false;
+        }
+        if (insertPosition != m_wallpaperTimelineSectionsList.end()
+            && newTimelineSection->endTime.secsTo((*insertPosition)->endTime) < minSectionSeconds) {
+            qCWarning(screenPlayTimelineManager)
+                << "Rejecting addTimelineAt: would collapse next section below" << minSectionSeconds << "s at"
+                << newTimelineSection->endTime.toString();
+            return false;
+        }
+
         // Adjust the start time of the next section (if it exists)
         if (insertPosition != m_wallpaperTimelineSectionsList.end()) {
             (*insertPosition)->startTime = newTimelineSection->endTime;
@@ -706,6 +757,7 @@ bool ScreenPlayTimelineManager::addTimelineAt(const int index, const float relat
 
         // Insert the new section at the correct position
         m_wallpaperTimelineSectionsList.insert(insertPosition, newTimelineSection);
+        emit timelineSectionCountChanged(m_wallpaperTimelineSectionsList.size());
 
         /* ASCII representation of the insertion process:
          *          * Case 1: Inserting at the beginning
@@ -745,6 +797,14 @@ bool ScreenPlayTimelineManager::addTimelineAt(const int index, const float relat
     }
 
     sortAndUpdateIndices();
+    // Inserting before the active section shifts its index by one.
+    // m_activeTimelineIndex still points at the old slot, which now
+    // belongs to a different section — re-read it from the section that
+    // actually has State::Active so the QML rainbow stays put when the
+    // UI next refreshes from the C++ index.
+    if (auto activeSection = findActiveWallpaperTimelineSection()) {
+        setActiveTimelineIndex(activeSection->index);
+    }
     printTimelines();
     emit requestSaveProfiles();
     return true;
@@ -771,6 +831,7 @@ QCoro::Task<Result> ScreenPlayTimelineManager::removeAllTimlineSections()
 
     // After we have disconnected or timed out we remove the wallpaper
     m_wallpaperTimelineSectionsList.clear();
+    emit timelineSectionCountChanged(0);
 
     // Do not call requestSaveProfiles, because qml will add
     // the default timeline after this function
@@ -855,6 +916,7 @@ QCoro::Task<Result> ScreenPlayTimelineManager::removeTimelineAt(const int index)
             co_return Result { false, {}, "Removing the last timeline is not allowed. This must always span the whole timeline" };
         }
         m_wallpaperTimelineSectionsList.removeAt(index);
+        emit timelineSectionCountChanged(m_wallpaperTimelineSectionsList.size());
         auto nextTimeline = m_wallpaperTimelineSectionsList.first();
         nextTimeline->startTime = QTime::fromString("00:00:00", m_timelineTimeFormat);
         if (removeActiveTimelineSection) {
@@ -864,6 +926,11 @@ QCoro::Task<Result> ScreenPlayTimelineManager::removeTimelineAt(const int index)
             }
         }
         sortAndUpdateIndices();
+        // The only surviving section is now at index 0 regardless of which
+        // one was previously active — refresh active/selected so the UI's
+        // rainbow indicator doesn't keep pointing at the removed slot.
+        setActiveTimelineIndex(0);
+        setSelectedTimelineIndex(0);
         printTimelines();
         co_return Result { true };
     }
@@ -894,16 +961,29 @@ QCoro::Task<Result> ScreenPlayTimelineManager::removeTimelineAt(const int index)
     timelineAfter->startTime = endTime;
 
     m_wallpaperTimelineSectionsList.removeAt(index);
+    emit timelineSectionCountChanged(m_wallpaperTimelineSectionsList.size());
     sortAndUpdateIndices();
-    // When removing index 0, the section that was at index+1 is now at index 0.
-    // Using index-1 in that case would produce -1, which is invalid.
-    const int newTimelineIndex = (index == 0) ? 0 : index - 1;
+
+    int newTimelineIndex;
     if (removeActiveTimelineSection) {
+        // The active section is gone; the section immediately before
+        // it now covers the current time (or index 0 if we removed the
+        // first section, since the next-up section gets its startTime
+        // pulled back to 00:00:00).
+        newTimelineIndex = (index == 0) ? 0 : index - 1;
         auto result = co_await startAllWallpaperAtTimelineIndex(newTimelineIndex);
         if (!result.success()) {
             co_return Result { false, {}, "Failed to start wallpapers in remaining timeline: " + result.message() };
         }
+    } else {
+        // The active section survived. sortAndUpdateIndices() refreshed
+        // its `index` to reflect the new ordering, so trust it instead
+        // of computing a position relative to the removed slot — that
+        // would land the active indicator on the wrong section whenever
+        // a non-active section to the left of the active one is removed.
+        newTimelineIndex = activeTimelineSection ? activeTimelineSection->index : 0;
     }
+
     printTimelines();
     setActiveTimelineIndex(newTimelineIndex);
     setSelectedTimelineIndex(newTimelineIndex);

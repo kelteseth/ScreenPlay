@@ -27,6 +27,7 @@ class ScreenPlayManager : public QObject {
     Q_PROPERTY(int activeWidgetsCounter READ activeWidgetsCounter WRITE setActiveWidgetsCounter NOTIFY activeWidgetsCounterChanged FINAL)
     Q_PROPERTY(int selectedTimelineIndex READ selectedTimelineIndex WRITE setSelectedTimelineIndex NOTIFY selectedTimelineIndexChanged FINAL)
     Q_PROPERTY(int activeTimelineIndex READ activeTimelineIndex WRITE setActiveTimelineIndex NOTIFY activeTimelineIndexChanged FINAL)
+    Q_PROPERTY(int timelineSectionCount READ timelineSectionCount NOTIFY timelineSectionCountChanged FINAL)
     Q_PROPERTY(bool isMuted READ isMuted WRITE setIsMuted NOTIFY isMutedChanged FINAL)
     Q_PROPERTY(bool isPaused READ isPaused WRITE setIsPaused NOTIFY isPausedChanged FINAL)
     Q_PROPERTY(ScreenPlay::ProjectSettingsListModel* projectSettingsListModel READ projectSettingsListModel WRITE setProjectSettingsListModel NOTIFY projectSettingsListModelChanged FINAL)
@@ -101,6 +102,7 @@ public:
     int activeTimelineIndex() const { return m_activeTimelineIndex; }
     bool isMuted() const { return m_isMuted; }
     bool isPaused() const { return m_isPaused; }
+    int timelineSectionCount() const { return m_screenPlayTimelineManager.timelineSectionCount(); }
 
     ProjectSettingsListModel* projectSettingsListModel() const;
     void setProjectSettingsListModel(ProjectSettingsListModel* newProjectSettingsListModel);
@@ -115,6 +117,7 @@ signals:
     void activeWidgetsCounterChanged(int activeWidgetsCounter);
     void selectedTimelineIndexChanged(int selectedTimelineIndex);
     void activeTimelineIndexChanged(int activeTimelineIndex);
+    void timelineSectionCountChanged(int count);
     void isMutedChanged(bool isMuted);
     void isPausedChanged(bool isPaused);
     void monitorConfigurationChanged();

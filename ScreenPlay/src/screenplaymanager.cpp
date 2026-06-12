@@ -36,6 +36,7 @@ ScreenPlayManager::ScreenPlayManager(
     m_server = std::make_unique<QLocalServer>();
     QObject::connect(m_server.get(), &QLocalServer::newConnection, this, &ScreenPlayManager::newConnection);
     QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::activeTimelineIndexChanged, this, &ScreenPlayManager::setActiveTimelineIndex);
+    QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::timelineSectionCountChanged, this, &ScreenPlayManager::timelineSectionCountChanged);
     QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::requestSaveProfiles, this, &ScreenPlayManager::requestSaveProfiles);
     QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::activeWallpaperCountChanged, this, &ScreenPlayManager::setActiveWallpaperCounter);
     QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::notifyUiReloadTimelinePreviewImage, this, &ScreenPlayManager::notifyUiReloadTimelinePreviewImage);

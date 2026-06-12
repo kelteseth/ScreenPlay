@@ -9,10 +9,13 @@
 #include <QGuiApplication>
 #include <QLocalSocket>
 #include <QQmlApplicationEngine>
+#include <QQuickWindow>
 #include <QStyleFactory>
 
 #include <QIcon>
 #include <QQuickStyle>
+
+#include <tester/TesterServer.h>
 
 #if defined(Q_OS_WIN)
 #include <sentry.h>
@@ -50,16 +53,64 @@ int main(int argc, char* argv[])
     QGuiApplication::setApplicationName("ScreenPlay");
     QGuiApplication::setApplicationVersion(QString(SCREENPLAY_VERSION));
     QGuiApplication::setQuitOnLastWindowClosed(false);
-    if (isAnotherScreenPlayInstanceRunning()) {
+
+    // --tester-port=N starts a chuck_tester WebSocket automation server bound
+    // to the main window. Intended for UI test runs only; production launches
+    // omit the flag and the server never starts.
+    QCommandLineParser parser;
+    parser.addHelpOption();
+    parser.addVersionOption();
+    QCommandLineOption testerPortOption(
+        "tester-port",
+        "Enable the chuck_tester automation server on the given TCP port.",
+        "port");
+    parser.addOption(testerPortOption);
+    parser.process(qtGuiApp);
+    quint16 testerPort = 0;
+    if (parser.isSet(testerPortOption)) {
+        bool ok = false;
+        const int requested = parser.value(testerPortOption).toInt(&ok);
+        if (ok && requested > 0 && requested < 65536) {
+            testerPort = static_cast<quint16>(requested);
+        } else {
+            qWarning() << "Ignoring invalid --tester-port value:" << parser.value(testerPortOption);
+        }
+    }
+
+    // Tests opt out of the single-instance guard by passing --tester-port; they
+    // need their own isolated process that does not piggy-back on a running app.
+    if (testerPort == 0 && isAnotherScreenPlayInstanceRunning()) {
         return -5;
     }
     auto logging = std::make_unique<const ScreenPlayCore::LoggingHandler>("ScreenPlay");
 
     QQuickStyle::setStyle("Material");
     auto engine = std::make_shared<QQmlApplicationEngine>();
-    auto app = engine->singletonInstance<App*>("ScreenPlay", "App");
-    app->setEngine(engine);
+    // First access triggers App::create(), which attaches the engine internally.
+    (void)engine->singletonInstance<App*>("ScreenPlay", "App");
     engine->loadFromModule("ScreenPlay", "ScreenPlayMain");
+
+    std::unique_ptr<tester::TesterServer> testerServer;
+    if (testerPort != 0) {
+        QQuickWindow* testerWindow = nullptr;
+        for (QObject* root : engine->rootObjects()) {
+            if (auto* w = qobject_cast<QQuickWindow*>(root)) {
+                testerWindow = w;
+                break;
+            }
+        }
+        if (!testerWindow) {
+            qWarning() << "tester: no QQuickWindow root, automation server disabled";
+        } else {
+            testerServer = std::make_unique<tester::TesterServer>(
+                *testerWindow, tester::TesterServer::Config { .port = testerPort });
+            if (!testerServer->start()) {
+                qWarning() << "tester: failed to start on port" << testerPort;
+                testerServer.reset();
+            }
+        }
+    }
+
     const int status = qtGuiApp.exec();
     logging.reset();
     return status;

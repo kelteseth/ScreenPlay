@@ -17,7 +17,13 @@ FetchContent_Declare(
     # https://bugreports.qt.io/browse/QTCREATORBUG-27083
     SOURCE_DIR ${THIRD_PARTY_PATH}/qqcoro)
 
-FetchContent_MakeAvailable(QArchive qcoro)
+FetchContent_Declare(tester
+    GIT_REPOSITORY https://github.com/kelteseth/chuck_tester.git
+    GIT_TAG        55d224023165ec04bf021c4d1f69d1a0d405c7fa
+    SOURCE_SUBDIR  tester
+    SOURCE_DIR     ${THIRD_PARTY_PATH}/chuck_tester)
+
+FetchContent_MakeAvailable(QArchive qcoro tester)
 
 add_subdirectory(Steam)
 

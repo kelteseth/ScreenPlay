@@ -98,6 +98,7 @@ Popup {
 
                 Timeline {
                     id: timeline
+                    objectNamePrefix: "settingsTimeline"
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     visible: !App.globalVariables.isBasicVersion()
