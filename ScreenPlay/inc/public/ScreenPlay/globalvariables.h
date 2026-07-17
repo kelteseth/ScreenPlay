@@ -34,6 +34,9 @@ public:
     Q_INVOKABLE bool isUltraVersion() const;
     Q_INVOKABLE QString getLicenseFilePath() const;
     Q_INVOKABLE QString getLicenseFolderPath() const;
+    // Directory of the shipped example content, copied next to the executable
+    // (or into the app bundle on macOS) at build/deploy time.
+    Q_INVOKABLE QUrl examplesPath() const;
 
     ScreenPlay::ScreenPlayEnums::Version version() const { return m_version; }
     QUrl localStoragePath() const { return m_localStoragePath; }

@@ -15,6 +15,7 @@ Item {
     required property var publishedFileID  // var for 64-bit support
     required property bool isNew
     required property bool containsAudio
+    required property int exampleContent
     required property string previewGIF
     required property string previewWebP
     required property string preview

@@ -51,6 +51,7 @@ public:
         LastModified,
         IsNew,
         ContainsAudio,
+        ExampleContent,
     };
     Q_ENUM(ScreenPlayItem)
 
@@ -65,7 +66,9 @@ public slots:
 
 private:
     void loadInstalledContent();
-    void append(const QString& projectJsonFilePath);
+    void append(
+        const QString& projectJsonFilePath,
+        ContentTypes::ExampleContent exampleContent = ContentTypes::ExampleContent::UserInstalled);
 
 signals:
     void installedLoadingFinished();

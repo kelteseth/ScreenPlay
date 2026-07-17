@@ -10,6 +10,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QLoggingCategory>
+#include <QSet>
 #include <QStandardPaths>
 #include <QtConcurrent/QtConcurrent>
 
@@ -113,6 +114,13 @@ bool InstalledListModel::deinstallItemAt(const QString& absoluteStoragePath)
         return false;
     }
 
+    // Shipped example content is read-only. Guard here so nothing can delete
+    // it even if the UI guard is bypassed.
+    if (m_screenPlayFiles.at(index).exampleContent != ContentTypes::ExampleContent::UserInstalled) {
+        qCWarning(installedListModel) << "Refusing to remove shipped example content at:" << path;
+        return false;
+    }
+
     beginRemoveRows(QModelIndex(), index, index);
     m_screenPlayFiles.removeAt(index);
     endRemoveRows();
@@ -205,6 +213,8 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
             return m_screenPlayFiles.at(row).isNew;
         case static_cast<int>(ScreenPlayItem::ContainsAudio):
             return m_screenPlayFiles.at(row).containsAudio;
+        case static_cast<int>(ScreenPlayItem::ExampleContent):
+            return QVariant::fromValue(m_screenPlayFiles.at(row).exampleContent);
         case static_cast<int>(ScreenPlayItem::LastModified):
             return m_screenPlayFiles.at(row).lastModified;
         case static_cast<int>(ScreenPlayItem::SearchType):
@@ -234,6 +244,7 @@ QHash<int, QByteArray> InstalledListModel::roleNames() const
         { static_cast<int>(ScreenPlayItem::SearchType), "searchType" },
         { static_cast<int>(ScreenPlayItem::IsNew), "isNew" },
         { static_cast<int>(ScreenPlayItem::ContainsAudio), "containsAudio" },
+        { static_cast<int>(ScreenPlayItem::ExampleContent), "exampleContent" },
         { static_cast<int>(ScreenPlayItem::LastModified), "lastModified" }
     };
 }
@@ -241,14 +252,15 @@ QHash<int, QByteArray> InstalledListModel::roleNames() const
 /*!
     \brief Append an ProjectFile to the list.
 */
-void InstalledListModel::append(const QString& projectJsonFilePath)
+void InstalledListModel::append(const QString& projectJsonFilePath, ContentTypes::ExampleContent exampleContent)
 {
-    beginInsertRows(QModelIndex(), m_screenPlayFiles.size(), m_screenPlayFiles.size());
     ProjectFile projectFile;
     projectFile.projectJsonFilePath = QFileInfo(projectJsonFilePath);
     if (!projectFile.init()) {
         return;
     }
+    projectFile.exampleContent = exampleContent;
+    beginInsertRows(QModelIndex(), m_screenPlayFiles.size(), m_screenPlayFiles.size());
     m_screenPlayFiles.append(std::move(projectFile));
     endInsertRows();
 }
@@ -267,21 +279,41 @@ void InstalledListModel::loadInstalledContent()
     m_isLoading = true;
     auto unused = QtConcurrent::run([this]() {
         int counter = 0;
-        auto loadFiles = [this, &counter](const QString path) { // capture counter by reference
+        QSet<QString> loadedFolders;
+        auto loadFiles = [&](const QString path, bool asExample) {
             const QFileInfoList list = QDir(path).entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
 
             for (const QFileInfo& item : list) {
-                const QString absoluteFilePath = path + "/" + item.baseName() + "/project.json";
+                const QString folderName = item.baseName();
+                const QString absoluteFilePath = path + "/" + folderName + "/project.json";
 
                 if (!QFile::exists(absoluteFilePath))
                     continue;
 
-                append(absoluteFilePath);
+                // A user's own copy of a folder wins over the shipped example
+                // of the same name (examples load second).
+                if (asExample && loadedFolders.contains(folderName))
+                    continue;
+
+                const auto exampleContent = asExample
+                    ? ContentTypes::exampleContentFromFolderName(folderName)
+                    : ContentTypes::ExampleContent::UserInstalled;
+                append(absoluteFilePath, exampleContent);
+                loadedFolders.insert(folderName);
                 counter += 1;
             }
         };
         const QString installedPath = m_globalVariables->localStoragePath().toLocalFile();
-        loadFiles(installedPath);
+        loadFiles(installedPath, false);
+
+        // Shipped example content lives next to the executable and is loaded
+        // read-only (non-deletable). Skip when the user opted out, or when the
+        // storage path already points at the example dir (dev builds).
+        if (m_settings && m_settings->includeExampleContent()) {
+            const QString examplesPath = m_globalVariables->examplesPath().toLocalFile();
+            if (!examplesPath.isEmpty() && examplesPath != installedPath && QDir(examplesPath).exists())
+                loadFiles(examplesPath, true);
+        }
 
         setCount(counter);
 
@@ -333,6 +365,7 @@ QVariantMap InstalledListModel::get(const QString& folderName) const
             map.insert("publishedFileID", item.publishedFileID);
             map.insert("isNew", item.isNew);
             map.insert("containsAudio", item.containsAudio);
+            map.insert("exampleContent", QVariant::fromValue(item.exampleContent));
             map.insert("lastModified", item.lastModified);
             return map;
         }

@@ -118,6 +118,7 @@ Item {
                 contextMenu.absoluteStoragePath = delegate.absoluteStoragePath
                 contextMenu.fileName = delegate.title
                 contextMenu.type = delegate.type
+                contextMenu.exampleContent = delegate.exampleContent
 
                 if (contextMenu.editGodotItem)
                     contextMenu.editGodotItem.destroy()
@@ -261,6 +262,7 @@ Item {
         // Must be var to support 64-bit size!
         property var publishedFileID: 0
         property var type: 0
+        property int exampleContent: SPCore.ContentTypes.ExampleContent.UserInstalled
         property url absoluteStoragePath
         property string fileName
         // We need to dynamically add this menu item
@@ -290,7 +292,7 @@ Item {
 
         MenuItem {
             text: qsTr("Export to zip")
-            objectName: enabled ? "removeItem" : "removeWorkshopItem"
+            objectName: "exportItem"
             icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_import_export_.svg"
             onClicked: {
                 exportFileDialog.absoluteStoragePath = contextMenu.absoluteStoragePath
@@ -304,6 +306,8 @@ Item {
             text: enabled ? qsTr("Remove Item") : qsTr("Remove via Workshop")
             objectName: enabled ? "removeItem" : "removeWorkshopItem"
             icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_delete.svg"
+            // Shipped example content is read-only and cannot be removed.
+            visible: contextMenu.exampleContent === SPCore.ContentTypes.ExampleContent.UserInstalled
             enabled: contextMenu.publishedFileID === 0 || !App.globalVariables.isSteamVersion()
             onClicked: {
                 deleteDialog.open()

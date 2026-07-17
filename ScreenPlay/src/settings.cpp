@@ -163,6 +163,7 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
 
     setAnonymousTelemetry(m_qSettings.value("AnonymousTelemetry", true).toBool());
     setAlwaysMinimize(m_qSettings.value("alwaysMinimize", false).toBool());
+    setIncludeExampleContent(m_qSettings.value("includeExampleContent", true).toBool());
 
     setupProfilesSettings();
     setupInstalledPath();
@@ -756,6 +757,15 @@ void Settings::setAlwaysMinimize(bool alwaysMinimize)
     m_alwaysMinimize = alwaysMinimize;
     setqSetting("alwaysMinimize", m_alwaysMinimize);
     emit alwaysMinimizeChanged(m_alwaysMinimize);
+}
+
+void Settings::setIncludeExampleContent(bool includeExampleContent)
+{
+    if (m_includeExampleContent == includeExampleContent)
+        return;
+    m_includeExampleContent = includeExampleContent;
+    setqSetting("includeExampleContent", m_includeExampleContent);
+    emit includeExampleContentChanged(m_includeExampleContent);
 }
 
 void Settings::setGodotFps(ScreenPlay::Godot::Fps godotFps)

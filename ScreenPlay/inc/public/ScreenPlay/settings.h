@@ -31,6 +31,7 @@ class Settings : public QObject {
     Q_PROPERTY(bool macReapplySpaces READ macReapplySpaces WRITE setMacReapplySpaces NOTIFY macReapplySpacesChanged FINAL)
     Q_PROPERTY(bool startWallpaperMuted READ startWallpaperMuted WRITE setStartWallpaperMuted NOTIFY startWallpaperMutedChanged FINAL)
     Q_PROPERTY(bool alwaysMinimize READ alwaysMinimize WRITE setAlwaysMinimize NOTIFY alwaysMinimizeChanged FINAL)
+    Q_PROPERTY(bool includeExampleContent READ includeExampleContent WRITE setIncludeExampleContent NOTIFY includeExampleContentChanged FINAL)
     Q_PROPERTY(bool isDeployVersion READ isDeployVersion NOTIFY isDeployVersionChanged FINAL)
 
     Q_PROPERTY(ScreenPlay::Video::FillMode videoFillMode READ videoFillMode WRITE setVideoFillMode NOTIFY videoFillModeChanged)
@@ -111,6 +112,7 @@ public:
     const QString& buildInfos() const { return m_buildInfos; }
     bool startWallpaperMuted() const { return m_startWallpaperMuted; }
     bool alwaysMinimize() const { return m_alwaysMinimize; }
+    bool includeExampleContent() const { return m_includeExampleContent; }
     bool isDeployVersion() const { return m_isDeployVersion; }
     void writeDefaultProfiles();
 
@@ -142,6 +144,7 @@ signals:
     void godotRenderingDriverChanged(ScreenPlay::Godot::RenderingDriver godotRenderingDriver);
     void graphicsApiChanged(ScreenPlay::ScreenPlayEnums::GraphicsApi graphicsApi);
     void alwaysMinimizeChanged(bool alwaysMinimize);
+    void includeExampleContentChanged(bool includeExampleContent);
     void isDeployVersionChanged(bool isDeployVersion);
 
 public slots:
@@ -171,6 +174,7 @@ public slots:
     void setGodotRenderingDriver(ScreenPlay::Godot::RenderingDriver godotRenderingDriver);
     void setGraphicsApi(ScreenPlay::ScreenPlayEnums::GraphicsApi graphicsApi);
     void setAlwaysMinimize(bool alwaysMinimize);
+    void setIncludeExampleContent(bool includeExampleContent);
 
 private:
     void setupInstalledPath();
@@ -193,6 +197,7 @@ private:
     bool m_silentStart { false };
     bool m_anonymousTelemetry { true };
     bool m_alwaysMinimize { false };
+    bool m_includeExampleContent { true };
     bool m_isDeployVersion { false };
 
     ScreenPlay::Video::FillMode m_videoFillMode { ScreenPlay::Video::FillMode::Cover };

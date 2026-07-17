@@ -10,6 +10,7 @@ import ScreenPlayCore
 
 Item {
     id: root
+    objectName: "settingsView"
 
     property Item modalSource
 
@@ -70,6 +71,18 @@ Item {
                         isChecked: App.settings.alwaysMinimize
                         onCheckboxChanged: function (checked) {
                             App.settings.setAlwaysMinimize(checked)
+                        }
+                    }
+
+                    SettingsHorizontalSeperator {}
+
+                    SettingsCheckbox {
+                        headline: qsTr("Show example content")
+                        description: qsTr("Show the wallpapers and widgets that ship with ScreenPlay in the Installed tab. They are read-only and cannot be removed. Restart or reload the Installed tab to apply.")
+                        isChecked: App.settings.includeExampleContent
+                        onCheckboxChanged: function (checked) {
+                            App.settings.setIncludeExampleContent(checked)
+                            App.installedListModel.reset()
                         }
                     }
 
