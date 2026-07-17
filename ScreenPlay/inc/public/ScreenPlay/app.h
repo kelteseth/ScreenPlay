@@ -82,6 +82,10 @@ signals:
 
 private:
     void attachEngine(QQmlEngine* engine);
+    // Member coroutine instead of a capturing-lambda coroutine: lambda
+    // captures live in the closure object, which would die before the
+    // coroutine resumes.
+    QCoro::Task<void> exitTask();
 
     QPointer<QQmlEngine> m_engine;
     std::unique_ptr<Create> m_create;

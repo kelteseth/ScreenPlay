@@ -28,6 +28,7 @@ class ScreenPlayManager : public QObject {
     Q_PROPERTY(int selectedTimelineIndex READ selectedTimelineIndex WRITE setSelectedTimelineIndex NOTIFY selectedTimelineIndexChanged FINAL)
     Q_PROPERTY(int activeTimelineIndex READ activeTimelineIndex WRITE setActiveTimelineIndex NOTIFY activeTimelineIndexChanged FINAL)
     Q_PROPERTY(int timelineSectionCount READ timelineSectionCount NOTIFY timelineSectionCountChanged FINAL)
+    Q_PROPERTY(QJsonArray runningWallpapers READ runningWallpapers NOTIFY runningWallpapersChanged FINAL)
     Q_PROPERTY(bool isMuted READ isMuted WRITE setIsMuted NOTIFY isMutedChanged FINAL)
     Q_PROPERTY(bool isPaused READ isPaused WRITE setIsPaused NOTIFY isPausedChanged FINAL)
     Q_PROPERTY(ScreenPlay::ProjectSettingsListModel* projectSettingsListModel READ projectSettingsListModel WRITE setProjectSettingsListModel NOTIFY projectSettingsListModelChanged FINAL)
@@ -57,8 +58,9 @@ public:
         const int timelineIndex,
         const float reltiaveLinePosition,
         QString identifier);
-    Q_INVOKABLE QCoro::QmlTask removeTimelineAt(const int timelineIndex);
+    Q_INVOKABLE QCoro::QmlTask removeTimelineAt(const int timelineIndex, const QString identifier);
     Q_INVOKABLE QJsonArray timelineSections();
+    QJsonArray runningWallpapers() const;
     Q_INVOKABLE QCoro::QmlTask removeAllTimlineSections();
     Q_INVOKABLE QCoro::QmlTask removeWallpaperAt(
         const int timelineIndex,
@@ -118,6 +120,7 @@ signals:
     void selectedTimelineIndexChanged(int selectedTimelineIndex);
     void activeTimelineIndexChanged(int activeTimelineIndex);
     void timelineSectionCountChanged(int count);
+    void runningWallpapersChanged();
     void isMutedChanged(bool isMuted);
     void isPausedChanged(bool isPaused);
     void monitorConfigurationChanged();
@@ -139,6 +142,30 @@ private:
     bool checkIsAnotherScreenPlayInstanceRunning();
     bool removeWidget(const QString& appID);
     bool loadWidgetConfig(const QJsonObject& widget);
+
+    // Coroutine backends for the QmlTask wrappers above. They are member
+    // functions taking arguments by value on purpose: a capturing lambda
+    // coroutine stores its captures in the closure object, which dies at the
+    // end of the wrapping full expression - any capture access after the
+    // first co_await would be a dangling read. Member coroutine parameters
+    // live in the coroutine frame instead.
+    QCoro::Task<Result> setWallpaperAtMonitorTimelineIndexTask(
+        QString absoluteStoragePath,
+        QVector<int> monitorIndex,
+        int timelineIndex,
+        QString identifier,
+        bool saveToProfilesConfigFile);
+    QCoro::Task<Result> removeAllRunningWallpapersTask(bool saveToProfile);
+    QCoro::Task<Result> removeWallpaperAtTask(int timelineIndex, QString sectionIdentifier, int monitorIndex);
+    QCoro::Task<Result> setValueAtMonitorTimelineIndexTask(
+        int monitorIndex,
+        int timelineIndex,
+        QString sectionIdentifier,
+        QString key,
+        QVariant value,
+        QString category);
+    QCoro::Task<Result> removeAllTimlineSectionsTask();
+    QCoro::Task<Result> removeTimelineAtTask(int timelineIndex, QString identifier);
 
 private:
     std::shared_ptr<GlobalVariables> m_globalVariables;

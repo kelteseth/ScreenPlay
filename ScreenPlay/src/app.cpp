@@ -172,9 +172,15 @@ QString App::version() const
 */
 QCoro::QmlTask App::exit()
 {
-    return QCoro::QmlTask([this]() -> QCoro::Task<void> {
-        co_await m_screenPlayManager->shutdown().then([this]() { emit requestExit(); });
-    }());
+    return QCoro::QmlTask(exitTask());
+}
+
+QCoro::Task<void> App::exitTask()
+{
+    const Result result = co_await m_screenPlayManager->shutdown();
+    if (!result.success())
+        qCritical() << "Shutdown reported failure, exiting anyway:" << result.message();
+    emit requestExit();
 }
 
 void App::showDockIcon(const bool show)

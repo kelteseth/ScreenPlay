@@ -348,18 +348,29 @@ Control {
             const isLast = index === timeline.sectionsList.length - 1
             if (isLast)
                 return
-            App.screenPlayManager.removeTimelineAt(index).then(result => {
+            // Capture the section object now and pass its identifier along:
+            // the remove can suspend for seconds (active wallpapers shut
+            // down first), and the C++ side rejects the call if the index
+            // no longer points at this identifier.
+            const section = timeline.sectionsList[index]
+            App.screenPlayManager.removeTimelineAt(index, section.identifier).then(result => {
                 if (!result.success) {
                     InstantPopup.openErrorPopup(timeline, result.message)
                     btnReset.resetting = false
                     return
                 }
-                // Only destroy QML objects after the C++ side succeeds
-                let section = timeline.sectionsList[index]
+                // Only destroy QML objects after the C++ side succeeds.
+                // Re-resolve the section's position - concurrent operations
+                // may have reordered the list while we were suspended.
+                const currentIndex = timeline.sectionsList.indexOf(section)
+                if (currentIndex === -1) {
+                    console.error(LoggingCategories.timeline, "removeSection: section vanished while awaiting removal")
+                    return
+                }
                 section.lineHandle.destroy()
                 section.lineIndicator.destroy()
                 section.destroy()
-                timeline.sectionsList.splice(index, 1)
+                timeline.sectionsList.splice(currentIndex, 1)
                 updatePositions()
                 // C++ fires activeTimelineIndexChanged synchronously inside
                 // removeTimelineAt — i.e. BEFORE this splice runs — so the
@@ -472,9 +483,11 @@ Control {
                     interval: 1000
                     repeat: true
                     running: true
+                    // Fire immediately so the indicator starts at the real
+                    // time instead of sitting at 00:00 for the first second.
+                    triggeredOnStart: true
                     onTriggered: {
                         currentTimeIndicator.currentSeconds = (new Date().getHours() * 3600) + (new Date().getMinutes() * 60) + new Date().getSeconds()
-                        currentTimeIndicator.x = addHandleWrapper.width * (currentTimeIndicator.currentSeconds / currentTimeIndicator.totalSeconds)
                         currentTimeText.text = Qt.formatTime(new Date(), "hh:mm:ss")
                     }
                 }

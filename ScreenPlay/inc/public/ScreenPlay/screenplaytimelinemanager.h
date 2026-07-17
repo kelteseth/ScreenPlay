@@ -32,7 +32,10 @@ public:
     std::expected<bool, ScreenPlayTimelineManager::TimelineManagerError> addTimelineFromSettings(const QJsonObject& timelineObj);
     bool moveTimelineAt(const int index, const QString identifier, const float relativeLinePosition, QString positionTimeString);
     bool addTimelineAt(const int index, const float reltiaveLinePosition, QString identifier);
-    QCoro::Task<Result> removeTimelineAt(const int index);
+    // identifier guards against stale QML indices: a remove can suspend for
+    // seconds while wallpapers shut down, during which the section order may
+    // change. An empty identifier skips the check (internal callers).
+    QCoro::Task<Result> removeTimelineAt(const int index, const QString identifier = QString());
 
     QCoro::Task<void> startup();
     std::shared_ptr<WallpaperTimelineSection> findStartingOrActiveWallpaperTimelineSection();
@@ -60,6 +63,7 @@ public:
         const QString& category);
     QJsonArray timelineSections();
     QJsonArray timelineWallpaperList();
+    QJsonArray runningWallpapers() const;
 
     QCoro::Task<Result> activateTimeline(const int timelineIndex, const QString timelineIdentifier);
     QCoro::Task<Result> stopTimelineAndClearWallpaperData(const int timelineIndex, const QString timelineIdentifier, const bool disableTimeline = true);
@@ -120,6 +124,17 @@ private:
         const QString timelineIdentifier,
         const QVector<int> monitorIndex);
     QCoro::Task<Result> startAllWallpaperAtTimelineIndex(const int timelineIndex);
+    QCoro::Task<Result> startSectionWallpapers(std::shared_ptr<WallpaperTimelineSection> timelineSection);
+    void setMonitorModelAppState(const QVector<int>& monitors, const ScreenPlayEnums::AppState state);
+    void clearMonitorModelEntries(const QVector<int>& monitors);
+    void dropWallpaperFromSection(const std::shared_ptr<WallpaperTimelineSection>& section, const int monitorIndex, const QString& reason);
+
+    // Nesting-safe suspension of the periodic timeline check. Multiple
+    // coroutines can overlap (each QML call suspends mid-operation); a plain
+    // stop()/start() pair lets the first finisher restart the timer while
+    // another operation is still mid-mutation.
+    void suspendContentTimer();
+    void resumeContentTimer();
 
 private:
     QVector<std::shared_ptr<WallpaperTimelineSection>> m_wallpaperTimelineSectionsList;
@@ -128,6 +143,7 @@ private:
     // We use a 24 hour system
     const QString m_timelineTimeFormat = "hh:mm:ss";
     QTimer m_contentTimer;
+    int m_contentTimerSuspendCount { 0 };
     std::shared_ptr<GlobalVariables> m_globalVariables;
     std::shared_ptr<Settings> m_settings;
     int m_selectedTimelineIndex { 0 };

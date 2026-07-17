@@ -10,6 +10,7 @@
 #include <QGuiApplication>
 #include <QLoggingCategory>
 #include <QObject>
+#include <QTimer>
 
 Q_LOGGING_CATEGORY(wallpaperTimelineSection, "screenplay.wallpaper.timeline.section")
 
@@ -160,12 +161,17 @@ std::shared_ptr<ScreenPlayWallpaper> WallpaperTimelineSection::addWallpaper(cons
         // Emit signal first so handleWallpaperRestartFailed can still find the wallpaper
         // to update monitor list model with correct monitor indices
         emit wallpaperRestartFailed(appID, message);
-        // Then remove broken wallpaper from the list
-        std::erase_if(wallpaperList, [&appID](const std::shared_ptr<ScreenPlayWallpaper>& wallpaper) {
-            return wallpaper->appID() == appID;
+        // Defer the actual removal: restartFailed is emitted from inside the
+        // wallpaper's own member-timer/connection handlers. Erasing here would
+        // destroy the ScreenPlayWallpaper while one of its signals is still
+        // mid-emission - control would return into a freed object.
+        QTimer::singleShot(0, this, [this, appID]() {
+            std::erase_if(wallpaperList, [&appID](const std::shared_ptr<ScreenPlayWallpaper>& wallpaper) {
+                return wallpaper->appID() == appID;
+            });
+            // Emit after removal so timeline preview can be updated with wallpaper gone
+            emit wallpaperRemoved(appID);
         });
-        // Emit after removal so timeline preview can be updated with wallpaper gone
-        emit wallpaperRemoved(appID);
     });
     wallpaperList.push_back(screenPlayWallpaper);
 

@@ -38,6 +38,70 @@ ScreenPlayTimelineManager::ScreenPlayTimelineManager(
     m_contentTimer.setInterval(250);
 }
 
+void ScreenPlayTimelineManager::suspendContentTimer()
+{
+    ++m_contentTimerSuspendCount;
+    m_contentTimer.stop();
+}
+
+void ScreenPlayTimelineManager::resumeContentTimer()
+{
+    if (m_contentTimerSuspendCount > 0)
+        --m_contentTimerSuspendCount;
+    if (m_contentTimerSuspendCount == 0)
+        m_contentTimer.start();
+}
+
+void ScreenPlayTimelineManager::setMonitorModelAppState(const QVector<int>& monitors, const ScreenPlayEnums::AppState state)
+{
+    if (!m_monitorListModel)
+        return;
+    for (const int monitor : monitors) {
+        const QModelIndex modelIndex = m_monitorListModel->index(monitor);
+        m_monitorListModel->setData(modelIndex, (int)state, (int)MonitorListModel::MonitorRole::AppState);
+    }
+}
+
+/*!
+  \brief Removes the wallpaper occupying \a monitorIndex from \a section after
+         a failed start. Kills any half-started process, resets the monitor
+         model, notifies the UI and persists the section without the broken
+         wallpaper so it does not return on the next app start.
+*/
+void ScreenPlayTimelineManager::dropWallpaperFromSection(const std::shared_ptr<WallpaperTimelineSection>& section, const int monitorIndex, const QString& reason)
+{
+    auto wallpaperOpt = section->screenPlayWallpaperByMonitorIndex(monitorIndex);
+    if (!wallpaperOpt.has_value())
+        return;
+    auto wallpaper = wallpaperOpt.value();
+    wallpaper->terminate();
+    const QString appID = wallpaper->appID();
+    const QVector<int> monitors = wallpaper->monitors();
+    std::erase_if(section->wallpaperList, [&appID](const std::shared_ptr<ScreenPlayWallpaper>& wp) {
+        return wp->appID() == appID;
+    });
+    clearMonitorModelEntries(monitors);
+    section->updateActiveWallpaperCounter();
+    emit wallpaperRestartFailed(appID, QString("Wallpaper could not be started and was removed: %1").arg(reason));
+    emit requestSaveProfiles();
+}
+
+void ScreenPlayTimelineManager::clearMonitorModelEntries(const QVector<int>& monitors)
+{
+    if (!m_monitorListModel)
+        return;
+    using enum MonitorListModel::MonitorRole;
+    for (const int monitor : monitors) {
+        const QModelIndex modelIndex = m_monitorListModel->index(monitor);
+        m_monitorListModel->setData(modelIndex, "", (int)AppID);
+        m_monitorListModel->setData(modelIndex, (int)ScreenPlayEnums::AppState::NotSet, (int)AppState);
+        m_monitorListModel->setData(modelIndex, "", (int)PreviewImage);
+        m_monitorListModel->setData(modelIndex, "", (int)PreviewWebP);
+        m_monitorListModel->setData(modelIndex, "", (int)PreviewGIF);
+        m_monitorListModel->setData(modelIndex, 0, (int)InstalledType);
+    }
+}
+
 /*!
   \brief Parses one timeline wallpaper:
 
@@ -208,10 +272,22 @@ bool ScreenPlayTimelineManager::moveTimelineAt(const int index, const QString id
         return false;
     }
 
-    m_contentTimer.stop();
-    auto updateTimer = qScopeGuard([this] { m_contentTimer.start(); });
+    suspendContentTimer();
+    auto updateTimer = qScopeGuard([this] { resumeContentTimer(); });
 
+    if (index < 0 || index >= m_wallpaperTimelineSectionsList.size()) {
+        qCCritical(screenPlayTimelineManager) << "moveTimelineAt: invalid index" << index << "of" << m_wallpaperTimelineSectionsList.size();
+        return false;
+    }
     auto& wallpapterTimelineSection = m_wallpaperTimelineSectionsList.at(index);
+    // QML and C++ agree on identifiers from creation/load on - a mismatch
+    // means the UI index is stale (e.g. a concurrent remove reordered the
+    // sections). Reject instead of moving the wrong section.
+    if (wallpapterTimelineSection->identifier != identifier) {
+        qCCritical(screenPlayTimelineManager) << "moveTimelineAt: identifier mismatch at index" << index
+                                              << "have:" << wallpapterTimelineSection->identifier << "got:" << identifier;
+        return false;
+    }
     const QTime newPositionTime = QTime::fromString(positionTimeString, "hh:mm:ss");
     if (!newPositionTime.isValid()) {
         qCCritical(screenPlayTimelineManager) << "Unable to move with invalid time:" << positionTimeString;
@@ -238,9 +314,6 @@ bool ScreenPlayTimelineManager::moveTimelineAt(const int index, const QString id
 
     wallpapterTimelineSection->endTime = newPositionTime;
     wallpapterTimelineSection->relativePosition = relativePosition;
-    // We set the identifier here, because we generate it in qml
-    // The identiefier is only used for debugging
-    wallpapterTimelineSection->identifier = identifier;
 
     // Only update the next timeline startTime
     // if we are not the last wallpaper, that always
@@ -268,8 +341,19 @@ QCoro::Task<void> ScreenPlayTimelineManager::checkActiveWallpaperTimeline()
     int activeCount = 0;
     for (const auto& section : std::as_const(m_wallpaperTimelineSectionsList)) {
         if (section->state == WallpaperTimelineSection::State::Failed) {
-            qCDebug(screenPlayTimelineManager) << "Timeline" << section->identifier << " failed, removing";
-            co_await removeTimelineAt(section->index);
+            // Recover instead of deleting the user's section (the old
+            // behavior) - drop whatever wallpapers are stuck in it and mark
+            // it Inactive so it can be activated again on a later tick.
+            qCWarning(screenPlayTimelineManager) << "Timeline" << section->identifier << "failed, recovering: clearing its wallpapers";
+            for (const auto& wallpaper : section->wallpaperList) {
+                // The cooperative close already failed for these - kill the
+                // processes so clearing the list does not orphan them.
+                wallpaper->terminate();
+                clearMonitorModelEntries(wallpaper->monitors());
+            }
+            section->wallpaperList.clear();
+            section->updateActiveWallpaperCounter();
+            section->state = WallpaperTimelineSection::State::Inactive;
             co_return;
         }
         if (section->state == WallpaperTimelineSection::State::Active) {
@@ -289,8 +373,19 @@ QCoro::Task<void> ScreenPlayTimelineManager::checkActiveWallpaperTimeline()
     // Find current timelines
     std::shared_ptr<WallpaperTimelineSection> oldRunningTimeline = findActiveWallpaperTimelineSection();
     if (!oldRunningTimeline) {
-        qCDebug(screenPlayTimelineManager) << "No timeline with state active found.";
-        printTimelines();
+        // Self-heal: after a failed startup or a recovered Failed section
+        // there may be no Active section at all. Without this the check
+        // would early-return forever and rotation would be dead until the
+        // next app start.
+        std::shared_ptr<WallpaperTimelineSection> currentTimeline = findTimelineSectionForCurrentTime();
+        if (currentTimeline) {
+            qCInfo(screenPlayTimelineManager) << "No active timeline - activating section for current time:" << currentTimeline->identifier;
+            co_await activateTimeline(currentTimeline->index, currentTimeline->identifier);
+            setActiveTimelineIndex(currentTimeline->index);
+        } else {
+            qCDebug(screenPlayTimelineManager) << "No timeline with state active found.";
+            printTimelines();
+        }
         co_return;
     }
 
@@ -339,9 +434,11 @@ QCoro::Task<void> ScreenPlayTimelineManager::checkActiveWallpaperTimeline()
                 QVector<int> { monitorIndex });
 
             if (!startSuccess.success()) {
-                qCCritical(screenPlayTimelineManager) << "Failed to start new wallpaper for monitor" << monitorIndex;
-                newNotStartedTimeline->state = WallpaperTimelineSection::State::Failed;
-                co_return;
+                // Drop only the broken wallpaper and keep transitioning.
+                // Aborting here with a Failed state left the old section
+                // stuck in Closing forever, freezing the whole rotation.
+                qCCritical(screenPlayTimelineManager) << "Failed to start new wallpaper for monitor" << monitorIndex << "- dropping it";
+                dropWallpaperFromSection(newNotStartedTimeline, monitorIndex, startSuccess.message());
             }
             continue;
         }
@@ -371,21 +468,19 @@ QCoro::Task<void> ScreenPlayTimelineManager::checkActiveWallpaperTimeline()
                 auto runningScreenPlayWallpaperOpt = oldRunningTimeline->takeScreenPlayWallpaperByMonitorIndex(QVector<int> { monitorIndex });
 
                 if (!runningScreenPlayWallpaperOpt.has_value()) {
-                    qCCritical(screenPlayTimelineManager) << "Failed to take existing wallpaper for monitor" << monitorIndex;
-                    newNotStartedTimeline->state = WallpaperTimelineSection::State::Failed;
-                    co_return;
+                    qCCritical(screenPlayTimelineManager) << "Failed to take existing wallpaper for monitor" << monitorIndex << "- skipping monitor";
+                    continue;
                 }
 
                 auto runningScreenPlayWallpaper = runningScreenPlayWallpaperOpt.value();
                 runningScreenPlayWallpaper->replaceLive(newWallpaperData);
 
                 if (!newNotStartedTimeline->replaceScreenPlayWallpaperAtMonitorIndex(QVector<int> { monitorIndex }, runningScreenPlayWallpaper)) {
-                    qCCritical(screenPlayTimelineManager) << "Failed to replace wallpaper for monitor" << monitorIndex;
+                    qCCritical(screenPlayTimelineManager) << "Failed to replace wallpaper for monitor" << monitorIndex << "- skipping monitor";
                     // The wallpaper was already taken from oldRunningTimeline. Return it there
                     // to prevent the process from running orphaned with no owning section.
                     oldRunningTimeline->replaceScreenPlayWallpaperAtMonitorIndex(QVector<int> { monitorIndex }, runningScreenPlayWallpaper);
-                    newNotStartedTimeline->state = WallpaperTimelineSection::State::Failed;
-                    co_return;
+                    continue;
                 }
 
                 // Restore the wallpaper in the old timeline
@@ -406,9 +501,10 @@ QCoro::Task<void> ScreenPlayTimelineManager::checkActiveWallpaperTimeline()
                     QVector<int> { monitorIndex });
 
                 if (!removeSuccess.success()) {
-                    qCCritical(screenPlayTimelineManager) << "Failed to remove old wallpaper for monitor" << monitorIndex;
-                    newNotStartedTimeline->state = WallpaperTimelineSection::State::Failed;
-                    co_return;
+                    // Old wallpaper still occupies the monitor - do not start
+                    // a second one on top, but keep transitioning the rest.
+                    qCCritical(screenPlayTimelineManager) << "Failed to remove old wallpaper for monitor" << monitorIndex << "- skipping monitor";
+                    continue;
                 }
 
                 const Result startSuccess = co_await startWallpaper(
@@ -417,9 +513,8 @@ QCoro::Task<void> ScreenPlayTimelineManager::checkActiveWallpaperTimeline()
                     QVector<int> { monitorIndex });
 
                 if (!startSuccess.success()) {
-                    qCCritical(screenPlayTimelineManager) << "Failed to start new wallpaper for monitor" << monitorIndex;
-                    newNotStartedTimeline->state = WallpaperTimelineSection::State::Failed;
-                    co_return;
+                    qCCritical(screenPlayTimelineManager) << "Failed to start new wallpaper for monitor" << monitorIndex << "- dropping it";
+                    dropWallpaperFromSection(newNotStartedTimeline, monitorIndex, startSuccess.message());
                 }
             }
         }
@@ -465,26 +560,65 @@ std::optional<std::shared_ptr<ScreenPlayWallpaper>> ScreenPlayTimelineManager::s
 
 QCoro::Task<Result> ScreenPlayTimelineManager::startAllWallpaperAtTimelineIndex(const int timelineIndex)
 {
+    if (timelineIndex < 0 || timelineIndex >= m_wallpaperTimelineSectionsList.size())
+        co_return Result { false, {}, QString("Invalid timeline index %1").arg(timelineIndex) };
+
     auto nextTimeline = m_wallpaperTimelineSectionsList.at(timelineIndex);
-    bool allWallpapersStarted = true;
-    QString errorMessage;
-    nextTimeline->state = WallpaperTimelineSection::State::Starting;
-    for (auto& wallpaper : nextTimeline->wallpaperList) {
+    auto result = co_await startSectionWallpapers(nextTimeline);
+    co_return result;
+}
+
+/*!
+  \brief Starts every wallpaper of \a timelineSection. A wallpaper that fails
+         to start is dropped from the section instead of failing the whole
+         section: marking the section Failed stranded the timeline state
+         machine (a Closing predecessor was never resolved) and the old
+         Failed-handling even deleted the entire user-configured section.
+         The section always ends up Active so rotation keeps working.
+*/
+QCoro::Task<Result> ScreenPlayTimelineManager::startSectionWallpapers(std::shared_ptr<WallpaperTimelineSection> timelineSection)
+{
+    timelineSection->state = WallpaperTimelineSection::State::Starting;
+
+    struct FailedWallpaper {
+        QString appID;
+        QString message;
+        QVector<int> monitors;
+    };
+    std::vector<FailedWallpaper> failures;
+
+    // Iterate over a copy: startWallpaper suspends, and the section's list
+    // must not be mutated under the loop.
+    const auto wallpapers = timelineSection->wallpaperList;
+    for (const auto& wallpaper : wallpapers) {
         auto result = co_await startWallpaper(wallpaper);
         if (!result.success()) {
-            errorMessage = QString("Failed to start wallpaper: %1").arg(result.message());
+            const QString errorMessage = QString("Failed to start wallpaper: %1").arg(result.message());
             qCCritical(screenPlayTimelineManager) << errorMessage << wallpaper->absolutePath();
-            allWallpapersStarted = false;
-            break;
+            // Kill a possibly half-started process (e.g. one that launched
+            // but never connected within the timeout) before we drop our
+            // bookkeeping for it.
+            wallpaper->terminate();
+            failures.push_back({ wallpaper->appID(), errorMessage, wallpaper->monitors() });
         }
     }
-    if (allWallpapersStarted) {
-        nextTimeline->state = WallpaperTimelineSection::State::Active;
-        co_return Result { true };
-    } else {
-        nextTimeline->state = WallpaperTimelineSection::State::Failed;
-        co_return Result { false, {}, errorMessage.isEmpty() ? "Failed to start one or more wallpapers" : errorMessage };
+
+    for (const auto& failure : failures) {
+        std::erase_if(timelineSection->wallpaperList, [&failure](const std::shared_ptr<ScreenPlayWallpaper>& wallpaper) {
+            return wallpaper->appID() == failure.appID;
+        });
+        clearMonitorModelEntries(failure.monitors);
+        emit wallpaperRestartFailed(failure.appID, failure.message);
     }
+    if (!failures.empty()) {
+        // Persist without the broken wallpaper so it does not come back on
+        // the next start.
+        emit requestSaveProfiles();
+        timelineSection->updateActiveWallpaperCounter();
+    }
+
+    timelineSection->state = WallpaperTimelineSection::State::Active;
+    co_return Result { true };
 }
 
 void ScreenPlayTimelineManager::validateTimelineSections() const
@@ -554,6 +688,12 @@ void ScreenPlayTimelineManager::setSettings(const std::shared_ptr<Settings>& set
 
 QCoro::Task<void> ScreenPlayTimelineManager::startup()
 {
+    // Start the rotation timer no matter what happens below. Returning early
+    // without it left the whole timeline system dead for the session when a
+    // single wallpaper failed to start at boot; checkActiveWallpaperTimeline
+    // can recover from a failed or missing activation on a later tick.
+    auto startTimer = qScopeGuard([this] { m_contentTimer.start(); });
+
     std::shared_ptr<WallpaperTimelineSection> currentTimeline = findTimelineSectionForCurrentTime();
     if (!currentTimeline) {
         qCCritical(screenPlayTimelineManager) << "No current timeline found. There must always be an active timeline.";
@@ -566,7 +706,6 @@ QCoro::Task<void> ScreenPlayTimelineManager::startup()
     }
     printTimelines();
     setActiveTimelineIndex(currentTimeline->index);
-    m_contentTimer.start();
 }
 
 void ScreenPlayTimelineManager::setMonitorListModel(const std::shared_ptr<MonitorListModel>& monitorListModel)
@@ -668,8 +807,8 @@ void ScreenPlayTimelineManager::sortAndUpdateIndices()
  */
 bool ScreenPlayTimelineManager::addTimelineAt(const int index, const float relativeLinePosition, QString identifier)
 {
-    m_contentTimer.stop();
-    auto updateTimer = qScopeGuard([this] { m_contentTimer.start(); });
+    suspendContentTimer();
+    auto updateTimer = qScopeGuard([this] { resumeContentTimer(); });
 
     // We always get the new endTime
     const QString newStopPosition = m_util.getTimeString(relativeLinePosition);
@@ -816,8 +955,8 @@ bool ScreenPlayTimelineManager::addTimelineAt(const int index, const float relat
 */
 QCoro::Task<Result> ScreenPlayTimelineManager::removeAllTimlineSections()
 {
-    m_contentTimer.stop();
-    auto updateTimer = qScopeGuard([this] { m_contentTimer.start(); });
+    suspendContentTimer();
+    auto updateTimer = qScopeGuard([this] { resumeContentTimer(); });
 
     // First check if there is any active wallpaper and disable it
     std::shared_ptr<WallpaperTimelineSection> activeTimelineSection = findActiveWallpaperTimelineSection();
@@ -842,8 +981,8 @@ QCoro::Task<Result> ScreenPlayTimelineManager::removeAllTimlineSections()
 */
 QCoro::Task<Result> ScreenPlayTimelineManager::removeAllWallpaperFromActiveTimlineSections()
 {
-    m_contentTimer.stop();
-    auto updateTimer = qScopeGuard([this] { m_contentTimer.start(); });
+    suspendContentTimer();
+    auto updateTimer = qScopeGuard([this] { resumeContentTimer(); });
 
     // First check if there is any active wallpaper and disable it
     std::shared_ptr<WallpaperTimelineSection> activeTimelineSection = findActiveWallpaperTimelineSection();
@@ -862,8 +1001,8 @@ QCoro::Task<Result> ScreenPlayTimelineManager::removeAllWallpaperFromActiveTimli
 */
 QCoro::Task<Result> ScreenPlayTimelineManager::removeWallpaperAt(const int timelineIndex, const QString sectionIdentifier, const int monitorIndex)
 {
-    m_contentTimer.stop();
-    auto updateTimer = qScopeGuard([this] { m_contentTimer.start(); });
+    suspendContentTimer();
+    auto updateTimer = qScopeGuard([this] { resumeContentTimer(); });
 
     QVector<int> monitorIndexList = { monitorIndex }; // TODO
     auto result = co_await removeWallpaper(timelineIndex, sectionIdentifier, monitorIndexList);
@@ -874,10 +1013,10 @@ QCoro::Task<Result> ScreenPlayTimelineManager::removeWallpaperAt(const int timel
   \brief Removes a timeline at a given index. Expands the timeline next to it
          to fill the space.
 */
-QCoro::Task<Result> ScreenPlayTimelineManager::removeTimelineAt(const int index)
+QCoro::Task<Result> ScreenPlayTimelineManager::removeTimelineAt(const int index, const QString identifier)
 {
-    m_contentTimer.stop();
-    auto updateTimer = qScopeGuard([this] { m_contentTimer.start(); });
+    suspendContentTimer();
+    auto updateTimer = qScopeGuard([this] { resumeContentTimer(); });
     printTimelines();
 
     const auto timelineCount = m_wallpaperTimelineSectionsList.size();
@@ -887,15 +1026,30 @@ QCoro::Task<Result> ScreenPlayTimelineManager::removeTimelineAt(const int index)
     if (timelineCount == 1) {
         co_return Result { false, {}, "Timeline must always have at least one element that spans across the whole timeline from 00:00:00 to 23:59:59" };
     }
+    if (index < 0 || index >= timelineCount) {
+        co_return Result { false, {}, QString("Invalid timeline index %1 (have %2 sections)").arg(index).arg(timelineCount) };
+    }
 
     std::shared_ptr<WallpaperTimelineSection> wallpapterTimelineSection = m_wallpaperTimelineSectionsList.at(index);
+    // Guard against stale UI indices: removals can suspend for seconds while
+    // wallpapers shut down, during which another operation may have reordered
+    // the sections. The identifier pins the request to the intended section.
+    if (!identifier.isEmpty() && wallpapterTimelineSection->identifier != identifier) {
+        co_return Result { false, {},
+            QString("Timeline section at index %1 has identifier '%2', expected '%3' - the UI is out of sync, please retry")
+                .arg(index)
+                .arg(wallpapterTimelineSection->identifier, identifier) };
+    }
     std::shared_ptr<WallpaperTimelineSection> activeTimelineSection = findTimelineSectionForCurrentTime();
 
     // ⚠️ Important: If we want to remove the currently active timeline
     // We must handle all transition in here and not in checkActiveWallpaperTimeline()!
     // This functions needs an active timeline to function and we remove it here.
     const bool removeActiveTimelineSection = wallpapterTimelineSection == activeTimelineSection;
-    if (removeActiveTimelineSection) {
+    // Only sections that actually run need stopping. The current-time
+    // section can legitimately be Inactive (before startup() ran, or in
+    // unit tests) - stopTimelineAndClearWallpaperData would reject that.
+    if (removeActiveTimelineSection && wallpapterTimelineSection->state == WallpaperTimelineSection::State::Active) {
         // First deactivate so the wallpaper has time to shutdown
         // TODO: Add transition if the next timeline to the right
         // has content
@@ -966,11 +1120,11 @@ QCoro::Task<Result> ScreenPlayTimelineManager::removeTimelineAt(const int index)
 
     int newTimelineIndex;
     if (removeActiveTimelineSection) {
-        // The active section is gone; the section immediately before
-        // it now covers the current time (or index 0 if we removed the
-        // first section, since the next-up section gets its startTime
-        // pulled back to 00:00:00).
-        newTimelineIndex = (index == 0) ? 0 : index - 1;
+        // The active section is gone. It is the *next* section that expands
+        // backwards to cover the freed range (timelineAfter->startTime was
+        // pulled back above), so that is the section covering the current
+        // time now. sortAndUpdateIndices() already refreshed its index.
+        newTimelineIndex = timelineAfter->index;
         auto result = co_await startAllWallpaperAtTimelineIndex(newTimelineIndex);
         if (!result.success()) {
             co_return Result { false, {}, "Failed to start wallpapers in remaining timeline: " + result.message() };
@@ -998,6 +1152,35 @@ QJsonArray ScreenPlayTimelineManager::timelineSections()
         sectionPositions.push_back(timelineSection->serialize());
     }
     return sectionPositions;
+}
+
+/*!
+    \brief Snapshot of every live wallpaper process across all sections,
+    including section and process state. Exposed via
+    ScreenPlayManager::runningWallpapers so the UI and automated tests can
+    verify which wallpaper actually runs after a timeline transition.
+*/
+QJsonArray ScreenPlayTimelineManager::runningWallpapers() const
+{
+    QJsonArray running;
+    for (const std::shared_ptr<WallpaperTimelineSection>& section : m_wallpaperTimelineSectionsList) {
+        for (const auto& wallpaper : section->wallpaperList) {
+            QJsonArray monitors;
+            for (const int monitor : wallpaper->monitors())
+                monitors.append(monitor);
+            running.append(QJsonObject {
+                { "sectionIndex", section->index },
+                { "sectionIdentifier", section->identifier },
+                { "sectionState", QVariant::fromValue(section->state).toString() },
+                { "appID", wallpaper->appID() },
+                { "state", QVariant::fromValue(wallpaper->state()).toString() },
+                { "absolutePath", wallpaper->wallpaperData().absolutePath() },
+                { "title", wallpaper->wallpaperData().title() },
+                { "monitors", monitors },
+            });
+        }
+    }
+    return running;
 }
 
 void ScreenPlayTimelineManager::printTimelines() const
@@ -1098,10 +1281,8 @@ QCoro::Task<Result> ScreenPlayTimelineManager::setWallpaperAtActiveMonitorTimeli
     const QString& sectionIdentifier,
     const QVector<int> monitorIndex)
 {
-    m_contentTimer.stop();
-    auto updateTimer = qScopeGuard([this] {
-        m_contentTimer.start();
-    });
+    suspendContentTimer();
+    auto updateTimer = qScopeGuard([this] { resumeContentTimer(); });
 
     auto wallpaperTimelineSectionOpt = wallpaperSection(timelineIndex, sectionIdentifier);
     if (!wallpaperTimelineSectionOpt.has_value()) {
@@ -1306,33 +1487,17 @@ QCoro::Task<Result> ScreenPlayTimelineManager::activateTimeline(const int timeli
         co_return Result { false, {}, QString("Cannot activate timeline in state: %1").arg(QVariant::fromValue(timelineSection->state).toString()) };
     }
 
-    timelineSection->state = Starting;
     qCDebug(screenPlayTimelineManager) << "Activate timeline:" << timelineIndex
                                        << timelineIdentifier
                                        << timelineSection->relativePosition
                                        << wallpaperData().size();
 
-    bool allWallpapersStarted = true;
-    QString errorMessage;
-    for (auto& wallpaper : timelineSection->wallpaperList) {
-        auto result = co_await startWallpaper(wallpaper);
-        if (!result.success()) {
-            errorMessage = QString("Failed to start wallpaper: %1").arg(result.message());
-            qCCritical(screenPlayTimelineManager) << errorMessage << wallpaper->absolutePath();
-            allWallpapersStarted = false;
-            break;
-        }
-    }
-
-    if (allWallpapersStarted) {
-        timelineSection->state = Active;
-        qCDebug(screenPlayTimelineManager) << "Timeline activated successfully:" << timelineIndex << timelineIdentifier;
-        co_return Result { true };
-    } else {
-        timelineSection->state = Failed; // Instead of Inactive
-        qCCritical(screenPlayTimelineManager) << "Timeline activation failed:" << timelineIndex << timelineIdentifier;
-        co_return Result { false, {}, errorMessage.isEmpty() ? "Timeline activation failed" : errorMessage };
-    }
+    // Broken wallpapers are dropped inside startSectionWallpapers; the
+    // section always ends up Active so the rotation state machine never
+    // strands on a Failed section.
+    auto result = co_await startSectionWallpapers(timelineSection);
+    qCDebug(screenPlayTimelineManager) << "Timeline activated:" << timelineIndex << timelineIdentifier;
+    co_return result;
 }
 
 QCoro::Task<Result> ScreenPlayTimelineManager::stopTimelineAndClearWallpaperData(const int timelineIndex, const QString timelineIdentifier, const bool disableTimeline)
@@ -1507,76 +1672,53 @@ QCoro::Task<Result> ScreenPlayTimelineManager::startWallpaper(const int timeline
 
 QCoro::Task<Result> ScreenPlayTimelineManager::startWallpaper(std::shared_ptr<ScreenPlayWallpaper> screenPlayWallpaper)
 {
-    // Update state to Starting
     screenPlayWallpaper->setState(ScreenPlayEnums::AppState::Starting);
-
-    // Update monitor model with Starting state
-    if (m_monitorListModel) {
-        for (const auto& monitor : screenPlayWallpaper->monitors()) {
-            QModelIndex modelIndex = m_monitorListModel->index(monitor);
-            m_monitorListModel->setData(modelIndex,
-                (int)ScreenPlayEnums::AppState::Starting,
-                (int)MonitorListModel::MonitorRole::AppState);
-        }
-    }
+    setMonitorModelAppState(screenPlayWallpaper->monitors(), ScreenPlayEnums::AppState::Starting);
 
     if (!screenPlayWallpaper->start()) {
-        // Update state to StartingFailed
         screenPlayWallpaper->setState(ScreenPlayEnums::AppState::StartingFailed);
-
-        // Update monitor model with failed state
-        if (m_monitorListModel) {
-            for (const auto& monitor : screenPlayWallpaper->monitors()) {
-                QModelIndex modelIndex = m_monitorListModel->index(monitor);
-                m_monitorListModel->setData(modelIndex,
-                    (int)ScreenPlayEnums::AppState::StartingFailed,
-                    (int)MonitorListModel::MonitorRole::AppState);
-            }
-        }
-
+        setMonitorModelAppState(screenPlayWallpaper->monitors(), ScreenPlayEnums::AppState::StartingFailed);
         co_return Result { false, {}, QString("Failed to start wallpaper: %1").arg(screenPlayWallpaper->absolutePath()) };
     }
 
+    // Adaptive connect wait keyed to the child PID instead of a fixed 2.5 s
+    // window: fail the moment the process dies (crash on launch) and keep
+    // waiting while it is alive but still loading - Godot/HTML wallpapers
+    // can take longer than 2.5 s on a cold start, and their late connection
+    // was then dropped in newConnection, leaving an orphaned process. The
+    // hard cap only reaps processes that are alive but never connect (hung).
     QTimer timer;
-    const int maxRetries = 50;
     const int intervalMS = 50;
+    const int processCheckEveryMS = 500;
+    const int maxWaitMS = 30 * 1000;
     timer.setInterval(intervalMS);
     timer.start();
 
-    for (int i = 1; i <= maxRetries; ++i) {
+    for (int elapsedMS = intervalMS; elapsedMS <= maxWaitMS; elapsedMS += intervalMS) {
         // Wait for the timer to tick
         co_await timer;
         if (screenPlayWallpaper->isConnected()) {
-            // Set to Active state
             screenPlayWallpaper->setState(ScreenPlayEnums::AppState::Active);
-
-            // Update monitor model with Active state
-            if (m_monitorListModel) {
-                for (const auto& monitor : screenPlayWallpaper->monitors()) {
-                    QModelIndex modelIndex = m_monitorListModel->index(monitor);
-                    m_monitorListModel->setData(modelIndex,
-                        (int)ScreenPlayEnums::AppState::Active,
-                        (int)MonitorListModel::MonitorRole::AppState);
-                }
-            }
-            qCInfo(screenPlayTimelineManager) << "Connected after " << i << " retries in:" << (i * intervalMS) << "ms";
+            setMonitorModelAppState(screenPlayWallpaper->monitors(), ScreenPlayEnums::AppState::Active);
+            qCInfo(screenPlayTimelineManager) << "Connected after" << elapsedMS << "ms";
             co_return Result { true };
         }
-    }
-
-    // Timeout occurred
-    screenPlayWallpaper->setState(ScreenPlayEnums::AppState::Timeout);
-
-    // Update monitor model with timeout state
-    if (m_monitorListModel) {
-        for (const auto& monitor : screenPlayWallpaper->monitors()) {
-            QModelIndex modelIndex = m_monitorListModel->index(monitor);
-            m_monitorListModel->setData(modelIndex,
-                (int)ScreenPlayEnums::AppState::Timeout,
-                (int)MonitorListModel::MonitorRole::AppState);
+        if (elapsedMS % processCheckEveryMS == 0
+            && screenPlayWallpaper->processState() != ProcessManager::ProcessState::Running) {
+            screenPlayWallpaper->setState(ScreenPlayEnums::AppState::StartingFailed);
+            setMonitorModelAppState(screenPlayWallpaper->monitors(), ScreenPlayEnums::AppState::StartingFailed);
+            co_return Result { false, {},
+                QString("Wallpaper process %1 exited after %2 ms before connecting: %3")
+                    .arg(screenPlayWallpaper->processID())
+                    .arg(elapsedMS)
+                    .arg(screenPlayWallpaper->absolutePath()) };
         }
     }
 
-    co_return Result { false, {}, QString("Wallpaper failed to connect after %1 connect attempts: %2").arg(maxRetries).arg(screenPlayWallpaper->absolutePath()) };
+    // The process is alive but never connected (hung)
+    screenPlayWallpaper->setState(ScreenPlayEnums::AppState::Timeout);
+    setMonitorModelAppState(screenPlayWallpaper->monitors(), ScreenPlayEnums::AppState::Timeout);
+
+    co_return Result { false, {}, QString("Wallpaper process is still running but failed to connect within %1 ms: %2").arg(maxWaitMS).arg(screenPlayWallpaper->absolutePath()) };
 }
 }
