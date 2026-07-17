@@ -62,6 +62,39 @@ ScreenPlayExternalProcess::ScreenPlayExternalProcess(
             m_retryCount = 0;
         }
     });
+
+    // Connect the ping-alive handler exactly once. setupSDKConnection() runs
+    // again on every crash-restart reconnect - connecting there accumulated
+    // one duplicate handler per restart.
+    QObject::connect(&m_pingAliveTimer, &QTimer::timeout, this, [this]() {
+        const std::optional<bool> running = m_processManager.isRunning(m_processID);
+        // nullopt means the PID itself is invalid; a contained `false` means
+        // the process exited. Both are a dead wallpaper/widget.
+        if (!running.value_or(false)) {
+            qCInfo(screenPlayExternalProcess) << "Process" << m_processID << "is gone (pid valid:" << running.has_value() << ")";
+            handleTimeoutOrCrash();
+        }
+    });
+}
+
+bool ScreenPlayExternalProcess::terminate()
+{
+    m_pingAliveTimer.stop();
+    m_restartDelayTimer.stop();
+    m_stabilityTimer.stop();
+
+    if (m_processID <= 0)
+        return true;
+
+    if (m_processManager.getProcessState(m_processID) != ProcessManager::ProcessState::Running)
+        return true;
+
+    qCInfo(screenPlayExternalProcess) << "Force-terminating process" << m_processID << "for" << m_appID;
+    if (!m_processManager.terminateProcess(m_processID)) {
+        qCWarning(screenPlayExternalProcess) << "Failed to terminate process" << m_processID;
+        return false;
+    }
+    return true;
 }
 
 void ScreenPlayExternalProcess::setSDKConnection(std::unique_ptr<SDKConnection> connection)
@@ -99,18 +132,11 @@ void ScreenPlayExternalProcess::setupSDKConnection()
         }
     });
 
-    // Setup ping alive monitoring
+    // Start ping alive monitoring after a grace period. The handler itself is
+    // connected once in the constructor.
     QTimer::singleShot(1000, this, [this]() {
-        QObject::connect(&m_pingAliveTimer, &QTimer::timeout, this, [this]() {
-            std::optional<bool> running = m_processManager.isRunning(m_processID);
-            if (running.has_value()) {
-                // Process is running
-            } else {
-                qCInfo(screenPlayExternalProcess) << "INVALID PID:" << m_processID;
-                handleTimeoutOrCrash();
-            }
-        });
-        m_pingAliveTimer.start(GlobalVariables::contentPingAliveIntervalMS);
+        if (m_connection)
+            m_pingAliveTimer.start(GlobalVariables::contentPingAliveIntervalMS);
     });
 }
 

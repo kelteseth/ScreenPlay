@@ -65,16 +65,22 @@ bool ScreenPlayWidget::start()
 
 QCoro::Task<Result> ScreenPlayWidget::close()
 {
+    setState(ScreenPlay::ScreenPlayEnums::AppState::Closing);
     m_pingAliveTimer.stop();
     m_stabilityTimer.stop();
 
     if (!m_connection) {
-        qCritical() << "Cannot request quit, widget never connected!";
+        // Never connected - the detached process may still be running.
+        // Kill it so it does not linger as an orphan.
+        qCritical() << "Cannot request quit, widget never connected - terminating process" << m_processID;
+        terminate();
         co_return Result { true, {}, "Widget was never connected" };
     }
 
     if (!m_connection->close()) {
-        co_return Result { false, {}, "Failed to close widget connection" };
+        qWarning() << "Could not deliver quit command to widget" << m_appID << "- force-terminating";
+        if (!terminate())
+            co_return Result { false, {}, "Failed to close widget connection and could not terminate its process" };
     }
 
     co_return Result { true, {}, "Widget closed successfully" };

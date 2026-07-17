@@ -226,37 +226,54 @@ QCoro::Task<Result> ScreenPlayWallpaper::close()
     m_pingAliveTimer.stop();
 
     if (!m_connection) {
-        qCInfo(screenPlayWallpaper) << "Cannot request quit, wallpaper never connected!";
-        setState(ScreenPlayEnums::AppState::ClosingFailed);
+        // Never connected (still launching, or the connect timed out). The
+        // detached process may well be running - kill it, otherwise it keeps
+        // rendering forever with no owner.
+        qCInfo(screenPlayWallpaper) << "Cannot request quit, wallpaper never connected - terminating process" << m_processID;
+        if (!terminate()) {
+            setState(ScreenPlayEnums::AppState::ClosingFailed);
+            co_return Result { false, {}, "Wallpaper never connected and its process could not be terminated" };
+        }
+        setState(ScreenPlayEnums::AppState::ClosedGracefully);
         co_return Result { true, {}, "Quit wallpaper (it was never connected)" };
     }
 
+    bool quitRequested = true;
     if (!m_connection->close()) {
-        qCCritical(screenPlayWallpaper) << "Cannot close wallpaper!";
-        setState(ScreenPlayEnums::AppState::ClosingFailed);
-        co_return Result { false, {}, "Failed to close connection to wallpaper" };
+        qCWarning(screenPlayWallpaper) << "Could not deliver quit command, falling back to process polling/termination";
+        quitRequested = false;
     }
 
-    QTimer timer;
-    timer.start(250);
-    const int maxRetries = 30;
-    for (int i = 1; i <= maxRetries; ++i) {
-        co_await timer;
-        ProcessManager::ProcessState processState = m_processManager.getProcessState(m_processID);
+    if (quitRequested) {
+        QTimer timer;
+        timer.start(250);
+        const int maxRetries = 30;
+        for (int i = 1; i <= maxRetries; ++i) {
+            co_await timer;
+            ProcessManager::ProcessState processState = m_processManager.getProcessState(m_processID);
 
-        if (processState == ProcessManager::ProcessState::NotRunning) {
-            qCInfo(screenPlayWallpaper) << "Process" << m_processID << "terminated successfully";
-            setState(ScreenPlayEnums::AppState::ClosedGracefully);
-            co_return Result { true, {}, "Quit wallpaper gracefully" };
-        } else if (processState == ProcessManager::ProcessState::InvalidPID) {
-            qCInfo(screenPlayWallpaper) << "Process" << m_processID << "has invalid PID - assuming successful termination";
-            setState(ScreenPlayEnums::AppState::ClosedGracefully);
-            co_return Result { true, {}, "Quit wallpaper gracefully (invalid PID)" };
+            if (processState == ProcessManager::ProcessState::NotRunning) {
+                qCInfo(screenPlayWallpaper) << "Process" << m_processID << "terminated successfully";
+                setState(ScreenPlayEnums::AppState::ClosedGracefully);
+                co_return Result { true, {}, "Quit wallpaper gracefully" };
+            } else if (processState == ProcessManager::ProcessState::InvalidPID) {
+                qCInfo(screenPlayWallpaper) << "Process" << m_processID << "has invalid PID - assuming successful termination";
+                setState(ScreenPlayEnums::AppState::ClosedGracefully);
+                co_return Result { true, {}, "Quit wallpaper gracefully (invalid PID)" };
+            }
+            // If Running, continue waiting
         }
-        // If Running, continue waiting
+    }
+
+    // Cooperative shutdown failed - force-kill so the process cannot run on
+    // as an orphan after we drop our bookkeeping for it.
+    qCWarning(screenPlayWallpaper) << "Wallpaper" << m_appID << "did not quit cooperatively, force-terminating";
+    if (terminate()) {
+        setState(ScreenPlayEnums::AppState::ClosedGracefully);
+        co_return Result { true, {}, "Wallpaper was force-terminated after it failed to quit" };
     }
     setState(ScreenPlayEnums::AppState::ClosingFailed);
-    co_return Result { false, {}, QString("Wallpaper with appID '%1' failed to disconnect after %2 attempts").arg(m_appID).arg(maxRetries) };
+    co_return Result { false, {}, QString("Wallpaper with appID '%1' failed to quit and could not be terminated").arg(m_appID) };
 }
 
 void ScreenPlayWallpaper::setupSDKConnection()

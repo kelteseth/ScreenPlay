@@ -48,6 +48,18 @@ public:
     void setSDKConnection(std::unique_ptr<SDKConnection> connection);
     std::shared_ptr<ProjectSettingsListModel> getProjectSettingsListModel() { return m_projectSettingsListModel; }
 
+    /*!
+        \brief Force-kills the detached process via the OS and stops all
+               monitoring timers. Last-resort cleanup when the cooperative
+               quit-command path failed or the process never connected.
+               Returns true when the process is gone afterwards.
+    */
+    bool terminate();
+
+    // Live OS state of the detached process. InvalidPID until start() has
+    // assigned m_processID.
+    ProcessManager::ProcessState processState() const { return m_processManager.getProcessState(m_processID); }
+
     // Common getters
     QString appID() const { return m_appID; }
     qint64 processID() const { return m_processID; }
