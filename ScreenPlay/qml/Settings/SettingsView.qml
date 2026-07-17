@@ -339,14 +339,18 @@ Item {
                     SettingsComboBox {
                         id: cbGraphicsApi
 
-                        headline: qsTr("Video Wallpaper Graphics API")
-                        description: qsTr("Set the graphics API for wallpapers (Note: Godot wallpapers are not affected by this setting). DirectX11 may provide better performance on AMD hardware. You must restart the wallpaper to take effect.")
+                        headline: qsTr("Graphics API")
+                        description: qsTr("Graphics API for the app window and wallpapers (Note: Godot wallpapers are not affected by this setting). Auto uses Vulkan when available, which keeps frame pacing smooth while wallpapers are running. Requires an app restart to take effect.")
                         comboBox {
                             Component.onCompleted: comboBox.currentIndex = comboBox.indexOfValue(App.settings.graphicsApi)
                             model: ListModel {
                                 ListElement {
                                     value: ScreenPlayEnums.GraphicsApi.Auto
-                                    text: qsTr("Auto (Qt Default)")
+                                    text: qsTr("Auto (Vulkan if available)")
+                                }
+                                ListElement {
+                                    value: ScreenPlayEnums.GraphicsApi.Vulkan
+                                    text: qsTr("Vulkan")
                                 }
                                 ListElement {
                                     value: ScreenPlayEnums.GraphicsApi.OpenGL
@@ -355,6 +359,10 @@ Item {
                                 ListElement {
                                     value: ScreenPlayEnums.GraphicsApi.DirectX11
                                     text: qsTr("DirectX11 (Windows Only)")
+                                }
+                                ListElement {
+                                    value: ScreenPlayEnums.GraphicsApi.DirectX12
+                                    text: qsTr("DirectX12 (Windows Only, HTML wallpapers render in software)")
                                 }
                             }
                             onActivated: {

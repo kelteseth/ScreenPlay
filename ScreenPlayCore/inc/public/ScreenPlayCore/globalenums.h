@@ -58,9 +58,11 @@ public:
         \brief Graphics API enum for wallpaper rendering.
     */
     enum class GraphicsApi {
-        Auto, // Let Qt decide (default)
+        Auto, // Vulkan when available (Windows), otherwise the Qt default
         OpenGL, // Force OpenGL
-        DirectX11 // Force DirectX11 (Windows only)
+        DirectX11, // Force DirectX11 (Windows only)
+        Vulkan, // Force Vulkan
+        DirectX12 // Force DirectX12 (Windows only)
     };
     Q_ENUM(GraphicsApi)
 };

@@ -62,6 +62,7 @@ set(SOURCES
     src/exitcodes.cpp
     src/framestats.cpp
     src/godothandler.cpp
+    src/graphicsapi.cpp
     src/licensemanager.cpp
     src/logginghandler.cpp
     src/processmanager.cpp
@@ -78,6 +79,7 @@ set(HEADER
     inc/public/ScreenPlayCore/framestats.h
     inc/public/ScreenPlayCore/globalenums.h
     inc/public/ScreenPlayCore/godothandler.h
+    inc/public/ScreenPlayCore/graphicsapi.h
     inc/public/ScreenPlayCore/HelpersCommon.h
     inc/public/ScreenPlayCore/licensemanager.h
     inc/public/ScreenPlayCore/ListPropertyHelper.h

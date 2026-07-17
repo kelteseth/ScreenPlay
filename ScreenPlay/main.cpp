@@ -2,7 +2,9 @@
 
 #include "CMakeVariables.h"
 #include "ScreenPlay/app.h"
+#include "ScreenPlayCore/graphicsapi.h"
 #include "ScreenPlayCore/logginghandler.h"
+#include "ScreenPlayCore/util.h"
 #include "qml/qcoroqml.h"
 #include <QCommandLineParser>
 #include <QDebug>
@@ -12,6 +14,7 @@
 #include <QLocalSocket>
 #include <QQmlApplicationEngine>
 #include <QQuickWindow>
+#include <QSettings>
 #include <QStandardPaths>
 #include <QStyleFactory>
 
@@ -112,6 +115,16 @@ int main(int argc, char* argv[])
         return -5;
     }
     auto logging = std::make_unique<const ScreenPlayCore::LoggingHandler>("ScreenPlay");
+
+    // Apply the stored graphics API to the main window as well, not only to
+    // the wallpaper processes. Settings reads/writes the same "GraphicsApi"
+    // key later; here it must happen before the engine creates the window.
+    {
+        const QSettings qSettings;
+        const auto api = QStringToEnum<ScreenPlayEnums::GraphicsApi>(
+            qSettings.value("GraphicsApi", "Auto").toString(), ScreenPlayEnums::GraphicsApi::Auto);
+        applyGraphicsApi(api);
+    }
 
     QQuickStyle::setStyle("Material");
     auto engine = std::make_shared<QQmlApplicationEngine>();

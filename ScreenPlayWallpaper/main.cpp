@@ -9,6 +9,7 @@
 
 #include "ScreenPlayCore/exitcodes.h"
 #include "ScreenPlayCore/globalenums.h"
+#include "ScreenPlayCore/graphicsapi.h"
 #include "ScreenPlayCore/logginghandler.h"
 #include "ScreenPlayCore/util.h"
 
@@ -37,37 +38,6 @@ int main(int argc, char* argv[])
     QCoreApplication::setApplicationName("ScreenPlayWallpaper");
     QCoreApplication::setApplicationVersion("1.0.0");
     std::unique_ptr<const ScreenPlayCore::LoggingHandler> logging;
-
-    auto quickView = std::make_shared<QQuickView>();
-
-#if defined(Q_OS_WIN)
-    auto window = std::make_unique<WinWindow>();
-    qmlRegisterSingletonInstance<WinWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", window.get());
-    window->setQuickView(quickView);
-#elif defined(Q_OS_LINUX)
-    const auto platformName = QGuiApplication::platformName();
-    std::unique_ptr<BaseWindow> window;
-
-    if (platformName == "xcb") {
-        auto x11Window = std::make_unique<LinuxX11Window>();
-        qmlRegisterSingletonInstance<LinuxX11Window>("ScreenPlayWallpaper", 1, 0, "Wallpaper", x11Window.get());
-        x11Window->setQuickView(quickView);
-        window = std::move(x11Window);
-    } else if (platformName == "wayland") {
-        auto waylandWindow = std::make_unique<LinuxWaylandWindow>();
-        qmlRegisterSingletonInstance<LinuxWaylandWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", waylandWindow.get());
-        waylandWindow->setQuickView(quickView);
-        window = std::move(waylandWindow);
-    }
-
-    if (!window) {
-        return -5;
-    }
-#elif defined(Q_OS_MACOS)
-    auto window = std::make_unique<MacWindow>();
-    qmlRegisterSingletonInstance<MacWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", window.get());
-    window->setQuickView(quickView);
-#endif
 
     // If we start with only one argument (app path)
     // It means we want to test a single wallpaper
@@ -197,39 +167,52 @@ int main(int argc, char* argv[])
 #endif
     }
 
-    // Set graphics API before any graphics-related initialization
-    if (!graphicsApi.isEmpty()) {
-        bool ok;
-        int enumValue = graphicsApi.toInt(&ok);
-        if (ok) {
-            auto apiEnum = static_cast<ScreenPlayEnums::GraphicsApi>(enumValue);
-            switch (apiEnum) {
-            case ScreenPlayEnums::GraphicsApi::DirectX11:
-#ifdef Q_OS_WIN
-                QQuickWindow::setGraphicsApi(QSGRendererInterface::Direct3D11Rhi);
-                qInfo() << "Graphics API set to Direct3D11";
-#else
-                qWarning() << "DirectX11 is only available on Windows, falling back to default";
-#endif
-                break;
-            case ScreenPlayEnums::GraphicsApi::OpenGL:
-                QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGLRhi);
-                qInfo() << "Graphics API set to OpenGL";
-                break;
-            case ScreenPlayEnums::GraphicsApi::Auto:
-                // Don't set anything, let Qt decide
-                qInfo() << "Graphics API set to Auto (Qt default)";
-                break;
-            default:
-                qWarning() << "Unknown graphics API enum value:" << enumValue << "- using default";
-                break;
-            }
-        } else {
-            qWarning() << "Invalid graphics API value:" << graphicsApi << "- using default";
+    // Set graphics API before creating the QQuickView below. A QQuickWindow
+    // fixes its native surface type (Direct3D/Vulkan/OpenGL) when it is
+    // constructed; selecting a different API afterwards leaves the window
+    // without a matching surface and crashes the graphics driver on startup.
+    {
+        auto apiEnum = ScreenPlayEnums::GraphicsApi::Auto;
+        bool ok = false;
+        const int enumValue = graphicsApi.toInt(&ok);
+        if (ok && QMetaEnum::fromType<ScreenPlayEnums::GraphicsApi>().valueToKey(enumValue)) {
+            apiEnum = static_cast<ScreenPlayEnums::GraphicsApi>(enumValue);
+        } else if (!graphicsApi.isEmpty()) {
+            qWarning() << "Invalid graphics API value:" << graphicsApi << "- using Auto";
         }
-    } else {
-        qInfo() << "No graphics API specified, using Qt default";
+        applyGraphicsApi(apiEnum);
     }
+
+    auto quickView = std::make_shared<QQuickView>();
+
+#if defined(Q_OS_WIN)
+    auto window = std::make_unique<WinWindow>();
+    qmlRegisterSingletonInstance<WinWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", window.get());
+    window->setQuickView(quickView);
+#elif defined(Q_OS_LINUX)
+    const auto platformName = QGuiApplication::platformName();
+    std::unique_ptr<BaseWindow> window;
+
+    if (platformName == "xcb") {
+        auto x11Window = std::make_unique<LinuxX11Window>();
+        qmlRegisterSingletonInstance<LinuxX11Window>("ScreenPlayWallpaper", 1, 0, "Wallpaper", x11Window.get());
+        x11Window->setQuickView(quickView);
+        window = std::move(x11Window);
+    } else if (platformName == "wayland") {
+        auto waylandWindow = std::make_unique<LinuxWaylandWindow>();
+        qmlRegisterSingletonInstance<LinuxWaylandWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", waylandWindow.get());
+        waylandWindow->setQuickView(quickView);
+        window = std::move(waylandWindow);
+    }
+
+    if (!window) {
+        return -5;
+    }
+#elif defined(Q_OS_MACOS)
+    auto window = std::make_unique<MacWindow>();
+    qmlRegisterSingletonInstance<MacWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", window.get());
+    window->setQuickView(quickView);
+#endif
 
     auto activeScreensList = util.parseStringToIntegerList(screens);
     if (!activeScreensList.has_value()) {
