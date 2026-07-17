@@ -559,6 +559,11 @@ QJsonArray ScreenPlayManager::runningWallpapers() const
     return m_screenPlayTimelineManager.runningWallpapers();
 }
 
+void ScreenPlayManager::setWallpaperFrameStats(const bool visible)
+{
+    m_screenPlayTimelineManager.setWallpaperFrameStats(visible);
+}
+
 /*!
     \brief Appends a new SDKConnection object shared_ptr to the m_clients list.
 */

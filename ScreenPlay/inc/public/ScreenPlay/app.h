@@ -3,7 +3,6 @@
 #pragma once
 #include "ScreenPlay/create.h"
 #include "ScreenPlay/errormanager.h"
-#include "ScreenPlay/framestats.h"
 #include "ScreenPlay/globalvariables.h"
 #include "ScreenPlay/installedlistfilter.h"
 #include "ScreenPlay/installedlistmodel.h"
@@ -14,6 +13,7 @@
 #include "ScreenPlay/uiappstatesignals.h"
 #include "ScreenPlay/wizards.h"
 
+#include "ScreenPlayCore/framestats.h"
 #include "ScreenPlayCore/godothandler.h"
 #include "ScreenPlayCore/util.h"
 

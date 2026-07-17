@@ -49,6 +49,7 @@ public:
     Q_PROPERTY(QUrl projectSourceFileAbsolute READ projectSourceFileAbsolute WRITE setProjectSourceFileAbsolute NOTIFY projectSourceFileAbsoluteChanged)
     Q_PROPERTY(bool canFade READ canFade WRITE setCanFade NOTIFY canFadeChanged)
     Q_PROPERTY(bool debugMode READ debugMode WRITE setDebugMode NOTIFY debugModeChanged)
+    Q_PROPERTY(bool frameStatsVisible READ frameStatsVisible WRITE setFrameStatsVisible NOTIFY frameStatsVisibleChanged)
     Q_PROPERTY(ScreenPlay::ContentTypes::InstalledType type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(ScreenPlay::Video::VideoCodec videoCodec READ videoCodec WRITE setVideoCodec NOTIFY videoCodecChanged)
     Q_PROPERTY(ScreenPlaySDK* sdk READ sdk WRITE setSdk NOTIFY sdkChanged)
@@ -66,6 +67,7 @@ public:
     int height() const { return m_height; }
     QVector<int> activeScreensList() const { return m_activeScreensList; }
     bool debugMode() const { return m_debugMode; }
+    bool frameStatsVisible() const { return m_frameStatsVisible; }
     ScreenPlaySDK* sdk() const { return m_sdk.get(); }
     const QString& projectPath() const { return m_projectPath; }
     const QString& projectSourceFile() const { return m_projectSourceFile; }
@@ -100,6 +102,7 @@ signals:
     void heightChanged(int height);
     void activeScreensListChanged(QVector<int> activeScreensList);
     void debugModeChanged(bool debugMode);
+    void frameStatsVisibleChanged(bool frameStatsVisible);
     void sdkChanged(ScreenPlaySDK* sdk);
     void projectPathChanged(const QString& projectPath);
     void projectSourceFileChanged(const QString& projectSourceFile);
@@ -191,6 +194,14 @@ public slots:
         emit debugModeChanged(debugMode);
     }
 
+    void setFrameStatsVisible(bool frameStatsVisible)
+    {
+        if (m_frameStatsVisible == frameStatsVisible)
+            return;
+        m_frameStatsVisible = frameStatsVisible;
+        emit frameStatsVisibleChanged(frameStatsVisible);
+    }
+
     void setSdk(ScreenPlaySDK* sdk)
     {
         if (m_sdk.get() == sdk)
@@ -234,6 +245,7 @@ private:
 protected:
     bool m_canFade { false };
     bool m_debugMode { false };
+    bool m_frameStatsVisible { false };
 
     QString m_projectPath;
     QString m_projectSourceFile;

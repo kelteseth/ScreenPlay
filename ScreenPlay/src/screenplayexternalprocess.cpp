@@ -4,6 +4,7 @@
 #include "ScreenPlayCore/util.h"
 
 #include <QDebug>
+#include <QJsonDocument>
 #include <QLoggingCategory>
 
 Q_LOGGING_CATEGORY(screenPlayExternalProcess, "screenplay.screenplayexternalprocess")
@@ -75,6 +76,13 @@ ScreenPlayExternalProcess::ScreenPlayExternalProcess(
             handleTimeoutOrCrash();
         }
     });
+}
+
+bool ScreenPlayExternalProcess::sendJsonMessage(const QJsonObject& obj)
+{
+    if (!m_connection)
+        return false;
+    return m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
 }
 
 bool ScreenPlayExternalProcess::terminate()

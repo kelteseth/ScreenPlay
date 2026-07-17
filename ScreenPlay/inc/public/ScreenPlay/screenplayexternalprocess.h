@@ -60,6 +60,10 @@ public:
     // assigned m_processID.
     ProcessManager::ProcessState processState() const { return m_processManager.getProcessState(m_processID); }
 
+    // Sends a JSON frame to the process. Returns false when it is not
+    // connected (yet).
+    bool sendJsonMessage(const QJsonObject& obj);
+
     // Common getters
     QString appID() const { return m_appID; }
     qint64 processID() const { return m_processID; }

@@ -114,8 +114,9 @@ ApplicationWindow {
 
     // Frame pacing diagnostics (Ctrl+Shift+F). Collection only runs while
     // the overlay is visible.
-    Components.FrameStatsOverlay {
+    FrameStatsOverlay {
         id: frameStatsOverlay
+        stats: App.frameStats
         parent: applicationWindow.contentItem
         anchors.top: parent.top
         anchors.right: parent.right
@@ -125,7 +126,11 @@ ApplicationWindow {
     Shortcut {
         sequence: "Ctrl+Shift+F"
         context: Qt.ApplicationShortcut
-        onActivated: frameStatsOverlay.shown = !frameStatsOverlay.shown
+        onActivated: {
+            frameStatsOverlay.shown = !frameStatsOverlay.shown
+            // Mirror the overlay in every connected wallpaper process.
+            App.screenPlayManager.setWallpaperFrameStats(frameStatsOverlay.shown)
+        }
     }
 
     Item {

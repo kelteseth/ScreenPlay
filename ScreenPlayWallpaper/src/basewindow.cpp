@@ -111,6 +111,12 @@ void BaseWindow::messageReceived(const QString& key, const QString& value)
         return;
     }
 
+    // Frame pacing overlay, forwarded from the main app's Ctrl+Shift+F.
+    if (key == "frameStatsOverlay") {
+        setFrameStatsVisible(QVariant(value).toBool());
+        return;
+    }
+
     if (key == "fillmode") {
         // HTML5 Video uses - that c++ enums cannot
         if (QVariant(value).toString() == "Scale_Down") {

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
-#include "ScreenPlay/framestats.h"
+#include "ScreenPlayCore/framestats.h"
 
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -41,6 +41,9 @@ void FrameStats::setEnabled(bool enabled)
     if (enabled) {
         resetStats();
         m_refreshTimer.start();
+        // Kick off the continuous render loop (see onFrameSwapped).
+        if (m_window)
+            m_window->update();
     } else {
         m_refreshTimer.stop();
     }
@@ -52,13 +55,20 @@ void FrameStats::onFrameSwapped()
     if (!m_enabled.load(std::memory_order_relaxed))
         return;
     const qint64 now = m_clock.nsecsElapsed();
-    QMutexLocker lock(&m_mutex);
-    if (m_lastSwapNs >= 0) {
-        m_deltasNs.append(now - m_lastSwapNs);
-        if (m_deltasNs.size() > maxSamples)
-            m_deltasNs.remove(0, maxSamples / 2);
+    {
+        QMutexLocker lock(&m_mutex);
+        if (m_lastSwapNs >= 0) {
+            m_deltasNs.append(now - m_lastSwapNs);
+            if (m_deltasNs.size() > maxSamples)
+                m_deltasNs.remove(0, maxSamples / 2);
+        }
+        m_lastSwapNs = now;
     }
-    m_lastSwapNs = now;
+    // Keep the window presenting continuously while measuring - an idle
+    // window renders no frames, so there would be nothing to time. Vsync
+    // paces the loop to the refresh rate. QQuickWindow::update() is
+    // documented callable from any thread.
+    m_window->update();
 }
 
 void FrameStats::recordAnimSample(double x)
@@ -85,7 +95,7 @@ void FrameStats::resetStats()
     m_stutterCount = 0;
 }
 
-QVariantList FrameStats::recentDeltas(int n)
+QVariantList FrameStats::recentDeltas(int n) const
 {
     QMutexLocker lock(&m_mutex);
     QVariantList out;
@@ -110,6 +120,18 @@ void FrameStats::refresh()
         QMutexLocker lock(&m_mutex);
         deltas = m_deltasNs;
     }
+
+    // Displayed statistics cover only the last few seconds - a long-lived
+    // buffer made fps/mean take minutes to recover after a degraded phase.
+    // The full buffer stays available via recentDeltas()/lastDeltasMs.
+    constexpr qint64 statsWindowNs = 5ll * 1000 * 1000 * 1000;
+    qint64 windowSum = 0;
+    int firstIndex = deltas.size();
+    while (firstIndex > 0 && windowSum < statsWindowNs)
+        windowSum += deltas[--firstIndex];
+    if (firstIndex > 0)
+        deltas.remove(0, firstIndex);
+
     if (deltas.size() < 4) {
         emit statsChanged();
         return;

@@ -288,6 +288,20 @@ Rectangle {
         ]
     }
 
+    // Frame pacing overlay, toggled together with the main app's overlay
+    // (Ctrl+Shift+F there sends "frameStatsOverlay" over the SDK socket).
+    FrameStats {
+        id: wallpaperFrameStats
+    }
+    FrameStatsOverlay {
+        stats: wallpaperFrameStats
+        shown: Wallpaper.frameStatsVisible
+        anchors.top: parent.top
+        anchors.right: parent.right
+        anchors.margins: 40
+        z: 9999
+    }
+
     FrameAnimation {
         id: frameAnimation
         property real fps: smoothFrameTime > 0 ? (1.0 / smoothFrameTime) : 0

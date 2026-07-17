@@ -1183,6 +1183,22 @@ QJsonArray ScreenPlayTimelineManager::runningWallpapers() const
     return running;
 }
 
+/*!
+    \brief Toggles the frame pacing overlay in every connected wallpaper
+    process (forwarded from the main window's Ctrl+Shift+F). Wallpapers that
+    connect later start without the overlay - toggle again to include them.
+*/
+void ScreenPlayTimelineManager::setWallpaperFrameStats(const bool visible)
+{
+    QJsonObject msg;
+    msg.insert("frameStatsOverlay", visible);
+    for (const auto& section : std::as_const(m_wallpaperTimelineSectionsList)) {
+        for (const auto& wallpaper : section->wallpaperList) {
+            wallpaper->sendJsonMessage(msg);
+        }
+    }
+}
+
 void ScreenPlayTimelineManager::printTimelines() const
 {
     QString out = "\n";

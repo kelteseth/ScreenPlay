@@ -31,6 +31,7 @@ set(QML
     qml/ErrorPopup.qml
     qml/FileDropAnimation.qml
     qml/FileSelector.qml
+    qml/FrameStatsOverlay.qml
     qml/FireworksEffect.qml
     qml/Grow.qml
     qml/GrowIconLink.qml
@@ -59,6 +60,7 @@ set(SOURCES
     src/archivereader.cpp
     src/contenttypes.cpp
     src/exitcodes.cpp
+    src/framestats.cpp
     src/godothandler.cpp
     src/licensemanager.cpp
     src/logginghandler.cpp
@@ -73,6 +75,7 @@ set(HEADER
     inc/public/ScreenPlayCore/archivereader.h
     inc/public/ScreenPlayCore/contenttypes.h
     inc/public/ScreenPlayCore/exitcodes.h
+    inc/public/ScreenPlayCore/framestats.h
     inc/public/ScreenPlayCore/globalenums.h
     inc/public/ScreenPlayCore/godothandler.h
     inc/public/ScreenPlayCore/HelpersCommon.h

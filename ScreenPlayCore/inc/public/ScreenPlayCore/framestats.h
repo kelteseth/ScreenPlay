@@ -8,6 +8,7 @@
 #include <QTimer>
 #include <QVariantList>
 #include <QVector>
+#include <QtQml/qqmlregistration.h>
 #include <atomic>
 
 namespace ScreenPlay {
@@ -28,6 +29,7 @@ namespace ScreenPlay {
 */
 class FrameStats : public QObject {
     Q_OBJECT
+    QML_ELEMENT
     Q_PROPERTY(bool enabled READ enabled WRITE setEnabled NOTIFY enabledChanged FINAL)
     Q_PROPERTY(double fps READ fps NOTIFY statsChanged FINAL)
     Q_PROPERTY(double meanMs READ meanMs NOTIFY statsChanged FINAL)
@@ -39,15 +41,20 @@ class FrameStats : public QObject {
     Q_PROPERTY(double animStepStddevPx READ animStepStddevPx NOTIFY statsChanged FINAL)
     Q_PROPERTY(QString apiName READ apiName NOTIFY statsChanged FINAL)
     Q_PROPERTY(QString envSummary READ envSummary CONSTANT FINAL)
+    // Raw recent frame deltas (ms) for external analysis, e.g. spike
+    // periodicity checks from automated tests.
+    Q_PROPERTY(QVariantList lastDeltasMs READ lastDeltasMs NOTIFY statsChanged FINAL)
 
 public:
     explicit FrameStats(QObject* parent = nullptr);
 
     Q_INVOKABLE void attach(QQuickWindow* window);
     Q_INVOKABLE void resetStats();
-    Q_INVOKABLE QVariantList recentDeltas(int n);
+    Q_INVOKABLE QVariantList recentDeltas(int n) const;
     Q_INVOKABLE void recordAnimSample(double x);
     Q_INVOKABLE QString summaryJson() const;
+
+    QVariantList lastDeltasMs() const { return recentDeltas(maxSamples); }
 
     bool enabled() const { return m_enabled.load(std::memory_order_relaxed); }
     void setEnabled(bool enabled);
