@@ -427,7 +427,7 @@ bool Settings::retranslateUI()
         if (lang == Settings::Language::Ko_KR) {
             setFont("Noto Sans CJK KR Regular");
         } else {
-            setFont("Roboto");
+            setFont("Google Sans Flex");
         }
         return true;
     }

@@ -209,7 +209,7 @@ private:
     ScreenPlay::Godot::RenderingDriver m_godotRenderingDriver { Godot::RenderingDriver::Vulkan };
     ScreenPlay::ScreenPlayEnums::GraphicsApi m_graphicsApi { ScreenPlayEnums::GraphicsApi::Auto };
     ScreenPlay::Settings::DesktopEnvironment m_desktopEnvironment { DesktopEnvironment::Unknown };
-    QString m_font { "Roboto" };
+    QString m_font { "Google Sans Flex" };
     QString m_buildInfos;
     QVersionNumber m_profilesVersion { 2, 0, 0 };
 };

@@ -211,8 +211,7 @@ set(RESOURCES
     legal/lgpl-2.1.txt
     legal/OFL.txt
     legal/OpenSSL.txt
-    profiles.json
-    qtquickcontrols2.conf)
+    profiles.json)
 
 # Needed on macos
 find_package(Threads REQUIRED)
@@ -296,6 +295,11 @@ if(${SCREENPLAY_STEAM})
 endif()
 
 qt_add_executable(ScreenPlayApp main.cpp)
+
+# QQuickStyle only reads :/qtquickcontrols2.conf at the resource ROOT. Inside
+# the qml module's /qt/qml/ScreenPlay prefix (RESOURCES above) it was silently
+# never found, so none of the conf values ever applied.
+qt_add_resources(ScreenPlayApp "quickcontrolsconf" PREFIX "/" FILES qtquickcontrols2.conf)
 
 target_link_libraries(ScreenPlayApp PRIVATE ScreenPlayLib ScreenPlayLibplugin tester)
 
@@ -538,6 +542,18 @@ install(
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+# Install the application fonts. App::App() loads them at runtime from
+# assets/fonts next to the executable (macOS: Contents/Resources/fonts);
+# without this rule release builds shipped no fonts at all and silently fell
+# back to whatever the user's system provides.
+if(APPLE)
+    install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts/"
+            DESTINATION "ScreenPlay.app/Contents/Resources/fonts")
+else()
+    install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts/"
+            DESTINATION "${CMAKE_INSTALL_BINDIR}/assets/fonts")
+endif()
 
 # Install Content folder alongside the executable
 if(WIN32)
