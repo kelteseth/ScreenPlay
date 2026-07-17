@@ -6,10 +6,13 @@
 #include "qml/qcoroqml.h"
 #include <QCommandLineParser>
 #include <QDebug>
+#include <QDir>
+#include <QFile>
 #include <QGuiApplication>
 #include <QLocalSocket>
 #include <QQmlApplicationEngine>
 #include <QQuickWindow>
+#include <QStandardPaths>
 #include <QStyleFactory>
 
 #include <QIcon>
@@ -65,7 +68,33 @@ int main(int argc, char* argv[])
         "Enable the chuck_tester automation server on the given TCP port.",
         "port");
     parser.addOption(testerPortOption);
+    QCommandLineOption isolatedAppdataOption(
+        "isolated-appdata",
+        "Redirect writable app data (profiles.json, logs) to Qt's test-mode "
+        "directories so test runs never touch the user's real profile.");
+    parser.addOption(isolatedAppdataOption);
     parser.process(qtGuiApp);
+
+    if (parser.isSet(isolatedAppdataOption)) {
+        // Must run before anything resolves QStandardPaths (GlobalVariables,
+        // LoggingHandler). QSettings (registry) is unaffected on purpose: the
+        // user's content-storage path keeps working, only profile state is
+        // isolated.
+        const QString realDataPath = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
+        QStandardPaths::setTestModeEnabled(true);
+        const QString testDataPath = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
+        QDir().mkpath(testDataPath);
+        // Mirror this machine's license into the sandbox - without it the app
+        // degrades to the basic version, which disables timeline editing (the
+        // main UI-test surface). Same machine, same license; profiles.json
+        // and logs stay isolated.
+        const QString realLicense = realDataPath + "/license.json";
+        if (QFile::exists(realLicense)) {
+            QFile::remove(testDataPath + "/license.json");
+            QFile::copy(realLicense, testDataPath + "/license.json");
+        }
+        qInfo() << "Isolated appdata:" << testDataPath;
+    }
     quint16 testerPort = 0;
     if (parser.isSet(testerPortOption)) {
         bool ok = false;

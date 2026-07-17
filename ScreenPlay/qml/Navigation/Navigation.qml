@@ -316,6 +316,7 @@ Rectangle {
 
                 ToolButton {
                     id: miMuteAll
+                    objectName: "miMuteAll"
                     height: 45
                     Layout.alignment: Qt.AlignVCenter
                     icon.source: App.screenPlayManager.isMuted ? "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_volume_mute.svg" : "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_volume.svg"
@@ -331,6 +332,7 @@ Rectangle {
                 }
                 ToolButton {
                     id: miStopAll
+                    objectName: "miStopAll"
                     height: 45
                     enabled: quickActionRow.contentActive
                     Layout.alignment: Qt.AlignVCenter
@@ -345,6 +347,7 @@ Rectangle {
                 }
                 ToolButton {
                     id: miCloseAll
+                    objectName: "miCloseAll"
                     height: 45
                     enabled: quickActionRow.contentActive
                     Layout.alignment: Qt.AlignVCenter
@@ -372,6 +375,7 @@ Rectangle {
 
         Button {
             id: miConfig
+            objectName: "miConfig"
             Layout.maximumHeight: 57
             Layout.minimumHeight: 57
             icon.source: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_video_settings.svg"

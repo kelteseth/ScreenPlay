@@ -114,6 +114,11 @@ ApplicationWindow {
 
     Item {
         id: content
+        objectName: "mainContent"
+        // The window itself is outside the item tree chuck can address, so
+        // tests read window state through these mirrors.
+        property bool windowVisible: applicationWindow.visible
+        property string windowTitle: applicationWindow.title
         anchors.fill: parent
 
         function openExitDialog(): void {

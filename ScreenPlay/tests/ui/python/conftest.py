@@ -9,6 +9,7 @@ PATH from the build's CMakeCache.txt so the spawned process finds its DLLs.
 """
 from __future__ import annotations
 
+import asyncio
 import os
 import re
 import socket
@@ -19,6 +20,34 @@ from contextlib import closing
 from pathlib import Path
 
 import pytest
+
+# chuck commands that emulate user input — only these get slow-motion pacing.
+_INTERACTION_COMMANDS = {"click", "keys", "drag", "swipe"}
+
+
+@pytest.fixture(autouse=True)
+def _slowmo(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Pace chuck interactions like a human user.
+
+    SCREENPLAY_TEST_SLOWMO_MS > 0 adds a pause after every click/keys/drag/
+    swipe so UI animations (300 ms StackView transitions, drawer slides)
+    visibly complete. The workspace .env sets it for VS Code Testing-panel
+    runs; plain terminal/CI runs default to 0 (fastest).
+    """
+    ms = int(os.environ.get("SCREENPLAY_TEST_SLOWMO_MS", "0"))
+    if ms <= 0:
+        return
+    from chuck.client import Client
+
+    orig_call = Client.call
+
+    async def paced_call(self, method, **params):  # noqa: ANN001, ANN003
+        result = await orig_call(self, method, **params)
+        if method in _INTERACTION_COMMANDS:
+            await asyncio.sleep(ms / 1000)
+        return result
+
+    monkeypatch.setattr(Client, "call", paced_call)
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
 
@@ -83,17 +112,40 @@ def _wait_for_port(port: int, timeout_s: float = 20.0) -> None:
     raise RuntimeError(f"ScreenPlayApp did not open port {port} within {timeout_s}s")
 
 
+def _wipe_sandbox_profile() -> None:
+    """Delete the persisted profiles.json in the Qt test-mode appdata.
+
+    The sandbox survives between runs, so wallpapers a previous test saved
+    would auto-restore on the next app start — a startup race every test
+    would have to defend against. Wiping it gives each test the app's
+    first-run state (one empty full-day timeline section). license.json is
+    left alone; main.cpp re-mirrors it anyway.
+    """
+    if sys.platform != "win32":
+        return
+    local = os.environ.get("LOCALAPPDATA")
+    if not local:
+        return
+    profile = Path(local) / "qttest" / "ScreenPlay" / "ScreenPlay" / "profiles.json"
+    profile.unlink(missing_ok=True)
+
+
 @pytest.fixture
 def harness_port() -> int:
     app_exe = _find_app()
     port = _pick_free_port()
+    _wipe_sandbox_profile()
     env = os.environ.copy()
     qt_bin = _qt_bin_from_cache(app_exe)
     if qt_bin is not None:
         env["PATH"] = f"{qt_bin}{os.pathsep}{env.get('PATH', '')}"
 
     proc = subprocess.Popen(
-        [str(app_exe), f"--tester-port={port}"],
+        # --isolated-appdata redirects profiles.json/logs to Qt's test-mode
+        # directories so test runs never touch (or destroy) the user's real
+        # wallpaper profile. The content storage path lives in the registry
+        # and is intentionally shared, so installed wallpapers stay visible.
+        [str(app_exe), f"--tester-port={port}", "--isolated-appdata"],
         env=env,
         cwd=str(app_exe.parent),
     )
