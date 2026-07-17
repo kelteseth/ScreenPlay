@@ -1,0 +1,3 @@
+[submodule "ThirdParty/chuck_tester"]
+	path = ThirdParty/chuck_tester
+	url = https://github.com/kelteseth/chuck_tester.git

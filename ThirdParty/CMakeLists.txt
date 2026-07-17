@@ -17,13 +17,17 @@ FetchContent_Declare(
     # https://bugreports.qt.io/browse/QTCREATORBUG-27083
     SOURCE_DIR ${THIRD_PARTY_PATH}/qqcoro)
 
-FetchContent_Declare(tester
-    GIT_REPOSITORY https://github.com/kelteseth/chuck_tester.git
-    GIT_TAG        55d224023165ec04bf021c4d1f69d1a0d405c7fa
-    SOURCE_SUBDIR  tester
-    SOURCE_DIR     ${THIRD_PARTY_PATH}/chuck_tester)
+FetchContent_MakeAvailable(QArchive qcoro)
 
-FetchContent_MakeAvailable(QArchive qcoro tester)
+# chuck_tester is a git submodule so the testing framework can be edited
+# in-tree. Run `git submodule update --init` after cloning.
+if(NOT EXISTS ${THIRD_PARTY_PATH}/chuck_tester/tester/CMakeLists.txt)
+    message(
+        FATAL_ERROR
+            "chuck_tester submodule is missing. Run: git submodule update --init"
+    )
+endif()
+add_subdirectory(chuck_tester/tester)
 
 add_subdirectory(Steam)
 
