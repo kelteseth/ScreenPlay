@@ -112,6 +112,22 @@ ApplicationWindow {
         content.openExitDialog()
     }
 
+    // Frame pacing diagnostics (Ctrl+Shift+F). Collection only runs while
+    // the overlay is visible.
+    Components.FrameStatsOverlay {
+        id: frameStatsOverlay
+        parent: applicationWindow.contentItem
+        anchors.top: parent.top
+        anchors.right: parent.right
+        anchors.margins: 60
+        z: 9999
+    }
+    Shortcut {
+        sequence: "Ctrl+Shift+F"
+        context: Qt.ApplicationShortcut
+        onActivated: frameStatsOverlay.shown = !frameStatsOverlay.shown
+    }
+
     Item {
         id: content
         objectName: "mainContent"

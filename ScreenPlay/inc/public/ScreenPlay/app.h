@@ -3,6 +3,7 @@
 #pragma once
 #include "ScreenPlay/create.h"
 #include "ScreenPlay/errormanager.h"
+#include "ScreenPlay/framestats.h"
 #include "ScreenPlay/globalvariables.h"
 #include "ScreenPlay/installedlistfilter.h"
 #include "ScreenPlay/installedlistmodel.h"
@@ -48,6 +49,7 @@ class App : public QObject {
     Q_PROPERTY(ScreenPlay::MonitorListModel* monitorListModel READ monitorListModel CONSTANT FINAL)
     Q_PROPERTY(ScreenPlay::ProfileListModel* profileListModel READ profileListModel CONSTANT FINAL)
     Q_PROPERTY(ScreenPlay::UiAppStateSignals* uiAppStateSignals READ uiAppStateSignals CONSTANT FINAL)
+    Q_PROPERTY(ScreenPlay::FrameStats* frameStats READ frameStats CONSTANT FINAL)
     Q_PROPERTY(ScreenPlay::ErrorManager* errorManager READ errorManager CONSTANT FINAL)
 
 public:
@@ -75,6 +77,7 @@ public:
     Wizards* wizards() const { return m_wizards.get(); }
     UiAppStateSignals* uiAppStateSignals() const { return m_uiAppStateSignals.get(); }
     ErrorManager* errorManager() const { return m_errorManager.get(); }
+    FrameStats* frameStats() const { return m_frameStats.get(); }
 
 signals:
     void requestExit();
@@ -89,6 +92,7 @@ private:
 
     QPointer<QQmlEngine> m_engine;
     std::unique_ptr<Create> m_create;
+    std::unique_ptr<FrameStats> m_frameStats;
     std::unique_ptr<Wizards> m_wizards;
     std::unique_ptr<ScreenPlayManager> m_screenPlayManager;
     std::unique_ptr<Util> m_util;

@@ -14,6 +14,7 @@ set(SOURCES
     src/create.cpp
     src/createimportvideo.cpp
     src/errormanager.cpp
+    src/framestats.cpp
     src/gifoptimizer.cpp
     src/globalvariables.cpp
     src/installedcontentdata.cpp
@@ -43,6 +44,7 @@ set(HEADER
     inc/public/ScreenPlay/createimportstates.h
     inc/public/ScreenPlay/createimportvideo.h
     inc/public/ScreenPlay/errormanager.h
+    inc/public/ScreenPlay/framestats.h
     inc/public/ScreenPlay/gifoptimizer.h
     inc/public/ScreenPlay/globalvariables.h
     inc/public/ScreenPlay/installedcontentdata.h
@@ -72,6 +74,7 @@ set(QML
     qml/Community/CommunityView.qml
     qml/Community/XMLNewsfeed.qml
     qml/Components/ErrorManagerPopup.qml
+    qml/Components/FrameStatsOverlay.qml
     qml/Components/LineHandle.qml
     qml/Components/LineIndicator.qml
     qml/Components/ScreenPlayProPopup.qml

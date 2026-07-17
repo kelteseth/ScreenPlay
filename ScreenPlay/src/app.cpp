@@ -68,6 +68,7 @@ App::App(QObject* parent)
 
     m_errorManager = make_shared<ErrorManager>();
     m_uiAppStateSignals = make_unique<UiAppStateSignals>();
+    m_frameStats = make_unique<FrameStats>();
     m_screenPlayManager = make_unique<ScreenPlayManager>();
     m_globalVariables = make_shared<GlobalVariables>();
     m_monitorListModel = make_shared<MonitorListModel>();
