@@ -65,9 +65,12 @@ ScreenPlaySDK::~ScreenPlaySDK()
 
 void ScreenPlaySDK::sendMessage(const QJsonObject& obj)
 {
+    // Compact JSON frames are self-delimiting on the receiving side (brace
+    // matching in IpcFrameBuffer), so back-to-back writes are safe and no
+    // blocking waitForBytesWritten is needed.
     QJsonDocument doc(obj);
     m_socket.write({ doc.toJson(QJsonDocument::Compact) });
-    m_socket.waitForBytesWritten();
+    m_socket.flush();
 }
 
 void ScreenPlaySDK::connected()
@@ -108,12 +111,14 @@ void ScreenPlaySDK::disconnected()
 
 void ScreenPlaySDK::readyRead()
 {
-    // Use the same semicolon-delimited protocol as the server side
-    // (SDKConnection::readyRead) so multi-message packets are handled.
-    const QString raw = m_socket.readAll();
-    const QStringList messages = raw.split(";");
+    // Frames can arrive coalesced ({...}{...}) or split across reads.
+    // IpcFrameBuffer reassembles complete frames; JSON is self-delimiting.
+    const QByteArray raw = m_socket.readAll();
+    m_frameBuffer.append(std::string_view { raw.constData(), static_cast<std::size_t>(raw.size()) });
+    const std::vector<std::string> frames = m_frameBuffer.takeFrames();
 
-    for (const QString& msg : messages) {
+    for (const std::string& frame : frames) {
+        const QString msg = QString::fromStdString(frame);
         if (msg.isEmpty())
             continue;
 
@@ -187,10 +192,15 @@ void ScreenPlaySDK::readyRead()
 
 void ScreenPlaySDK::redirectMessage(const QByteArray& msg)
 {
-    if (isConnected()) {
-        m_socket.write(msg);
-        m_socket.waitForBytesWritten();
-    }
+    if (!isConnected())
+        return;
+    // Wrap the raw log text in a JSON frame. Log output is arbitrary text -
+    // unframed it can contain ';', '{' or newlines and would corrupt the
+    // shared frame stream (e.g. swallow a ping). JSON escaping makes it safe;
+    // the main app unwraps "redirectedLog" frames in SDKConnection::readyRead.
+    const QJsonObject frame { { QStringLiteral("redirectedLog"), QString::fromLocal8Bit(msg) } };
+    m_socket.write(QJsonDocument(frame).toJson(QJsonDocument::Compact));
+    m_socket.flush();
 }
 
 void ScreenPlaySDK::pingAlive()
@@ -198,13 +208,15 @@ void ScreenPlaySDK::pingAlive()
     m_socket.write("ping;");
     if (!m_socket.waitForBytesWritten(500)) {
         qCInfo(screenPlaySDK) << "Cannot ping to main application. Closing!";
-        emit sdkDisconnected();
+        // Go through disconnected() so m_isConnected is reset consistently
+        // before sdkDisconnected is emitted.
+        disconnected();
         return;
     }
 
     if (m_socket.state() != QLocalSocket::ConnectedState) {
         qCInfo(screenPlaySDK) << "Socket no longer connected. Closing!";
-        emit sdkDisconnected();
+        disconnected();
         return;
     }
 
@@ -215,7 +227,7 @@ void ScreenPlaySDK::pingAlive()
             if (isMainAppRunning)
                 return;
         }
-        emit sdkDisconnected();
+        disconnected();
     }
 }
 

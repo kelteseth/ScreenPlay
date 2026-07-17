@@ -115,12 +115,13 @@ private slots:
         auto p = makePair();
         QSignalSpy connSpy(p.conn.get(), &SDKConnection::appConnected);
 
-        // "QMLWallpaper" is one of the known types returned by Util::getAvailableTypes()
+        // Type matching is case-insensitive, but the stored type is the
+        // canonical entry from Util::getAvailableTypes() ("qmlWallpaper").
         clientWrite(p, "appID=test-id-1234,QMLWallpaper;");
 
         QCOMPARE(connSpy.count(), 1);
         QCOMPARE(p.conn->appID(), QString("test-id-1234"));
-        QCOMPARE(p.conn->type(), QString("QMLWallpaper"));
+        QCOMPARE(p.conn->type(), QString("qmlWallpaper"));
     }
 
     void appIDHandshakeUnknownTypeDoesNotCrash()
@@ -174,6 +175,91 @@ private slots:
         QSignalSpy spy(p.conn.get(), &SDKConnection::pingAliveReceived);
         clientWrite(p, "ping;ping;ping;");
         QCOMPARE(spy.count(), 3);
+    }
+
+    // ------------------------------------------------------------------
+    // Frame reassembly (IpcFrameBuffer) regression tests
+    // ------------------------------------------------------------------
+
+    // Back-to-back JSON without separators - exactly what syncAllProperties
+    // produces when its writes coalesce into one packet. Previously parsed
+    // as one invalid document and dropped entirely.
+    void coalescedJsonFramesAreAllParsed()
+    {
+        auto p = makePair();
+        QSignalSpy spy(p.conn.get(), &SDKConnection::jsonMessageReceived);
+
+        QJsonObject a { { "volume", 0.5 } };
+        QJsonObject b { { "fillmode", "Cover" } };
+        QJsonObject c { { "isPlaying", true } };
+        clientWrite(p,
+            QJsonDocument(a).toJson(QJsonDocument::Compact)
+                + QJsonDocument(b).toJson(QJsonDocument::Compact)
+                + QJsonDocument(c).toJson(QJsonDocument::Compact));
+
+        QCOMPARE(spy.count(), 3);
+        QCOMPARE(spy.at(0).at(0).toJsonObject().value("volume").toDouble(), 0.5);
+        QCOMPARE(spy.at(1).at(0).toJsonObject().value("fillmode").toString(), QString("Cover"));
+        QCOMPARE(spy.at(2).at(0).toJsonObject().value("isPlaying").toBool(), true);
+    }
+
+    // A JSON frame split across two writes must be buffered and parsed once
+    // complete. Previously both halves were dropped as parse errors.
+    void jsonFrameSplitAcrossPacketsIsReassembled()
+    {
+        auto p = makePair();
+        QSignalSpy spy(p.conn.get(), &SDKConnection::jsonMessageReceived);
+
+        QJsonObject obj { { "command", "replace" }, { "absolutePath", QString(200, 'x') } };
+        const QByteArray data = QJsonDocument(obj).toJson(QJsonDocument::Compact);
+        const auto half = data.size() / 2;
+
+        clientWrite(p, data.left(half));
+        QCOMPARE(spy.count(), 0); // incomplete - nothing emitted yet
+        clientWrite(p, data.mid(half));
+        QCOMPARE(spy.count(), 1);
+        QCOMPARE(spy.at(0).at(0).toJsonObject().value("command").toString(), QString("replace"));
+    }
+
+    // ';' and braces inside JSON string values must not break framing.
+    void jsonWithSemicolonAndBracesInStringsIsOneFrame()
+    {
+        auto p = makePair();
+        QSignalSpy spy(p.conn.get(), &SDKConnection::jsonMessageReceived);
+
+        QJsonObject obj { { "absolutePath", "C:/weird;path/{with}/braces" }, { "title", "a;b};{c" } };
+        clientWrite(p, QJsonDocument(obj).toJson(QJsonDocument::Compact));
+
+        QCOMPARE(spy.count(), 1);
+        QCOMPARE(spy.at(0).at(0).toJsonObject().value("absolutePath").toString(),
+            QString("C:/weird;path/{with}/braces"));
+    }
+
+    // A plain-text frame split across writes (e.g. "pi" + "ng;").
+    void textFrameSplitAcrossPacketsIsReassembled()
+    {
+        auto p = makePair();
+        QSignalSpy spy(p.conn.get(), &SDKConnection::pingAliveReceived);
+        clientWrite(p, "pi");
+        QCOMPARE(spy.count(), 0);
+        clientWrite(p, "ng;");
+        QCOMPARE(spy.count(), 1);
+    }
+
+    // Redirected log output is JSON-wrapped by the SDK and must be consumed
+    // by SDKConnection itself, not surface as a jsonMessageReceived frame
+    // (widgets iterate those as key/value settings).
+    void redirectedLogFrameIsNotForwardedAsJsonMessage()
+    {
+        auto p = makePair();
+        QSignalSpy jsonSpy(p.conn.get(), &SDKConnection::jsonMessageReceived);
+        QSignalSpy pingSpy(p.conn.get(), &SDKConnection::pingAliveReceived);
+
+        QJsonObject logFrame { { "redirectedLog", "warning: something {weird}; happened\nFile: x.cpp" } };
+        clientWrite(p, QJsonDocument(logFrame).toJson(QJsonDocument::Compact) + "ping;");
+
+        QCOMPARE(jsonSpy.count(), 0);
+        QCOMPARE(pingSpy.count(), 1);
     }
 
     // ------------------------------------------------------------------

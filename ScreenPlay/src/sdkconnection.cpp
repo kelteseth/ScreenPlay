@@ -47,11 +47,13 @@ ScreenPlay::SDKConnection::SDKConnection(QLocalSocket* socket, QObject* parent)
 */
 void ScreenPlay::SDKConnection::readyRead()
 {
-    // Split all messages by semicolon. This fixes double messages like pingping
-    // when we get messages to fast
-    const QString read = QString(m_socket->readAll());
-    const QStringList messages = read.split(";");
-    for (const QString& msg : messages) {
+    // Local sockets are byte streams: frames arrive coalesced or split.
+    // IpcFrameBuffer reassembles complete frames across readyRead calls.
+    const QByteArray raw = m_socket->readAll();
+    m_frameBuffer.append(std::string_view { raw.constData(), static_cast<std::size_t>(raw.size()) });
+    const std::vector<std::string> frames = m_frameBuffer.takeFrames();
+    for (const std::string& frame : frames) {
+        const QString msg = QString::fromStdString(frame);
         if (msg == "ping") {
             emit pingAliveReceived();
             continue; // process remaining messages in the same packet
@@ -93,10 +95,22 @@ void ScreenPlay::SDKConnection::readyRead()
             QJsonParseError err {};
             QJsonDocument doc = QJsonDocument::fromJson(QByteArray { msg.toUtf8() }, &err);
 
-            if (err.error != QJsonParseError::NoError)
-                return;
+            // Skip only the broken frame, not the remaining messages
+            if (err.error != QJsonParseError::NoError) {
+                qCWarning(sdkConnection) << "Dropping invalid JSON frame from" << m_appID << ":" << err.errorString();
+                continue;
+            }
 
-            emit jsonMessageReceived(doc.object());
+            // Qt log output redirected from the wallpaper/widget process. It is
+            // JSON-wrapped on the sender side so arbitrary log text (which may
+            // contain ';', '{' or newlines) cannot corrupt the frame stream.
+            const QJsonObject jsonObj = doc.object();
+            if (jsonObj.contains("redirectedLog")) {
+                qCInfo(sdkConnection).noquote() << "[" << m_appID << "]" << jsonObj.value("redirectedLog").toString();
+                continue;
+            }
+
+            emit jsonMessageReceived(jsonObj);
 
         } else {
             // qInfo() << "### Message from: " << m_appID << ": " << msg;
@@ -109,12 +123,18 @@ void ScreenPlay::SDKConnection::readyRead()
 */
 bool ScreenPlay::SDKConnection::sendMessage(const QByteArray& message)
 {
-    if (!m_socket) {
+    if (!m_socket || m_socket->state() != QLocalSocket::ConnectedState) {
         qCWarning(sdkConnection) << "Unable to write to unconnected socket wit message: " << message;
         return false;
     }
-    m_socket->write(message);
-    return m_socket->waitForBytesWritten();
+    // No waitForBytesWritten here: it blocks the GUI thread (default 30s!)
+    // when a wallpaper process hangs with a full pipe. JSON frames are
+    // self-delimiting (see IpcFrameBuffer), so partial delivery across event
+    // loop iterations is fine - flush() pushes what the pipe accepts now and
+    // the event loop writes the rest.
+    const qint64 written = m_socket->write(message);
+    m_socket->flush();
+    return written == message.size();
 }
 
 /*!

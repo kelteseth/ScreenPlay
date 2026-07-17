@@ -21,18 +21,20 @@ func terminate():
 	screen_play_wallpaper.exit()
 	get_tree().quit()
 
-# Checks for messages from the main ScreenPlay instance 
+# Checks for messages from the main ScreenPlay instance
 # for example for propery changes or commands like quit
 func check_messages():
-	var msg = screen_play_wallpaper.read_from_pipe()
-	if msg.is_empty():
-		return
-	
-	# Echo back the received message to Qt for debugging
-	var echo_msg = "ECHO_FROM_GODOT:" + msg
-	screen_play_wallpaper.writeToPipe(echo_msg)
-	print("Received and echoed message: ", msg)
-	
+	# read_from_pipe() returns one complete message per call (the C++ side
+	# reassembles partial/coalesced pipe reads) - drain them all this tick.
+	# NOTE: never write raw text back into the pipe here: unframed bytes
+	# corrupt the shared frame stream on the ScreenPlay side.
+	while true:
+		var msg = screen_play_wallpaper.read_from_pipe()
+		if msg.is_empty():
+			return
+		_handle_message(msg)
+
+func _handle_message(msg: String):
 	var json_parser = JSON.new()
 	var status = json_parser.parse(msg)
 	if status == OK:
@@ -197,48 +199,6 @@ func apply_initial_settings(arg_dict: Dictionary):
 		get_viewport().scaling_3d_mode = Viewport.SCALING_3D_MODE_BILINEAR
 		print("No 3d-scale-mode argument provided, using default Bilinear")
 
-func _on_scene_value_received(key: String, value: String):
-	match key:
-		"godotFps":
-			# Convert enum value to fps string
-			var fps_map = {
-				"Fps1": "1",
-				"Fps6": "6",
-				"Fps12": "12",
-				"Fps24": "24",
-				"Fps30": "30",
-				"Fps60": "60",
-				"Fps120": "120",
-				"Fps144": "144",
-				"Unlimited": "0",
-				"Vsync": "vsync"
-			}
-			if fps_map.has(value):
-				screen_play_wallpaper.set_fps(fps_map[value])
-				apply_fps(screen_play_wallpaper.get_fps())
-			else:
-				print("Unknown godotFps value: ", value)
-		
-		"godot3DScale":
-			screen_play_wallpaper.set_scale3d(value.to_float())
-			apply_3d_scale(screen_play_wallpaper.get_scale3d())
-		
-		"godot3DScaleMode":
-			# Convert enum value to mode string
-			var mode_map = {
-				"Bilinear": "0",
-				"FSR1_0": "1",
-				"FSR2_2": "2"
-			}
-			if mode_map.has(value):
-				screen_play_wallpaper.set_scale3dMode(mode_map[value])
-				apply_3d_scale_mode(screen_play_wallpaper.get_scale3dMode())
-			else:
-				print("Unknown godot3DScaleMode value: ", value)
-		
-		_:
-			print("Unhandled property change: ", key, " = ", value)
-	
 func _ready():
 	ping_alive_timer.wait_time = 0.5
 	ping_alive_timer.timeout.connect(ping_alive)
@@ -248,9 +208,7 @@ func _ready():
 	
 	file_watch_timer.wait_time = 1.0  # Check every second
 	file_watch_timer.timeout.connect(check_file_changes)
-	
-	screen_play_wallpaper.scene_value_received.connect(_on_scene_value_received)
-	
+
 	if not screen_play_wallpaper:
 		printerr("ERROR INVALID SCREENPLAY OBJECT")
 		return

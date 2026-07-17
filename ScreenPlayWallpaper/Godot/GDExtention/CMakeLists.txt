@@ -24,7 +24,9 @@ if(WIN32)
                                                        $<$<CONFIG:Release>:_ITERATOR_DEBUG_LEVEL=0>)
 endif()
 
-target_link_libraries(${PROJECT_NAME} PUBLIC unofficial::godot::cpp ScreenPlayWallpaperWindowsIntegration)
+# ScreenPlayCoreIpcLib is Qt-free by design - it gives this extension the
+# exact same IPC frame reassembly as the Qt endpoints (see ipcframebuffer.h).
+target_link_libraries(${PROJECT_NAME} PUBLIC unofficial::godot::cpp ScreenPlayWallpaperWindowsIntegration ScreenPlayCoreIpcLib)
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PUBLIC ScreenPlayCoreWindowsExtrasLib)
 endif()

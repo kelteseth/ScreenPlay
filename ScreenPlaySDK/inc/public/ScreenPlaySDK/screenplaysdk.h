@@ -8,6 +8,7 @@
 #include <QTimer>
 #include <QtGlobal>
 
+#include "ScreenPlayCore/ipcframebuffer.h"
 #include "ScreenPlayCore/processmanager.h"
 
 class ScreenPlaySDK : public QObject {
@@ -77,4 +78,5 @@ private:
     QTimer m_pingAliveTimer;
     qint64 m_mainAppPID { 0 };
     ScreenPlay::ProcessManager m_processManager;
+    ScreenPlay::IpcFrameBuffer m_frameBuffer;
 };

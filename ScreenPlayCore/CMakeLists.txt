@@ -100,6 +100,14 @@ if(WIN32)
     target_include_directories(ScreenPlayCoreWindowsExtrasLib PUBLIC inc/public/)
 endif()
 
+# IPC frame reassembly shared by every endpoint of the wallpaper/widget
+# socket. Qt-free on purpose: it is also compiled into the Godot GDExtension
+# (ScreenPlayWallpaper/Godot/GDExtention), which cannot link Qt.
+add_library(ScreenPlayCoreIpcLib STATIC inc/public/ScreenPlayCore/ipcframebuffer.h src/ipcframebuffer.cpp)
+target_compile_features(ScreenPlayCoreIpcLib PUBLIC cxx_std_17)
+target_include_directories(ScreenPlayCoreIpcLib PUBLIC inc/public/)
+set_target_properties(ScreenPlayCoreIpcLib PROPERTIES POSITION_INDEPENDENT_CODE ON)
+
 set(RESOURCES
     # cmake-format: sort
     assets/icons/attach_file.svg
@@ -216,6 +224,7 @@ target_link_libraries(
            Qt6::Gui
            QCoro6::Core
            QCoro6::Qml
+           ScreenPlayCoreIpcLib
            fmt::fmt-header-only
            LibArchive::LibArchive
            QArchive)
