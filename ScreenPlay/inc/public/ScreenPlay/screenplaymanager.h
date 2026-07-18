@@ -61,6 +61,7 @@ public:
     Q_INVOKABLE QCoro::QmlTask removeTimelineAt(const int timelineIndex, const QString identifier);
     Q_INVOKABLE QJsonArray timelineSections();
     Q_INVOKABLE void setWallpaperFrameStats(const bool visible);
+    Q_INVOKABLE void setWallpaperFpsLimit(const int fps);
     QJsonArray runningWallpapers() const;
     Q_INVOKABLE QCoro::QmlTask removeAllTimlineSections();
     Q_INVOKABLE QCoro::QmlTask removeWallpaperAt(

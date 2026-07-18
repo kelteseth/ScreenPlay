@@ -65,6 +65,7 @@ public:
     QJsonArray timelineWallpaperList();
     QJsonArray runningWallpapers() const;
     void setWallpaperFrameStats(const bool visible);
+    void setWallpaperFpsLimit(const int fps);
 
     QCoro::Task<Result> activateTimeline(const int timelineIndex, const QString timelineIdentifier);
     QCoro::Task<Result> stopTimelineAndClearWallpaperData(const int timelineIndex, const QString timelineIdentifier, const bool disableTimeline = true);

@@ -25,6 +25,7 @@
 #include "src/macwindow.h"
 #endif
 
+#include "src/framelimiter.h"
 #include "src/wallpaperstate.h"
 
 int main(int argc, char* argv[])
@@ -88,6 +89,7 @@ int main(int argc, char* argv[])
     QCommandLineOption checkOption("check", "Set check value.", "check");
     QCommandLineOption mainAppPidOption("mainapppid", "pid of the main ScreenPlay app. User to check if we are still alive.", "mainapppid");
     QCommandLineOption graphicsApiOption("graphicsapi", "Set the graphics API.", "graphicsapi");
+    QCommandLineOption fpsLimitOption("fpslimit", "Limit rendering to the given frames per second. 0 disables the limit.", "fpslimit");
     QCommandLineOption anonymousTelemetryOption("anonymoustelemetry", "Enable anonymous telemetry.", "anonymoustelemetry");
     QCommandLineOption reapplySpacesOption("reapplyspaces", "Reapply wallpaper window after Mission Control space changes (macOS only).", "reapplyspaces");
 
@@ -101,6 +103,7 @@ int main(int argc, char* argv[])
     parser.addOption(checkOption);
     parser.addOption(mainAppPidOption);
     parser.addOption(graphicsApiOption);
+    parser.addOption(fpsLimitOption);
     parser.addOption(anonymousTelemetryOption);
     parser.addOption(reapplySpacesOption);
 
@@ -138,6 +141,7 @@ int main(int argc, char* argv[])
     QString check = parser.value(checkOption);
     QString pid = parser.value(mainAppPidOption);
     QString graphicsApi = parser.value(graphicsApiOption); // Optional parameter
+    QString fpsLimit = parser.value(fpsLimitOption); // Optional parameter
     QString anonymousTelemetry = parser.value(anonymousTelemetryOption); // Optional parameter
     QString reapplySpacesValue = parser.value(reapplySpacesOption);
 
@@ -183,7 +187,35 @@ int main(int argc, char* argv[])
         applyGraphicsApi(apiEnum);
     }
 
+    // The wallpaper always uses the single threaded "basic" render loop:
+    // its UpdateRequest driven scheduling is what lets FrameRateLimiter
+    // throttle rendering (including live fps limit changes from the main
+    // app), and unlike the threaded loop its animations advance by wall
+    // clock time, so they stay time-correct at any cap. Vsync stays on;
+    // the absolute pacing grid in FrameRateLimiter keeps the average rate
+    // exact even though single frames snap to vblanks.
+    // QT_QPA_UPDATE_IDLE_TIME removes the 5ms platform delay between
+    // frames, which would otherwise drop frames at high refresh rates.
+    int fpsLimitValue = 0;
+    {
+        bool okFpsLimit = false;
+        fpsLimitValue = fpsLimit.toInt(&okFpsLimit);
+        if (!okFpsLimit || fpsLimitValue < 0)
+            fpsLimitValue = 0;
+        if (qEnvironmentVariableIsSet("QSG_RENDER_LOOP")) {
+            qWarning() << "QSG_RENDER_LOOP override active - fps limit unavailable";
+            fpsLimitValue = 0;
+        } else {
+            qputenv("QSG_RENDER_LOOP", "basic");
+            qputenv("QT_QPA_UPDATE_IDLE_TIME", "0");
+        }
+        if (fpsLimitValue > 0)
+            qInfo() << "Wallpaper fps limit set to" << fpsLimitValue;
+    }
+
     auto quickView = std::make_shared<QQuickView>();
+    FrameRateLimiter frameRateLimiter(quickView.get());
+    frameRateLimiter.setMaxFps(fpsLimitValue);
 
 #if defined(Q_OS_WIN)
     auto window = std::make_unique<WinWindow>();
@@ -213,6 +245,11 @@ int main(int argc, char* argv[])
     qmlRegisterSingletonInstance<MacWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", window.get());
     window->setQuickView(quickView);
 #endif
+
+    // Live fps limit updates arrive from the main app as an "fpsLimit"
+    // SDK message (see BaseWindow::messageReceived).
+    window->setFpsLimit(fpsLimitValue);
+    QObject::connect(window.get(), &BaseWindow::fpsLimitChanged, &frameRateLimiter, &FrameRateLimiter::setMaxFps);
 
     auto activeScreensList = util.parseStringToIntegerList(screens);
     if (!activeScreensList.has_value()) {

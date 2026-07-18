@@ -1199,6 +1199,23 @@ void ScreenPlayTimelineManager::setWallpaperFrameStats(const bool visible)
     }
 }
 
+/*!
+    \brief Applies the global fps limit to every connected wallpaper that still
+    inherits it (per-wallpaper fpsLimit == -1). Wallpapers with an explicit
+    override keep their own value. Forwarded from the settings page.
+*/
+void ScreenPlayTimelineManager::setWallpaperFpsLimit(const int fps)
+{
+    QJsonObject msg;
+    msg.insert("fpsLimit", fps);
+    for (const auto& section : std::as_const(m_wallpaperTimelineSectionsList)) {
+        for (const auto& wallpaper : section->wallpaperList) {
+            if (wallpaper->fpsLimit() < 0)
+                wallpaper->sendJsonMessage(msg);
+        }
+    }
+}
+
 void ScreenPlayTimelineManager::printTimelines() const
 {
     QString out = "\n";
@@ -1263,6 +1280,8 @@ QCoro::Task<Result> ScreenPlayTimelineManager::setValueAtMonitorTimelineIndex(
             } else if (key == "fillmode") {
                 auto fillMode = QVariantToEnum<Video::FillMode>(value, Video::FillMode::Cover);
                 wallpaper->updateFillMode(fillMode);
+            } else if (key == "fpsLimit") {
+                wallpaper->updateFpsLimit(value.toInt());
             } else if (key == "godotFps") {
                 auto godotFps = QVariantToEnum<Godot::Fps>(value, Godot::Fps::Fps60);
                 wallpaper->updateGodotFps(godotFps);

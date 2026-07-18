@@ -564,6 +564,11 @@ void ScreenPlayManager::setWallpaperFrameStats(const bool visible)
     m_screenPlayTimelineManager.setWallpaperFrameStats(visible);
 }
 
+void ScreenPlayManager::setWallpaperFpsLimit(const int fps)
+{
+    m_screenPlayTimelineManager.setWallpaperFpsLimit(fps);
+}
+
 /*!
     \brief Appends a new SDKConnection object shared_ptr to the m_clients list.
 */

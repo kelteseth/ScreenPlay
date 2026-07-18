@@ -17,6 +17,7 @@ Item {
         fillMode: Wallpaper.currentState.fillMode
         loops: Wallpaper.currentState.loops
         isPlaying: Wallpaper.currentState.isPlaying
+        fpsLimit: Wallpaper.fpsLimit
         onIsPlayingChanged: {
             if (isPlaying && !root.fadeInDone) {
                 root.fadeInDone = true

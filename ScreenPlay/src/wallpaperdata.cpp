@@ -49,6 +49,10 @@ QJsonObject WallpaperData::serialize() const
         data.insert("godotFps", QVariant::fromValue(godotFps()).toString());
         data.insert("godot3DScaleMode", QVariant::fromValue(godot3DScaleMode()).toString());
         data.insert("godot3DScale", QString::number(godot3DScale(), 'f', 2).toDouble());
+    } else if (fpsLimit() >= 0) {
+        // Only store an explicit per-wallpaper override; -1 (inherit global)
+        // is the default and left out to keep the profile clean.
+        data.insert("fpsLimit", fpsLimit());
     }
     return data;
 }
@@ -160,6 +164,10 @@ std::expected<ScreenPlay::WallpaperData, ScreenPlay::WallpaperData::LoadError> S
     const QString fillModeString = wallpaperObj.value("fillMode").toString();
     wallpaperData.setFillMode(
         QStringToEnum<Video::FillMode>(fillModeString, Video::FillMode::Cover));
+
+    // Absent means inherit the global setting (default -1 stays).
+    if (wallpaperObj.contains("fpsLimit"))
+        wallpaperData.setFpsLimit(wallpaperObj.value("fpsLimit").toInt(-1));
 
     // Load Godot properties with defaults
     if (wallpaperObj.contains("godotFps")) {

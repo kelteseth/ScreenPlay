@@ -117,6 +117,15 @@ void BaseWindow::messageReceived(const QString& key, const QString& value)
         return;
     }
 
+    // Live fps limit change from the settings page. 0 removes the limit.
+    if (key == "fpsLimit") {
+        bool ok = false;
+        const int fps = value.toInt(&ok);
+        if (ok)
+            setFpsLimit(fps);
+        return;
+    }
+
     if (key == "fillmode") {
         // HTML5 Video uses - that c++ enums cannot
         if (QVariant(value).toString() == "Scale_Down") {
@@ -140,6 +149,7 @@ void BaseWindow::replaceWallpaper(
     const QString fillMode,
     const QString type,
     const bool checkWallpaperVisible,
+    const int fpsLimit,
     const QJsonObject wallpaperProperties)
 {
     const ScreenPlay::ContentTypes::InstalledType oldType = this->type();
@@ -149,6 +159,9 @@ void BaseWindow::replaceWallpaper(
     m_targetState->setVolume(volume);
     m_targetState->setFillMode(fillMode);
     m_targetState->setCheckWallpaperVisible(checkWallpaperVisible);
+
+    // Apply the new wallpaper's fps limit (frame limiter + video playbackRate).
+    setFpsLimit(fpsLimit);
 
     if (auto typeOpt = ScreenPlay::Util().getInstalledTypeFromString(type)) {
         setType(typeOpt.value());

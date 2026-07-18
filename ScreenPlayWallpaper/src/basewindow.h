@@ -50,6 +50,7 @@ public:
     Q_PROPERTY(bool canFade READ canFade WRITE setCanFade NOTIFY canFadeChanged)
     Q_PROPERTY(bool debugMode READ debugMode WRITE setDebugMode NOTIFY debugModeChanged)
     Q_PROPERTY(bool frameStatsVisible READ frameStatsVisible WRITE setFrameStatsVisible NOTIFY frameStatsVisibleChanged)
+    Q_PROPERTY(int fpsLimit READ fpsLimit WRITE setFpsLimit NOTIFY fpsLimitChanged)
     Q_PROPERTY(ScreenPlay::ContentTypes::InstalledType type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(ScreenPlay::Video::VideoCodec videoCodec READ videoCodec WRITE setVideoCodec NOTIFY videoCodecChanged)
     Q_PROPERTY(ScreenPlaySDK* sdk READ sdk WRITE setSdk NOTIFY sdkChanged)
@@ -68,6 +69,7 @@ public:
     QVector<int> activeScreensList() const { return m_activeScreensList; }
     bool debugMode() const { return m_debugMode; }
     bool frameStatsVisible() const { return m_frameStatsVisible; }
+    int fpsLimit() const { return m_fpsLimit; }
     ScreenPlaySDK* sdk() const { return m_sdk.get(); }
     const QString& projectPath() const { return m_projectPath; }
     const QString& projectSourceFile() const { return m_projectSourceFile; }
@@ -103,6 +105,7 @@ signals:
     void activeScreensListChanged(QVector<int> activeScreensList);
     void debugModeChanged(bool debugMode);
     void frameStatsVisibleChanged(bool frameStatsVisible);
+    void fpsLimitChanged(int fpsLimit);
     void sdkChanged(ScreenPlaySDK* sdk);
     void projectPathChanged(const QString& projectPath);
     void projectSourceFileChanged(const QString& projectSourceFile);
@@ -125,6 +128,7 @@ public slots:
         const QString fillMode,
         const QString type,
         const bool checkWallpaperVisible,
+        const int fpsLimit,
         const QJsonObject wallpaperProperties) final;
 
     QString loadFromFile(const QString& filename);
@@ -202,6 +206,16 @@ public slots:
         emit frameStatsVisibleChanged(frameStatsVisible);
     }
 
+    void setFpsLimit(int fpsLimit)
+    {
+        if (fpsLimit < 0)
+            fpsLimit = 0;
+        if (m_fpsLimit == fpsLimit)
+            return;
+        m_fpsLimit = fpsLimit;
+        emit fpsLimitChanged(fpsLimit);
+    }
+
     void setSdk(ScreenPlaySDK* sdk)
     {
         if (m_sdk.get() == sdk)
@@ -246,6 +260,7 @@ protected:
     bool m_canFade { false };
     bool m_debugMode { false };
     bool m_frameStatsVisible { false };
+    int m_fpsLimit { 0 };
 
     QString m_projectPath;
     QString m_projectSourceFile;

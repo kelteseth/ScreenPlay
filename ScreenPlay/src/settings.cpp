@@ -161,6 +161,8 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
         setGraphicsApi(ScreenPlayEnums::GraphicsApi::Auto);
     }
 
+    setWallpaperFpsLimit(m_qSettings.value("WallpaperFpsLimit", 0).toInt());
+
     setAnonymousTelemetry(m_qSettings.value("AnonymousTelemetry", true).toBool());
     setAlwaysMinimize(m_qSettings.value("alwaysMinimize", false).toBool());
     setIncludeExampleContent(m_qSettings.value("includeExampleContent", true).toBool());
@@ -821,6 +823,17 @@ void Settings::setGraphicsApi(ScreenPlay::ScreenPlayEnums::GraphicsApi graphicsA
 
     m_graphicsApi = graphicsApi;
     emit graphicsApiChanged(m_graphicsApi);
+}
+
+void Settings::setWallpaperFpsLimit(int wallpaperFpsLimit)
+{
+    if (m_wallpaperFpsLimit == wallpaperFpsLimit)
+        return;
+
+    setqSetting("WallpaperFpsLimit", wallpaperFpsLimit);
+
+    m_wallpaperFpsLimit = wallpaperFpsLimit;
+    emit wallpaperFpsLimitChanged(m_wallpaperFpsLimit);
 }
 }
 

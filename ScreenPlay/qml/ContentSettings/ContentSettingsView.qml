@@ -435,6 +435,10 @@ Popup {
                         customPropertiesGridView.selectedMonitorIndex = root.selectedMonitorIndex
                         customPropertiesGridView.projectSettingsListmodelRef = App.screenPlayManager.projectSettingsListModel
                         console.log(LoggingCategories.contentSettings, customPropertiesGridView.timelineActive, customPropertiesGridView.timelineIndex, customPropertiesGridView.sectionIdentifier, customPropertiesGridView.selectedMonitorIndex, customPropertiesGridView.projectSettingsListmodelRef)
+                        qmlFpsControl.monitorIndex = root.selectedMonitorIndex
+                        qmlFpsControl.timelineIndex = selectedTimeline.index
+                        qmlFpsControl.sectionIdentifier = selectedTimeline.identifier
+                        qmlFpsControl.wallpaperData = App.screenPlayManager.getWallpaperData(root.selectedMonitorIndex, selectedTimeline.index, selectedTimeline.identifier)
                         customPropertiesGridView.visible = true
                         defaultVideoControls.visible = false
                         defaultGodotControls.visible = false
@@ -456,6 +460,19 @@ Popup {
                     visible: false
                 }
 
+                // FPS limit control for QML/Website wallpapers, which otherwise
+                // only show their custom project properties in the grid below.
+                WallpaperFpsControl {
+                    id: qmlFpsControl
+                    visible: customPropertiesGridView.visible
+                    anchors {
+                        top: parent.top
+                        left: parent.left
+                        right: parent.right
+                        margins: 20
+                    }
+                }
+
                 SPCore.MaterialGridView {
                     id: customPropertiesGridView
                     property var projectSettingsListmodelRef
@@ -470,8 +487,14 @@ Popup {
                     cellHeight: 50
                     cacheBuffer: 10000
                     clip: true
-                    anchors.fill: parent
-                    anchors.margins: 10
+                    anchors {
+                        top: qmlFpsControl.bottom
+                        topMargin: 10
+                        left: parent.left
+                        right: parent.right
+                        bottom: parent.bottom
+                        margins: 10
+                    }
                     visible: false
                     model: customPropertiesGridView.projectSettingsListmodelRef
 

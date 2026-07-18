@@ -61,6 +61,7 @@ signals:
         const QString& fillMode,
         const QString& type,
         bool checkWallpaperVisible,
+        int fpsLimit,
         const QJsonObject& wallpaperProperties);
 
     void mainAppPIDChanged(qint64 mainAppPID);

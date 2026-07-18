@@ -20,6 +20,39 @@ Item {
     property bool isPlaying
     property real normalizedPosition: 0
 
+    // Target render rate in fps (0 = unlimited). For video the decoder runs on
+    // the media clock, so the window-level frame limiter cannot slow it down.
+    // Instead we slow playback: at half a clip's native fps the decoder only
+    // has to produce half as many frames per wall-second, which actually lowers
+    // decode power. The trade-off is slow-motion, so this is only sensible for
+    // ambient wallpapers where absolute motion speed does not matter.
+    property int fpsLimit: 0
+
+    // Never slow below this rate: extreme ratios (e.g. 1 fps on a 60 fps clip)
+    // look frozen and the backend paces them poorly. Below the floor the decode
+    // saving plateaus while the window frame limiter still drops presented
+    // frames to the requested fps.
+    readonly property real _minPlaybackRate: 0.1
+
+    onFpsLimitChanged: {
+        _applyPlaybackRate(mediaPlayer1)
+        _applyPlaybackRate(mediaPlayer2)
+    }
+
+    // native fps comes from the clip's metadata and is only valid once it has
+    // loaded, so this is also called from each player's onMetaDataChanged.
+    function _applyPlaybackRate(player) {
+        if (!player)
+            return
+        let rate = 1.0
+        if (root.fpsLimit > 0) {
+            const nativeFps = player.metaData.value(MediaMetaData.VideoFrameRate)
+            if (nativeFps && nativeFps > 0)
+                rate = Math.max(root._minPlaybackRate, Math.min(1.0, root.fpsLimit / nativeFps))
+        }
+        player.playbackRate = rate
+    }
+
     // Emitted when crossfade transition completes
     signal transitionFinished
 
@@ -127,6 +160,7 @@ Item {
         loops: root.loops ? MediaPlayer.Infinite : 1
         videoOutput: vo1
         audioOutput: ao1
+        onMetaDataChanged: root._applyPlaybackRate(mediaPlayer1)
     }
 
     MediaPlayer {
@@ -134,6 +168,7 @@ Item {
         loops: root.loops ? MediaPlayer.Infinite : 1
         videoOutput: vo2
         audioOutput: ao2
+        onMetaDataChanged: root._applyPlaybackRate(mediaPlayer2)
     }
 
     VideoOutput {

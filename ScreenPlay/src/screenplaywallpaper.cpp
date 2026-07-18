@@ -106,6 +106,12 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
 
         // Add graphics API argument (not for Godot wallpapers)
         m_appArgumentsList.append({ "--graphicsapi", QString::number(static_cast<int>(m_settings->graphicsApi())) });
+
+        // Per-wallpaper fps limit overrides the global default; -1 inherits it.
+        const int fpsLimit = m_wallpaperData.fpsLimit() >= 0 ? m_wallpaperData.fpsLimit() : m_settings->wallpaperFpsLimit();
+        if (fpsLimit > 0) {
+            m_appArgumentsList.append({ "--fpslimit", QString::number(fpsLimit) });
+        }
     }
 
     // Add anonymous telemetry setting
@@ -326,6 +332,11 @@ bool ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QVariant& 
         found = true;
     }
 
+    if (key == "fpsLimit") {
+        m_wallpaperData.setFpsLimit(value.toInt());
+        found = true;
+    }
+
     if (!found && !category.isEmpty()) {
         auto properties = m_wallpaperData.properties();
         if (!properties.contains(category)) {
@@ -352,6 +363,12 @@ void ScreenPlayWallpaper::updateFillMode(const Video::FillMode fillMode)
 {
     m_wallpaperData.setFillMode(fillMode);
     emit fillModeChanged(fillMode);
+}
+
+void ScreenPlayWallpaper::updateFpsLimit(const int fpsLimit)
+{
+    m_wallpaperData.setFpsLimit(fpsLimit);
+    emit fpsLimitChanged(fpsLimit);
 }
 
 void ScreenPlayWallpaper::updateGodotFps(const Godot::Fps godotFps)
@@ -398,11 +415,16 @@ bool ScreenPlayWallpaper::replaceLive(const WallpaperData wallpaperData)
 
     m_wallpaperData = wallpaperData;
 
+    // Resolve -1 (inherit) to the global default; a negative value has no
+    // meaning to the wallpaper process.
+    const int effectiveFpsLimit = m_wallpaperData.fpsLimit() >= 0 ? m_wallpaperData.fpsLimit() : m_settings->wallpaperFpsLimit();
+
     QJsonObject obj;
     obj.insert("command", "replace");
     obj.insert("type", QVariant::fromValue(m_wallpaperData.type()).toString());
     obj.insert("fillMode", QVariant::fromValue(m_wallpaperData.fillMode()).toString());
     obj.insert("volume", std::floor(m_wallpaperData.volume() * 100.0F) / 100.0f);
+    obj.insert("fpsLimit", effectiveFpsLimit);
     obj.insert("absolutePath", m_wallpaperData.absolutePath());
     obj.insert("file", m_wallpaperData.file());
     obj.insert("checkWallpaperVisible", false);
@@ -517,6 +539,14 @@ void ScreenPlayWallpaper::setFillMode(Video::FillMode fillMode)
         return;
     m_wallpaperData.setFillMode(fillMode);
     emit fillModeChanged(fillMode);
+}
+
+void ScreenPlayWallpaper::setFpsLimit(int fpsLimit)
+{
+    if (m_wallpaperData.fpsLimit() == fpsLimit)
+        return;
+    m_wallpaperData.setFpsLimit(fpsLimit);
+    emit fpsLimitChanged(fpsLimit);
 }
 
 void ScreenPlayWallpaper::setGodotFps(Godot::Fps godotFps)

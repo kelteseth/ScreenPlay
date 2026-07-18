@@ -85,6 +85,7 @@ set(QML
     qml/ContentSettings/MonitorSelectionItem.qml
     qml/ContentSettings/MonitorsProjectSettingItem.qml
     qml/ContentSettings/SaveNotification.qml
+    qml/ContentSettings/WallpaperFpsControl.qml
     qml/Create/CreateSidebar.qml
     qml/Create/CreateView.qml
     qml/Create/StartInfo.qml

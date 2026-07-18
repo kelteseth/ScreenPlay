@@ -148,6 +148,7 @@ void ScreenPlaySDK::readyRead()
             const QString file = obj.value("file").toString();
             const QJsonObject properties = obj.value("properties").toObject();
             const bool checkWallpaperVisible = obj.value("checkWallpaperVisible").toBool();
+            const int fpsLimit = obj.value("fpsLimit").toInt(0);
 
             if (type.isEmpty()
                 || fillMode.isEmpty()
@@ -179,6 +180,7 @@ void ScreenPlaySDK::readyRead()
                 fillMode,
                 type,
                 checkWallpaperVisible,
+                fpsLimit,
                 properties);
             continue;
         }
