@@ -44,18 +44,7 @@ FocusScope {
 
         ColumnLayout {
             width: scrollView.availableWidth
-            spacing: 10
-
-            Label {
-                Layout.fillWidth: true
-                Layout.preferredHeight: 30
-                Layout.leftMargin: 10
-                font.pointSize: 14
-                wrapMode: Text.WrapAnywhere
-                elide: Text.ElideRight
-                color: root.timelineActive ? Material.primaryTextColor : Material.secondaryTextColor
-                text: root.wallpaperData ? root.wallpaperData.title : ""
-            }
+            spacing: 12
 
             LabelSlider {
                 id: slVolume
@@ -64,12 +53,9 @@ FocusScope {
                 iconSource: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_volume.svg"
                 slider.stepSize: 0.1
                 Layout.fillWidth: true
-                Layout.topMargin: 20
                 Layout.leftMargin: 10
                 Layout.rightMargin: 10
                 onValueEditingFinished: {
-
-                    // settingValue = true;
                     const newVolume = slVolume.slider.value.toFixed(2)
                     console.log(LoggingCategories.videoControls, "Volume changed - Timeline active:", root.timelineActive, "Monitor:", root.monitorIndex, "Timeline index:", root.timelineIndex, "Section:", root.sectionIdentifier, "New volume:", newVolume)
                     const category = ""
@@ -83,7 +69,7 @@ FocusScope {
             }
 
             ColumnLayout {
-                spacing: 15
+                spacing: 6
                 Layout.fillWidth: true
                 Layout.leftMargin: 10
                 Layout.rightMargin: 10
@@ -92,7 +78,6 @@ FocusScope {
                     id: txtComboBoxFillMode
                     height: 20
                     font.pointSize: 14
-
                     text: qsTr("Fill Mode")
                     verticalAlignment: Text.AlignVCenter
                     font.family: App.settings.font
@@ -104,7 +89,6 @@ FocusScope {
                 ComboBox {
                     id: settingsComboBox
                     Layout.fillWidth: true
-                    Layout.leftMargin: 10
                     textRole: "text"
                     valueRole: "value"
 
@@ -142,15 +126,16 @@ FocusScope {
                         })
                     }
                 }
+            }
 
-                WallpaperFpsControl {
-                    id: fpsControl
-                    Layout.fillWidth: true
-                    Layout.topMargin: 15
-                    monitorIndex: root.monitorIndex
-                    timelineIndex: root.timelineIndex
-                    sectionIdentifier: root.sectionIdentifier
-                }
+            WallpaperFpsControl {
+                id: fpsControl
+                Layout.fillWidth: true
+                Layout.leftMargin: 10
+                Layout.rightMargin: 10
+                monitorIndex: root.monitorIndex
+                timelineIndex: root.timelineIndex
+                sectionIdentifier: root.sectionIdentifier
             }
         }
     }

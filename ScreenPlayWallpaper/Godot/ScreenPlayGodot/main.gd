@@ -94,6 +94,10 @@ func _handle_message(msg: String):
 ## Applies any Godot settings present in a message (fps, 3D scale, scale mode).
 ## Shared by the live-property path and the replace command.
 func _apply_properties(data: Dictionary) -> void:
+	if data.has("volume"):
+		screen_play_wallpaper.set_volume(float(data["volume"]))
+		apply_volume(screen_play_wallpaper.get_volume())
+
 	if data.has("godotFps"):
 		_set_fps_from_enum(str(data["godotFps"]))
 
@@ -144,6 +148,20 @@ func _set_scale_mode_from_enum(enum_key: String) -> void:
 		apply_3d_scale_mode(screen_play_wallpaper.get_scale3dMode())
 	else:
 		print("Unknown godot3DScaleMode value: ", enum_key)
+
+## Applies the wallpaper volume to Godot's master audio bus. 0 mutes it; any
+## higher value maps the 0..1 range onto the bus gain in decibels.
+func apply_volume(volume: float):
+	var master_bus := AudioServer.get_bus_index("Master")
+	if master_bus < 0:
+		master_bus = 0
+	if volume <= 0.0:
+		AudioServer.set_bus_mute(master_bus, true)
+		print("Volume muted")
+	else:
+		AudioServer.set_bus_mute(master_bus, false)
+		AudioServer.set_bus_volume_db(master_bus, linear_to_db(clampf(volume, 0.0, 1.0)))
+		print("Volume set to: ", volume)
 
 func apply_fps(fps_value: String):
 	if fps_value == "vsync":
@@ -285,12 +303,16 @@ func unload_scene():
 
 ## Applies all current settings (used after reload)
 func apply_all_settings():
+	apply_volume(screen_play_wallpaper.get_volume())
 	apply_fps(screen_play_wallpaper.get_fps())
 	apply_3d_scale(screen_play_wallpaper.get_scale3d())
 	apply_3d_scale_mode(screen_play_wallpaper.get_scale3dMode())
 
 ## Applies initial settings from parsed arguments (call after init)
 func apply_initial_settings(arg_dict: Dictionary):
+	# Volume is parsed and stored in parse_args(); apply it to the audio bus.
+	apply_volume(screen_play_wallpaper.get_volume())
+
 	# Handle optional fps argument
 	if arg_dict.has("fps"):
 		screen_play_wallpaper.set_fps(arg_dict["fps"])

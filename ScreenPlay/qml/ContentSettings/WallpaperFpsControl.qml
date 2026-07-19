@@ -19,7 +19,7 @@ ColumnLayout {
     property string sectionIdentifier
     property var wallpaperData
 
-    spacing: 15
+    spacing: 6
 
     function reload(): void {
         if (!wallpaperData)
@@ -44,7 +44,6 @@ ColumnLayout {
     ComboBox {
         id: cbFpsLimit
         Layout.fillWidth: true
-        Layout.leftMargin: 10
         textRole: "text"
         valueRole: "value"
 

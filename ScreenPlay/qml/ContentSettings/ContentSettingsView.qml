@@ -20,6 +20,10 @@ Popup {
     property int maxWidth: 1200
     property bool timelineSwitching: false
     property bool isInitialLoad: false
+    // Title of the currently selected wallpaper, shown as the header above the
+    // controls card (mirrors the "Wallpaper Configuration" headline on the left).
+    property string selectedWallpaperTitle: ""
+    property bool selectedWallpaperTimelineActive: false
     width: Math.min(Math.max(modalSource.width - 20, applicationWindow.minimumWidth), maxWidth)
     height: Math.min(Math.max(modalSource.height - 20, applicationWindow.minimumHeight), 800)
 
@@ -239,7 +243,9 @@ Popup {
 
                     onDeselected: function () {
                         defaultVideoControls.visible = false
+                        defaultGodotControls.visible = false
                         customPropertiesGridView.visible = false
+                        root.selectedWallpaperTitle = ""
                         root.selectedInstallType = SPCore.ContentTypes.InstalledType.Unknown
                     }
 
@@ -357,6 +363,27 @@ Popup {
                 }
             }
 
+            Text {
+                id: txtWallpaperTitle
+
+                text: root.selectedWallpaperTitle
+                visible: text.length > 0
+                font.pointSize: 21
+                font.weight: Font.Light
+                font.family: App.settings.font
+                color: root.selectedWallpaperTimelineActive ? Material.primaryTextColor : Material.secondaryTextColor
+                elide: Text.ElideRight
+
+                anchors {
+                    top: parent.top
+                    topMargin: 20
+                    left: itmLeftWrapper.right
+                    leftMargin: 20
+                    right: parent.right
+                    rightMargin: 40
+                }
+            }
+
             Rectangle {
                 id: wallpaperControlsWrapper
                 color: Material.theme === Material.Light ? Material.backgroundColor : Qt.darker(Material.backgroundColor)
@@ -393,6 +420,8 @@ Popup {
                         defaultVideoControls.timelineActive = selectedTimeline.lineIndicator.isActive
                         defaultVideoControls.timelineIndex = selectedTimeline.index
                         defaultVideoControls.sectionIdentifier = selectedTimeline.identifier
+                        root.selectedWallpaperTitle = wallpaperData ? wallpaperData.title : ""
+                        root.selectedWallpaperTimelineActive = selectedTimeline.lineIndicator.isActive
                         return
                     }
                     if (root.selectedInstallType === SPCore.ContentTypes.InstalledType.GodotWallpaper) {
@@ -413,6 +442,8 @@ Popup {
                         defaultGodotControls.timelineActive = selectedTimeline.lineIndicator.isActive
                         defaultGodotControls.timelineIndex = selectedTimeline.index
                         defaultGodotControls.sectionIdentifier = selectedTimeline.identifier
+                        root.selectedWallpaperTitle = wallpaperData ? wallpaperData.title : ""
+                        root.selectedWallpaperTimelineActive = selectedTimeline.lineIndicator.isActive
                         return
                     }
                     if (root.selectedInstallType === SPCore.ContentTypes.InstalledType.QMLWallpaper || root.selectedInstallType === SPCore.ContentTypes.InstalledType.WebsiteWallpaper) {
@@ -438,7 +469,10 @@ Popup {
                         qmlFpsControl.monitorIndex = root.selectedMonitorIndex
                         qmlFpsControl.timelineIndex = selectedTimeline.index
                         qmlFpsControl.sectionIdentifier = selectedTimeline.identifier
-                        qmlFpsControl.wallpaperData = App.screenPlayManager.getWallpaperData(root.selectedMonitorIndex, selectedTimeline.index, selectedTimeline.identifier)
+                        const qmlWallpaperData = App.screenPlayManager.getWallpaperData(root.selectedMonitorIndex, selectedTimeline.index, selectedTimeline.identifier)
+                        qmlFpsControl.wallpaperData = qmlWallpaperData
+                        root.selectedWallpaperTitle = qmlWallpaperData ? qmlWallpaperData.title : ""
+                        root.selectedWallpaperTimelineActive = selectedTimeline.lineIndicator.isActive
                         customPropertiesGridView.visible = true
                         defaultVideoControls.visible = false
                         defaultGodotControls.visible = false

@@ -22,6 +22,9 @@ FocusScope {
             return
         root.hasContent = wallpaperData.hasContent();
 
+        // Set Volume
+        slVolume.slider.value = wallpaperData.volume.toFixed(2)
+
         // Set FPS
         const currentFps = wallpaperData.godotFps
         for (let i = 0; i < cbFps.model.count; i++) {
@@ -63,23 +66,32 @@ FocusScope {
 
         ColumnLayout {
             width: scrollView.availableWidth
-            spacing: 10
+            spacing: 12
 
-            Label {
+            LabelSlider {
+                id: slVolume
+
+                headline: qsTr("Volume")
+                iconSource: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_volume.svg"
+                slider.stepSize: 0.1
                 Layout.fillWidth: true
-                Layout.preferredHeight: 30
                 Layout.leftMargin: 10
-                font.pointSize: 14
-                wrapMode: Text.WrapAnywhere
-                elide: Text.ElideRight
-                color: root.timelineActive ? Material.primaryTextColor : Material.secondaryTextColor
-                text: root.wallpaperData ? root.wallpaperData.title : ""
+                Layout.rightMargin: 10
+                onValueEditingFinished: {
+                    const newVolume = slVolume.slider.value.toFixed(2)
+                    console.log(LoggingCategories.godotControls, "Volume changed - Timeline active:", root.timelineActive, "Monitor:", root.monitorIndex, "Timeline index:", root.timelineIndex, "Section:", root.sectionIdentifier, "New volume:", newVolume)
+                    const category = ""
+                    App.screenPlayManager.setValueAtMonitorTimelineIndex(root.monitorIndex, root.timelineIndex, root.sectionIdentifier, "volume", newVolume, category).then(result => {
+                        if (!result.success) {
+                            InstantPopup.openErrorPopup(root, result.message)
+                        }
+                    })
+                }
             }
 
             ColumnLayout {
-                spacing: 15
+                spacing: 6
                 Layout.fillWidth: true
-                Layout.topMargin: 20
                 Layout.leftMargin: 10
                 Layout.rightMargin: 10
 
@@ -98,7 +110,6 @@ FocusScope {
                 ComboBox {
                     id: cbFps
                     Layout.fillWidth: true
-                    Layout.leftMargin: 10
                     textRole: "text"
                     valueRole: "value"
 
@@ -157,7 +168,7 @@ FocusScope {
             }
 
             ColumnLayout {
-                spacing: 15
+                spacing: 6
                 Layout.fillWidth: true
                 Layout.leftMargin: 10
                 Layout.rightMargin: 10
@@ -177,7 +188,6 @@ FocusScope {
                 ComboBox {
                     id: cbScaleMode
                     Layout.fillWidth: true
-                    Layout.leftMargin: 10
                     textRole: "text"
                     valueRole: "value"
 
