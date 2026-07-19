@@ -430,6 +430,24 @@ bool ScreenPlayWallpaper::replaceLive(const WallpaperData wallpaperData)
     obj.insert("checkWallpaperVisible", false);
     obj.insert("properties", Util().flattenProperties(wallpaperData.properties()));
 
+    // A Godot->Godot timeline switch reuses this process, so the replace
+    // command carries everything main.gd's replace handler needs to swap the
+    // content and re-apply the Godot settings (fps, 3D scale/mode).
+    if (m_wallpaperData.type() == ContentTypes::InstalledType::GodotWallpaper) {
+        // Resolve the package file for the *new* wallpaper from its project.json;
+        // m_projectJson still holds the previous wallpaper's data at this point.
+        if (auto projectOpt = Util().openJsonFileToObject(m_wallpaperData.absolutePath() + "/project.json")) {
+            m_projectJson = projectOpt.value();
+        }
+        if (m_projectJson.contains("version")) {
+            const quint64 version = m_projectJson.value("version").toInt();
+            obj.insert("projectPackageFile", QString("project-v%1.zip").arg(version));
+        }
+        obj.insert("godotFps", QVariant::fromValue(m_wallpaperData.godotFps()).toString());
+        obj.insert("godot3DScale", m_wallpaperData.godot3DScale());
+        obj.insert("godot3DScaleMode", QVariant::fromValue(m_wallpaperData.godot3DScaleMode()).toString());
+    }
+
     const bool success = m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
     if (!success) {
         qCWarning(screenPlayWallpaper) << "Cannot sendMessage:" << obj;
