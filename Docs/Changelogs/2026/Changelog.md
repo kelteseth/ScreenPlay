@@ -163,10 +163,23 @@ Period: 2026-01-01 – present
 
 #### New
 
+**Wallpaper rendering & power**
+- Configurable **FPS limit for video and QML/HTML/GIF wallpapers** — a global default plus a per-wallpaper override saved in `profiles.json`. A new `FrameRateLimiter` throttles the scene graph's `UpdateRequest` delivery on an absolute time grid so the average rate is exact and adjustable at runtime (the wallpaper now always uses the "basic" render loop, keeping animations time-correct). Video additionally lowers decode power via `playbackRate = clamp(limit / nativeFps, 0.1, 1.0)`. Editable from a shared `WallpaperFpsControl` in the video and QML/website panels ([`bfc6cc21`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/bfc6cc21))
+- **Vulkan and DirectX 12 graphics-API options**, defaulting to Vulkan when a usable driver is present — routed through a shared `ScreenPlay::applyGraphicsApi()` for both the main window and the wallpaper processes. Avoids the D3D11 flip-model DWM independent-flip loss that degraded main-window pacing (144 Hz → ~85 fps on AMD) while a wallpaper is parented under `WorkerW`. `QSG_RHI_BACKEND` always overrides; DX12 is opt-in (Qt WebEngine 6.11 has no D3D12 path, so HTML wallpapers fall back to software there) ([`9fbfeee7`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/9fbfeee7))
+- **Frame pacing overlay** (Ctrl+Shift+F) — fps, mean/stddev/p99/worst frame time, stutter count, animation-step jitter, graphics API and relevant QSG/D3D env overrides; exposed as `App.frameStats` so tests can assert pacing. Toggling it mirrors the overlay into every connected wallpaper via a new `frameStatsOverlay` SDK message ([`0dc2e4ed`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/0dc2e4ed), [`43d6053d`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/43d6053d))
+- **Godot volume control** — the native wrapper received `--volume` but never routed it to the audio engine; volume is now applied to Godot's global Master audio bus (0 mutes, otherwise 0..1 mapped to the bus gain in dB) on startup, live change and reload, with a Volume slider added to the Godot panel ([`4a2156f5`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/4a2156f5))
+- **Godot `replace` command parser** — a Godot→Godot timeline switch now swaps the actual scene content (project path + package file) and **crossfades** from the previous frame, instead of only leaking settings through generic top-level keys ([`cd27cc84`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/cd27cc84))
+- **Shipped example content shown read-only** in the Installed tab via a new `ContentTypes::ExampleContent` enum (one value per shipped folder). Remove/delete is refused, a user's own copy of a folder wins over the shipped example, and it can be hidden via a "Show example content" setting (default on) ([`e3416ae1`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/e3416ae1))
+
+**IPC**
+- **`IpcFrameBuffer`** — new Qt-free `ScreenPlayCoreIpcLib` that reassembles brace-matched JSON and legacy `;`-terminated text frames from the raw socket/pipe byte stream for every wallpaper/widget endpoint, including the Godot GDExtension (which cannot link Qt). Fixes silently dropped messages from coalesced writes (`{...}{...}`) and packet-split reads — e.g. `syncAllProperties` settings that never applied ([`d1c791fb`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/d1c791fb))
+
 **Refactoring**
 - `WallpaperState` extracted as a dedicated `QObject` to consolidate playback state (volume, fillmode, isLooping, playbackRate, current time, muted) previously scattered across `ScreenPlayWallpaper` — restored settings now survive crash-restart correctly ([`4fa35085`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/4fa35085))
 
 **Tests**
+- **chuck_tester WebSocket UI-automation server** (opt-in via `--tester-port`, also bypasses the single-instance guard) with a Python UI test suite under `ScreenPlay/tests/ui/python` and `objectName` prefixes so multiple `Timeline` instances are addressable ([`463f70a5`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/463f70a5))
+- `--isolated-appdata` sandboxes `profiles.json`/logs to Qt test-mode dirs so runs never destroy the user's real profile; scheduling tests assert wallpaper rotation via the manager's `runningWallpapers` snapshot instead of pixels ([`e1e2ccd0`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/e1e2ccd0))
 - `tst_timeline` — data-driven coverage for `ScreenPlayTimelineManager` (structural invariants, regression coverage for timeline bug fixes) ([`154a4845`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/154a4845))
 - `tst_external_process` — widget/wallpaper lifecycle state machine, timer-stop regression for `ScreenPlayWidget::close()`, signal/state coverage ([`154a4845`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/154a4845))
 - `tst_sdk` — `SDKConnection` `readyRead` protocol parsing, `sendMessage` round-trip, and `close()` return-value regression coverage ([`979a120c`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/979a120c))
@@ -174,6 +187,7 @@ Period: 2026-01-01 – present
 #### Fixed
 
 **Timeline**
+- Timeline state-machine deadlocks, stale indices and coroutine use-after-free: capturing-lambda `QCoro::QmlTask` coroutines converted to member coroutines taking arguments by value (a lambda's captures die after the first `co_await`, so later access was a dangling read); a wallpaper that fails to start is dropped from its section instead of stranding the rotation in `Failed`; and add/move/remove re-verify the section identifier after suspending ([`56196039`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/56196039))
 - 11 bugs in the timeline flow from QML through to the wallpaper process ([`32a8de68`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/32a8de68))
 - `co_await` missing on `removeTimelineAt` in `checkActiveWallpaperTimeline` — coroutine result was discarded ([`93f32d6b`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/93f32d6b))
 - Crash in `updateMonitorListModelData` when the timeline is inactive ([`fe75c54c`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/fe75c54c))
@@ -181,6 +195,8 @@ Period: 2026-01-01 – present
 - `const_cast` undefined behaviour when enforcing full-day span for the basic version — section now stores `effectiveStart`/`effectiveEnd` instead of mutating const input ([`829cf949`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/829cf949))
 
 **External process / wallpaper lifecycle**
+- Orphaned detached wallpaper/widget processes now force-killed as a last resort when the cooperative quit path fails (never connected, quit undeliverable, or unresponsive) — previously they kept rendering forever with no owner. The ping-alive handler is connected once in the constructor (reconnecting per crash-restart accumulated a duplicate each time), and a process that has exited now counts as dead for crash detection ([`3c41f200`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/3c41f200))
+- Godot→Godot timeline switch triggered a redundant second reload; the switch now reloads once and keeps the PCK file watcher's timestamp in sync ([`cd27cc84`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/cd27cc84))
 - `ScreenPlayWidget::close()` did not stop the ping and stability timers, leaving them firing on a closed widget ([`226370f2`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/226370f2))
 - Orphaned wallpaper process when live-replace placement fails ([`9cac2c91`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/9cac2c91))
 - UI not updated when a wallpaper crashes after exhausting its max retry budget ([`c3d6c38d`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/c3d6c38d))
@@ -192,10 +208,12 @@ Period: 2026-01-01 – present
 - `SDKConnection::close()` always returned `false` because the disconnect is async ([`721ad0cf`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/721ad0cf))
 - `SDKConnection` `requestRaise` command was dead code and never fired ([`2c78f2a9`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/2c78f2a9))
 - Volume validation logic, double `sdkDisconnected` emission, and `global_sdkPtr` dangling on destruction ([`924e35d5`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/924e35d5))
+- `sendMessage` no longer blocks the GUI thread on `waitForBytesWritten` (default 30 s) when a wallpaper hangs with a full pipe; redirected log output is JSON-wrapped (`redirectedLog`) so arbitrary log text can't corrupt the frame stream or swallow ping frames ([`d1c791fb`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/d1c791fb))
 
 **Startup & UI**
 - `startup()` never called when `profiles.json` had partial load failures ([`f3323f3b`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/f3323f3b))
 - Missing `raise()` calls so the main window reliably comes to the front ([`fa68328e`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/fa68328e))
+- **`fi` ligature corruption** ("Conℓgure Content") on machines that also had a per-user Roboto install — two versions of the same family in one font database made Qt 6.11 shape with one file and rasterize with the other. The app font is now the Google Sans Flex variable font. Two latent deployment bugs surfaced and were fixed: `qtquickcontrols2.conf` was embedded under the QML module prefix but `QQuickStyle` only reads the resource root (its values never applied), and `assets/fonts` had no `install()` rule so release builds shipped no fonts at all ([`3c820f7c`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/3c820f7c))
 
 **Misc**
 - `GifWallpaper` search-type classification ([`9ca639c7`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/9ca639c7))
@@ -204,4 +222,9 @@ Period: 2026-01-01 – present
 - CI: accidentally tracked `qqcoro` gitlink removed ([`dfa70327`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/dfa70327))
 
 #### Changed
+- **`LineHandle` reworked to a seconds-based model** — `endSeconds` is the source of truth (x/`timeString` derived); 15-minute snap with Shift for 1-minute steps, hover time label, and `minSectionSeconds` (300 s) enforced in `moveTimelineAt`/`addTimelineAt` and mirrored as QML drag bounds; invalid/zero-length sections rejected on profile load ([`463f70a5`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/463f70a5))
+- **`App` converted to a `QML_SINGLETON` `create()` factory** with `CONSTANT` read-only subsystem properties, dropping the old setter boilerplate ([`463f70a5`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/463f70a5))
+- **Video and Godot wallpaper settings panels normalized** — uniform compact spacing/margins, combo boxes aligned with their labels, and the wallpaper title moved out of the scrolling card into a fixed header ([`4a2156f5`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/4a2156f5), [`cd27cc84`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/cd27cc84))
+- **Qt** updated 6.10.2 → **6.11.1**; FFmpeg Windows 8.1 → 8.1.1; `aqtinstall` pulled from git (releases lag behind Qt versions); `requires-python` bumped to ≥ 3.10 ([`f1c89742`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/f1c89742))
+- **chuck_tester** switched from `FetchContent` to a **git submodule** so the framework is editable in-tree (`git submodule update --init` after cloning) ([`36cf3503`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/36cf3503))
 - **vcpkg** updated to 19.04.2026 ([`64501b85`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/64501b85))
