@@ -3,17 +3,24 @@
 
 #include <QDebug>
 #include <QQuickWindow>
-#include <QVulkanInstance>
 #include <QtGlobal>
+
+#if QT_CONFIG(vulkan)
+#include <QVulkanInstance>
+#endif
 
 namespace ScreenPlay {
 
 bool isVulkanAvailable()
 {
+#if QT_CONFIG(vulkan)
     QVulkanInstance probe;
     const bool available = probe.create();
     probe.destroy();
     return available;
+#else
+    return false;
+#endif
 }
 
 void applyGraphicsApi(ScreenPlayEnums::GraphicsApi api)
