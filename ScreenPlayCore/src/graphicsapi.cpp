@@ -4,16 +4,18 @@
 #include <QDebug>
 #include <QQuickWindow>
 #include <QtGlobal>
+#include <QtGui/qtguiglobal.h>
 
-#if QT_CONFIG(vulkan)
+#if defined(QT_FEATURE_vulkan) && QT_FEATURE_vulkan == 1
 #include <QVulkanInstance>
+#define SP_HAS_VULKAN 1
 #endif
 
 namespace ScreenPlay {
 
 bool isVulkanAvailable()
 {
-#if QT_CONFIG(vulkan)
+#ifdef SP_HAS_VULKAN
     QVulkanInstance probe;
     const bool available = probe.create();
     probe.destroy();
