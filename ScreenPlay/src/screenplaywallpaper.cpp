@@ -2,6 +2,7 @@
 #include "ScreenPlay/screenplaywallpaper.h"
 #include "ScreenPlayCore/util.h"
 
+#include <QCoro/QCoroSignal>
 #include <QDebug>
 #include <QDir>
 #include <QFileInfoList>
@@ -221,8 +222,13 @@ bool ScreenPlayWallpaper::start()
 
     if (!success) {
         setState(ScreenPlay::ScreenPlayEnums::AppState::StartingFailed);
+        return false;
     }
-    return success;
+
+    // Watch the PID until the handshake arrives, so a wallpaper that dies
+    // while loading reports StartingFailed instead of being waited out.
+    startProcessWatchdog();
+    return true;
 }
 
 QCoro::Task<Result> ScreenPlayWallpaper::close()
@@ -251,23 +257,22 @@ QCoro::Task<Result> ScreenPlayWallpaper::close()
     }
 
     if (quitRequested) {
-        QTimer timer;
-        timer.start(250);
-        const int maxRetries = 30;
-        for (int i = 1; i <= maxRetries; ++i) {
-            co_await timer;
-            ProcessManager::ProcessState processState = m_processManager.getProcessState(m_processID);
+        // The watchdog turns process exit into ClosedGracefully (we are in
+        // Closing), so wait for that one state change rather than polling.
+        // Check first: the process may already be gone.
+        startProcessWatchdog();
+        while (m_state == ScreenPlayEnums::AppState::Closing
+            && processState() == ProcessManager::ProcessState::Running) {
+            const auto state = co_await qCoro(this, &ScreenPlayExternalProcess::stateChanged, QUIT_GRACE_PERIOD_MS);
+            if (!state)
+                break; // still running after the grace period - force-kill below
+        }
+        stopProcessWatchdog();
 
-            if (processState == ProcessManager::ProcessState::NotRunning) {
-                qCInfo(screenPlayWallpaper) << "Process" << m_processID << "terminated successfully";
-                setState(ScreenPlayEnums::AppState::ClosedGracefully);
-                co_return Result { true, {}, "Quit wallpaper gracefully" };
-            } else if (processState == ProcessManager::ProcessState::InvalidPID) {
-                qCInfo(screenPlayWallpaper) << "Process" << m_processID << "has invalid PID - assuming successful termination";
-                setState(ScreenPlayEnums::AppState::ClosedGracefully);
-                co_return Result { true, {}, "Quit wallpaper gracefully (invalid PID)" };
-            }
-            // If Running, continue waiting
+        if (processState() != ProcessManager::ProcessState::Running) {
+            qCInfo(screenPlayWallpaper) << "Process" << m_processID << "terminated successfully";
+            setState(ScreenPlayEnums::AppState::ClosedGracefully);
+            co_return Result { true, {}, "Quit wallpaper gracefully" };
         }
     }
 

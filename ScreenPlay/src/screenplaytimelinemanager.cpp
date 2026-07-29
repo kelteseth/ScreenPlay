@@ -2,6 +2,8 @@
 #include "ScreenPlay/screenplaywallpaper.h"
 #include "ScreenPlay/wallpaperdata.h"
 #include "ScreenPlayCore/util.h"
+#include <QCoro/QCoroSignal>
+#include <QElapsedTimer>
 #include <QLoggingCategory>
 #include <QString>
 #include <QStringList>
@@ -1708,44 +1710,46 @@ QCoro::Task<Result> ScreenPlayTimelineManager::startWallpaper(std::shared_ptr<Sc
         co_return Result { false, {}, QString("Failed to start wallpaper: %1").arg(screenPlayWallpaper->absolutePath()) };
     }
 
-    // Adaptive connect wait keyed to the child PID instead of a fixed 2.5 s
-    // window: fail the moment the process dies (crash on launch) and keep
-    // waiting while it is alive but still loading - Godot/HTML wallpapers
-    // can take longer than 2.5 s on a cold start, and their late connection
-    // was then dropped in newConnection, leaving an orphaned process. The
-    // hard cap only reaps processes that are alive but never connect (hung).
-    QTimer timer;
-    const int intervalMS = 50;
-    const int processCheckEveryMS = 500;
-    const int maxWaitMS = 30 * 1000;
-    timer.setInterval(intervalMS);
-    timer.start();
+    // Wait for the handshake without polling: the wallpaper reports Active
+    // once its SDK connection is up, and the link's process watchdog reports
+    // StartingFailed if it dies while loading. There is no fixed launch
+    // budget - a slow Godot or HTML wallpaper may take as long as it likes
+    // while its process is alive; the cap below only reaps a process that is
+    // alive but never connects (hung).
+    QElapsedTimer elapsed;
+    elapsed.start();
+    constexpr auto maxWait = std::chrono::milliseconds { 30 * 1000 };
 
-    for (int elapsedMS = intervalMS; elapsedMS <= maxWaitMS; elapsedMS += intervalMS) {
-        // Wait for the timer to tick
-        co_await timer;
-        if (screenPlayWallpaper->isConnected()) {
-            screenPlayWallpaper->setState(ScreenPlayEnums::AppState::Active);
-            setMonitorModelAppState(screenPlayWallpaper->monitors(), ScreenPlayEnums::AppState::Active);
-            qCInfo(screenPlayTimelineManager) << "Connected after" << elapsedMS << "ms";
-            co_return Result { true };
-        }
-        if (elapsedMS % processCheckEveryMS == 0
-            && screenPlayWallpaper->processState() != ProcessManager::ProcessState::Running) {
-            screenPlayWallpaper->setState(ScreenPlayEnums::AppState::StartingFailed);
-            setMonitorModelAppState(screenPlayWallpaper->monitors(), ScreenPlayEnums::AppState::StartingFailed);
-            co_return Result { false, {},
-                QString("Wallpaper process %1 exited after %2 ms before connecting: %3")
-                    .arg(screenPlayWallpaper->processID())
-                    .arg(elapsedMS)
-                    .arg(screenPlayWallpaper->absolutePath()) };
-        }
+    while (screenPlayWallpaper->state() == ScreenPlayEnums::AppState::Starting) {
+        const auto remaining = maxWait - std::chrono::milliseconds { elapsed.elapsed() };
+        if (remaining <= std::chrono::milliseconds::zero())
+            break;
+
+        // Ignores intermediate transitions and resumes on the next one.
+        co_await qCoro(screenPlayWallpaper.get(), &ScreenPlayExternalProcess::stateChanged, remaining);
+    }
+
+    if (screenPlayWallpaper->isConnected()) {
+        screenPlayWallpaper->setState(ScreenPlayEnums::AppState::Active);
+        setMonitorModelAppState(screenPlayWallpaper->monitors(), ScreenPlayEnums::AppState::Active);
+        qCInfo(screenPlayTimelineManager) << "Connected after" << elapsed.elapsed() << "ms";
+        co_return Result { true };
+    }
+
+    if (screenPlayWallpaper->processState() != ProcessManager::ProcessState::Running) {
+        screenPlayWallpaper->setState(ScreenPlayEnums::AppState::StartingFailed);
+        setMonitorModelAppState(screenPlayWallpaper->monitors(), ScreenPlayEnums::AppState::StartingFailed);
+        co_return Result { false, {},
+            QString("Wallpaper process %1 exited after %2 ms before connecting: %3")
+                .arg(screenPlayWallpaper->processID())
+                .arg(elapsed.elapsed())
+                .arg(screenPlayWallpaper->absolutePath()) };
     }
 
     // The process is alive but never connected (hung)
     screenPlayWallpaper->setState(ScreenPlayEnums::AppState::Timeout);
     setMonitorModelAppState(screenPlayWallpaper->monitors(), ScreenPlayEnums::AppState::Timeout);
 
-    co_return Result { false, {}, QString("Wallpaper process is still running but failed to connect within %1 ms: %2").arg(maxWaitMS).arg(screenPlayWallpaper->absolutePath()) };
+    co_return Result { false, {}, QString("Wallpaper process is still running but failed to connect within %1 ms: %2").arg(maxWait.count()).arg(screenPlayWallpaper->absolutePath()) };
 }
 }

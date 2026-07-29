@@ -99,6 +99,18 @@ signals:
     */
     void restartFailed(const QString& appID, const QString& message);
 
+    /*!
+        \brief Emitted once when the detached process is no longer running.
+
+        Detached processes give us no QProcess::finished, so this is currently
+        driven by a short PID poll that only runs in the two windows where
+        somebody is waiting for it (launching and closing). It exists so
+        callers can co_await a process dying instead of polling themselves -
+        replacing the poll with an OS-level notification (QWinEventNotifier on
+        the process HANDLE, pidfd, kqueue) changes nothing above this class.
+    */
+    void processExited();
+
 public slots:
     void processExit(int exitCode, QProcess::ExitStatus exitStatus);
     void setAppID(QString appID);
@@ -123,6 +135,16 @@ protected:
         "no ping arrived" - dead or hung either way.
     */
     virtual void onPingAliveTimeout();
+
+    /*!
+        \brief Starts/stops the PID poll behind processExited(). Started by
+               start() so a process that dies before connecting is noticed,
+               stopped once the SDK connection is up (the ping timer takes
+               over liveness from there) and started again by close() to await
+               the exit.
+    */
+    void startProcessWatchdog();
+    void stopProcessWatchdog();
 
     /*!
         \brief Handles timeout or crash events by attempting to restart the process.
@@ -152,6 +174,7 @@ protected:
     QTimer m_pingAliveTimer;
     QTimer m_restartDelayTimer;
     QTimer m_stabilityTimer;
+    QTimer m_processWatchdog;
     QStringList m_appArgumentsList;
 
     QString m_appID;
@@ -169,5 +192,10 @@ protected:
     static constexpr int RESTART_DELAY_MS = 2000;
     // Time to wait before considering the process stable and resetting retry count
     static constexpr int STABILITY_PERIOD_MS = 30000; // 30 seconds
+    // How often the PID is polled while somebody waits for the process to
+    // start up or exit. Only the detection granularity - not a timeout.
+    static constexpr int PROCESS_WATCHDOG_INTERVAL_MS = 250;
+    // How long a cooperative quit may take before the process is force-killed.
+    static constexpr std::chrono::milliseconds QUIT_GRACE_PERIOD_MS { 7500 };
 };
 }

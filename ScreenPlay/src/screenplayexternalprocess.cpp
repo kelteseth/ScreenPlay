@@ -69,6 +69,48 @@ ScreenPlayExternalProcess::ScreenPlayExternalProcess(
     // one duplicate handler per restart. Virtual so ScreenPlayWidget can
     // supply its no-ping semantics without a second connection.
     QObject::connect(&m_pingAliveTimer, &QTimer::timeout, this, &ScreenPlayExternalProcess::onPingAliveTimeout);
+
+    // Detached processes never deliver QProcess::finished, so process death is
+    // polled - but only while start()/close() are waiting for it, and in one
+    // place instead of once per caller.
+    m_processWatchdog.setInterval(PROCESS_WATCHDOG_INTERVAL_MS);
+    QObject::connect(&m_processWatchdog, &QTimer::timeout, this, [this]() {
+        if (processState() == ProcessManager::ProcessState::Running)
+            return;
+
+        m_processWatchdog.stop();
+        qCInfo(screenPlayExternalProcess) << "Process" << m_processID << "of" << m_appID << "has exited";
+        emit processExited();
+
+        // Translate the raw fact into the state machine so callers can await a
+        // single signal instead of correlating two.
+        switch (m_state) {
+        case ScreenPlay::ScreenPlayEnums::AppState::Closing:
+            // The quit command was honoured.
+            setState(ScreenPlay::ScreenPlayEnums::AppState::ClosedGracefully);
+            break;
+        case ScreenPlay::ScreenPlayEnums::AppState::Starting:
+        case ScreenPlay::ScreenPlayEnums::AppState::NotSet:
+            // Died before it ever connected - a broken wallpaper, not a crash
+            // to restart.
+            setState(ScreenPlay::ScreenPlayEnums::AppState::StartingFailed);
+            break;
+        default:
+            handleTimeoutOrCrash();
+            break;
+        }
+    });
+}
+
+void ScreenPlayExternalProcess::startProcessWatchdog()
+{
+    if (m_processID > 0)
+        m_processWatchdog.start();
+}
+
+void ScreenPlayExternalProcess::stopProcessWatchdog()
+{
+    m_processWatchdog.stop();
 }
 
 void ScreenPlayExternalProcess::onPingAliveTimeout()
@@ -94,6 +136,7 @@ bool ScreenPlayExternalProcess::terminate()
     m_pingAliveTimer.stop();
     m_restartDelayTimer.stop();
     m_stabilityTimer.stop();
+    m_processWatchdog.stop();
 
     if (m_processID <= 0)
         return true;
@@ -113,6 +156,9 @@ void ScreenPlayExternalProcess::setSDKConnection(std::unique_ptr<SDKConnection> 
 {
     m_connection = std::move(connection);
     setIsConnected(true);
+
+    // Connected: liveness is the ping timer's job from here on.
+    stopProcessWatchdog();
 
     // Don't reset retry count immediately - start stability timer instead
     if (m_retryCount > 0) {
