@@ -38,7 +38,6 @@ public:
     QCoro::Task<Result> removeTimelineAt(const int index, const QString identifier = QString());
 
     QCoro::Task<void> startup();
-    std::shared_ptr<WallpaperTimelineSection> findStartingOrActiveWallpaperTimelineSection();
     std::shared_ptr<WallpaperTimelineSection> findActiveWallpaperTimelineSection();
     std::shared_ptr<WallpaperTimelineSection> findTimelineSection(
         const int timelineIndex,
@@ -104,6 +103,9 @@ signals:
     void timelineSectionCountChanged(int count);
     void wallpaperRestartFailed(const QString& appID, const QString& message);
     void notifyUiReloadTimelinePreviewImage();
+    // Forwarded from every section so ScreenPlayManager can register the
+    // wallpaper in its appID handshake registry.
+    void wallpaperAdded(ScreenPlayExternalProcess* link);
 
 private:
     QCoro::Task<Result> setWallpaperAtActiveMonitorTimelineIndex(

@@ -175,6 +175,10 @@ std::shared_ptr<ScreenPlayWallpaper> WallpaperTimelineSection::addWallpaper(cons
     });
     wallpaperList.push_back(screenPlayWallpaper);
 
+    // Announce before the process is ever started so the manager's appID
+    // registry is populated ahead of any handshake.
+    emit wallpaperAdded(screenPlayWallpaper.get());
+
     return screenPlayWallpaper;
 }
 

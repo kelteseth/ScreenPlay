@@ -2,9 +2,11 @@
 
 #pragma once
 
+#include <QHash>
 #include <QLocalServer>
 #include <QObject>
 #include <QPoint>
+#include <QPointer>
 #include <memory>
 
 #include "ScreenPlay/globalvariables.h"
@@ -135,6 +137,13 @@ signals:
 private slots:
     bool saveProfiles();
     void newConnection();
+
+    /*!
+        \brief Adds \a link to the appID registry used by newConnection. Must
+               run before the process is started so a fast handshake cannot
+               overtake the registration.
+    */
+    void registerLink(ScreenPlayExternalProcess* link);
     void setActiveWallpaperCounter(int activeWallpaperCounter);
     void setActiveWidgetsCounter(int activeWidgetsCounter);
     void setActiveTimelineIndex(int activeTimelineIndex);
@@ -178,6 +187,21 @@ private:
     std::shared_ptr<ProjectSettingsListModel> m_projectSettingsListModel;
     QVector<std::shared_ptr<ScreenPlayWidget>> m_screenPlayWidgets;
     std::vector<std::unique_ptr<SDKConnection>> m_unconnectedClients;
+
+    /*!
+        \brief Every live wallpaper and widget, keyed by the appID its process
+               was launched with. This is the ONLY thing newConnection needs to
+               route an incoming socket: it no longer asks the timeline which
+               section is starting, so a wallpaper that connects late (slow
+               Godot/HTML start, or after its section already became Active)
+               still finds its owner instead of being dropped as an orphan.
+
+        Entries live for the lifetime of the link, not just until the first
+        handshake: a crash-restart relaunches the same appID and must be
+        matchable again. QPointer plus the destroyed() connection in
+        registerLink() keeps the map free of dangling entries.
+    */
+    QHash<QString, QPointer<ScreenPlayExternalProcess>> m_links;
     ScreenPlayTimelineManager m_screenPlayTimelineManager;
 
     QTimer m_saveLimiter;

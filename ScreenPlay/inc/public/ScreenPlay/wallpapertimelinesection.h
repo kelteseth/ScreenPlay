@@ -10,6 +10,9 @@
 #include <expected>
 
 #include "ScreenPlay/globalvariables.h"
+// Complete type required: wallpaperAdded() passes it as a signal parameter and
+// moc needs a fully-defined type to build the pointer metatype.
+#include "ScreenPlay/screenplayexternalprocess.h"
 #include "ScreenPlay/settings.h"
 #include "ScreenPlay/wallpaperdata.h"
 #include "ScreenPlayCore/util.h"
@@ -66,6 +69,10 @@ signals:
     void activeWallpaperCountChanged(const int count);
     void wallpaperRestartFailed(const QString& appID, const QString& message);
     void wallpaperRemoved(const QString& appID);
+    // Emitted for every newly created wallpaper so the manager can route its
+    // handshake by appID. Raw pointer: the section owns the shared_ptr and the
+    // receiver only registers a QPointer.
+    void wallpaperAdded(ScreenPlayExternalProcess* link);
 
 public slots:
     void updateActiveWallpaperCounter();

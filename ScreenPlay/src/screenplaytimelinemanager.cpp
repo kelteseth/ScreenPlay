@@ -124,16 +124,6 @@ std::shared_ptr<WallpaperTimelineSection> ScreenPlayTimelineManager::findActiveW
     return nullptr;
 }
 
-std::shared_ptr<WallpaperTimelineSection> ScreenPlayTimelineManager::findStartingOrActiveWallpaperTimelineSection()
-{
-    for (auto& section : m_wallpaperTimelineSectionsList) {
-        if (section->state == WallpaperTimelineSection::State::Starting || section->state == WallpaperTimelineSection::State::Active) {
-            return section;
-        }
-    }
-    return nullptr;
-}
-
 /*!
   \brief Returns the current active timline. There must always be an active timeline!
 */
@@ -232,6 +222,7 @@ std::expected<bool, ScreenPlayTimelineManager::TimelineManagerError> ScreenPlayT
     QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::requestSaveProfiles, this, &ScreenPlayTimelineManager::requestSaveProfiles);
     QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::activeWallpaperCountChanged, this, &ScreenPlayTimelineManager::activeWallpaperCountChanged);
     QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::wallpaperRestartFailed, this, &ScreenPlayTimelineManager::handleWallpaperRestartFailed);
+    QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::wallpaperAdded, this, &ScreenPlayTimelineManager::wallpaperAdded);
     QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::wallpaperRemoved, this, [this]() {
         emit notifyUiReloadTimelinePreviewImage();
     });
@@ -839,6 +830,7 @@ bool ScreenPlayTimelineManager::addTimelineAt(const int index, const float relat
     QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::requestSaveProfiles, this, &ScreenPlayTimelineManager::requestSaveProfiles);
     QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::activeWallpaperCountChanged, this, &ScreenPlayTimelineManager::activeWallpaperCountChanged);
     QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::wallpaperRestartFailed, this, &ScreenPlayTimelineManager::handleWallpaperRestartFailed);
+    QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::wallpaperAdded, this, &ScreenPlayTimelineManager::wallpaperAdded);
     QObject::connect(newTimelineSection.get(), &WallpaperTimelineSection::wallpaperRemoved, this, [this]() {
         emit notifyUiReloadTimelinePreviewImage();
     });

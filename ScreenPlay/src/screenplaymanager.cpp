@@ -46,6 +46,7 @@ ScreenPlayManager::ScreenPlayManager(
     QObject::connect(this, &ScreenPlayManager::activeWallpaperCounterChanged, this, &ScreenPlayManager::runningWallpapersChanged);
     QObject::connect(this, &ScreenPlayManager::activeTimelineIndexChanged, this, &ScreenPlayManager::runningWallpapersChanged);
     QObject::connect(this, &ScreenPlayManager::timelineSectionCountChanged, this, &ScreenPlayManager::runningWallpapersChanged);
+    QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::wallpaperAdded, this, &ScreenPlayManager::registerLink);
     QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::wallpaperRestartFailed, this, [this](const QString& appID, const QString& message) {
         // Ensure the main window is visible and raised so the user can see the error
         emit this->requestRaise();
@@ -258,6 +259,10 @@ bool ScreenPlayManager::startWidget(
         m_globalVariables,
         widgetData,
         m_settings);
+
+    // Before start(): the widget process can complete its handshake as soon
+    // as it is running.
+    registerLink(widget.get());
 
     QObject::connect(widget.get(), &ScreenPlayWidget::requestSave, this, &ScreenPlayManager::requestSaveProfiles);
     QObject::connect(widget.get(), &ScreenPlayWidget::requestClose, this, &ScreenPlayManager::removeWidget);
@@ -573,6 +578,27 @@ void ScreenPlayManager::setWallpaperFpsLimit(const int fps)
 }
 
 /*!
+    \brief Registers \a link so newConnection() can route the socket its
+           process opens back to it, and keeps the registry self-cleaning.
+*/
+void ScreenPlayManager::registerLink(ScreenPlayExternalProcess* link)
+{
+    if (!link || link->appID().isEmpty()) {
+        qCWarning(screenPlayManager) << "Refusing to register a link without an appID";
+        return;
+    }
+
+    const QString appID = link->appID();
+    m_links.insert(appID, link);
+
+    // The link outlives its individual connections (crash-restart reuses the
+    // appID), so the entry is only dropped when the object itself goes away.
+    QObject::connect(link, &QObject::destroyed, this, [this, appID]() {
+        m_links.remove(appID);
+    });
+}
+
+/*!
     \brief Appends a new SDKConnection object shared_ptr to the m_clients list.
 */
 void ScreenPlayManager::newConnection()
@@ -616,33 +642,20 @@ void ScreenPlayManager::newConnection()
             return;
         }
 
-        auto startingTimelineSection = m_screenPlayTimelineManager.findStartingOrActiveWallpaperTimelineSection();
-        if (!startingTimelineSection) {
-            qCWarning(screenPlayManager) << "Unable to findStartingOrActiveWallpaperTimelineSection! Aborting!";
+        // One lookup for wallpapers and widgets alike. Deliberately does not
+        // consult the timeline: which section is currently starting says
+        // nothing about who owns this socket, and asking made late-connecting
+        // wallpapers unroutable.
+        const QString appID = matchingConnection->appID();
+        if (auto link = m_links.value(appID, nullptr)) {
+            qCInfo(screenPlayManager) << "[3/4] Matching" << ContentTypes::toString(link->type()) << "found for appID" << appID;
+            link->setSDKConnection(std::move(matchingConnection));
             return;
         }
-        auto& activeWallpaperList = startingTimelineSection->wallpaperList;
 
-        for (int i = 0; i < activeWallpaperList.size(); ++i) {
-            if (activeWallpaperList.at(i)->appID() == matchingConnection->appID()) {
-                qCInfo(screenPlayManager) << "[3/4] Matching Wallpaper found!";
-                activeWallpaperList.at(i)->setSDKConnection(std::move(matchingConnection));
-                return;
-            }
-        }
-
-        for (int i = 0; i < m_screenPlayWidgets.size(); ++i) {
-            if (m_screenPlayWidgets.at(i)->appID() == matchingConnection->appID()) {
-                qCInfo(screenPlayManager) << "[3/4] Matching Widget found!";
-                m_screenPlayWidgets.at(i)->setSDKConnection(std::move(matchingConnection));
-                return;
-            }
-        }
-
-        qCWarning(screenPlayManager) << "No matching connection found!"
-                                     << "m_screenPlayWallpapers count:  " << activeWallpaperList.size()
-                                     << "m_screenPlayWidgets count:     " << m_screenPlayWidgets.size()
-                                     << "m_unconnectedClients count:    " << m_unconnectedClients.size();
+        qCWarning(screenPlayManager) << "No live wallpaper or widget for appID" << appID
+                                     << "- dropping connection. Registered links:" << m_links.keys()
+                                     << "m_unconnectedClients count:" << m_unconnectedClients.size();
     });
     m_unconnectedClients.push_back(std::move(connection));
 }
