@@ -53,11 +53,18 @@ class App : public QObject {
     Q_PROPERTY(ScreenPlay::ErrorManager* errorManager READ errorManager CONSTANT FINAL)
 
 public:
-    explicit App(QObject* parent = nullptr);
     ~App();
 
     // Qt 6 declarative singleton factory: invoked by the QML engine on first
     // access. Owns the App instance lifetime; do not call directly.
+    //
+    // The constructor is private ON PURPOSE. QQmlPrivate::singletonConstructionMode()
+    // tests std::is_default_constructible<T> BEFORE HasSingletonFactory<T>, so a
+    // publicly default-constructible App makes the engine default-construct the
+    // singleton and silently skip create() - attachEngine() then never runs, the
+    // engine pointer stays null, ErrorManager never becomes qmlReady (every
+    // C++-side error is queued forever, invisible to the user) and retranslation
+    // is never wired. Keep App non-default-constructible.
     static App* create(QQmlEngine* engine, QJSEngine* jsEngine);
 
     Q_INVOKABLE QString version() const;
@@ -84,6 +91,9 @@ signals:
     void requestRetranslation();
 
 private:
+    // Private so App is not default-constructible - see create() above.
+    explicit App(QObject* parent = nullptr);
+
     void attachEngine(QQmlEngine* engine);
     // Member coroutine instead of a capturing-lambda coroutine: lambda
     // captures live in the closure object, which would die before the

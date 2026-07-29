@@ -267,10 +267,13 @@ bool ScreenPlayManager::startWidget(
         }
     });
     QObject::connect(widget.get(), &ScreenPlayWidget::restartFailed, this, [this](const QString& appID, const QString& message) {
+        qCInfo(screenPlayManager) << "Widget restartFailed received for" << appID << "- raising window and showing error popup";
         // Ensure the main window is visible and raised so the user can see the error
         emit this->requestRaise();
         if (m_errorManager) {
             m_errorManager->displayError(message);
+        } else {
+            qCCritical(screenPlayManager) << "No ErrorManager set - widget error cannot be shown to the user!";
         }
     });
 

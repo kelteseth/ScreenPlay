@@ -140,6 +140,7 @@ App::~App()
 */
 App* App::create(QQmlEngine* engine, QJSEngine* /*jsEngine*/)
 {
+    qCInfo(app) << "App singleton created via QML factory";
     auto* instance = new App;
     instance->attachEngine(engine);
     return instance;
@@ -151,6 +152,8 @@ void App::attachEngine(QQmlEngine* engine)
 
     if (m_errorManager) {
         m_errorManager->setQmlReady(true);
+    } else {
+        qCCritical(app) << "attachEngine without ErrorManager - queued errors can never be shown";
     }
 
     if (auto* appEngine = qobject_cast<QQmlApplicationEngine*>(engine)) {
