@@ -52,7 +52,7 @@ Item {
         if (App.util.isWidget(type)) {
             return "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_widgets.svg"
         }
-        if (type === Util.ContentTypes.InstalledType.GodotWallpaper) {
+        if (type === SPCore.ContentTypes.InstalledType.GodotWallpaper) {
             return "qrc:/qt/qml/ScreenPlay/assets/icons/brand_godot.svg"
         }
         if (App.util.isScene(type)) {
