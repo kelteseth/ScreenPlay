@@ -66,16 +66,20 @@ ScreenPlayExternalProcess::ScreenPlayExternalProcess(
 
     // Connect the ping-alive handler exactly once. setupSDKConnection() runs
     // again on every crash-restart reconnect - connecting there accumulated
-    // one duplicate handler per restart.
-    QObject::connect(&m_pingAliveTimer, &QTimer::timeout, this, [this]() {
-        const std::optional<bool> running = m_processManager.isRunning(m_processID);
-        // nullopt means the PID itself is invalid; a contained `false` means
-        // the process exited. Both are a dead wallpaper/widget.
-        if (!running.value_or(false)) {
-            qCInfo(screenPlayExternalProcess) << "Process" << m_processID << "is gone (pid valid:" << running.has_value() << ")";
-            handleTimeoutOrCrash();
-        }
-    });
+    // one duplicate handler per restart. Virtual so ScreenPlayWidget can
+    // supply its no-ping semantics without a second connection.
+    QObject::connect(&m_pingAliveTimer, &QTimer::timeout, this, &ScreenPlayExternalProcess::onPingAliveTimeout);
+}
+
+void ScreenPlayExternalProcess::onPingAliveTimeout()
+{
+    const std::optional<bool> running = m_processManager.isRunning(m_processID);
+    // nullopt means the PID itself is invalid; a contained `false` means
+    // the process exited. Both are a dead wallpaper/widget.
+    if (!running.value_or(false)) {
+        qCInfo(screenPlayExternalProcess) << "Process" << m_processID << "is gone (pid valid:" << running.has_value() << ")";
+        handleTimeoutOrCrash();
+    }
 }
 
 bool ScreenPlayExternalProcess::sendJsonMessage(const QJsonObject& obj)

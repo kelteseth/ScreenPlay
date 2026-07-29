@@ -37,6 +37,7 @@ public slots:
 
 protected:
     void setupSDKConnection() override;
+    void onPingAliveTimeout() override;
 
 private:
     WidgetData m_widgetData;

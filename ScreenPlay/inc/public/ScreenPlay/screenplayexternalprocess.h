@@ -111,6 +111,20 @@ protected:
     virtual void handleProcessError(QProcess::ProcessError error);
 
     /*!
+        \brief Called on every m_pingAliveTimer timeout. Connected exactly
+               once in the constructor - subclasses must override instead of
+               connecting their own handler, otherwise setupSDKConnection()
+               (which runs again on every crash-restart) accumulates
+               duplicate handlers.
+
+        Base implementation: PID poll (wallpapers do not restart the timer,
+        their ping frames are dropped). ScreenPlayWidget restarts the timer
+        on each received ping, so its override treats the timeout itself as
+        "no ping arrived" - dead or hung either way.
+    */
+    virtual void onPingAliveTimeout();
+
+    /*!
         \brief Handles timeout or crash events by attempting to restart the process.
 
         This method is called when the external process times out or crashes. It will
