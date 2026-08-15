@@ -26,13 +26,13 @@
         {
             "name": "linux-gcc-base",
             "hidden": true,
-            "description": "Use gold linker to fix linking",
+            "description": "Use the lld linker (gold was removed from binutils in Ubuntu 26.04)",
             "inherits": "linux-base",
             "cacheVariables": {
                 "CMAKE_CXX_COMPILER": "g++",
                 "CMAKE_C_COMPILER": "gcc",
-                "CMAKE_EXE_LINKER_FLAGS": "-fuse-ld=gold",
-                "CMAKE_CXX_FLAGS": "-fuse-ld=gold"
+                "CMAKE_EXE_LINKER_FLAGS": "-fuse-ld=lld",
+                "CMAKE_CXX_FLAGS": "-fuse-ld=lld"
             }
         },
         {

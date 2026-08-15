@@ -131,9 +131,11 @@ if(DEFINED ENV{CI_COMMIT_MESSAGE})
 endif()
 
 if(UNIX AND NOT APPLE)
-    # Fixes QWebEngine linker errors on Ubuntu 22.04
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=gold")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fuse-ld=gold")
+    # Use the lld linker. Historically we used gold to fix QWebEngine linker
+    # errors, but gold was removed from binutils in Ubuntu 26.04, so link with
+    # lld instead (matches the -fuse-ld=lld set by the Linux gcc presets).
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=lld")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fuse-ld=lld")
 endif()
 
 if(${SCREENPLAY_TESTS})
