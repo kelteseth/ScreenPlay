@@ -6,7 +6,11 @@
 #include <QtGlobal>
 #include <QtGui/qtguiglobal.h>
 
-#if defined(QT_FEATURE_vulkan) && QT_FEATURE_vulkan == 1
+// Qt only defines QVulkanInstance when the platform has vulkan enabled *and*
+// the Vulkan SDK headers are actually installed (qvulkaninstance.h gates the
+// class on both QT_CONFIG(vulkan) and __has_include(<vulkan/vulkan.h>)). Mirror
+// that here so the build works on machines without the Vulkan headers.
+#if defined(QT_FEATURE_vulkan) && QT_FEATURE_vulkan == 1 && __has_include(<vulkan/vulkan.h>)
 #include <QVulkanInstance>
 #define SP_HAS_VULKAN 1
 #endif

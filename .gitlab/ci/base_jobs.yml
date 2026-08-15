@@ -25,7 +25,9 @@
     # no gcc PPA, no kitware repo and no libwayland source build are needed here.
     # libwayland >= 1.23 is required: Qt 6.11's QtWaylandClient headers reference
     # the wl_fixes interface, which only exists in core Wayland from 1.23 onwards.
-    - apt install python3-venv libwayland-dev wayland-protocols curl wget zip unzip tar git pkg-config libxcb-* libfontconfig-dev apt-transport-https ca-certificates gnupg  software-properties-common python3 python3-pip build-essential cmake libgl1-mesa-dev mesa-common-dev lld ninja-build libxkbcommon-* libx11-dev xserver-xorg-dev xorg-dev -y
+    # libvulkan-dev provides <vulkan/vulkan.h>; without it Qt's QVulkanInstance
+    # is an incomplete type and ScreenPlayCore's graphics API probe fails to build.
+    - apt install python3-venv libwayland-dev wayland-protocols libvulkan-dev curl wget zip unzip tar git pkg-config libxcb-* libfontconfig-dev apt-transport-https ca-certificates gnupg  software-properties-common python3 python3-pip build-essential cmake libgl1-mesa-dev mesa-common-dev lld ninja-build libxkbcommon-* libx11-dev xserver-xorg-dev xorg-dev -y
     - gcc --version
     - g++ --version
     - cmake --version
