@@ -179,6 +179,26 @@ endif()
 # Generate single deployment script after all targets are defined
 generate_qt_deployment_script()
 
+# Install the example Content folder AFTER the deploy script above. The order
+# matters: install() rules run top to bottom, and the deploy script runs
+# windeployqt, which looks through the whole deploy folder for QML files. If
+# bin/Content already exists at that point, windeployqt tries to process the
+# wallpaper and widget .qml files inside it and fails while copying
+# qml/QtQuick/qtquick2plugin.dll ("being used by another process"). Installing
+# Content last still puts it next to the executable for runtime
+# (see GlobalVariables::examplesPath), but keeps it out of windeployqt's way.
+if(APPLE)
+    install(
+        DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/Content/"
+        DESTINATION "ScreenPlay.app/Contents/Resources/Content"
+        OPTIONAL)
+else()
+    install(
+        DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/Content/"
+        DESTINATION "${CMAKE_INSTALL_BINDIR}/Content"
+        OPTIONAL)
+endif()
+
 message(STATUS "[PROJECT] CMAKE_MODULE_PATH            = ${CMAKE_MODULE_PATH}")
 message(STATUS "[PROJECT] CMAKE_BUILD_TYPE             = ${CMAKE_BUILD_TYPE}")
 message(STATUS "[PROJECT] CMAKE_BINARY_DIR             = ${CMAKE_BINARY_DIR}")

@@ -17,10 +17,7 @@
     "buildPresets": [
         {
             "name": "deploy-base",
-            "hidden": true,
-            "targets": [
-                "install"
-            ]
+            "hidden": true
         }
     ]
 }

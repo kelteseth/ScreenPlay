@@ -556,23 +556,10 @@ else()
             DESTINATION "${CMAKE_INSTALL_BINDIR}/assets/fonts")
 endif()
 
-# Install Content folder alongside the executable
-if(WIN32)
-    install(
-        DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../Content/"
-        DESTINATION "${CMAKE_INSTALL_BINDIR}/Content"
-        OPTIONAL)
-elseif(APPLE)
-    install(
-        DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../Content/"
-        DESTINATION "ScreenPlay.app/Contents/Resources/Content"
-        OPTIONAL)
-elseif(UNIX)
-    install(
-        DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../Content/"
-        DESTINATION "${CMAKE_INSTALL_BINDIR}/Content"
-        OPTIONAL)
-endif()
+# NOTE: The example Content folder is installed from the ROOT CMakeLists.txt,
+# after the deploy script. Do not install it here: this subdirectory runs before
+# the deploy script, so Content would end up in bin/Content before windeployqt
+# runs and make the deploy fail. See the comment in the root CMakeLists.txt.
 
 # Install ffmpeg and ffprobe binaries
 if(WIN32)
