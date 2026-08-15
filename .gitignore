@@ -266,7 +266,11 @@ cython_debug/
 /ThirdParty/qml-archive/**
 /ThirdParty/qml-plausible/
 /ThirdParty/ffmpeg/**
-/ThirdParty/qt-layer-shell/**
+# Cloned and built by Tools/setup_linux.sh
+/ThirdParty/layer-shell-qt/
+/ThirdParty/extra-cmake-modules/
+# Stale ECM copy from an older setup layout
+/Tools/ThirdParty/
 /ThirdParty/Godot/Godot_*.*
 /ScreenPlay/qml/Create/WizardsFiles/Godot_v5/.godot/*
 .qmlls.ini
