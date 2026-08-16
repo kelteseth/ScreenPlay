@@ -40,7 +40,11 @@ elseif(UNIX)
 endif()
 
 set(SOURCES ${SOURCES} src/basewindow.cpp src/framelimiter.cpp)
-set(HEADER ${HEADER} src/basewindow.h src/framelimiter.h src/wallpaperstate.h)
+set(HEADER
+    ${HEADER}
+    src/basewindow.h
+    src/framelimiter.h
+    src/wallpaperstate.h)
 
 set(QML
     # cmake-format: sort

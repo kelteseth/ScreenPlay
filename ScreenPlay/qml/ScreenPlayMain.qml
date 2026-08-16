@@ -127,7 +127,7 @@ ApplicationWindow {
         sequence: "Ctrl+Shift+F"
         context: Qt.ApplicationShortcut
         onActivated: {
-            frameStatsOverlay.shown = !frameStatsOverlay.shown
+            frameStatsOverlay.shown = !frameStatsOverlay.shown;
             // Mirror the overlay in every connected wallpaper process.
             App.screenPlayManager.setWallpaperFrameStats(frameStatsOverlay.shown)
         }

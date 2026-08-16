@@ -31,8 +31,8 @@ set(QML
     qml/ErrorPopup.qml
     qml/FileDropAnimation.qml
     qml/FileSelector.qml
-    qml/FrameStatsOverlay.qml
     qml/FireworksEffect.qml
+    qml/FrameStatsOverlay.qml
     qml/Grow.qml
     qml/GrowIconLink.qml
     qml/Headline.qml
@@ -105,9 +105,8 @@ if(WIN32)
     target_include_directories(ScreenPlayCoreWindowsExtrasLib PUBLIC inc/public/)
 endif()
 
-# IPC frame reassembly shared by every endpoint of the wallpaper/widget
-# socket. Qt-free on purpose: it is also compiled into the Godot GDExtension
-# (ScreenPlayWallpaper/Godot/GDExtention), which cannot link Qt.
+# IPC frame reassembly shared by every endpoint of the wallpaper/widget socket. Qt-free on purpose: it is also compiled into the Godot
+# GDExtension (ScreenPlayWallpaper/Godot/GDExtention), which cannot link Qt.
 add_library(ScreenPlayCoreIpcLib STATIC inc/public/ScreenPlayCore/ipcframebuffer.h src/ipcframebuffer.cpp)
 target_compile_features(ScreenPlayCoreIpcLib PUBLIC cxx_std_17)
 target_include_directories(ScreenPlayCoreIpcLib PUBLIC inc/public/)

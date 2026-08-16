@@ -23,7 +23,7 @@ FocusScope {
         root.hasContent = wallpaperData.hasContent();
 
         // Set Volume
-        slVolume.slider.value = wallpaperData.volume.toFixed(2)
+        slVolume.slider.value = wallpaperData.volume.toFixed(2);
 
         // Set FPS
         const currentFps = wallpaperData.godotFps

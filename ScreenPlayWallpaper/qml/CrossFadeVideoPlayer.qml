@@ -99,7 +99,7 @@ Item {
         if (_activePlayer === CrossFadeVideoPlayer.Player.One) {
             // Switching TO player Two
             mediaPlayer2.source = root.source
-            ao2.volume = 0
+            ao2.volume = 0;
             // Incoming starts silent
 
             vo2.z = 0
@@ -112,7 +112,7 @@ Item {
         } else {
             // Switching TO player One
             mediaPlayer1.source = source
-            ao1.volume = 0
+            ao1.volume = 0;
             // Incoming starts silent
 
             vo1.z = 0

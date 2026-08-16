@@ -249,11 +249,13 @@ Control {
                 console.assert(LoggingCategories.timeline, haComponent.errorString())
                 return
             }
-            section.lineHandle = haComponent.createObject(handleWrapper)
+            section.lineHandle = haComponent.createObject(handleWrapper);
             // Pixels are derived from the model: bind the handle's lineWidth to
             // the live track width so its x re-evaluates on resize instead of
             // freezing at the creation-time width.
-            section.lineHandle.lineWidth = Qt.binding(function () { return handleWrapper.width })
+            section.lineHandle.lineWidth = Qt.binding(function () {
+                return handleWrapper.width
+            });
             // endSeconds is the source of truth; LineHandle derives x from it.
             // Rounding to the nearest minute recovers the exact boundary that
             // the 4-decimal-serialized relativePosition rounds away on load,
@@ -261,7 +263,7 @@ Control {
             // share an x if they share a second — which the C++ minSection
             // check already rejects — so the old "collapses to width 0"
             // sub-pixel hazard is gone.
-            section.lineHandle.endSeconds = Math.round(stopPosition * 1440) * 60
+            section.lineHandle.endSeconds = Math.round(stopPosition * 1440) * 60;
             // Add vertical offset to make moving easier in the LineHandle.qml
             section.lineHandle.y = 10;
             // minSeconds/maxSeconds are set by updatePositions() right after.
@@ -270,8 +272,12 @@ Control {
             section.lineHandle.activated.connect(timeline.setActiveHandle);
             // Snap default is on; Shift on the dragged handle flips
             // freeDragModifier and every handle un-snaps in lockstep.
-            section.lineHandle.snapEnabled = Qt.binding(function() { return !root.freeDragModifier })
-            section.lineHandle.modifierKeyChanged.connect(function(freeDrag) { root.freeDragModifier = freeDrag })
+            section.lineHandle.snapEnabled = Qt.binding(function () {
+                return !root.freeDragModifier
+            })
+            section.lineHandle.modifierKeyChanged.connect(function (freeDrag) {
+                root.freeDragModifier = freeDrag
+            });
             // Connect the new signal
             let liComponent = Qt.createComponent("LineIndicator.qml")
             if (liComponent.status === Component.Error) {
@@ -338,7 +344,7 @@ Control {
                 // Keep test-friendly objectNames in sync with current index order.
                 timeline.sectionsList[i].lineHandle.objectName = root.objectNamePrefix + "Handle" + i
                 timeline.sectionsList[i].lineIndicator.objectName = root.objectNamePrefix + "Indicator" + i
-                timeline.sectionsList[i].lineIndicator.objectNamePrefix = root.objectNamePrefix
+                timeline.sectionsList[i].lineIndicator.objectNamePrefix = root.objectNamePrefix;
                 //console.debug("updateIndicatorIndexes:", timeline.sectionsList[i].index, timeline.sectionsList[i].relativeLinePosition)
             }
         }
@@ -371,7 +377,7 @@ Control {
                 section.lineIndicator.destroy()
                 section.destroy()
                 timeline.sectionsList.splice(currentIndex, 1)
-                updatePositions()
+                updatePositions();
                 // C++ fires activeTimelineIndexChanged synchronously inside
                 // removeTimelineAt — i.e. BEFORE this splice runs — so the
                 // signal handler iterates the pre-splice sectionsList and
@@ -395,7 +401,7 @@ Control {
                 let handle = timeline.sectionsList[i].lineHandle
 
                 handle.minSeconds = (i === 0) ? minGap : timeline.sectionsList[i - 1].lineHandle.endSeconds + minGap
-                handle.maxSeconds = (i === lastIdx) ? 86400 : timeline.sectionsList[i + 1].lineHandle.endSeconds - minGap
+                handle.maxSeconds = (i === lastIdx) ? 86400 : timeline.sectionsList[i + 1].lineHandle.endSeconds - minGap;
 
                 // Clamp the hit margin to half the distance to the nearest
                 // neighbour so hit zones never overlap. Without this, a 30px
@@ -605,9 +611,7 @@ Control {
                 // Default to centre when the user has not hovered yet; once the
                 // pointer enters addHandleWrapper, follow it. Without this fallback
                 // the button starts off-screen left (hoverHandler reports x=0).
-                x: hoverHandler.hovered
-                    ? hoverHandler.point.position.x - width * .5
-                    : addHandleWrapper.width * 0.5 - width * .5
+                x: hoverHandler.hovered ? hoverHandler.point.position.x - width * .5 : addHandleWrapper.width * 0.5 - width * .5
                 anchors.verticalCenter: parent.verticalCenter
             }
         }

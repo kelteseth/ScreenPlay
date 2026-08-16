@@ -297,10 +297,15 @@ endif()
 
 qt_add_executable(ScreenPlayApp main.cpp)
 
-# QQuickStyle only reads :/qtquickcontrols2.conf at the resource ROOT. Inside
-# the qml module's /qt/qml/ScreenPlay prefix (RESOURCES above) it was silently
-# never found, so none of the conf values ever applied.
-qt_add_resources(ScreenPlayApp "quickcontrolsconf" PREFIX "/" FILES qtquickcontrols2.conf)
+# QQuickStyle only reads :/qtquickcontrols2.conf at the resource ROOT. Inside the qml module's /qt/qml/ScreenPlay prefix (RESOURCES above)
+# it was silently never found, so none of the conf values ever applied.
+qt_add_resources(
+    ScreenPlayApp
+    "quickcontrolsconf"
+    PREFIX
+    "/"
+    FILES
+    qtquickcontrols2.conf)
 
 target_link_libraries(ScreenPlayApp PRIVATE ScreenPlayLib ScreenPlayLibplugin tester)
 
@@ -544,22 +549,18 @@ install(
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
-# Install the application fonts. App::App() loads them at runtime from
-# assets/fonts next to the executable (macOS: Contents/Resources/fonts);
-# without this rule release builds shipped no fonts at all and silently fell
-# back to whatever the user's system provides.
+# Install the application fonts. App::App() loads them at runtime from assets/fonts next to the executable (macOS:
+# Contents/Resources/fonts); without this rule release builds shipped no fonts at all and silently fell back to whatever the user's system
+# provides.
 if(APPLE)
-    install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts/"
-            DESTINATION "ScreenPlay.app/Contents/Resources/fonts")
+    install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts/" DESTINATION "ScreenPlay.app/Contents/Resources/fonts")
 else()
-    install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts/"
-            DESTINATION "${CMAKE_INSTALL_BINDIR}/assets/fonts")
+    install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts/" DESTINATION "${CMAKE_INSTALL_BINDIR}/assets/fonts")
 endif()
 
-# NOTE: The example Content folder is installed from the ROOT CMakeLists.txt,
-# after the deploy script. Do not install it here: this subdirectory runs before
-# the deploy script, so Content would end up in bin/Content before windeployqt
-# runs and make the deploy fail. See the comment in the root CMakeLists.txt.
+# NOTE: The example Content folder is installed from the ROOT CMakeLists.txt, after the deploy script. Do not install it here: this
+# subdirectory runs before the deploy script, so Content would end up in bin/Content before windeployqt runs and make the deploy fail. See
+# the comment in the root CMakeLists.txt.
 
 # Install ffmpeg and ffprobe binaries
 if(WIN32)

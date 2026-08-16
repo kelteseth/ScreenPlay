@@ -132,7 +132,7 @@ Item {
 
             onActiveChanged: {
                 if (active) {
-                    dragHandler.pressSeconds = root.endSeconds
+                    dragHandler.pressSeconds = root.endSeconds;
                     // Take focus so Shift press/release reaches Keys handlers
                     // on root while the user is actively dragging.
                     root.forceActiveFocus()

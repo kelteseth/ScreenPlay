@@ -423,7 +423,7 @@ Item {
                                 }
                             }
                             onActivated: {
-                                App.settings.setWallpaperFpsLimit(cbWallpaperFpsLimit.comboBox.currentValue)
+                                App.settings.setWallpaperFpsLimit(cbWallpaperFpsLimit.comboBox.currentValue);
                                 // Apply immediately to every running wallpaper process.
                                 App.screenPlayManager.setWallpaperFpsLimit(cbWallpaperFpsLimit.comboBox.currentValue)
                             }

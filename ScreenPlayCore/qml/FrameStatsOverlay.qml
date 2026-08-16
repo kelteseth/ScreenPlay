@@ -117,7 +117,7 @@ Rectangle {
                 const ctx = getContext("2d")
                 ctx.clearRect(0, 0, width, height)
                 const exp = root.stats.expectedMs
-                const scaleY = height / (exp * 4)
+                const scaleY = height / (exp * 4);
 
                 // reference line at the expected frame interval
                 ctx.strokeStyle = "#4DD0E1"
