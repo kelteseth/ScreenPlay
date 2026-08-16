@@ -83,6 +83,19 @@ uv run Tools/build.py --preset windows-deploy-release
 
 ## Commits
 
+- **Before committing, check the changelog is up to date.** Use `glab` to find
+  which MR the current branch belongs to
+  (`glab mr list --source-branch "$(git branch --show-current)"`), then verify
+  that MR's section in `Docs/Changelogs/<year>/Changelog.md` covers the change
+  being committed — add a new entry or amend the existing one as needed (follow
+  `Docs/Changelogs/CLAUDE.md`). Don't commit code changes with a stale changelog.
+  Also check the MR description still reads soundly for the change (overall
+  summary + biggest points; view it with `glab mr view <id>`), and update it if
+  the change makes it stale.
+- **Run the format checks before committing.** CI's `check` stage fails on
+  unformatted code — it runs `check_format_cmake.py`, `check_format_cpp.py`, and
+  `check_format_qml.py` with `--check` (Clang 21). Run them locally first (see
+  `Tools/CLAUDE.md`) so the pipeline stays green.
 - **Never commit without explicit confirmation.** Draft the message, show it,
   and wait for a go-ahead before running `git commit` (same for amending or
   rewriting history).
