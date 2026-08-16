@@ -54,6 +54,10 @@ struct ProjectFile {
     ContentTypes::SearchType searchType = ContentTypes::SearchType::All;
     bool isNew = false;
     bool containsAudio = false;
+    // Identifies shipped example content (loaded from the app's install dir
+    // rather than the user's storage path). UserInstalled for normal content;
+    // any other value marks read-only example content that cannot be deleted.
+    ContentTypes::ExampleContent exampleContent = ContentTypes::ExampleContent::UserInstalled;
     QDateTime lastModified;
 };
 }

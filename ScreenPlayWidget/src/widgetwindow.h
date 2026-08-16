@@ -83,7 +83,7 @@ signals:
 public slots:
     void setSize(QSize size);
     void destroyThis();
-    void messageReceived(QString key, QString value);
+    void messageReceived(const QString& key, const QString& value);
     void setPos(int xPos, int yPos);
     void setClickPos(const QPoint& clickPos);
     void setWidgetSize(const int with, const int height);

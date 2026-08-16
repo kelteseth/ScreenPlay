@@ -15,6 +15,7 @@ Item {
     required property var publishedFileID  // var for 64-bit support
     required property bool isNew
     required property bool containsAudio
+    required property int exampleContent
     required property string previewGIF
     required property string previewWebP
     required property string preview
@@ -50,6 +51,9 @@ Item {
     readonly property string typeIconSource: {
         if (App.util.isWidget(type)) {
             return "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_widgets.svg"
+        }
+        if (type === SPCore.ContentTypes.InstalledType.GodotWallpaper) {
+            return "qrc:/qt/qml/ScreenPlay/assets/icons/brand_godot.svg"
         }
         if (App.util.isScene(type)) {
             return "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_code.svg"

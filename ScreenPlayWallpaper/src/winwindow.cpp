@@ -59,7 +59,7 @@ WallpaperExit::Code WinWindow::start()
     // We do not support autopause for multi monitor wallpaper and
     // wallpaper than contain audio, see BaseWindow::setup().
     if (activeScreensList().length() == 1) {
-        if (checkWallpaperVisible()) {
+        if (m_currentState->checkWallpaperVisible()) {
             m_checkForFullScreenWindowTimer.start(10);
         }
     }
@@ -423,7 +423,7 @@ void WinWindow::checkForFullScreenWindow()
 {
     bool hasFullscreenWindow = m_windowsIntegration.checkForFullScreenWindow(m_windowsIntegration.windowHandle());
 
-    setVisualsPaused(hasFullscreenWindow);
+    m_currentState->setVisualsPaused(hasFullscreenWindow);
 }
 }
 

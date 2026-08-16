@@ -19,8 +19,14 @@ Drawer {
     background: Rectangle {
         color: Material.theme === Material.Dark ? Material.color(Material.Grey, Material.Shade900) : Material.color(Material.Grey, Material.Shade100)
     }
-    onAboutToShow: {
-        console.log(LoggingCategories.installed, "setInstalledDrawerItem onAboutToShow")
+    onOpened: {
+        // Use onOpened (fires once after the open transition finishes) rather
+        // than onAboutToShow (fires at the start of every enter transition).
+        // Some side effects of the wallpaper-start flow can briefly toggle
+        // the drawer; resetting only after the transition settles avoids the
+        // mid-flight rebuild that desyncs lineIndicator.selected from
+        // selectedTimelineIndex.
+        console.log(LoggingCategories.installed, "setInstalledDrawerItem onOpened")
         timeline.reset()
         monitorSelection.resize()
         monitorSelection.selectOnly(0)
@@ -190,6 +196,7 @@ Drawer {
                     Layout.fillHeight: true
                     Timeline {
                         id: timeline
+                        objectNamePrefix: "drawerTimeline"
                         modalSource: root.modalSource
                         anchors.fill: parent
                         visible: !App.globalVariables.isBasicVersion()

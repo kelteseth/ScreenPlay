@@ -89,7 +89,7 @@ main() {
     git checkout tags/v6.6.5
 
     # Set up Qt paths
-    local QT_DIR="../../../aqt/6.10.2/gcc_64"
+    local QT_DIR="../../../aqt/6.11.1/gcc_64"
     local QT_PATHS="$QT_DIR/bin:$PATH"
     
     # Verify Qt directory exists

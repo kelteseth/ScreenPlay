@@ -2,7 +2,7 @@
 name = "screenplay-tools"
 version = "0.1.0"
 description = "ScreenPlay build and development tools"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 dependencies = [
     "cmake-format",
     "aqtinstall", 
@@ -14,3 +14,7 @@ dependencies = [
 
 [tool.uv]
 package = false
+
+[tool.uv.sources]
+# Use git, because the releases are quite old
+aqtinstall = { git = "https://github.com/miurahr/aqtinstall.git", branch = "master" }

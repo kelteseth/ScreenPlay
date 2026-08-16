@@ -4,6 +4,7 @@
 #include "ScreenPlayCore/util.h"
 
 #include <QDebug>
+#include <QJsonDocument>
 #include <QLoggingCategory>
 
 Q_LOGGING_CATEGORY(screenPlayExternalProcess, "screenplay.screenplayexternalprocess")
@@ -62,12 +63,102 @@ ScreenPlayExternalProcess::ScreenPlayExternalProcess(
             m_retryCount = 0;
         }
     });
+
+    // Connect the ping-alive handler exactly once. setupSDKConnection() runs
+    // again on every crash-restart reconnect - connecting there accumulated
+    // one duplicate handler per restart. Virtual so ScreenPlayWidget can
+    // supply its no-ping semantics without a second connection.
+    QObject::connect(&m_pingAliveTimer, &QTimer::timeout, this, &ScreenPlayExternalProcess::onPingAliveTimeout);
+
+    // Detached processes never deliver QProcess::finished, so process death is
+    // polled - but only while start()/close() are waiting for it, and in one
+    // place instead of once per caller.
+    m_processWatchdog.setInterval(PROCESS_WATCHDOG_INTERVAL_MS);
+    QObject::connect(&m_processWatchdog, &QTimer::timeout, this, [this]() {
+        if (processState() == ProcessManager::ProcessState::Running)
+            return;
+
+        m_processWatchdog.stop();
+        qCInfo(screenPlayExternalProcess) << "Process" << m_processID << "of" << m_appID << "has exited";
+        emit processExited();
+
+        // Translate the raw fact into the state machine so callers can await a
+        // single signal instead of correlating two.
+        switch (m_state) {
+        case ScreenPlay::ScreenPlayEnums::AppState::Closing:
+            // The quit command was honoured.
+            setState(ScreenPlay::ScreenPlayEnums::AppState::ClosedGracefully);
+            break;
+        case ScreenPlay::ScreenPlayEnums::AppState::Starting:
+        case ScreenPlay::ScreenPlayEnums::AppState::NotSet:
+            // Died before it ever connected - a broken wallpaper, not a crash
+            // to restart.
+            setState(ScreenPlay::ScreenPlayEnums::AppState::StartingFailed);
+            break;
+        default:
+            handleTimeoutOrCrash();
+            break;
+        }
+    });
+}
+
+void ScreenPlayExternalProcess::startProcessWatchdog()
+{
+    if (m_processID > 0)
+        m_processWatchdog.start();
+}
+
+void ScreenPlayExternalProcess::stopProcessWatchdog()
+{
+    m_processWatchdog.stop();
+}
+
+void ScreenPlayExternalProcess::onPingAliveTimeout()
+{
+    const std::optional<bool> running = m_processManager.isRunning(m_processID);
+    // nullopt means the PID itself is invalid; a contained `false` means
+    // the process exited. Both are a dead wallpaper/widget.
+    if (!running.value_or(false)) {
+        qCInfo(screenPlayExternalProcess) << "Process" << m_processID << "is gone (pid valid:" << running.has_value() << ")";
+        handleTimeoutOrCrash();
+    }
+}
+
+bool ScreenPlayExternalProcess::sendJsonMessage(const QJsonObject& obj)
+{
+    if (!m_connection)
+        return false;
+    return m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
+}
+
+bool ScreenPlayExternalProcess::terminate()
+{
+    m_pingAliveTimer.stop();
+    m_restartDelayTimer.stop();
+    m_stabilityTimer.stop();
+    m_processWatchdog.stop();
+
+    if (m_processID <= 0)
+        return true;
+
+    if (m_processManager.getProcessState(m_processID) != ProcessManager::ProcessState::Running)
+        return true;
+
+    qCInfo(screenPlayExternalProcess) << "Force-terminating process" << m_processID << "for" << m_appID;
+    if (!m_processManager.terminateProcess(m_processID)) {
+        qCWarning(screenPlayExternalProcess) << "Failed to terminate process" << m_processID;
+        return false;
+    }
+    return true;
 }
 
 void ScreenPlayExternalProcess::setSDKConnection(std::unique_ptr<SDKConnection> connection)
 {
     m_connection = std::move(connection);
     setIsConnected(true);
+
+    // Connected: liveness is the ping timer's job from here on.
+    stopProcessWatchdog();
 
     // Don't reset retry count immediately - start stability timer instead
     if (m_retryCount > 0) {
@@ -99,18 +190,11 @@ void ScreenPlayExternalProcess::setupSDKConnection()
         }
     });
 
-    // Setup ping alive monitoring
+    // Start ping alive monitoring after a grace period. The handler itself is
+    // connected once in the constructor.
     QTimer::singleShot(1000, this, [this]() {
-        QObject::connect(&m_pingAliveTimer, &QTimer::timeout, this, [this]() {
-            std::optional<bool> running = m_processManager.isRunning(m_processID);
-            if (running.has_value()) {
-                // Process is running
-            } else {
-                qCInfo(screenPlayExternalProcess) << "INVALID PID:" << m_processID;
-                handleTimeoutOrCrash();
-            }
-        });
-        m_pingAliveTimer.start(GlobalVariables::contentPingAliveIntervalMS);
+        if (m_connection)
+            m_pingAliveTimer.start(GlobalVariables::contentPingAliveIntervalMS);
     });
 }
 

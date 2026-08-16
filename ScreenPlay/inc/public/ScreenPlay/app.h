@@ -13,9 +13,11 @@
 #include "ScreenPlay/uiappstatesignals.h"
 #include "ScreenPlay/wizards.h"
 
+#include "ScreenPlayCore/framestats.h"
 #include "ScreenPlayCore/godothandler.h"
 #include "ScreenPlayCore/util.h"
 
+#include <QPointer>
 #include <QQmlApplicationEngine>
 #include <QQmlEngine>
 #include <QString>
@@ -32,25 +34,39 @@ class App : public QObject {
     QML_SINGLETON
     QML_ELEMENT
 
-    // We must add the namespace here to make
-    // it work with QtC autocompletion, see QTCREATORBUG-30197
-    Q_PROPERTY(ScreenPlay::GlobalVariables* globalVariables READ globalVariables WRITE setGlobalVariables NOTIFY globalVariablesChanged FINAL)
-    Q_PROPERTY(ScreenPlay::ScreenPlayManager* screenPlayManager READ screenPlayManager WRITE setScreenPlayManager NOTIFY screenPlayManagerChanged FINAL)
-    Q_PROPERTY(ScreenPlay::Create* create READ create WRITE setCreate NOTIFY createChanged FINAL)
-    Q_PROPERTY(ScreenPlay::Wizards* wizards READ wizards WRITE setWizards NOTIFY wizardsChanged FINAL)
-    Q_PROPERTY(ScreenPlay::Util* util READ util WRITE setUtil NOTIFY utilChanged FINAL)
-    Q_PROPERTY(ScreenPlay::GodotHandler* godotHandler READ godotHandler WRITE setGodotHandler NOTIFY godotHandlerChanged FINAL)
-    Q_PROPERTY(ScreenPlay::Settings* settings READ settings WRITE setSettings NOTIFY settingsChanged FINAL)
-    Q_PROPERTY(ScreenPlay::InstalledListModel* installedListModel READ installedListModel WRITE setInstalledListModel NOTIFY installedListModelChanged FINAL)
-    Q_PROPERTY(ScreenPlay::InstalledListFilter* installedListFilter READ installedListFilter WRITE setInstalledListFilter NOTIFY installedListFilterChanged FINAL)
-    Q_PROPERTY(ScreenPlay::MonitorListModel* monitorListModel READ monitorListModel WRITE setMonitorListModel NOTIFY monitorListModelChanged FINAL)
-    Q_PROPERTY(ScreenPlay::ProfileListModel* profileListModel READ profileListModel WRITE setProfileListModel NOTIFY profileListModelChanged FINAL)
-    Q_PROPERTY(ScreenPlay::UiAppStateSignals* uiAppStateSignals READ uiAppStateSignals WRITE setUiAppStateSignals NOTIFY uiAppStateSignalsChanged FINAL)
-    Q_PROPERTY(ScreenPlay::ErrorManager* errorManager READ errorManager WRITE setErrorManager NOTIFY errorManagerChanged FINAL)
+    // Sub-systems are constructor-owned and never replaced — properties are
+    // read-only. We must add the namespace here to make it work with QtC
+    // autocompletion, see QTCREATORBUG-30197.
+    Q_PROPERTY(ScreenPlay::GlobalVariables* globalVariables READ globalVariables CONSTANT FINAL)
+    Q_PROPERTY(ScreenPlay::ScreenPlayManager* screenPlayManager READ screenPlayManager CONSTANT FINAL)
+    Q_PROPERTY(ScreenPlay::Create* create READ create CONSTANT FINAL)
+    Q_PROPERTY(ScreenPlay::Wizards* wizards READ wizards CONSTANT FINAL)
+    Q_PROPERTY(ScreenPlay::Util* util READ util CONSTANT FINAL)
+    Q_PROPERTY(ScreenPlay::GodotHandler* godotHandler READ godotHandler CONSTANT FINAL)
+    Q_PROPERTY(ScreenPlay::Settings* settings READ settings CONSTANT FINAL)
+    Q_PROPERTY(ScreenPlay::InstalledListModel* installedListModel READ installedListModel CONSTANT FINAL)
+    Q_PROPERTY(ScreenPlay::InstalledListFilter* installedListFilter READ installedListFilter CONSTANT FINAL)
+    Q_PROPERTY(ScreenPlay::MonitorListModel* monitorListModel READ monitorListModel CONSTANT FINAL)
+    Q_PROPERTY(ScreenPlay::ProfileListModel* profileListModel READ profileListModel CONSTANT FINAL)
+    Q_PROPERTY(ScreenPlay::UiAppStateSignals* uiAppStateSignals READ uiAppStateSignals CONSTANT FINAL)
+    Q_PROPERTY(ScreenPlay::FrameStats* frameStats READ frameStats CONSTANT FINAL)
+    Q_PROPERTY(ScreenPlay::ErrorManager* errorManager READ errorManager CONSTANT FINAL)
 
 public:
-    explicit App(QObject* parent = nullptr);
     ~App();
+
+    // Qt 6 declarative singleton factory: invoked by the QML engine on first
+    // access. Owns the App instance lifetime; do not call directly.
+    //
+    // The constructor is private ON PURPOSE. QQmlPrivate::singletonConstructionMode()
+    // tests std::is_default_constructible<T> BEFORE HasSingletonFactory<T>, so a
+    // publicly default-constructible App makes the engine default-construct the
+    // singleton and silently skip create() - attachEngine() then never runs, the
+    // engine pointer stays null, ErrorManager never becomes qmlReady (every
+    // C++-side error is queued forever, invisible to the user) and retranslation
+    // is never wired. Keep App non-default-constructible.
+    static App* create(QQmlEngine* engine, QJSEngine* jsEngine);
+
     Q_INVOKABLE QString version() const;
     Q_INVOKABLE void showDockIcon(const bool show);
     Q_INVOKABLE QCoro::QmlTask exit();
@@ -68,44 +84,25 @@ public:
     Wizards* wizards() const { return m_wizards.get(); }
     UiAppStateSignals* uiAppStateSignals() const { return m_uiAppStateSignals.get(); }
     ErrorManager* errorManager() const { return m_errorManager.get(); }
-
-    void setEngine(std::shared_ptr<QQmlApplicationEngine> engine);
+    FrameStats* frameStats() const { return m_frameStats.get(); }
 
 signals:
-    void globalVariablesChanged(ScreenPlay::GlobalVariables* globalVariables);
-    void screenPlayManagerChanged(ScreenPlay::ScreenPlayManager* screenPlayManager);
-    void createChanged(ScreenPlay::Create* create);
-    void utilChanged(ScreenPlay::Util* util);
-    void godotHandlerChanged(ScreenPlay::GodotHandler* godotHandler);
-    void settingsChanged(ScreenPlay::Settings* settings);
-    void installedListModelChanged(ScreenPlay::InstalledListModel* installedListModel);
-    void monitorListModelChanged(ScreenPlay::MonitorListModel* monitorListModel);
-    void profileListModelChanged(ScreenPlay::ProfileListModel* profileListModel);
-    void installedListFilterChanged(ScreenPlay::InstalledListFilter* installedListFilter);
-    void uiAppStateSignalsChanged(ScreenPlay::UiAppStateSignals* uiAppStateSignals);
-    void wizardsChanged(ScreenPlay::Wizards* wizards);
-    void errorManagerChanged(ScreenPlay::ErrorManager* errorManager);
     void requestExit();
     void requestRetranslation();
 
-public slots:
-    void setGlobalVariables(GlobalVariables* globalVariables);
-    void setScreenPlayManager(ScreenPlayManager* screenPlayManager);
-    void setCreate(Create* create);
-    void setUtil(Util* util);
-    void setGodotHandler(GodotHandler* godotHandler);
-    void setSettings(Settings* settings);
-    void setInstalledListModel(InstalledListModel* installedListModel);
-    void setMonitorListModel(MonitorListModel* monitorListModel);
-    void setProfileListModel(ProfileListModel* profileListModel);
-    void setInstalledListFilter(InstalledListFilter* installedListFilter);
-    void setUiAppStateSignals(UiAppStateSignals* uiAppStateSignals);
-    void setWizards(Wizards* wizards);
-    void setErrorManager(ErrorManager* errorManager);
-
 private:
-    std::shared_ptr<QQmlApplicationEngine> m_engine;
+    // Private so App is not default-constructible - see create() above.
+    explicit App(QObject* parent = nullptr);
+
+    void attachEngine(QQmlEngine* engine);
+    // Member coroutine instead of a capturing-lambda coroutine: lambda
+    // captures live in the closure object, which would die before the
+    // coroutine resumes.
+    QCoro::Task<void> exitTask();
+
+    QPointer<QQmlEngine> m_engine;
     std::unique_ptr<Create> m_create;
+    std::unique_ptr<FrameStats> m_frameStats;
     std::unique_ptr<Wizards> m_wizards;
     std::unique_ptr<ScreenPlayManager> m_screenPlayManager;
     std::unique_ptr<Util> m_util;
@@ -119,6 +116,5 @@ private:
     std::shared_ptr<InstalledListFilter> m_installedListFilter;
     std::shared_ptr<UiAppStateSignals> m_uiAppStateSignals;
     std::shared_ptr<ErrorManager> m_errorManager;
-    static int typeId;
 };
 }

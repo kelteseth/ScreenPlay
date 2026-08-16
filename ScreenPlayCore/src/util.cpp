@@ -432,10 +432,10 @@ ScreenPlay::ContentTypes::SearchType Util::getSearchTypeFromInstalledType(const 
     case ContentTypes::InstalledType::GodotWallpaper:
     case ContentTypes::InstalledType::HTMLWallpaper:
     case ContentTypes::InstalledType::QMLWallpaper:
-    case ContentTypes::InstalledType::GifWallpaper:
     case ContentTypes::InstalledType::WebsiteWallpaper:
         return ContentTypes::SearchType::Scene;
     case ContentTypes::InstalledType::VideoWallpaper:
+    case ContentTypes::InstalledType::GifWallpaper:
         return ContentTypes::SearchType::Wallpaper;
     case ContentTypes::InstalledType::HTMLWidget:
     case ContentTypes::InstalledType::QMLWidget:

@@ -21,7 +21,7 @@ elif sys.platform == "linux":
 REPO_PATH =  Path(__file__, "../../").resolve()
 THIRDPATH_PATH =  Path(REPO_PATH, "ThirdParty").resolve()
 QT_PATH = path = Path(REPO_PATH, "../aqt").resolve()
-QT_VERSION = "6.10.2"
+QT_VERSION = "6.11.1"
 QT_BIN_PATH = QT_PATH.joinpath(f"{QT_VERSION}/{QT_PLATFORM}/bin")
 # Qt source modules for debugging - excludes qtwebengine which pulls chromium
 QT6_SOURCE_MODULES = [
@@ -54,7 +54,7 @@ VCPKG_BASE_PACKAGES =  [
     ]
 PYTHON_EXECUTABLE = "python" if sys.platform == "win32" else "python3"
 FFMPEG_VERSION_MAC = "8.0"
-FFMPEG_VERSION_WIN = "8.1"
+FFMPEG_VERSION_WIN = "8.1.1"
 # None stable version omit patch: 4.3-rc2 or 4.5 stable
 GODOT_VERSION = "4.5.1"
 GODOT_RELEASE_TYPE = "stable"

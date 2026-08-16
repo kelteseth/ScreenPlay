@@ -19,6 +19,16 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(QArchive qcoro)
 
+# chuck_tester is a git submodule so the testing framework can be edited
+# in-tree. Run `git submodule update --init` after cloning.
+if(NOT EXISTS ${THIRD_PARTY_PATH}/chuck_tester/tester/CMakeLists.txt)
+    message(
+        FATAL_ERROR
+            "chuck_tester submodule is missing. Run: git submodule update --init"
+    )
+endif()
+add_subdirectory(chuck_tester/tester)
+
 add_subdirectory(Steam)
 
 qcoro_enable_coroutines()

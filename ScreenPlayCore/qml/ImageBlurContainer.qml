@@ -65,7 +65,7 @@ Item {
         const global = root.mapToGlobal(0, 0)
         const local = root.backgroundSource.mapFromGlobal(global.x, global.y)
         effectSource.sourceRect = Qt.rect(local.x, local.y, root.width, root.height);
-    // print("sourceRect:", effectSource.sourceRect)
+        // print("sourceRect:", effectSource.sourceRect)
     }
 
     onXChanged: root.updateSourceRect()

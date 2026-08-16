@@ -131,9 +131,10 @@ if(DEFINED ENV{CI_COMMIT_MESSAGE})
 endif()
 
 if(UNIX AND NOT APPLE)
-    # Fixes QWebEngine linker errors on Ubuntu 22.04
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=gold")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fuse-ld=gold")
+    # Use the lld linker. Historically we used gold to fix QWebEngine linker errors, but gold was removed from binutils in Ubuntu 26.04, so
+    # link with lld instead (matches the -fuse-ld=lld set by the Linux gcc presets).
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=lld")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fuse-ld=lld")
 endif()
 
 if(${SCREENPLAY_TESTS})
@@ -178,6 +179,23 @@ endif()
 
 # Generate single deployment script after all targets are defined
 generate_qt_deployment_script()
+
+# Install the example Content folder AFTER the deploy script above. The order matters: install() rules run top to bottom, and the deploy
+# script runs windeployqt, which looks through the whole deploy folder for QML files. If bin/Content already exists at that point,
+# windeployqt tries to process the wallpaper and widget .qml files inside it and fails while copying qml/QtQuick/qtquick2plugin.dll ("being
+# used by another process"). Installing Content last still puts it next to the executable for runtime (see GlobalVariables::examplesPath),
+# but keeps it out of windeployqt's way.
+if(APPLE)
+    install(
+        DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/Content/"
+        DESTINATION "ScreenPlay.app/Contents/Resources/Content"
+        OPTIONAL)
+else()
+    install(
+        DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/Content/"
+        DESTINATION "${CMAKE_INSTALL_BINDIR}/Content"
+        OPTIONAL)
+endif()
 
 message(STATUS "[PROJECT] CMAKE_MODULE_PATH            = ${CMAKE_MODULE_PATH}")
 message(STATUS "[PROJECT] CMAKE_BUILD_TYPE             = ${CMAKE_BUILD_TYPE}")

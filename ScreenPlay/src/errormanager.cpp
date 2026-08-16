@@ -52,6 +52,8 @@ void ErrorManager::displayError(const QString& message)
     if (message.isEmpty())
         return;
 
+    qInfo() << "ErrorManager::displayError (qmlReady:" << m_qmlReady << "):" << message;
+
     if (m_qmlReady) {
         addError(message);
         emit showErrorPopup();

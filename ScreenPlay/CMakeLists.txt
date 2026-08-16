@@ -85,6 +85,7 @@ set(QML
     qml/ContentSettings/MonitorSelectionItem.qml
     qml/ContentSettings/MonitorsProjectSettingItem.qml
     qml/ContentSettings/SaveNotification.qml
+    qml/ContentSettings/WallpaperFpsControl.qml
     qml/Create/CreateSidebar.qml
     qml/Create/CreateView.qml
     qml/Create/StartInfo.qml
@@ -144,6 +145,7 @@ set(RESOURCES
     "legal/Font Awesome Free License.txt"
     "legal/Qt LGPLv3.txt"
     assets/icons/app.ico
+    assets/icons/brand_godot.svg
     assets/icons/steam_default_avatar.png
     assets/images/first_startup_mask.png
     assets/images/installed_item_mask.png
@@ -210,8 +212,7 @@ set(RESOURCES
     legal/lgpl-2.1.txt
     legal/OFL.txt
     legal/OpenSSL.txt
-    profiles.json
-    qtquickcontrols2.conf)
+    profiles.json)
 
 # Needed on macos
 find_package(Threads REQUIRED)
@@ -296,7 +297,17 @@ endif()
 
 qt_add_executable(ScreenPlayApp main.cpp)
 
-target_link_libraries(ScreenPlayApp PRIVATE ScreenPlayLib ScreenPlayLibplugin)
+# QQuickStyle only reads :/qtquickcontrols2.conf at the resource ROOT. Inside the qml module's /qt/qml/ScreenPlay prefix (RESOURCES above)
+# it was silently never found, so none of the conf values ever applied.
+qt_add_resources(
+    ScreenPlayApp
+    "quickcontrolsconf"
+    PREFIX
+    "/"
+    FILES
+    qtquickcontrols2.conf)
+
+target_link_libraries(ScreenPlayApp PRIVATE ScreenPlayLib ScreenPlayLibplugin tester)
 
 # Ensure wallpaper and widget executables are built alongside the main app
 add_dependencies(ScreenPlayApp SPWallpaper SPWidget)
@@ -330,6 +341,31 @@ if(${SCREENPLAY_TESTS})
     if(${SCREENPLAY_STEAM})
         target_link_libraries(tst_ScreenPlayGui PUBLIC ScreenPlayWorkshopLib ScreenPlayWorkshopLibplugin)
     endif()
+
+    # Timeline unit tests - data-driven tests for ScreenPlayTimelineManager logic, structural invariants, and regression coverage for
+    # timeline bug fixes.
+    qt_add_executable(tst_timeline tests/tst_timeline.cpp)
+    target_link_libraries(tst_timeline PRIVATE ScreenPlayLib ScreenPlayLibplugin Qt6::Test)
+    generate_cmake_variable_header(tst_timeline)
+    add_dependencies(tst_timeline ScreenPlayLib)
+
+    # External process unit tests - widget/wallpaper lifecycle state machine, timer-stop regression for ScreenPlayWidget::close(),
+    # signal/state coverage.
+    qt_add_executable(tst_external_process tests/tst_external_process.cpp)
+    target_link_libraries(tst_external_process PRIVATE ScreenPlayLib ScreenPlayLibplugin Qt6::Test)
+    generate_cmake_variable_header(tst_external_process)
+    add_dependencies(tst_external_process ScreenPlayLib)
+
+    # SDK IPC unit tests - SDKConnection readyRead protocol parsing, sendMessage round-trip, and close() return-value regression coverage.
+    qt_add_executable(tst_sdk tests/tst_sdk.cpp)
+    target_link_libraries(
+        tst_sdk
+        PRIVATE ScreenPlayLib
+                ScreenPlayLibplugin
+                Qt6::Test
+                Qt6::Network)
+    generate_cmake_variable_header(tst_sdk)
+    add_dependencies(tst_sdk ScreenPlayLib)
 
     # Video import tests
     qt_add_executable(tst_VideoImport tests/tst_VideoImport.cpp)
@@ -513,23 +549,18 @@ install(
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
-# Install Content folder alongside the executable
-if(WIN32)
-    install(
-        DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../Content/"
-        DESTINATION "${CMAKE_INSTALL_BINDIR}/Content"
-        OPTIONAL)
-elseif(APPLE)
-    install(
-        DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../Content/"
-        DESTINATION "ScreenPlay.app/Contents/Resources/Content"
-        OPTIONAL)
-elseif(UNIX)
-    install(
-        DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../Content/"
-        DESTINATION "${CMAKE_INSTALL_BINDIR}/Content"
-        OPTIONAL)
+# Install the application fonts. App::App() loads them at runtime from assets/fonts next to the executable (macOS:
+# Contents/Resources/fonts); without this rule release builds shipped no fonts at all and silently fell back to whatever the user's system
+# provides.
+if(APPLE)
+    install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts/" DESTINATION "ScreenPlay.app/Contents/Resources/fonts")
+else()
+    install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts/" DESTINATION "${CMAKE_INSTALL_BINDIR}/assets/fonts")
 endif()
+
+# NOTE: The example Content folder is installed from the ROOT CMakeLists.txt, after the deploy script. Do not install it here: this
+# subdirectory runs before the deploy script, so Content would end up in bin/Content before windeployqt runs and make the deploy fail. See
+# the comment in the root CMakeLists.txt.
 
 # Install ffmpeg and ffprobe binaries
 if(WIN32)

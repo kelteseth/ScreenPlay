@@ -120,6 +120,20 @@ QString GlobalVariables::getLicenseFolderPath() const
     return fileInfo.dir().absolutePath();
 }
 
+QUrl GlobalVariables::examplesPath() const
+{
+    const QString appDir = QGuiApplication::applicationDirPath();
+#ifdef Q_OS_MACOS
+    // Copied into the bundle at ScreenPlayApp.app/Contents/Resources/Content;
+    // applicationDirPath() points at Contents/MacOS.
+    const QString path = appDir + "/../Resources/Content";
+#else
+    // Copied next to the executable (see ScreenPlay/CMakeLists.txt).
+    const QString path = appDir + "/Content";
+#endif
+    return QUrl::fromLocalFile(QDir(path).absolutePath());
+}
+
 void GlobalVariables::setLocalStoragePath(QUrl localStoragePath)
 {
     if (m_localStoragePath == localStoragePath)

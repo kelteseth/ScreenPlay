@@ -161,8 +161,11 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
         setGraphicsApi(ScreenPlayEnums::GraphicsApi::Auto);
     }
 
+    setWallpaperFpsLimit(m_qSettings.value("WallpaperFpsLimit", 0).toInt());
+
     setAnonymousTelemetry(m_qSettings.value("AnonymousTelemetry", true).toBool());
     setAlwaysMinimize(m_qSettings.value("alwaysMinimize", false).toBool());
+    setIncludeExampleContent(m_qSettings.value("includeExampleContent", true).toBool());
 
     setupProfilesSettings();
     setupInstalledPath();
@@ -426,7 +429,7 @@ bool Settings::retranslateUI()
         if (lang == Settings::Language::Ko_KR) {
             setFont("Noto Sans CJK KR Regular");
         } else {
-            setFont("Roboto");
+            setFont("Google Sans Flex");
         }
         return true;
     }
@@ -758,6 +761,15 @@ void Settings::setAlwaysMinimize(bool alwaysMinimize)
     emit alwaysMinimizeChanged(m_alwaysMinimize);
 }
 
+void Settings::setIncludeExampleContent(bool includeExampleContent)
+{
+    if (m_includeExampleContent == includeExampleContent)
+        return;
+    m_includeExampleContent = includeExampleContent;
+    setqSetting("includeExampleContent", m_includeExampleContent);
+    emit includeExampleContentChanged(m_includeExampleContent);
+}
+
 void Settings::setGodotFps(ScreenPlay::Godot::Fps godotFps)
 {
     if (m_godotFps == godotFps)
@@ -811,6 +823,17 @@ void Settings::setGraphicsApi(ScreenPlay::ScreenPlayEnums::GraphicsApi graphicsA
 
     m_graphicsApi = graphicsApi;
     emit graphicsApiChanged(m_graphicsApi);
+}
+
+void Settings::setWallpaperFpsLimit(int wallpaperFpsLimit)
+{
+    if (m_wallpaperFpsLimit == wallpaperFpsLimit)
+        return;
+
+    setqSetting("WallpaperFpsLimit", wallpaperFpsLimit);
+
+    m_wallpaperFpsLimit = wallpaperFpsLimit;
+    emit wallpaperFpsLimitChanged(m_wallpaperFpsLimit);
 }
 }
 

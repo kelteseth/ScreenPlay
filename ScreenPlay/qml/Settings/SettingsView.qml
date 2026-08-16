@@ -10,6 +10,7 @@ import ScreenPlayCore
 
 Item {
     id: root
+    objectName: "settingsView"
 
     property Item modalSource
 
@@ -70,6 +71,18 @@ Item {
                         isChecked: App.settings.alwaysMinimize
                         onCheckboxChanged: function (checked) {
                             App.settings.setAlwaysMinimize(checked)
+                        }
+                    }
+
+                    SettingsHorizontalSeperator {}
+
+                    SettingsCheckbox {
+                        headline: qsTr("Show example content")
+                        description: qsTr("Show the wallpapers and widgets that ship with ScreenPlay in the Installed tab. They are read-only and cannot be removed. Restart or reload the Installed tab to apply.")
+                        isChecked: App.settings.includeExampleContent
+                        onCheckboxChanged: function (checked) {
+                            App.settings.setIncludeExampleContent(checked)
+                            App.installedListModel.reset()
                         }
                     }
 
@@ -326,14 +339,18 @@ Item {
                     SettingsComboBox {
                         id: cbGraphicsApi
 
-                        headline: qsTr("Video Wallpaper Graphics API")
-                        description: qsTr("Set the graphics API for wallpapers (Note: Godot wallpapers are not affected by this setting). DirectX11 may provide better performance on AMD hardware. You must restart the wallpaper to take effect.")
+                        headline: qsTr("Graphics API")
+                        description: qsTr("Graphics API for the app window and wallpapers (Note: Godot wallpapers are not affected by this setting). Auto uses Vulkan when available, which keeps frame pacing smooth while wallpapers are running. Requires an app restart to take effect.")
                         comboBox {
                             Component.onCompleted: comboBox.currentIndex = comboBox.indexOfValue(App.settings.graphicsApi)
                             model: ListModel {
                                 ListElement {
                                     value: ScreenPlayEnums.GraphicsApi.Auto
-                                    text: qsTr("Auto (Qt Default)")
+                                    text: qsTr("Auto (Vulkan if available)")
+                                }
+                                ListElement {
+                                    value: ScreenPlayEnums.GraphicsApi.Vulkan
+                                    text: qsTr("Vulkan")
                                 }
                                 ListElement {
                                     value: ScreenPlayEnums.GraphicsApi.OpenGL
@@ -343,9 +360,72 @@ Item {
                                     value: ScreenPlayEnums.GraphicsApi.DirectX11
                                     text: qsTr("DirectX11 (Windows Only)")
                                 }
+                                ListElement {
+                                    value: ScreenPlayEnums.GraphicsApi.DirectX12
+                                    text: qsTr("DirectX12 (Windows Only, HTML wallpapers render in software)")
+                                }
                             }
                             onActivated: {
                                 App.settings.setGraphicsApi(cbGraphicsApi.comboBox.currentValue)
+                            }
+                        }
+                    }
+
+                    SettingsHorizontalSeperator {}
+
+                    SettingsComboBox {
+                        id: cbWallpaperFpsLimit
+
+                        headline: qsTr("Video & QML Wallpaper FPS limit")
+                        description: qsTr("Default frame rate limit for QML wallpapers (render rate) and video wallpapers (playback is slowed to the chosen rate so the decoder does less work; motion runs slower, which suits ambient videos), both reducing GPU power. This is the default for every wallpaper and can be overridden per wallpaper in the wallpaper configuration. Godot wallpapers use their own FPS setting below.")
+                        comboBox {
+                            Component.onCompleted: comboBox.currentIndex = comboBox.indexOfValue(App.settings.wallpaperFpsLimit)
+                            model: ListModel {
+                                ListElement {
+                                    value: 0
+                                    text: qsTr("Unlimited")
+                                }
+                                ListElement {
+                                    value: 1
+                                    text: "1 FPS"
+                                }
+                                ListElement {
+                                    value: 6
+                                    text: "6 FPS"
+                                }
+                                ListElement {
+                                    value: 12
+                                    text: "12 FPS"
+                                }
+                                ListElement {
+                                    value: 24
+                                    text: "24 FPS"
+                                }
+                                ListElement {
+                                    value: 30
+                                    text: "30 FPS"
+                                }
+                                ListElement {
+                                    value: 60
+                                    text: "60 FPS"
+                                }
+                                ListElement {
+                                    value: 90
+                                    text: "90 FPS"
+                                }
+                                ListElement {
+                                    value: 120
+                                    text: "120 FPS"
+                                }
+                                ListElement {
+                                    value: 144
+                                    text: "144 FPS"
+                                }
+                            }
+                            onActivated: {
+                                App.settings.setWallpaperFpsLimit(cbWallpaperFpsLimit.comboBox.currentValue);
+                                // Apply immediately to every running wallpaper process.
+                                App.screenPlayManager.setWallpaperFpsLimit(cbWallpaperFpsLimit.comboBox.currentValue)
                             }
                         }
                     }

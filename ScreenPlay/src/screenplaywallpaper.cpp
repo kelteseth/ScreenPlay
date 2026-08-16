@@ -2,6 +2,7 @@
 #include "ScreenPlay/screenplaywallpaper.h"
 #include "ScreenPlayCore/util.h"
 
+#include <QCoro/QCoroSignal>
 #include <QDebug>
 #include <QDir>
 #include <QFileInfoList>
@@ -106,6 +107,12 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
 
         // Add graphics API argument (not for Godot wallpapers)
         m_appArgumentsList.append({ "--graphicsapi", QString::number(static_cast<int>(m_settings->graphicsApi())) });
+
+        // Per-wallpaper fps limit overrides the global default; -1 inherits it.
+        const int fpsLimit = m_wallpaperData.fpsLimit() >= 0 ? m_wallpaperData.fpsLimit() : m_settings->wallpaperFpsLimit();
+        if (fpsLimit > 0) {
+            m_appArgumentsList.append({ "--fpslimit", QString::number(fpsLimit) });
+        }
     }
 
     // Add anonymous telemetry setting
@@ -196,6 +203,10 @@ bool ScreenPlayWallpaper::start()
 {
     setState(ScreenPlayEnums::AppState::Starting);
 
+    // Update dynamic arguments with current values before starting
+    // This ensures restarted wallpapers receive the latest settings
+    updateDynamicArguments();
+
     if (m_wallpaperData.type() == ContentTypes::InstalledType::GodotWallpaper) {
         m_process.setProgram(m_globalVariables->godotWallpaperExecutablePath().toString());
     } else {
@@ -211,8 +222,13 @@ bool ScreenPlayWallpaper::start()
 
     if (!success) {
         setState(ScreenPlay::ScreenPlayEnums::AppState::StartingFailed);
+        return false;
     }
-    return success;
+
+    // Watch the PID until the handshake arrives, so a wallpaper that dies
+    // while loading reports StartingFailed instead of being waited out.
+    startProcessWatchdog();
+    return true;
 }
 
 QCoro::Task<Result> ScreenPlayWallpaper::close()
@@ -222,37 +238,53 @@ QCoro::Task<Result> ScreenPlayWallpaper::close()
     m_pingAliveTimer.stop();
 
     if (!m_connection) {
-        qCInfo(screenPlayWallpaper) << "Cannot request quit, wallpaper never connected!";
-        setState(ScreenPlayEnums::AppState::ClosingFailed);
+        // Never connected (still launching, or the connect timed out). The
+        // detached process may well be running - kill it, otherwise it keeps
+        // rendering forever with no owner.
+        qCInfo(screenPlayWallpaper) << "Cannot request quit, wallpaper never connected - terminating process" << m_processID;
+        if (!terminate()) {
+            setState(ScreenPlayEnums::AppState::ClosingFailed);
+            co_return Result { false, {}, "Wallpaper never connected and its process could not be terminated" };
+        }
+        setState(ScreenPlayEnums::AppState::ClosedGracefully);
         co_return Result { true, {}, "Quit wallpaper (it was never connected)" };
     }
 
+    bool quitRequested = true;
     if (!m_connection->close()) {
-        qCCritical(screenPlayWallpaper) << "Cannot close wallpaper!";
-        setState(ScreenPlayEnums::AppState::ClosingFailed);
-        co_return Result { false, {}, "Failed to close connection to wallpaper" };
+        qCWarning(screenPlayWallpaper) << "Could not deliver quit command, falling back to process polling/termination";
+        quitRequested = false;
     }
 
-    QTimer timer;
-    timer.start(250);
-    const int maxRetries = 30;
-    for (int i = 1; i <= maxRetries; ++i) {
-        co_await timer;
-        ProcessManager::ProcessState processState = m_processManager.getProcessState(m_processID);
+    if (quitRequested) {
+        // The watchdog turns process exit into ClosedGracefully (we are in
+        // Closing), so wait for that one state change rather than polling.
+        // Check first: the process may already be gone.
+        startProcessWatchdog();
+        while (m_state == ScreenPlayEnums::AppState::Closing
+            && processState() == ProcessManager::ProcessState::Running) {
+            const auto state = co_await qCoro(this, &ScreenPlayExternalProcess::stateChanged, QUIT_GRACE_PERIOD_MS);
+            if (!state)
+                break; // still running after the grace period - force-kill below
+        }
+        stopProcessWatchdog();
 
-        if (processState == ProcessManager::ProcessState::NotRunning) {
+        if (processState() != ProcessManager::ProcessState::Running) {
             qCInfo(screenPlayWallpaper) << "Process" << m_processID << "terminated successfully";
             setState(ScreenPlayEnums::AppState::ClosedGracefully);
             co_return Result { true, {}, "Quit wallpaper gracefully" };
-        } else if (processState == ProcessManager::ProcessState::InvalidPID) {
-            qCInfo(screenPlayWallpaper) << "Process" << m_processID << "has invalid PID - assuming successful termination";
-            setState(ScreenPlayEnums::AppState::ClosedGracefully);
-            co_return Result { true, {}, "Quit wallpaper gracefully (invalid PID)" };
         }
-        // If Running, continue waiting
+    }
+
+    // Cooperative shutdown failed - force-kill so the process cannot run on
+    // as an orphan after we drop our bookkeeping for it.
+    qCWarning(screenPlayWallpaper) << "Wallpaper" << m_appID << "did not quit cooperatively, force-terminating";
+    if (terminate()) {
+        setState(ScreenPlayEnums::AppState::ClosedGracefully);
+        co_return Result { true, {}, "Wallpaper was force-terminated after it failed to quit" };
     }
     setState(ScreenPlayEnums::AppState::ClosingFailed);
-    co_return Result { false, {}, QString("Wallpaper with appID '%1' failed to disconnect after %2 attempts").arg(m_appID).arg(maxRetries) };
+    co_return Result { false, {}, QString("Wallpaper with appID '%1' failed to quit and could not be terminated").arg(m_appID) };
 }
 
 void ScreenPlayWallpaper::setupSDKConnection()
@@ -305,6 +337,11 @@ bool ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QVariant& 
         found = true;
     }
 
+    if (key == "fpsLimit") {
+        m_wallpaperData.setFpsLimit(value.toInt());
+        found = true;
+    }
+
     if (!found && !category.isEmpty()) {
         auto properties = m_wallpaperData.properties();
         if (!properties.contains(category)) {
@@ -331,6 +368,12 @@ void ScreenPlayWallpaper::updateFillMode(const Video::FillMode fillMode)
 {
     m_wallpaperData.setFillMode(fillMode);
     emit fillModeChanged(fillMode);
+}
+
+void ScreenPlayWallpaper::updateFpsLimit(const int fpsLimit)
+{
+    m_wallpaperData.setFpsLimit(fpsLimit);
+    emit fpsLimitChanged(fpsLimit);
 }
 
 void ScreenPlayWallpaper::updateGodotFps(const Godot::Fps godotFps)
@@ -377,15 +420,38 @@ bool ScreenPlayWallpaper::replaceLive(const WallpaperData wallpaperData)
 
     m_wallpaperData = wallpaperData;
 
+    // Resolve -1 (inherit) to the global default; a negative value has no
+    // meaning to the wallpaper process.
+    const int effectiveFpsLimit = m_wallpaperData.fpsLimit() >= 0 ? m_wallpaperData.fpsLimit() : m_settings->wallpaperFpsLimit();
+
     QJsonObject obj;
     obj.insert("command", "replace");
     obj.insert("type", QVariant::fromValue(m_wallpaperData.type()).toString());
     obj.insert("fillMode", QVariant::fromValue(m_wallpaperData.fillMode()).toString());
     obj.insert("volume", std::floor(m_wallpaperData.volume() * 100.0F) / 100.0f);
+    obj.insert("fpsLimit", effectiveFpsLimit);
     obj.insert("absolutePath", m_wallpaperData.absolutePath());
     obj.insert("file", m_wallpaperData.file());
     obj.insert("checkWallpaperVisible", false);
     obj.insert("properties", Util().flattenProperties(wallpaperData.properties()));
+
+    // A Godot->Godot timeline switch reuses this process, so the replace
+    // command carries everything main.gd's replace handler needs to swap the
+    // content and re-apply the Godot settings (fps, 3D scale/mode).
+    if (m_wallpaperData.type() == ContentTypes::InstalledType::GodotWallpaper) {
+        // Resolve the package file for the *new* wallpaper from its project.json;
+        // m_projectJson still holds the previous wallpaper's data at this point.
+        if (auto projectOpt = Util().openJsonFileToObject(m_wallpaperData.absolutePath() + "/project.json")) {
+            m_projectJson = projectOpt.value();
+        }
+        if (m_projectJson.contains("version")) {
+            const quint64 version = m_projectJson.value("version").toInt();
+            obj.insert("projectPackageFile", QString("project-v%1.zip").arg(version));
+        }
+        obj.insert("godotFps", QVariant::fromValue(m_wallpaperData.godotFps()).toString());
+        obj.insert("godot3DScale", m_wallpaperData.godot3DScale());
+        obj.insert("godot3DScaleMode", QVariant::fromValue(m_wallpaperData.godot3DScaleMode()).toString());
+    }
 
     const bool success = m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
     if (!success) {
@@ -401,6 +467,16 @@ void ScreenPlayWallpaper::syncAllProperties()
         return;
     }
 
+    // Sync volume and fillmode first
+    QJsonObject volumeObj;
+    volumeObj.insert("volume", m_wallpaperData.volume());
+    m_connection->sendMessage(QJsonDocument(volumeObj).toJson(QJsonDocument::Compact));
+
+    QJsonObject fillModeObj;
+    fillModeObj.insert("fillmode", QVariant::fromValue(m_wallpaperData.fillMode()).toString());
+    m_connection->sendMessage(QJsonDocument(fillModeObj).toJson(QJsonDocument::Compact));
+
+    // Sync custom properties
     const QJsonObject& properties = m_wallpaperData.properties();
     for (auto categoryIt = properties.constBegin(); categoryIt != properties.constEnd(); ++categoryIt) {
         const QString& category = categoryIt.key();
@@ -422,6 +498,28 @@ bool ScreenPlayWallpaper::setWallpaperData(const WallpaperData wallpaperData)
     }
     m_wallpaperData = wallpaperData;
     return true;
+}
+
+/*!
+    \brief Updates command-line arguments with current wallpaper settings.
+
+    The command-line arguments (m_appArgumentsList) are built once in the
+    constructor with initial values. When the user changes settings like
+    volume or fillmode, m_wallpaperData is updated but m_appArgumentsList
+    is not. This function refreshes the dynamic arguments before start()
+    so that restarted wallpapers (e.g., after a crash) receive the latest
+    user-configured values instead of the stale initial ones.
+*/
+void ScreenPlayWallpaper::updateDynamicArguments()
+{
+    auto updateArg = [this](const QString& key, const QString& value) {
+        int i = m_appArgumentsList.indexOf(key);
+        if (i >= 0 && i + 1 < m_appArgumentsList.size())
+            m_appArgumentsList[i + 1] = value;
+    };
+
+    updateArg("--volume", QString::number(static_cast<double>(m_wallpaperData.volume())));
+    updateArg("--fillmode", QVariant::fromValue(m_wallpaperData.fillMode()).toString());
 }
 
 void ScreenPlayWallpaper::setMonitors(QVector<int> monitors)
@@ -464,6 +562,14 @@ void ScreenPlayWallpaper::setFillMode(Video::FillMode fillMode)
         return;
     m_wallpaperData.setFillMode(fillMode);
     emit fillModeChanged(fillMode);
+}
+
+void ScreenPlayWallpaper::setFpsLimit(int fpsLimit)
+{
+    if (m_wallpaperData.fpsLimit() == fpsLimit)
+        return;
+    m_wallpaperData.setFpsLimit(fpsLimit);
+    emit fpsLimitChanged(fpsLimit);
 }
 
 void ScreenPlayWallpaper::setGodotFps(Godot::Fps godotFps)

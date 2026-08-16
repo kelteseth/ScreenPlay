@@ -22,6 +22,7 @@ FocusScope {
         root.hasContent = wallpaperData.hasContent()
         slVolume.slider.value = wallpaperData.volume.toFixed(2)
         settingsComboBox.currentIndex = settingsComboBox.indexOfValue(wallpaperData.fillMode)
+        fpsControl.wallpaperData = wallpaperData
     }
 
     Text {
@@ -34,102 +35,31 @@ FocusScope {
         text: qsTr("No timeline section selected")
     }
 
-    ColumnLayout {
+    ScrollView {
+        id: scrollView
         anchors.fill: parent
-        spacing: 10
         clip: true
         visible: root.hasContent
-
-        Label {
-            Layout.fillWidth: true
-            Layout.preferredHeight: 30
-            Layout.leftMargin: 10
-            font.pointSize: 14
-            wrapMode: Text.WrapAnywhere
-            elide: Text.ElideRight
-            color: root.timelineActive ? Material.primaryTextColor : Material.secondaryTextColor
-            text: root.wallpaperData ? root.wallpaperData.title : ""
-        }
-
-        LabelSlider {
-            id: slVolume
-
-            headline: qsTr("Volume")
-            iconSource: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_volume.svg"
-            slider.stepSize: 0.1
-            Layout.fillWidth: true
-            Layout.topMargin: 20
-            Layout.leftMargin: 10
-            Layout.rightMargin: 10
-            onValueEditingFinished: {
-
-                // settingValue = true;
-                const newVolume = slVolume.slider.value.toFixed(2)
-                console.log(LoggingCategories.videoControls, "Volume changed - Timeline active:", root.timelineActive, "Monitor:", root.monitorIndex, "Timeline index:", root.timelineIndex, "Section:", root.sectionIdentifier, "New volume:", newVolume)
-                const category = ""
-                App.screenPlayManager.setValueAtMonitorTimelineIndex(root.monitorIndex, root.timelineIndex, root.sectionIdentifier, "volume", newVolume, category).then(result => {
-                    settingValue = false
-                    if (!result.success) {
-                        InstantPopup.openErrorPopup(root, result.message)
-                    }
-                })
-            }
-        }
+        contentWidth: availableWidth
 
         ColumnLayout {
-            implicitHeight: 50
-            spacing: 15
-            Layout.fillWidth: true
-            Layout.leftMargin: 10
-            Layout.rightMargin: 10
+            width: scrollView.availableWidth
+            spacing: 12
 
-            Text {
-                id: txtComboBoxFillMode
-                height: 20
-                font.pointSize: 14
+            LabelSlider {
+                id: slVolume
 
-                text: qsTr("Fill Mode")
-                verticalAlignment: Text.AlignVCenter
-                font.family: App.settings.font
-                color: Material.primaryTextColor
-                wrapMode: Text.WrapAnywhere
-                Layout.fillWidth: true
-            }
-
-            ComboBox {
-                id: settingsComboBox
+                headline: qsTr("Volume")
+                iconSource: "qrc:/qt/qml/ScreenPlayCore/assets/icons/icon_volume.svg"
+                slider.stepSize: 0.1
                 Layout.fillWidth: true
                 Layout.leftMargin: 10
-                textRole: "text"
-                valueRole: "value"
-
-                model: ListModel {
-                    id: model
-                    ListElement {
-                        value: Video.FillMode.Stretch
-                        text: qsTr("Stretch")
-                    }
-
-                    ListElement {
-                        value: Video.FillMode.Fill
-                        text: qsTr("Fill")
-                    }
-
-                    ListElement {
-                        value: Video.FillMode.Contain
-                        text: qsTr("Contain")
-                    }
-                    ListElement {
-                        value: Video.FillMode.Cover
-                        text: qsTr("Cover")
-                    }
-                    ListElement {
-                        value: Video.FillMode.Scale_Down
-                        text: qsTr("Scale Down")
-                    }
-                }
-                onActivated: {
-                    App.screenPlayManager.setWallpaperFillModeAtMonitorIndex(root.monitorIndex, root.timelineIndex, root.sectionIdentifier, settingsComboBox.currentValue).then(result => {
+                Layout.rightMargin: 10
+                onValueEditingFinished: {
+                    const newVolume = slVolume.slider.value.toFixed(2)
+                    console.log(LoggingCategories.videoControls, "Volume changed - Timeline active:", root.timelineActive, "Monitor:", root.monitorIndex, "Timeline index:", root.timelineIndex, "Section:", root.sectionIdentifier, "New volume:", newVolume)
+                    const category = ""
+                    App.screenPlayManager.setValueAtMonitorTimelineIndex(root.monitorIndex, root.timelineIndex, root.sectionIdentifier, "volume", newVolume, category).then(result => {
                         settingValue = false
                         if (!result.success) {
                             InstantPopup.openErrorPopup(root, result.message)
@@ -138,9 +68,74 @@ FocusScope {
                 }
             }
 
-            Item {
-                Layout.fillHeight: true
+            ColumnLayout {
+                spacing: 6
                 Layout.fillWidth: true
+                Layout.leftMargin: 10
+                Layout.rightMargin: 10
+
+                Text {
+                    id: txtComboBoxFillMode
+                    height: 20
+                    font.pointSize: 14
+                    text: qsTr("Fill Mode")
+                    verticalAlignment: Text.AlignVCenter
+                    font.family: App.settings.font
+                    color: Material.primaryTextColor
+                    wrapMode: Text.WrapAnywhere
+                    Layout.fillWidth: true
+                }
+
+                ComboBox {
+                    id: settingsComboBox
+                    Layout.fillWidth: true
+                    textRole: "text"
+                    valueRole: "value"
+
+                    model: ListModel {
+                        id: model
+                        ListElement {
+                            value: Video.FillMode.Stretch
+                            text: qsTr("Stretch")
+                        }
+
+                        ListElement {
+                            value: Video.FillMode.Fill
+                            text: qsTr("Fill")
+                        }
+
+                        ListElement {
+                            value: Video.FillMode.Contain
+                            text: qsTr("Contain")
+                        }
+                        ListElement {
+                            value: Video.FillMode.Cover
+                            text: qsTr("Cover")
+                        }
+                        ListElement {
+                            value: Video.FillMode.Scale_Down
+                            text: qsTr("Scale Down")
+                        }
+                    }
+                    onActivated: {
+                        App.screenPlayManager.setWallpaperFillModeAtMonitorIndex(root.monitorIndex, root.timelineIndex, root.sectionIdentifier, settingsComboBox.currentValue).then(result => {
+                            settingValue = false
+                            if (!result.success) {
+                                InstantPopup.openErrorPopup(root, result.message)
+                            }
+                        })
+                    }
+                }
+            }
+
+            WallpaperFpsControl {
+                id: fpsControl
+                Layout.fillWidth: true
+                Layout.leftMargin: 10
+                Layout.rightMargin: 10
+                monitorIndex: root.monitorIndex
+                timelineIndex: root.timelineIndex
+                sectionIdentifier: root.sectionIdentifier
             }
         }
     }

@@ -6,6 +6,7 @@ import ScreenPlayCore
 
 Item {
     id: root
+    objectName: "monitorItem" + root.monitorIndex
 
     required property int fontSize
     required property bool monitorWithoutContentSelectable

@@ -11,16 +11,22 @@ Item {
         id: videoPlayer
         anchors.fill: parent
         source: Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute)
-        volume: Wallpaper.volume
-        muted: Wallpaper.muted
-        fillMode: Wallpaper.fillMode
-        loops: Wallpaper.loops
-        isPlaying: Wallpaper.isPlaying
+        volume: Wallpaper.currentState.volume
+        targetVolume: Wallpaper.targetState.volume
+        muted: Wallpaper.currentState.muted
+        fillMode: Wallpaper.currentState.fillMode
+        loops: Wallpaper.currentState.loops
+        isPlaying: Wallpaper.currentState.isPlaying
+        fpsLimit: Wallpaper.fpsLimit
         onIsPlayingChanged: {
             if (isPlaying && !root.fadeInDone) {
                 root.fadeInDone = true
                 startTimer.start()
             }
+        }
+        onTransitionFinished: {
+            // Apply target settings (volume, fillMode) after crossfade completes
+            Wallpaper.applyTargetSettings()
         }
     }
 
@@ -45,14 +51,14 @@ Item {
     }
 
     Connections {
-        target: Wallpaper
+        target: Wallpaper.currentState
 
         function onFillModeChanged(fillMode) {
             videoPlayer.fillMode = fillMode
         }
 
         function onVisualsPausedChanged(visualsPaused) {
-            if (!Wallpaper.isPlaying)
+            if (!Wallpaper.currentState.isPlaying)
                 return
             if (visualsPaused)
                 pauseTimer.start()

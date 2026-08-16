@@ -26,6 +26,7 @@ ApplicationWindow {
         if (!App.settings.silentStart) {
             App.showDockIcon(true)
             applicationWindow.show()
+            applicationWindow.raise()
         }
 
         const isSteamVersion = App.globalVariables.isSteamVersion()
@@ -73,6 +74,8 @@ ApplicationWindow {
         function onRequestRaise() {
             App.showDockIcon(true)
             applicationWindow.show()
+            applicationWindow.raise()
+            applicationWindow.requestActivate()
         }
         target: App.screenPlayManager
     }
@@ -109,8 +112,34 @@ ApplicationWindow {
         content.openExitDialog()
     }
 
+    // Frame pacing diagnostics (Ctrl+Shift+F). Collection only runs while
+    // the overlay is visible.
+    FrameStatsOverlay {
+        id: frameStatsOverlay
+        stats: App.frameStats
+        parent: applicationWindow.contentItem
+        anchors.top: parent.top
+        anchors.right: parent.right
+        anchors.margins: 60
+        z: 9999
+    }
+    Shortcut {
+        sequence: "Ctrl+Shift+F"
+        context: Qt.ApplicationShortcut
+        onActivated: {
+            frameStatsOverlay.shown = !frameStatsOverlay.shown;
+            // Mirror the overlay in every connected wallpaper process.
+            App.screenPlayManager.setWallpaperFrameStats(frameStatsOverlay.shown)
+        }
+    }
+
     Item {
         id: content
+        objectName: "mainContent"
+        // The window itself is outside the item tree chuck can address, so
+        // tests read window state through these mirrors.
+        property bool windowVisible: applicationWindow.visible
+        property string windowTitle: applicationWindow.title
         anchors.fill: parent
 
         function openExitDialog(): void {

@@ -7,14 +7,15 @@
 
 #include "godot_cpp/classes/node.hpp"
 #include "godot_cpp/classes/scene_tree.hpp"
-#include "godot_cpp/classes/timer.hpp"
 #include "godot_cpp/classes/viewport.hpp"
 #include "godot_cpp/classes/window.hpp"
 #include "godot_cpp/variant/string.hpp"
 #include "godot_cpp/variant/vector2.hpp"
 
+#include <deque>
 #include <string>
 
+#include "ScreenPlayCore/ipcframebuffer.h"
 #include "ScreenPlayGodotWallpaper.h"
 #include "WindowsPipe.h"
 #include "windowsintegration.h"
@@ -28,7 +29,6 @@ public:
     bool send_welcome();
     bool writeToPipe(const godot::String& message);
     godot::String read_from_pipe();
-    void messageReceived(const std::string& key, const std::string& value);
 
     godot::PackedInt64Array get_activeScreensList() const;
     void set_activeScreensList(const godot::PackedInt64Array& screens);
@@ -59,26 +59,25 @@ public:
 
     godot::String get_fullPckPath() const;
 
-    void _ready() override;
-
 protected:
     static void _bind_methods();
 
 private:
     bool configureWindowGeometry();
     void hideFromTaskbar(HWND hwnd);
-    void _on_pipe_read_timer_timeout();
 
 private:
     godot::String m_appID = "";
     godot::String m_projectPath = "";
     godot::String m_projectPackageFile = "";
     ScreenPlay::WindowsIntegration m_windowsIntegration;
-    double m_timesinceLastRead = 0.0;
     bool m_pipeConnected = false;
     bool m_screenPlayConnected = false;
     WindowsPipe m_windowsPipe;
-    godot::Timer* m_pipeReadTimer = nullptr;
+    // Same frame reassembly as the Qt endpoints (ScreenPlayCoreIpcLib):
+    // pipe reads arrive coalesced or split, never one-message-per-read.
+    ScreenPlay::IpcFrameBuffer m_frameBuffer;
+    std::deque<std::string> m_pendingMessages;
 
     godot::PackedInt64Array m_activeScreensList;
     float m_volume = 1.0f;

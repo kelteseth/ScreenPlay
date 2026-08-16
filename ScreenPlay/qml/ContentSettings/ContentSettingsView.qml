@@ -20,6 +20,10 @@ Popup {
     property int maxWidth: 1200
     property bool timelineSwitching: false
     property bool isInitialLoad: false
+    // Title of the currently selected wallpaper, shown as the header above the
+    // controls card (mirrors the "Wallpaper Configuration" headline on the left).
+    property string selectedWallpaperTitle: ""
+    property bool selectedWallpaperTimelineActive: false
     width: Math.min(Math.max(modalSource.width - 20, applicationWindow.minimumWidth), maxWidth)
     height: Math.min(Math.max(modalSource.height - 20, applicationWindow.minimumHeight), 800)
 
@@ -98,6 +102,7 @@ Popup {
 
                 Timeline {
                     id: timeline
+                    objectNamePrefix: "settingsTimeline"
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     visible: !App.globalVariables.isBasicVersion()
@@ -238,7 +243,9 @@ Popup {
 
                     onDeselected: function () {
                         defaultVideoControls.visible = false
+                        defaultGodotControls.visible = false
                         customPropertiesGridView.visible = false
+                        root.selectedWallpaperTitle = ""
                         root.selectedInstallType = SPCore.ContentTypes.InstalledType.Unknown
                     }
 
@@ -356,6 +363,27 @@ Popup {
                 }
             }
 
+            Text {
+                id: txtWallpaperTitle
+
+                text: root.selectedWallpaperTitle
+                visible: text.length > 0
+                font.pointSize: 21
+                font.weight: Font.Light
+                font.family: App.settings.font
+                color: root.selectedWallpaperTimelineActive ? Material.primaryTextColor : Material.secondaryTextColor
+                elide: Text.ElideRight
+
+                anchors {
+                    top: parent.top
+                    topMargin: 20
+                    left: itmLeftWrapper.right
+                    leftMargin: 20
+                    right: parent.right
+                    rightMargin: 40
+                }
+            }
+
             Rectangle {
                 id: wallpaperControlsWrapper
                 color: Material.theme === Material.Light ? Material.backgroundColor : Qt.darker(Material.backgroundColor)
@@ -392,6 +420,8 @@ Popup {
                         defaultVideoControls.timelineActive = selectedTimeline.lineIndicator.isActive
                         defaultVideoControls.timelineIndex = selectedTimeline.index
                         defaultVideoControls.sectionIdentifier = selectedTimeline.identifier
+                        root.selectedWallpaperTitle = wallpaperData ? wallpaperData.title : ""
+                        root.selectedWallpaperTimelineActive = selectedTimeline.lineIndicator.isActive
                         return
                     }
                     if (root.selectedInstallType === SPCore.ContentTypes.InstalledType.GodotWallpaper) {
@@ -412,6 +442,8 @@ Popup {
                         defaultGodotControls.timelineActive = selectedTimeline.lineIndicator.isActive
                         defaultGodotControls.timelineIndex = selectedTimeline.index
                         defaultGodotControls.sectionIdentifier = selectedTimeline.identifier
+                        root.selectedWallpaperTitle = wallpaperData ? wallpaperData.title : ""
+                        root.selectedWallpaperTimelineActive = selectedTimeline.lineIndicator.isActive
                         return
                     }
                     if (root.selectedInstallType === SPCore.ContentTypes.InstalledType.QMLWallpaper || root.selectedInstallType === SPCore.ContentTypes.InstalledType.WebsiteWallpaper) {
@@ -434,6 +466,13 @@ Popup {
                         customPropertiesGridView.selectedMonitorIndex = root.selectedMonitorIndex
                         customPropertiesGridView.projectSettingsListmodelRef = App.screenPlayManager.projectSettingsListModel
                         console.log(LoggingCategories.contentSettings, customPropertiesGridView.timelineActive, customPropertiesGridView.timelineIndex, customPropertiesGridView.sectionIdentifier, customPropertiesGridView.selectedMonitorIndex, customPropertiesGridView.projectSettingsListmodelRef)
+                        qmlFpsControl.monitorIndex = root.selectedMonitorIndex
+                        qmlFpsControl.timelineIndex = selectedTimeline.index
+                        qmlFpsControl.sectionIdentifier = selectedTimeline.identifier
+                        const qmlWallpaperData = App.screenPlayManager.getWallpaperData(root.selectedMonitorIndex, selectedTimeline.index, selectedTimeline.identifier)
+                        qmlFpsControl.wallpaperData = qmlWallpaperData
+                        root.selectedWallpaperTitle = qmlWallpaperData ? qmlWallpaperData.title : ""
+                        root.selectedWallpaperTimelineActive = selectedTimeline.lineIndicator.isActive
                         customPropertiesGridView.visible = true
                         defaultVideoControls.visible = false
                         defaultGodotControls.visible = false
@@ -455,6 +494,19 @@ Popup {
                     visible: false
                 }
 
+                // FPS limit control for QML/Website wallpapers, which otherwise
+                // only show their custom project properties in the grid below.
+                WallpaperFpsControl {
+                    id: qmlFpsControl
+                    visible: customPropertiesGridView.visible
+                    anchors {
+                        top: parent.top
+                        left: parent.left
+                        right: parent.right
+                        margins: 20
+                    }
+                }
+
                 SPCore.MaterialGridView {
                     id: customPropertiesGridView
                     property var projectSettingsListmodelRef
@@ -469,8 +521,14 @@ Popup {
                     cellHeight: 50
                     cacheBuffer: 10000
                     clip: true
-                    anchors.fill: parent
-                    anchors.margins: 10
+                    anchors {
+                        top: qmlFpsControl.bottom
+                        topMargin: 10
+                        left: parent.left
+                        right: parent.right
+                        bottom: parent.bottom
+                        margins: 10
+                    }
                     visible: false
                     model: customPropertiesGridView.projectSettingsListmodelRef
 

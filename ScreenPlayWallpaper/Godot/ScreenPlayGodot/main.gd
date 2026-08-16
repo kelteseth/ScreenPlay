@@ -10,6 +10,16 @@ var last_pck_modified_time: int = 0
 var loaded_scene_instance: Node = null
 var cmdline_args: PackedStringArray = []
 
+# Guards against overlapping reloads (e.g. the file watcher firing while a
+# timeline-switch reload is still in flight).
+var is_reloading: bool = false
+
+# Crossfade overlay: a snapshot of the last rendered frame is shown on top and
+# faded out to reveal the freshly loaded scene, mirroring the video crossfade.
+const TRANSITION_DURATION: float = 0.4
+var transition_layer: CanvasLayer = null
+var transition_rect: TextureRect = null
+
 # Pings main ScreenPlay application that
 # this wallpaper is still active
 func ping_alive():
@@ -21,66 +31,138 @@ func terminate():
 	screen_play_wallpaper.exit()
 	get_tree().quit()
 
-# Checks for messages from the main ScreenPlay instance 
+# Checks for messages from the main ScreenPlay instance
 # for example for propery changes or commands like quit
 func check_messages():
-	var msg = screen_play_wallpaper.read_from_pipe()
-	if msg.is_empty():
-		return
-	
-	# Echo back the received message to Qt for debugging
-	var echo_msg = "ECHO_FROM_GODOT:" + msg
-	screen_play_wallpaper.writeToPipe(echo_msg)
-	print("Received and echoed message: ", msg)
-	
+	# read_from_pipe() returns one complete message per call (the C++ side
+	# reassembles partial/coalesced pipe reads) - drain them all this tick.
+	# NOTE: never write raw text back into the pipe here: unframed bytes
+	# corrupt the shared frame stream on the ScreenPlay side.
+	while true:
+		var msg = screen_play_wallpaper.read_from_pipe()
+		if msg.is_empty():
+			return
+		_handle_message(msg)
+
+# Maps the enum key names sent by the main app (e.g. "Fps60", "Bilinear") to
+# the numeric strings the native wrapper stores.
+const FPS_MAP := {
+	"Fps1": "1",
+	"Fps6": "6",
+	"Fps12": "12",
+	"Fps24": "24",
+	"Fps30": "30",
+	"Fps60": "60",
+	"Fps120": "120",
+	"Fps144": "144",
+	"Unlimited": "0",
+	"Vsync": "vsync"
+}
+
+const SCALE_MODE_MAP := {
+	"Bilinear": "0",
+	"FSR1_0": "1",
+	"FSR2_2": "2"
+}
+
+func _handle_message(msg: String):
 	var json_parser = JSON.new()
 	var status = json_parser.parse(msg)
-	if status == OK:
-		var data = json_parser.get_data()
-		print("New message: ", data)
-		if typeof(data) == TYPE_DICTIONARY:
-			# Handle quit command
-			if data.has("command") and data["command"] == "quit":
-				return terminate()
-			
-			# Handle property changes
-			if data.has("godotFps"):
-				var fps_map = {
-					"Fps1": "1",
-					"Fps6": "6",
-					"Fps12": "12",
-					"Fps24": "24",
-					"Fps30": "30",
-					"Fps60": "60",
-					"Fps120": "120",
-					"Fps144": "144",
-					"Unlimited": "0",
-					"Vsync": "vsync"
-				}
-				var fps_value = str(data["godotFps"])
-				if fps_map.has(fps_value):
-					screen_play_wallpaper.set_fps(fps_map[fps_value])
-					apply_fps(screen_play_wallpaper.get_fps())
-				else:
-					print("Unknown godotFps value: ", fps_value)
-			
-			if data.has("godot3DScale"):
-				screen_play_wallpaper.set_scale3d(float(data["godot3DScale"]))
-				apply_3d_scale(screen_play_wallpaper.get_scale3d())
-			
-			if data.has("godot3DScaleMode"):
-				var mode_map = {
-					"Bilinear": "0",
-					"FSR1_0": "1",
-					"FSR2_2": "2"
-				}
-				var mode_value = str(data["godot3DScaleMode"])
-				if mode_map.has(mode_value):
-					screen_play_wallpaper.set_scale3dMode(mode_map[mode_value])
-					apply_3d_scale_mode(screen_play_wallpaper.get_scale3dMode())
-				else:
-					print("Unknown godot3DScaleMode value: ", mode_value)
-			
+	if status != OK:
+		return
+
+	var data = json_parser.get_data()
+	print("New message: ", data)
+	if typeof(data) != TYPE_DICTIONARY:
+		return
+
+	# Commands are dispatched explicitly and never fall through to the
+	# generic property handlers below.
+	if data.has("command"):
+		match str(data["command"]):
+			"quit":
+				terminate()
+			"replace":
+				_handle_replace(data)
+			_:
+				print("Unknown command: ", data["command"])
+		return
+
+	# Live single-property changes arrive without a command field.
+	_apply_properties(data)
+
+## Applies any Godot settings present in a message (fps, 3D scale, scale mode).
+## Shared by the live-property path and the replace command.
+func _apply_properties(data: Dictionary) -> void:
+	if data.has("volume"):
+		screen_play_wallpaper.set_volume(float(data["volume"]))
+		apply_volume(screen_play_wallpaper.get_volume())
+
+	if data.has("godotFps"):
+		_set_fps_from_enum(str(data["godotFps"]))
+
+	if data.has("godot3DScale"):
+		screen_play_wallpaper.set_scale3d(float(data["godot3DScale"]))
+		apply_3d_scale(screen_play_wallpaper.get_scale3d())
+
+	if data.has("godot3DScaleMode"):
+		_set_scale_mode_from_enum(str(data["godot3DScaleMode"]))
+
+## Handles a full wallpaper swap on a Godot->Godot timeline switch. Mirrors the
+## Qt SDK's "replace" command: update the content path, apply the settings that
+## ride along in the message, and reload the scene if the content changed.
+func _handle_replace(data: Dictionary) -> void:
+	var content_changed := false
+
+	if data.has("absolutePath"):
+		var new_path := str(data["absolutePath"])
+		if not new_path.is_empty() and new_path != screen_play_wallpaper.get_projectPath():
+			screen_play_wallpaper.set_projectPath(new_path)
+			content_changed = true
+
+	if data.has("projectPackageFile"):
+		var new_package := str(data["projectPackageFile"])
+		if not new_package.is_empty() and new_package != screen_play_wallpaper.get_projectPackageFile():
+			screen_play_wallpaper.set_projectPackageFile(new_package)
+			content_changed = true
+
+	# Apply settings first so reload_wallpaper() re-applies them to the new scene.
+	_apply_properties(data)
+
+	if content_changed:
+		# Sync the watcher up-front so it doesn't race this reload and fire a
+		# redundant one when it notices the (expected) path change.
+		last_pck_modified_time = FileAccess.get_modified_time(screen_play_wallpaper.get_fullPckPath())
+		reload_wallpaper()
+
+func _set_fps_from_enum(enum_key: String) -> void:
+	if FPS_MAP.has(enum_key):
+		screen_play_wallpaper.set_fps(FPS_MAP[enum_key])
+		apply_fps(screen_play_wallpaper.get_fps())
+	else:
+		print("Unknown godotFps value: ", enum_key)
+
+func _set_scale_mode_from_enum(enum_key: String) -> void:
+	if SCALE_MODE_MAP.has(enum_key):
+		screen_play_wallpaper.set_scale3dMode(SCALE_MODE_MAP[enum_key])
+		apply_3d_scale_mode(screen_play_wallpaper.get_scale3dMode())
+	else:
+		print("Unknown godot3DScaleMode value: ", enum_key)
+
+## Applies the wallpaper volume to Godot's master audio bus. 0 mutes it; any
+## higher value maps the 0..1 range onto the bus gain in decibels.
+func apply_volume(volume: float):
+	var master_bus := AudioServer.get_bus_index("Master")
+	if master_bus < 0:
+		master_bus = 0
+	if volume <= 0.0:
+		AudioServer.set_bus_mute(master_bus, true)
+		print("Volume muted")
+	else:
+		AudioServer.set_bus_mute(master_bus, false)
+		AudioServer.set_bus_volume_db(master_bus, linear_to_db(clampf(volume, 0.0, 1.0)))
+		print("Volume set to: ", volume)
+
 func apply_fps(fps_value: String):
 	if fps_value == "vsync":
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
@@ -132,26 +214,83 @@ func check_file_changes():
 	
 	last_pck_modified_time = current_modified_time
 
-## Unloads the current scene and reloads the PCK
+## Unloads the current scene and reloads the PCK, crossfading from the previous
+## frame to the newly loaded scene.
 func reload_wallpaper():
+	if is_reloading:
+		return
+	is_reloading = true
+
 	var pck_path = screen_play_wallpaper.get_fullPckPath()
 	print("Reloading wallpaper from: ", pck_path)
-	
+
+	# Snapshot the current frame so it can be faded out over the new scene.
+	_capture_transition_overlay()
+
 	# Unload current scene
 	unload_scene()
-	
+
 	# Small delay to ensure resources are freed
 	await get_tree().process_frame
 	await get_tree().process_frame
-	
+
 	# Load new scene
 	if not load_scene(pck_path):
 		print("Failed to reload wallpaper scene")
+		_fade_out_transition()
+		# Keep the watcher in sync so it does not immediately retry the reload.
+		last_pck_modified_time = FileAccess.get_modified_time(pck_path)
+		is_reloading = false
 		return
-	
+
 	# Reapply current settings
 	apply_all_settings()
+
+	# Let the new scene render a couple of frames before revealing it, so the
+	# crossfade lands on a real frame instead of a black one.
+	await get_tree().process_frame
+	await get_tree().process_frame
+	_fade_out_transition()
+
+	# Keep the watcher's timestamp in sync with the file we just loaded so it
+	# does not detect a "change" and reload a second time.
+	last_pck_modified_time = FileAccess.get_modified_time(pck_path)
 	print("Wallpaper reloaded successfully")
+	is_reloading = false
+
+## Captures the current viewport frame into a full-screen overlay on top of the
+## scene, ready to be faded out by _fade_out_transition().
+func _capture_transition_overlay() -> void:
+	var viewport_texture := get_viewport().get_texture()
+	if viewport_texture == null:
+		return
+	var img := viewport_texture.get_image()
+	if img == null or img.is_empty():
+		return
+	var tex := ImageTexture.create_from_image(img)
+
+	if transition_layer == null:
+		transition_layer = CanvasLayer.new()
+		transition_layer.layer = 128  # Render above the wallpaper scene.
+		add_child(transition_layer)
+		transition_rect = TextureRect.new()
+		transition_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
+		transition_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		transition_rect.stretch_mode = TextureRect.STRETCH_SCALE
+		transition_layer.add_child(transition_rect)
+
+	transition_rect.texture = tex
+	transition_rect.modulate = Color(1, 1, 1, 1)
+	transition_rect.visible = true
+
+## Fades the captured overlay out, revealing the new scene underneath.
+func _fade_out_transition() -> void:
+	if transition_rect == null or not transition_rect.visible:
+		return
+	var tween := create_tween()
+	tween.tween_property(transition_rect, "modulate:a", 0.0, TRANSITION_DURATION)
+	await tween.finished
+	transition_rect.visible = false
 
 ## Unloads the currently loaded wallpaper scene
 func unload_scene():
@@ -164,12 +303,16 @@ func unload_scene():
 
 ## Applies all current settings (used after reload)
 func apply_all_settings():
+	apply_volume(screen_play_wallpaper.get_volume())
 	apply_fps(screen_play_wallpaper.get_fps())
 	apply_3d_scale(screen_play_wallpaper.get_scale3d())
 	apply_3d_scale_mode(screen_play_wallpaper.get_scale3dMode())
 
 ## Applies initial settings from parsed arguments (call after init)
 func apply_initial_settings(arg_dict: Dictionary):
+	# Volume is parsed and stored in parse_args(); apply it to the audio bus.
+	apply_volume(screen_play_wallpaper.get_volume())
+
 	# Handle optional fps argument
 	if arg_dict.has("fps"):
 		screen_play_wallpaper.set_fps(arg_dict["fps"])
@@ -197,48 +340,6 @@ func apply_initial_settings(arg_dict: Dictionary):
 		get_viewport().scaling_3d_mode = Viewport.SCALING_3D_MODE_BILINEAR
 		print("No 3d-scale-mode argument provided, using default Bilinear")
 
-func _on_scene_value_received(key: String, value: String):
-	match key:
-		"godotFps":
-			# Convert enum value to fps string
-			var fps_map = {
-				"Fps1": "1",
-				"Fps6": "6",
-				"Fps12": "12",
-				"Fps24": "24",
-				"Fps30": "30",
-				"Fps60": "60",
-				"Fps120": "120",
-				"Fps144": "144",
-				"Unlimited": "0",
-				"Vsync": "vsync"
-			}
-			if fps_map.has(value):
-				screen_play_wallpaper.set_fps(fps_map[value])
-				apply_fps(screen_play_wallpaper.get_fps())
-			else:
-				print("Unknown godotFps value: ", value)
-		
-		"godot3DScale":
-			screen_play_wallpaper.set_scale3d(value.to_float())
-			apply_3d_scale(screen_play_wallpaper.get_scale3d())
-		
-		"godot3DScaleMode":
-			# Convert enum value to mode string
-			var mode_map = {
-				"Bilinear": "0",
-				"FSR1_0": "1",
-				"FSR2_2": "2"
-			}
-			if mode_map.has(value):
-				screen_play_wallpaper.set_scale3dMode(mode_map[value])
-				apply_3d_scale_mode(screen_play_wallpaper.get_scale3dMode())
-			else:
-				print("Unknown godot3DScaleMode value: ", value)
-		
-		_:
-			print("Unhandled property change: ", key, " = ", value)
-	
 func _ready():
 	ping_alive_timer.wait_time = 0.5
 	ping_alive_timer.timeout.connect(ping_alive)
@@ -248,9 +349,7 @@ func _ready():
 	
 	file_watch_timer.wait_time = 1.0  # Check every second
 	file_watch_timer.timeout.connect(check_file_changes)
-	
-	screen_play_wallpaper.scene_value_received.connect(_on_scene_value_received)
-	
+
 	if not screen_play_wallpaper:
 		printerr("ERROR INVALID SCREENPLAY OBJECT")
 		return

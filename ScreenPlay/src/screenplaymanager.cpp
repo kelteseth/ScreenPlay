@@ -36,14 +36,23 @@ ScreenPlayManager::ScreenPlayManager(
     m_server = std::make_unique<QLocalServer>();
     QObject::connect(m_server.get(), &QLocalServer::newConnection, this, &ScreenPlayManager::newConnection);
     QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::activeTimelineIndexChanged, this, &ScreenPlayManager::setActiveTimelineIndex);
+    QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::timelineSectionCountChanged, this, &ScreenPlayManager::timelineSectionCountChanged);
     QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::requestSaveProfiles, this, &ScreenPlayManager::requestSaveProfiles);
     QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::activeWallpaperCountChanged, this, &ScreenPlayManager::setActiveWallpaperCounter);
     QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::notifyUiReloadTimelinePreviewImage, this, &ScreenPlayManager::notifyUiReloadTimelinePreviewImage);
+    // runningWallpapers is computed on read; re-notify whenever anything that
+    // feeds it can have changed (wallpaper connect/close, section add/remove,
+    // active-section transition).
+    QObject::connect(this, &ScreenPlayManager::activeWallpaperCounterChanged, this, &ScreenPlayManager::runningWallpapersChanged);
+    QObject::connect(this, &ScreenPlayManager::activeTimelineIndexChanged, this, &ScreenPlayManager::runningWallpapersChanged);
+    QObject::connect(this, &ScreenPlayManager::timelineSectionCountChanged, this, &ScreenPlayManager::runningWallpapersChanged);
+    QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::wallpaperAdded, this, &ScreenPlayManager::registerLink);
     QObject::connect(&m_screenPlayTimelineManager, &ScreenPlayTimelineManager::wallpaperRestartFailed, this, [this](const QString& appID, const QString& message) {
+        // Ensure the main window is visible and raised so the user can see the error
+        emit this->requestRaise();
         if (m_errorManager) {
             m_errorManager->displayError(message);
         }
-        emit this->notifyUiReloadTimelinePreviewImage();
     });
 
     QObject::connect(this, &ScreenPlayManager::selectedTimelineIndexChanged, &m_screenPlayTimelineManager, &ScreenPlayTimelineManager::setSelectedTimelineIndex);
@@ -108,83 +117,86 @@ QCoro::QmlTask ScreenPlayManager::setWallpaperAtMonitorTimelineIndex(
     const QString& identifier,
     const bool saveToProfilesConfigFile)
 {
-    return QCoro::QmlTask([this, absoluteStoragePath, monitorIndex, timelineIndex, identifier, saveToProfilesConfigFile]() -> QCoro::Task<Result> {
-        const QString path = QUrl::fromUserInput(absoluteStoragePath).toLocalFile();
+    return QCoro::QmlTask(setWallpaperAtMonitorTimelineIndexTask(absoluteStoragePath, monitorIndex, timelineIndex, identifier, saveToProfilesConfigFile));
+}
 
-        if (path.isEmpty()) {
-            Result result;
-            result.setSuccess(false);
-            result.setMessage("AbsolutePath to project is empty");
-            co_return result;
-        }
+QCoro::Task<Result> ScreenPlayManager::setWallpaperAtMonitorTimelineIndexTask(
+    QString absoluteStoragePath,
+    QVector<int> monitorIndex,
+    int timelineIndex,
+    QString identifier,
+    bool saveToProfilesConfigFile)
+{
+    const QString path = QUrl::fromUserInput(absoluteStoragePath).toLocalFile();
 
-        // Load project data from project.json
-        using namespace ScreenPlay;
-        ProjectFile projectFile;
-        projectFile.projectJsonFilePath = QFileInfo(path + "/project.json");
-        if (!projectFile.init()) {
-            Result result;
-            result.setSuccess(false);
-            result.setMessage(QString("Invalid project at %1").arg(path));
-            co_return result;
-        }
-
-        WallpaperData wallpaperData;
-
-        if (m_settings->startWallpaperMuted()) {
-            wallpaperData.setVolume(0.0f);
-        } else {
-            wallpaperData.setVolume(1.0f);
-        }
-
-        // Set data from project file
-        wallpaperData.setType(projectFile.type);
-        wallpaperData.setAbsolutePath(path);
-        wallpaperData.setPreviewImage(projectFile.preview);
-        wallpaperData.setPreviewWebP(projectFile.previewWebP);
-        wallpaperData.setPreviewGIF(projectFile.previewGIF);
-        wallpaperData.setFile(projectFile.file);
-        wallpaperData.setTitle(projectFile.title);
-        wallpaperData.setMonitors(monitorIndex);
-        wallpaperData.setFillMode(m_settings->videoFillMode());
-        if (wallpaperData.absolutePath().isEmpty()) {
-            const QString msg = QString("AbsolutePath to project is empty");
-            Result result;
-            result.setSuccess(false);
-            result.setMessage(msg);
-            co_return result;
-        }
-
-        if (timelineIndex < 0 || identifier.isEmpty()) {
-            const QString msg = QString("Invalid timeline index %1 identifier %2")
-                                    .arg(QString::number(timelineIndex), identifier);
-            Result result;
-            result.setSuccess(false);
-            result.setMessage(msg);
-            co_return result;
-        }
-
-        auto result = co_await m_screenPlayTimelineManager
-                          .setWallpaperAtMonitorTimelineIndex(wallpaperData, timelineIndex, identifier, monitorIndex)
-                          .then([this, timelineIndex, saveToProfilesConfigFile](Result result) -> QCoro::Task<Result> {
-                              if (!result.success()) {
-                                  m_screenPlayTimelineManager.printTimelines();
-                                  emit printQmlTimeline();
-                                  co_return result;
-                              }
-                              // We do not start the wallpaper here, but let
-                              // ScreenPlayTimelineManager::checkActiveWallpaperTimeline decide
-                              // if the wallpaper
-                              // m_screenPlayTimelineManager.updateMonitorListModelData(selectedTimelineIndex());
-                              if (saveToProfilesConfigFile) {
-                                  requestSaveProfiles();
-                              }
-                              m_screenPlayTimelineManager.updateMonitorListModelData(timelineIndex);
-                              emit this->notifyUiReloadTimelinePreviewImage();
-                              co_return result;
-                          });
+    if (path.isEmpty()) {
+        Result result;
+        result.setSuccess(false);
+        result.setMessage("AbsolutePath to project is empty");
         co_return result;
-    }());
+    }
+
+    // Load project data from project.json
+    using namespace ScreenPlay;
+    ProjectFile projectFile;
+    projectFile.projectJsonFilePath = QFileInfo(path + "/project.json");
+    if (!projectFile.init()) {
+        Result result;
+        result.setSuccess(false);
+        result.setMessage(QString("Invalid project at %1").arg(path));
+        co_return result;
+    }
+
+    WallpaperData wallpaperData;
+
+    if (m_settings->startWallpaperMuted()) {
+        wallpaperData.setVolume(0.0f);
+    } else {
+        wallpaperData.setVolume(1.0f);
+    }
+
+    // Set data from project file
+    wallpaperData.setType(projectFile.type);
+    wallpaperData.setAbsolutePath(path);
+    wallpaperData.setPreviewImage(projectFile.preview);
+    wallpaperData.setPreviewWebP(projectFile.previewWebP);
+    wallpaperData.setPreviewGIF(projectFile.previewGIF);
+    wallpaperData.setFile(projectFile.file);
+    wallpaperData.setTitle(projectFile.title);
+    wallpaperData.setMonitors(monitorIndex);
+    wallpaperData.setFillMode(m_settings->videoFillMode());
+    if (wallpaperData.absolutePath().isEmpty()) {
+        const QString msg = QString("AbsolutePath to project is empty");
+        Result result;
+        result.setSuccess(false);
+        result.setMessage(msg);
+        co_return result;
+    }
+
+    if (timelineIndex < 0 || identifier.isEmpty()) {
+        const QString msg = QString("Invalid timeline index %1 identifier %2")
+                                .arg(QString::number(timelineIndex), identifier);
+        Result result;
+        result.setSuccess(false);
+        result.setMessage(msg);
+        co_return result;
+    }
+
+    Result result = co_await m_screenPlayTimelineManager.setWallpaperAtMonitorTimelineIndex(wallpaperData, timelineIndex, identifier, monitorIndex);
+    if (!result.success()) {
+        m_screenPlayTimelineManager.printTimelines();
+        emit printQmlTimeline();
+        co_return result;
+    }
+    // We do not start the wallpaper here, but let
+    // ScreenPlayTimelineManager::checkActiveWallpaperTimeline decide
+    // if the wallpaper
+    if (saveToProfilesConfigFile) {
+        requestSaveProfiles();
+    }
+    m_screenPlayTimelineManager.updateMonitorListModelData(timelineIndex);
+    emit this->notifyUiReloadTimelinePreviewImage();
+    co_return result;
 }
 
 /*!
@@ -248,6 +260,10 @@ bool ScreenPlayManager::startWidget(
         widgetData,
         m_settings);
 
+    // Before start(): the widget process can complete its handshake as soon
+    // as it is running.
+    registerLink(widget.get());
+
     QObject::connect(widget.get(), &ScreenPlayWidget::requestSave, this, &ScreenPlayManager::requestSaveProfiles);
     QObject::connect(widget.get(), &ScreenPlayWidget::requestClose, this, &ScreenPlayManager::removeWidget);
     QObject::connect(widget.get(), &ScreenPlayWidget::error, this, [this](const QString& message) {
@@ -256,8 +272,13 @@ bool ScreenPlayManager::startWidget(
         }
     });
     QObject::connect(widget.get(), &ScreenPlayWidget::restartFailed, this, [this](const QString& appID, const QString& message) {
+        qCInfo(screenPlayManager) << "Widget restartFailed received for" << appID << "- raising window and showing error popup";
+        // Ensure the main window is visible and raised so the user can see the error
+        emit this->requestRaise();
         if (m_errorManager) {
             m_errorManager->displayError(message);
+        } else {
+            qCCritical(screenPlayManager) << "No ErrorManager set - widget error cannot be shown to the user!";
         }
     });
 
@@ -267,7 +288,13 @@ bool ScreenPlayManager::startWidget(
             auto* sender = qobject_cast<ScreenPlayWidget*>(QObject::sender());
             if (sender) {
                 qCInfo(screenPlayManager) << "Widget" << sender->appID() << "closed gracefully, removing from manager";
-                removeWidget(sender->appID());
+                // Defer: this handler runs while the widget's stateChanged (and
+                // often its SDKConnection's readyRead) is mid-emission. Removing
+                // synchronously destroys the widget and its connection while
+                // their signals are still on the stack - use-after-free.
+                QTimer::singleShot(0, this, [this, appID = sender->appID()]() {
+                    removeWidget(appID);
+                });
             }
         }
     });
@@ -284,28 +311,27 @@ bool ScreenPlayManager::startWidget(
 */
 QCoro::QmlTask ScreenPlayManager::removeAllRunningWallpapers(bool saveToProfile)
 {
-    return QCoro::QmlTask([this, saveToProfile]() -> QCoro::Task<Result> {
-        auto result = co_await m_screenPlayTimelineManager.removeAllWallpaperFromActiveTimlineSections()
-                          .then([this, saveToProfile](Result result) -> QCoro::Task<Result> {
-                              if (!result.success()) {
-                                  const QString msg = QString("Unable to remove all Wallpaper");
-                                  m_screenPlayTimelineManager.printTimelines();
-                                  emit printQmlTimeline();
-                                  Result result;
-                                  result.setSuccess(false);
-                                  result.setMessage(msg);
-                                  co_return result;
-                              }
+    return QCoro::QmlTask(removeAllRunningWallpapersTask(saveToProfile));
+}
 
-                              m_screenPlayTimelineManager.updateMonitorListModelData(m_screenPlayTimelineManager.activeTimelineIndex());
-                              emit this->notifyUiReloadTimelinePreviewImage();
-                              qCDebug(screenPlayManager) << "Task: removeAllWallpaperFromActiveTimlineSections" << result.success();
-                              if (saveToProfile)
-                                  requestSaveProfiles();
-                              co_return result;
-                          });
-        co_return result;
-    }());
+QCoro::Task<Result> ScreenPlayManager::removeAllRunningWallpapersTask(bool saveToProfile)
+{
+    Result result = co_await m_screenPlayTimelineManager.removeAllWallpaperFromActiveTimlineSections();
+    if (!result.success()) {
+        m_screenPlayTimelineManager.printTimelines();
+        emit printQmlTimeline();
+        Result errorResult;
+        errorResult.setSuccess(false);
+        errorResult.setMessage("Unable to remove all Wallpaper");
+        co_return errorResult;
+    }
+
+    m_screenPlayTimelineManager.updateMonitorListModelData(m_screenPlayTimelineManager.activeTimelineIndex());
+    emit this->notifyUiReloadTimelinePreviewImage();
+    qCDebug(screenPlayManager) << "Task: removeAllWallpaperFromActiveTimlineSections" << result.success();
+    if (saveToProfile)
+        requestSaveProfiles();
+    co_return result;
 }
 
 /*!
@@ -343,25 +369,24 @@ bool ScreenPlayManager::removeAllRunningWidgets(bool saveToProfile)
 */
 QCoro::QmlTask ScreenPlayManager::removeWallpaperAt(int timelineIndex, QString sectionIdentifier, int monitorIndex)
 {
-    qCInfo(screenPlayManager) << "this: " << this;
-    return QCoro::QmlTask([this, timelineIndex, sectionIdentifier, monitorIndex]() -> QCoro::Task<Result> {
-        auto result = co_await m_screenPlayTimelineManager.removeWallpaperAt(timelineIndex, sectionIdentifier, monitorIndex)
-                          .then([this, timelineIndex, monitorIndex](Result result) -> QCoro::Task<Result> {
-                              if (!result.success()) {
-                                  const QString msg = QString(
-                                      "Unable to remove wallpaper at timeline index: %1 at monitor index: %2")
-                                                          .arg(timelineIndex, monitorIndex);
-                                  m_screenPlayTimelineManager.printTimelines();
-                                  emit printQmlTimeline();
-                                  co_return result;
-                              }
-                              m_screenPlayTimelineManager.updateMonitorListModelData(timelineIndex);
-                              emit this->notifyUiReloadTimelinePreviewImage();
-                              requestSaveProfiles();
-                              co_return result;
-                          });
+    return QCoro::QmlTask(removeWallpaperAtTask(timelineIndex, sectionIdentifier, monitorIndex));
+}
+
+QCoro::Task<Result> ScreenPlayManager::removeWallpaperAtTask(int timelineIndex, QString sectionIdentifier, int monitorIndex)
+{
+    Result result = co_await m_screenPlayTimelineManager.removeWallpaperAt(timelineIndex, sectionIdentifier, monitorIndex);
+    if (!result.success()) {
+        qCWarning(screenPlayManager) << QString("Unable to remove wallpaper at timeline index: %1 at monitor index: %2")
+                                            .arg(timelineIndex)
+                                            .arg(monitorIndex);
+        m_screenPlayTimelineManager.printTimelines();
+        emit printQmlTimeline();
         co_return result;
-    }());
+    }
+    m_screenPlayTimelineManager.updateMonitorListModelData(timelineIndex);
+    emit this->notifyUiReloadTimelinePreviewImage();
+    requestSaveProfiles();
+    co_return result;
 }
 
 /*!
@@ -398,31 +423,34 @@ QCoro::QmlTask ScreenPlayManager::setValueAtMonitorTimelineIndex(
     const QVariant& value,
     const QString& category)
 {
-    return QCoro::QmlTask(
-        [this, monitorIndex, timelineIndex, sectionIdentifier, key, value, category]() -> QCoro::Task<Result> {
-            auto result = co_await m_screenPlayTimelineManager
-                              .setValueAtMonitorTimelineIndex(
-                                  monitorIndex,
-                                  timelineIndex,
-                                  sectionIdentifier,
-                                  key,
-                                  value,
-                                  category)
-                              .then([this, timelineIndex, monitorIndex](Result result) -> QCoro::Task<Result> {
-                                  if (!result.success()) {
-                                      const QString msg = QString(
-                                          "Unable to set Value at monitor %1 timeline index: %2")
-                                                              .arg(timelineIndex, monitorIndex);
-                                      m_screenPlayTimelineManager.printTimelines();
-                                      emit printQmlTimeline();
-                                      co_return result;
-                                  }
-                                  // m_screenPlayTimelineManager.updateMonitorListModelData(selectedTimelineIndex());
-                                  emit requestSaveProfiles();
-                                  co_return result;
-                              });
-            co_return result;
-        }());
+    return QCoro::QmlTask(setValueAtMonitorTimelineIndexTask(monitorIndex, timelineIndex, sectionIdentifier, key, value, category));
+}
+
+QCoro::Task<Result> ScreenPlayManager::setValueAtMonitorTimelineIndexTask(
+    int monitorIndex,
+    int timelineIndex,
+    QString sectionIdentifier,
+    QString key,
+    QVariant value,
+    QString category)
+{
+    Result result = co_await m_screenPlayTimelineManager.setValueAtMonitorTimelineIndex(
+        monitorIndex,
+        timelineIndex,
+        sectionIdentifier,
+        key,
+        value,
+        category);
+    if (!result.success()) {
+        qCWarning(screenPlayManager) << QString("Unable to set Value at monitor %1 timeline index: %2")
+                                            .arg(monitorIndex)
+                                            .arg(timelineIndex);
+        m_screenPlayTimelineManager.printTimelines();
+        emit printQmlTimeline();
+        co_return result;
+    }
+    requestSaveProfiles();
+    co_return result;
 }
 
 /*!
@@ -500,33 +528,30 @@ bool ScreenPlayManager::addTimelineAt(const int timelineIndex, const float relti
 
 QCoro::QmlTask ScreenPlayManager::removeAllTimlineSections()
 {
-    return QCoro::QmlTask([this]() -> QCoro::Task<Result> {
-        // call with coro
-        auto result = co_await m_screenPlayTimelineManager.removeAllTimlineSections()
-                          .then([this](Result result) -> QCoro::Task<Result> {
-                              qCDebug(screenPlayManager) << "Task: removeAllTimlineSections" << result.success();
-                              if (result.success())
-                                  requestSaveProfiles();
-                              co_return result;
-                          });
-
-        co_return result;
-    }());
+    return QCoro::QmlTask(removeAllTimlineSectionsTask());
 }
 
-QCoro::QmlTask ScreenPlayManager::removeTimelineAt(const int timelineIndex)
+QCoro::Task<Result> ScreenPlayManager::removeAllTimlineSectionsTask()
 {
-    return QCoro::QmlTask([this, timelineIndex]() -> QCoro::Task<Result> {
-        auto result = co_await m_screenPlayTimelineManager.removeTimelineAt(timelineIndex)
-                          .then([this](Result result) -> QCoro::Task<Result> {
-                              qCDebug(screenPlayManager) << "Task: removeTimelineAt" << result.success();
-                              if (result.success())
-                                  requestSaveProfiles();
-                              co_return result;
-                          });
+    Result result = co_await m_screenPlayTimelineManager.removeAllTimlineSections();
+    qCDebug(screenPlayManager) << "Task: removeAllTimlineSections" << result.success();
+    if (result.success())
+        requestSaveProfiles();
+    co_return result;
+}
 
-        co_return result;
-    }());
+QCoro::QmlTask ScreenPlayManager::removeTimelineAt(const int timelineIndex, const QString identifier)
+{
+    return QCoro::QmlTask(removeTimelineAtTask(timelineIndex, identifier));
+}
+
+QCoro::Task<Result> ScreenPlayManager::removeTimelineAtTask(int timelineIndex, QString identifier)
+{
+    Result result = co_await m_screenPlayTimelineManager.removeTimelineAt(timelineIndex, identifier);
+    qCDebug(screenPlayManager) << "Task: removeTimelineAt" << result.success();
+    if (result.success())
+        requestSaveProfiles();
+    co_return result;
 }
 
 /*!
@@ -537,6 +562,42 @@ QJsonArray ScreenPlayManager::timelineSections()
     return m_screenPlayTimelineManager.timelineSections();
 }
 
+QJsonArray ScreenPlayManager::runningWallpapers() const
+{
+    return m_screenPlayTimelineManager.runningWallpapers();
+}
+
+void ScreenPlayManager::setWallpaperFrameStats(const bool visible)
+{
+    m_screenPlayTimelineManager.setWallpaperFrameStats(visible);
+}
+
+void ScreenPlayManager::setWallpaperFpsLimit(const int fps)
+{
+    m_screenPlayTimelineManager.setWallpaperFpsLimit(fps);
+}
+
+/*!
+    \brief Registers \a link so newConnection() can route the socket its
+           process opens back to it, and keeps the registry self-cleaning.
+*/
+void ScreenPlayManager::registerLink(ScreenPlayExternalProcess* link)
+{
+    if (!link || link->appID().isEmpty()) {
+        qCWarning(screenPlayManager) << "Refusing to register a link without an appID";
+        return;
+    }
+
+    const QString appID = link->appID();
+    m_links.insert(appID, link);
+
+    // The link outlives its individual connections (crash-restart reuses the
+    // appID), so the entry is only dropped when the object itself goes away.
+    QObject::connect(link, &QObject::destroyed, this, [this, appID]() {
+        m_links.remove(appID);
+    });
+}
+
 /*!
     \brief Appends a new SDKConnection object shared_ptr to the m_clients list.
 */
@@ -545,6 +606,19 @@ void ScreenPlayManager::newConnection()
     qCInfo(screenPlayManager) << "[1/4] SDKConnection incomming";
     auto connection = std::make_unique<SDKConnection>(m_server->nextPendingConnection());
     QObject::connect(connection.get(), &SDKConnection::requestRaise, this, &ScreenPlayManager::requestRaise);
+
+    // Prune clients that disconnect before ever sending their appID -
+    // otherwise they accumulate in m_unconnectedClients forever (the socket
+    // is world-accessible, so any local process can open a connection).
+    // Deferred so we never destroy the SDKConnection while its own
+    // disconnected signal is still mid-emission.
+    QObject::connect(connection.get(), &SDKConnection::disconnected, this, [this, rawConnection = connection.get()]() {
+        QTimer::singleShot(0, this, [this, rawConnection]() {
+            std::erase_if(m_unconnectedClients, [rawConnection](const std::unique_ptr<SDKConnection>& client) {
+                return client.get() == rawConnection;
+            });
+        });
+    });
 
     // Only after we receive the first message with appID and type we can set the SDKConnection to the
     // ScreenPlayWallpaper or ScreenPlayWidgets class.
@@ -559,6 +633,7 @@ void ScreenPlayManager::newConnection()
             if (m_unconnectedClients.at(i).get() == connection) {
                 matchingConnection = std::move(m_unconnectedClients.at(i));
                 m_unconnectedClients.erase(m_unconnectedClients.begin() + i);
+                break;
             }
         }
 
@@ -567,33 +642,20 @@ void ScreenPlayManager::newConnection()
             return;
         }
 
-        auto startingTimelineSection = m_screenPlayTimelineManager.findStartingOrActiveWallpaperTimelineSection();
-        if (!startingTimelineSection) {
-            qCWarning(screenPlayManager) << "Unable to findStartingOrActiveWallpaperTimelineSection! Aborting!";
+        // One lookup for wallpapers and widgets alike. Deliberately does not
+        // consult the timeline: which section is currently starting says
+        // nothing about who owns this socket, and asking made late-connecting
+        // wallpapers unroutable.
+        const QString appID = matchingConnection->appID();
+        if (auto link = m_links.value(appID, nullptr)) {
+            qCInfo(screenPlayManager) << "[3/4] Matching" << ContentTypes::toString(link->type()) << "found for appID" << appID;
+            link->setSDKConnection(std::move(matchingConnection));
             return;
         }
-        auto& activeWallpaperList = startingTimelineSection->wallpaperList;
 
-        for (int i = 0; i < activeWallpaperList.size(); ++i) {
-            if (activeWallpaperList.at(i)->appID() == matchingConnection->appID()) {
-                qCInfo(screenPlayManager) << "[3/4] Matching Wallpaper found!";
-                activeWallpaperList.at(i)->setSDKConnection(std::move(matchingConnection));
-                return;
-            }
-        }
-
-        for (int i = 0; i < m_screenPlayWidgets.size(); ++i) {
-            if (m_screenPlayWidgets.at(i)->appID() == matchingConnection->appID()) {
-                qCInfo(screenPlayManager) << "[3/4] Matching Widget found!";
-                m_screenPlayWidgets.at(i)->setSDKConnection(std::move(matchingConnection));
-                return;
-            }
-        }
-
-        qCWarning(screenPlayManager) << "No matching connection found!"
-                                     << "m_screenPlayWallpapers count:  " << activeWallpaperList.size()
-                                     << "m_screenPlayWidgets count:     " << m_screenPlayWidgets.size()
-                                     << "m_unconnectedClients count:    " << m_unconnectedClients.size();
+        qCWarning(screenPlayManager) << "No live wallpaper or widget for appID" << appID
+                                     << "- dropping connection. Registered links:" << m_links.keys()
+                                     << "m_unconnectedClients count:" << m_unconnectedClients.size();
     });
     m_unconnectedClients.push_back(std::move(connection));
 }
@@ -816,7 +878,7 @@ bool ScreenPlayManager::loadProfiles()
         saveProfiles();
     }
 
-    // The can happen if the user unpluggs a wallpaper but it still exists
+    // This can happen if the user unplugs a wallpaper but it still exists
     // in the profiles.json. For this we save all profiles with now active
     // content.
     if (containsInvalidData) {
@@ -824,9 +886,10 @@ bool ScreenPlayManager::loadProfiles()
             m_errorManager->displayError("Some wallpapers or widgets from profiles.json could not be loaded. This may happen if files have been moved or monitors have been disconnected. The configuration will be updated automatically.");
         }
         saveProfiles();
-    } else {
-        m_screenPlayTimelineManager.startup();
     }
+    // Always attempt startup so successfully loaded timelines run even when
+    // some other entries (e.g. a missing widget) produced invalid data.
+    m_screenPlayTimelineManager.startup();
 
     return true;
 }

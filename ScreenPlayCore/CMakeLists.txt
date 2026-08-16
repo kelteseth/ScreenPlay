@@ -32,6 +32,7 @@ set(QML
     qml/FileDropAnimation.qml
     qml/FileSelector.qml
     qml/FireworksEffect.qml
+    qml/FrameStatsOverlay.qml
     qml/Grow.qml
     qml/GrowIconLink.qml
     qml/Headline.qml
@@ -59,7 +60,9 @@ set(SOURCES
     src/archivereader.cpp
     src/contenttypes.cpp
     src/exitcodes.cpp
+    src/framestats.cpp
     src/godothandler.cpp
+    src/graphicsapi.cpp
     src/licensemanager.cpp
     src/logginghandler.cpp
     src/processmanager.cpp
@@ -73,8 +76,10 @@ set(HEADER
     inc/public/ScreenPlayCore/archivereader.h
     inc/public/ScreenPlayCore/contenttypes.h
     inc/public/ScreenPlayCore/exitcodes.h
+    inc/public/ScreenPlayCore/framestats.h
     inc/public/ScreenPlayCore/globalenums.h
     inc/public/ScreenPlayCore/godothandler.h
+    inc/public/ScreenPlayCore/graphicsapi.h
     inc/public/ScreenPlayCore/HelpersCommon.h
     inc/public/ScreenPlayCore/licensemanager.h
     inc/public/ScreenPlayCore/ListPropertyHelper.h
@@ -99,6 +104,13 @@ if(WIN32)
     target_link_libraries(ScreenPlayCoreWindowsExtrasLib PUBLIC shcore.lib)
     target_include_directories(ScreenPlayCoreWindowsExtrasLib PUBLIC inc/public/)
 endif()
+
+# IPC frame reassembly shared by every endpoint of the wallpaper/widget socket. Qt-free on purpose: it is also compiled into the Godot
+# GDExtension (ScreenPlayWallpaper/Godot/GDExtention), which cannot link Qt.
+add_library(ScreenPlayCoreIpcLib STATIC inc/public/ScreenPlayCore/ipcframebuffer.h src/ipcframebuffer.cpp)
+target_compile_features(ScreenPlayCoreIpcLib PUBLIC cxx_std_17)
+target_include_directories(ScreenPlayCoreIpcLib PUBLIC inc/public/)
+set_target_properties(ScreenPlayCoreIpcLib PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 set(RESOURCES
     # cmake-format: sort
@@ -216,6 +228,7 @@ target_link_libraries(
            Qt6::Gui
            QCoro6::Core
            QCoro6::Qml
+           ScreenPlayCoreIpcLib
            fmt::fmt-header-only
            LibArchive::LibArchive
            QArchive)

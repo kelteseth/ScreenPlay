@@ -12,8 +12,6 @@ using namespace godot;
 void ScreenPlayGodotWallpaper::_bind_methods()
 {
     UtilityFunctions::print("ScreenPlayGodotWallpaper _bind_methods");
-    ClassDB::bind_method(D_METHOD("_on_pipe_read_timer_timeout"), &ScreenPlayGodotWallpaper::_on_pipe_read_timer_timeout);
-
     ClassDB::bind_method(godot::D_METHOD("init"), &ScreenPlayGodotWallpaper::init);
     ClassDB::bind_method(godot::D_METHOD("connect_to_named_pipe"), &ScreenPlayGodotWallpaper::connect_to_named_pipe);
     ClassDB::bind_method(godot::D_METHOD("send_welcome"), &ScreenPlayGodotWallpaper::send_welcome);
@@ -52,41 +50,6 @@ void ScreenPlayGodotWallpaper::_bind_methods()
 
     ClassDB::bind_method(godot::D_METHOD("get_checkWallpaperVisible"), &ScreenPlayGodotWallpaper::get_checkWallpaperVisible);
     ClassDB::bind_method(godot::D_METHOD("set_checkWallpaperVisible", "visible"), &ScreenPlayGodotWallpaper::set_checkWallpaperVisible);
-
-    ADD_SIGNAL(MethodInfo("scene_value_received",
-        PropertyInfo(Variant::STRING, "key"),
-        PropertyInfo(Variant::STRING, "value")));
-}
-
-void ScreenPlayGodotWallpaper::_ready()
-{
-    m_pipeReadTimer = memnew(godot::Timer);
-    add_child(m_pipeReadTimer);
-
-    m_pipeReadTimer->set_wait_time(0.1);
-    m_pipeReadTimer->set_one_shot(false);
-    m_pipeReadTimer->set_autostart(false);
-
-    m_pipeReadTimer->connect("timeout", godot::Callable(this, "_on_pipe_read_timer_timeout"));
-}
-
-void ScreenPlayGodotWallpaper::_on_pipe_read_timer_timeout()
-{
-    if (m_pipeConnected) {
-        godot::String message = read_from_pipe();
-        if (!message.is_empty()) {
-            // Process the received message
-            std::string stdMessage = message.utf8().get_data();
-
-            // Parse the message (assuming format "key=value")
-            size_t separatorPos = stdMessage.find('=');
-            if (separatorPos != std::string::npos) {
-                std::string key = stdMessage.substr(0, separatorPos);
-                std::string value = stdMessage.substr(separatorPos + 1);
-                messageReceived(key, value);
-            }
-        }
-    }
 }
 
 void ScreenPlayGodotWallpaper::hideFromTaskbar(HWND hwnd)
@@ -210,15 +173,33 @@ bool ScreenPlayGodotWallpaper::connect_to_named_pipe()
     return m_pipeConnected;
 }
 
+/*!
+    \brief Returns the next complete IPC message, or "" when none is pending.
+
+    Raw pipe reads are NOT messages: writes from the main app arrive
+    coalesced ({...}{...}) or split across reads. All raw bytes go through
+    the same IpcFrameBuffer the Qt endpoints use, and callers receive one
+    complete frame per call - loop until "" to drain the queue.
+*/
 godot::String ScreenPlayGodotWallpaper::read_from_pipe()
 {
-    std::string outMsg;
-    if (!m_windowsPipe.readFromPipe(outMsg)) {
-        // No new message
+    // Drain everything the pipe currently has buffered.
+    std::string chunk;
+    while (m_windowsPipe.readFromPipe(chunk)) {
+        m_frameBuffer.append(chunk);
+        chunk.clear();
+    }
+    for (std::string& frame : m_frameBuffer.takeFrames()) {
+        m_pendingMessages.push_back(std::move(frame));
+    }
+
+    if (m_pendingMessages.empty()) {
         return "";
     }
-    godot::UtilityFunctions::print("ScreenPlayGodotWallpaper received message: ", outMsg.c_str());
-    return godot::String(outMsg.c_str());
+    const std::string message = std::move(m_pendingMessages.front());
+    m_pendingMessages.pop_front();
+    godot::UtilityFunctions::print("ScreenPlayGodotWallpaper received message: ", message.c_str());
+    return godot::String::utf8(message.c_str(), static_cast<int>(message.size()));
 }
 
 bool ScreenPlayGodotWallpaper::writeToPipe(const godot::String& message)
@@ -261,23 +242,6 @@ bool ScreenPlayGodotWallpaper::send_welcome()
     return true;
 }
 
-void ScreenPlayGodotWallpaper::messageReceived(const std::string& key, const std::string& value)
-{
-    if (key.starts_with("command=")) {
-        std::string_view commandView { key };
-        constexpr std::string_view prefix { "command=" };
-        // Remove the prefix efficiently without copying
-        commandView.remove_prefix(prefix.size());
-        std::string command { commandView };
-        if (command == std::string_view { "quit" }) {
-            exit();
-        }
-    }
-
-    // If none of the keys match
-    // Assuming sceneValueReceived is a signal you've defined
-    emit_signal("scene_value_received", key.c_str(), value.c_str());
-}
 void ScreenPlayGodotWallpaper::exit()
 {
     m_windowsIntegration.exit();
@@ -292,9 +256,6 @@ void ScreenPlayGodotWallpaper::exit()
     }
     m_windowsPipe.writeToPipe("ScreenPlayGodotWallpaper::exit");
     UtilityFunctions::print("ScreenPlayGodotWallpaper::exit");
-    if (m_pipeReadTimer) {
-        m_pipeReadTimer->stop();
-    }
 
     scene_tree->quit();
 

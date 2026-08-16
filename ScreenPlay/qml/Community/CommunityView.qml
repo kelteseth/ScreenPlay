@@ -6,6 +6,7 @@ import ScreenPlay
 
 Item {
     id: root
+    objectName: "communityView"
 
     property Item modalSource
 

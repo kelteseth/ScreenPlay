@@ -65,13 +65,22 @@ bool ScreenPlayWidget::start()
 
 QCoro::Task<Result> ScreenPlayWidget::close()
 {
+    setState(ScreenPlay::ScreenPlayEnums::AppState::Closing);
+    m_pingAliveTimer.stop();
+    m_stabilityTimer.stop();
+
     if (!m_connection) {
-        qCritical() << "Cannot request quit, widget never connected!";
+        // Never connected - the detached process may still be running.
+        // Kill it so it does not linger as an orphan.
+        qCritical() << "Cannot request quit, widget never connected - terminating process" << m_processID;
+        terminate();
         co_return Result { true, {}, "Widget was never connected" };
     }
 
     if (!m_connection->close()) {
-        co_return Result { false, {}, "Failed to close widget connection" };
+        qWarning() << "Could not deliver quit command to widget" << m_appID << "- force-terminating";
+        if (!terminate())
+            co_return Result { false, {}, "Failed to close widget connection and could not terminate its process" };
     }
 
     co_return Result { true, {}, "Widget closed successfully" };
@@ -106,22 +115,27 @@ void ScreenPlayWidget::setupSDKConnection()
     });
 
     QObject::connect(m_connection.get(), &SDKConnection::pingAliveReceived, this, [this]() {
-        m_pingAliveTimer.stop();
         m_pingAliveTimer.start(GlobalVariables::contentPingAliveIntervalMS);
-        std::optional<bool> running = m_processManager.isRunning(m_processID);
-        if (running.has_value()) {
-            // Process is running normally
-        } else {
-            qInfo() << "Widget process" << m_processID << "not found - widget may have terminated";
+        const std::optional<bool> running = m_processManager.isRunning(m_processID);
+        // nullopt means the PID itself is invalid; a contained `false` means
+        // the process exited. Both are a dead widget.
+        if (!running.value_or(false)) {
+            qInfo() << "Widget process" << m_processID << "is gone (pid valid:" << running.has_value() << ")";
             handleTimeoutOrCrash();
         }
     });
+    // The timeout handler lives in onPingAliveTimeout() (connected once in
+    // the base constructor); the base setupSDKConnection() starts the timer
+    // after its grace period.
+}
 
-    QObject::connect(&m_pingAliveTimer, &QTimer::timeout, this, [this]() {
-        qInfo() << "For" << m_pingAliveTimer.interval() << "ms no alive signal received. This means the Widget is dead and likely crashed!";
-        handleTimeoutOrCrash();
-    });
-    m_pingAliveTimer.start(GlobalVariables::contentPingAliveIntervalMS);
+void ScreenPlayWidget::onPingAliveTimeout()
+{
+    // The ping receipt handler above restarts the timer, so reaching this
+    // timeout means no ping arrived for a full interval: the widget process
+    // is dead or hung either way - no PID check needed.
+    qInfo() << "For" << m_pingAliveTimer.interval() << "ms no alive signal received. This means the Widget is dead and likely crashed!";
+    handleTimeoutOrCrash();
 }
 
 QJsonObject ScreenPlayWidget::getActiveSettingsJson()

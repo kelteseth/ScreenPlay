@@ -2,21 +2,13 @@
 
 #pragma once
 
-#include <QByteArray>
-#include <QJsonArray>
-#include <QJsonDocument>
 #include <QJsonObject>
-#include <QJsonParseError>
-#include <QLocalServer>
 #include <QLocalSocket>
 #include <QObject>
-#include <QPluginLoader>
-#include <QQuickItem>
-#include <QSharedDataPointer>
-#include <QSharedPointer>
 #include <QTimer>
 #include <QtGlobal>
 
+#include "ScreenPlayCore/ipcframebuffer.h"
 #include "ScreenPlayCore/processmanager.h"
 
 class ScreenPlaySDK : public QObject {
@@ -42,65 +34,42 @@ public slots:
     void connected();
     void disconnected();
     void readyRead();
-    void error(QLocalSocket::LocalSocketError socketError);
-    void redirectMessage(QByteArray& msg);
+    void redirectMessage(const QByteArray& msg);
     void pingAlive();
     void start();
 
-    void setType(QString type)
-    {
-        if (m_type == type)
-            return;
-
-        m_type = type;
-        emit typeChanged(m_type);
-    }
-
-    void setIsConnected(bool isConnected)
-    {
-        if (m_isConnected == isConnected)
-            return;
-
-        m_isConnected = isConnected;
-        emit isConnectedChanged(m_isConnected);
-    }
-
-    void setAppID(QString appID)
-    {
-        if (m_appID == appID)
-            return;
-
-        m_appID = appID;
-        emit appIDChanged(m_appID);
-    }
-
-    static void redirectMessageOutputToMainWindow(QtMsgType type, const QMessageLogContext& context, const QString& msg);
+    void setType(const QString& type);
+    void setIsConnected(bool isConnected);
+    void setAppID(const QString& appID);
 
 signals:
-    void incommingMessage(QString key, QString value);
-    void incommingMessageError(QString msg);
+    void incomingMessage(const QString& key, const QString& value);
+    void incomingMessageError(const QString& msg);
 
     void sdkConnected();
     void sdkDisconnected();
 
-    void typeChanged(QString type);
+    void typeChanged(const QString& type);
     void isConnectedChanged(bool isConnected);
 
-    void appIDChanged(QString appID);
-    void newRedirectMessage(QByteArray& msg);
+    void appIDChanged(const QString& appID);
 
     void replaceWallpaper(
-        const QString absolutePath,
-        const QString file,
-        const float volume,
-        const QString fillMode,
-        const QString type,
-        const bool checkWallpaperVisible,
-        const QJsonObject wallpaperProperties);
+        const QString& absolutePath,
+        const QString& file,
+        float volume,
+        const QString& fillMode,
+        const QString& type,
+        bool checkWallpaperVisible,
+        int fpsLimit,
+        const QJsonObject& wallpaperProperties);
 
     void mainAppPIDChanged(qint64 mainAppPID);
 
 private:
+    static void messageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg);
+    static std::atomic<ScreenPlaySDK*> s_instance;
+
     QLocalSocket m_socket;
 
     QString m_type;
@@ -110,4 +79,5 @@ private:
     QTimer m_pingAliveTimer;
     qint64 m_mainAppPID { 0 };
     ScreenPlay::ProcessManager m_processManager;
+    ScreenPlay::IpcFrameBuffer m_frameBuffer;
 };

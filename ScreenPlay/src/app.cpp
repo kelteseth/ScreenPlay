@@ -44,10 +44,9 @@ namespace ScreenPlay {
 */
 
 /*!
-    \brief Used for initialization after the constructor. The sole purpose is to check if
-    another ScreenPlay instance is running and then quit early. This is also because we cannot
-    call QGuiApplication::quit(); in the SDKConnector before the app.exec(); ( the Qt main event
-    loop ) has started.
+    \brief Constructs the App and all owned sub-systems. Engine-dependent
+    wiring (e.g. retranslation) is deferred to attachEngine() so the QML
+    engine is available before any QML-side side effects run.
 */
 App::App(QObject* parent)
     : QObject(parent)
@@ -69,6 +68,7 @@ App::App(QObject* parent)
 
     m_errorManager = make_shared<ErrorManager>();
     m_uiAppStateSignals = make_unique<UiAppStateSignals>();
+    m_frameStats = make_unique<FrameStats>();
     m_screenPlayManager = make_unique<ScreenPlayManager>();
     m_globalVariables = make_shared<GlobalVariables>();
     m_monitorListModel = make_shared<MonitorListModel>();
@@ -88,9 +88,6 @@ App::App(QObject* parent)
         QString environment = QGuiApplication::applicationVersion() + "";
         sentry_options_set_environment(options, QString(environment).toStdString().c_str());
 
-        const QString appPath = QGuiApplication::applicationDirPath();
-        sentry_options_set_handler_path(options, QString(appPath + "/crashpad_handler.exe").toStdString().c_str());
-        sentry_options_set_database_path(options, appPath.toStdString().c_str());
         sentry_options_set_handler_path(options, QString(QGuiApplication::applicationDirPath() + "/crashpad_handler" + Util().executableBinEnding()).toStdString().c_str());
         sentry_options_set_database_path(options, QGuiApplication::applicationDirPath().toStdString().c_str());
         const int sentryInitStatus = sentry_init(options);
@@ -125,14 +122,6 @@ App::App(QObject* parent)
 
     // Must be called last to display an error message on startup by the qml engine
     m_screenPlayManager->init(m_globalVariables, m_monitorListModel, m_settings, m_errorManager);
-
-    // TODO
-    // QObject::connect(
-    //     m_monitorListModel.get(),
-    //     &MonitorListModel::monitorConfigurationChanged,
-    //     m_screenPlayManager.get(), [this]() {
-    //         m_screenPlayManager->removeAllRunningWallpapers(true);
-    //     });
 }
 
 App::~App()
@@ -142,6 +131,38 @@ App::~App()
         sentry_close();
     }
 #endif
+}
+
+/*!
+    \brief Qt 6 declarative singleton factory. The QML engine calls this on
+    first access of \c App from QML and takes ownership of the returned
+    instance. Wires the engine reference and any engine-dependent signals.
+*/
+App* App::create(QQmlEngine* engine, QJSEngine* /*jsEngine*/)
+{
+    qCInfo(app) << "App singleton created via QML factory";
+    auto* instance = new App;
+    instance->attachEngine(engine);
+    return instance;
+}
+
+void App::attachEngine(QQmlEngine* engine)
+{
+    m_engine = engine;
+
+    if (m_errorManager) {
+        m_errorManager->setQmlReady(true);
+    } else {
+        qCCritical(app) << "attachEngine without ErrorManager - queued errors can never be shown";
+    }
+
+    if (auto* appEngine = qobject_cast<QQmlApplicationEngine*>(engine)) {
+        QObject::connect(
+            m_settings.get(),
+            &Settings::requestRetranslation,
+            appEngine,
+            &QQmlApplicationEngine::retranslate);
+    }
 }
 
 QString App::version() const
@@ -155,9 +176,15 @@ QString App::version() const
 */
 QCoro::QmlTask App::exit()
 {
-    return QCoro::QmlTask([this]() -> QCoro::Task<void> {
-        co_await m_screenPlayManager->shutdown().then([this]() { emit requestExit(); });
-    }());
+    return QCoro::QmlTask(exitTask());
+}
+
+QCoro::Task<void> App::exitTask()
+{
+    const Result result = co_await m_screenPlayManager->shutdown();
+    if (!result.success())
+        qCritical() << "Shutdown reported failure, exiting anyway:" << result.message();
+    emit requestExit();
 }
 
 void App::showDockIcon(const bool show)
@@ -167,207 +194,6 @@ void App::showDockIcon(const bool show)
 #endif
 }
 
-/*!
-    \property App::globalVariables
-    \brief .
-
-   .
-*/
-void App::setGlobalVariables(GlobalVariables* globalVariables)
-{
-    if (m_globalVariables.get() == globalVariables)
-        return;
-
-    m_globalVariables.reset(globalVariables);
-    emit globalVariablesChanged(m_globalVariables.get());
-}
-
-/*!
-    \property App::screenPlayManager
-    \brief Sets the screen play manager.
-*/
-void App::setScreenPlayManager(ScreenPlayManager* screenPlayManager)
-{
-    if (m_screenPlayManager.get() == screenPlayManager)
-        return;
-
-    m_screenPlayManager.reset(screenPlayManager);
-    emit screenPlayManagerChanged(m_screenPlayManager.get());
-}
-/*!
-    \property App::create
-    \brief .
-
-   .
-*/
-void App::setCreate(Create* create)
-{
-    if (m_create.get() == create)
-        return;
-
-    m_create.reset(create);
-    emit createChanged(m_create.get());
-}
-/*!
-    \property App::util
-    \brief .
-
-   .
-*/
-void App::setUtil(Util* util)
-{
-    if (m_util.get() == util)
-        return;
-
-    m_util.reset(util);
-    emit utilChanged(m_util.get());
-}
-
-/*!
-    \property App::godotHandler
-    \brief .
-
-   .
-*/
-void App::setGodotHandler(GodotHandler* godotHandler)
-{
-    if (m_godotHandler.get() == godotHandler)
-        return;
-
-    m_godotHandler.reset(godotHandler);
-    emit godotHandlerChanged(m_godotHandler.get());
-}
-
-/*!
-    \property App::settings
-    \brief .
-
-   .
-*/
-void App::setSettings(Settings* settings)
-{
-    if (m_settings.get() == settings)
-        return;
-
-    m_settings.reset(settings);
-    emit settingsChanged(m_settings.get());
-}
-/*!
-    \property App::installedListModel
-    \brief .
-
-   .
-*/
-void App::setInstalledListModel(InstalledListModel* installedListModel)
-{
-    if (m_installedListModel.get() == installedListModel)
-        return;
-
-    m_installedListModel.reset(installedListModel);
-    emit installedListModelChanged(m_installedListModel.get());
-}
-/*!
-    \property App::monitorListModel
-    \brief .
-
-   .
-*/
-void App::setMonitorListModel(MonitorListModel* monitorListModel)
-{
-    if (m_monitorListModel.get() == monitorListModel)
-        return;
-
-    m_monitorListModel.reset(monitorListModel);
-    emit monitorListModelChanged(m_monitorListModel.get());
-}
-/*!
-    \property App::profileListModel
-    \brief .
-
-   .
-*/
-void App::setProfileListModel(ProfileListModel* profileListModel)
-{
-    if (m_profileListModel.get() == profileListModel)
-        return;
-
-    m_profileListModel.reset(profileListModel);
-    emit profileListModelChanged(m_profileListModel.get());
-}
-
-/*!
-    \property App::installedListFilter
-    \brief .
-
-.
-*/
-void App::setInstalledListFilter(InstalledListFilter* installedListFilter)
-{
-    if (m_installedListFilter.get() == installedListFilter)
-        return;
-
-    m_installedListFilter.reset(installedListFilter);
-    emit installedListFilterChanged(m_installedListFilter.get());
-}
-
-/*!
-    \property App::installedListFilter
-    \brief .
-
-.
-*/
-void App::setUiAppStateSignals(UiAppStateSignals* uiAppStateSignals)
-{
-    if (m_uiAppStateSignals.get() == uiAppStateSignals)
-        return;
-
-    m_uiAppStateSignals.reset(uiAppStateSignals);
-    emit uiAppStateSignalsChanged(m_uiAppStateSignals.get());
-}
-
-/*!
-    \property App::wizards
-    \brief .
-
-   .
-*/
-void App::setWizards(Wizards* wizards)
-{
-    if (m_wizards.get() == wizards)
-        return;
-
-    m_wizards.reset(wizards);
-    emit wizardsChanged(m_wizards.get());
-}
-
-/*!
-    \property App::errorManager
-    \brief Error manager for handling and displaying application errors.
-*/
-void App::setErrorManager(ErrorManager* errorManager)
-{
-    if (m_errorManager.get() == errorManager)
-        return;
-
-    m_errorManager.reset(errorManager);
-    emit errorManagerChanged(m_errorManager.get());
-}
-
-void App::setEngine(std::shared_ptr<QQmlApplicationEngine> engine)
-{
-    m_engine = engine;
-
-    // Mark the error manager as ready once QML engine is set
-    if (m_errorManager) {
-        m_errorManager->setQmlReady(true);
-    }
-
-    QObject::connect(
-        m_settings.get(),
-        &Settings::requestRetranslation,
-        m_engine.get(),
-        &QQmlApplicationEngine::retranslate);
-}
 }
 
 #include "moc_app.cpp"

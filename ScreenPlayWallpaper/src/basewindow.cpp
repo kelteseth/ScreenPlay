@@ -18,6 +18,8 @@ Q_LOGGING_CATEGORY(wallpaperBase, "screenplay.wallpaper.base")
 
 namespace ScreenPlay {
 BaseWindow::BaseWindow()
+    : m_currentState(std::make_unique<WallpaperState>(this))
+    , m_targetState(std::make_unique<WallpaperState>(this))
 {
     QGuiApplication::instance()->installEventFilter(this);
     setOSVersion(QSysInfo::productVersion());
@@ -43,10 +45,10 @@ WallpaperExit::Code BaseWindow::setup()
 
     // We do not yet have implemented continue playing the audio.mp3 yet
     // so disable the checkWallpaperVisible for now
-    if (checkWallpaperVisible()) {
+    if (m_currentState->checkWallpaperVisible()) {
         if (projectFile.containsAudio) {
             qCInfo(wallpaperBase) << "Disable wallpaper visible check, because it contains audio.";
-            setCheckWallpaperVisible(false);
+            m_currentState->setCheckWallpaperVisible(false);
         }
     }
 
@@ -70,7 +72,7 @@ void BaseWindow::connectToMainApp()
     if (!debugMode()) {
         m_sdk = std::make_unique<ScreenPlaySDK>(appID(), QVariant::fromValue(type()).toString());
         m_sdk->setMainAppPID(m_mainAppPID);
-        connect(m_sdk.get(), &ScreenPlaySDK::incommingMessage, this, &BaseWindow::messageReceived);
+        connect(m_sdk.get(), &ScreenPlaySDK::incomingMessage, this, &BaseWindow::messageReceived);
         connect(m_sdk.get(), &ScreenPlaySDK::replaceWallpaper, this, &BaseWindow::replaceWallpaper);
         connect(m_sdk.get(), &ScreenPlaySDK::sdkDisconnected, this, &BaseWindow::destroyThis);
         sdk()->start();
@@ -80,41 +82,56 @@ void BaseWindow::connectToMainApp()
 /*!
  \brief messageReceived.
  */
-void BaseWindow::messageReceived(QString key, QString value)
+void BaseWindow::messageReceived(const QString& key, const QString& value)
 {
     if (key == "volume") {
         bool ok = false;
         float tmp = value.toFloat(&ok);
         if (ok) {
-            setVolume(tmp);
+            m_currentState->setVolume(tmp);
         }
         return;
     }
 
     if (key == "loops") {
         bool tmp = QVariant(value).toBool();
-        setLoops(tmp);
+        m_currentState->setLoops(tmp);
         return;
     }
 
     if (key == "isPlaying") {
         bool tmp = QVariant(value).toBool();
-        setIsPlaying(tmp);
+        m_currentState->setIsPlaying(tmp);
         return;
     }
 
     if (key == "muted") {
         bool tmp = QVariant(value).toBool();
-        setMuted(tmp);
+        m_currentState->setMuted(tmp);
+        return;
+    }
+
+    // Frame pacing overlay, forwarded from the main app's Ctrl+Shift+F.
+    if (key == "frameStatsOverlay") {
+        setFrameStatsVisible(QVariant(value).toBool());
+        return;
+    }
+
+    // Live fps limit change from the settings page. 0 removes the limit.
+    if (key == "fpsLimit") {
+        bool ok = false;
+        const int fps = value.toInt(&ok);
+        if (ok)
+            setFpsLimit(fps);
         return;
     }
 
     if (key == "fillmode") {
         // HTML5 Video uses - that c++ enums cannot
         if (QVariant(value).toString() == "Scale_Down") {
-            setFillMode("Scale-Down");
+            m_currentState->setFillMode("Scale-Down");
         } else {
-            setFillMode(QVariant(value).toString());
+            m_currentState->setFillMode(QVariant(value).toString());
         }
         return;
     }
@@ -132,12 +149,19 @@ void BaseWindow::replaceWallpaper(
     const QString fillMode,
     const QString type,
     const bool checkWallpaperVisible,
+    const int fpsLimit,
     const QJsonObject wallpaperProperties)
 {
     const ScreenPlay::ContentTypes::InstalledType oldType = this->type();
-    setCheckWallpaperVisible(checkWallpaperVisible);
-    setVolume(volume);
-    setFillMode(fillMode);
+
+    // Set target state for crossfade transition - don't apply immediately
+    // QML will use this for the incoming video and call applyTargetSettings() when done
+    m_targetState->setVolume(volume);
+    m_targetState->setFillMode(fillMode);
+    m_targetState->setCheckWallpaperVisible(checkWallpaperVisible);
+
+    // Apply the new wallpaper's fps limit (frame limiter + video playbackRate).
+    setFpsLimit(fpsLimit);
 
     if (auto typeOpt = ScreenPlay::Util().getInstalledTypeFromString(type)) {
         setType(typeOpt.value());
@@ -166,6 +190,16 @@ void BaseWindow::replaceWallpaper(
             emit qmlSceneValueReceived(it.key(), value.toString());
         }
     }
+}
+
+/*!
+ \brief Apply target settings after crossfade transition completes.
+ Called from QML when the transition animation finishes.
+ */
+void BaseWindow::applyTargetSettings()
+{
+    // Copy all values from target state to current state
+    m_currentState->copyFrom(m_targetState.get());
 }
 
 /*!

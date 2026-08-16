@@ -46,9 +46,44 @@ public:
     };
     Q_ENUM(InstalledType)
 
+    /*!
+        \brief Identifies content shipped as an example next to the executable.
+               UserInstalled is everything the user imported/subscribed; every
+               other value maps to exactly one folder under Content/ so tests
+               and the UI can select a specific example type-safely instead of
+               matching magic folder-name strings. ExampleOther covers example
+               folders not (yet) enumerated here so they stay protected.
+               When adding a folder to Content/, add a matching value here and
+               a case in exampleContentFromFolderName().
+    */
+    enum class ExampleContent {
+        UserInstalled = 0,
+        VideoAstronautVP9,
+        VideoNebulaH264,
+        VideoShapesAV1,
+        Html,
+        Qml,
+        QmlParticles,
+        Godot,
+        WidgetAnalogClock,
+        WidgetDigitalClock,
+        WidgetHelloWorld,
+        WidgetRssGuardian,
+        WidgetRssHackernews,
+        WidgetSystemStats,
+        WidgetWeather,
+        WidgetXkcd,
+        WidgetYearCountdown,
+        ExampleOther,
+    };
+    Q_ENUM(ExampleContent)
+
 public:
     // Static utility function to convert content type enum to user-friendly translatable string
     static QString toString(ScreenPlay::ContentTypes::InstalledType type);
+    // Map a Content/ subfolder name to its ExampleContent value. Returns
+    // ExampleOther for an unmapped example folder (still treated as example).
+    static ScreenPlay::ContentTypes::ExampleContent exampleContentFromFolderName(const QString& folderName);
 };
 
 class Video : public QObject {

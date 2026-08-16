@@ -19,6 +19,7 @@ SPCore.Dialog {
         function onDisplayErrorPopup(msg: string): void {
             root.message = msg
             root.applicationWindow.show()
+            root.applicationWindow.raise()
             root.open()
         }
         target: App.screenPlayManager

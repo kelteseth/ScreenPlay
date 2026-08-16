@@ -12,6 +12,7 @@ import "qrc:/qt/qml/ScreenPlayCore/qml/InstantPopup.js" as InstantPopup
 
 Dialog {
     id: root
+    objectName: "errorManagerPopup"
 
     property alias errorModel: listView.model
     property Item modalSource

@@ -39,8 +39,12 @@ elseif(UNIX)
     set(HEADER src/linuxx11window.h src/linuxwaylandwindow.h)
 endif()
 
-set(SOURCES ${SOURCES} src/basewindow.cpp)
-set(HEADER ${HEADER} src/basewindow.h)
+set(SOURCES ${SOURCES} src/basewindow.cpp src/framelimiter.cpp)
+set(HEADER
+    ${HEADER}
+    src/basewindow.h
+    src/framelimiter.h
+    src/wallpaperstate.h)
 
 set(QML
     # cmake-format: sort

@@ -18,6 +18,7 @@ SystemTrayIcon {
             break
         case SystemTrayIcon.DoubleClick:
             applicationWindow.show()
+            applicationWindow.raise()
             break
         case SystemTrayIcon.Trigger:
             break
@@ -29,6 +30,7 @@ SystemTrayIcon {
     function open() {
         App.showDockIcon(true)
         applicationWindow.show()
+        applicationWindow.raise()
     }
 
     menu: Menu {

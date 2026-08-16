@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "ScreenPlayCore/ipcframebuffer.h"
+
 #include <QJsonObject>
 #include <QLocalSocket>
 #include <QObject>
@@ -81,5 +83,6 @@ private:
     QString m_appID;
     QVector<int> m_monitor;
     QString m_type;
+    IpcFrameBuffer m_frameBuffer;
 };
 }

@@ -31,6 +31,7 @@ class Settings : public QObject {
     Q_PROPERTY(bool macReapplySpaces READ macReapplySpaces WRITE setMacReapplySpaces NOTIFY macReapplySpacesChanged FINAL)
     Q_PROPERTY(bool startWallpaperMuted READ startWallpaperMuted WRITE setStartWallpaperMuted NOTIFY startWallpaperMutedChanged FINAL)
     Q_PROPERTY(bool alwaysMinimize READ alwaysMinimize WRITE setAlwaysMinimize NOTIFY alwaysMinimizeChanged FINAL)
+    Q_PROPERTY(bool includeExampleContent READ includeExampleContent WRITE setIncludeExampleContent NOTIFY includeExampleContentChanged FINAL)
     Q_PROPERTY(bool isDeployVersion READ isDeployVersion NOTIFY isDeployVersionChanged FINAL)
 
     Q_PROPERTY(ScreenPlay::Video::FillMode videoFillMode READ videoFillMode WRITE setVideoFillMode NOTIFY videoFillModeChanged)
@@ -42,6 +43,7 @@ class Settings : public QObject {
     Q_PROPERTY(ScreenPlay::Godot::ScaleMode3D godot3DScaleMode READ godot3DScaleMode WRITE setGodot3DScaleMode NOTIFY godot3DScaleModeChanged FINAL)
     Q_PROPERTY(ScreenPlay::Godot::RenderingDriver godotRenderingDriver READ godotRenderingDriver WRITE setGodotRenderingDriver NOTIFY godotRenderingDriverChanged FINAL)
     Q_PROPERTY(ScreenPlay::ScreenPlayEnums::GraphicsApi graphicsApi READ graphicsApi WRITE setGraphicsApi NOTIFY graphicsApiChanged FINAL)
+    Q_PROPERTY(int wallpaperFpsLimit READ wallpaperFpsLimit WRITE setWallpaperFpsLimit NOTIFY wallpaperFpsLimitChanged FINAL)
 
     Q_PROPERTY(QString buildInfos READ buildInfos WRITE setBuildInfos NOTIFY buildInfosChanged FINAL)
     Q_PROPERTY(QString font READ font WRITE setFont NOTIFY fontChanged FINAL)
@@ -107,10 +109,12 @@ public:
     ScreenPlay::Godot::ScaleMode3D godot3DScaleMode() const { return m_godot3DScaleMode; }
     ScreenPlay::Godot::RenderingDriver godotRenderingDriver() const { return m_godotRenderingDriver; }
     ScreenPlay::ScreenPlayEnums::GraphicsApi graphicsApi() const { return m_graphicsApi; }
+    int wallpaperFpsLimit() const { return m_wallpaperFpsLimit; }
     ScreenPlay::Settings::DesktopEnvironment desktopEnvironment() const { return m_desktopEnvironment; }
     const QString& buildInfos() const { return m_buildInfos; }
     bool startWallpaperMuted() const { return m_startWallpaperMuted; }
     bool alwaysMinimize() const { return m_alwaysMinimize; }
+    bool includeExampleContent() const { return m_includeExampleContent; }
     bool isDeployVersion() const { return m_isDeployVersion; }
     void writeDefaultProfiles();
 
@@ -141,7 +145,9 @@ signals:
     void godot3DScaleModeChanged(ScreenPlay::Godot::ScaleMode3D godot3DScaleMode);
     void godotRenderingDriverChanged(ScreenPlay::Godot::RenderingDriver godotRenderingDriver);
     void graphicsApiChanged(ScreenPlay::ScreenPlayEnums::GraphicsApi graphicsApi);
+    void wallpaperFpsLimitChanged(int wallpaperFpsLimit);
     void alwaysMinimizeChanged(bool alwaysMinimize);
+    void includeExampleContentChanged(bool includeExampleContent);
     void isDeployVersionChanged(bool isDeployVersion);
 
 public slots:
@@ -170,7 +176,9 @@ public slots:
     void setGodot3DScaleMode(ScreenPlay::Godot::ScaleMode3D godot3DScaleMode);
     void setGodotRenderingDriver(ScreenPlay::Godot::RenderingDriver godotRenderingDriver);
     void setGraphicsApi(ScreenPlay::ScreenPlayEnums::GraphicsApi graphicsApi);
+    void setWallpaperFpsLimit(int wallpaperFpsLimit);
     void setAlwaysMinimize(bool alwaysMinimize);
+    void setIncludeExampleContent(bool includeExampleContent);
 
 private:
     void setupInstalledPath();
@@ -193,6 +201,7 @@ private:
     bool m_silentStart { false };
     bool m_anonymousTelemetry { true };
     bool m_alwaysMinimize { false };
+    bool m_includeExampleContent { true };
     bool m_isDeployVersion { false };
 
     ScreenPlay::Video::FillMode m_videoFillMode { ScreenPlay::Video::FillMode::Cover };
@@ -203,8 +212,9 @@ private:
     ScreenPlay::Godot::ScaleMode3D m_godot3DScaleMode { Godot::ScaleMode3D::Bilinear };
     ScreenPlay::Godot::RenderingDriver m_godotRenderingDriver { Godot::RenderingDriver::Vulkan };
     ScreenPlay::ScreenPlayEnums::GraphicsApi m_graphicsApi { ScreenPlayEnums::GraphicsApi::Auto };
+    int m_wallpaperFpsLimit { 0 };
     ScreenPlay::Settings::DesktopEnvironment m_desktopEnvironment { DesktopEnvironment::Unknown };
-    QString m_font { "Roboto" };
+    QString m_font { "Google Sans Flex" };
     QString m_buildInfos;
     QVersionNumber m_profilesVersion { 2, 0, 0 };
 };

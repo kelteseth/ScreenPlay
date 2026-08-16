@@ -10,6 +10,7 @@
 #include <QGuiApplication>
 #include <QLoggingCategory>
 #include <QObject>
+#include <QTimer>
 
 Q_LOGGING_CATEGORY(wallpaperTimelineSection, "screenplay.wallpaper.timeline.section")
 
@@ -75,12 +76,18 @@ bool WallpaperTimelineSection::replaceScreenPlayWallpaperAtMonitorIndex(const QV
 {
     for (auto it = wallpaperList.begin(); it != wallpaperList.end(); ++it) {
         const auto wallpaperMonitors = (*it)->monitors();
+        // Check if ALL requested monitors are present in this wallpaper
+        bool allFound = true;
         for (const auto& monitor : monitors) {
-            if (std::find(wallpaperMonitors.begin(), wallpaperMonitors.end(), monitor) != wallpaperMonitors.end()) {
-                wallpaperList.erase(it);
-                wallpaperList.push_back(screenPlayWallpaper);
-                return true;
+            if (std::find(wallpaperMonitors.begin(), wallpaperMonitors.end(), monitor) == wallpaperMonitors.end()) {
+                allFound = false;
+                break;
             }
+        }
+        if (allFound) {
+            wallpaperList.erase(it);
+            wallpaperList.push_back(screenPlayWallpaper);
+            return true;
         }
     }
     return false;
@@ -151,13 +158,26 @@ std::shared_ptr<ScreenPlayWallpaper> WallpaperTimelineSection::addWallpaper(cons
         updateActiveWallpaperCounter();
     });
     QObject::connect(screenPlayWallpaper.get(), &ScreenPlayWallpaper::restartFailed, this, [this](const QString& appID, const QString& message) {
-        // Remove broken wallpaper
-        std::erase_if(wallpaperList, [&appID](const std::shared_ptr<ScreenPlayWallpaper>& wallpaper) {
-            return wallpaper->appID() == appID;
-        });
+        // Emit signal first so handleWallpaperRestartFailed can still find the wallpaper
+        // to update monitor list model with correct monitor indices
         emit wallpaperRestartFailed(appID, message);
+        // Defer the actual removal: restartFailed is emitted from inside the
+        // wallpaper's own member-timer/connection handlers. Erasing here would
+        // destroy the ScreenPlayWallpaper while one of its signals is still
+        // mid-emission - control would return into a freed object.
+        QTimer::singleShot(0, this, [this, appID]() {
+            std::erase_if(wallpaperList, [&appID](const std::shared_ptr<ScreenPlayWallpaper>& wallpaper) {
+                return wallpaper->appID() == appID;
+            });
+            // Emit after removal so timeline preview can be updated with wallpaper gone
+            emit wallpaperRemoved(appID);
+        });
     });
     wallpaperList.push_back(screenPlayWallpaper);
+
+    // Announce before the process is ever started so the manager's appID
+    // registry is populated ahead of any handshake.
+    emit wallpaperAdded(screenPlayWallpaper.get());
 
     return screenPlayWallpaper;
 }

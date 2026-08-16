@@ -83,7 +83,7 @@ WidgetWindow::WidgetWindow(
         m_sdk = std::make_unique<ScreenPlaySDK>(appID, type);
         m_sdk->setMainAppPID(mainAppPID);
         QObject::connect(m_sdk.get(), &ScreenPlaySDK::sdkDisconnected, this, &WidgetWindow::qmlExit);
-        QObject::connect(m_sdk.get(), &ScreenPlaySDK::incommingMessage, this, &WidgetWindow::messageReceived);
+        QObject::connect(m_sdk.get(), &ScreenPlaySDK::incomingMessage, this, &WidgetWindow::messageReceived);
         sdk()->start();
         // Do not trigger position changed save reuqest on startup
         QTimer::singleShot(1000, this, [=, this]() {
@@ -133,7 +133,7 @@ void WidgetWindow::destroyThis()
     QCoreApplication::quit();
 }
 
-void WidgetWindow::messageReceived(QString key, QString value)
+void WidgetWindow::messageReceived(const QString& key, const QString& value)
 {
     emit qmlSceneValueReceived(key, value);
 }

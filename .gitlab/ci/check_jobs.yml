@@ -9,17 +9,20 @@ formatting:
   - docker_internal_vm
   script:
   - apt update -y
-  - apt install wget curl lsb-release software-properties-common gnupg -y
+  - apt install git wget curl lsb-release software-properties-common gnupg -y
   # Clang 21 so we match our dev setup
   - wget https://apt.llvm.org/llvm.sh
   - chmod +x llvm.sh
   - ./llvm.sh 21 all
+  # llvm.sh only installs versioned binaries (clang-format-21); the format
+  # scripts call the unversioned name, so expose it.
+  - ln -sf "$(which clang-format-21)" /usr/local/bin/clang-format
   # Install uv
   - curl -LsSf https://astral.sh/uv/install.sh | sh
   - source $HOME/.local/bin/env
   - uv sync
   # Install Qt using aqt (same path as defines.py: ../aqt)
-  - uv run python -m aqt install-qt -O ../aqt linux desktop 6.10.2 linux_gcc_64
+  - uv run python -m aqt install-qt -O ../aqt linux desktop 6.11.1 linux_gcc_64
   - cd Tools
   - uv run python check_format_cmake.py --check
   - uv run python check_format_cpp.py  --check

@@ -21,20 +21,16 @@
     # Otherwise libglib2 needs interaction
     - export DEBIAN_FRONTEND=noninteractive
     - apt update -y
-    - apt install python3.12-venv libwayland-dev wayland-protocols curl wget zip unzip tar git pkg-config libxcb-* libfontconfig-dev apt-transport-https ca-certificates gnupg  software-properties-common python3 python3-pip build-essential libgl1-mesa-dev mesa-common-dev lld ninja-build libxkbcommon-* libx11-dev xserver-xorg-dev xorg-dev -y
-      # Update to gcc 13
-    - add-apt-repository ppa:ubuntu-toolchain-r/test -y
-    - apt update -y
-    - apt install gcc-13 g++-13 -y
-    - update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 60 --slave /usr/bin/g++ g++ /usr/bin/g++-13
+    # Ubuntu 26.04 ships gcc 15, cmake 4.x and libwayland 1.24 out of the box, so
+    # no gcc PPA, no kitware repo and no libwayland source build are needed here.
+    # libwayland >= 1.23 is required: Qt 6.11's QtWaylandClient headers reference
+    # the wl_fixes interface, which only exists in core Wayland from 1.23 onwards.
+    # libvulkan-dev provides <vulkan/vulkan.h>; without it Qt's QVulkanInstance
+    # is an incomplete type and ScreenPlayCore's graphics API probe fails to build.
+    - apt install python3-venv libwayland-dev wayland-protocols libvulkan-dev curl wget zip unzip tar git pkg-config libxcb-* libfontconfig-dev apt-transport-https ca-certificates gnupg  software-properties-common python3 python3-pip build-essential cmake libgl1-mesa-dev mesa-common-dev lld ninja-build libxkbcommon-* libx11-dev xserver-xorg-dev xorg-dev -y
     - gcc --version
     - g++ --version
-    # Update CMake to latest
-    - wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
-    # Note this repo is for Ubuntu 24.04 only!
-    - echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ noble main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null
-    - apt update -y
-    - apt install cmake -y
+    - cmake --version
     # Install uv
     - curl -LsSf https://astral.sh/uv/install.sh | sh
     - source $HOME/.local/bin/env
@@ -42,10 +38,10 @@
     - uv run python Tools/setup.py
     - git submodule sync --recursive
     - git submodule update --init --recursive
-    - chmod +x Tools/setup_linux.sh 
+    - chmod +x Tools/setup_linux.sh
     - ./Tools/setup_linux.sh
   image:
-    name: ubuntu:24.04
+    name: ubuntu:26.04
   tags:
     - docker
     - docker_internal_vm
