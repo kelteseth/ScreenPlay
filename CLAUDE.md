@@ -81,6 +81,15 @@ uv run Tools/build.py --preset windows-deploy-release
 - Changelogs follow a strict user-facing / net-effect convention — see
   `Docs/Changelogs/CLAUDE.md` and the `changelog` skill.
 
+## Commits
+
+- **Never commit without explicit confirmation.** Draft the message, show it,
+  and wait for a go-ahead before running `git commit` (same for amending or
+  rewriting history).
+- **Never mention or advertise Claude/AI** in commit messages or PR/MR bodies —
+  no `Co-Authored-By: Claude`, no "Generated with…" trailers.
+- Use plain, easy language. Short simple subject, lean body, no fuzz.
+
 ## Skills available for this repo
 
 - **Qt (Qt Company plugin `qt-development-skills`)** — `qt-qml` (QML best
