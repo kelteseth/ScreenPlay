@@ -27,6 +27,12 @@ def check_format_file_function(file):
     result = subprocess.run(" %s -style=file --output-replacements-xml %s" %
                             (executable, file), capture_output=True, shell=True, text=True)
 
+    # A non-zero return code means clang-format itself failed (e.g. not found on
+    # PATH). Fail loudly instead of silently passing on empty stdout.
+    if result.returncode != 0:
+        print(f"clang-format failed for {file} (return {result.returncode}): {result.stderr}")
+        return False
+
     # Check for opening replacement tag with attributes (a space after it indicates attributes)
     if "<replacement " in result.stdout:
         print(f"{file} is not correctly formatted.")
