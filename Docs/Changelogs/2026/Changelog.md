@@ -184,6 +184,9 @@ Period: 2026-01-01 – present
 - `tst_external_process` — widget/wallpaper lifecycle state machine, timer-stop regression for `ScreenPlayWidget::close()`, signal/state coverage ([`154a4845`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/154a4845))
 - `tst_sdk` — `SDKConnection` `readyRead` protocol parsing, `sendMessage` round-trip, and `close()` return-value regression coverage ([`979a120c`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/979a120c))
 
+**Developer docs**
+- `CLAUDE.md` guides for AI-assisted development — a root guide (build, architecture, conventions, testing, skills), a `Tools/` guide (uv scripts + the pre-commit format/license/moc checks), a `Docs/Changelogs/` guide (user-facing / net-effect changelog rules and the MR-description convention), and per-module guides for `ScreenPlayCore`, `ScreenPlaySDK`, `ScreenPlayWallpaper`, and `ScreenPlayWorkshop` documenting each module's architecture and traps ([`032f34d3`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/032f34d3))
+
 #### Fixed
 
 **Timeline**
