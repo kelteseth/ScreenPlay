@@ -10,6 +10,7 @@ import zipfile
 import defines
 import re
 import subprocess
+import faulthandler
 from build_result import BuildResult
 from build_config import BuildConfig
 from typing import Tuple
@@ -19,7 +20,19 @@ import build_godot
 from util import sha256, cd_repo_root_path, repo_root_path, zipdir, run, get_vs_env_dict, get_latest_git_tag, parse_semver, semver_to_string, check_universal_binary
 from sys import stdout
 
-stdout.reconfigure(encoding='utf-8')
+# Line-buffer stdout so our own print()s stream to the CI log in real time
+# instead of sitting in an 8 KB block buffer. Without this, cmake's child-process
+# "-- Installing:" lines appear immediately but this script's phase markers
+# ("cmake install:", build_duration, "Creating Deploy folder zip file") never
+# flush before a hang, making it impossible to tell whether a stall is inside
+# `cmake --install` or the zip() step that runs right after it.
+stdout.reconfigure(encoding='utf-8', line_buffering=True)
+
+# If any phase wedges, dump a traceback of every thread every 5 minutes so the
+# CI log shows exactly where Python is stuck (e.g. zipfile.write() blocked on a
+# FIFO/socket) instead of an opaque 90-minute hang. Harmless when nothing hangs.
+faulthandler.enable()
+faulthandler.dump_traceback_later(300, repeat=True)
 
 
 def get_preset_info(preset_name, cwd):
