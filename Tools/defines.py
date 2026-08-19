@@ -41,8 +41,9 @@ QT6_SOURCE_MODULES = [
 ]
 QT_TOOLS_PATH = QT_PATH.joinpath("Tools/")
 QT_IFW_VERSION = "4.8.1"
-# 19.04.2026 https://github.com/microsoft/vcpkg :
-VCPKG_VERSION = "256acc64012b23a13041d8705805e1f23b43a024"
+# 19.08.2026 https://gitlab.com/kelteseth/screenplay-vcpkg (fork of microsoft/vcpkg
+# master + godot-cpp GODOTCPP_TARGET fix, see godot-cpp#1882) :
+VCPKG_VERSION = "da2e43d0b4e076ff60993d96878b1d906bbdac89"
 VCPKG_BASE_PACKAGES =  [
         "curl",
         "openssl",
@@ -56,7 +57,7 @@ PYTHON_EXECUTABLE = "python" if sys.platform == "win32" else "python3"
 FFMPEG_VERSION_MAC = "8.0"
 FFMPEG_VERSION_WIN = "8.1.1"
 # None stable version omit patch: 4.3-rc2 or 4.5 stable
-GODOT_VERSION = "4.5.1"
+GODOT_VERSION = "4.7.2"
 GODOT_RELEASE_TYPE = "stable"
 GODOT_DOWNLOAD_SERVER = "https://github.com/godotengine/godot-builds/releases/download"
 if sys.platform == "win32":

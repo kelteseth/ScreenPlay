@@ -231,3 +231,17 @@ Period: 2026-01-01 – present
 - **Qt** updated 6.10.2 → **6.11.1**; FFmpeg Windows 8.1 → 8.1.1; `aqtinstall` pulled from git (releases lag behind Qt versions); `requires-python` bumped to ≥ 3.10 ([`f1c89742`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/f1c89742))
 - **chuck_tester** switched from `FetchContent` to a **git submodule** so the framework is editable in-tree (`git submodule update --init` after cloning) ([`36cf3503`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/36cf3503))
 - **vcpkg** updated to 19.04.2026 ([`64501b85`](https://gitlab.com/kelteseth/ScreenPlay/-/commit/64501b85))
+
+---
+
+## [!117](https://gitlab.com/kelteseth/ScreenPlay/-/merge_requests/117) Godot wallpaper engine 4.7.2
+
+#### Fixed
+- **Godot wallpapers built in release could crash on exit.** The vcpkg `godot-cpp` port never passed `GODOTCPP_TARGET`, so release builds kept `DEBUG_METHODS_ENABLED` and were mis-named as a debug library ([godot-cpp#1882](https://github.com/godotengine/godot-cpp/issues/1882)). ScreenPlay now builds against the patched port until the fix is upstream.
+- **`setup.py` re-downloaded Qt on nearly every run.** It looked for the install under aqt's download-architecture id (`win64_msvc2022_64`) instead of the folder aqt actually creates (`msvc2022_64`), and also re-fetched any install older than 30 days. It now detects the real folder and validates a per-binary install marker — the requested version/module set plus the size and BLAKE2b hash of every installed DLL/exe — so a pinned Qt is only re-downloaded when the request changes or a binary is missing/truncated. Routine runs use a fast size+presence check; `setup.py --verify-qt` re-hashes every binary for a full integrity pass.
+- The current vcpkg toolchain renamed zlib's runtime DLL `zlib1.dll` → `z.dll`; the sentry-native copy step in the app, wallpaper, and widget builds was updated to match.
+
+#### Changed
+- **Godot wallpaper engine updated 4.5.1 → 4.7.2** — editor, export templates, and the packed wallpaper runtime all move to Godot 4.7.2-stable.
+- **godot-cpp bindings updated 4.4 → 4.5**; the GDExtension `compatibility_minimum` is now 4.5.
+- **vcpkg** switched to the [`kelteseth/screenplay-vcpkg`](https://gitlab.com/kelteseth/screenplay-vcpkg) fork (current upstream master plus the godot-cpp `GODOTCPP_TARGET` fix and the custom `64-osx-universal` triplet).

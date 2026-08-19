@@ -48,7 +48,7 @@
             "name": "🎮 Godot Wallpaper",
             "type": "lldb",
             "request": "launch",
-            "program": "${workspaceFolder}/ThirdParty/Godot/Godot_v4.5.1-stable_linux.x86_64",
+            "program": "${workspaceFolder}/ThirdParty/Godot/Godot_v4.7.2-stable_linux.x86_64",
             "args": [
                 "--path",
                 "${workspaceFolder}/ScreenPlayWallpaper/Godot/ScreenPlayGodot",
@@ -70,7 +70,7 @@
             ],
             "cwd": "${workspaceFolder}/ScreenPlayWallpaper/Godot/ScreenPlayGodot",
             "windows": {
-                "program": "${workspaceFolder}/ThirdParty/Godot/Godot_v4.5.1-stable_win64.exe"
+                "program": "${workspaceFolder}/ThirdParty/Godot/Godot_v4.7.2-stable_win64.exe"
             },
             "osx": {
                 "program": "${workspaceFolder}/ThirdParty/Godot/Godot.app/Contents/MacOS/Godot"
